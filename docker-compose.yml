@@ -4,5 +4,9 @@ services:
   phoenix:
     build:
       context: .
+    volumes:
+       - ./:/app
     ports:
       - "4000:4000"
+    command: >
+        bash -c "mix deps.get && mix ecto.create && mix phx.server"
