@@ -44,11 +44,15 @@ defmodule MediaServer.MixProject do
       {:phoenix_live_dashboard, "~> 0.5"},
       {:esbuild, "~> 0.2", runtime: Mix.env() == :dev},
       {:swoosh, "~> 1.3"},
+      {:telemetry, "~> 1.0", override: true},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      {:membrane_core, "~> 0.7.0"},
+      {:membrane_file_plugin, "~> 0.6.0"},
+      {:membrane_h264_ffmpeg_plugin, "~> 0.12.1"}
     ]
   end
 
