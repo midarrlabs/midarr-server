@@ -17,7 +17,11 @@ defmodule MediaServerWeb.Router do
   scope "/", MediaServerWeb do
     pipe_through :browser
 
+    get "/watch", WatchController, :index
+
     get "/", PageController, :index
+
+    get "/:id", PageController, :show
   end
 
   # Other scopes may use custom stacks.
