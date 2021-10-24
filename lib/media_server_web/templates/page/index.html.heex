@@ -5,10 +5,13 @@
 <section class="row">
   <article class="column">
     <h2>Movies</h2>
+    
     <ul>
+    <%= for movie <- @movies do %>
       <li>
-        <a href="/test">Show page</a>
+        <a href={"/"<>URI.encode(movie)}><%= movie %></a>
       </li>
+    <% end %>
     </ul>
   </article>
 </section>
