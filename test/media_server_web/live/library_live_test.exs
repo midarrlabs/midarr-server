@@ -4,9 +4,9 @@ defmodule MediaServerWeb.LibraryLiveTest do
   import Phoenix.LiveViewTest
   import MediaServer.LibrariesFixtures
 
-  @create_attrs %{name: "create name", path: "create path"}
-  @update_attrs %{name: "update name", path: "update path"}
-  @invalid_attrs %{name: "", path: ""}
+  @create_attrs %{}
+  @update_attrs %{}
+  @invalid_attrs %{}
 
   defp create_library(_) do
     library = library_fixture()

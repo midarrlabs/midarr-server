@@ -11,8 +11,7 @@ defmodule MediaServer.LibrariesFixtures do
     {:ok, library} =
       attrs
       |> Enum.into(%{
-        name: "some name",
-        path: "some path"
+
       })
       |> MediaServer.Libraries.create_library()
 
