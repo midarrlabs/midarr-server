@@ -17,6 +17,13 @@ defmodule MediaServerWeb.Router do
   scope "/", MediaServerWeb do
     pipe_through :browser
 
+    live "/libraries", LibraryLive.Index, :index
+    live "/libraries/new", LibraryLive.Index, :new
+    live "/libraries/:id/edit", LibraryLive.Index, :edit
+
+    live "/libraries/:id", LibraryLive.Show, :show
+    live "/libraries/:id/show/edit", LibraryLive.Show, :edit
+
     get "/", PageController, :index
 
     get "/:id", PageController, :show
