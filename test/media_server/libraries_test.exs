@@ -8,7 +8,7 @@ defmodule MediaServer.LibrariesTest do
 
     import MediaServer.LibrariesFixtures
 
-    @invalid_attrs %{}
+    @invalid_attrs %{name: "", path: ""}
 
     test "list_libraries/0 returns all libraries" do
       library = library_fixture()
@@ -21,9 +21,9 @@ defmodule MediaServer.LibrariesTest do
     end
 
     test "create_library/1 with valid data creates a library" do
-      valid_attrs = %{}
+      valid_attrs = %{name: "some name", path: "some path"}
 
-      assert {:ok, %Library{} = library} = Libraries.create_library(valid_attrs)
+      assert {:ok, %Library{} = _library} = Libraries.create_library(valid_attrs)
     end
 
     test "create_library/1 with invalid data returns error changeset" do
@@ -34,7 +34,7 @@ defmodule MediaServer.LibrariesTest do
       library = library_fixture()
       update_attrs = %{}
 
-      assert {:ok, %Library{} = library} = Libraries.update_library(library, update_attrs)
+      assert {:ok, %Library{} = _library} = Libraries.update_library(library, update_attrs)
     end
 
     test "update_library/2 with invalid data returns error changeset" do
