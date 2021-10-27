@@ -18,4 +18,22 @@ defmodule MediaServer.MediaFixtures do
 
     library
   end
+
+  @doc """
+  Generate a file.
+  """
+  def file_fixture(attrs \\ %{}) do
+    
+    library = library_fixture()
+
+    {:ok, file} =
+      attrs
+      |> Enum.into(%{
+        name: "some name",
+        library_id: library.id
+      })
+      |> MediaServer.Media.create_file()
+
+    file
+  end
 end

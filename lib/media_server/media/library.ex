@@ -6,6 +6,8 @@ defmodule MediaServer.Media.Library do
     field :name, :string
     field :path, :string
 
+    has_many :files, MediaServer.Media.File
+
     timestamps()
   end
 
