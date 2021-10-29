@@ -57,10 +57,11 @@ defmodule MediaServer.MediaTest do
 
   describe "files" do
     alias MediaServer.Media.File
+    alias MediaServer.Media.Util
 
     import MediaServer.MediaFixtures
 
-    @invalid_attrs %{name: ""}
+    @invalid_attrs %{name: "", path: ""}
 
     test "list_files/0 returns all files" do
       file = file_fixture()
@@ -73,7 +74,8 @@ defmodule MediaServer.MediaTest do
     end
 
     test "create_file/1 with valid data creates a file" do
-      valid_attrs = %{name: "some name"}
+      library = library_fixture()
+      valid_attrs = %{name: "some name", path: "some path", library_id: library.id}
 
       assert {:ok, %File{} = _file} = Media.create_file(valid_attrs)
     end
@@ -84,7 +86,7 @@ defmodule MediaServer.MediaTest do
 
     test "update_file/2 with valid data updates the file" do
       file = file_fixture()
-      update_attrs = %{name: "some update name"}
+      update_attrs = %{name: "some update name", path: "some update path"}
 
       assert {:ok, %File{} = _file} = Media.update_file(file, update_attrs)
     end
@@ -104,6 +106,15 @@ defmodule MediaServer.MediaTest do
     test "change_file/1 returns a file changeset" do
       file = file_fixture()
       assert %Ecto.Changeset{} = Media.change_file(file)
+    end
+
+    test "get supported files" do
+
+      assert Util.get_supported_files("test/support/fixtures/movies") == [
+
+        "test/support/fixtures/movies/Another Movie (2021)/Another.Movie.2021.REMASTERED.1080p.BluRay.H264.AAC-RARBG.mp4",
+        "test/support/fixtures/movies/Some Movie (2021)/Some.Movie.2021.REMASTERED.1080p.BluRay.H264.AAC-RARBG.mp4"
+      ]
     end
   end
 end

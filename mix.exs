@@ -52,7 +52,8 @@ defmodule MediaServer.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:membrane_core, "~> 0.7.0"},
       {:membrane_file_plugin, "~> 0.6.0"},
-      {:membrane_h264_ffmpeg_plugin, "~> 0.12.1"}
+      {:membrane_h264_ffmpeg_plugin, "~> 0.12.1"},
+      {:dir_walker, "~> 0.0.8"}
     ]
   end
 

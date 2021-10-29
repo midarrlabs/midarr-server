@@ -4,7 +4,7 @@ defmodule MediaServerWeb.LibraryLiveTest do
   import Phoenix.LiveViewTest
   import MediaServer.MediaFixtures
 
-  @create_attrs %{name: "some create name", path: "some create path"}
+  @create_attrs %{name: "some create name", path: "test/support/fixtures/movies"}
   @update_attrs %{name: "some update name", path: "some update path"}
   @invalid_attrs %{name: "", path: ""}
 

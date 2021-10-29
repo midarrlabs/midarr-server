@@ -3,8 +3,12 @@ defmodule MediaServerWeb.StreamController do
 
   import MediaServerWeb.Util
 
-  def index(%{req_headers: headers} = conn, %{"id" => id, "movie" => movie}) do
+  alias MediaServer.Media
 
-    send_video(conn, headers, "/movies/"<>URI.decode(id)<>"/"<>movie)
+  def show(%{req_headers: headers} = conn, %{"id" => id}) do
+
+    file = Media.get_file!(id)
+
+    send_video(conn, headers, file.path)
   end
 end

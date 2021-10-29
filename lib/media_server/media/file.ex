@@ -3,7 +3,7 @@ defmodule MediaServer.Media.File do
   import Ecto.Changeset
 
   schema "files" do
-    field :name, :string
+    field :path, :string
 
     belongs_to :library, MediaServer.Media.Library
 
@@ -13,7 +13,8 @@ defmodule MediaServer.Media.File do
   @doc false
   def changeset(file, attrs) do
     file
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+    |> cast(attrs, [:path, :library_id])
+    |> validate_required([:path, :library_id])
+    |> assoc_constraint(:library)
   end
 end

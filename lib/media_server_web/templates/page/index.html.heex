@@ -4,12 +4,12 @@
 
 <section class="row">
   <article class="column">
-    <h2>Movies</h2>
+    <h2>Files</h2>
     
     <ul>
-    <%= for movie <- @movies do %>
+    <%= for file <- @files do %>
       <li>
-        <a href={"/"<>URI.encode(movie)}><%= movie %></a>
+        <a href={file.id}><%= file.path %></a>
       </li>
     <% end %>
     </ul>

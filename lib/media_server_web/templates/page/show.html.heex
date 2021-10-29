@@ -1,17 +1,7 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "MediaServer" %></h1>
-</section>
-
-<section class="row">
-  <article class="column">
-    <h2><%= @id %></h2>
-    
-    <ul>
-    <%= for movie <- @movies do %>
-      <li>
-        <a href={"/"<>URI.encode(@id)<>"/"<>movie<>"/stream"}><%= movie %></a>
-      </li>
-    <% end %>
-    </ul>
-  </article>
-</section>
+<video id="my-video" class="video-js" controls preload="none" width="640" height="264" data-setup="{}">
+  <source src={"/stream/"<>@id} type="video/mp4" />
+  <p class="vjs-no-js">
+    To view this video please enable JavaScript, and consider upgrading to a web browser that
+    <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+  </p>
+</video>

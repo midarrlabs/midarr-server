@@ -3,9 +3,9 @@ defmodule MediaServer.Repo.Migrations.CreateFiles do
 
   def change do
     create table(:files) do
-      add :name, :string
+      add :path, :string
 
-      add :library_id, references(:libraries)
+      add :library_id, references(:libraries, on_delete: :delete_all)
       timestamps()
     end
   end

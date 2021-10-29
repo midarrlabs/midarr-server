@@ -2,6 +2,7 @@ defmodule MediaServerWeb.LibraryLive.FormComponent do
   use MediaServerWeb, :live_component
 
   alias MediaServer.Media
+  alias MediaServer.Media.Util
 
   @impl true
   def update(%{library: library} = assigns, socket) do
@@ -42,7 +43,14 @@ defmodule MediaServerWeb.LibraryLive.FormComponent do
 
   defp save_library(socket, :new, library_params) do
     case Media.create_library(library_params) do
-      {:ok, _library} ->
+      {:ok, library} ->
+
+        files = Util.get_supported_files(library.path)
+
+        Enum.each(files, fn(file) ->
+          Media.create_file(%{path: file, library_id: library.id}) 
+        end)
+
         {:noreply,
          socket
          |> put_flash(:info, "Library created successfully")
