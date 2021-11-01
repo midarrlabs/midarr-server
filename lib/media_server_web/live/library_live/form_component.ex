@@ -47,7 +47,7 @@ defmodule MediaServerWeb.LibraryLive.FormComponent do
 
         files = Util.get_supported_files(library.path)
 
-        Enum.each(files, fn(file) ->
+        Enum.each(files, fn file ->
           Media.create_file(%{path: file, library_id: library.id}) 
         end)
 

@@ -12,7 +12,7 @@ defmodule MediaServer.MediaFixtures do
       attrs
       |> Enum.into(%{
         name: "some library",
-        path: "test/support/fixtures/movies"
+        path: "/movies"
       })
       |> MediaServer.Media.create_library()
 

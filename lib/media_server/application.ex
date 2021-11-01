@@ -15,9 +15,10 @@ defmodule MediaServer.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: MediaServer.PubSub},
       # Start the Endpoint (http/https)
-      MediaServerWeb.Endpoint
+      MediaServerWeb.Endpoint,
       # Start a worker by calling: MediaServer.Worker.start_link(arg)
       # {MediaServer.Worker, arg}
+      {MediaServer.Media.Watcher, dirs: ["/movies"]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -56,7 +56,6 @@ defmodule MediaServer.MediaTest do
   end
 
   describe "files" do
-    alias MediaServer.Media.File
     alias MediaServer.Media.Util
 
     import MediaServer.MediaFixtures
@@ -77,7 +76,7 @@ defmodule MediaServer.MediaTest do
       library = library_fixture()
       valid_attrs = %{name: "some name", path: "some path", library_id: library.id}
 
-      assert {:ok, %File{} = _file} = Media.create_file(valid_attrs)
+      assert {:ok, %MediaServer.Media.File{} = _file} = Media.create_file(valid_attrs)
     end
 
     test "create_file/1 with invalid data returns error changeset" do
@@ -88,7 +87,7 @@ defmodule MediaServer.MediaTest do
       file = file_fixture()
       update_attrs = %{name: "some update name", path: "some update path"}
 
-      assert {:ok, %File{} = _file} = Media.update_file(file, update_attrs)
+      assert {:ok, %MediaServer.Media.File{} = _file} = Media.update_file(file, update_attrs)
     end
 
     test "update_file/2 with invalid data returns error changeset" do
@@ -99,7 +98,7 @@ defmodule MediaServer.MediaTest do
 
     test "delete_file/1 deletes the file" do
       file = file_fixture()
-      assert {:ok, %File{}} = Media.delete_file(file)
+      assert {:ok, %MediaServer.Media.File{}} = Media.delete_file(file)
       assert_raise Ecto.NoResultsError, fn -> Media.get_file!(file.id) end
     end
 
@@ -115,6 +114,15 @@ defmodule MediaServer.MediaTest do
         "test/support/fixtures/movies/Another Movie (2021)/Another.Movie.2021.REMASTERED.1080p.BluRay.H264.AAC-RARBG.mp4",
         "test/support/fixtures/movies/Some Movie (2021)/Some.Movie.2021.REMASTERED.1080p.BluRay.H264.AAC-RARBG.mp4"
       ]
+    end
+
+    test "it adds file from watched library" do
+
+      library = library_fixture()
+
+      MediaServer.Media.Watcher.add_file("test/support/fixtures/movies/Some Movie (2021)/Some.Movie.2021.REMASTERED.1080p.BluRay.H264.AAC-RARBG.mp4")
+
+      assert Repo.exists?(from f in MediaServer.Media.File, where: f.library_id == ^library.id and f.path == "test/support/fixtures/movies/Some Movie (2021)/Some.Movie.2021.REMASTERED.1080p.BluRay.H264.AAC-RARBG.mp4")
     end
   end
 end
