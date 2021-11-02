@@ -11,37 +11,16 @@ jobs:
 
     name: Build and test
     runs-on: ubuntu-latest
-    container: ubuntu:latest
-
-    services:
-      postgresql-test:
-        image: postgres
-        env:
-          POSTGRES_USER: my_user
-          POSTGRES_PASSWORD: password123
-          POSTGRES_DB: my_database
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
-    - name: Install packages
-      run: sudo apt-get install -y inotify-tools postgresql-client libavcodec-dev libavformat-dev libavutil-dev
-    - uses: actions/checkout@v2
-    - name: Set up Elixir
-      uses: erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24
-      with:
-        elixir-version: '1.12'
-        otp-version: '24'
-    - name: Restore dependencies cache
-      uses: actions/cache@v2
-      with:
-        path: deps
-        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-        restore-keys: ${{ runner.os }}-mix-
-    - name: Install dependencies
-      run: mix deps.get
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Build docker images
+      run: docker compose build
+
+    - name: Setup database
+      run: docker compose up postgresql postgresql-test -d
+
     - name: Run tests
-      run: mix test
+      run: docker compose run test

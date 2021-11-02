@@ -32,3 +32,12 @@ services:
       - POSTGRESQL_USERNAME=my_user
       - POSTGRESQL_PASSWORD=password123
       - POSTGRESQL_DATABASE=my_database
+
+  test:
+    build:
+      context: .
+    volumes:
+       - ./:/app
+       - ./test/support/fixtures/movies:/movies
+    command: >
+        bash -c "mix deps.get && mix ecto.create && mix test"
