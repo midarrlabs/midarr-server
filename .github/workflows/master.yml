@@ -1,0 +1,44 @@
+name: Master
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  test:
+
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Build docker images
+      run: docker compose build
+
+    - name: Setup database
+      run: docker compose up postgresql postgresql-test -d
+
+    - name: Run tests
+      run: docker compose run test
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.CGNETWORK_PAT }}
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Install dependencies
+        run: rm -rf node_modules && yarn install --frozen-lockfile
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.CGNETWORK_PAT }}
+        run: npx semantic-release
