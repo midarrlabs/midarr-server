@@ -1,0 +1,31 @@
+<section class="phx-hero">
+  <h1><%= gettext "Welcome to %{name}!", name: "MediaServer" %></h1>
+</section>
+
+<section class="row">
+  <article class="column">
+    <h2>Latest</h2>
+    
+    <ul>
+    <%= for file <- @files do %>
+      <li>
+        <%= link(to_string(file.path), to: "/files/"<>to_string(file.id)) %>
+      </li>
+    <% end %>
+    </ul>
+  </article>
+</section>
+
+<section class="row">
+  <article class="column">
+    <h2>Libraries</h2>
+    
+    <ul>
+    <%= for library <- @libraries do %>
+      <li>
+        <%= link(to_string(library.name), to: "libraries/"<>to_string(library.id)) %>
+      </li>
+    <% end %>
+    </ul>
+  </article>
+</section>

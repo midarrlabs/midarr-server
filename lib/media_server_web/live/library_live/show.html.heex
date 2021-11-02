@@ -1,17 +1,17 @@
-<h1>Show Library</h1>
+<section class="phx-hero">
+  <h1><%= @library.name%></h1>
+</section>
 
-<%= if @live_action in [:edit] do %>
-  <%= live_modal MediaServerWeb.LibraryLive.FormComponent,
-    id: @library.id,
-    title: @page_title,
-    action: @live_action,
-    library: @library,
-    return_to: Routes.library_show_path(@socket, :show, @library) %>
-<% end %>
-
-<ul>
-
-</ul>
-
-<span><%= live_patch "Edit", to: Routes.library_show_path(@socket, :edit, @library), class: "button" %></span> |
-<span><%= live_redirect "Back", to: Routes.library_index_path(@socket, :index) %></span>
+<section class="row">
+  <article class="column">
+    <h2>Files</h2>
+    
+    <ul>
+    <%= for file <- @library.files do %>
+      <li>
+        <%= link(to_string(file.path), to: "/files/"<>to_string(file.id)) %>
+      </li>
+    <% end %>
+    </ul>
+  </article>
+</section>

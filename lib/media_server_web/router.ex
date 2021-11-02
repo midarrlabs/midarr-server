@@ -24,9 +24,11 @@ defmodule MediaServerWeb.Router do
     live "/libraries/:id", LibraryLive.Show, :show
     live "/libraries/:id/show/edit", LibraryLive.Show, :edit
 
+    live "/files/:id", FileLive.Show, :show
+
     get "/stream/:id", StreamController, :show
 
-    resources "/", PageController, only: [:index, :show]
+    live "/", HomeLive.Index, :index
   end
 
   # Other scopes may use custom stacks.

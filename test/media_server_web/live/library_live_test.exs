@@ -80,26 +80,5 @@ defmodule MediaServerWeb.LibraryLiveTest do
 
       assert html =~ "Show Library"
     end
-
-    test "updates library within modal", %{conn: conn, library: library} do
-      {:ok, show_live, _html} = live(conn, Routes.library_show_path(conn, :show, library))
-
-      assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Library"
-
-      assert_patch(show_live, Routes.library_show_path(conn, :edit, library))
-
-      assert show_live
-             |> form("#library-form", library: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-
-      {:ok, _, html} =
-        show_live
-        |> form("#library-form", library: @update_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.library_show_path(conn, :show, library))
-
-      assert html =~ "Library updated successfully"
-    end
   end
 end

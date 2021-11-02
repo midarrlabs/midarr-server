@@ -197,4 +197,11 @@ defmodule MediaServer.Media do
   def change_file(%File{} = file, attrs \\ %{}) do
     File.changeset(file, attrs)
   end
+
+  def get_latest_files(amount) do
+    File
+    |> order_by(desc: :inserted_at)
+    |> limit(^amount)
+    |> Repo.all()
+  end
 end
