@@ -11,6 +11,8 @@ jobs:
 
     name: Build and test
     runs-on: ubuntu-latest
+    container: elixir:latest
+
     services:
       postgresql-test:
         image: postgres
@@ -28,11 +30,6 @@ jobs:
     - name: Install packages
       run: sudo apt-get install -y inotify-tools postgresql-client libavcodec-dev libavformat-dev libavutil-dev
     - uses: actions/checkout@v2
-    - name: Set up Elixir
-      uses: erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24
-      with:
-        elixir-version: '1.12'
-        otp-version: '24'
     - name: Restore dependencies cache
       uses: actions/cache@v2
       with:
