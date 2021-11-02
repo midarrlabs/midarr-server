@@ -1,4 +1,4 @@
-name: Elixir CI
+name: Elixir
 
 on:
   push:
@@ -11,14 +11,28 @@ jobs:
 
     name: Build and test
     runs-on: ubuntu-latest
+    services:
+      postgresql-test:
+        image: 'bitnami/postgresql:latest'
+        env:
+          POSTGRESQL_USERNAME: my_user
+          POSTGRESQL_PASSWORD: password123
+          POSTGRESQL_DATABASE: my_database
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
+    - name: Install packages
+      run: sudo apt-get install -y inotify-tools postgresql-client libavcodec-dev libavformat-dev libavutil-dev
     - uses: actions/checkout@v2
     - name: Set up Elixir
       uses: erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24
       with:
-        elixir-version: '1.12' # Define the elixir version [required]
-        otp-version: '24' # Define the OTP version [required]
+        elixir-version: '1.12'
+        otp-version: '24'
     - name: Restore dependencies cache
       uses: actions/cache@v2
       with:
