@@ -1,12 +1,34 @@
 version: '3'
 
+volumes:
+  db-data:
+
 services:
   phoenix:
     build:
       context: .
     volumes:
        - ./:/app
+       - ./test/support/fixtures/movies:/movies
     ports:
       - "4000:4000"
     command: >
         bash -c "mix deps.get && mix ecto.create && mix phx.server"
+
+  postgresql:
+    image: 'bitnami/postgresql:latest'
+    volumes:
+      - db-data:/bitnami/postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRESQL_USERNAME=my_user
+      - POSTGRESQL_PASSWORD=password123
+      - POSTGRESQL_DATABASE=my_database
+    
+  postgresql-test:
+    image: 'bitnami/postgresql:latest'
+    environment:
+      - POSTGRESQL_USERNAME=my_user
+      - POSTGRESQL_PASSWORD=password123
+      - POSTGRESQL_DATABASE=my_database

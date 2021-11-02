@@ -6,7 +6,10 @@ import Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :media_server, MediaServer.Repo,
-  database: Path.expand("../media_server_test.db", Path.dirname(__ENV__.file)),
+  username: "my_user",
+  password: "password123",
+  database: "my_database",
+  hostname: "postgresql-test",
   pool_size: 5,
   pool: Ecto.Adapters.SQL.Sandbox
 

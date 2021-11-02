@@ -1,7 +1,7 @@
 FROM elixir:latest
 
 RUN apt-get update && \
-    apt-get install -y inotify-tools sqlite3 libavcodec-dev libavformat-dev libavutil-dev
+    apt-get install -y inotify-tools postgresql-client libavcodec-dev libavformat-dev libavutil-dev
 
 RUN mkdir /app
 

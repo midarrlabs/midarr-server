@@ -2,8 +2,11 @@ import Config
 
 # Configure your database
 config :media_server, MediaServer.Repo,
-  database: Path.expand("../media_server_dev.db", Path.dirname(__ENV__.file)),
-  pool_size: 5,
+  username: "my_user",
+  password: "password123",
+  database: "my_database",
+  hostname: "postgresql",
+  pool_size: 10,
   show_sensitive_data_on_connection_error: true
 
 # For development, we disable any cache and enable
