@@ -5,9 +5,14 @@ RUN apt-get update && \
 
 RUN mkdir /app
 
+COPY . /app
+
 WORKDIR /app
 
 RUN mix local.hex --force && \
-    mix local.rebar --force
+    mix local.rebar --force && \
+    mix deps.get
 
 EXPOSE 4000
+
+CMD [ "mix", "phx.server" ]

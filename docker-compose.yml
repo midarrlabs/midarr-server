@@ -12,8 +12,6 @@ services:
        - ./test/support/fixtures/movies:/movies
     ports:
       - "4000:4000"
-    command: >
-        bash -c "mix deps.get && mix ecto.create && mix phx.server"
 
   postgresql:
     image: 'bitnami/postgresql:latest'
@@ -40,4 +38,4 @@ services:
        - ./:/app
        - ./test/support/fixtures/movies:/movies
     command: >
-        bash -c "mix deps.get && mix ecto.create && mix test"
+        bash -c "mix test"
