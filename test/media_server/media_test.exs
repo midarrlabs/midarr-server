@@ -112,7 +112,7 @@ defmodule MediaServer.MediaTest do
       assert Util.get_supported_files("test/support/fixtures/movies") == [
 
         "test/support/fixtures/movies/Another Movie (2021)/Another.Movie.2021.REMASTERED.1080p.BluRay.H264.AAC-RARBG.mp4",
-        "test/support/fixtures/movies/Some Movie (2021)/Some.Movie.2021.REMASTERED.1080p.BluRay.H264.AAC-RARBG.mp4"
+        # "test/support/fixtures/movies/Some Movie (2021)/Some.Movie.2021.REMASTERED.1080p.BluRay.H264.AAC-RARBG.mp4"
       ]
     end
 
