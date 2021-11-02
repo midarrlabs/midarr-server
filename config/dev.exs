@@ -5,7 +5,7 @@ config :media_server, MediaServer.Repo,
   username: "my_user",
   password: "password123",
   database: "my_database",
-  hostname: "postgresql",
+  hostname: System.get_env("DB_HOSTNAME") || "postgresql",
   pool_size: 10,
   show_sensitive_data_on_connection_error: true
 
