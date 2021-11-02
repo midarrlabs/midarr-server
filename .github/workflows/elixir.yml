@@ -18,11 +18,6 @@ jobs:
           POSTGRESQL_USERNAME: my_user
           POSTGRESQL_PASSWORD: password123
           POSTGRESQL_DATABASE: my_database
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
     - name: Install packages
