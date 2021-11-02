@@ -38,4 +38,4 @@ services:
        - ./:/app
        - ./test/support/fixtures/movies:/movies
     command: >
-        bash -c "mix test"
+        bash -c "mix deps.get && mix ecto.create && mix test"
