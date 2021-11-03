@@ -1,7 +1,9 @@
 <h1><%= @file.path%></h1>
 
-<video id="my-video" class="video-js" controls preload="none" width="640" height="264" data-setup="{}">
+<video style="width: 100%; height: 100%;" class="video-js" controls preload="none">
+
   <source src={"/stream/"<>to_string(@file.id)} type="video/mp4" />
+  
   <p class="vjs-no-js">
     To view this video please enable JavaScript, and consider upgrading to a web browser that
     <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
