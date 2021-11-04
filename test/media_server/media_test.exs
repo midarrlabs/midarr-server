@@ -107,22 +107,21 @@ defmodule MediaServer.MediaTest do
       assert %Ecto.Changeset{} = Media.change_file(file)
     end
 
-    test "get supported files" do
+    test "get_file_paths" do
 
-      assert Util.get_supported_files("test/support/fixtures/movies") == [
-
-        "test/support/fixtures/movies/Another Movie (2021)/Another.Movie.2021.REMASTERED.1080p.BluRay.H264.AAC-RARBG.mp4",
-        "test/support/fixtures/movies/Some Movie (2021)/Some.Movie.2021.REMASTERED.1080p.BluRay.H264.AAC-RARBG.mp4"
+      assert Util.get_file_paths("samples/movies") == [
+        "samples/movies/Big Buck Bunny (2008)/Big.Buck.Bunny.2008.1080p.BluRay.H264.PROVIDER.mkv",
+        "samples/movies/Big Buck Bunny (2008)/Big.Buck.Bunny.2008.1080p.BluRay.H264.PROVIDER.mp4"
       ]
     end
 
-    test "it adds file from watched library" do
+    test "persist_file" do
 
       library = library_fixture()
 
-      MediaServer.Media.Watcher.add_file("test/support/fixtures/movies/Some Movie (2021)/Some.Movie.2021.REMASTERED.1080p.BluRay.H264.AAC-RARBG.mp4")
+      MediaServer.Media.Watcher.persist_file("samples/movies/Big Buck Bunny (2008)/Big.Buck.Bunny.2008.1080p.BluRay.H264.PROVIDER.mp4")
 
-      assert Repo.exists?(from f in MediaServer.Media.File, where: f.library_id == ^library.id and f.path == "test/support/fixtures/movies/Some Movie (2021)/Some.Movie.2021.REMASTERED.1080p.BluRay.H264.AAC-RARBG.mp4")
+      assert Repo.exists?(from f in MediaServer.Media.File, where: f.library_id == ^library.id and f.path == "samples/movies/Big Buck Bunny (2008)/Big.Buck.Bunny.2008.1080p.BluRay.H264.PROVIDER.mp4")
     end
   end
 end

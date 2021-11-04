@@ -23,7 +23,7 @@ defmodule MediaServer.Media.Watcher do
             IO.inspect path
             IO.inspect events
 
-            add_file(path)
+            persist_file(path)
       end
     end
     
@@ -35,7 +35,7 @@ defmodule MediaServer.Media.Watcher do
     {:noreply, state}
   end
 
-  def add_file(path) do
+  def persist_file(path) do
 
     libraries = Media.list_libraries()
 

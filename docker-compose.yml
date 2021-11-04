@@ -9,7 +9,7 @@ services:
       context: .
     volumes:
        - ./:/app
-       - ./test/support/fixtures/movies:/movies
+       - ./samples/movies:/movies
     ports:
       - "4000:4000"
 
@@ -36,6 +36,6 @@ services:
       context: .
     volumes:
        - ./:/app
-       - ./test/support/fixtures/movies:/movies
+       - ./samples/movies:/movies
     command: >
         bash -c "mix deps.get && mix ecto.create && mix test"
