@@ -4,11 +4,17 @@ defmodule MediaServerWeb.StreamController do
   import MediaServerWeb.Util
 
   alias MediaServer.Media
+  alias MediaServer.Media.Stream
 
   def show(%{req_headers: headers} = conn, %{"id" => id}) do
 
-    file = Media.get_file!(id)
+    # file = Media.get_file!(id)
 
-    send_video(conn, headers, file.path)
+    {:ok, pid} = Stream.start_link("/app/samples/test-video.h264")
+
+    Stream.play(pid)
+    # |> then(&Process.monitor/1)
+
+    json(conn, %{id: id})
   end
 end

@@ -110,8 +110,8 @@ defmodule MediaServer.MediaTest do
     test "get_file_paths" do
 
       assert Util.get_file_paths("samples/movies") == [
-        "samples/movies/Big Buck Bunny (2008)/Big.Buck.Bunny.2008.1080p.BluRay.H264.PROVIDER.mkv",
-        "samples/movies/Big Buck Bunny (2008)/Big.Buck.Bunny.2008.1080p.BluRay.H264.PROVIDER.mp4"
+        "samples/movies/Big Buck Bunny (2008)/Big.Buck.Bunny.2008.720p.BluRay.H264.PROVIDER.mkv",
+        "samples/movies/Big Buck Bunny (2008)/Big.Buck.Bunny.2008.720p.BluRay.H264.PROVIDER.mp4"
       ]
     end
 
@@ -119,9 +119,9 @@ defmodule MediaServer.MediaTest do
 
       library = library_fixture()
 
-      MediaServer.Media.Watcher.persist_file("samples/movies/Big Buck Bunny (2008)/Big.Buck.Bunny.2008.1080p.BluRay.H264.PROVIDER.mp4")
+      MediaServer.Media.Watcher.persist_file("samples/movies/Big Buck Bunny (2008)/Big.Buck.Bunny.2008.720p.BluRay.H264.PROVIDER.mp4")
 
-      assert Repo.exists?(from f in MediaServer.Media.File, where: f.library_id == ^library.id and f.path == "samples/movies/Big Buck Bunny (2008)/Big.Buck.Bunny.2008.1080p.BluRay.H264.PROVIDER.mp4")
+      assert Repo.exists?(from f in MediaServer.Media.File, where: f.library_id == ^library.id and f.path == "samples/movies/Big Buck Bunny (2008)/Big.Buck.Bunny.2008.720p.BluRay.H264.PROVIDER.mp4")
     end
   end
 end

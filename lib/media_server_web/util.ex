@@ -1,5 +1,4 @@
 defmodule MediaServerWeb.Util do
-    use Membrane.Pipeline
   
     def get_offset(headers) do
       case List.keyfind(headers, "range", 0) do
