@@ -2,19 +2,27 @@ defmodule MediaServerWeb.StreamController do
   use MediaServerWeb, :controller
 
   import MediaServerWeb.Util
+  import FFmpex
+  use FFmpex.Options
 
   alias MediaServer.Media
-  alias MediaServer.Media.Stream
 
   def show(%{req_headers: headers} = conn, %{"id" => id}) do
 
-    # file = Media.get_file!(id)
+    file = Media.get_file!(id)
 
-    {:ok, pid} = Stream.start_link("/app/samples/test-video.h264")
+    if !File.exists?("/copies/#{id}.mp4") do
 
-    Stream.play(pid)
-    # |> then(&Process.monitor/1)
+      command =
+        FFmpex.new_command
+        |> add_input_file(file.path)
+        |> add_output_file("/copies/#{id}.mp4")
+          |> add_stream_specifier(stream_type: :video)
+            |> add_stream_option(option_codec("copy"))
 
-    json(conn, %{id: id})
+      execute(command)
+    end
+
+    send_video(conn, headers, "/copies/#{id}.mp4")
   end
 end
