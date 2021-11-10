@@ -23,6 +23,10 @@ defmodule MediaServerWeb.StreamController do
       execute(command)
     end
 
-    send_video(conn, headers, "/copies/#{id}.mp4")
+    if File.exists?("/copies/#{id}.mp4") do
+      send_video(conn, headers, "/copies/#{id}.mp4")
+      
+    else
+      send_video(conn, headers, file.path)
   end
 end
