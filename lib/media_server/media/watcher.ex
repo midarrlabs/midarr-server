@@ -25,6 +25,13 @@ defmodule MediaServer.Media.Watcher do
 
             persist_file(path)
       end
+
+      if String.contains?(path, ".mkv") do
+            IO.inspect path
+            IO.inspect events
+
+            persist_file(path)
+      end
     end
     
     {:noreply, state}
