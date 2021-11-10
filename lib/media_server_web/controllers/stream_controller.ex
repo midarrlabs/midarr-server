@@ -11,7 +11,7 @@ defmodule MediaServerWeb.StreamController do
 
     file = Media.get_file!(id)
 
-    if !File.exists?("/copies/#{id}.mp4") do
+    if String.contains?(file.path, ".mkv") and !File.exists?("/copies/#{id}.mp4") do
 
       command =
         FFmpex.new_command
