@@ -37,4 +37,4 @@ npm-debug.log
 *.db-*
 
 .DS_Store
-/copies
+/samples/copies
