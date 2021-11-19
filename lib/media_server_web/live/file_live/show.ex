@@ -15,4 +15,9 @@ defmodule MediaServerWeb.FileLive.Show do
      |> assign(:file, Media.get_file!(id))
      }
   end
+
+  @impl true
+  def handle_event("play", %{"id" => id}, socket) do
+    {:noreply, push_redirect(socket, to: "/streams/#{id}")}
+  end
 end

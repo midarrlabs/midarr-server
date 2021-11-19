@@ -1,33 +1,47 @@
 defmodule MediaServerWeb.StreamController do
   use MediaServerWeb, :controller
 
-  import MediaServerWeb.Util
-  import FFmpex
-  use FFmpex.Options
-
   alias MediaServer.Media
 
   def show(%{req_headers: headers} = conn, %{"id" => id}) do
 
     file = Media.get_file!(id)
 
-    if String.contains?(file.path, ".mkv") and !File.exists?("/copies/#{id}.mp4") do
+    uuid = Ecto.UUID.generate
 
-      command =
-        FFmpex.new_command
-        |> add_input_file(file.path)
-        |> add_output_file("/copies/#{id}.mp4")
-          |> add_stream_specifier(stream_type: :video)
-            |> add_stream_option(option_codec("copy"))
+    # task = Task.async(fn ->
+    #   Rambo.run(System.find_executable("ffmpeg"), ["-re", "-i", "#{file.path}", "-c", "copy", "-f", "rtsp", "rtsp://rtsp-simple-server:8554/#{uuid}"])
+    # end)
 
-      execute(command)
-    end
-
-    if File.exists?("/copies/#{id}.mp4") do
-      send_video(conn, headers, "/copies/#{id}.mp4")
-
-    else
-      send_video(conn, headers, file.path)
-    end
+    conn
+    |> put_root_layout(false)
+    |> assign(:file, file)
+    |> assign(:uuid, uuid)
+    |> render(:show)
   end
+
+  
 end
+
+    # if !File.exists?("/app/priv/static/assets/output/#{id}.m3u8") do
+    #   Task.async(fn ->
+    #     Rambo.run(System.find_executable("ffmpeg"), ["-i", "#{file.path}", "-hls_time", "9", "-hls_flags", "single_file", "/app/priv/static/assets/output/#{id}.m3u8"])
+    #   end)
+    # end
+
+    # result = retry with: constant_backoff(1000) |> Stream.take(10) do
+
+    #   if File.exists?("/app/priv/static/assets/output/#{id}.m3u8") do
+    #     :ok
+    #   else
+    #     :error
+    #   end
+
+    # after
+    #   result -> conn
+    #             |> put_root_layout(false)
+    #             |> assign(:file, file)
+    #             |> render(:show)
+    # else
+    #   error -> json(conn, "Oops no video, please try again")
+    # end

@@ -5,14 +5,19 @@ volumes:
 
 services:
   phoenix:
-    build:
-      context: .
+    build: .
     volumes:
-       - ./:/app
-       - ./samples/movies:/movies
-       - ./samples/copies:/copies
+      - ./:/app
+      - /Users/chazgoodare/mount/external/movies:/movies
     ports:
       - "4000:4000"
+
+  rtsp-simple-server:
+    image: 'aler9/rtsp-simple-server'
+    volumes:
+      - ./rtsp-simple-server.yml:/rtsp-simple-server.yml
+    environment:
+      - RTSP_PROTOCOLS=tcp
 
   postgresql:
     image: 'bitnami/postgresql:latest'
@@ -33,8 +38,7 @@ services:
       - POSTGRESQL_DATABASE=my_database
 
   test:
-    build:
-      context: .
+    build: .
     volumes:
        - ./:/app
        - ./samples/movies:/movies
