@@ -25,9 +25,46 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
+const axios = require('axios')
+import { Retrier } from '@jsier/retrier'
+import Hls from 'hls.js'
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+
+let Hooks = {}
+
+Hooks.StartVideo = {
+    mounted() {
+        console.log("Mounted")
+
+        this.pushEvent('publish_stream')
+
+        this.handleEvent("stream_published", ({ uuid }) => {
+
+            const retrier = new Retrier({ limit: 5, delay: 2000 })
+
+            retrier.resolve(attempt => axios.get(`/api/published/${uuid}/index.m3u8`))
+                    .then(
+                        result => {
+                            console.log('Ready to play video')
+
+                            const hls = new Hls()
+
+                            hls.loadSource(`/api/published/${uuid}/index.m3u8`)
+                            hls.attachMedia(this.el)
+                        },
+                        error => console.error(error) // After 5 attempts logs: "Rejected!"
+                    )
+        })
+  },
+  destroyed() {
+    this.pushEvent('unpublish_stream')
+
+    console.log('Destroyed')
+  }
+}
+
+let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks, params: {_csrf_token: csrfToken}})
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
@@ -38,7 +75,7 @@ window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 liveSocket.connect()
 
 // expose liveSocket on window for web console debug logs and latency simulation:
-// >> liveSocket.enableDebug()
+liveSocket.enableDebug()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket

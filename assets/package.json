@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@jsier/retrier": "^1.2.4",
+    "axios": "^0.24.0",
+    "hls.js": "^1.1.1"
+  }
+}
