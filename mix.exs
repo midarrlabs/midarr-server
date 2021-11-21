@@ -55,7 +55,6 @@ defmodule MediaServer.MixProject do
       {:httpoison, "~> 1.8"},
       {:reverse_proxy_plug, "~> 2.1"},
       {:rambo, "~> 0.3"},
-      {:retry, "~> 0.15"},
     ]
   end
 
