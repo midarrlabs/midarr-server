@@ -21,7 +21,7 @@ defmodule MediaServerWeb.StreamLive.Show do
     uuid = Ecto.UUID.generate
 
     task = Task.async(fn ->
-      Rambo.run(System.find_executable("ffmpeg"), ["-re", "-i", "#{socket.assigns.file.path}", "-c", "copy", "-f", "rtsp", "#{System.get_env("RTSP_SERVER_URL") || "rtsp://rtsp-simple-server:8554"}/#{uuid}"])
+      Rambo.run(System.find_executable("ffmpeg"), ["-re", "-i", "#{socket.assigns.file.path}", "-c", "copy", "-f", "rtsp", "-rtsp_transport", "tcp", "#{System.get_env("RTSP_SERVER_URL") || "rtsp://rtsp-simple-server:8554"}/#{uuid}"])
     end)
 
     {:noreply, push_event(
