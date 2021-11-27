@@ -104,7 +104,7 @@ hlsAlwaysRemux: yes
 # number of HLS segments to generate.
 # increasing segments allows more buffering,
 # decreasing segments decreases latency.
-hlsSegmentCount: 5
+hlsSegmentCount: 20
 # minimum duration of each segment.
 # the final segment duration is also influenced by the interval between IDR frames,
 # since the server changes the segment duration to include at least a IDR frame in each one.

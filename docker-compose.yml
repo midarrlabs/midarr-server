@@ -9,6 +9,7 @@ services:
     volumes:
       - ./:/app
       - /Users/chazgoodare/mount/external/movies:/movies
+      - /Users/chazgoodare/mount/external/tv:/tv
     ports:
       - "4000:4000"
 
@@ -16,15 +17,13 @@ services:
     image: 'aler9/rtsp-simple-server'
     volumes:
       - ./rtsp-simple-server.yml:/rtsp-simple-server.yml
-    environment:
-      - RTSP_PROTOCOLS=tcp
 
   postgresql:
     image: 'bitnami/postgresql:latest'
     volumes:
       - db-data:/bitnami/postgresql
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       - POSTGRESQL_USERNAME=my_user
       - POSTGRESQL_PASSWORD=password123
