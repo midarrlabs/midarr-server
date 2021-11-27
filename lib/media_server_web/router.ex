@@ -25,7 +25,10 @@ defmodule MediaServerWeb.Router do
     live "/libraries/:id/show/edit", LibraryLive.Show, :edit
 
     live "/files/:id", FileLive.Show, :show
-    live "/files/:id/stream", StreamLive.Show, :show
+
+    live_session :stream, root_layout: {MediaServerWeb.StreamView, "stream.html"} do
+      live "/files/:id/stream", StreamLive.Show, :show
+    end
 
     live "/", HomeLive.Index, :index
   end
