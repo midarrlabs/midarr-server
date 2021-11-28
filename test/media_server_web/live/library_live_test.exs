@@ -40,7 +40,7 @@ defmodule MediaServerWeb.LibraryLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.library_index_path(conn, :index))
 
-      assert html =~ "Library created successfully"
+      assert html =~ "some library"
     end
 
     test "updates library in listing", %{conn: conn, library: library} do
@@ -61,7 +61,7 @@ defmodule MediaServerWeb.LibraryLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.library_index_path(conn, :index))
 
-      assert html =~ "Library updated successfully"
+      assert html =~ "some update name"
     end
 
     test "deletes library in listing", %{conn: conn, library: library} do
