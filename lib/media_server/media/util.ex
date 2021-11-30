@@ -16,7 +16,7 @@ defmodule MediaServer.Media.Util do
             end)
 
         Enum.each(library, fn library ->
-            case HTTPoison.get("http://guessit.home/?filename="<>URI.encode(file_path)) do
+            case HTTPoison.get(if System.get_env("NAME_PARSER") !== nil, do: System.get_env("NAME_PARSER")<>"#{URI.encode(file_path)}", else: "http://guessit:80/?filename="<>"#{URI.encode(file_path)}") do
 
                 {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
                     decoded = Jason.decode!(body)
