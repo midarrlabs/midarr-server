@@ -9,7 +9,7 @@
     <ul>
     <%= for file <- @library.files do %>
       <li>
-        <%= link(to_string(file.path), to: "/files/"<>to_string(file.id)) %>
+        <%= link(to_string(file.title) <> " (#{file.year})", to: "/files/"<>to_string(file.id)) %>
       </li>
     <% end %>
     </ul>

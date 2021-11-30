@@ -11,7 +11,7 @@ defmodule MediaServer.MediaFixtures do
     {:ok, library} =
       attrs
       |> Enum.into(%{
-        name: "some library",
+        name: "Movies",
         path: "/movies"
       })
       |> MediaServer.Media.create_library()
@@ -29,7 +29,7 @@ defmodule MediaServer.MediaFixtures do
     {:ok, file} =
       attrs
       |> Enum.into(%{
-        path: "some file path",
+        path: "samples/movies/Elephant Dreams (2008)/Elephant.Dreams.2008.mkv",
         library_id: library.id
       })
       |> MediaServer.Media.create_file()

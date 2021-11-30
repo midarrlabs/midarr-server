@@ -23,14 +23,14 @@ defmodule MediaServer.Media.Watcher do
             IO.inspect path
             IO.inspect events
 
-            persist_file(path)
+            Media.Util.persist_file(path)
       end
 
       if String.contains?(path, ".mkv") do
             IO.inspect path
             IO.inspect events
 
-            persist_file(path)
+            Media.Util.persist_file(path)
       end
     end
     
@@ -40,18 +40,5 @@ defmodule MediaServer.Media.Watcher do
   def handle_info({:file_event, pid, :stop}, %{pid: pid} = state) do
     # Your own logic when monitor stop
     {:noreply, state}
-  end
-
-  def persist_file(path) do
-
-    libraries = Media.list_libraries()
-
-    filtered = Enum.filter(libraries, fn library -> 
-          String.contains?(path, library.path) 
-        end)
-
-    Enum.each(filtered, fn library ->
-          Media.create_file(%{path: path, library_id: library.id}) 
-        end)
   end
 end

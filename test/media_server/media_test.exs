@@ -114,13 +114,17 @@ defmodule MediaServer.MediaTest do
       ]
     end
 
-    test "persist_file" do
+    test "persist_library_files" do
 
       library = library_fixture()
 
-      MediaServer.Media.Watcher.persist_file("samples/movies/Elephant Dreams (2008)/Elephant.Dreams.2008.mkv")
+      MediaServer.Media.Util.persist_file("samples/movies/Elephant Dreams (2008)/Elephant.Dreams.2008.mkv")
 
-      assert Repo.exists?(from f in MediaServer.Media.File, where: f.library_id == ^library.id and f.path == "samples/movies/Elephant Dreams (2008)/Elephant.Dreams.2008.mkv")
+      assert Repo.exists?(from f in MediaServer.Media.File, 
+        where: f.library_id == ^library.id 
+        and f.path == "samples/movies/Elephant Dreams (2008)/Elephant.Dreams.2008.mkv" 
+        and f.title == "Elephant Dreams"
+        and f.year == 2008)
     end
   end
 end

@@ -4,6 +4,8 @@ defmodule MediaServerWeb.LibraryLiveTest do
   import Phoenix.LiveViewTest
   import MediaServer.MediaFixtures
 
+  alias MediaServer.Media
+
   @create_attrs %{name: "some create name", path: "samples"}
   @update_attrs %{name: "some update name", path: "some update path"}
   @invalid_attrs %{name: "", path: ""}
@@ -40,7 +42,12 @@ defmodule MediaServerWeb.LibraryLiveTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.library_index_path(conn, :index))
 
-      assert html =~ "some library"
+      assert html =~ "Movies"
+
+      {:ok, file} = Enum.fetch(Media.list_files(), 0)
+
+      assert file.title == "Elephant Dreams"
+      assert file.year == 2008
     end
 
     test "updates library in listing", %{conn: conn, library: library} do
@@ -78,7 +85,7 @@ defmodule MediaServerWeb.LibraryLiveTest do
     test "displays library", %{conn: conn, library: library} do
       {:ok, _show_live, html} = live(conn, Routes.library_show_path(conn, :show, library))
 
-      assert html =~ "Show Library"
+      assert html =~ "Movies"
     end
   end
 end

@@ -17,13 +17,20 @@ services:
     image: 'aler9/rtsp-simple-server'
     volumes:
       - ./rtsp-simple-server.yml:/rtsp-simple-server.yml
+    environment:
+      - RTSP_PROTOCOLS=tcp
+
+  guessit:
+    image: 'guessit/guessit-rest'
+    ports:
+      - "8080:80"
 
   postgresql:
     image: 'bitnami/postgresql:latest'
     volumes:
       - db-data:/bitnami/postgresql
     ports:
-      - "5433:5432"
+      - "5432:5432"
     environment:
       - POSTGRESQL_USERNAME=my_user
       - POSTGRESQL_PASSWORD=password123

@@ -45,10 +45,10 @@ defmodule MediaServerWeb.LibraryLive.FormComponent do
     case Media.create_library(library_params) do
       {:ok, library} ->
 
-        files = Util.get_file_paths(library.path)
+        file_paths = Util.get_file_paths(library.path)
 
-        Enum.each(files, fn file ->
-          Media.create_file(%{path: file, library_id: library.id}) 
+        Enum.each(file_paths, fn path ->
+          Util.persist_file(path) 
         end)
 
         {:noreply,

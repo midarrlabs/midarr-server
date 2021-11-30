@@ -4,6 +4,8 @@ defmodule MediaServer.Media.File do
 
   schema "files" do
     field :path, :string
+    field :title, :string
+    field :year, :integer
 
     belongs_to :library, MediaServer.Media.Library
 
@@ -13,7 +15,7 @@ defmodule MediaServer.Media.File do
   @doc false
   def changeset(file, attrs) do
     file
-    |> cast(attrs, [:path, :library_id])
+    |> cast(attrs, [:path, :title, :year, :library_id])
     |> validate_required([:path, :library_id])
     |> assoc_constraint(:library)
   end

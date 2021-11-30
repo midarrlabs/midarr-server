@@ -10,9 +10,12 @@ defmodule MediaServerWeb.StreamLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    file = Media.get_file!(id)
+
     {:noreply,
      socket
-     |> assign(:file, Media.get_file!(id))
+     |> assign(:file, file)
+     |> assign(:page_title, "#{file.title} (#{file.year})")
      }
   end
 

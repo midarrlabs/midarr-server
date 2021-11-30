@@ -11,13 +11,14 @@ defmodule MediaServerWeb.LibraryLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    library = Media.get_library!(id)
+    
     {:noreply,
      socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:library, Media.get_library!(id) |> Repo.preload(:files))
+     |> assign(:page_title, "#{library.name}")
+     |> assign(:library, library |> Repo.preload(:files))
      }
   end
 
-  defp page_title(:show), do: "Show Library"
   defp page_title(:edit), do: "Edit Library"
 end
