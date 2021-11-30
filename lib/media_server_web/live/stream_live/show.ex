@@ -15,7 +15,7 @@ defmodule MediaServerWeb.StreamLive.Show do
     {:noreply,
      socket
      |> assign(:file, file)
-     |> assign(:page_title, "#{file.title} (#{file.year})")
+     |> assign(:page_title, "#{file.title}")
      }
   end
 
@@ -24,7 +24,7 @@ defmodule MediaServerWeb.StreamLive.Show do
     uuid = Ecto.UUID.generate
 
     task = Task.async(fn ->
-      Rambo.run(System.find_executable("ffmpeg"), ["-i", "#{socket.assigns.file.path}", "-map", "0:0", "-map", "0:1", "-c:v", "libx264", "-preset", "ultrafast", "-b:v", "3000k", "-tune", "zerolatency", "-g", "30", "-c:a:1", "libmp3lame", "-b:a", "192k", "-ac", "6", "-f", "rtsp", "#{System.get_env("RTSP_SERVER_URL") || "rtsp://rtsp-simple-server:8554"}/#{uuid}"])
+      Rambo.run(System.find_executable("ffmpeg"), ["-re", "-i", "#{socket.assigns.file.path}", "-map", "0:0", "-map", "0:1", "-c:v", "libx264", "-preset", "veryfast", "-b:v", "3000k", "-maxrate", "3000k", "-bufsize", "6000k", "-tune", "zerolatency", "-g", "50", "-c:a:1", "libmp3lame", "-b:a", "160k", "-ac", "2", "-ar", "44100", "-f", "rtsp", "-rtsp_transport", "tcp", "#{System.get_env("RTSP_SERVER_URL") || "rtsp://rtsp-simple-server:8554"}/#{uuid}"])
     end)
 
     {:noreply, push_event(

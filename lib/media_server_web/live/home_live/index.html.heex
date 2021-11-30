@@ -8,9 +8,17 @@
     
     <ul>
     <%= for file <- @files do %>
-      <li>
-        <%= link(to_string(file.title) <> " (#{file.year})", to: "/files/"<>to_string(file.id)) %>
-      </li>
+      <%= if file.year do %>
+        <li>
+          <%= link(to_string(file.title) <> " (#{file.year})", to: "/files/"<>to_string(file.id)) %>
+          <p><%= file.path %></p>
+        </li>
+      <% else %>
+        <li>
+          <%= link(to_string(file.title), to: "/files/"<>to_string(file.id)) %>
+          <p><%= file.path %></p>
+        </li>
+      <% end %>
     <% end %>
     </ul>
   </article>

@@ -1,3 +1,9 @@
-<h1><%= @file.title %> (<%= @file.year %>)</h1>
+<%= if @file.year do %>
+    <h1><%= @file.title %> (<%= @file.year %>)</h1>
+    <p><%= @file.path %></p>
+<% else %>
+    <h1><%= @file.title %></h1>
+    <p><%= @file.path %></p>
+<% end %>
 
 <button phx-click="play" phx-value-id={@file.id}>Play</button>
