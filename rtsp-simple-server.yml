@@ -108,7 +108,7 @@ hlsSegmentCount: 20
 # minimum duration of each segment.
 # the final segment duration is also influenced by the interval between IDR frames,
 # since the server changes the segment duration to include at least a IDR frame in each one.
-hlsSegmentDuration: 5s
+hlsSegmentDuration: 8s
 # value of the Access-Control-Allow-Origin header provided in every HTTP response.
 # This allows to play the HLS stream from an external website.
 hlsAllowOrigin: '*'
