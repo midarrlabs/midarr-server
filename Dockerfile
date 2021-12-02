@@ -3,11 +3,13 @@ FROM elixir:latest as elixir_base
 RUN apt-get update && \
     apt-get install -y inotify-tools postgresql-client
 
-RUN mkdir -p /opt/ffmpeg && \
-    cd /opt/ffmpeg && \
-    wget -c https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz && \
-    tar xvf ffmpeg-release-amd64-static.tar.xz && \
-    cd ffmpeg-4.4.1-amd64-static && \
+RUN mkdir -p /opt/ffmpeg
+
+COPY ./build/ffmpeg-git-amd64-static.tar.xz /opt/ffmpeg
+
+RUN cd /opt/ffmpeg && \
+    tar xvf ffmpeg-git-amd64-static.tar.xz && \
+    cd ffmpeg-git-20211123-amd64-static && \
     ln -s "${PWD}/ffmpeg" /usr/local/bin/ && \
     ln -s "${PWD}/ffprobe" /usr/local/bin/
 
