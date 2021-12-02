@@ -1,7 +1,15 @@
 FROM elixir:latest as elixir_base
 
 RUN apt-get update && \
-    apt-get install -y inotify-tools postgresql-client ffmpeg
+    apt-get install -y inotify-tools postgresql-client
+
+RUN mkdir -p /opt/ffmpeg && \
+    cd /opt/ffmpeg && \
+    wget -c https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz && \
+    tar xvf ffmpeg-release-amd64-static.tar.xz && \
+    cd ffmpeg-4.4.1-amd64-static && \
+    ln -s "${PWD}/ffmpeg" /usr/local/bin/ && \
+    ln -s "${PWD}/ffprobe" /usr/local/bin/
 
 RUN mkdir /app
 
