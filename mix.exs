@@ -52,9 +52,6 @@ defmodule MediaServer.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:dir_walker, "~> 0.0.8"},
       {:file_system, "~> 0.2"},
-      {:httpoison, "~> 1.8"},
-      {:reverse_proxy_plug, "~> 2.1"},
-      {:rambo, "~> 0.3"},
     ]
   end
 
