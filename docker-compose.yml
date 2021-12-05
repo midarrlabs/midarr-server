@@ -9,16 +9,9 @@ services:
     volumes:
       - ./:/app
       - /Users/chazgoodare/mount/external/movies:/movies
-      - /Users/chazgoodare/mount/external/tv:/tv
+      - /Users/chazgoodare/mount/external/shows:/shows
     ports:
       - "4000:4000"
-
-  rtsp-simple-server:
-    image: 'aler9/rtsp-simple-server'
-    volumes:
-      - ./rtsp-simple-server.yml:/rtsp-simple-server.yml
-    environment:
-      - RTSP_PROTOCOLS=tcp
 
   guessit:
     image: 'guessit/guessit-rest'
@@ -48,5 +41,6 @@ services:
     volumes:
        - ./:/app
        - ./samples/movies:/movies
+       - ./samples/shows:/shows
     command: >
         bash -c "mix deps.get && mix ecto.create && mix test"

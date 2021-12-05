@@ -110,7 +110,7 @@ defmodule MediaServer.MediaTest do
     test "get_file_paths" do
 
       assert Util.get_file_paths("samples/movies") == [
-        "samples/movies/Elephant Dreams (2008)/Elephant.Dreams.2008.mkv"
+        "samples/movies/Elephant Dreams (2008)/Elephant.Dreams.2008.mp4"
       ]
     end
 
@@ -118,11 +118,11 @@ defmodule MediaServer.MediaTest do
 
       library = library_fixture()
 
-      MediaServer.Media.Util.persist_file("samples/movies/Elephant Dreams (2008)/Elephant.Dreams.2008.mkv")
+      MediaServer.Media.Util.persist_file("samples/movies/Elephant Dreams (2008)/Elephant.Dreams.2008.mp4")
 
       assert Repo.exists?(from f in MediaServer.Media.File, 
         where: f.library_id == ^library.id 
-        and f.path == "samples/movies/Elephant Dreams (2008)/Elephant.Dreams.2008.mkv" 
+        and f.path == "samples/movies/Elephant Dreams (2008)/Elephant.Dreams.2008.mp4" 
         and f.title == "Elephant Dreams"
         and f.year == 2008)
     end

@@ -17,6 +17,8 @@ defmodule MediaServerWeb.Router do
   scope "/", MediaServerWeb do
     pipe_through :browser
 
+    live "/", HomeLive.Index, :index
+
     live "/libraries", LibraryLive.Index, :index
     live "/libraries/new", LibraryLive.Index, :new
     live "/libraries/:id/edit", LibraryLive.Index, :edit
@@ -30,15 +32,14 @@ defmodule MediaServerWeb.Router do
       live "/files/:id/stream", StreamLive.Show, :show
     end
 
-    live "/", HomeLive.Index, :index
+    get "/files/:id/watch", StreamController, :show
   end
 
   # Other scopes may use custom stacks.
-  scope "/api" do
-    pipe_through :api
+  # scope "/api" do
+  #   pipe_through :api
 
-    forward "/published", ReverseProxyPlug, upstream: "#{System.get_env("HLS_SERVER_URL") || "http://rtsp-simple-server:8888"}"
-  end
+  # end
 
   # Enables LiveDashboard only for development
   #

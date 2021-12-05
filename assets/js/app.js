@@ -25,9 +25,6 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
-const axios = require('axios')
-import { Retrier } from '@jsier/retrier'
-import Hls from 'hls.js'
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 
@@ -36,30 +33,8 @@ let Hooks = {}
 Hooks.StartVideo = {
     mounted() {
         console.log("Mounted")
-
-        this.pushEvent('publish_stream')
-
-        this.handleEvent("stream_published", ({ uuid }) => {
-
-            const retrier = new Retrier({ limit: 5, delay: 2000 })
-
-            retrier.resolve(attempt => axios.get(`/api/published/${uuid}/index.m3u8`))
-                    .then(
-                        result => {
-                            console.log('Ready to play video')
-
-                            const hls = new Hls()
-
-                            hls.loadSource(`/api/published/${uuid}/index.m3u8`)
-                            hls.attachMedia(this.el)
-                        },
-                        error => console.error(error) // After 5 attempts logs: "Rejected!"
-                    )
-        })
   },
   destroyed() {
-    this.pushEvent('unpublish_stream')
-
     console.log('Destroyed')
   }
 }

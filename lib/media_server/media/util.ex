@@ -4,7 +4,7 @@ defmodule MediaServer.Media.Util do
     alias MediaServer.Media
   
     def get_file_paths(dir) do
-        Enum.into(stream(dir, matching: ~r(.mp4|.mkv)),[])
+        Enum.into(stream(dir, matching: ~r(.mp4)),[])
     end
 
     def persist_file(file_path) do
