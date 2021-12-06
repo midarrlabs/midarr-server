@@ -99,3 +99,14 @@ header nav a {
     margin: 2rem 1rem;
   }
 }
+
+@media (min-width: 600px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+.cards {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-gap: 8px;
+}
