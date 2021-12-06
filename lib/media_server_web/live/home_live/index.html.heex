@@ -4,6 +4,20 @@
 
 <section class="row">
   <article class="column">
+    <h2>Libraries</h2>
+    
+    <ul>
+    <%= for library <- @libraries do %>
+      <li>
+        <%= link(to_string(library.name), to: "libraries/"<>to_string(library.id)) %>
+      </li>
+    <% end %>
+    </ul>
+  </article>
+</section>
+
+<section class="row">
+  <article class="column">
     <h2>Latest</h2>
     
     <ul style="display: grid; grid-template-columns: auto auto auto;">
@@ -26,20 +40,6 @@
         </div>
       <% end %>
       
-    <% end %>
-    </ul>
-  </article>
-</section>
-
-<section class="row">
-  <article class="column">
-    <h2>Libraries</h2>
-    
-    <ul>
-    <%= for library <- @libraries do %>
-      <li>
-        <%= link(to_string(library.name), to: "libraries/"<>to_string(library.id)) %>
-      </li>
     <% end %>
     </ul>
   </article>
