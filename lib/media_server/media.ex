@@ -211,7 +211,7 @@ defmodule MediaServer.Media do
                 decoded = Jason.decode!(body)
 
                 file 
-                |> Map.put(:poster, Enum.map(decoded["results"], &(Map.get(&1, "poster_path"))))
+                |> Map.put(:poster, List.first(Enum.map(decoded["results"], &(Map.get(&1, "poster_path")))))
 
             {:ok, %HTTPoison.Response{status_code: 404}} ->
                 IO.puts "Not found :("

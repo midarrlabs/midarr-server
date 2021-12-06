@@ -6,24 +6,24 @@
   <article class="column">
     <h2>Latest</h2>
     
-    <ul>
-    <%= for file <- @files do %>
-      <%= if file.poster do %>
-        <a href={"/files/#{to_string(file.id)}"}>
-          <img style="height: 200px; width: 150px;" src={"https://image.tmdb.org/t/p/original#{file.poster}"}>
-        </a>
-      <% end %>
+    <ul style="display: grid; grid-template-columns: auto auto auto;">
 
-      <%= if file.year do %>
-        <li>
-          <%= link(to_string(file.title) <> " (#{file.year})", to: "/files/"<>to_string(file.id)) %>
-          <p><%= file.path %></p>
-        </li>
-      <% else %>
-        <li>
-          <%= link(to_string(file.title), to: "/files/"<>to_string(file.id)) %>
-          <p><%= file.path %></p>
-        </li>
+    <%= for file <- @files do %>
+
+      <%= if file.poster do %>
+        <div class="cards">
+          <div class="card">
+            <a href={"/files/#{to_string(file.id)}"}>
+              <img src={"https://image.tmdb.org/t/p/original#{file.poster}"}>
+
+              <%= if file.year do %>
+                <p><%= file.title %> (<%= file.year %>)</p>
+              <% else %>
+                <p><%= file.title %></p>
+              <% end %>
+            </a>
+          </div>
+        </div>
       <% end %>
       
     <% end %>

@@ -15,7 +15,7 @@ defmodule MediaServerWeb.HomeLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:files, Media.get_latest_files(5))
+    |> assign(:files, Media.get_latest_files(6))
     |> assign(:libraries, Media.list_libraries())
   end
 end
