@@ -8,6 +8,12 @@
     
     <ul>
     <%= for file <- @files do %>
+      <%= if file.poster do %>
+        <a href={"/files/#{to_string(file.id)}"}>
+          <img style="height: 200px; width: 150px;" src={"https://image.tmdb.org/t/p/original#{file.poster}"}>
+        </a>
+      <% end %>
+
       <%= if file.year do %>
         <li>
           <%= link(to_string(file.title) <> " (#{file.year})", to: "/files/"<>to_string(file.id)) %>
@@ -19,6 +25,7 @@
           <p><%= file.path %></p>
         </li>
       <% end %>
+      
     <% end %>
     </ul>
   </article>
