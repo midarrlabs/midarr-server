@@ -18,7 +18,7 @@ defmodule MediaServer.Application do
       MediaServerWeb.Endpoint,
       # Start a worker by calling: MediaServer.Worker.start_link(arg)
       # {MediaServer.Worker, arg}
-      {MediaServer.Media.Watcher, dirs: ["/movies", "shows"]},
+      {MediaServer.Media.Watcher, dirs: ["/movies", "/shows"]},
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
