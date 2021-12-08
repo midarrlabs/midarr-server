@@ -18,6 +18,7 @@ defmodule MediaServer.Application do
       MediaServerWeb.Endpoint,
       # Start a worker by calling: MediaServer.Worker.start_link(arg)
       # {MediaServer.Worker, arg}
+      MediaServerWeb.Presence,
       {MediaServer.Media.Watcher, dirs: ["/movies", "/shows"]},
     ]
 
