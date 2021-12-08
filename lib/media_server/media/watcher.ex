@@ -19,7 +19,7 @@ defmodule MediaServer.Media.Watcher do
 
     if events == [:created] do
 
-      if String.contains?(path, ".mp4") do
+      if String.ends_with?(path, ".mp4") do
             IO.inspect path
             IO.inspect events
 
