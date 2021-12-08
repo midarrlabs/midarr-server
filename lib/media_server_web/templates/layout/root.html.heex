@@ -10,6 +10,12 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=1")}></script>
   </head>
   <body>
-    <%= @inner_content %>
+    <main class="container">
+      <section class="phx-hero">
+        <h1><%= @page_title %></h1>
+      </section>
+
+      <%= @inner_content %>
+    </main>
   </body>
 </html>

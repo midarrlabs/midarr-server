@@ -14,7 +14,7 @@ defmodule MediaServerWeb.FileLive.Show do
 
     {:noreply,
      socket
-     |> assign(:page_title, "#{file.title}")
+     |> assign(:page_title, "#{file.title} (#{file.year})")
      |> assign(:file, file)
      }
   end

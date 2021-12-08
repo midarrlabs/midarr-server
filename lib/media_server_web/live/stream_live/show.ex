@@ -15,7 +15,7 @@ defmodule MediaServerWeb.StreamLive.Show do
     {:noreply,
      socket
      |> assign(:file, file)
-     |> assign(:page_title, "#{file.title}")
+     |> assign(:page_title, "#{file.title} (#{file.year})")
      }
   end
 end

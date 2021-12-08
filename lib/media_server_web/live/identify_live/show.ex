@@ -22,7 +22,7 @@ defmodule MediaServerWeb.IdentifyLive.Show do
               {
                 :noreply,
                 socket
-                |> assign(:page_title, "#{file.title}")
+                |> assign(:page_title, "#{file.title} (#{file.year})")
                 |> assign(:results, decoded["results"])
                 |> assign(:file, file)
               }

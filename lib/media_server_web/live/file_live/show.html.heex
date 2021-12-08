@@ -1,11 +1,5 @@
 <img style="height: 200px; width: 150px;" src={"https://image.tmdb.org/t/p/original#{@file.poster}"}>
 
-<%= if @file.year do %>
-    <h1><%= @file.title %> (<%= @file.year %>)</h1>
-    <p><%= @file.path %></p>
-<% else %>
-    <h1><%= @file.title %></h1>
-    <p><%= @file.path %></p>
-<% end %>
+<p><%= @file.path %></p>
 
 <button phx-click="play" phx-value-id={@file.id}>Play</button>

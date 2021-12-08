@@ -1,13 +1,7 @@
 <section class="row">
   <article class="column">
 
-    <%= if @file.year do %>
-      <h1><%= @file.title %> (<%= @file.year %>)</h1>
-      <p><%= @file.path %></p>
-    <% else %>
-      <h1><%= @file.title %></h1>
-      <p><%= @file.path %></p>
-    <% end %>
+    <p><%= @file.path %></p>
     
     <ul style="display: grid; grid-template-columns: auto auto auto;">
 
