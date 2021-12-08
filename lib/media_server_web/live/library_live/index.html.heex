@@ -35,6 +35,7 @@
           <span><%= live_redirect "Show", to: Routes.library_show_path(@socket, :show, library) %></span>
           <span><%= live_patch "Edit", to: Routes.library_index_path(@socket, :edit, library) %></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: library.id, data: [confirm: "Are you sure?"] %></span>
+          <span><%= link "Scan", to: "#", phx_click: "scan" %></span>
         </td>
       </tr>
     <% end %>

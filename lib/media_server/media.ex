@@ -203,24 +203,5 @@ defmodule MediaServer.Media do
     |> order_by(desc: :inserted_at)
     |> limit(^amount)
     |> Repo.all()
-
-    files_with_metadata = Enum.map(files, fn file ->
-        case HTTPoison.get("https://api.themoviedb.org/3/search/multi?api_key=17b1975a6335a9db0fedd3abaa0ea701&language=en-US&query=#{URI.encode(file.title)}&page=1&include_adult=false") do
-
-            {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-                decoded = Jason.decode!(body)
-
-                file 
-                |> Map.put(:poster, List.first(Enum.map(decoded["results"], &(Map.get(&1, "poster_path")))))
-
-            {:ok, %HTTPoison.Response{status_code: 404}} ->
-                IO.puts "Not found :("
-
-            {:error, %HTTPoison.Error{reason: reason}} ->
-                IO.inspect reason
-        end 
-    end)
-
-    files_with_metadata
   end
 end

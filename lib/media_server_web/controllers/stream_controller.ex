@@ -30,8 +30,8 @@ defmodule MediaServerWeb.StreamController do
     file_size = get_file_size(path)
 
     conn
-    |> Plug.Conn.put_resp_header("content-type", "video/mp4")
-    |> Plug.Conn.put_resp_header("content-range", "bytes #{offset}-#{file_size-1}/#{file_size}")
-    |> Plug.Conn.send_file(206, path, offset, file_size - offset)
+    |> put_resp_header("content-type", "video/mp4")
+    |> put_resp_header("content-range", "bytes #{offset}-#{file_size-1}/#{file_size}")
+    |> send_file(206, path, offset, file_size - offset)
   end
 end

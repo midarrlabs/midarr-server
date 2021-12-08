@@ -32,6 +32,8 @@ defmodule MediaServerWeb.Router do
       live "/files/:id/stream", StreamLive.Show, :show
     end
 
+    live "/files/:id/identify", IdentifyLive.Show, :show
+
     get "/files/:id/watch", StreamController, :show
   end
 
