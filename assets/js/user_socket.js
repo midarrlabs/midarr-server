@@ -61,16 +61,14 @@ let presence = new Presence(channel)
 
 function renderOnlineUsers(presence) {
 
+  let response = 0
+
   presence.list((id, {metas: [first, ...rest]}) => {
 
-    const response = rest.length + 1
-
-    const element = document.querySelector("#users-online")
-
-    if (element) {
-      element.innerHTML = `${ response } user${ response > 1 ? 's' : '' } online`
-    }
+    response = response + (rest.length + 1)
   })
+
+  document.querySelector("#users-online").innerHTML = `${ response } user${ response > 1 ? 's' : '' } online`
 }
 
 presence.onSync(() => renderOnlineUsers(presence))
