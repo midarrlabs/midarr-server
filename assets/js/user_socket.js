@@ -68,7 +68,11 @@ function renderOnlineUsers(presence) {
     response = response + (rest.length + 1)
   })
 
-  document.querySelector("#users-online").innerHTML = `${ response } user${ response > 1 ? 's' : '' } online`
+  const element = document.querySelector("#users-online")
+
+  if (element) {
+    element.innerHTML = `${ response } user${ response > 1 ? 's' : '' } online`
+  }
 }
 
 presence.onSync(() => renderOnlineUsers(presence))
