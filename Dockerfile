@@ -31,7 +31,8 @@ WORKDIR /app
 RUN mix local.hex --force && \
     mix local.rebar --force && \
     mix deps.get && \
-    mix assets.deploy
+    mix assets.deploy && \
+    mix run priv/repo/seeds.exs
 
 EXPOSE 4000
 
