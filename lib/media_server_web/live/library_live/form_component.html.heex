@@ -20,6 +20,12 @@
       <%= text_input f, :path, autofocus: true %>
       <%= error_tag f, :path %>
     </div>
+
+    <div>
+      <%= label f, :type_id %>
+      <%= text_input f, :type_id, autofocus: true %>
+      <%= error_tag f, :type_id %>
+    </div>
   
     <div>
       <%= submit "Save", phx_disable_with: "Saving..." %>

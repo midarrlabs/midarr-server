@@ -7,6 +7,7 @@ defmodule MediaServer.Media.Library do
     field :path, :string
 
     has_many :files, MediaServer.Media.File
+    belongs_to :type, MediaServer.Media.Type
 
     timestamps()
   end
@@ -14,7 +15,8 @@ defmodule MediaServer.Media.Library do
   @doc false
   def changeset(library, attrs) do
     library
-    |> cast(attrs, [:name, :path])
-    |> validate_required([:name, :path])
+    |> cast(attrs, [:name, :path, :type_id])
+    |> validate_required([:name, :path, :type_id])
+    |> assoc_constraint(:type)
   end
 end
