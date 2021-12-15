@@ -21,7 +21,8 @@ defmodule MediaServer.MediaTest do
     end
 
     test "create_library/1 with valid data creates a library" do
-      valid_attrs = %{name: "some name", path: "some path"}
+      type = type_fixture()
+      valid_attrs = %{name: "some name", path: "some path", type_id: type.id}
 
       assert {:ok, %Library{} = _library} = Media.create_library(valid_attrs)
     end

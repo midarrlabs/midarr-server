@@ -16,7 +16,7 @@ defmodule MediaServer.Media.Library do
   def changeset(library, attrs) do
     library
     |> cast(attrs, [:name, :path, :type_id])
-    |> validate_required([:name, :path, :type_id])
+    |> validate_required([:name, :path])
     |> assoc_constraint(:type)
   end
 end
