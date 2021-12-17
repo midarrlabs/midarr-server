@@ -10,14 +10,7 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=3")}></script>
   </head>
   <body>
-    <%= render "_user_menu.html", assigns %>
     <main class="container">
-      <section class="phx-hero">
-        <h1></h1>
-
-        <h4 id="users-online"></h4>
-      </section>
-
       <%= @inner_content %>
     </main>
   </body>

@@ -3,6 +3,7 @@ defmodule MediaServerWeb.LibraryLiveTest do
 
   import Phoenix.LiveViewTest
   import MediaServer.MediaFixtures
+  import MediaServer.AccountsFixtures
 
   alias MediaServer.Media
 
@@ -19,12 +20,26 @@ defmodule MediaServerWeb.LibraryLiveTest do
     setup [:create_library]
 
     test "lists all libraries", %{conn: conn} do
+      email = unique_user_email()
+
+      conn =
+        post(conn, Routes.user_registration_path(conn, :create), %{
+          "user" => valid_user_attributes(email: email)
+        })
+
       {:ok, _index_live, html} = live(conn, Routes.library_index_path(conn, :index))
 
       assert html =~ "Listing Libraries"
     end
 
     test "saves new library", %{conn: conn} do
+      email = unique_user_email()
+
+      conn =
+        post(conn, Routes.user_registration_path(conn, :create), %{
+          "user" => valid_user_attributes(email: email)
+        })
+
       {:ok, index_live, _html} = live(conn, Routes.library_index_path(conn, :index))
 
       assert index_live |> element("a", "New Library") |> render_click() =~
@@ -51,6 +66,13 @@ defmodule MediaServerWeb.LibraryLiveTest do
     end
 
     test "updates library in listing", %{conn: conn, library: library} do
+      email = unique_user_email()
+
+      conn =
+        post(conn, Routes.user_registration_path(conn, :create), %{
+          "user" => valid_user_attributes(email: email)
+        })
+
       {:ok, index_live, _html} = live(conn, Routes.library_index_path(conn, :index))
 
       assert index_live |> element("#library-#{library.id} a", "Edit") |> render_click() =~
@@ -72,6 +94,13 @@ defmodule MediaServerWeb.LibraryLiveTest do
     end
 
     test "deletes library in listing", %{conn: conn, library: library} do
+      email = unique_user_email()
+
+      conn =
+        post(conn, Routes.user_registration_path(conn, :create), %{
+          "user" => valid_user_attributes(email: email)
+        })
+
       {:ok, index_live, _html} = live(conn, Routes.library_index_path(conn, :index))
 
       assert index_live |> element("#library-#{library.id} a", "Delete") |> render_click()
@@ -83,6 +112,13 @@ defmodule MediaServerWeb.LibraryLiveTest do
     setup [:create_library]
 
     test "displays library", %{conn: conn, library: library} do
+      email = unique_user_email()
+
+      conn =
+        post(conn, Routes.user_registration_path(conn, :create), %{
+          "user" => valid_user_attributes(email: email)
+        })
+
       {:ok, _show_live, html} = live(conn, Routes.library_show_path(conn, :show, library))
 
       assert html =~ "Movies"

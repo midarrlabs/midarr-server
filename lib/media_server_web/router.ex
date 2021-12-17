@@ -18,7 +18,7 @@ defmodule MediaServerWeb.Router do
   end
 
   scope "/", MediaServerWeb do
-    pipe_through :browser
+    pipe_through [:browser, :require_authenticated_user]
 
     live "/", HomeLive.Index, :index
 
