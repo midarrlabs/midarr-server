@@ -1,10 +1,7 @@
-<ul>
 <%= if @current_user do %>
-  <li><%= @current_user.email %></li>
-  <li><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></li>
-  <li><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></li>
-<% else %>
-  <li><%= link "Register", to: Routes.user_registration_path(@conn, :new) %></li>
-  <li><%= link "Log in", to: Routes.user_session_path(@conn, :new) %></li>
+<div style="text-align: end; margin-top: 1em;">
+  <span id="users-online" class="nav-link"></span>
+  <%= link "Settings", to: Routes.user_settings_path(@conn, :edit), class: "nav-link" %>
+  <%= link "Log out", to: Routes.user_session_path(@conn, :delete), class: "nav-link", method: :delete %>
+</div>
 <% end %>
-</ul>

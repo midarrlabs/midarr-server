@@ -12,19 +12,17 @@ defmodule MediaServerWeb.LibraryLiveTest do
   @invalid_attrs %{name: "", path: ""}
 
   defp create_library(_) do
-    library = library_fixture()
-    %{library: library}
+    %{library: library_fixture(), user: user_fixture()}
   end
 
   describe "Index" do
     setup [:create_library]
 
-    test "lists all libraries", %{conn: conn} do
-      email = unique_user_email()
+    test "lists all libraries", %{conn: conn, user: user} do
 
       conn =
-        post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => valid_user_attributes(email: email)
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
         })
 
       {:ok, _index_live, html} = live(conn, Routes.library_index_path(conn, :index))
@@ -32,12 +30,11 @@ defmodule MediaServerWeb.LibraryLiveTest do
       assert html =~ "Listing Libraries"
     end
 
-    test "saves new library", %{conn: conn} do
-      email = unique_user_email()
+    test "saves new library", %{conn: conn, user: user} do
 
       conn =
-        post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => valid_user_attributes(email: email)
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
         })
 
       {:ok, index_live, _html} = live(conn, Routes.library_index_path(conn, :index))
@@ -65,12 +62,11 @@ defmodule MediaServerWeb.LibraryLiveTest do
       assert file.year == 2008
     end
 
-    test "updates library in listing", %{conn: conn, library: library} do
-      email = unique_user_email()
+    test "updates library in listing", %{conn: conn, library: library, user: user} do
 
       conn =
-        post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => valid_user_attributes(email: email)
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
         })
 
       {:ok, index_live, _html} = live(conn, Routes.library_index_path(conn, :index))
@@ -93,12 +89,11 @@ defmodule MediaServerWeb.LibraryLiveTest do
       assert html =~ "some update name"
     end
 
-    test "deletes library in listing", %{conn: conn, library: library} do
-      email = unique_user_email()
+    test "deletes library in listing", %{conn: conn, library: library, user: user} do
 
       conn =
-        post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => valid_user_attributes(email: email)
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
         })
 
       {:ok, index_live, _html} = live(conn, Routes.library_index_path(conn, :index))
@@ -111,12 +106,11 @@ defmodule MediaServerWeb.LibraryLiveTest do
   describe "Show" do
     setup [:create_library]
 
-    test "displays library", %{conn: conn, library: library} do
-      email = unique_user_email()
+    test "displays library", %{conn: conn, library: library, user: user} do
 
       conn =
-        post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => valid_user_attributes(email: email)
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
         })
 
       {:ok, _show_live, html} = live(conn, Routes.library_show_path(conn, :show, library))

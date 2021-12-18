@@ -7,9 +7,16 @@
     <%= csrf_meta_tag() %>
     <%= live_title_tag assigns[:page_title] || "MediaServer" %>
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css?id=1")}/>
+    <style>
+        .nav-link {
+            margin: 1em;
+        }
+    </style>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=3")}></script>
   </head>
   <body>
+    <%= render "_user_menu.html", assigns %>
+
     <main class="container">
       <%= @inner_content %>
     </main>

@@ -25,19 +25,26 @@ defmodule MediaServerWeb.Router do
     live "/libraries", LibraryLive.Index, :index
     live "/libraries/new", LibraryLive.Index, :new
     live "/libraries/:id/edit", LibraryLive.Index, :edit
-
     live "/libraries/:id", LibraryLive.Show, :show
     live "/libraries/:id/show/edit", LibraryLive.Show, :edit
 
     live "/files/:id", FileLive.Show, :show
-
+    live "/files/:id/identify", IdentifyLive.Show, :show
+    get "/files/:id/watch", StreamController, :show
     live_session :stream, root_layout: {MediaServerWeb.StreamView, "stream.html"} do
       live "/files/:id/stream", StreamLive.Show, :show
     end
 
-    live "/files/:id/identify", IdentifyLive.Show, :show
+    get "/settings", UserSettingsController, :edit
+    put "/settings", UserSettingsController, :update
+    delete "/logout", UserSessionController, :delete
+  end
 
-    get "/files/:id/watch", StreamController, :show
+  scope "/", MediaServerWeb do
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
+
+    get "/login", UserSessionController, :new
+    post "/login", UserSessionController, :create
   end
 
   # Other scopes may use custom stacks.
@@ -72,38 +79,5 @@ defmodule MediaServerWeb.Router do
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
-  end
-
-  ## Authentication routes
-
-  scope "/", MediaServerWeb do
-    pipe_through [:browser, :redirect_if_user_is_authenticated]
-
-    get "/users/register", UserRegistrationController, :new
-    post "/users/register", UserRegistrationController, :create
-    get "/users/log_in", UserSessionController, :new
-    post "/users/log_in", UserSessionController, :create
-    get "/users/reset_password", UserResetPasswordController, :new
-    post "/users/reset_password", UserResetPasswordController, :create
-    get "/users/reset_password/:token", UserResetPasswordController, :edit
-    put "/users/reset_password/:token", UserResetPasswordController, :update
-  end
-
-  scope "/", MediaServerWeb do
-    pipe_through [:browser, :require_authenticated_user]
-
-    get "/users/settings", UserSettingsController, :edit
-    put "/users/settings", UserSettingsController, :update
-    get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
-  end
-
-  scope "/", MediaServerWeb do
-    pipe_through [:browser]
-
-    delete "/users/log_out", UserSessionController, :delete
-    get "/users/confirm", UserConfirmationController, :new
-    post "/users/confirm", UserConfirmationController, :create
-    get "/users/confirm/:token", UserConfirmationController, :edit
-    post "/users/confirm/:token", UserConfirmationController, :update
   end
 end

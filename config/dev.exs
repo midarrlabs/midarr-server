@@ -21,7 +21,7 @@ config :media_server, MediaServerWeb.Endpoint,
   http: [ip: {0, 0, 0, 0}, port: 4000],
   check_origin: false,
   code_reloader: true,
-  debug_errors: true,
+  debug_errors: false,
   secret_key_base: "vntrbGOG0ngkMhJnD8v1GRpRkt+gFCmU1EYFAMeKnXMYfM//anh6WfWP1OUSCu3z",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)

@@ -4,11 +4,11 @@ defmodule MediaServerWeb.PageControllerTest do
   import MediaServer.AccountsFixtures
 
   test "GET /", %{conn: conn} do
-    email = unique_user_email()
+    fixture = %{user: user_fixture()}
 
     conn =
-      post(conn, Routes.user_registration_path(conn, :create), %{
-        "user" => valid_user_attributes(email: email)
+      post(conn, Routes.user_session_path(conn, :create), %{
+        "user" => %{"email" => fixture.user.email, "password" => valid_user_password()}
       })
 
     conn = get(conn, "/")
