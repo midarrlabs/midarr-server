@@ -1,4 +1,4 @@
-defmodule MediaServerWeb.StreamLive.Show do
+defmodule MediaServerWeb.WatchLive.Show do
   use MediaServerWeb, :live_view
 
   alias MediaServer.Media

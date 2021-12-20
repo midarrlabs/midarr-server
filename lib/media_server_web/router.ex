@@ -31,10 +31,10 @@ defmodule MediaServerWeb.Router do
 
     live "/files/:id", FileLive.Show, :show
     live "/files/:id/identify", IdentifyLive.Show, :show
-    get "/files/:id/watch", StreamController, :show
-    live_session :stream, root_layout: {MediaServerWeb.StreamView, "stream.html"} do
-      live "/files/:id/stream", StreamLive.Show, :show
+    live_session :watch, root_layout: {MediaServerWeb.WatchView, "watch.html"} do
+      live "/files/:id/watch", WatchLive.Show, :show
     end
+    get "/files/:id/stream", StreamController, :show
 
     get "/settings", UserSettingsController, :edit
     put "/settings", UserSettingsController, :update
