@@ -14,10 +14,6 @@ defmodule MediaServerWeb.Router do
     plug :fetch_current_user
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
   scope "/", MediaServerWeb do
     pipe_through [:browser, :require_authenticated_user]
 
@@ -49,11 +45,6 @@ defmodule MediaServerWeb.Router do
     get "/login", UserSessionController, :new
     post "/login", UserSessionController, :create
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api" do
-  #   pipe_through :api
-  # end
 
   # Enables the Swoosh mailbox preview in development.
   #

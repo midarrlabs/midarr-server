@@ -12,7 +12,10 @@
             margin: 1em;
         }
     </style>
-    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=3")}></script>
+    <%= if @current_user do %>
+    <script>window.userId = "<%= assigns[:current_user].id %>";</script>
+    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=4")}></script>
+    <% end %>
   </head>
   <body>
     <%= render "_user_menu.html", assigns %>

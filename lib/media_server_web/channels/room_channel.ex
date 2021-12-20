@@ -3,17 +3,18 @@ defmodule MediaServerWeb.RoomChannel do
   alias MediaServerWeb.Presence
 
   @impl true
-  def join("room:lobby", %{"id" => id}, socket) do
+  def join("room:lobby", %{"user_id" => user_id, "current_location" => current_location}, socket) do
     send(self(), :after_join)
 
-    {:ok, assign(socket, :id, id)}
+    {:ok, assign(socket, %{user_id: user_id, current_location: current_location})}
   end
 
   @impl true
   def handle_info(:after_join, socket) do
     {:ok, _} =
-      Presence.track(socket, socket.assigns.id, %{
-        online_at: inspect(System.system_time(:second))
+      Presence.track(socket, socket.assigns.user_id, %{
+        online_at: inspect(System.system_time(:second)),
+        current_location: socket.assigns.current_location
       })
 
     push(socket, "presence_state", Presence.list(socket))
