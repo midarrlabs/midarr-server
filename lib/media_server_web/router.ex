@@ -19,6 +19,11 @@ defmodule MediaServerWeb.Router do
 
     live "/", HomeLive.Index, :index
 
+    live "/sonarrs", SonarrLive.Index, :index
+    live "/sonarrs/new", SonarrLive.Index, :new
+    live "/sonarrs/:id", SonarrLive.Show, :show
+    live "/sonarrs/:id/edit", SonarrLive.Index, :edit
+
     live "/libraries", LibraryLive.Index, :index
     live "/libraries/new", LibraryLive.Index, :new
     live "/libraries/:id/edit", LibraryLive.Index, :edit
