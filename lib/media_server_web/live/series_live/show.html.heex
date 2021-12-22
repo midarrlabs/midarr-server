@@ -1,7 +1,7 @@
 <section class="row">
   <article class="column">
 
-    <img src={"#{(Enum.filter(@decoded["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]}"}>
+    <img style="margin-bottom: 2.5rem;" src={"#{(Enum.filter(@decoded["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]}"}>
 
     <h2><%= @page_title %></h2>
     <p>Runtime: <%= @decoded["runtime"] %> minutes</p>
@@ -13,13 +13,17 @@
 
 <section class="row">
   <article class="column">
-    <h3>Seasons</h3>
+    <h3>Episodes</h3>
 
     <ul>
-        <%= for item <- @decoded["seasons"] do %>
-          <li>
-            <%= link("Season #{item["seasonNumber"]}", to: "#") %>
-          </li>
+        <%= for item <- @episodes do %>
+          <div style="margin-bottom: 2.5rem; border-bottom: thin solid;">
+            <p><%= "Season  #{item["seasonNumber"]} - Episode #{item["episodeNumber"]} - #{item["title"]}" %></p>
+
+            <p><button phx-click="play" phx-value-episode={item["id"]}>Play</button></p>
+
+            <p><%= item["overview"] %></p>
+          </div>
         <% end %>
     </ul>
   </article>

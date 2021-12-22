@@ -22,7 +22,21 @@ defmodule MediaServerWeb.SeriesLive.Show do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         decoded = Jason.decode!(body)
 
-        {:noreply, socket |> assign(:page_title, "#{ decoded["title"] } (#{ decoded["year"] })") |> assign(:decoded, decoded)}
+        case HTTPoison.get("#{ show.url }/episode?seriesId=#{ serie }&apikey=#{ show.api_key }") do
+
+          {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+            episodes = Jason.decode!(body)
+
+            filtered = Enum.filter(episodes, fn x -> x["hasFile"] end)
+
+            {:noreply, socket |> assign(:page_title, "#{ decoded["title"] } (#{ decoded["year"] })") |> assign(:decoded, decoded) |> assign(:episodes, filtered)}
+
+          {:ok, %HTTPoison.Response{status_code: 404}} ->
+            IO.puts "Not found :("
+
+          {:error, %HTTPoison.Error{reason: reason}} ->
+            IO.inspect reason
+        end
 
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
@@ -30,5 +44,10 @@ defmodule MediaServerWeb.SeriesLive.Show do
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
     end
+  end
+
+  @impl true
+  def handle_event("play", %{"episode" => episode}, socket) do
+    {:noreply, push_redirect(socket, to: "/episodes/#{ episode }/watch")}
   end
 end
