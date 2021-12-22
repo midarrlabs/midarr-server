@@ -27,7 +27,6 @@
         <td><%= sonarr.api_key %></td>
 
         <td>
-          <span><%= live_redirect "Show", to: Routes.sonarr_show_path(@socket, :show, sonarr) %></span>
           <span><%= live_patch "Edit", to: Routes.sonarr_index_path(@socket, :edit, sonarr) %></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: sonarr.id, data: [confirm: "Are you sure?"] %></span>
         </td>
