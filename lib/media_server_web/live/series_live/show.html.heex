@@ -1,0 +1,26 @@
+<section class="row">
+  <article class="column">
+
+    <img src={"#{(Enum.filter(@decoded["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]}"}>
+
+    <h2><%= @page_title %></h2>
+    <p>Runtime: <%= @decoded["runtime"] %> minutes</p>
+
+    <p><%= @decoded["overview"] %></p>
+
+  </article>
+</section>
+
+<section class="row">
+  <article class="column">
+    <h3>Seasons</h3>
+
+    <ul>
+        <%= for item <- @decoded["seasons"] do %>
+          <li>
+            <%= link("Season #{item["seasonNumber"]}", to: "#") %>
+          </li>
+        <% end %>
+    </ul>
+  </article>
+</section>
