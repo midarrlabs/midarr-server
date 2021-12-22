@@ -8,6 +8,11 @@
         <%= link(to_string(library.name), to: "libraries/"<>to_string(library.id)) %>
       </li>
     <% end %>
+    <%= if @sonarrs do %>
+      <li>
+        <%= link(@sonarrs.name, to: "/series") %>
+      </li>
+    <% end %>
     </ul>
   </article>
 </section>
