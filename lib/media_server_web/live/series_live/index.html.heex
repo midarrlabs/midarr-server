@@ -1,0 +1,21 @@
+<section class="row">
+  <article class="column">
+    <h2><%= @page_title %></h2>
+
+    <ul style="display: grid; grid-template-columns: auto auto auto;">
+
+    <%= for item <- @decoded do %>
+        <div class="cards">
+          <div class="card">
+            <a href="#">
+
+              <img src={"#{(Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"]}"}>
+
+              <p><%= item["title"] %> (<%= item["year"] %>)</p>
+            </a>
+          </div>
+        </div>
+    <% end %>
+    </ul>
+  </article>
+</section>
