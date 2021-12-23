@@ -51,8 +51,6 @@ defmodule MediaServer.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:dir_walker, "~> 0.0.8"},
-      {:file_system, "~> 0.2"},
       {:httpoison, "~> 1.8"},
     ]
   end

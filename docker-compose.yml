@@ -13,23 +13,6 @@ services:
     ports:
       - "4000:4000"
 
-  sonarr:
-    image: lscr.io/linuxserver/sonarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Pacific/Auckland
-    volumes:
-      - ./sonarr:/config
-      - /Users/chazgoodare/mount/external/shows:/shows
-    ports:
-      - 8989:8989
-
-  guessit:
-    image: 'guessit/guessit-rest'
-    ports:
-      - "8080:80"
-
   postgresql:
     image: 'bitnami/postgresql:14'
     volumes:

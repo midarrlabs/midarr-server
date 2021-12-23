@@ -3,45 +3,11 @@
     <h2>Libraries</h2>
     
     <ul>
-    <%= for library <- @libraries do %>
-      <li>
-        <%= link(to_string(library.name), to: "libraries/"<>to_string(library.id)) %>
-      </li>
-    <% end %>
-    <%= if @sonarrs do %>
-      <li>
-        <%= link(@sonarrs.name, to: "/series") %>
-      </li>
-    <% end %>
-    </ul>
-  </article>
-</section>
-
-<section class="row">
-  <article class="column">
-    <h2>Latest</h2>
-    
-    <ul style="display: grid; grid-template-columns: auto auto auto;">
-
-    <%= for file <- @files do %>
-
-      <%= if file.poster do %>
-        <div class="cards">
-          <div class="card">
-            <a href={"/files/#{to_string(file.id)}"}>
-              <img src={"https://image.tmdb.org/t/p/original#{file.poster}"}>
-
-              <%= if file.year do %>
-                <p><%= file.title %> (<%= file.year %>)</p>
-              <% else %>
-                <p><%= file.title %></p>
-              <% end %>
-            </a>
-          </div>
-        </div>
-      <% end %>
-      
-    <% end %>
+        <%= if @sonarrs do %>
+          <li>
+            <%= link(@sonarrs.name, to: "/series") %>
+          </li>
+        <% end %>
     </ul>
   </article>
 </section>

@@ -3,7 +3,6 @@ defmodule MediaServerWeb.HomeLive.Index do
 
   import Ecto.Query
 
-  alias MediaServer.Media
   alias MediaServer.Providers.Sonarr
   alias MediaServer.Repo
 
@@ -20,8 +19,6 @@ defmodule MediaServerWeb.HomeLive.Index do
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Welcome to MediaServer!")
-    |> assign(:files, Media.get_latest_files(6))
-    |> assign(:libraries, Media.list_libraries())
     |> assign(:sonarrs, Sonarr |> last(:inserted_at) |> Repo.one)
   end
 end

@@ -3,7 +3,6 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
 
   import Ecto.Query
 
-  alias MediaServer.Media
   alias MediaServer.Providers.Sonarr
   alias MediaServer.Repo
 

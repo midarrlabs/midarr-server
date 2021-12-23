@@ -32,20 +32,6 @@ defmodule MediaServerWeb.Router do
 
     get "/episodes/:episode/stream", StreamEpisodeController, :show
 
-    live "/libraries", LibraryLive.Index, :index
-    live "/libraries/new", LibraryLive.Index, :new
-    live "/libraries/:id/edit", LibraryLive.Index, :edit
-    live "/libraries/:id", LibraryLive.Show, :show
-    live "/libraries/:id/show/edit", LibraryLive.Show, :edit
-
-    live "/files/:id", FileLive.Show, :show
-    live "/files/:id/identify", IdentifyLive.Show, :show
-    live_session :watch, root_layout: {MediaServerWeb.WatchView, "watch.html"} do
-      live "/files/:id/watch", WatchLive.Show, :show
-    end
-
-    get "/files/:id/stream", StreamController, :show
-
     get "/settings", UserSettingsController, :edit
     put "/settings", UserSettingsController, :update
     delete "/logout", UserSessionController, :delete
