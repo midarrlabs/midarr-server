@@ -1,7 +1,7 @@
 <%= if @current_user do %>
 <div style="text-align: end; margin-top: 1em; margin-bottom: 1em;">
   <span id="users-online" class="nav-link"></span>
-  <%= link "Home", to: "/", class: "nav-link" %>
+  <a data-phx-link="redirect" data-phx-link-state="push" href="/" class="nav-link">Home</a>
   <%= link "Settings", to: Routes.user_settings_path(@conn, :edit), class: "nav-link" %>
   <%= link "Log out", to: Routes.user_session_path(@conn, :delete), class: "nav-link", method: :delete %>
 </div>

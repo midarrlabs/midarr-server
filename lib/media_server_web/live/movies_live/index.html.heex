@@ -7,7 +7,7 @@
         <%= for item <- @decoded do %>
             <div class="cards">
               <div class="card">
-                <a href={"/movies/#{ item["id"] }"}>
+                <a data-phx-link="redirect" data-phx-link-state="push" href={"/movies/#{ item["id"] }"}>
 
                   <img src={"#{(Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"]}"}>
 

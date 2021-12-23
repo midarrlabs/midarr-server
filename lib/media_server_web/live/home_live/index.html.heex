@@ -6,12 +6,12 @@
     <ul>
     <%= if @radarrs do %>
       <li>
-        <%= link(@radarrs.name, to: "/movies") %>
+        <%= live_redirect @radarrs.name, to: Routes.movies_index_path(@socket, :index) %>
       </li>
     <% end %>
     <%= if @sonarrs do %>
       <li>
-        <%= link(@sonarrs.name, to: "/series") %>
+        <%= live_redirect @sonarrs.name, to: Routes.series_index_path(@socket, :index) %>
       </li>
     <% end %>
     </ul>
@@ -28,7 +28,7 @@
     <%= for item <- @radarr_soon do %>
         <div class="cards">
           <div class="card">
-            <a href={"/movies/#{ item["id"] }"}>
+            <a data-phx-link="redirect" data-phx-link-state="push" href={"/movies/#{ item["id"] }"}>
 
               <img src={"#{(Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"]}"}>
 
