@@ -30,20 +30,16 @@ defmodule MediaServerWeb.Router do
     live "/movies", MoviesLive.Index, :index
     live "/movies/:movie", MoviesLive.Show, :show
 
-    live_session :watch_movie, root_layout: {MediaServerWeb.WatchView, "watch.html"} do
-      live "/movies/:movie/watch", WatchMovieLive.Show, :show
-    end
-
-    get "/movies/:movie/stream", StreamMovieController, :show
-
     live "/series", SeriesLive.Index, :index
     live "/series/:serie", SeriesLive.Show, :show
 
-    live_session :watch_episode, root_layout: {MediaServerWeb.WatchView, "watch.html"} do
-      live "/episodes/:episode/watch", WatchEpisodeLive.Show, :show
+    live_session :watch, root_layout: {MediaServerWeb.WatchView, "watch.html"} do
+      live "/movies/:movie/watch", WatchLive.Show, :show
+      live "/episodes/:episode/watch", WatchLive.Show, :show
     end
 
-    get "/episodes/:episode/stream", StreamEpisodeController, :show
+    get "/movies/:movie/stream", StreamController, :show
+    get "/episodes/:episode/stream", StreamController, :show
 
     get "/settings", UserSettingsController, :edit
     put "/settings", UserSettingsController, :update

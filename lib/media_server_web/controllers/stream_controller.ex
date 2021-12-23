@@ -1,11 +1,31 @@
-defmodule MediaServerWeb.StreamEpisodeController do
+defmodule MediaServerWeb.StreamController do
   use MediaServerWeb, :controller
 
   import Ecto.Query
 
+  alias MediaServer.Providers.Radarr
   alias MediaServer.Providers.Sonarr
   alias MediaServer.Repo
   
+  def show(%{req_headers: headers} = conn, %{"movie" => movie}) do
+
+    provider = Radarr |> last(:inserted_at) |> Repo.one
+
+    case HTTPoison.get("#{ provider.url }/movie/#{ movie }?apiKey=#{ provider.api_key }") do
+
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        decoded = Jason.decode!(body)
+
+        send_video(conn, headers, decoded["movieFile"]["path"])
+
+      {:ok, %HTTPoison.Response{status_code: 404}} ->
+        IO.puts "Not found :("
+
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        IO.inspect reason
+    end
+  end
+
   def show(%{req_headers: headers} = conn, %{"episode" => episode}) do
 
     show = Sonarr |> last(:inserted_at) |> Repo.one
