@@ -19,4 +19,20 @@ defmodule MediaServer.ProvidersFixtures do
 
     sonarr
   end
+
+  @doc """
+  Generate a radarr.
+  """
+  def radarr_fixture(attrs \\ %{}) do
+    {:ok, radarr} =
+      attrs
+      |> Enum.into(%{
+        api_key: "some api_key",
+        name: "some name",
+        url: "some url"
+      })
+      |> MediaServer.Providers.create_radarr()
+
+    radarr
+  end
 end

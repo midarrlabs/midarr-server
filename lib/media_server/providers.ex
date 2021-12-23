@@ -101,4 +101,100 @@ defmodule MediaServer.Providers do
   def change_sonarr(%Sonarr{} = sonarr, attrs \\ %{}) do
     Sonarr.changeset(sonarr, attrs)
   end
+
+  alias MediaServer.Providers.Radarr
+
+  @doc """
+  Returns the list of radarrs.
+
+  ## Examples
+
+      iex> list_radarrs()
+      [%Radarr{}, ...]
+
+  """
+  def list_radarrs do
+    Repo.all(Radarr)
+  end
+
+  @doc """
+  Gets a single radarr.
+
+  Raises `Ecto.NoResultsError` if the Radarr does not exist.
+
+  ## Examples
+
+      iex> get_radarr!(123)
+      %Radarr{}
+
+      iex> get_radarr!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_radarr!(id), do: Repo.get!(Radarr, id)
+
+  @doc """
+  Creates a radarr.
+
+  ## Examples
+
+      iex> create_radarr(%{field: value})
+      {:ok, %Radarr{}}
+
+      iex> create_radarr(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_radarr(attrs \\ %{}) do
+    %Radarr{}
+    |> Radarr.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a radarr.
+
+  ## Examples
+
+      iex> update_radarr(radarr, %{field: new_value})
+      {:ok, %Radarr{}}
+
+      iex> update_radarr(radarr, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_radarr(%Radarr{} = radarr, attrs) do
+    radarr
+    |> Radarr.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a radarr.
+
+  ## Examples
+
+      iex> delete_radarr(radarr)
+      {:ok, %Radarr{}}
+
+      iex> delete_radarr(radarr)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_radarr(%Radarr{} = radarr) do
+    Repo.delete(radarr)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking radarr changes.
+
+  ## Examples
+
+      iex> change_radarr(radarr)
+      %Ecto.Changeset{data: %Radarr{}}
+
+  """
+  def change_radarr(%Radarr{} = radarr, attrs \\ %{}) do
+    Radarr.changeset(radarr, attrs)
+  end
 end

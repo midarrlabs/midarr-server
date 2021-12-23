@@ -1,0 +1,38 @@
+<h1>Listing Radarrs</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal MediaServerWeb.RadarrLive.FormComponent,
+    id: @radarr.id || :new,
+    title: @page_title,
+    action: @live_action,
+    radarr: @radarr,
+    return_to: Routes.radarr_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Url</th>
+      <th>Api key</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="radarrs">
+    <%= for radarr <- @radarrs do %>
+      <tr id={"radarr-#{radarr.id}"}>
+        <td><%= radarr.name %></td>
+        <td><%= radarr.url %></td>
+        <td><%= radarr.api_key %></td>
+
+        <td>
+          <span><%= live_patch "Edit", to: Routes.radarr_index_path(@socket, :edit, radarr) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: radarr.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Radarr", to: Routes.radarr_index_path(@socket, :new) %></span>
