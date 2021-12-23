@@ -9,7 +9,7 @@ services:
     volumes:
       - ./:/app
       - /Users/chazgoodare/mount/external/movies:/movies
-      - /Users/chazgoodare/mount/external/shows:/shows
+      - /Users/chazgoodare/mount/external/shows:/tv
     ports:
       - "4000:4000"
 
