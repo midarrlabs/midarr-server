@@ -1,13 +1,44 @@
 <section class="row">
   <article class="column">
+
     <h2>Libraries</h2>
-    
+
     <ul>
-        <%= if @sonarrs do %>
-          <li>
-            <%= link(@sonarrs.name, to: "/series") %>
-          </li>
-        <% end %>
+    <%= if @radarrs do %>
+      <li>
+        <%= link(@radarrs.name, to: "/movies") %>
+      </li>
+    <% end %>
+    <%= if @sonarrs do %>
+      <li>
+        <%= link(@sonarrs.name, to: "/series") %>
+      </li>
+    <% end %>
     </ul>
   </article>
 </section>
+
+<%= if @radarr_soon do %>
+<section class="row">
+  <article class="column">
+    <h2>Coming soon</h2>
+
+    <ul style="display: grid; grid-template-columns: auto auto auto;">
+
+    <%= for item <- @radarr_soon do %>
+        <div class="cards">
+          <div class="card">
+            <a href={"/movies/#{ item["id"] }"}>
+
+              <img src={"#{(Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"]}"}>
+
+              <p><%= item["title"] %> (<%= item["year"] %>)</p>
+            </a>
+          </div>
+        </div>
+    <% end %>
+
+    </ul>
+  </article>
+</section>
+<% end %>

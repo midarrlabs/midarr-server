@@ -1,0 +1,16 @@
+<section class="row">
+  <article class="column">
+
+    <img style="margin-bottom: 2.5rem;" src={"#{(Enum.filter(@decoded["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]}"}>
+
+    <h2><%= @page_title %></h2>
+    <p>Runtime: <%= @decoded["runtime"] %> minutes</p>
+
+    <%= if @decoded["hasFile"] do %>
+    <p><button phx-click="play" phx-value-movie={@decoded["id"]}>Play</button></p>
+    <% end %>
+
+    <p><%= @decoded["overview"] %></p>
+
+  </article>
+</section>

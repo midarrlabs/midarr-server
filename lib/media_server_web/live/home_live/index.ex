@@ -3,6 +3,7 @@ defmodule MediaServerWeb.HomeLive.Index do
 
   import Ecto.Query
 
+  alias MediaServer.Providers.Radarr
   alias MediaServer.Providers.Sonarr
   alias MediaServer.Repo
 
@@ -17,8 +18,38 @@ defmodule MediaServerWeb.HomeLive.Index do
   end
 
   defp apply_action(socket, :index, _params) do
-    socket
-    |> assign(:page_title, "Welcome to MediaServer!")
-    |> assign(:sonarrs, Sonarr |> last(:inserted_at) |> Repo.one)
+
+    radarr = Radarr |> last(:inserted_at) |> Repo.one
+    sonarr = Sonarr |> last(:inserted_at) |> Repo.one
+
+    if radarr === nil do
+
+      socket
+      |> assign(:page_title, "Welcome to MediaServer!")
+      |> assign(:radarrs, nil)
+      |> assign(:sonarrs, nil)
+      |> assign(:radarr_soon, nil)
+
+    else
+      case HTTPoison.get(radarr.url<>"/movie?apiKey="<>radarr.api_key) do
+
+        {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+          decoded = Jason.decode!(body)
+
+          filtered = Enum.reject(decoded, fn x -> x["hasFile"] end)
+
+          socket
+          |> assign(:page_title, "Welcome to MediaServer!")
+          |> assign(:radarrs, radarr)
+          |> assign(:sonarrs, sonarr)
+          |> assign(:radarr_soon, filtered)
+
+        {:ok, %HTTPoison.Response{status_code: 404}} ->
+          IO.puts "Not found :("
+
+        {:error, %HTTPoison.Error{reason: reason}} ->
+          IO.inspect reason
+      end
+    end
   end
 end

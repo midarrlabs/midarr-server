@@ -27,6 +27,15 @@ defmodule MediaServerWeb.Router do
     live "/sonarrs/new", SonarrLive.Index, :new
     live "/sonarrs/:id/edit", SonarrLive.Index, :edit
 
+    live "/movies", MoviesLive.Index, :index
+    live "/movies/:movie", MoviesLive.Show, :show
+
+    live_session :watch_movie, root_layout: {MediaServerWeb.WatchView, "watch.html"} do
+      live "/movies/:movie/watch", WatchMovieLive.Show, :show
+    end
+
+    get "/movies/:movie/stream", StreamMovieController, :show
+
     live "/series", SeriesLive.Index, :index
     live "/series/:serie", SeriesLive.Show, :show
 
