@@ -35,8 +35,6 @@ defmodule MediaServerWeb.StreamController do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         decoded = Jason.decode!(body)
 
-        IO.inspect decoded
-
         send_video(conn, headers, decoded["episodeFile"]["path"])
 
       {:ok, %HTTPoison.Response{status_code: 404}} ->
