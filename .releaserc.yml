@@ -1,7 +1,11 @@
 plugins:
   - "@semantic-release/commit-analyzer"
   - "@semantic-release/release-notes-generator"
+  - "@semantic-release/changelog"
   - "@semantic-release/github"
 branches:
   - "master"
   - "+([0-9])?(.{+([0-9]),x}).x"
+prepare:
+  - path: "@semantic-release/changelog"
+    changelogFile: "docs/CHANGELOG.md"
