@@ -22,34 +22,24 @@ defmodule MediaServerWeb.HomeLive.Index do
     radarr = Radarr |> last(:inserted_at) |> Repo.one
     sonarr = Sonarr |> last(:inserted_at) |> Repo.one
 
-    if radarr === nil do
+    case HTTPoison.get(radarr.url<>"/movie?apiKey="<>radarr.api_key) do
 
-      socket
-      |> assign(:page_title, "Welcome to MediaServer!")
-      |> assign(:radarrs, nil)
-      |> assign(:sonarrs, nil)
-      |> assign(:radarr_soon, nil)
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        decoded = Jason.decode!(body)
 
-    else
-      case HTTPoison.get(radarr.url<>"/movie?apiKey="<>radarr.api_key) do
+        filtered = Enum.reject(decoded, fn x -> x["hasFile"] end)
 
-        {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-          decoded = Jason.decode!(body)
+        socket
+        |> assign(:page_title, "Welcome to MediaServer!")
+        |> assign(:radarrs, radarr)
+        |> assign(:sonarrs, sonarr)
+        |> assign(:radarr_soon, filtered)
 
-          filtered = Enum.reject(decoded, fn x -> x["hasFile"] end)
+      {:ok, %HTTPoison.Response{status_code: 404}} ->
+        IO.puts "Not found :("
 
-          socket
-          |> assign(:page_title, "Welcome to MediaServer!")
-          |> assign(:radarrs, radarr)
-          |> assign(:sonarrs, sonarr)
-          |> assign(:radarr_soon, filtered)
-
-        {:ok, %HTTPoison.Response{status_code: 404}} ->
-          IO.puts "Not found :("
-
-        {:error, %HTTPoison.Error{reason: reason}} ->
-          IO.inspect reason
-      end
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        IO.inspect reason
     end
   end
 end

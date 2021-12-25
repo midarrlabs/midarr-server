@@ -1,31 +1,26 @@
-version: '3'
+version: "3"
 
 volumes:
   postgres-data:
 
 services:
-  phoenix:
+  media-server:
     build: .
+    depends_on:
+      - postgresql
     volumes:
       - ./:/app
       - /Users/chazgoodare/mount/external/movies:/movies
       - /Users/chazgoodare/mount/external/shows:/tv
     ports:
-      - "4000:4000"
+      - 4000:4000
 
   postgresql:
-    image: 'bitnami/postgresql:14'
+    image: bitnami/postgresql:14
     volumes:
       - postgres-data:/bitnami/postgresql
     ports:
-      - "5432:5432"
-    environment:
-      - POSTGRESQL_USERNAME=my_user
-      - POSTGRESQL_PASSWORD=password123
-      - POSTGRESQL_DATABASE=my_database
-    
-  postgresql-test:
-    image: 'bitnami/postgresql:14'
+      - 5432:5432
     environment:
       - POSTGRESQL_USERNAME=my_user
       - POSTGRESQL_PASSWORD=password123
@@ -33,9 +28,44 @@ services:
 
   test:
     build: .
+    depends_on:
+      - test-postgresql
+      - test-radarr
+      - test-sonarr
     volumes:
-       - ./:/app
-       - ./samples/movies:/movies
-       - ./samples/shows:/shows
+      - ./:/app
+      - ./support/movies:/movies
+      - ./support/shows:/shows
     command: >
         bash -c "mix deps.get && mix ecto.create && mix test"
+
+  test-postgresql:
+    image: bitnami/postgresql:14
+    environment:
+      - POSTGRESQL_USERNAME=my_user
+      - POSTGRESQL_PASSWORD=password123
+      - POSTGRESQL_DATABASE=my_database
+
+  test-radarr:
+    image: mdhiggins/radarr-sma
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ./support/radarr:/config
+      - ./support/movies:/movies
+    ports:
+      - 7878:7878
+
+  test-sonarr:
+    image: mdhiggins/sonarr-sma
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - ./support/sonarr:/config
+      - ./support/shows:/shows
+    ports:
+      - 8989:8989
