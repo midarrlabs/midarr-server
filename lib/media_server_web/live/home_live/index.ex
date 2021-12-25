@@ -34,12 +34,6 @@ defmodule MediaServerWeb.HomeLive.Index do
         |> assign(:radarrs, radarr)
         |> assign(:sonarrs, sonarr)
         |> assign(:radarr_soon, filtered)
-
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Not found :("
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.inspect reason
     end
   end
 end

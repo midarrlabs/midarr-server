@@ -19,7 +19,7 @@ jobs:
       run: docker compose up postgresql test-postgresql test-radarr test-sonarr -d
 
     - name: Run tests
-      run: docker compose run test
+      run: docker compose run test-web
 
   release:
     needs: test

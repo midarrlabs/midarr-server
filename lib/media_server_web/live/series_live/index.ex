@@ -18,23 +18,16 @@ defmodule MediaServerWeb.SeriesLive.Index do
 
   defp apply_action(socket, :index, _params) do
 
-    show = Sonarr |> last(:inserted_at) |> Repo.one
+    provider = Sonarr |> last(:inserted_at) |> Repo.one
 
-    case HTTPoison.get(show.url<>"/series?apikey="<>show.api_key) do
+    case HTTPoison.get(provider.url<>"/series?apikey="<>provider.api_key) do
 
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         decoded = Jason.decode!(body)
 
         socket
         |> assign(:page_title, :Series)
-        |> assign(:show, show)
         |> assign(:decoded, decoded)
-
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Not found :("
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.inspect reason
     end
   end
 end

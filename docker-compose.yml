@@ -4,7 +4,7 @@ volumes:
   postgres-data:
 
 services:
-  media-server:
+  web:
     build: .
     depends_on:
       - postgresql
@@ -26,7 +26,7 @@ services:
       - POSTGRESQL_PASSWORD=password123
       - POSTGRESQL_DATABASE=my_database
 
-  test:
+  test-web:
     build: .
     depends_on:
       - test-postgresql

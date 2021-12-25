@@ -30,12 +30,6 @@ defmodule MediaServerWeb.MoviesLive.Index do
         socket
         |> assign(:page_title, :Movies)
         |> assign(:decoded, filtered)
-
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Not found :("
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.inspect reason
     end
   end
 end
