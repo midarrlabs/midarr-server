@@ -28,20 +28,12 @@ defmodule MediaServerWeb.SeriesLive.Show do
 
             filtered = Enum.filter(episodes, fn x -> x["hasFile"] end)
 
-            {:noreply, socket |> assign(:page_title, "#{ decoded["title"] } (#{ decoded["year"] })") |> assign(:decoded, decoded) |> assign(:episodes, filtered)}
-
-          {:ok, %HTTPoison.Response{status_code: 404}} ->
-            IO.puts "Not found :("
-
-          {:error, %HTTPoison.Error{reason: reason}} ->
-            IO.inspect reason
+            {
+              :noreply,
+              socket
+              |> assign(:page_title, "#{ decoded["title"] } (#{ decoded["year"] })")
+              |> assign(:decoded, decoded) |> assign(:episodes, filtered)}
         end
-
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Not found :("
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.inspect reason
     end
   end
 

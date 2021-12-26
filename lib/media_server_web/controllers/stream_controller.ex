@@ -17,12 +17,6 @@ defmodule MediaServerWeb.StreamController do
         decoded = Jason.decode!(body)
 
         send_video(conn, headers, decoded["movieFile"]["path"])
-
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Not found :("
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.inspect reason
     end
   end
 
@@ -36,12 +30,6 @@ defmodule MediaServerWeb.StreamController do
         decoded = Jason.decode!(body)
 
         send_video(conn, headers, decoded["episodeFile"]["path"])
-
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Not found :("
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.inspect reason
     end
   end
 

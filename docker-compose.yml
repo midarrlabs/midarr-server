@@ -10,8 +10,8 @@ services:
       - postgresql
     volumes:
       - ./:/app
-      - /Users/chazgoodare/mount/external/movies:/movies
-      - /Users/chazgoodare/mount/external/shows:/tv
+      - ./support/movies:/movies
+      - ./support/shows:/shows
     ports:
       - 4000:4000
 
