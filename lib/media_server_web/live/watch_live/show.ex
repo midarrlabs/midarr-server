@@ -28,12 +28,6 @@ defmodule MediaServerWeb.WatchLive.Show do
           |> assign(:page_title, "#{ decoded["title"] }")
           |> assign(:stream_url, "/movies/#{ decoded["id"] }/stream")
         }
-
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Not found :("
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.inspect reason
     end
   end
 
