@@ -1,5 +1,5 @@
 defmodule MediaServerWeb.UserSettingsControllerTest do
-  use MediaServerWeb.ConnCase, async: true
+  use MediaServerWeb.ConnCase
 
   alias MediaServer.Accounts
   import MediaServer.AccountsFixtures

@@ -1,3 +1,3 @@
 defmodule MediaServerWeb.PageViewTest do
-  use MediaServerWeb.ConnCase, async: true
+  use MediaServerWeb.ConnCase
 end
