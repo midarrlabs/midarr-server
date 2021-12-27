@@ -15,9 +15,6 @@ jobs:
     - name: Build docker images
       run: docker compose build
 
-    - name: Setup services
-      run: docker compose up postgresql test-postgresql test-radarr test-sonarr -d
-
     - name: Run tests
       run: docker compose run test-web
 

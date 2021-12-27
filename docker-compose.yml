@@ -29,6 +29,7 @@ services:
   test-web:
     build: .
     depends_on:
+      - postgresql
       - test-postgresql
       - test-radarr
       - test-sonarr
