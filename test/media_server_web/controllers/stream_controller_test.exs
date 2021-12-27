@@ -1,5 +1,5 @@
 defmodule MediaServerWeb.StreamControllerTest do
-  use MediaServerWeb.ConnCase, async: true
+  use MediaServerWeb.ConnCase
 
   import MediaServer.AccountsFixtures
   import MediaServer.ProvidersFixtures
