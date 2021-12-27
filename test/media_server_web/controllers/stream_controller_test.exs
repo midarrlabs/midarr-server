@@ -4,17 +4,15 @@ defmodule MediaServerWeb.StreamControllerTest do
   import MediaServer.AccountsFixtures
   import MediaServer.ProvidersFixtures
 
-  setup do
-    %{
-      user: user_fixture(),
-      radarr: real_radarr_fixture(),
-      sonarr: real_sonarr_fixture()
-    }
+  defp create_fixtures(_) do
+    %{user: user_fixture(), radarr: real_radarr_fixture(), sonarr: real_sonarr_fixture()}
   end
 
-  describe "GET movie" do
+  describe "GET stream" do
 
-    test "gets stream", %{conn: conn, user: user} do
+    setup [:create_fixtures]
+
+    test "movie", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -31,11 +29,8 @@ defmodule MediaServerWeb.StreamControllerTest do
       assert Enum.member?(conn.resp_headers, {"content-type", "video/mp4"})
       assert Enum.member?(conn.resp_headers, {"content-range", "bytes 0-133/134"})
     end
-  end
 
-  describe "GET episode" do
-
-    test "gets stream", %{conn: conn, user: user} do
+    test "episode", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
