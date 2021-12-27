@@ -4,33 +4,33 @@ defmodule MediaServerWeb.WatchLiveTest do
   import MediaServer.AccountsFixtures
   import MediaServer.ProvidersFixtures
 
-  test "GET movies", %{conn: conn} do
-    fixture = %{
-      user: user_fixture(),
-      radarr: real_radarr_fixture()
-    }
-
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => fixture.user.email, "password" => valid_user_password()}
-      })
-
-    conn = get(conn, "/movies/1/watch")
-    assert html_response(conn, 200)
+  defp create_fixtures(_) do
+    %{user: user_fixture(), radarr: real_radarr_fixture(), sonarr: real_sonarr_fixture()}
   end
 
-  test "GET episodes", %{conn: conn} do
-    fixture = %{
-      user: user_fixture(),
-      sonarr: real_sonarr_fixture()
-    }
+  describe "Index" do
+    setup [:create_fixtures]
 
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => fixture.user.email, "password" => valid_user_password()}
-      })
+    test "GET movies", %{conn: conn, user: user} do
 
-    conn = get(conn, "/episodes/1/watch")
-    assert html_response(conn, 200)
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
+        })
+
+      conn = get(conn, "/movies/1/watch")
+      assert html_response(conn, 200)
+    end
+
+    test "GET episodes", %{conn: conn, user: user} do
+
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
+        })
+
+      conn = get(conn, "/episodes/1/watch")
+      assert html_response(conn, 200)
+    end
   end
 end
