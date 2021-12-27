@@ -1,16 +1,17 @@
 <section class="row">
   <article class="column">
 
-    <img style="margin-bottom: 2.5rem;" src={"#{(Enum.filter(@decoded["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]}"}>
+    <h2><%= @decoded["title"] %></h2>
+    <p><%= @decoded["year"] %>  - <%= @decoded["runtime"] %> minutes</p>
 
-    <h2><%= @page_title %></h2>
-    <p>Runtime: <%= @decoded["runtime"] %> minutes</p>
+    <iframe type="text/html" style="width: 100%; margin-bottom: 2.5rem;" height="360"
+      src={"https://www.youtube.com/embed/#{ @decoded["youTubeTrailerId"] }"}
+      frameborder="0"></iframe>
 
     <%= if @decoded["hasFile"] do %>
     <p><button phx-click="play" phx-value-movie={@decoded["id"]}>Play</button></p>
     <% end %>
 
     <p><%= @decoded["overview"] %></p>
-
   </article>
 </section>
