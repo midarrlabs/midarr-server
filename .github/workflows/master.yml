@@ -16,7 +16,7 @@ jobs:
       run: docker compose build
 
     - name: Run tests
-      run: docker compose up test-web
+      run: docker compose run test-web
 
   release:
     needs: test
