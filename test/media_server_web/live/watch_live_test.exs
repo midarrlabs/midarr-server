@@ -5,13 +5,16 @@ defmodule MediaServerWeb.WatchLiveTest do
   import MediaServer.ProvidersFixtures
 
   defp create_fixtures(_) do
-    %{user: user_fixture(), radarr: real_radarr_fixture(), sonarr: real_sonarr_fixture()}
+    real_radarr_fixture()
+    real_sonarr_fixture()
+
+    %{user: user_fixture()}
   end
 
-  describe "Index" do
+  describe "Show movie" do
     setup [:create_fixtures]
 
-    test "GET movies", %{conn: conn, user: user} do
+    test "watch", %{conn: conn, user: user} do
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
@@ -21,8 +24,12 @@ defmodule MediaServerWeb.WatchLiveTest do
       conn = get(conn, "/movies/1/watch")
       assert html_response(conn, 200)
     end
+  end
 
-    test "GET episodes", %{conn: conn, user: user} do
+  describe "Show episode" do
+    setup [:create_fixtures]
+
+    test "watch", %{conn: conn, user: user} do
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
