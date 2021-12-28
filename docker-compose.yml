@@ -17,6 +17,8 @@ services:
 
   postgresql:
     image: bitnami/postgresql:14
+    healthcheck:
+      test: "exit 0"
     volumes:
       - postgres-data:/bitnami/postgresql
     ports:
@@ -29,10 +31,14 @@ services:
   test-web:
     build: .
     depends_on:
-      - postgresql
-      - test-postgresql
-      - test-radarr
-      - test-sonarr
+      postgresql:
+        condition: service_healthy
+      test-postgresql:
+        condition: service_healthy
+      test-radarr:
+        condition: service_healthy
+      test-sonarr:
+        condition: service_healthy
     volumes:
       - ./:/app
       - ./support/movies:/movies
@@ -42,6 +48,8 @@ services:
 
   test-postgresql:
     image: bitnami/postgresql:14
+    healthcheck:
+      test: "exit 0"
     environment:
       - POSTGRESQL_USERNAME=my_user
       - POSTGRESQL_PASSWORD=password123
@@ -49,6 +57,8 @@ services:
 
   test-radarr:
     image: mdhiggins/radarr-sma
+    healthcheck:
+      test: "exit 0"
     environment:
       - PUID=1000
       - PGID=1000
@@ -61,6 +71,8 @@ services:
 
   test-sonarr:
     image: mdhiggins/sonarr-sma
+    healthcheck:
+      test: "exit 0"
     environment:
       - PUID=1000
       - PGID=1000
