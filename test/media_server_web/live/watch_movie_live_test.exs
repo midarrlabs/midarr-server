@@ -1,4 +1,4 @@
-defmodule MediaServerWeb.WatchLiveTest do
+defmodule MediaServerWeb.WatchMovieLiveTest do
   use MediaServerWeb.ConnCase
 
   import MediaServer.AccountsFixtures
@@ -6,7 +6,6 @@ defmodule MediaServerWeb.WatchLiveTest do
 
   defp create_fixtures(_) do
     real_radarr_fixture()
-    real_sonarr_fixture()
 
     %{user: user_fixture()}
   end
@@ -22,21 +21,6 @@ defmodule MediaServerWeb.WatchLiveTest do
         })
 
       conn = get(conn, "/movies/1/watch")
-      assert html_response(conn, 200)
-    end
-  end
-
-  describe "Show episode" do
-    setup [:create_fixtures]
-
-    test "watch", %{conn: conn, user: user} do
-
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => valid_user_password()}
-        })
-
-      conn = get(conn, "/episodes/1/watch")
       assert html_response(conn, 200)
     end
   end
