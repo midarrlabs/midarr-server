@@ -12,7 +12,7 @@ config :media_server, MediaServer.Repo,
   username: "my_user",
   password: "password123",
   database: "my_database",
-  hostname: "test-postgresql",
+  hostname: "postgresql",
   pool_size: 10,
   pool: Ecto.Adapters.SQL.Sandbox
 
