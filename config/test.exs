@@ -13,7 +13,7 @@ config :media_server, MediaServer.Repo,
   password: "password123",
   database: "my_database",
   hostname: "test-postgresql",
-  pool_size: 5,
+  pool_size: 10,
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,
