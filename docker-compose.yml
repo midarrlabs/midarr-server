@@ -1,11 +1,13 @@
 version: "3"
 
+volumes:
+  postgres-data:
+
 services:
   web:
     build: .
     depends_on:
-      postgresql:
-        condition: service_healthy
+      - postgresql
     volumes:
       - ./:/app
       - ./fixtures/movies:/movies
@@ -17,6 +19,8 @@ services:
     image: bitnami/postgresql:14
     healthcheck:
       test: "exit 0"
+    volumes:
+      - postgres-data:/bitnami/postgresql
     ports:
       - 5432:5432
     environment:
@@ -29,6 +33,8 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
+      test-postgresql:
+        condition: service_healthy
       test-radarr:
         condition: service_healthy
       test-sonarr:
@@ -39,6 +45,15 @@ services:
       - ./fixtures/shows:/shows
     command: >
         bash -c "mix deps.get && mix ecto.create && mix test"
+
+  test-postgresql:
+    image: bitnami/postgresql:14
+    healthcheck:
+      test: "exit 0"
+    environment:
+      - POSTGRESQL_USERNAME=my_user
+      - POSTGRESQL_PASSWORD=password123
+      - POSTGRESQL_DATABASE=my_database
 
   test-radarr:
     image: mdhiggins/radarr-sma
