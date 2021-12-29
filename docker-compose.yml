@@ -10,8 +10,8 @@ services:
       - postgresql
     volumes:
       - ./:/app
-      - ./support/movies:/movies
-      - ./support/shows:/shows
+      - ./fixtures/movies:/movies
+      - ./fixtures/shows:/shows
     ports:
       - 4000:4000
 
@@ -41,8 +41,8 @@ services:
         condition: service_healthy
     volumes:
       - ./:/app
-      - ./support/movies:/movies
-      - ./support/shows:/shows
+      - ./fixtures/movies:/movies
+      - ./fixtures/shows:/shows
     command: >
         bash -c "mix deps.get && mix ecto.create && mix test"
 
@@ -64,8 +64,8 @@ services:
       - PGID=1000
       - TZ=Pacific/Auckland
     volumes:
-      - ./support/radarr:/config
-      - ./support/movies:/movies
+      - ./fixtures/radarr:/config
+      - ./fixtures/movies:/movies
     ports:
       - 7878:7878
 
@@ -78,7 +78,7 @@ services:
       - PGID=1000
       - TZ=Pacific/Auckland
     volumes:
-      - ./support/sonarr:/config
-      - ./support/shows:/shows
+      - ./fixtures/sonarr:/config
+      - ./fixtures/shows:/shows
     ports:
       - 8989:8989
