@@ -7,7 +7,8 @@ services:
   web:
     build: .
     depends_on:
-      - postgresql
+      postgresql:
+        condition: service_healthy
     volumes:
       - ./:/app
       - ./fixtures/movies:/movies
