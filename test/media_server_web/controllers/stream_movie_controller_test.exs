@@ -29,7 +29,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
       assert conn.status === 206
       assert conn.state === :file
       assert Enum.member?(conn.resp_headers, {"content-type", "video/mp4"})
-#      assert Enum.member?(conn.resp_headers, {"content-range", "bytes 0-133/134"})
+      assert Enum.member?(conn.resp_headers, {"content-range", "bytes 0-133/134"})
     end
   end
 end
