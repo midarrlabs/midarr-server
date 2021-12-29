@@ -10,7 +10,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
     %{user: user_fixture()}
   end
 
-  describe "GET stream" do
+  describe "GET movie stream" do
 
     setup [:create_fixtures]
 

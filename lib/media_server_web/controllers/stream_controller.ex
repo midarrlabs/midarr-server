@@ -22,9 +22,9 @@ defmodule MediaServerWeb.StreamController do
 
   def show(%{req_headers: headers} = conn, %{"episode" => episode}) do
 
-    show = Sonarr |> last(:inserted_at) |> Repo.one
+    provider = Sonarr |> last(:inserted_at) |> Repo.one
 
-    case HTTPoison.get("#{ show.url }/episode/#{ episode }?apikey=#{ show.api_key }") do
+    case HTTPoison.get("#{ provider.url }/episode/#{ episode }?apikey=#{ provider.api_key }") do
 
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         decoded = Jason.decode!(body)
