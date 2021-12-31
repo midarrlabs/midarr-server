@@ -40,10 +40,10 @@
 
                   <div class="flex-1 min-w-0">
                     <p class="text-sm font-medium text-gray-900 truncate">
-                      <%= "Season  #{item["seasonNumber"]} - Episode #{item["episodeNumber"]} - #{item["title"]}" %>
+                      <%= "Season  #{item["seasonNumber"]} - Episode #{item["episodeNumber"]}" %>
                     </p>
                     <p class="mt-4 text-sm text-gray-500">
-                      <%= item["overview"] %>
+                      <span class="font-medium"><%= item["title"] %></span> - <%= item["overview"] %>
                     </p>
                   </div>
                   <div>
