@@ -1,44 +1,68 @@
-<section class="row">
-  <article class="column">
+<div class="space-y-6">
 
-    <h2>Libraries</h2>
+      <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+            <div class="min-w-0 flex items-center">
+                <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Movies fresh in</h2>
+            </div>
+            <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-indigo-600 text-sm font-medium">
+                <a data-phx-link="redirect" data-phx-link-state="push" href="/movies" class="hover:text-indigo-800">See all movies →</a>
+            </div>
+      </div>
 
-    <ul>
-    <%= if @radarrs do %>
-      <li>
-        <%= live_redirect @radarrs.name, to: Routes.movies_index_path(@socket, :index) %>
-      </li>
-    <% end %>
-    <%= if @sonarrs do %>
-      <li>
-        <%= live_redirect @sonarrs.name, to: Routes.series_index_path(@socket, :index) %>
-      </li>
-    <% end %>
-    </ul>
-  </article>
-</section>
+        <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
 
-<%= if @radarr_soon do %>
-<section class="row">
-  <article class="column">
-    <h2>Coming soon</h2>
+          <%= for item <- @latest_movies do %>
 
-    <ul style="display: grid; grid-template-columns: auto auto auto;">
+            <div class="group relative">
+              <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:aspect-none">
+                <img src={"#{(Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"]}"}>
+              </div>
+              <div class="mt-4 flex">
+                <div>
+                  <h3 class="text-sm text-gray-700">
+                    <a data-phx-link="redirect" data-phx-link-state="push" href={"/movies/#{ item["id"] }"}>
+                      <span aria-hidden="true" class="absolute inset-0"></span>
+                      <%= item["title"] %>
+                    </a>
+                  </h3>
+                  <p class="mt-1 text-sm text-gray-500"><%= item["year"] %></p>
+                </div>
+              </div>
+            </div>
 
-    <%= for item <- @radarr_soon do %>
-        <div class="cards">
-          <div class="card">
-            <a data-phx-link="redirect" data-phx-link-state="push" href={"/movies/#{ item["id"] }"}>
-
-              <img src={"#{(Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"]}"}>
-
-              <p><%= item["title"] %> (<%= item["year"] %>)</p>
-            </a>
-          </div>
+          <% end %>
         </div>
-    <% end %>
 
-    </ul>
-  </article>
-</section>
-<% end %>
+              <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+                    <div class="min-w-0 flex items-center">
+                        <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Series fresh in</h2>
+                    </div>
+                    <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-indigo-600 text-sm font-medium">
+                        <a data-phx-link="redirect" data-phx-link-state="push" href="/series" class="hover:text-indigo-800">See all series →</a>
+                    </div>
+              </div>
+
+                <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+
+                  <%= for item <- @latest_series do %>
+
+                    <div class="group relative">
+                      <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:aspect-none">
+                        <img src={"#{(Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"]}"}>
+                      </div>
+                      <div class="mt-4 flex">
+                        <div>
+                          <h3 class="text-sm text-gray-700">
+                            <a data-phx-link="redirect" data-phx-link-state="push" href={"/series/#{ item["id"] }"}>
+                              <span aria-hidden="true" class="absolute inset-0"></span>
+                              <%= item["title"] %>
+                            </a>
+                          </h3>
+                          <p class="mt-1 text-sm text-gray-500"><%= item["year"] %></p>
+                        </div>
+                      </div>
+                    </div>
+
+                  <% end %>
+                </div>
+</div>

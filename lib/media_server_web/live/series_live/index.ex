@@ -27,7 +27,7 @@ defmodule MediaServerWeb.SeriesLive.Index do
 
         socket
         |> assign(:page_title, :Series)
-        |> assign(:decoded, decoded)
+        |> assign(:decoded, Enum.sort_by(decoded, &(&1["title"]), :asc))
     end
   end
 end

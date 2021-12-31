@@ -1,30 +1,64 @@
-<section class="row">
-  <article class="column">
+  <div>
+    <div class="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-4xl lg:px-8 lg:grid lg:grid-cols-1 lg:gap-x-8">
+      <div class="w-full">
+        <img src={"#{(Enum.filter(@decoded["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]}"}>
+      </div>
+    </div>
 
-    <img style="margin-bottom: 2.5rem;" src={"#{(Enum.filter(@decoded["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]}"}>
+    <div class="max-w-2xl mx-auto pt-10 pb-16 px-4 sm:px-6 lg:max-w-4xl lg:pt-16 lg:pb-24 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
 
-    <h2><%= @page_title %></h2>
-    <p>Runtime: <%= @decoded["runtime"] %> minutes</p>
-
-    <p><%= @decoded["overview"] %></p>
-
-  </article>
-</section>
-
-<section class="row">
-  <article class="column">
-    <h3>Episodes</h3>
-
-    <ul>
-        <%= for item <- @episodes do %>
-          <div style="margin-bottom: 2.5rem; border-bottom: thin solid;">
-            <p><%= "Season  #{item["seasonNumber"]} - Episode #{item["episodeNumber"]} - #{item["title"]}" %></p>
-
-            <p><button phx-click="play" phx-value-episode={item["id"]}>Play</button></p>
-
-            <p><%= item["overview"] %></p>
+      <div class="lg:col-span-3">
+        <div class="md:flex md:items-center md:justify-between">
+          <div class="flex-1 min-w-0">
+            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+              <%= @decoded["title"] %>
+            </h2>
+            <p><%= @decoded["year"] %>  - <%= @decoded["runtime"] %> minutes</p>
           </div>
-        <% end %>
-    </ul>
-  </article>
-</section>
+        </div>
+      </div>
+
+      <div class="py-10 lg:col-span-3">
+        <div>
+          <p class="text-base text-gray-900"><%= @decoded["overview"] %></p>
+        </div>
+
+
+        <div class="mt-10">
+          <div class="pb-5 border-b border-gray-200">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              Episodes
+            </h3>
+          </div>
+
+          <div class="flow-root mt-6">
+            <ul role="list" class="-my-5 divide-y divide-gray-200">
+
+              <%= for item <- @episodes do %>
+              <li class="py-4">
+                <div class="flex items-center space-x-4">
+
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                      <%= "Season  #{item["seasonNumber"]} - Episode #{item["episodeNumber"]} - #{item["title"]}" %>
+                    </p>
+                    <p class="mt-4 text-sm text-gray-500">
+                      <%= item["overview"] %>
+                    </p>
+                  </div>
+                  <div>
+                      <button phx-click="play" phx-value-episode={item["id"]} type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Play
+                      </button>
+                  </div>
+                </div>
+              </li>
+              <% end %>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>

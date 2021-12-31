@@ -1,8 +1,24 @@
 <%= if @current_user do %>
-<div style="text-align: end; margin-top: 1em; margin-bottom: 2.5em;">
-  <span id="users-online" class="nav-link"></span>
-  <a data-phx-link="redirect" data-phx-link-state="push" href="/" class="nav-link">Home</a>
-  <%= link "Settings", to: Routes.user_settings_path(@conn, :edit), class: "nav-link" %>
-  <%= link "Log out", to: Routes.user_session_path(@conn, :delete), class: "nav-link", method: :delete %>
+<div class="flex-1 flex justify-between px-4 sm:px-6">
+
+<div class="flex-1 flex">
+  <div class="-my-px flex space-x-8">
+
+    <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
+
+    <a data-phx-link="redirect" data-phx-link-state="push" href="/" class="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" aria-current="page">
+      Home
+    </a>
+
+  </div>
+</div>
+
+  <div class="-my-px ml-6 flex space-x-8">
+    <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
+
+    <%= link "Settings", to: Routes.user_settings_path(@conn, :edit), class: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
+
+    <%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
+  </div>
 </div>
 <% end %>

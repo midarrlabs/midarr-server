@@ -11,9 +11,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
     {:ok, socket}
   end
 
-  @impl true
-  def handle_params(%{"movie" => movie}, _, socket) do
-
+  defp get_movie(socket, movie) do
     provider = Radarr |> last(:inserted_at) |> Repo.one
 
     case HTTPoison.get("#{ provider.url }/movie/#{ movie }?apiKey=#{ provider.api_key }") do
@@ -21,13 +19,19 @@ defmodule MediaServerWeb.MoviesLive.Show do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         decoded = Jason.decode!(body)
 
-        {
-          :noreply,
-          socket
-          |> assign(:page_title, "#{ decoded["title"] } (#{ decoded["year"] })")
-          |> assign(:decoded, decoded)
-        }
+        socket
+        |> assign(:page_title, "#{ decoded["title"] } (#{ decoded["year"] })")
+        |> assign(:decoded, decoded)
     end
+  end
+
+  @impl true
+  def handle_params(%{"movie" => movie}, _, socket) do
+
+    {
+      :noreply,
+      get_movie(socket, movie)
+    }
   end
 
   @impl true

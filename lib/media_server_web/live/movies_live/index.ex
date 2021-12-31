@@ -26,6 +26,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
         decoded = Jason.decode!(body)
 
         filtered = Enum.filter(decoded, fn x -> x["hasFile"] end)
+                   |> Enum.sort_by(&(&1["title"]), :asc)
 
         socket
         |> assign(:page_title, :Movies)

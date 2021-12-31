@@ -1,27 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-gray-50">
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <%= csrf_meta_tag() %>
     <%= live_title_tag assigns[:page_title] || "MediaServer" %>
-    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css?id=1")}/>
-    <style>
-        .nav-link {
-            margin: 1em;
-        }
-    </style>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <%= if @current_user do %>
     <script>window.userId = "<%= assigns[:current_user].id %>";</script>
-    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=4")}></script>
+    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=5")}></script>
     <% end %>
-  </head>
-  <body>
-    <%= render "_user_menu.html", assigns %>
 
-    <main class="container">
-      <%= @inner_content %>
-    </main>
+  </head>
+  <body class="h-full overflow-hidden">
+
+  <%= if @current_user do %>
+    <div class="h-full flex">
+
+        <!-- Content area -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+          <header class="w-full">
+            <div class="relative z-10 flex-shrink-0 h-16 bg-white border-b border-gray-200 shadow-sm flex">
+
+                <%= render "_user_menu.html", assigns %>
+            </div>
+          </header>
+
+          <!-- Main content -->
+          <div class="flex-1 flex items-stretch overflow-hidden">
+            <main class="flex-1 overflow-y-auto">
+
+              <!-- Primary column -->
+              <section aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex-col lg:order-last">
+
+                  <div class="max-w-2xl mx-auto py-6 px-4 sm:py-6 sm:px-6 lg:max-w-7xl lg:px-8">
+
+                    <%= @inner_content %>
+                  </div>
+              </section>
+            </main>
+
+            <!-- Secondary column (hidden on smaller screens) -->
+            <!-- <aside class="hidden w-96 bg-white border-l border-gray-200 overflow-y-auto lg:block"> -->
+              <!-- Your content -->
+
+            <!-- </aside> -->
+          </div>
+        </div>
+    </div>
+
+    <% else %>
+
+        <%= @inner_content %>
+    <% end %>
   </body>
 </html>
