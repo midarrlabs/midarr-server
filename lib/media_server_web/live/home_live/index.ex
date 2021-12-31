@@ -25,7 +25,7 @@ defmodule MediaServerWeb.HomeLive.Index do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         decoded = Jason.decode!(body)
 
-        movies =  Enum.sort_by(decoded, &(&1["added"]), :asc)
+        movies =  Enum.sort_by(decoded, &(&1["movieFile"]["dateAdded"]), :desc)
                   |> Enum.filter(fn x -> x["hasFile"] end)
                   |> Enum.take(6)
 
