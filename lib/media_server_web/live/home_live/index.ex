@@ -1,10 +1,8 @@
 defmodule MediaServerWeb.HomeLive.Index do
   use MediaServerWeb, :live_view
 
-  import Ecto.Query
-
-  alias MediaServer.Providers.Radarr
-  alias MediaServer.Providers.Sonarr
+  import MediaServerWeb.Repositories.Movies
+  import MediaServerWeb.Repositories.Series
   alias MediaServer.Repo
 
   @impl true
@@ -17,41 +15,9 @@ defmodule MediaServerWeb.HomeLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp get_latest_movies(socket) do
-    radarr = Radarr |> last(:inserted_at) |> Repo.one
-
-    case HTTPoison.get(radarr.url<>"/movie?apiKey="<>radarr.api_key) do
-
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded = Jason.decode!(body)
-
-        movies =  Enum.sort_by(decoded, &(&1["movieFile"]["dateAdded"]), :desc)
-                  |> Enum.filter(fn x -> x["hasFile"] end)
-                  |> Enum.take(6)
-
-        socket
-        |> assign(:latest_movies, movies)
-    end
-  end
-
-  defp get_latest_series(socket) do
-    sonarr = Sonarr |> last(:inserted_at) |> Repo.one
-
-    case HTTPoison.get("#{ sonarr.url }/series?apikey=#{ sonarr.api_key }") do
-
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded = Jason.decode!(body)
-
-        series =  Enum.sort_by(decoded, &(&1["added"]), :desc)
-                  |> Enum.filter(fn x -> x["sizeOnDisk"] end)
-                  |> Enum.take(6)
-
-        socket
-        |> assign(:latest_series, series)
-    end
-  end
-
   defp apply_action(socket, :index, _params) do
-    get_latest_movies(get_latest_series(socket))
+    socket
+    |> assign(:latest_movies, MediaServerWeb.Repositories.Movies.get_latest(6))
+    |> assign(:latest_series, MediaServerWeb.Repositories.Series.get_latest(6))
   end
 end
