@@ -1,11 +1,6 @@
 defmodule MediaServerWeb.SeriesLive.Index do
   use MediaServerWeb, :live_view
 
-  import Ecto.Query
-
-  alias MediaServer.Providers.Sonarr
-  alias MediaServer.Repo
-
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
@@ -17,17 +12,8 @@ defmodule MediaServerWeb.SeriesLive.Index do
   end
 
   defp apply_action(socket, :index, _params) do
-
-    provider = Sonarr |> last(:inserted_at) |> Repo.one
-
-    case HTTPoison.get(provider.url<>"/series?apikey="<>provider.api_key) do
-
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded = Jason.decode!(body)
-
-        socket
-        |> assign(:page_title, :Series)
-        |> assign(:decoded, Enum.sort_by(decoded, &(&1["title"]), :asc))
-    end
+    socket
+    |> assign(:page_title, :Series)
+    |> assign(:decoded, MediaServerWeb.Repositories.Series.get_all())
   end
 end

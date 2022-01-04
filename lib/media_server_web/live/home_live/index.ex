@@ -1,10 +1,6 @@
 defmodule MediaServerWeb.HomeLive.Index do
   use MediaServerWeb, :live_view
 
-  import MediaServerWeb.Repositories.Movies
-  import MediaServerWeb.Repositories.Series
-  alias MediaServer.Repo
-
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}

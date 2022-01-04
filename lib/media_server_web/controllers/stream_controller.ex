@@ -1,36 +1,12 @@
 defmodule MediaServerWeb.StreamController do
   use MediaServerWeb, :controller
-
-  import Ecto.Query
-
-  alias MediaServer.Providers.Radarr
-  alias MediaServer.Providers.Sonarr
-  alias MediaServer.Repo
   
   def show(%{req_headers: headers} = conn, %{"movie" => movie}) do
-
-    provider = Radarr |> last(:inserted_at) |> Repo.one
-
-    case HTTPoison.get("#{ provider.url }/movie/#{ movie }?apiKey=#{ provider.api_key }") do
-
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded = Jason.decode!(body)
-
-        send_video(conn, headers, decoded["movieFile"]["path"])
-    end
+    send_video(conn, headers, MediaServerWeb.Repositories.Movies.get_movie_path(movie))
   end
 
   def show(%{req_headers: headers} = conn, %{"episode" => episode}) do
-
-    provider = Sonarr |> last(:inserted_at) |> Repo.one
-
-    case HTTPoison.get("#{ provider.url }/episode/#{ episode }?apikey=#{ provider.api_key }") do
-
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded = Jason.decode!(body)
-
-        send_video(conn, headers, decoded["episodeFile"]["path"])
-    end
+    send_video(conn, headers, MediaServerWeb.Repositories.Series.get_episode_path(episode))
   end
 
   defp get_offset(headers) do

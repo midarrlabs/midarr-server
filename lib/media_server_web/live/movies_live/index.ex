@@ -1,11 +1,6 @@
 defmodule MediaServerWeb.MoviesLive.Index do
   use MediaServerWeb, :live_view
 
-  import Ecto.Query
-
-  alias MediaServer.Providers.Radarr
-  alias MediaServer.Repo
-
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
@@ -17,20 +12,8 @@ defmodule MediaServerWeb.MoviesLive.Index do
   end
 
   defp apply_action(socket, :index, _params) do
-
-    provider = Radarr |> last(:inserted_at) |> Repo.one
-
-    case HTTPoison.get(provider.url<>"/movie?apiKey="<>provider.api_key) do
-
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded = Jason.decode!(body)
-
-        filtered = Enum.filter(decoded, fn x -> x["hasFile"] end)
-                   |> Enum.sort_by(&(&1["title"]), :asc)
-
-        socket
-        |> assign(:page_title, :Movies)
-        |> assign(:decoded, filtered)
-    end
+    socket
+    |> assign(:page_title, :Movies)
+    |> assign(:decoded, MediaServerWeb.Repositories.Movies.get_all())
   end
 end
