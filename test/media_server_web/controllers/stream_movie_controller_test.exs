@@ -5,8 +5,6 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
   import MediaServer.ProvidersFixtures
 
   defp create_fixtures(_) do
-    real_radarr_fixture()
-
     %{user: user_fixture()}
   end
 
@@ -15,6 +13,9 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
     setup [:create_fixtures]
 
     test "movie", %{conn: conn, user: user} do
+
+      {_radarr, movie_id} = real_radarr_fixture()
+
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -24,7 +25,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
       assert redirected_to(conn) == "/"
 
       # Now do a logged in request
-      conn = get(conn, "/movies/1/stream")
+      conn = get(conn, "/movies/#{ movie_id }/stream")
 
       assert conn.status === 206
       assert conn.state === :file
