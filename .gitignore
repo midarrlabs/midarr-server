@@ -43,3 +43,4 @@ npm-debug.log
 
 /.idea
 /fixtures/radarr
+/fixtures/sonarr
