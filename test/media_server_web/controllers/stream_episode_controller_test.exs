@@ -5,8 +5,6 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
   import MediaServer.ProvidersFixtures
 
   defp create_fixtures(_) do
-    real_sonarr_fixture()
-
     %{user: user_fixture()}
   end
 
@@ -15,6 +13,9 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
     setup [:create_fixtures]
 
     test "episode", %{conn: conn, user: user} do
+
+      {_sonarr, _series_id, episode_id} = real_sonarr_fixture()
+
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -24,7 +25,7 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
       assert redirected_to(conn) == "/"
 
       # Now do a logged in request
-      conn = get(conn, "/episodes/12/stream")
+      conn = get(conn, "/episodes/#{ episode_id }/stream")
 
       assert conn.status === 206
       assert conn.state === :file

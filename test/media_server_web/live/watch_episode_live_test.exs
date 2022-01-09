@@ -5,8 +5,6 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   import MediaServer.ProvidersFixtures
 
   defp create_fixtures(_) do
-    real_sonarr_fixture()
-
     %{user: user_fixture()}
   end
 
@@ -15,12 +13,14 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
     test "watch", %{conn: conn, user: user} do
 
+      {_sonarr, _series_id, episode_id} = real_sonarr_fixture()
+
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
         })
 
-      conn = get(conn, "/episodes/1/watch")
+      conn = get(conn, "/episodes/#{ episode_id }/watch")
       assert html_response(conn, 200)
     end
   end
