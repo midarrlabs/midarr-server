@@ -18,7 +18,7 @@ defmodule MediaServerWeb.Repositories.Series do
         decoded = Jason.decode!(body)
 
         Enum.sort_by(decoded, &(&1["added"]), :desc)
-        |> Enum.filter(fn x -> x["sizeOnDisk"] end)
+        |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] !== 0 end)
         |> Enum.take(amount)
     end
   end
@@ -31,6 +31,7 @@ defmodule MediaServerWeb.Repositories.Series do
         decoded = Jason.decode!(body)
 
         Enum.sort_by(decoded, &(&1["title"]), :asc)
+        |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] !== 0 end)
     end
   end
 
