@@ -43,8 +43,6 @@ defmodule MediaServerWeb.Router do
     get "/movies/:movie/stream", StreamController, :show
     get "/episodes/:episode/stream", StreamController, :show
 
-    get "/settings", UserSettingsController, :edit
-    put "/settings", UserSettingsController, :update
     delete "/logout", UserSessionController, :delete
 
     live_dashboard "/dashboard", metrics: MediaServerWeb.Telemetry
