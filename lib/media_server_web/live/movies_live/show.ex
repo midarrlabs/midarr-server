@@ -13,7 +13,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
     {
       :noreply,
       socket
-      |> assign(:page_title, "#{ decoded["title"] } (#{ decoded["year"] })")
+      |> assign(:page_title, decoded["title"])
       |> assign(:decoded, decoded)
     }
   end

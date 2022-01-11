@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <%= csrf_meta_tag() %>
-    <%= live_title_tag assigns[:page_title] || "MediaServer" %>
+    <%= live_title_tag assigns[:page_title] %>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -29,11 +29,9 @@
             </div>
           </header>
 
-          <!-- Main content -->
           <div class="flex-1 flex items-stretch overflow-hidden">
             <main class="flex-1 overflow-y-auto">
 
-              <!-- Primary column -->
               <section aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex-col lg:order-last">
 
                   <div class="max-w-7xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
@@ -42,12 +40,6 @@
                   </div>
               </section>
             </main>
-
-            <!-- Secondary column (hidden on smaller screens) -->
-            <!-- <aside class="hidden w-96 bg-white border-l border-gray-200 overflow-y-auto lg:block"> -->
-              <!-- Your content -->
-
-            <!-- </aside> -->
           </div>
         </div>
     </div>

@@ -13,7 +13,7 @@ defmodule MediaServerWeb.SeriesLive.Show do
     {
       :noreply,
       socket
-      |> assign(:page_title, "#{ decoded["title"] } (#{ decoded["year"] })")
+      |> assign(:page_title, decoded["title"])
       |> assign(:decoded, decoded)
       |> assign(:episodes, MediaServerWeb.Repositories.Series.get_episodes(serie))
     }

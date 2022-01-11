@@ -3,7 +3,11 @@ defmodule MediaServerWeb.MoviesLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {
+      :ok,
+      socket
+      |> assign(page_title: "Movies")
+    }
   end
 
   @impl true
