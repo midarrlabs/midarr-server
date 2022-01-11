@@ -1,0 +1,15 @@
+<div class="group relative">
+
+  <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:aspect-none">
+    <img src={ @img_src }>
+  </div>
+
+  <div class="mt-4 flex justify-center text-center">
+      <h3 class="text-sm text-gray-500">
+         <%= live_patch to: @link, class: "hover:text-indigo-800" do %>
+            <span aria-hidden="true" class="absolute inset-0"></span>
+            <%= @title %>
+         <% end %>
+      </h3>
+  </div>
+</div>

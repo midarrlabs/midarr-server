@@ -14,59 +14,35 @@
 
           <%= for item <- @latest_movies do %>
 
-            <div class="group relative">
-              <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:aspect-none">
-                <img src={"#{(Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"]}"}>
-              </div>
-              <div class="mt-4 flex">
-                <div>
-                  <h3 class="text-sm text-gray-700">
-
-                     <%= live_patch to: Routes.movies_show_path(@socket, :show, item["id"]), class: "hover:text-indigo-800" do %>
-                        <span aria-hidden="true" class="absolute inset-0"></span>
-                        <%= item["title"] %>
-                     <% end %>
-                  </h3>
-                  <p class="mt-1 text-sm text-gray-500"><%= item["year"] %></p>
-                </div>
-              </div>
-            </div>
+            <%= live_component MediaServerWeb.Components.PosterComponent,
+             img_src: "#{(Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"]}",
+             title: item["title"],
+             link: Routes.movies_show_path(@socket, :show, item["id"])
+            %>
 
           <% end %>
         </div>
 
-              <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
-                    <div class="min-w-0 flex items-center">
-                        <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Series fresh in</h2>
-                    </div>
-                    <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-indigo-600 text-sm font-medium">
+      <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+            <div class="min-w-0 flex items-center">
+                <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Series fresh in</h2>
+            </div>
+            <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-indigo-600 text-sm font-medium">
 
-                        <%= live_patch "See all series →", to: Routes.series_index_path(@socket, :index), class: "hover:text-indigo-800" %>
-                    </div>
-              </div>
+                <%= live_patch "See all series →", to: Routes.series_index_path(@socket, :index), class: "hover:text-indigo-800" %>
+            </div>
+      </div>
 
-                <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+    <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
 
-                  <%= for item <- @latest_series do %>
+      <%= for item <- @latest_series do %>
 
-                    <div class="group relative">
-                      <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:aspect-none">
-                        <img src={"#{(Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"]}"}>
-                      </div>
-                      <div class="mt-4 flex">
-                        <div>
-                          <h3 class="text-sm text-gray-700">
+        <%= live_component MediaServerWeb.Components.PosterComponent,
+         img_src: "#{(Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"]}",
+         title: item["title"],
+         link: Routes.series_show_path(@socket, :show, item["id"])
+        %>
 
-                             <%= live_patch to: Routes.series_show_path(@socket, :show, item["id"]), class: "hover:text-indigo-800" do %>
-                                <span aria-hidden="true" class="absolute inset-0"></span>
-                                <%= item["title"] %>
-                             <% end %>
-                          </h3>
-                          <p class="mt-1 text-sm text-gray-500"><%= item["year"] %></p>
-                        </div>
-                      </div>
-                    </div>
-
-                  <% end %>
-                </div>
+      <% end %>
+    </div>
 </div>

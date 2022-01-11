@@ -9,22 +9,11 @@
 
       <%= for item <- @decoded do %>
 
-        <div class="group relative">
-          <div class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:aspect-none">
-            <img src={"#{(Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"]}"}>
-          </div>
-          <div class="mt-4 flex">
-            <div>
-              <h3 class="text-sm text-gray-700">
-                <a data-phx-link="redirect" data-phx-link-state="push" href={"/movies/#{ item["id"] }"}>
-                  <span aria-hidden="true" class="absolute inset-0"></span>
-                  <%= item["title"] %>
-                </a>
-              </h3>
-              <p class="mt-1 text-sm text-gray-500"><%= item["year"] %></p>
-            </div>
-          </div>
-        </div>
+        <%= live_component MediaServerWeb.Components.PosterComponent,
+         img_src: "#{(Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"]}",
+         title: item["title"],
+         link: Routes.movies_show_path(@socket, :show, item["id"])
+        %>
 
       <% end %>
     </div>
