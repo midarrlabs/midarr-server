@@ -1,3 +1,4 @@
+import topbar from "../vendor/topbar"
 // NOTE: The contents of this file will only be executed if
 // you uncomment its entry in "assets/js/app.js".
 
@@ -59,18 +60,44 @@ socket.connect()
 let channel = socket.channel("room:lobby", { user_id: window.userId, current_location: window.location.href })
 let presence = new Presence(channel)
 
+// Show progress bar on live navigation and form submits
+topbar.config({barColors: {0: "#6366f1"}, shadowColor: "rgba(0, 0, 0, .3)"})
+
+window.addEventListener("phx:page-loading-start", info => topbar.show())
+
+window.addEventListener("phx:page-loading-stop", info => {
+
+    if (info.detail.kind === 'initial') {
+        channel.push('shout', { user_id: window.userId, current_location: window.location.href })
+    }
+
+    topbar.hide()
+})
+
+channel.on("shout", message => {
+  console.log(message)
+})
+
 function renderOnlineUsers(presence) {
 
   let response = 0
 
-  presence.list((id, {metas: [first, ...rest]}) => {
-    response = response + 1
+  presence.list((id, metas) => {
+    if (id !== window.userId) {
+        response = response + 1
+    }
   })
 
   const element = document.querySelector("#users-online")
 
   if (element) {
-    element.innerHTML = `${ response } user${ response > 1 ? 's' : '' } online`
+
+    if (response) {
+        element.innerHTML = response
+        element.style.display = 'block'
+    } else {
+        element.style.display = 'none'
+    }
   }
 }
 
