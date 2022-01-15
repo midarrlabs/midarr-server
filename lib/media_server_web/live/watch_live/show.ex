@@ -3,7 +3,7 @@ defmodule MediaServerWeb.WatchLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    {:ok, socket |> assign(:is_watching, true)}
   end
 
   @impl true

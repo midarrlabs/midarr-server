@@ -1,45 +1,53 @@
-// If you want to use Phoenix channels, run `mix help phx.gen.channel`
-// to get started and then uncomment the line below.
-import "./user_socket.js"
-
-// You can include dependencies in two ways.
-//
-// The simplest option is to put them in assets/vendor and
-// import them using relative paths:
-//
-//     import "./vendor/some-package.js"
-//
-// Alternatively, you can `npm install some-package` and import
-// them using a path starting with the package name:
-//
-//     import "some-package"
-//
-
-// Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
-// Establish Phoenix Socket and LiveView configuration.
-import {Socket} from "phoenix"
-import {LiveSocket} from "phoenix_live_view"
+import { Socket, Presence } from "phoenix"
+import { LiveSocket } from "phoenix_live_view"
+import topbar from "../vendor/topbar"
+
+let socket = new Socket("/socket", {})
+socket.connect()
+
+let channel = socket.channel("room:lobby", { user_id: window.userId, current_location: window.location.href })
+let presence = new Presence(channel)
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 
-let Hooks = {}
+topbar.config({barColors: {0: "#6366f1"}, shadowColor: "rgba(0, 0, 0, .3)"})
 
-Hooks.StartVideo = {
-    mounted() {
-        console.log("Mounted")
-  },
-  destroyed() {
-    console.log('Destroyed')
-  }
-}
+window.addEventListener("phx:page-loading-start", info => topbar.show())
+window.addEventListener("phx:page-loading-stop", info => {
 
-let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks, params: {_csrf_token: csrfToken}})
+    if (info.detail.kind === 'initial') {
+        channel.push('shout', { user_id: window.userId, current_location: window.location.href })
+    }
 
-// connect if there are any LiveViews on the page
+    topbar.hide()
+})
+
+channel.on("shout", message => {
+  console.log(message)
+})
+
+presence.onSync(() => {
+  presence.list((id, metas) => {
+    console.log(metas)
+  })
+})
+
+channel.join()
+  .receive("ok", resp => {
+
+    console.log("Joined successfully", resp)
+  })
+  .receive("error", resp => {
+
+    console.log("Unable to join", resp)
+  })
+
+let liveSocket = new LiveSocket("/live", Socket, {
+    params: { _csrf_token: csrfToken }
+})
+
 liveSocket.connect()
-
-// expose liveSocket on window for web console debug logs and latency simulation:
 liveSocket.enableDebug()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()

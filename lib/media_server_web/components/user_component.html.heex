@@ -1,10 +1,9 @@
-<div x-cloak x-show="open" x-data="{ open: false }" class="fixed inset-0 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+<div id="user-component" class={"#{if @show_users, do: "", else: "hidden" } fixed inset-0 overflow-hidden"} aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
   <div class="absolute inset-0 overflow-hidden">
 
     <!-- Background overlay, show/hide based on slide-over state. -->
-    <div class="absolute inset-0" aria-hidden="true">
-      <div  class="fixed inset-y-0 right-0 pl-10 max-w-full flex sm:pl-16">
-
+    <div class="absolute inset-0 bg-gray-900 bg-opacity-75 transition-opacity" aria-hidden="true">
+      <div class="fixed inset-y-0 right-0 pl-10 max-w-full flex sm:pl-16">
         <!--
           Slide-over panel, show/hide based on slide-over state.
 
@@ -24,7 +23,7 @@
                 </h2>
                 <div class="ml-3 h-7 flex items-center">
 
-                  <button @click="open = false" type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500">
+                  <button phx-click="close" phx-target={@myself} type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500">
                     <span class="sr-only">Close panel</span>
                     <!-- Heroicon name: outline/x -->
                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -48,10 +47,10 @@
               </div>
             </div>
             <ul role="list" class="flex-1 divide-y divide-gray-200 overflow-y-auto">
-
               <li>
                 <div class="relative group py-6 px-5 flex items-center">
-                    <div class="absolute inset-0" aria-hidden="true"></div>
+                  <div class="-m-1 flex-1 block p-1">
+                    <div class="absolute inset-0 aria-hidden="true"></div>
                     <div class="flex-1 flex items-center min-w-0 relative">
                       <span class="flex-shrink-0 inline-block relative">
                         <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
@@ -63,6 +62,7 @@
                         <p class="text-sm text-gray-500 truncate">@lesliealexander</p>
                       </div>
                     </div>
+                  </div>
 
                 </div>
               </li>

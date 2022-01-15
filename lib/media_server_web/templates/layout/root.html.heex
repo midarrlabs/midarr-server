@@ -1,54 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-gray-50">
+<html lang="en" class="bg-gray-50">
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <%= csrf_meta_tag() %>
     <%= live_title_tag assigns[:page_title] %>
-
     <script src="https://cdn.tailwindcss.com"></script>
-
     <%= if @current_user do %>
     <script>window.userId = "<%= assigns[:current_user].id %>";</script>
-    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=6")}></script>
+    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=7")}></script>
     <% end %>
-
   </head>
-  <body class="h-full overflow-hidden">
-
+  <body>
   <%= if @current_user do %>
-    <div class="h-full flex">
+    <%= @inner_content %>
 
-        <!-- Content area -->
-        <div class="flex-1 flex flex-col overflow-hidden">
-          <header class="w-full">
-            <div class="relative z-10 flex-shrink-0 h-16 bg-white border-b border-gray-200 shadow-sm flex">
+  <% else %>
 
-                <%= render "_user_menu.html", assigns %>
-            </div>
-          </header>
-
-          <div class="flex-1 flex items-stretch overflow-hidden">
-            <main class="flex-1 overflow-y-auto">
-
-              <section aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex-col lg:order-last">
-
-                  <div class="max-w-7xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
-
-                    <%= @inner_content %>
-                  </div>
-              </section>
-            </main>
-          </div>
-        </div>
+    <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <%= @inner_content %>
     </div>
-
-    <% else %>
-
-        <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-            <%= @inner_content %>
-        </div>
-    <% end %>
+  <% end %>
   </body>
 </html>
