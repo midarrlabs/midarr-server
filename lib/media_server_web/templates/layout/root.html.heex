@@ -6,15 +6,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <%= csrf_meta_tag() %>
     <%= live_title_tag assigns[:page_title] %>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
     <script src="https://cdn.tailwindcss.com"></script>
     <%= if @current_user do %>
-    <script>window.userId = "<%= assigns[:current_user].id %>";</script>
+    <script>
+        window.userId = "<%= assigns[:current_user].id %>";
+        window.userEmail = "<%= assigns[:current_user].email %>";
+    </script>
+    <script defer src="https://unpkg.com/alpinejs@3.8.1/dist/cdn.min.js"></script>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=7")}></script>
     <% end %>
   </head>
   <body>
   <%= if @current_user do %>
-    <%= @inner_content %>
+
+    <div x-cloak x-data="{ open: false }">
+      <header class="z-10 sticky top-0 w-full">
+        <div class="relative flex-shrink-0 h-16 bg-white border-b border-gray-200 shadow-sm flex">
+
+            <div class="flex-1 flex justify-between px-4 sm:px-6">
+
+                <div class="flex-1 flex">
+                  <div class="-my-px flex space-x-8">
+
+                    <%= link "Home", to: Routes.home_index_path(@conn, :index), class: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
+                  </div>
+                </div>
+
+                <div class="-my-px ml-6 flex space-x-8">
+
+                    <button x-on:click="open = true" type="button" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                      <span class="inline-block relative">
+                          <span>Users</span>
+                          <span class="inline-block h-2.5 w-2.5 mx-1 bg-green-400 rounded-full"></span>
+                      </span>
+                    </button>
+
+                    <%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
+                </div>
+            </div>
+        </div>
+      </header>
+
+      <div class="flex-1 flex items-stretch overflow-hidden">
+        <main class="flex-1 overflow-y-auto">
+
+          <section aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex-col lg:order-last">
+
+              <div class="max-w-7xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
+
+                <%= @inner_content %>
+              </div>
+          </section>
+        </main>
+
+        <div x-show="open" class="z-20 fixed inset-0 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+
+          <div class="absolute inset-0 overflow-hidden">
+
+            <div class="absolute inset-0 bg-gray-900 bg-opacity-75 transition-opacity" aria-hidden="true">
+              <div class="fixed inset-y-0 right-0 pl-10 max-w-full flex sm:pl-16">
+
+                <div class="w-screen max-w-md">
+                  <div class="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
+                    <div class="p-6">
+                      <div class="flex items-start justify-between">
+                        <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">
+                          Users
+                        </h2>
+                        <div class="ml-3 h-7 flex items-center">
+
+                          <button x-on:click="open = false" type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500">
+                            <span class="sr-only">Close panel</span>
+                            <!-- Heroicon name: outline/x -->
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="border-b border-gray-200">
+                      <div class="px-6">
+                        <nav class="-mb-px flex space-x-6">
+                          <div class="border-indigo-500 text-indigo-600 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">Online</div>
+                        </nav>
+                      </div>
+                    </div>
+
+                    <ul phx-update="ignore" id="online-users" role="list" class="flex-1 divide-y divide-gray-200 overflow-y-auto"></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
   <% else %>
 

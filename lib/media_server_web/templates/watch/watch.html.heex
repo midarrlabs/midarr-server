@@ -17,7 +17,10 @@
         }
     </style>
     <%= if @current_user do %>
-    <script>window.userId = "<%= assigns[:current_user].id %>";</script>
+    <script>
+        window.userId = "<%= assigns[:current_user].id %>";
+        window.userEmail = "<%= assigns[:current_user].email %>";
+    </script>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=7")}></script>
     <% end %>
   </head>
