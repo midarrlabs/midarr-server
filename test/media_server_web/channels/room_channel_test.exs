@@ -5,7 +5,7 @@ defmodule MediaServerWeb.RoomChannelTest do
     {:ok, _, socket} =
       MediaServerWeb.UserSocket
       |> socket("user_id", %{some: :assign})
-      |> subscribe_and_join(MediaServerWeb.RoomChannel, "room:lobby", %{user_id: 1, current_location: :some_location})
+      |> subscribe_and_join(MediaServerWeb.RoomChannel, "room:lobby", %{user_id: 1, user_email: :user_email, page_title: :page_title})
 
     %{socket: socket}
   end
