@@ -27,7 +27,7 @@ defmodule MediaServerWeb.WatchLive.Show do
       :noreply,
       socket
       |> assign(:poster, (Enum.filter(decoded["series"]["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["url"])
-      |> assign(:page_title, "#{ decoded["series"]["title"] } - #{ decoded["title"] }")
+      |> assign(:page_title, "#{ decoded["series"]["title"] }: #{ decoded["title"] }")
       |> assign(:stream_url, "/episodes/#{ decoded["id"] }/stream")
     }
   end
