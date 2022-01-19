@@ -2,7 +2,7 @@ defmodule MediaServerWeb.Repositories.Movies do
 
   import Ecto.Query
   alias MediaServer.Repo
-  alias MediaServer.Providers.Radarr
+  alias MediaServer.Integrations.Radarr
 
   def get_url(url) do
     radarr = Radarr |> last(:inserted_at) |> Repo.one

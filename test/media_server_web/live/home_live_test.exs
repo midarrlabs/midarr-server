@@ -2,7 +2,7 @@ defmodule MediaServerWeb.HomeLiveTest do
   use MediaServerWeb.ConnCase
 
   import MediaServer.AccountsFixtures
-  import MediaServer.ProvidersFixtures
+  import MediaServer.IntegrationsFixtures
 
   test "GET /", %{conn: conn} do
     fixture = %{

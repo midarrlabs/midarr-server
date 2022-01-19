@@ -2,7 +2,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
   use MediaServerWeb.ConnCase
 
   import MediaServer.AccountsFixtures
-  import MediaServer.ProvidersFixtures
+  import MediaServer.IntegrationsFixtures
 
   defp create_fixtures(_) do
     %{user: user_fixture()}

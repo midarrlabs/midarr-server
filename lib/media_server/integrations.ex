@@ -1,12 +1,12 @@
-defmodule MediaServer.Providers do
+defmodule MediaServer.Integrations do
   @moduledoc """
-  The Providers context.
+  The Integrations context.
   """
 
   import Ecto.Query, warn: false
   alias MediaServer.Repo
 
-  alias MediaServer.Providers.Sonarr
+  alias MediaServer.Integrations.Sonarr
 
   @doc """
   Returns the list of sonarrs.
@@ -102,7 +102,7 @@ defmodule MediaServer.Providers do
     Sonarr.changeset(sonarr, attrs)
   end
 
-  alias MediaServer.Providers.Radarr
+  alias MediaServer.Integrations.Radarr
 
   @doc """
   Returns the list of radarrs.

@@ -2,7 +2,7 @@ defmodule MediaServerWeb.UserSessionControllerTest do
   use MediaServerWeb.ConnCase
 
   import MediaServer.AccountsFixtures
-  import MediaServer.ProvidersFixtures
+  import MediaServer.IntegrationsFixtures
 
   setup do
     %{

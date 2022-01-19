@@ -2,7 +2,7 @@ defmodule MediaServerWeb.RadarrLiveTest do
   use MediaServerWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import MediaServer.ProvidersFixtures
+  import MediaServer.IntegrationsFixtures
   import MediaServer.AccountsFixtures
 
   @create_attrs %{api_key: "some api_key", name: "some name", url: "some url"}

@@ -1,7 +1,7 @@
-defmodule MediaServer.ProvidersFixtures do
+defmodule MediaServer.IntegrationsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `MediaServer.Providers` context.
+  entities via the `MediaServer.Integrations` context.
   """
 
   @doc """
@@ -15,7 +15,7 @@ defmodule MediaServer.ProvidersFixtures do
         name: "some name",
         url: "some url"
       })
-      |> MediaServer.Providers.create_sonarr()
+      |> MediaServer.Integrations.create_sonarr()
 
     sonarr
   end
@@ -84,7 +84,7 @@ defmodule MediaServer.ProvidersFixtures do
         name: "Series",
         url: "test-sonarr:8989/api/v3"
       })
-      |> MediaServer.Providers.create_sonarr()
+      |> MediaServer.Integrations.create_sonarr()
 
     add_series_root(sonarr)
     { series_id, episode_id } = add_series(sonarr)
@@ -103,7 +103,7 @@ defmodule MediaServer.ProvidersFixtures do
         name: "some name",
         url: "some url"
       })
-      |> MediaServer.Providers.create_radarr()
+      |> MediaServer.Integrations.create_radarr()
 
     radarr
   end
@@ -148,7 +148,7 @@ defmodule MediaServer.ProvidersFixtures do
         name: "Movies",
         url: "test-radarr:7878/api/v3"
       })
-      |> MediaServer.Providers.create_radarr()
+      |> MediaServer.Integrations.create_radarr()
 
     add_movie_root(radarr)
     movie_id = add_movie(radarr)

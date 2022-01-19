@@ -2,7 +2,7 @@ defmodule MediaServerWeb.Repositories.Series do
 
   import Ecto.Query
   alias MediaServer.Repo
-  alias MediaServer.Providers.Sonarr
+  alias MediaServer.Integrations.Sonarr
 
   def get_url(url) do
     sonarr = Sonarr |> last(:inserted_at) |> Repo.one

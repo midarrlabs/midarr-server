@@ -1,8 +1,8 @@
 defmodule MediaServerWeb.SonarrLive.Index do
   use MediaServerWeb, :live_view
 
-  alias MediaServer.Providers
-  alias MediaServer.Providers.Sonarr
+  alias MediaServer.Integrations
+  alias MediaServer.Integrations.Sonarr
 
   @impl true
   def mount(_params, _session, socket) do
@@ -17,7 +17,7 @@ defmodule MediaServerWeb.SonarrLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Sonarr")
-    |> assign(:sonarr, Providers.get_sonarr!(id))
+    |> assign(:sonarr, Integrations.get_sonarr!(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -34,13 +34,13 @@ defmodule MediaServerWeb.SonarrLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    sonarr = Providers.get_sonarr!(id)
-    {:ok, _} = Providers.delete_sonarr(sonarr)
+    sonarr = Integrations.get_sonarr!(id)
+    {:ok, _} = Integrations.delete_sonarr(sonarr)
 
     {:noreply, assign(socket, :sonarrs, list_sonarrs())}
   end
 
   defp list_sonarrs do
-    Providers.list_sonarrs()
+    Integrations.list_sonarrs()
   end
 end

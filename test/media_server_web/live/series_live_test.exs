@@ -2,7 +2,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   use MediaServerWeb.ConnCase
 
   import MediaServer.AccountsFixtures
-  import MediaServer.ProvidersFixtures
+  import MediaServer.IntegrationsFixtures
 
   test "GET /series", %{conn: conn} do
     fixture = %{

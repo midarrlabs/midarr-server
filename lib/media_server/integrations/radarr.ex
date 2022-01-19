@@ -1,8 +1,8 @@
-defmodule MediaServer.Providers.Sonarr do
+defmodule MediaServer.Integrations.Radarr do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "sonarrs" do
+  schema "radarrs" do
     field :api_key, :string
     field :name, :string
     field :url, :string
@@ -11,8 +11,8 @@ defmodule MediaServer.Providers.Sonarr do
   end
 
   @doc false
-  def changeset(sonarr, attrs) do
-    sonarr
+  def changeset(radarr, attrs) do
+    radarr
     |> cast(attrs, [:name, :url, :api_key])
     |> validate_required([:name, :url, :api_key])
   end

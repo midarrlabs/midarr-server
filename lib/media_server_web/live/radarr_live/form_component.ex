@@ -1,11 +1,11 @@
 defmodule MediaServerWeb.RadarrLive.FormComponent do
   use MediaServerWeb, :live_component
 
-  alias MediaServer.Providers
+  alias MediaServer.Integrations
 
   @impl true
   def update(%{radarr: radarr} = assigns, socket) do
-    changeset = Providers.change_radarr(radarr)
+    changeset = Integrations.change_radarr(radarr)
 
     {:ok,
      socket
@@ -17,7 +17,7 @@ defmodule MediaServerWeb.RadarrLive.FormComponent do
   def handle_event("validate", %{"radarr" => radarr_params}, socket) do
     changeset =
       socket.assigns.radarr
-      |> Providers.change_radarr(radarr_params)
+      |> Integrations.change_radarr(radarr_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -28,7 +28,7 @@ defmodule MediaServerWeb.RadarrLive.FormComponent do
   end
 
   defp save_radarr(socket, :edit, radarr_params) do
-    case Providers.update_radarr(socket.assigns.radarr, radarr_params) do
+    case Integrations.update_radarr(socket.assigns.radarr, radarr_params) do
       {:ok, _radarr} ->
         {:noreply,
          socket
@@ -41,7 +41,7 @@ defmodule MediaServerWeb.RadarrLive.FormComponent do
   end
 
   defp save_radarr(socket, :new, radarr_params) do
-    case Providers.create_radarr(radarr_params) do
+    case Integrations.create_radarr(radarr_params) do
       {:ok, _radarr} ->
         {:noreply,
          socket

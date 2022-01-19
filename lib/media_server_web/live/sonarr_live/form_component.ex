@@ -1,11 +1,11 @@
 defmodule MediaServerWeb.SonarrLive.FormComponent do
   use MediaServerWeb, :live_component
 
-  alias MediaServer.Providers
+  alias MediaServer.Integrations
 
   @impl true
   def update(%{sonarr: sonarr} = assigns, socket) do
-    changeset = Providers.change_sonarr(sonarr)
+    changeset = Integrations.change_sonarr(sonarr)
 
     {:ok,
      socket
@@ -17,7 +17,7 @@ defmodule MediaServerWeb.SonarrLive.FormComponent do
   def handle_event("validate", %{"sonarr" => sonarr_params}, socket) do
     changeset =
       socket.assigns.sonarr
-      |> Providers.change_sonarr(sonarr_params)
+      |> Integrations.change_sonarr(sonarr_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -28,7 +28,7 @@ defmodule MediaServerWeb.SonarrLive.FormComponent do
   end
 
   defp save_sonarr(socket, :edit, sonarr_params) do
-    case Providers.update_sonarr(socket.assigns.sonarr, sonarr_params) do
+    case Integrations.update_sonarr(socket.assigns.sonarr, sonarr_params) do
       {:ok, _sonarr} ->
         {:noreply,
          socket
@@ -41,7 +41,7 @@ defmodule MediaServerWeb.SonarrLive.FormComponent do
   end
 
   defp save_sonarr(socket, :new, sonarr_params) do
-    case Providers.create_sonarr(sonarr_params) do
+    case Integrations.create_sonarr(sonarr_params) do
       {:ok, _sonarr} ->
         {:noreply,
          socket

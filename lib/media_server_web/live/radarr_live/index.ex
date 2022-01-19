@@ -1,8 +1,8 @@
 defmodule MediaServerWeb.RadarrLive.Index do
   use MediaServerWeb, :live_view
 
-  alias MediaServer.Providers
-  alias MediaServer.Providers.Radarr
+  alias MediaServer.Integrations
+  alias MediaServer.Integrations.Radarr
 
   @impl true
   def mount(_params, _session, socket) do
@@ -17,7 +17,7 @@ defmodule MediaServerWeb.RadarrLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Radarr")
-    |> assign(:radarr, Providers.get_radarr!(id))
+    |> assign(:radarr, Integrations.get_radarr!(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -34,13 +34,13 @@ defmodule MediaServerWeb.RadarrLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    radarr = Providers.get_radarr!(id)
-    {:ok, _} = Providers.delete_radarr(radarr)
+    radarr = Integrations.get_radarr!(id)
+    {:ok, _} = Integrations.delete_radarr(radarr)
 
     {:noreply, assign(socket, :radarrs, list_radarrs())}
   end
 
   defp list_radarrs do
-    Providers.list_radarrs()
+    Integrations.list_radarrs()
   end
 end

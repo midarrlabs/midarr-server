@@ -3,7 +3,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
   import Phoenix.LiveViewTest
   import MediaServer.AccountsFixtures
-  import MediaServer.ProvidersFixtures
+  import MediaServer.IntegrationsFixtures
 
   test "GET /movies", %{conn: conn} do
     fixture = %{
