@@ -52,17 +52,9 @@
         </div>
       </header>
 
-      <div class="flex-1 flex items-stretch overflow-hidden">
-        <main class="flex-1 overflow-y-auto">
+      <div>
 
-          <section aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex-col lg:order-last">
-
-              <div class="max-w-7xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
-
-                <%= @inner_content %>
-              </div>
-          </section>
-        </main>
+        <%= @inner_content %>
 
         <div x-show="open" class="z-20 fixed inset-0 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
 
@@ -112,7 +104,7 @@
 
   <% else %>
 
-    <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <%= @inner_content %>
     </div>
   <% end %>
