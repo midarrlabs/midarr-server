@@ -133,6 +133,19 @@ defmodule MediaServer.Integrations do
   """
   def get_radarr!(id), do: Repo.get!(Radarr, id)
 
+  def get_first_radarr() do
+    radarr = Radarr |> first |> Repo.one
+
+    case radarr do
+
+      :nil ->
+        change_radarr(%Radarr{})
+
+      _ ->
+        change_radarr(radarr)
+    end
+  end
+
   @doc """
   Creates a radarr.
 
@@ -167,6 +180,22 @@ defmodule MediaServer.Integrations do
     radarr
     |> Radarr.changeset(attrs)
     |> Repo.update()
+  end
+
+  def update_or_create_radarr(attrs \\ %{}) do
+
+    radarr = Radarr |> first |> Repo.one
+
+    case radarr do
+
+      :nil ->
+        %Radarr{}
+        |> Radarr.changeset(attrs)
+        |> Repo.insert()
+
+      _ ->
+        update_radarr(radarr, attrs)
+    end
   end
 
   @doc """

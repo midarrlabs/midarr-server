@@ -78,6 +78,11 @@ defmodule MediaServer.IntegrationsTest do
       assert Integrations.get_radarr!(radarr.id) == radarr
     end
 
+    test "get_first_radarr/0 returns radarr" do
+      radarr = radarr_fixture()
+      assert Integrations.get_first_radarr() == radarr
+    end
+
     test "create_radarr/1 with valid data creates a radarr" do
       valid_attrs = %{api_key: "some api_key", name: "some name", url: "some url"}
 
@@ -105,6 +110,25 @@ defmodule MediaServer.IntegrationsTest do
       radarr = radarr_fixture()
       assert {:error, %Ecto.Changeset{}} = Integrations.update_radarr(radarr, @invalid_attrs)
       assert radarr == Integrations.get_radarr!(radarr.id)
+    end
+
+    test "update_or_create_radarr/1 with valid data creates a radarr" do
+      valid_attrs = %{api_key: "some api_key", name: "some name", url: "some url"}
+
+      assert {:ok, %Radarr{} = radarr} = Integrations.update_or_create_radarr(valid_attrs)
+      assert radarr.api_key == "some api_key"
+      assert radarr.name == "some name"
+      assert radarr.url == "some url"
+    end
+
+    test "update_or_create_radarr/1 with valid data updates a radarr" do
+      _radarr = radarr_fixture()
+      update_attrs = %{api_key: "some updated api_key", name: "some updated name", url: "some updated url"}
+
+      assert {:ok, %Radarr{} = radarr} = Integrations.update_or_create_radarr(update_attrs)
+      assert radarr.api_key == "some updated api_key"
+      assert radarr.name == "some updated name"
+      assert radarr.url == "some updated url"
     end
 
     test "delete_radarr/1 deletes the radarr" do

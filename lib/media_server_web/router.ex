@@ -20,19 +20,13 @@ defmodule MediaServerWeb.Router do
     live_session :default do
       live "/", HomeLive.Index, :index
 
-      live "/radarrs", RadarrLive.Index, :index
-      live "/radarrs/new", RadarrLive.Index, :new
-      live "/radarrs/:id/edit", RadarrLive.Index, :edit
-
-      live "/sonarrs", SonarrLive.Index, :index
-      live "/sonarrs/new", SonarrLive.Index, :new
-      live "/sonarrs/:id/edit", SonarrLive.Index, :edit
-
       live "/movies", MoviesLive.Index, :index
       live "/movies/:movie", MoviesLive.Show, :show
 
       live "/series", SeriesLive.Index, :index
       live "/series/:serie", SeriesLive.Show, :show
+
+      live "/settings", SettingsLive.Index, :index
     end
 
     live_session :watch, root_layout: {MediaServerWeb.WatchView, "watch.html"} do
