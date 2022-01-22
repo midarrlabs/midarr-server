@@ -38,6 +38,7 @@ defmodule MediaServerWeb.SettingsLiveTest do
         index_live
         |> form("#radarr-form", radarr: @create_attrs)
         |> render_submit()
+        |> follow_redirect(conn, Routes.settings_index_path(conn, :index))
 
       assert html =~ "some api_key"
       assert html =~ "some name"

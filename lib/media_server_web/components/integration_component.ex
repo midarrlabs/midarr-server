@@ -12,7 +12,8 @@ defmodule MediaServerWeb.Components.IntegrationComponent do
       {:ok, _radarr} ->
         {:noreply,
           socket
-          |> put_flash(:info, "Success")}
+          |> put_flash(:info, "Success")
+          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

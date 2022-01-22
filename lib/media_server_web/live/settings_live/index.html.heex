@@ -4,6 +4,7 @@
         id: "radarr-form",
         integration: "radarr",
         changeset: @radarr,
+        return_to: Routes.settings_index_path(@socket, :index),
         title: "Radarr Integration",
         description: "Fill in the information below to integrate your Radarr instance."
         %>

@@ -80,7 +80,7 @@ defmodule MediaServer.IntegrationsTest do
 
     test "get_first_radarr/0 returns radarr" do
       radarr = radarr_fixture()
-      assert Integrations.get_first_radarr() == radarr
+      assert Integrations.get_first_radarr() == Integrations.change_radarr(radarr)
     end
 
     test "create_radarr/1 with valid data creates a radarr" do
