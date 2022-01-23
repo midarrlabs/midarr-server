@@ -42,8 +42,11 @@
                     <p class="text-sm font-medium text-gray-900 truncate">
                       <%= "Season  #{item["seasonNumber"]} - Episode #{item["episodeNumber"]}" %>
                     </p>
-                    <p class="mt-4 text-sm text-gray-500">
-                      <span class="font-medium"><%= item["title"] %></span> - <%= item["overview"] %>
+                    <p class="mt-4 text-sm text-gray-500 font-medium">
+                      <%= item["title"] %>
+                    </p>
+                    <p class="mt-4 text-sm text-gray-500 font-medium">
+                      <%= item["overview"] %>
                     </p>
                   </div>
                   <div>
