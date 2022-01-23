@@ -8,7 +8,7 @@
                 </div>
                 <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-indigo-600 text-sm font-medium">
 
-                    <%= live_patch "See all movies →", to: Routes.movies_index_path(@socket, :index), class: "hover:text-indigo-800" %>
+                    <%= live_redirect "See all movies →", to: Routes.movies_index_path(@socket, :index), class: "hover:text-indigo-800" %>
                 </div>
           </div>
 
@@ -31,7 +31,7 @@
                 </div>
                 <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-indigo-600 text-sm font-medium">
 
-                    <%= live_patch "See all series →", to: Routes.series_index_path(@socket, :index), class: "hover:text-indigo-800" %>
+                    <%= live_redirect "See all series →", to: Routes.series_index_path(@socket, :index), class: "hover:text-indigo-800" %>
                 </div>
           </div>
 
