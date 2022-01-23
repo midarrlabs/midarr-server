@@ -9,4 +9,15 @@
         description: "Fill in the information below to integrate your Radarr instance."
         %>
     </div>
+
+    <div>
+        <%= live_component MediaServerWeb.Components.IntegrationComponent,
+        id: "sonarr-form",
+        integration: "sonarr",
+        changeset: @sonarr,
+        return_to: Routes.settings_index_path(@socket, :index),
+        title: "Sonarr Integration",
+        description: "Fill in the information below to integrate your Sonarr instance."
+        %>
+    </div>
   </div>

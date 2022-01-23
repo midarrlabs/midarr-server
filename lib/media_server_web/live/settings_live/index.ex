@@ -10,6 +10,7 @@ defmodule MediaServerWeb.SettingsLive.Index do
       socket
       |> assign(:page_title, "Settings")
       |> assign(:radarr, Integrations.get_first_radarr())
+      |> assign(:sonarr, Integrations.get_first_sonarr())
     }
   end
 

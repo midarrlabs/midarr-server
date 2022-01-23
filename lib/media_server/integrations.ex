@@ -37,6 +37,19 @@ defmodule MediaServer.Integrations do
   """
   def get_sonarr!(id), do: Repo.get!(Sonarr, id)
 
+  def get_first_sonarr() do
+    sonarr = Sonarr |> first |> Repo.one
+
+    case sonarr do
+
+      :nil ->
+        change_sonarr(%Sonarr{})
+
+      _ ->
+        change_sonarr(sonarr)
+    end
+  end
+
   @doc """
   Creates a sonarr.
 
@@ -71,6 +84,22 @@ defmodule MediaServer.Integrations do
     sonarr
     |> Sonarr.changeset(attrs)
     |> Repo.update()
+  end
+
+  def update_or_create_sonarr(attrs \\ %{}) do
+
+    sonarr = Sonarr |> first |> Repo.one
+
+    case sonarr do
+
+      :nil ->
+        %Sonarr{}
+        |> Sonarr.changeset(attrs)
+        |> Repo.insert()
+
+      _ ->
+        update_sonarr(sonarr, attrs)
+    end
   end
 
   @doc """
