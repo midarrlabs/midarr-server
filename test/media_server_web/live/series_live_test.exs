@@ -1,6 +1,7 @@
 defmodule MediaServerWeb.SeriesLiveTest do
   use MediaServerWeb.ConnCase
 
+  import Phoenix.LiveViewTest
   import MediaServer.AccountsFixtures
   import MediaServer.IntegrationsFixtures
 
@@ -33,5 +34,9 @@ defmodule MediaServerWeb.SeriesLiveTest do
 
     conn = get(conn, "/series/#{ series_id }")
     assert html_response(conn, 200)
+
+    {:ok, show_live, _html} = live(conn, Routes.series_show_path(conn, :show, series_id))
+
+    assert show_live |> element("button", "Play") |> render_click()
   end
 end
