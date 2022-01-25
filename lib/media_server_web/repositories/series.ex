@@ -50,6 +50,7 @@ defmodule MediaServerWeb.Repositories.Series do
 
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         Enum.filter(Jason.decode!(body), fn x -> x["hasFile"] end)
+        |> Enum.reverse
     end
   end
 
