@@ -1,8 +1,15 @@
   <div class="max-w-4xl mx-auto py-6 px-4 divide-y">
     <div>
+        <%= live_component MediaServerWeb.Components.UserInviteComponent,
+        id: "user-invite-form",
+        title: "User Invite",
+        description: "Fill in the information below to invite users."
+        %>
+    </div>
+
+    <div>
         <%= live_component MediaServerWeb.Components.IntegrationComponent,
         id: "radarr-form",
-        integration: "radarr",
         changeset: @radarr,
         return_to: Routes.settings_index_path(@socket, :index),
         title: "Radarr Integration",
@@ -13,7 +20,6 @@
     <div>
         <%= live_component MediaServerWeb.Components.IntegrationComponent,
         id: "sonarr-form",
-        integration: "sonarr",
         changeset: @sonarr,
         return_to: Routes.settings_index_path(@socket, :index),
         title: "Sonarr Integration",

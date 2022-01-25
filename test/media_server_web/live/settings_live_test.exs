@@ -13,7 +13,7 @@ defmodule MediaServerWeb.SettingsLiveTest do
   describe "Index" do
     setup [:create_fixtures]
 
-    test "it shows integrations", %{conn: conn, user: user} do
+    test "it shows sections", %{conn: conn, user: user} do
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
@@ -22,6 +22,7 @@ defmodule MediaServerWeb.SettingsLiveTest do
 
       {:ok, _index_live, html} = live(conn, Routes.settings_index_path(conn, :index))
 
+      assert html =~ "User Invite"
       assert html =~ "Radarr Integration"
       assert html =~ "Sonarr Integration"
     end
