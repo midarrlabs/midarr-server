@@ -1,6 +1,8 @@
 defmodule MediaServerWeb.SettingsLive.Index do
   use MediaServerWeb, :live_view
 
+  alias MediaServer.Repo
+  alias MediaServer.Accounts.User
   alias MediaServer.Integrations
 
   @impl true
@@ -9,6 +11,7 @@ defmodule MediaServerWeb.SettingsLive.Index do
       :ok,
       socket
       |> assign(:page_title, "Settings")
+      |> assign(:users, Repo.all(User))
       |> assign(:radarr, Integrations.get_first_radarr())
       |> assign(:sonarr, Integrations.get_first_sonarr())
     }
