@@ -4,6 +4,7 @@ defmodule MediaServer.Accounts.User do
 
   schema "users" do
     field :email, :string
+    field :name, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
@@ -30,8 +31,9 @@ defmodule MediaServer.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :name, :password])
     |> validate_email()
+    |> validate_name()
     |> validate_password(opts)
   end
 
@@ -42,6 +44,12 @@ defmodule MediaServer.Accounts.User do
     |> validate_length(:email, max: 160)
     |> unsafe_validate_unique(:email, MediaServer.Repo)
     |> unique_constraint(:email)
+  end
+
+  defp validate_name(changeset) do
+    changeset
+    |> validate_required([:name])
+    |> validate_length(:name, max: 120)
   end
 
   defp validate_password(changeset, opts) do
