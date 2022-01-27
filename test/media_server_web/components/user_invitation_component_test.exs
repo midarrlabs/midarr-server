@@ -22,10 +22,11 @@ defmodule MediaServerWeb.UserInvitationComponentTest do
 
       {:ok, _, html} =
         index_live
-        |> form("#user-invite-form", email: "test@email.com")
+        |> form("#user-invite-form", email: "test@email.com", name: "Some Name")
         |> render_submit()
         |> follow_redirect(conn, Routes.settings_index_path(conn, :index))
 
+      assert html =~ "Some Name"
       assert html =~ "test@email.com"
     end
   end
