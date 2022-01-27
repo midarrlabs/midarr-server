@@ -1,7 +1,8 @@
 <main class="max-w-lg mx-auto px-4 py-8">
 
   <.form
-      for={:user_invitation}
+      let={f}
+      for={@changeset}
       id={@id}
       phx-target={@myself}
       phx-submit="save">
@@ -17,17 +18,15 @@
             </div>
 
             <div>
-              <label for="name" class="block text-sm font-medium text-gray-700">
-                Name
-              </label>
-              <input type="text" name="name" id="name" class="mt-1 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md" placeholder="Name">
+                <%= label f, :name, class: "block text-sm font-medium text-gray-700" %>
+                <%= text_input f, :name, placeholder: "Enter name", class: "mt-1 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md" %>
+                <%= error_tag f, :name %>
             </div>
 
             <div>
-              <label for="email" class="block text-sm font-medium text-gray-700">
-                Email address
-              </label>
-              <input type="text" name="email" id="email" class="mt-1 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md" placeholder="Email address">
+                <%= label f, :email, class: "block text-sm font-medium text-gray-700" %>
+                <%= text_input f, :email, placeholder: "Enter email", class: "mt-1 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md" %>
+                <%= error_tag f, :email %>
             </div>
 
             <div class="flex justify-end">

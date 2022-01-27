@@ -3,8 +3,8 @@ defmodule MediaServerWeb.Components.UserInvitationComponent do
 
   alias MediaServer.Accounts
 
-  def handle_event("save", %{"email" => email, "name" => name}, socket) do
-    create(socket, %{"user" => %{"email" => email, "name" => name, "password" => "#{ Enum.take_random(?a..?z, 12) }"}})
+  def handle_event("save", %{"user" => user_params}, socket) do
+    create(socket, %{"user" => %{"email" => user_params["email"], "name" => user_params["name"], "password" => "#{ Enum.take_random(?a..?z, 12) }"}})
   end
 
   def create(socket, %{"user" => user_params}) do
@@ -17,6 +17,8 @@ defmodule MediaServerWeb.Components.UserInvitationComponent do
           |> put_flash(:info, "Success")
           |> push_redirect(to: socket.assigns.return_to)
         }
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
     end
   end
 end

@@ -12,6 +12,7 @@ defmodule MediaServerWeb.SettingsLive.Index do
       socket
       |> assign(:page_title, "Settings")
       |> assign(:users, Repo.all(User))
+      |> assign(:user, User.registration_changeset(%User{}, %{}))
       |> assign(:radarr, Integrations.get_first_radarr())
       |> assign(:sonarr, Integrations.get_first_sonarr())
     }
