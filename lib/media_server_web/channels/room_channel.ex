@@ -3,10 +3,10 @@ defmodule MediaServerWeb.RoomChannel do
   alias MediaServerWeb.Presence
 
   @impl true
-  def join("room:lobby", %{"user_id" => user_id, "user_email" => user_email, "page_title" => page_title}, socket) do
+  def join("room:lobby", %{"user_id" => user_id, "user_name" => user_name, "page_title" => page_title}, socket) do
     send(self(), :after_join)
 
-    {:ok, assign(socket, %{user_id: user_id, user_email: user_email, page_title: page_title})}
+    {:ok, assign(socket, %{user_id: user_id, user_name: user_name, page_title: page_title})}
   end
 
   @impl true
@@ -15,7 +15,7 @@ defmodule MediaServerWeb.RoomChannel do
       Presence.track(socket, socket.assigns.user_id, %{
         online_at: inspect(System.system_time(:second)),
         user_id: socket.assigns.user_id,
-        user_email: socket.assigns.user_email,
+        user_name: socket.assigns.user_name,
         page_title: socket.assigns.page_title,
       })
 

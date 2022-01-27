@@ -6,7 +6,7 @@ import topbar from "../vendor/topbar"
 let socket = new Socket("/socket", {})
 socket.connect()
 
-let channel = socket.channel("room:lobby", { user_id: window.userId, user_email: window.userEmail, page_title: document.title })
+let channel = socket.channel("room:lobby", { user_id: window.userId, user_name: window.userName, page_title: document.title })
 let presence = new Presence(channel)
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
@@ -57,7 +57,7 @@ presence.onSync(() => {
                                        <span class="bg-green-400 absolute top-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white" aria-hidden="true"></span>
                                      </span>
                                      <div class="ml-4 truncate">
-                                       <p class="text-sm font-medium text-gray-900 truncate">${ item.user_email }</p>
+                                       <p class="text-sm font-medium text-gray-900 truncate">${ item.user_name }</p>
                                        <p id="current-location-${ item.user_id }" class="text-sm text-gray-500 truncate">${ item.page_title }</p>
                                      </div>
                                    </div>
