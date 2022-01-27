@@ -415,6 +415,22 @@ defmodule MediaServer.AccountsTest do
     end
   end
 
+  describe "deliver_user_invitation_instructions/2" do
+    setup do
+      %{user: user_fixture()}
+    end
+
+    test "sends invitation through notification", %{user: user} do
+      token = Accounts.deliver_user_invitation_instructions(user, "password")
+
+      {:ok, token} = Base.url_decode64(token, padding: false)
+      assert user_token = Repo.get_by(UserToken, token: :crypto.hash(:sha256, token))
+      assert user_token.user_id == user.id
+      assert user_token.sent_to == user.email
+      assert user_token.context == "invitation"
+    end
+  end
+
   describe "deliver_user_reset_password_instructions/2" do
     setup do
       %{user: user_fixture()}

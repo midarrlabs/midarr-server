@@ -11,7 +11,7 @@ defmodule MediaServerWeb.UserInvitationComponentTest do
   describe "User Invitation Component" do
     setup [:create_fixtures]
 
-    test "it sends token", %{conn: conn, user: user} do
+    test "it should show new email address", %{conn: conn, user: user} do
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{

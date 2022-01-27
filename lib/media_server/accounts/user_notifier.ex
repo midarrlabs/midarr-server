@@ -37,6 +37,26 @@ defmodule MediaServer.Accounts.UserNotifier do
     """)
   end
 
+  def deliver_invitation_instructions(user, password) do
+    deliver(user.email, "Invitation instructions", """
+
+    ==============================
+
+    Hi #{user.email},
+
+    An account has been created for you.
+
+    You're account details are:
+
+    Email: #{user.email}
+    Password: #{password}
+
+    If you weren't expecting an account with us, please ignore this.
+
+    ==============================
+    """)
+  end
+
   @doc """
   Deliver instructions to reset a user password.
   """

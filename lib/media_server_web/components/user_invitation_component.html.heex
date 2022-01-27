@@ -34,16 +34,19 @@
 
             <div>
               <ul role="list" class="divide-y divide-gray-200">
-                    <%= for item <- @users do %>
 
+                    <%= for item <- @users do %>
                         <li class="py-4 flex">
-                          <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1513910367299-bce8d8a0ebf6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                          <span class="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100">
+                            <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                          </span>
                           <div class="ml-3 flex flex-col">
                             <span class="text-sm font-medium text-gray-900">Calvin Hawkins</span>
                             <span class="text-sm text-gray-500"><%= item.email %></span>
                           </div>
                         </li>
-
                     <% end %>
               </ul>
             </div>
