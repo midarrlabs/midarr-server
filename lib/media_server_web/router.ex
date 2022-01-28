@@ -38,8 +38,6 @@ defmodule MediaServerWeb.Router do
     get "/episodes/:episode/stream", StreamController, :show
 
     delete "/logout", UserSessionController, :delete
-
-    live_dashboard "/dashboard", metrics: MediaServerWeb.Telemetry
   end
 
   scope "/", MediaServerWeb do
@@ -56,6 +54,8 @@ defmodule MediaServerWeb.Router do
   if Mix.env() == :dev do
     scope "/dev" do
       pipe_through :browser
+
+      live_dashboard "/dashboard", metrics: MediaServerWeb.Telemetry
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
