@@ -26,7 +26,7 @@ defmodule MediaServerWeb.Router do
       live "/series", SeriesLive.Index, :index
       live "/series/:serie", SeriesLive.Show, :show
 
-      live "/settings", SettingsLive.Index, :index
+      live "/dev/settings", SettingsLive.Index, :index
     end
 
     live_session :watch, root_layout: {MediaServerWeb.WatchView, "watch.html"} do
