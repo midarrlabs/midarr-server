@@ -35,27 +35,34 @@
             <ul role="list" class="-my-5 divide-y divide-gray-200">
 
               <%= for item <- @episodes do %>
-              <li class="py-4">
-                <div class="flex items-center space-x-4">
 
-                  <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 truncate">
-                      <%= "Season  #{item["seasonNumber"]} - Episode #{item["episodeNumber"]}" %>
-                    </p>
-                    <p class="mt-4 text-sm text-gray-500 font-medium">
-                      <%= item["title"] %>
-                    </p>
-                    <p class="mt-4 text-sm text-gray-500 font-medium">
-                      <%= item["overview"] %>
-                    </p>
+              <li class="py-4">
+                <div class="sm:flex">
+                  <div class="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
+
+                    <%= if List.first(item["images"]) do %>
+                        <img class="h-48 w-full sm:w-72 object-cover" src={(Enum.filter(item["images"], fn x -> x["coverType"] === "screenshot" end) |> Enum.at(0))["url"]}>
+                    <% else %>
+                        <svg class="h-48 w-full sm:w-72 border border-gray-300 bg-white text-gray-300" preserveAspectRatio="none" stroke="currentColor" fill="none" viewBox="0 0 200 200" aria-hidden="true">
+                            <path vector-effect="non-scaling-stroke" stroke-width="1" d="M0 0l200 200M0 200L200 0" />
+                        </svg>
+                    <% end %>
                   </div>
                   <div>
-                      <button phx-click="play" phx-value-episode={item["id"]} type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <h4 class="text-md font-bold"><%= "Season  #{item["seasonNumber"]} - Episode #{item["episodeNumber"]}" %></h4>
+                    <p class="mt-1">
+                        <%= item["title"] %>
+                    </p>
+                    <p class="mt-2">
+                        <%= item["overview"] %>
+                    </p>
+                    <button phx-click="play" phx-value-episode={item["id"]} type="button" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         Play
-                      </button>
+                    </button>
                   </div>
                 </div>
               </li>
+
               <% end %>
             </ul>
           </div>
