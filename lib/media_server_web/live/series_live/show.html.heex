@@ -1,7 +1,7 @@
   <div>
     <div class="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-4xl lg:px-8 lg:grid lg:grid-cols-1 lg:gap-x-8">
       <div class="w-full">
-        <img src={"#{(Enum.filter(@decoded["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]}"}>
+        <img src={(Enum.filter(@decoded["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]}>
       </div>
     </div>
 
