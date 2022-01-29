@@ -14,21 +14,7 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 topbar.config({barColors: {0: "#6366f1"}, shadowColor: "rgba(0, 0, 0, .3)"})
 
 window.addEventListener("phx:page-loading-start", info => topbar.show())
-window.addEventListener("phx:page-loading-stop", info => {
-    if (info.detail.kind === 'initial') {
-        channel.push('shout', { user_id: window.userId, page_title: document.title })
-    }
-
-    topbar.hide()
-})
-
-channel.on("shout", message => {
-    const element = document.querySelector(`#current-location-${ message.user_id }`)
-
-    if(element) {
-        element.innerHTML = message.page_title
-    }
-})
+window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 
 presence.onSync(() => {
   let presences = []
@@ -57,8 +43,7 @@ presence.onSync(() => {
                                        <span class="bg-green-400 absolute top-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white" aria-hidden="true"></span>
                                      </span>
                                      <div class="ml-4 truncate">
-                                       <p class="text-sm font-medium text-gray-900 truncate">${ item.user_name }</p>
-                                       <p id="current-location-${ item.user_id }" class="text-sm text-gray-500 truncate">${ item.page_title }</p>
+                                       <p class="text-sm text-gray-900 truncate">${ item.user_name }</p>
                                      </div>
                                    </div>
                                  </div>
