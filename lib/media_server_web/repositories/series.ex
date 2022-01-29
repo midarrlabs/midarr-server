@@ -50,6 +50,7 @@ defmodule MediaServerWeb.Repositories.Series do
 
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         Enum.filter(Jason.decode!(body), fn x -> x["hasFile"] end)
+        |> add_images_to_episodes()
     end
   end
 
@@ -71,5 +72,11 @@ defmodule MediaServerWeb.Repositories.Series do
 
         decoded["episodeFile"]["path"]
     end
+  end
+
+  def add_images_to_episodes(episodes) do
+    Enum.map(episodes, fn episode ->
+      Map.put(episode, "images", Map.get(get_episode(episode["id"]), "images"))
+    end)
   end
 end
