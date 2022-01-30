@@ -1,12 +1,15 @@
 defmodule MediaServerWeb.RoomChannel do
   use MediaServerWeb, :channel
+
   alias MediaServerWeb.Presence
 
   @impl true
-  def join("room:lobby", %{"user_id" => user_id, "user_name" => user_name, "page_title" => page_title}, socket) do
+  def join("room:lobby", %{"user_id" => user_id, "user_name" => user_name, "user_agent" => user_agent}, socket) do
     send(self(), :after_join)
 
-    {:ok, assign(socket, %{user_id: user_id, user_name: user_name, page_title: page_title})}
+    parsed_user_agent =  UAInspector.parse(user_agent)
+
+    {:ok, assign(socket, %{user_id: user_id, user_name: user_name, user_agent: "#{ parsed_user_agent.client.name } for #{ parsed_user_agent.os.name }"})}
   end
 
   @impl true
@@ -16,7 +19,7 @@ defmodule MediaServerWeb.RoomChannel do
         online_at: inspect(System.system_time(:second)),
         user_id: socket.assigns.user_id,
         user_name: socket.assigns.user_name,
-        page_title: socket.assigns.page_title,
+        user_agent: socket.assigns.user_agent,
       })
 
     push(socket, "presence_state", Presence.list(socket))
