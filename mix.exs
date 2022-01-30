@@ -52,7 +52,6 @@ defmodule MediaServer.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:httpoison, "~> 1.8"},
-      {:ua_inspector, "~> 2.0"},
     ]
   end
 
