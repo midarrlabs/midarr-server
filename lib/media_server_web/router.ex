@@ -17,22 +17,18 @@ defmodule MediaServerWeb.Router do
   scope "/", MediaServerWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    live_session :default do
-      live "/", HomeLive.Index, :index
+    live "/", HomeLive.Index, :index
 
-      live "/movies", MoviesLive.Index, :index
-      live "/movies/:movie", MoviesLive.Show, :show
+    live "/movies", MoviesLive.Index, :index
+    live "/movies/:movie", MoviesLive.Show, :show
+    live "/movies/:movie/watch", WatchLive.Show, :show
 
-      live "/series", SeriesLive.Index, :index
-      live "/series/:serie", SeriesLive.Show, :show
+    live "/series", SeriesLive.Index, :index
+    live "/series/:serie", SeriesLive.Show, :show
 
-      live "/dev/settings", SettingsLive.Index, :index
-    end
+    live "/episodes/:episode/watch", WatchLive.Show, :show
 
-    live_session :watch, root_layout: {MediaServerWeb.WatchView, "watch.html"} do
-      live "/movies/:movie/watch", WatchLive.Show, :show
-      live "/episodes/:episode/watch", WatchLive.Show, :show
-    end
+    live "/dev/settings", SettingsLive.Index, :index
 
     get "/movies/:movie/stream", StreamController, :show
     get "/episodes/:episode/stream", StreamController, :show
