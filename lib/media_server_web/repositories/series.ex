@@ -7,19 +7,31 @@ defmodule MediaServerWeb.Repositories.Series do
   def get_url(url) do
     sonarr = Sonarr |> last(:inserted_at) |> Repo.one
 
-    "#{ sonarr.url }/#{ url }?apikey=#{ sonarr.api_key }"
+    case sonarr do
+
+      nil ->
+        nil
+
+      _ ->
+        "#{ sonarr.url }/#{ url }?apikey=#{ sonarr.api_key }"
+    end
   end
 
   def get_latest(amount) do
 
-    case HTTPoison.get(get_url("series")) do
+    case get_url("series") do
 
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded = Jason.decode!(body)
+      nil -> []
 
-        Enum.sort_by(decoded, &(&1["added"]), :desc)
-        |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] !== 0 end)
-        |> Enum.take(amount)
+      _ ->
+        case HTTPoison.get(get_url("series")) do
+
+          {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+
+            Enum.sort_by(Jason.decode!(body), &(&1["added"]), :desc)
+            |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] !== 0 end)
+            |> Enum.take(amount)
+        end
     end
   end
 

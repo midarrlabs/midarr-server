@@ -2,30 +2,34 @@
 
     <div class="space-y-6">
 
-          <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
-                <div class="min-w-0 flex items-center">
-                    <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Movies fresh in</h2>
-                </div>
-                <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-indigo-600 text-sm font-medium">
+        <%= if !Enum.empty?(@latest_movies) do %>
+              <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+                    <div class="min-w-0 flex items-center">
+                        <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Movies fresh in</h2>
+                    </div>
+                    <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-indigo-600 text-sm font-medium">
 
-                    <%= live_redirect "See all movies →", to: Routes.movies_index_path(@socket, :index), class: "hover:text-indigo-800" %>
-                </div>
-          </div>
+                        <%= live_redirect "See all movies →", to: Routes.movies_index_path(@socket, :index), class: "hover:text-indigo-800" %>
+                    </div>
+              </div>
 
-            <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+              <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
 
-              <%= for item <- @latest_movies do %>
+                  <%= for item <- @latest_movies do %>
 
-                <%= live_component MediaServerWeb.Components.PosterComponent,
-                 img_src: (Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"],
-                 title: item["title"],
-                 link: Routes.movies_show_path(@socket, :show, item["id"])
-                %>
+                    <%= live_component MediaServerWeb.Components.PosterComponent,
+                     img_src: (Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"],
+                     title: item["title"],
+                     link: Routes.movies_show_path(@socket, :show, item["id"])
+                    %>
 
-              <% end %>
-            </div>
+                  <% end %>
+              </div>
+        <% end %>
 
-          <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+        <%= if !Enum.empty?(@latest_series) do %>
+
+            <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
                 <div class="min-w-0 flex items-center">
                     <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Series fresh in</h2>
                 </div>
@@ -33,19 +37,20 @@
 
                     <%= live_redirect "See all series →", to: Routes.series_index_path(@socket, :index), class: "hover:text-indigo-800" %>
                 </div>
-          </div>
+            </div>
 
-        <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+            <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
 
-          <%= for item <- @latest_series do %>
+              <%= for item <- @latest_series do %>
 
-            <%= live_component MediaServerWeb.Components.PosterComponent,
-             img_src: (Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"],
-             title: item["title"],
-             link: Routes.series_show_path(@socket, :show, item["id"])
-            %>
+                <%= live_component MediaServerWeb.Components.PosterComponent,
+                 img_src: (Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"],
+                 title: item["title"],
+                 link: Routes.series_show_path(@socket, :show, item["id"])
+                %>
 
-          <% end %>
-        </div>
+              <% end %>
+            </div>
+        <% end %>
     </div>
   </div>
