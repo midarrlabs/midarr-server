@@ -6,7 +6,7 @@ import topbar from "../vendor/topbar"
 let socket = new Socket("/socket", {})
 socket.connect()
 
-let channel = socket.channel("room:lobby", { user_id: window.userId, user_name: window.userName, page_title: document.title })
+let channel = socket.channel("room:lobby", { user_id: window.userId, user_name: window.userName, page_title: document.title, current_location: window.location.href })
 let presence = new Presence(channel)
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
@@ -14,7 +14,13 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 topbar.config({barColors: {0: "#6366f1"}, shadowColor: "rgba(0, 0, 0, .3)"})
 
 window.addEventListener("phx:page-loading-start", info => topbar.show())
-window.addEventListener("phx:page-loading-stop", info => topbar.hide())
+window.addEventListener("phx:page-loading-stop", info => {
+    if (info.detail.kind === 'initial' && window.location.toString().includes("/watch")) {
+        channel.push('shout', { user_id: window.userId, page_title: document.title })
+    }
+
+    topbar.hide()
+})
 
 channel.on("shout", message => {
     const element = document.querySelector(`#user-status-${ message.user_id }`)
@@ -52,7 +58,7 @@ presence.onSync(() => {
                                      </span>
                                      <div class="ml-4 truncate">
                                         <p class="text-sm text-gray-900 truncate">${ item.user_name }</p>
-                                        <p id="user-status-${ item.user_id }" class="text-sm text-gray-500 truncate">Online</p>
+                                        <p id="user-status-${ item.user_id }" class="text-sm text-gray-500 truncate">${ item.current_location.includes("/watch") ? `Watching ${ item.page_title }` : 'Online' }</p>
                                      </div>
                                    </div>
                                  </div>
