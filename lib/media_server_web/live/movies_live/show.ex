@@ -2,11 +2,6 @@ defmodule MediaServerWeb.MoviesLive.Show do
   use MediaServerWeb, :live_view
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
-  end
-
-  @impl true
   def handle_params(%{"movie" => movie}, _, socket) do
     decoded = MediaServerWeb.Repositories.Movies.get_movie(movie)
 
