@@ -7,7 +7,7 @@ defmodule MediaServerWeb.IntegrationComponentTest do
   @create_attrs %{api_key: "some api_key", name: "some name", url: "some url"}
 
   defp create_fixtures(_) do
-    %{user: user_fixture()}
+    %{user: user_admin_fixture()}
   end
 
   describe "Integration Component" do

@@ -2,8 +2,15 @@ defmodule MediaServerWeb.SettingsLive.Index do
   use MediaServerWeb, :live_view
 
   alias MediaServer.Repo
+  alias MediaServer.Accounts
   alias MediaServer.Accounts.User
   alias MediaServer.Integrations
+
+  @impl true
+  def mount(_params, session, socket) do
+    user = Accounts.get_user_by_session_token(session["user_token"])
+    {:ok, socket |> assign(:is_admin, user.is_admin)}
+  end
 
   @impl true
   def handle_params(params, _url, socket) do

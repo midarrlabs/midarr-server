@@ -15,10 +15,28 @@ defmodule MediaServer.AccountsFixtures do
     })
   end
 
+  def valid_user_admin_attributes(attrs \\ %{}) do
+    Enum.into(attrs, %{
+      email: unique_user_email(),
+      name: "Some Name",
+      password: valid_user_password(),
+      is_admin: true
+    })
+  end
+
   def user_fixture(attrs \\ %{}) do
     {:ok, user} =
       attrs
       |> valid_user_attributes()
+      |> MediaServer.Accounts.register_user()
+
+    user
+  end
+
+  def user_admin_fixture(attrs \\ %{}) do
+    {:ok, user} =
+      attrs
+      |> valid_user_admin_attributes()
       |> MediaServer.Accounts.register_user()
 
     user

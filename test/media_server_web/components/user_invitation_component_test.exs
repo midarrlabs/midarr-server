@@ -5,7 +5,7 @@ defmodule MediaServerWeb.UserInvitationComponentTest do
   import MediaServer.AccountsFixtures
 
   defp create_fixtures(_) do
-    %{user: user_fixture()}
+    %{user: user_admin_fixture()}
   end
 
   describe "User Invitation Component" do

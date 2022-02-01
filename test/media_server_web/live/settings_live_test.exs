@@ -20,9 +20,9 @@ defmodule MediaServerWeb.SettingsLiveTest do
 
       {:ok, _index_live, html} = live(conn, Routes.settings_index_path(conn, :index))
 
-      assert html =~ "Invite Users"
-      assert html =~ "Radarr Integration"
-      assert html =~ "Sonarr Integration"
+      refute html =~ "Invite Users"
+      refute html =~ "Radarr Integration"
+      refute html =~ "Sonarr Integration"
     end
 
   end
