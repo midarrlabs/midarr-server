@@ -57,8 +57,8 @@ presence.onSync(() => {
                                        <span class="bg-green-400 absolute top-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white" aria-hidden="true"></span>
                                      </span>
                                      <div class="ml-4 truncate">
-                                        <p class="text-sm text-gray-900 truncate">${ item.user_name }</p>
-                                        <p id="user-status-${ item.user_id }" class="text-sm text-gray-500 truncate">${ item.current_location.includes("/watch") ? `Watching ${ item.page_title }` : 'Online' }</p>
+                                        <p class="text-sm text-gray-900 truncate whitespace-normal">${ item.user_name }</p>
+                                        <p id="user-status-${ item.user_id }" class="text-sm text-gray-500 truncate whitespace-normal">${ item.current_location.includes("/watch") ? `Watching ${ item.page_title }` : 'Online' }</p>
                                      </div>
                                    </div>
                                  </div>
