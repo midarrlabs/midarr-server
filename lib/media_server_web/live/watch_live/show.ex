@@ -1,5 +1,5 @@
 defmodule MediaServerWeb.WatchLive.Show do
-  use Phoenix.LiveView, layout: {MediaServerWeb.WatchView, "watch.html"}
+  use MediaServerWeb, :live_view
 
   @impl true
   def mount(_params, _session, socket) do

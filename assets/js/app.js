@@ -14,16 +14,10 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 topbar.config({barColors: {0: "#6366f1"}, shadowColor: "rgba(0, 0, 0, .3)"})
 
 window.addEventListener("phx:page-loading-start", info => topbar.show())
-window.addEventListener("phx:page-loading-stop", info => {
-    if (info.detail.kind === 'initial' && window.location.toString().includes("/watch")) {
-        channel.push('shout', { user_id: window.userId, page_title: document.title })
-    }
-
-    topbar.hide()
-})
+window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 
 channel.on("shout", message => {
-    const element = document.querySelector(`#current-location-${ message.user_id }`)
+    const element = document.querySelector(`#user-status-${ message.user_id }`)
 
     if(element) {
         element.innerHTML = `Watching ${ message.page_title }`
@@ -43,7 +37,7 @@ presence.onSync(() => {
     element.innerHTML = ''
 
     for (const item of presences) {
-      element.innerHTML += `<li>
+      element.innerHTML += `<li id="online-user-${ item.user_id }">
                                <div class="relative group py-6 px-5 flex items-center">
                                  <div class="-m-1 flex-1 block p-1">
                                    <div class="absolute inset-0" aria-hidden="true"></div>
@@ -58,7 +52,7 @@ presence.onSync(() => {
                                      </span>
                                      <div class="ml-4 truncate">
                                         <p class="text-sm text-gray-900 truncate">${ item.user_name }</p>
-                                        <p id="current-location-${ item.user_id }" class="text-sm text-gray-500 truncate">Online</p>
+                                        <p id="user-status-${ item.user_id }" class="text-sm text-gray-500 truncate">Online</p>
                                      </div>
                                    </div>
                                  </div>
