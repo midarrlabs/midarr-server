@@ -30,11 +30,11 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: midarrlabs/midarr-server:${{ env.RELEASE_VERSION }}
+          tags: ghcr.io/midarrlabs/midarr-server:${{ env.RELEASE_VERSION }}
 
       - name: Build tag latest push
         id: docker_build_latest
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: midarrlabs/midarr-server:latest
+          tags: ghcr.io/midarrlabs/midarr-server:latest
