@@ -1,8 +1,35 @@
   <div class="max-w-7xl mx-auto py-6 px-4">
 
-    <div class="space-y-6">
+    <div class="space-y-8">
+
+        <%= if Map.has_key?(@latest_movie, "id") do %>
+            <div class="relative bg-gray-800">
+              <div class="h-56 bg-indigo-600 sm:h-72 md:absolute md:left-0 md:h-full md:w-1/2">
+                <img class="w-full h-full object-cover" src={(Enum.filter(@latest_movie["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]} alt="">
+              </div>
+              <div class="relative max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+                <div class="md:ml-auto md:w-1/2 md:pl-10">
+                  <h2 class="text-base font-semibold uppercase tracking-wider text-gray-300">
+                    Released <%= @latest_movie["year"] %>
+                  </h2>
+                  <p class="mt-2 text-white text-3xl font-extrabold tracking-tight sm:text-4xl">
+                    <%= @latest_movie["title"] %>
+                  </p>
+                  <p class="mt-3 text-lg text-gray-300 line-clamp">
+                    <%= @latest_movie["overview"] %>
+                  </p>
+                  <div class="mt-8">
+                    <div class="inline-flex rounded-md shadow">
+                         <%= live_redirect "Visit Page", to: Routes.movies_show_path(@socket, :show, @latest_movie["id"]), class: "inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-50" %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        <% end %>
 
         <%= if !Enum.empty?(@latest_movies) do %>
+            <div>
               <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
                     <div class="min-w-0 flex items-center">
                         <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Movies fresh in</h2>
@@ -25,31 +52,33 @@
 
                   <% end %>
               </div>
+            </div>
         <% end %>
 
         <%= if !Enum.empty?(@latest_series) do %>
+            <div>
+                <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+                    <div class="min-w-0 flex items-center">
+                        <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Series fresh in</h2>
+                    </div>
+                    <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-indigo-600 text-sm font-medium">
 
-            <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
-                <div class="min-w-0 flex items-center">
-                    <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Series fresh in</h2>
+                        <%= live_redirect "See all series →", to: Routes.series_index_path(@socket, :index), class: "hover:text-indigo-800" %>
+                    </div>
                 </div>
-                <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-indigo-600 text-sm font-medium">
 
-                    <%= live_redirect "See all series →", to: Routes.series_index_path(@socket, :index), class: "hover:text-indigo-800" %>
+                <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+
+                  <%= for item <- @latest_series do %>
+
+                    <%= live_component MediaServerWeb.Components.PosterComponent,
+                     img_src: (Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"],
+                     title: item["title"],
+                     link: Routes.series_show_path(@socket, :show, item["id"])
+                    %>
+
+                  <% end %>
                 </div>
-            </div>
-
-            <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
-
-              <%= for item <- @latest_series do %>
-
-                <%= live_component MediaServerWeb.Components.PosterComponent,
-                 img_src: (Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"],
-                 title: item["title"],
-                 link: Routes.series_show_path(@socket, :show, item["id"])
-                %>
-
-              <% end %>
             </div>
         <% end %>
     </div>

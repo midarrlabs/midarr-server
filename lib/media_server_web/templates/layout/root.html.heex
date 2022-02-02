@@ -8,6 +8,14 @@
     <%= live_title_tag assigns[:page_title] %>
     <link href="https://unpkg.com/@tailwindcss/forms@0.2.1/dist/forms.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+    .line-clamp {
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    </style>
     <%= if @current_user do %>
     <script>
         window.userId = "<%= assigns[:current_user].id %>";
