@@ -4,7 +4,7 @@
 
         <%= if Map.has_key?(@latest_movie, "id") do %>
             <div class="relative bg-gray-800">
-              <div class="h-56 bg-indigo-600 sm:h-72 md:absolute md:left-0 md:h-full md:w-1/2">
+              <div class="h-56 sm:h-72 md:absolute md:left-0 md:h-full md:w-1/2">
                 <img class="w-full h-full object-cover" src={(Enum.filter(@latest_movie["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]} alt="">
               </div>
               <div class="relative max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
