@@ -1,5 +1,17 @@
   <div class="max-w-4xl mx-auto py-6 px-4 divide-y">
-    <%= if @is_admin do %>
+
+    <div>
+        <%= live_component MediaServerWeb.Components.UserAccountComponent,
+        id: "user-account-form",
+        changeset: @user_name,
+        return_to: Routes.settings_index_path(@socket, :index),
+        title: "Account",
+        description: "Update the details of your account.",
+        current_user: @current_user
+        %>
+    </div>
+
+    <%= if @current_user.is_admin do %>
     <div>
         <%= live_component MediaServerWeb.Components.UserInvitationComponent,
         id: "user-form",

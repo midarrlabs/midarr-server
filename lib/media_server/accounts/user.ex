@@ -50,7 +50,7 @@ defmodule MediaServer.Accounts.User do
   defp validate_name(changeset) do
     changeset
     |> validate_required([:name])
-    |> validate_length(:name, max: 120)
+    |> validate_length(:name, max: 40)
   end
 
   defp validate_password(changeset, opts) do
@@ -110,6 +110,12 @@ defmodule MediaServer.Accounts.User do
     |> cast(attrs, [:password])
     |> validate_confirmation(:password, message: "does not match password")
     |> validate_password(opts)
+  end
+
+  def name_changeset(user, attrs \\ %{}) do
+    user
+    |> cast(attrs, [:name])
+    |> validate_name()
   end
 
   @doc """

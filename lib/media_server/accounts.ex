@@ -212,6 +212,12 @@ defmodule MediaServer.Accounts do
     end
   end
 
+  def update_user_name(user, attrs) do
+    user
+    |> User.name_changeset(attrs)
+    |> Repo.update()
+  end
+
   ## Session
 
   @doc """
