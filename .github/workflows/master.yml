@@ -26,7 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.CGNETWORK_PAT }}
+          token: ${{ secrets.PAT }}
           fetch-depth: 0
 
       - name: Setup Node.js
@@ -39,5 +39,5 @@ jobs:
 
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.CGNETWORK_PAT }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         run: npx semantic-release
