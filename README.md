@@ -6,7 +6,7 @@
 > * Reporting bugs and issues
 > * Being kind and patient with the development process
 >
-> Thank you and enjoy 🎉
+> Enjoy 🎉
 
 ![Preview](docs/Midarr-light.png)
 
