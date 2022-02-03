@@ -86,7 +86,7 @@ services:
 
 ## Configuration
 
-Integrations must also provide the volumes as mounted in your Radarr and Sonarr instances:
+Integrations must provide the volumes as mounted in your Radarr and Sonarr instances:
 ```bash
 /path/to/radarr/movies:/movies
 /path/to/sonarr/shows:/shows
@@ -107,7 +107,7 @@ There is currently no initial server setup for walking through setting everythin
 You must manually setup the first user account by inserting an entry into the postgres database, and setting the `is_admin` flag to `true`.
 Use https://bcrypt-generator.com/ to encrypt your password.
 
-Using the admin account, go to the `Settings` page to configure your integration.
+Using the admin account, go to the `Settings` page to configure your integrations.
 
 ## Contributing
 
