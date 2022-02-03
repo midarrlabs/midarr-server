@@ -1,3 +1,13 @@
+> **EARLY PREVIEW SOFTWARE** -
+> Please beware this is an early preview of software in rapid development, there will be bugs!
+>
+> Please show your support by:
+> * Using the software
+> * Reporting bugs and issues
+> * Being kind and patient with the development process
+>
+> Thank you and enjoy 🎉
+
 ![Preview](docs/Midarr-light.png)
 
 <div align="center">
