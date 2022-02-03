@@ -14,11 +14,11 @@
     <a href="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml"><img src="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml/badge.svg" alt="Build Status"></a>
 </div>
 
-The next-generation media server has arrived, `Midarr` aims to provide an experience like none other:
+`Midarr` has arrived and aims to provide an experience like none other:
 
-* Beautifully crafted interface enhances your media viewing experience
+* Beautifully crafted interface to enhance your media viewing experience
 * Social from the get go - user online and watch statuses
-* Easily invite users from admin settings
+* User invitations to share the experience
 * Integrations with Radarr and Sonarr
 * and plenty more to come...
 
@@ -93,7 +93,7 @@ Thank you for your contributions! Big or small - we welcome all!
 
 `Midarr` is open-sourced software licensed under the [MIT license](LICENSE).
 
-## Preview
+## Screenshots
 
 ![Preview](docs/online.png)
 ![Preview](docs/series.png)
