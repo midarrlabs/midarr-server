@@ -18,6 +18,7 @@ The next-generation media server has arrived, `Midarr` aims to provide an experi
 
 * Beautifully crafted interface enhances your media viewing experience
 * Social from the get go - user online and watch statuses
+* Easily invite users from admin settings
 * Integrations with Radarr and Sonarr
 * and plenty more to come...
 
@@ -68,6 +69,21 @@ Integrations must also provide the volumes as mounted in your Radarr and Sonarr 
 /path/to/sonarr/shows:/shows
 ```
 This is so `Midarr` has the same reference to your media library as the integrations, and can find them.
+
+## Gotchas
+
+#### Media codec support
+* Video H264
+* Audio AAC / MP3
+* Container MP4
+
+#### Server setup
+
+There is currently no initial server setup for walking through setting everything up, including the first user / admin account.
+
+You must manually setup the first user account by inserting an entry into the postgres database, and setting the `is_admin` flag to `true`
+
+Use https://bcrypt-generator.com/ to encrypt your password.
 
 ## Contributing
 
