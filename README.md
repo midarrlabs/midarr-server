@@ -60,54 +60,58 @@ volumes:
 services:
   midarr:
     image: ghcr.io/midarrlabs/midarr-server:latest
-    depends_on:
-      database:
-        condition: service_healthy
     ports:
-      - "4000:4000"
+      - 4000:4000
     volumes:
-      - /path/to/radarr/movies:/movies
-      - /path/to/sonarr/shows:/shows
-    restart: unless-stopped
+      - /path/to/radarr/movies:/any/path #i.e. /movies
+      - /path/to/sonarr/shows:/any/path #i.e. /shows
+    environment:
+      - DB_USERNAME=my_user
+      - DB_PASSWORD=my_password
+      - DB_DATABASE=my_database
+      - DB_HOSTNAME=postgresql
+      - SETUP_ADMIN_EMAIL=admin@email.com
+      - SETUP_ADMIN_NAME=admin
+      - SETUP_ADMIN_PASSWORD=passwordpassword
+    depends_on:
+      - postgresql
 
-  database:
+  postgresql:
     image: bitnami/postgresql:14
-    healthcheck:
-      test: "exit 0"
     volumes:
       - database-data:/bitnami/postgresql
-    ports:
-      - 5432:5432
     environment:
       - POSTGRESQL_USERNAME=my_user
-      - POSTGRESQL_PASSWORD=password123
+      - POSTGRESQL_PASSWORD=my_password
       - POSTGRESQL_DATABASE=my_database
 ```
 
 ## Configuration
 
-Integrations must provide the volumes as mounted in your Radarr and Sonarr instances:
+Volumes must be provided as mounted in your Radarr and Sonarr instances:
 ```bash
-/path/to/radarr/movies:/movies
-/path/to/sonarr/shows:/shows
+/path/to/radarr/movies:/any/path #i.e. /movies
+/path/to/sonarr/shows:/any/path #i.e. /shows
 ```
-This is so `Midarr` has the same reference to your media library as the integrations, and can find them.
+This is so `Midarr` has the same reference to your media library as your integrations, and can serve them.
 
 ## Gotchas
 
 #### Media codec support
-* Video H264
+* Video H.264
 * Audio AAC / MP3
 * Container MP4
 
 #### Server setup
 
-There is currently no initial server setup for walking through setting everything up, including the first user / admin account.
-
-You must manually setup the first user account by inserting an entry into the postgres database, and setting the `is_admin` flag to `true`.
-Use https://bcrypt-generator.com/ to encrypt your password.
-
-Using the admin account, go to the `Settings` page to configure your integrations.
+An admin account will be initialised for you on server startup, provided you have these `environment` variables configured:
+```yaml
+    environment:
+      - SETUP_ADMIN_EMAIL=admin@email.com
+      - SETUP_ADMIN_NAME=admin
+      - SETUP_ADMIN_PASSWORD=passwordpassword
+```
+Login with these credentials, and access the `Settings` page to configure your server.
 
 ## Contributing
 
