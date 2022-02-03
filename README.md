@@ -79,6 +79,6 @@ Thank you for your contributions! Big or small - we welcome all!
 
 ## Preview
 
+![Preview](docs/online.png)
 ![Preview](docs/series.png)
 ![Preview](docs/movie.png)
-![Preview](docs/online.png)
