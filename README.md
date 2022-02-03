@@ -1,5 +1,5 @@
 > **EARLY PREVIEW SOFTWARE** -
-> Please beware this is an early preview of software in rapid development, there will be bugs!
+> Please beware this is early preview software in rapid development, there will be bugs!
 >
 > Please show your support by:
 > * Using the software
@@ -20,6 +20,8 @@ The next-generation media server has arrived, `Midarr` aims to provide an experi
 * Social from the get go - user online and watch statuses
 * Integrations with Radarr and Sonarr
 * and plenty more to come...
+
+![Preview](docs/home.png)
 
 ## Usage
 
@@ -74,3 +76,9 @@ Thank you for your contributions! Big or small - we welcome all!
 ## License
 
 `Midarr` is open-sourced software licensed under the [MIT license](LICENSE).
+
+## Preview
+
+![Preview](docs/series.png)
+![Preview](docs/movie.png)
+![Preview](docs/online.png)
