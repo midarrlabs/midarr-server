@@ -14,15 +14,38 @@
     <a href="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml"><img src="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml/badge.svg" alt="Build Status"></a>
 </div>
 
-`Midarr` has arrived and aims to provide an experience like none other:
+`Midarr` has arrived and aims to provide a media experience like none other:
 
-* Beautifully crafted interface to enhance your media viewing experience
+* Beautifully crafted interface to enhance your viewing experience
 * Social from the get go - user online and watch statuses
 * User invitations to share the experience
 * Integrations with Radarr and Sonarr
-* and plenty more to come...
+
+with plenty more to come...
 
 ![Preview](docs/home.png)
+
+#### What is this?
+
+`Midarr` in its' current preview form, is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It relies on the integration with these services to serve your **MP4** format media untouched and unscathed.
+
+While more fully fledged media server options already exist, `Midarr` simply compliments as a lightweight alternative.
+
+#### What does it not do?
+
+`Midarr` currently does not:
+* Index your media
+* Transcode your media
+* Edit or configure your media
+
+#### What does it do?
+
+Your media is retrieved and served through a familiar web interface and provides:
+* User authentication
+* User profile settings
+* User online statuses
+
+with more features planned ahead.
 
 ## Usage
 
@@ -81,9 +104,10 @@ This is so `Midarr` has the same reference to your media library as the integrat
 
 There is currently no initial server setup for walking through setting everything up, including the first user / admin account.
 
-You must manually setup the first user account by inserting an entry into the postgres database, and setting the `is_admin` flag to `true`
-
+You must manually setup the first user account by inserting an entry into the postgres database, and setting the `is_admin` flag to `true`.
 Use https://bcrypt-generator.com/ to encrypt your password.
+
+Using the admin account, go to the `Settings` page to configure your integration.
 
 ## Contributing
 
@@ -98,3 +122,4 @@ Thank you for your contributions! Big or small - we welcome all!
 ![Preview](docs/online.png)
 ![Preview](docs/series.png)
 ![Preview](docs/movie.png)
+![Preview](docs/player.png)
