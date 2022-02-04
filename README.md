@@ -106,10 +106,10 @@ This is so `Midarr` has the same reference to your media library as your integra
 
 An admin account will be initialised for you on server startup, provided you have these `environment` variables configured:
 ```yaml
-    environment:
-      - SETUP_ADMIN_EMAIL=admin@email.com
-      - SETUP_ADMIN_NAME=admin
-      - SETUP_ADMIN_PASSWORD=passwordpassword
+environment:
+  - SETUP_ADMIN_EMAIL=admin@email.com
+  - SETUP_ADMIN_NAME=admin
+  - SETUP_ADMIN_PASSWORD=passwordpassword
 ```
 Login with these credentials, and access the `Settings` page to configure your server.
 
