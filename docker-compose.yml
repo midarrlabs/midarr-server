@@ -1,32 +1,36 @@
 version: "3"
 
-volumes:
-  postgres-data:
-
 services:
   web:
     build: .
-    depends_on:
-      postgresql:
-        condition: service_healthy
     volumes:
       - ./:/app
       - ./fixtures/movies:/movies
       - ./fixtures/shows:/shows
     ports:
       - 4000:4000
+    environment:
+      - DB_USERNAME=my_user
+      - DB_PASSWORD=my_password
+      - DB_DATABASE=my_database
+      - DB_HOSTNAME=postgresql
+      - SETUP_ADMIN_EMAIL=admin@email.com
+      - SETUP_ADMIN_NAME=admin
+      - SETUP_ADMIN_PASSWORD=passwordpassword
+    command: >
+        bash -c "mix phx.server"
+    depends_on:
+      - postgresql
 
   postgresql:
     image: bitnami/postgresql:14
     healthcheck:
       test: "exit 0"
-    volumes:
-      - postgres-data:/bitnami/postgresql
     ports:
       - 5432:5432
     environment:
       - POSTGRESQL_USERNAME=my_user
-      - POSTGRESQL_PASSWORD=password123
+      - POSTGRESQL_PASSWORD=my_password
       - POSTGRESQL_DATABASE=my_database
 
   test-web:
@@ -44,8 +48,16 @@ services:
       - ./:/app
       - ./fixtures/movies:/movies
       - ./fixtures/shows:/shows
+    environment:
+      - DB_USERNAME=my_user
+      - DB_PASSWORD=my_password
+      - DB_DATABASE=my_database
+      - DB_HOSTNAME=postgresql
+      - SETUP_ADMIN_EMAIL=admin@email.com
+      - SETUP_ADMIN_NAME=admin
+      - SETUP_ADMIN_PASSWORD=passwordpassword
     command: >
-        bash -c "mix deps.get && mix ecto.create && mix test"
+        bash -c "mix test"
 
   test-postgresql:
     image: bitnami/postgresql:14
@@ -53,7 +65,7 @@ services:
       test: "exit 0"
     environment:
       - POSTGRESQL_USERNAME=my_user
-      - POSTGRESQL_PASSWORD=password123
+      - POSTGRESQL_PASSWORD=my_password
       - POSTGRESQL_DATABASE=my_database
 
   test-radarr:
