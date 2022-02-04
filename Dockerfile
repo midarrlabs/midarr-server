@@ -13,7 +13,7 @@ RUN mix local.hex --force && \
     mix compile && \
     mix assets.deploy
 
-RUN chmod +x /app/entry-point.sh
+RUN chmod u+x /app/entry-point.sh
 
 EXPOSE 4000
 
