@@ -89,9 +89,10 @@ services:
 ## Configuration
 
 Volumes must be provided as mounted in your Radarr and Sonarr instances:
-```bash
-/path/to/radarr/movies:/any/path #i.e. /movies
-/path/to/sonarr/shows:/any/path #i.e. /shows
+```yaml
+volumes:
+  - /path/to/radarr/movies:/any/path #i.e. /movies
+  - /path/to/sonarr/shows:/any/path #i.e. /shows
 ```
 This is so `Midarr` has the same reference to your media library as your integrations, and can serve them.
 
