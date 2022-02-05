@@ -2,7 +2,9 @@ name: Master
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - 'feature/enable-test-in-ci'
 
 jobs:
   test:
