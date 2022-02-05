@@ -53,11 +53,8 @@ services:
       - DB_PASSWORD=my_password
       - DB_DATABASE=my_database
       - DB_HOSTNAME=postgresql
-      - SETUP_ADMIN_EMAIL=admin@email.com
-      - SETUP_ADMIN_NAME=admin
-      - SETUP_ADMIN_PASSWORD=passwordpassword
     command: >
-        bash -c "mix test"
+        bash -c "mix deps.get && mix ecto.create && mix test"
 
   test-postgresql:
     image: bitnami/postgresql:14

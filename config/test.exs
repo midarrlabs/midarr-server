@@ -10,7 +10,7 @@ config :bcrypt_elixir, :log_rounds, 1
 # Run `mix help test` for more information.
 config :media_server, MediaServer.Repo,
   username: "my_user",
-  password: "password123",
+  password: "my_password",
   database: "my_database",
   hostname: "test-postgresql",
   pool_size: 10,
