@@ -82,7 +82,7 @@ defmodule MediaServer.IntegrationsFixtures do
       |> Enum.into(%{
         api_key: "1accda4476394bfcaddefe8c4fd77d4a",
         name: "Series",
-        url: "test-sonarr:8989/api/v3"
+        url: "sonarr:8989/api/v3"
       })
       |> MediaServer.Integrations.create_sonarr()
 
@@ -146,7 +146,7 @@ defmodule MediaServer.IntegrationsFixtures do
       |> Enum.into(%{
         api_key: "d031e8c9b9df4b2fab311d1c3b3fa2c5",
         name: "Movies",
-        url: "test-radarr:7878/api/v3"
+        url: "radarr:7878/api/v3"
       })
       |> MediaServer.Integrations.create_radarr()
 

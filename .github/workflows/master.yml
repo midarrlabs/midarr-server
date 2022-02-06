@@ -13,7 +13,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Run tests
-      run: docker compose run test-web
+      run: docker compose run test
 
   release:
     needs: test

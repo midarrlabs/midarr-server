@@ -14,13 +14,15 @@ services:
       - DB_PASSWORD=my_password
       - DB_DATABASE=my_database
       - DB_HOSTNAME=postgresql
-      - SETUP_ADMIN_EMAIL=admin@email.com
-      - SETUP_ADMIN_NAME=admin
-      - SETUP_ADMIN_PASSWORD=passwordpassword
-    command: >
-        bash -c "mix phx.server"
     depends_on:
-      - postgresql
+      postgresql:
+        condition: service_healthy
+      radarr:
+        condition: service_healthy
+      sonarr:
+        condition: service_healthy
+    command: >
+      bash -c "mix ecto.migrate && mix phx.server"
 
   postgresql:
     image: bitnami/postgresql:14
@@ -33,39 +35,7 @@ services:
     healthcheck:
       test: "exit 0"
 
-  test-web:
-    build: .
-    volumes:
-      - ./:/app
-      - ./fixtures/movies:/movies
-      - ./fixtures/shows:/shows
-    environment:
-      - DB_USERNAME=my_user
-      - DB_PASSWORD=my_password
-      - DB_DATABASE=my_database
-      - DB_HOSTNAME=postgresql
-    command: >
-        bash -c "mix deps.get && mix ecto.create && mix test"
-    depends_on:
-      postgresql:
-        condition: service_healthy
-      test-postgresql:
-        condition: service_healthy
-      test-radarr:
-        condition: service_healthy
-      test-sonarr:
-        condition: service_healthy
-
-  test-postgresql:
-    image: bitnami/postgresql:14
-    environment:
-      - POSTGRESQL_USERNAME=my_user
-      - POSTGRESQL_PASSWORD=my_password
-      - POSTGRESQL_DATABASE=my_database
-    healthcheck:
-      test: "exit 0"
-
-  test-radarr:
+  radarr:
     image: lscr.io/linuxserver/radarr
     ports:
       - 7878:7878
@@ -78,7 +48,7 @@ services:
     healthcheck:
       test: "exit 0"
 
-  test-sonarr:
+  sonarr:
     image: lscr.io/linuxserver/sonarr
     ports:
       - 8989:8989
@@ -90,3 +60,23 @@ services:
       - PGID=1000
     healthcheck:
       test: "exit 0"
+
+  test:
+    build: .
+    volumes:
+      - ./fixtures/movies:/movies
+      - ./fixtures/shows:/shows
+    environment:
+      - DB_USERNAME=my_user
+      - DB_PASSWORD=my_password
+      - DB_DATABASE=my_database
+      - DB_HOSTNAME=postgresql
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      radarr:
+        condition: service_healthy
+      sonarr:
+        condition: service_healthy
+    command: >
+      bash -c "mix ecto.migrate && mix test"

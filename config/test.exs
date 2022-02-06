@@ -9,10 +9,10 @@ config :bcrypt_elixir, :log_rounds, 1
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :media_server, MediaServer.Repo,
-  username: "my_user",
-  password: "my_password",
-  database: "my_database",
-  hostname: "test-postgresql",
+  username: System.get_env("DB_USERNAME"),
+  password: System.get_env("DB_PASSWORD"),
+  database: System.get_env("DB_DATABASE"),
+  hostname: System.get_env("DB_HOSTNAME"),
   pool_size: 10,
   pool: Ecto.Adapters.SQL.Sandbox
 
