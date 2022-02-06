@@ -12,9 +12,6 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Build docker images
-      run: docker compose build
-
     - name: Run tests
       run: docker compose run test-web
 
