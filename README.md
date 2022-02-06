@@ -63,8 +63,8 @@ services:
     ports:
       - 4000:4000
     volumes:
-      - /path/to/radarr/movies:/path/in/radarr
-      - /path/to/sonarr/shows:/path/in/sonarr
+      - /path/to/radarr/movies:/movies/in/radarr
+      - /path/to/sonarr/shows:/shows/in/sonarr
     environment:
       - DB_USERNAME=my_user
       - DB_PASSWORD=my_password
@@ -93,8 +93,8 @@ services:
 Volumes must be provided as mounted in your Radarr and Sonarr instances:
 ```yaml
 volumes:
-  - /path/to/radarr/movies:/path/in/radarr
-  - /path/to/sonarr/shows:/path/in/sonarr
+  - /path/to/radarr/movies:/movies/in/radarr
+  - /path/to/sonarr/shows:/shows/in/sonarr
 ```
 This is so `Midarr` has the same reference to your media library as your integrations, and can serve them.
 
