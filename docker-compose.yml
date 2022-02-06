@@ -1,14 +1,14 @@
-version: "3"
+version: "3.4"
 
 services:
   web:
     build: .
+    ports:
+      - 4000:4000
     volumes:
       - ./:/app
       - ./fixtures/movies:/movies
       - ./fixtures/shows:/shows
-    ports:
-      - 4000:4000
     environment:
       - DB_USERNAME=my_user
       - DB_PASSWORD=my_password
@@ -24,26 +24,17 @@ services:
 
   postgresql:
     image: bitnami/postgresql:14
-    healthcheck:
-      test: "exit 0"
     ports:
       - 5432:5432
     environment:
       - POSTGRESQL_USERNAME=my_user
       - POSTGRESQL_PASSWORD=my_password
       - POSTGRESQL_DATABASE=my_database
+    healthcheck:
+      test: "exit 0"
 
   test-web:
     build: .
-    depends_on:
-      postgresql:
-        condition: service_healthy
-      test-postgresql:
-        condition: service_healthy
-      test-radarr:
-        condition: service_healthy
-      test-sonarr:
-        condition: service_healthy
     volumes:
       - ./:/app
       - ./fixtures/movies:/movies
@@ -55,48 +46,55 @@ services:
       - DB_HOSTNAME=postgresql
     command: >
         bash -c "mix deps.get && mix ecto.create && mix test"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      test-postgresql:
+        condition: service_healthy
+      test-radarr:
+        condition: service_healthy
+      test-sonarr:
+        condition: service_healthy
 
   test-postgresql:
     image: bitnami/postgresql:14
-    healthcheck:
-      test: "exit 0"
     environment:
       - POSTGRESQL_USERNAME=my_user
       - POSTGRESQL_PASSWORD=my_password
       - POSTGRESQL_DATABASE=my_database
+    healthcheck:
+      test: "exit 0"
 
   test-radarr:
-    image: mdhiggins/radarr-sma
-    healthcheck:
-      test: curl --fail http://test-radarr:7878 || exit 1
-      interval: 60s
-      retries: 5
-      start_period: 20s
-      timeout: 10s
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Pacific/Auckland
+    image: lscr.io/linuxserver/radarr
+    ports:
+      - 7878:7878
     volumes:
       - ./fixtures/radarr:/config
       - ./fixtures/movies:/movies
-    ports:
-      - 7878:7878
-
-  test-sonarr:
-    image: mdhiggins/sonarr-sma
-    healthcheck:
-      test: curl --fail http://test-sonarr:8989 || exit 1
-      interval: 60s
-      retries: 5
-      start_period: 20s
-      timeout: 10s
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Pacific/Auckland
+    healthcheck:
+      test: curl --fail test-radarr:7878 || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  test-sonarr:
+    image: lscr.io/linuxserver/sonarr
+    ports:
+      - 8989:8989
     volumes:
       - ./fixtures/sonarr:/config
       - ./fixtures/shows:/shows
-    ports:
-      - 8989:8989
+    environment:
+      - PUID=1000
+      - PGID=1000
+    healthcheck:
+      test: curl --fail test-sonarr:8989 || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
