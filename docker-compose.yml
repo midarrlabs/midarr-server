@@ -68,7 +68,7 @@ services:
   test-radarr:
     image: mdhiggins/radarr-sma
     healthcheck:
-      test: curl --fail http://localhost:7878 || exit 1
+      test: curl --fail http://test-radarr:7878 || exit 1
       interval: 60s
       retries: 5
       start_period: 20s
@@ -86,7 +86,7 @@ services:
   test-sonarr:
     image: mdhiggins/sonarr-sma
     healthcheck:
-      test: curl --fail http://localhost:8989 || exit 1
+      test: curl --fail http://test-sonarr:8989 || exit 1
       interval: 60s
       retries: 5
       start_period: 20s
