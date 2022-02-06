@@ -76,11 +76,7 @@ services:
       - PUID=1000
       - PGID=1000
     healthcheck:
-      test: curl --fail http://test-radarr:7878 || exit 1
-      interval: 10s
-      retries: 10
-      start_period: 30s
-      timeout: 10s
+      test: "exit 0"
 
   test-sonarr:
     image: lscr.io/linuxserver/sonarr
@@ -93,8 +89,4 @@ services:
       - PUID=1000
       - PGID=1000
     healthcheck:
-      test: curl --fail http://test-sonarr:8989 || exit 1
-      interval: 10s
-      retries: 10
-      start_period: 30s
-      timeout: 10s
+      test: "exit 0"
