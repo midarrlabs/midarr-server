@@ -52,7 +52,7 @@ with more features planned ahead.
 Docker compose example:
 
 ```yaml
-version: '3'
+version: '3.4'
 
 volumes:
   database-data:
@@ -63,8 +63,8 @@ services:
     ports:
       - 4000:4000
     volumes:
-      - /path/to/radarr/movies:/any/path #i.e. /movies
-      - /path/to/sonarr/shows:/any/path #i.e. /shows
+      - /path/to/radarr/movies:/path/in/radarr
+      - /path/to/sonarr/shows:/path/in/sonarr
     environment:
       - DB_USERNAME=my_user
       - DB_PASSWORD=my_password
@@ -88,22 +88,17 @@ services:
 
 ## Configuration
 
+#### Volumes
+
 Volumes must be provided as mounted in your Radarr and Sonarr instances:
 ```yaml
 volumes:
-  - /path/to/radarr/movies:/any/path #i.e. /movies
-  - /path/to/sonarr/shows:/any/path #i.e. /shows
+  - /path/to/radarr/movies:/path/in/radarr
+  - /path/to/sonarr/shows:/path/in/sonarr
 ```
 This is so `Midarr` has the same reference to your media library as your integrations, and can serve them.
 
-## Gotchas
-
-#### Media codec support
-* Video H.264
-* Audio AAC / MP3
-* Container MP4
-
-#### Server setup
+#### Setup
 
 An admin account will be initialised for you on server startup, provided you have these `environment` variables configured:
 ```yaml
@@ -113,6 +108,12 @@ environment:
   - SETUP_ADMIN_PASSWORD=passwordpassword
 ```
 Login with these credentials, and access the `Settings` page to configure your server.
+
+## Video support
+
+* Video H.264
+* Audio AAC / MP3
+* Container MP4
 
 ## Contributing
 
