@@ -21,8 +21,7 @@ services:
         condition: service_healthy
       sonarr:
         condition: service_healthy
-    command: >
-      bash -c "mix ecto.migrate && mix phx.server"
+    command: bash -c "mix ecto.migrate && mix phx.server"
 
   postgresql:
     image: bitnami/postgresql:14
@@ -78,5 +77,4 @@ services:
         condition: service_healthy
       sonarr:
         condition: service_healthy
-    command: >
-      bash -c "mix ecto.migrate && mix test"
+    command: bash -c "mix ecto.migrate && mix test"
