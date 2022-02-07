@@ -13,9 +13,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Run tests
-      run: docker compose run web
-      with:
-        entrypoint: bash -c "mix ecto.migrate && mix test"
+      run: docker compose run web bash script-test.sh
 
   release:
     needs: test
