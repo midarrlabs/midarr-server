@@ -74,7 +74,8 @@ services:
       - SETUP_ADMIN_NAME=admin
       - SETUP_ADMIN_PASSWORD=passwordpassword
     depends_on:
-      - postgresql
+      postgresql:
+        condition: service_healthy
 
   postgresql:
     image: bitnami/postgresql:14
@@ -84,6 +85,8 @@ services:
       - POSTGRESQL_USERNAME=my_user
       - POSTGRESQL_PASSWORD=my_password
       - POSTGRESQL_DATABASE=my_database
+    healthcheck:
+      test: "exit 0"
 ```
 
 ## Configuration
@@ -91,6 +94,7 @@ services:
 #### Volumes
 
 Volumes must be provided as mounted in your Radarr and Sonarr instances:
+
 ```yaml
 volumes:
   - /path/to/movies:/movies/in/radarr
@@ -101,6 +105,7 @@ This is so `Midarr` has the same reference to your media library as your integra
 #### Setup
 
 An admin account will be initialised for you on server startup, provided you have these `environment` variables configured:
+
 ```yaml
 environment:
   - SETUP_ADMIN_EMAIL=admin@email.com
