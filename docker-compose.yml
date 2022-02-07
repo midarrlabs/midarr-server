@@ -59,3 +59,22 @@ services:
       - PGID=1000
     healthcheck:
       test: "exit 0"
+
+  test:
+    build: .
+    volumes:
+      - ./fixtures/movies:/movies
+      - ./fixtures/shows:/shows
+    environment:
+      - DB_USERNAME=my_user
+      - DB_PASSWORD=my_password
+      - DB_DATABASE=my_database
+      - DB_HOSTNAME=postgresql
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      radarr:
+        condition: service_healthy
+      sonarr:
+        condition: service_healthy
+    command: bash -c "mix ecto.migrate && mix test"
