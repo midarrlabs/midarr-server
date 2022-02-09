@@ -72,7 +72,7 @@ services:
       - DB_HOSTNAME=postgresql
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
-      - SETUP_ADMIN_PASSWORD=passwordpassword
+      - SETUP_ADMIN_PASSWORD=passwordpassword # min length 12, max length 72
     depends_on:
       postgresql:
         condition: service_healthy
@@ -110,7 +110,7 @@ An admin account will be initialised for you on server startup, provided you hav
 environment:
   - SETUP_ADMIN_EMAIL=admin@email.com
   - SETUP_ADMIN_NAME=admin
-  - SETUP_ADMIN_PASSWORD=passwordpassword
+  - SETUP_ADMIN_PASSWORD=passwordpassword # min length 12, max length 72
 ```
 Login with these credentials, and access the `Settings` page to configure your server.
 
