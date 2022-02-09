@@ -36,13 +36,6 @@ jobs:
         id: docker_build_latest
         uses: docker/build-push-action@v2
         with:
-          push: true
-          tags: ghcr.io/midarrlabs/midarr-server:latest
-
-      - name: Build tag multi arch push
-        id: docker_build_multi_arch
-        uses: docker/build-push-action@v2
-        with:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
-          tags: ghcr.io/midarrlabs/midarr-server:multi-arch
+          tags: ghcr.io/midarrlabs/midarr-server:latest
