@@ -63,8 +63,8 @@ services:
     ports:
       - 4000:4000
     volumes:
-      - /path/to/movies:/movies/in/radarr
-      - /path/to/shows:/shows/in/sonarr
+      - /path/to/movies:/radarr/movies/path
+      - /path/to/shows:/sonarr/shows/path
     environment:
       - DB_USERNAME=my_user
       - DB_PASSWORD=my_password
@@ -78,13 +78,13 @@ services:
         condition: service_healthy
 
   postgresql:
-    image: bitnami/postgresql:14
+    image: postgres
     volumes:
-      - database-data:/bitnami/postgresql
+      - database-data:/var/lib/postgresql/data
     environment:
-      - POSTGRESQL_USERNAME=my_user
-      - POSTGRESQL_PASSWORD=my_password
-      - POSTGRESQL_DATABASE=my_database
+      - POSTGRES_USER=my_user
+      - POSTGRES_PASSWORD=my_password
+      - POSTGRES_DB=my_database
     healthcheck:
       test: "exit 0"
 ```
@@ -97,8 +97,8 @@ Volumes must be provided as mounted in your Radarr and Sonarr instances:
 
 ```yaml
 volumes:
-  - /path/to/movies:/movies/in/radarr
-  - /path/to/shows:/shows/in/sonarr
+  - /path/to/movies:/radarr/movies/path
+  - /path/to/shows:/sonarr/shows/path
 ```
 This is so `Midarr` has the same reference to your media library as your integrations, and can serve them.
 
