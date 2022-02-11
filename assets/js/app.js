@@ -11,7 +11,7 @@ let presence = new Presence(channel)
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 
-topbar.config({barColors: {0: "#6366f1"}, shadowColor: "rgba(0, 0, 0, .3)"})
+topbar.config({barColors: {0: "#dc2626"}, shadowColor: "rgba(0, 0, 0, .3)"})
 
 window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => {
