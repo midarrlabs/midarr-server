@@ -22,7 +22,7 @@ defmodule MediaServerWeb.Endpoint do
     at: "/",
     from: :media_server,
     gzip: false,
-    only: ~w(assets fonts images favicon.ico robots.txt)
+    only: ~w(assets fonts images favicon.ico robots.txt site.webmanifest apple-touch-icon.png favicon-32x32.png favicon-16x16.png site.webmanifest browserconfig.xml mstile-150x150.png safari-pinned-tab.svg android-chrome-192x192.png android-chrome-512x512.png)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
