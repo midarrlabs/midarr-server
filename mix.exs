@@ -10,7 +10,8 @@ defmodule MediaServer.MixProject do
       compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
     ]
   end
 
@@ -52,6 +53,7 @@ defmodule MediaServer.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:httpoison, "~> 1.8"},
+      {:excoveralls, "~> 0.10", only: :test},
     ]
   end
 
