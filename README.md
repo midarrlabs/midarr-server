@@ -10,7 +10,7 @@
 
 ![Preview](docs/Midarr-light.png)
 
-<div align="center">
+<p align="center">
     <a href="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml">
         <img src="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml/badge.svg" alt="Build Status">
     </a>
@@ -23,7 +23,7 @@
     <a href="https://github.com/midarrlabs/midarr-server/LICENSE">
         <img alt="GitHub license" src="https://img.shields.io/github/license/midarrlabs/midarr-server">
     </a>
-</div>
+</p>
 
 `Midarr` has arrived and aims to provide a media experience like none other:
 
@@ -83,7 +83,7 @@ services:
       - DB_HOSTNAME=postgresql
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
-      - SETUP_ADMIN_PASSWORD=passwordpassword # min length 12, max length 72
+      - SETUP_ADMIN_PASSWORD=passwordpassword # min length 12
     depends_on:
       postgresql:
         condition: service_healthy
@@ -121,7 +121,7 @@ An admin account will be initialised for you on server startup, provided you hav
 environment:
   - SETUP_ADMIN_EMAIL=admin@email.com
   - SETUP_ADMIN_NAME=admin
-  - SETUP_ADMIN_PASSWORD=passwordpassword # min length 12, max length 72
+  - SETUP_ADMIN_PASSWORD=passwordpassword # min length 12
 ```
 Login with these credentials, and access the `Settings` page to configure your server.
 
