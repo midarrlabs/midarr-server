@@ -20,7 +20,7 @@
     <a href="https://github.com/midarrlabs/midarr-server/releases">
         <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/midarrlabs/midarr-server">
     </a>
-    <a href="https://github.com/midarrlabs/midarr-server/LICENSE">
+    <a href="https://github.com/midarrlabs/midarr-server/blob/master/LICENSE">
         <img alt="GitHub license" src="https://img.shields.io/github/license/midarrlabs/midarr-server">
     </a>
 </p>
