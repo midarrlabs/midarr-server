@@ -5,7 +5,7 @@ defmodule MediaServerWeb.Repositories.Movies do
   alias MediaServer.Integrations.Radarr
 
   def get_url(url) do
-    radarr = Radarr |> last(:inserted_at) |> Repo.one
+    radarr = Radarr |> first |> Repo.one
 
     case radarr do
 
@@ -13,7 +13,7 @@ defmodule MediaServerWeb.Repositories.Movies do
         nil
 
       _ ->
-        "#{ radarr.url }/#{ url }?apiKey=#{ radarr.api_key }"
+        "#{ radarr.url }/api/v3/#{ url }?apiKey=#{ radarr.api_key }"
     end
   end
 
@@ -49,7 +49,7 @@ defmodule MediaServerWeb.Repositories.Movies do
 
   def get_movie(id) do
 
-    case HTTPoison.get("#{ get_url("movie/#{ id }") }") do
+    case HTTPoison.get(get_url("movie/#{ id }")) do
 
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         Jason.decode!(body)

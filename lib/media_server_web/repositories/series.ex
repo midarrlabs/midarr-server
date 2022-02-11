@@ -5,7 +5,7 @@ defmodule MediaServerWeb.Repositories.Series do
   alias MediaServer.Integrations.Sonarr
 
   def get_url(url) do
-    sonarr = Sonarr |> last(:inserted_at) |> Repo.one
+    sonarr = Sonarr |> first |> Repo.one
 
     case sonarr do
 
@@ -13,7 +13,7 @@ defmodule MediaServerWeb.Repositories.Series do
         nil
 
       _ ->
-        "#{ sonarr.url }/#{ url }?apikey=#{ sonarr.api_key }"
+        "#{ sonarr.url }/api/v3/#{ url }?apikey=#{ sonarr.api_key }"
     end
   end
 

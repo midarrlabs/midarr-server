@@ -29,7 +29,8 @@
         changeset: @radarr,
         return_to: Routes.settings_index_path(@socket, :index),
         title: "Radarr Integration",
-        description: "Fill in the information below to integrate your Radarr instance."
+        description: "Fill in the information below to integrate your Radarr instance.",
+        placeholder: "Enter base url i.e. http://radarr:7878"
         %>
     </div>
 
@@ -39,7 +40,8 @@
         changeset: @sonarr,
         return_to: Routes.settings_index_path(@socket, :index),
         title: "Sonarr Integration",
-        description: "Fill in the information below to integrate your Sonarr instance."
+        description: "Fill in the information below to integrate your Sonarr instance.",
+        placeholder: "Enter base url i.e. http://sonar:8989"
         %>
     </div>
     <% end %>
