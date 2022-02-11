@@ -11,7 +11,18 @@
 ![Preview](docs/Midarr-light.png)
 
 <div align="center">
-    <a href="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml"><img src="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml/badge.svg" alt="Build Status"></a>
+    <a href="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml">
+        <img src="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml/badge.svg" alt="Build Status">
+    </a>
+    <a href="https://codecov.io/gh/midarrlabs/midarr-server">
+        <img src="https://codecov.io/gh/midarrlabs/midarr-server/branch/master/graph/badge.svg?token=8PJVJG09RK"/>
+    </a>
+    <a href="https://github.com/midarrlabs/midarr-server/releases">
+        <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/midarrlabs/midarr-server">
+    </a>
+    <a href="https://github.com/midarrlabs/midarr-server/LICENSE">
+        <img alt="GitHub license" src="https://img.shields.io/github/license/midarrlabs/midarr-server">
+    </a>
 </div>
 
 `Midarr` has arrived and aims to provide a media experience like none other:
