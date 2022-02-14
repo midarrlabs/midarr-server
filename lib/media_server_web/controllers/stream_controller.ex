@@ -17,7 +17,7 @@ defmodule MediaServerWeb.StreamController do
         0
     end
   end
-  
+
   defp get_file_size(path) do
     {:ok, %{size: size}} = File.stat path
 
@@ -25,12 +25,23 @@ defmodule MediaServerWeb.StreamController do
   end
   
   defp send_video(conn, headers, path) do
-    offset = get_offset(headers)
+
     file_size = get_file_size(path)
 
-    conn
-    |> put_resp_header("content-type", "video/mp4")
-    |> put_resp_header("content-range", "bytes #{offset}-#{file_size-1}/#{file_size}")
-    |> send_file(206, path, offset, file_size - offset)
+    case List.keyfind(headers, "range", 0) do
+      {"range", "bytes=0-1"} ->
+        conn
+        |> put_resp_header("content-type", "video/mp4")
+        |> put_resp_header("content-range", "bytes 0-1/#{file_size}")
+        |> send_file(206, path, 0, 2)
+
+      _ ->
+        offset = get_offset(headers)
+
+        conn
+        |> put_resp_header("content-type", "video/mp4")
+        |> put_resp_header("content-range", "bytes #{offset}-#{file_size-1}/#{file_size}")
+        |> send_file(206, path, offset, file_size - offset)
+    end
   end
 end
