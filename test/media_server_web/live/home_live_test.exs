@@ -4,7 +4,7 @@ defmodule MediaServerWeb.HomeLiveTest do
   import MediaServer.AccountsFixtures
   import MediaServer.IntegrationsFixtures
 
-  test "it without integrations", %{conn: conn} do
+  test "without integrations", %{conn: conn} do
     fixture = %{user: user_fixture()}
 
     conn =
@@ -16,11 +16,11 @@ defmodule MediaServerWeb.HomeLiveTest do
     assert html_response(conn, 200)
   end
 
-  test "it with integrations", %{conn: conn} do
+  test "with integrations", %{conn: conn} do
     fixture = %{
       user: user_fixture(),
-      radarr: real_radarr_fixture(),
-      sonarr: real_sonarr_fixture()
+      radarr: radarr_fixture(),
+      sonarr: sonarr_fixture()
     }
 
     conn =

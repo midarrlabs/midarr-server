@@ -1,20 +1,7 @@
 defmodule MediaServerWeb.Repositories.Series do
 
-  import Ecto.Query
-  alias MediaServer.Repo
-  alias MediaServer.Integrations.Sonarr
-
   def get_url(url) do
-    sonarr = Sonarr |> first |> Repo.one
-
-    case sonarr do
-
-      nil ->
-        nil
-
-      _ ->
-        "#{ sonarr.url }/api/v3/#{ url }?apikey=#{ sonarr.api_key }"
-    end
+    "#{ System.get_env("SONARR_BASE_URL") }/api/v3/#{ url }?apiKey=#{ System.get_env("SONARR_API_KEY") }"
   end
 
   def get_latest(amount) do
@@ -40,9 +27,8 @@ defmodule MediaServerWeb.Repositories.Series do
     case HTTPoison.get(get_url("series")) do
 
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded = Jason.decode!(body)
 
-        Enum.sort_by(decoded, &(&1["title"]), :asc)
+        Enum.sort_by(Jason.decode!(body), &(&1["title"]), :asc)
         |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] !== 0 end)
     end
   end
@@ -66,23 +52,21 @@ defmodule MediaServerWeb.Repositories.Series do
     end
   end
 
-  def get_episode(episode) do
+  def get_episode(id) do
 
-    case HTTPoison.get("#{ get_url("episode/#{ episode }") }") do
+    case HTTPoison.get("#{ get_url("episode/#{ id }") }") do
 
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         Jason.decode!(body)
     end
   end
 
-  def get_episode_path(episode) do
+  def get_episode_path(id) do
 
-    case HTTPoison.get("#{ get_url("episode/#{ episode }") }") do
+    case HTTPoison.get("#{ get_url("episode/#{ id }") }") do
 
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded= Jason.decode!(body)
-
-        decoded["episodeFile"]["path"]
+        Jason.decode!(body)["episodeFile"]["path"]
     end
   end
 

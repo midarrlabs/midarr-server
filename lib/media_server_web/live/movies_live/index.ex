@@ -8,7 +8,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, :Movies)
-    |> assign(:decoded, MediaServerWeb.Repositories.Movies.get_all())
+    |> assign(:page_title, "Movies")
+    |> assign(:movies, MediaServerWeb.Repositories.Movies.get_all())
   end
 end

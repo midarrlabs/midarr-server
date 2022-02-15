@@ -8,7 +8,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
   test "GET /movies", %{conn: conn} do
     fixture = %{
       user: user_fixture(),
-      radarr: real_radarr_fixture()
+      radarr: radarr_fixture()
     }
 
     conn =
@@ -25,7 +25,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
       user: user_fixture()
     }
 
-    {_radarr, movie_id} = real_radarr_fixture()
+    {_radarr, movie_id} = radarr_fixture()
 
     conn =
       post(conn, Routes.user_session_path(conn, :create), %{
@@ -42,7 +42,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
       user: user_fixture()
     }
 
-    {_radarr, movie_id} = real_radarr_fixture()
+    {_radarr, movie_id} = radarr_fixture()
 
     conn =
       post(conn, Routes.user_session_path(conn, :create), %{

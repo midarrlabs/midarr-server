@@ -4,7 +4,6 @@ defmodule MediaServerWeb.SettingsLive.Index do
   alias MediaServer.Repo
   alias MediaServer.Accounts
   alias MediaServer.Accounts.User
-  alias MediaServer.Integrations
 
   @impl true
   def mount(_params, session, socket) do
@@ -23,7 +22,5 @@ defmodule MediaServerWeb.SettingsLive.Index do
     |> assign(:users, Repo.all(User))
     |> assign(:user_name, User.name_changeset(socket.assigns.current_user))
     |> assign(:user, User.registration_changeset(%User{}, %{}))
-    |> assign(:radarr, Integrations.get_first_radarr())
-    |> assign(:sonarr, Integrations.get_first_sonarr())
   end
 end

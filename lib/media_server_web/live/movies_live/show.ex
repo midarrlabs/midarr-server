@@ -2,19 +2,19 @@ defmodule MediaServerWeb.MoviesLive.Show do
   use MediaServerWeb, :live_view
 
   @impl true
-  def handle_params(%{"movie" => movie}, _, socket) do
-    decoded = MediaServerWeb.Repositories.Movies.get_movie(movie)
+  def handle_params(%{"movie" => id}, _, socket) do
+    movie = MediaServerWeb.Repositories.Movies.get_movie(id)
 
     {
       :noreply,
       socket
-      |> assign(:page_title, decoded["title"])
-      |> assign(:decoded, decoded)
+      |> assign(:page_title, movie["title"])
+      |> assign(:movie, movie)
     }
   end
 
   @impl true
-  def handle_event("play", %{"movie" => movie}, socket) do
-    {:noreply, push_redirect(socket, to: "/movies/#{ movie }/watch")}
+  def handle_event("play", %{"movie" => id}, socket) do
+    {:noreply, push_redirect(socket, to: "/movies/#{ id }/watch")}
   end
 end

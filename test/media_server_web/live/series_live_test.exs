@@ -10,7 +10,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   test "GET /series", %{conn: conn} do
     fixture = %{
       user: user_fixture(),
-      sonarr: real_sonarr_fixture()
+      sonarr: sonarr_fixture()
     }
 
     conn =
@@ -27,7 +27,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
       user: user_fixture()
     }
 
-    {_sonarr, series_id, _episode_id} = real_sonarr_fixture()
+    {_sonarr, series_id, _episode_id} = sonarr_fixture()
 
     conn =
       post(conn, Routes.user_session_path(conn, :create), %{
@@ -43,7 +43,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it should merge episode images with serie episode", %{conn: _conn} do
-    {_sonarr, series_id, _episode_id} = real_sonarr_fixture()
+    {_sonarr, series_id, _episode_id} = sonarr_fixture()
 
     episodes = Series.get_episodes(series_id)
 

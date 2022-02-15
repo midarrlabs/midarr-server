@@ -14,7 +14,7 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
 
     test "episode", %{conn: conn, user: user} do
 
-      {_sonarr, _series_id, episode_id} = real_sonarr_fixture()
+      {_sonarr, _series_id, episode_id} = sonarr_fixture()
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
@@ -35,7 +35,7 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
 
     test "episode range", %{conn: conn, user: user} do
 
-      {_sonarr, _series_id, episode_id} = real_sonarr_fixture()
+      {_sonarr, _series_id, episode_id} = sonarr_fixture()
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
@@ -56,7 +56,7 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
 
     test "safari probe", %{conn: conn, user: user} do
 
-      {_sonarr, _series_id, episode_id} = real_sonarr_fixture()
+      {_sonarr, _series_id, episode_id} = sonarr_fixture()
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{

@@ -1,20 +1,7 @@
 defmodule MediaServerWeb.Repositories.Movies do
 
-  import Ecto.Query
-  alias MediaServer.Repo
-  alias MediaServer.Integrations.Radarr
-
   def get_url(url) do
-    radarr = Radarr |> first |> Repo.one
-
-    case radarr do
-
-      nil ->
-        nil
-
-      _ ->
-        "#{ radarr.url }/api/v3/#{ url }?apiKey=#{ radarr.api_key }"
-    end
+    "#{ System.get_env("RADARR_BASE_URL") }/api/v3/#{ url }?apiKey=#{ System.get_env("RADARR_API_KEY") }"
   end
 
   def get_latest(amount) do
@@ -40,9 +27,8 @@ defmodule MediaServerWeb.Repositories.Movies do
     case HTTPoison.get(get_url("movie")) do
 
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded = Jason.decode!(body)
 
-        Enum.filter(decoded, fn x -> x["hasFile"] end)
+        Enum.filter(Jason.decode!(body), fn x -> x["hasFile"] end)
         |> Enum.sort_by(&(&1["title"]), :asc)
     end
   end
@@ -61,9 +47,7 @@ defmodule MediaServerWeb.Repositories.Movies do
     case HTTPoison.get("#{ get_url("movie/#{ id }") }") do
 
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded = Jason.decode!(body)
-
-        decoded["movieFile"]["path"]
+        Jason.decode!(body)["movieFile"]["path"]
     end
   end
 end

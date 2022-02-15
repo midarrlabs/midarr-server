@@ -13,7 +13,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
     test "watch", %{conn: conn, user: user} do
 
-      {_radarr, movie_id} = real_radarr_fixture()
+      {_radarr, movie_id} = radarr_fixture()
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{

@@ -2,20 +2,20 @@ defmodule MediaServerWeb.SeriesLive.Show do
   use MediaServerWeb, :live_view
 
   @impl true
-  def handle_params(%{"serie" => serie}, _, socket) do
-    decoded = MediaServerWeb.Repositories.Series.get_serie(serie)
+  def handle_params(%{"serie" => id}, _, socket) do
+    serie = MediaServerWeb.Repositories.Series.get_serie(id)
 
     {
       :noreply,
       socket
-      |> assign(:page_title, decoded["title"])
-      |> assign(:decoded, decoded)
-      |> assign(:episodes, MediaServerWeb.Repositories.Series.get_episodes(serie))
+      |> assign(:page_title, serie["title"])
+      |> assign(:serie, serie)
+      |> assign(:episodes, MediaServerWeb.Repositories.Series.get_episodes(id))
     }
   end
 
   @impl true
-  def handle_event("play", %{"episode" => episode}, socket) do
-    {:noreply, push_redirect(socket, to: "/episodes/#{ episode }/watch")}
+  def handle_event("play", %{"episode" => id}, socket) do
+    {:noreply, push_redirect(socket, to: "/episodes/#{ id }/watch")}
   end
 end

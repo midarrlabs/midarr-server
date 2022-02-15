@@ -13,7 +13,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
     test "watch", %{conn: conn, user: user} do
 
-      {_sonarr, _series_id, episode_id} = real_sonarr_fixture()
+      {_sonarr, _series_id, episode_id} = sonarr_fixture()
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{

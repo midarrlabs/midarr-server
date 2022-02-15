@@ -8,7 +8,7 @@ defmodule MediaServerWeb.SeriesLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, :Series)
-    |> assign(:decoded, MediaServerWeb.Repositories.Series.get_all())
+    |> assign(:page_title, "Series")
+    |> assign(:series, MediaServerWeb.Repositories.Series.get_all())
   end
 end

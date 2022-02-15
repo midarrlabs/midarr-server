@@ -2,7 +2,7 @@
 
     <div class="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-1 lg:gap-x-8">
       <div class="w-full">
-        <iframe width="100%" height="460" src={"https://www.youtube.com/embed/#{ @decoded["youTubeTrailerId"] }"}frameborder="0"></iframe>
+        <iframe width="100%" height="460" src={"https://www.youtube.com/embed/#{ @movie["youTubeTrailerId"] }"}frameborder="0"></iframe>
       </div>
     </div>
 
@@ -13,13 +13,13 @@
           <div class="flex-1 min-w-0">
 
             <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-              <%= @decoded["title"] %>
+              <%= @movie["title"] %>
             </h2>
 
-            <p><%= @decoded["year"] %>  - <%= @decoded["runtime"] %> minutes</p>
+            <p><%= @movie["year"] %>  - <%= @movie["runtime"] %> minutes</p>
           </div>
           <div class="mt-4 flex md:mt-0 md:ml-4">
-            <button phx-click="play" phx-value-movie={@decoded["id"]} type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500">
+            <button phx-click="play" phx-value-movie={@movie["id"]} type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500">
               Play
             </button>
           </div>
@@ -28,7 +28,7 @@
 
       <div class="py-10 lg:col-span-3">
         <div>
-          <p class="text-base text-gray-900"><%= @decoded["overview"] %></p>
+          <p class="text-base text-gray-900"><%= @movie["overview"] %></p>
         </div>
       </div>
     </div>

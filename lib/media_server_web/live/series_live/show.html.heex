@@ -1,7 +1,7 @@
   <div>
     <div class="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-4xl lg:px-8 lg:grid lg:grid-cols-1 lg:gap-x-8">
       <div class="w-full">
-        <img src={(Enum.filter(@decoded["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]}>
+        <img src={(Enum.filter(@serie["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]}>
       </div>
     </div>
 
@@ -11,16 +11,16 @@
         <div class="md:flex md:items-center md:justify-between">
           <div class="flex-1 min-w-0">
             <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-              <%= @decoded["title"] %>
+              <%= @serie["title"] %>
             </h2>
-            <p><%= @decoded["year"] %>  - <%= @decoded["runtime"] %> minutes</p>
+            <p><%= @serie["year"] %>  - <%= @serie["runtime"] %> minutes</p>
           </div>
         </div>
       </div>
 
       <div class="py-10 lg:col-span-3">
         <div>
-          <p class="text-base text-gray-900"><%= @decoded["overview"] %></p>
+          <p class="text-base text-gray-900"><%= @serie["overview"] %></p>
         </div>
 
 
