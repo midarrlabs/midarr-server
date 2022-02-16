@@ -1,24 +1,18 @@
 defmodule MediaServerWeb.Repositories.Series do
 
   def get_url(url) do
-    "#{ System.get_env("SONARR_BASE_URL") }/api/v3/#{ url }?apiKey=#{ System.get_env("SONARR_API_KEY") }"
+    "#{ Application.fetch_env!(:media_server, :series_base_url) }/api/v3/#{ url }?apiKey=#{ Application.fetch_env!(:media_server, :series_api_key) }"
   end
 
   def get_latest(amount) do
 
-    case get_url("series") do
+    case HTTPoison.get(get_url("series")) do
 
-      nil -> []
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
 
-      _ ->
-        case HTTPoison.get(get_url("series")) do
-
-          {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-
-            Enum.sort_by(Jason.decode!(body), &(&1["added"]), :desc)
-            |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] !== 0 end)
-            |> Enum.take(amount)
-        end
+        Enum.sort_by(Jason.decode!(body), &(&1["added"]), :desc)
+        |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] !== 0 end)
+        |> Enum.take(amount)
     end
   end
 
@@ -71,6 +65,7 @@ defmodule MediaServerWeb.Repositories.Series do
   end
 
   def add_images_to_episodes(episodes) do
+
     Enum.map(episodes, fn episode ->
       Map.put(episode, "images", Map.get(get_episode(episode["id"]), "images"))
     end)
