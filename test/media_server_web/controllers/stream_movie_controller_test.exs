@@ -1,11 +1,11 @@
 defmodule MediaServerWeb.StreamMovieControllerTest do
   use MediaServerWeb.ConnCase
 
-  import MediaServer.AccountsFixtures
-  import MediaServer.IntegrationsFixtures
+  alias MediaServer.AccountsFixtures
+  alias MediaServer.MoviesFixtures
 
   defp create_fixtures(_) do
-    %{user: user_fixture()}
+    %{user: AccountsFixtures.user_fixture()}
   end
 
   describe "GET movie stream" do
@@ -14,18 +14,17 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
 
     test "movie", %{conn: conn, user: user} do
 
-      {_radarr, movie_id} = radarr_fixture()
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => valid_user_password()}
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
       assert get_session(conn, :user_token)
       assert redirected_to(conn) == "/"
 
-      # Now do a logged in request
-      conn = get(conn, "/movies/#{ movie_id }/stream")
+      movie = MoviesFixtures.get_movie()
+
+      conn = get(conn, "/movies/#{ movie["id"] }/stream")
 
       assert conn.status === 206
       assert conn.state === :file
@@ -35,18 +34,18 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
 
     test "movie range", %{conn: conn, user: user} do
 
-      {_radarr, movie_id} = radarr_fixture()
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => valid_user_password()}
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
       assert get_session(conn, :user_token)
       assert redirected_to(conn) == "/"
 
+      movie = MoviesFixtures.get_movie()
+
       conn = conn |> recycle() |> put_req_header("range", "bytes=124-")
-      conn = get(conn, "/movies/#{ movie_id }/stream")
+      conn = get(conn, "/movies/#{ movie["id"] }/stream")
 
       assert conn.status === 206
       assert conn.state === :file
@@ -56,18 +55,18 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
 
     test "safari probe", %{conn: conn, user: user} do
 
-      {_radarr, movie_id} = radarr_fixture()
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => valid_user_password()}
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
       assert get_session(conn, :user_token)
       assert redirected_to(conn) == "/"
 
+      movie = MoviesFixtures.get_movie()
+
       conn = conn |> recycle() |> put_req_header("range", "bytes=0-1")
-      conn = get(conn, "/movies/#{ movie_id }/stream")
+      conn = get(conn, "/movies/#{ movie["id"] }/stream")
 
       assert conn.status === 206
       assert conn.state === :file

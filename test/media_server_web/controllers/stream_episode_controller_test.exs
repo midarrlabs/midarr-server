@@ -1,11 +1,12 @@
 defmodule MediaServerWeb.StreamEpisodeControllerTest do
   use MediaServerWeb.ConnCase
 
-  import MediaServer.AccountsFixtures
-  import MediaServer.IntegrationsFixtures
+  alias MediaServer.AccountsFixtures
+  alias MediaServer.SeriesFixtures
+  alias MediaServer.EpisodesFixtures
 
   defp create_fixtures(_) do
-    %{user: user_fixture()}
+    %{user: AccountsFixtures.user_fixture()}
   end
 
   describe "GET episode stream" do
@@ -14,18 +15,19 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
 
     test "episode", %{conn: conn, user: user} do
 
-      {_sonarr, _series_id, episode_id} = sonarr_fixture()
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => valid_user_password()}
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
       assert get_session(conn, :user_token)
       assert redirected_to(conn) == "/"
 
-      # Now do a logged in request
-      conn = get(conn, "/episodes/#{ episode_id }/stream")
+      serie = SeriesFixtures.get_serie()
+
+      episode = EpisodesFixtures.get_episode(serie["id"])
+
+      conn = get(conn, "/episodes/#{ episode["id"] }/stream")
 
       assert conn.status === 206
       assert conn.state === :file
@@ -35,18 +37,20 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
 
     test "episode range", %{conn: conn, user: user} do
 
-      {_sonarr, _series_id, episode_id} = sonarr_fixture()
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => valid_user_password()}
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
       assert get_session(conn, :user_token)
       assert redirected_to(conn) == "/"
 
+      serie = SeriesFixtures.get_serie()
+
+      episode = EpisodesFixtures.get_episode(serie["id"])
+
       conn = conn |> recycle() |> put_req_header("range", "bytes=124-")
-      conn = get(conn, "/episodes/#{ episode_id }/stream")
+      conn = get(conn, "/episodes/#{ episode["id"] }/stream")
 
       assert conn.status === 206
       assert conn.state === :file
@@ -56,18 +60,20 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
 
     test "safari probe", %{conn: conn, user: user} do
 
-      {_sonarr, _series_id, episode_id} = sonarr_fixture()
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => valid_user_password()}
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
       assert get_session(conn, :user_token)
       assert redirected_to(conn) == "/"
 
+      serie = SeriesFixtures.get_serie()
+
+      episode = EpisodesFixtures.get_episode(serie["id"])
+
       conn = conn |> recycle() |> put_req_header("range", "bytes=0-1")
-      conn = get(conn, "/episodes/#{ episode_id }/stream")
+      conn = get(conn, "/episodes/#{ episode["id"] }/stream")
 
       assert conn.status === 206
       assert conn.state === :file
