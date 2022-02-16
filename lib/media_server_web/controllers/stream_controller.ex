@@ -1,12 +1,15 @@
 defmodule MediaServerWeb.StreamController do
   use MediaServerWeb, :controller
-  
+
+  alias MediaServerWeb.Repositories.Movies
+  alias MediaServerWeb.Repositories.Episodes
+
   def show(%{req_headers: headers} = conn, %{"movie" => movie}) do
-    send_video(conn, headers, MediaServerWeb.Repositories.Movies.get_movie_path(movie))
+    send_video(conn, headers, Movies.get_movie_path(movie))
   end
 
   def show(%{req_headers: headers} = conn, %{"episode" => episode}) do
-    send_video(conn, headers, MediaServerWeb.Repositories.Series.get_episode_path(episode))
+    send_video(conn, headers, Episodes.get_episode_path(episode))
   end
 
   defp get_offset(headers) do

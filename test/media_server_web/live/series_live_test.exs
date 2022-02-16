@@ -5,7 +5,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
 
   alias MediaServer.AccountsFixtures
   alias MediaServer.SeriesFixtures
-  alias MediaServerWeb.Repositories.Series
+  alias MediaServerWeb.Repositories.Episodes
 
   test "GET /series", %{conn: conn} do
     fixture = %{user: AccountsFixtures.user_fixture()}
@@ -40,9 +40,9 @@ defmodule MediaServerWeb.SeriesLiveTest do
   test "it should merge episode images with serie episode", %{conn: _conn} do
     serie = SeriesFixtures.get_serie()
 
-    episodes = Series.get_episodes(serie["id"])
+    episodes = Episodes.get_all(serie["id"])
 
-    assert Series.add_images_to_episodes(episodes) === [
+    assert episodes === [
              %{
                "absoluteEpisodeNumber" => 1,
                "airDate" => "1962-09-26",

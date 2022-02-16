@@ -1,16 +1,19 @@
 defmodule MediaServerWeb.SeriesLive.Show do
   use MediaServerWeb, :live_view
 
+  alias MediaServerWeb.Repositories.Series
+  alias MediaServerWeb.Repositories.Episodes
+
   @impl true
-  def handle_params(%{"serie" => id}, _, socket) do
-    serie = MediaServerWeb.Repositories.Series.get_serie(id)
+  def handle_params(%{"serie" => id}, _url, socket) do
+    serie = Series.get_serie(id)
 
     {
       :noreply,
       socket
       |> assign(:page_title, serie["title"])
       |> assign(:serie, serie)
-      |> assign(:episodes, MediaServerWeb.Repositories.Series.get_episodes(id))
+      |> assign(:episodes, Episodes.get_all(id))
     }
   end
 
