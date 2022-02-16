@@ -14,6 +14,14 @@ services:
       - DB_PASSWORD=my_password
       - DB_DATABASE=my_database
       - DB_HOSTNAME=postgresql
+      - SETUP_ADMIN_EMAIL=admin@email.com
+      - SETUP_ADMIN_NAME=admin
+      - SETUP_ADMIN_PASSWORD=passwordpassword
+      - TEST_DB_HOSTNAME=test-postgresql
+      - RADARR_BASE_URL=radarr:7878
+      - RADARR_API_KEY=d031e8c9b9df4b2fab311d1c3b3fa2c5
+      - SONARR_BASE_URL=sonarr:8989
+      - SONARR_API_KEY=1accda4476394bfcaddefe8c4fd77d4a
     depends_on:
       postgresql:
         condition: service_healthy
@@ -21,16 +29,18 @@ services:
         condition: service_healthy
       sonarr:
         condition: service_healthy
-    command: bash -c "mix ecto.migrate && mix phx.server"
+      test-postgresql:
+        condition: service_healthy
+    command: bash -c "mix ecto.migrate && mix run priv/repo/seeds.exs && mix phx.server"
 
   postgresql:
-    image: bitnami/postgresql:14
+    image: postgres
     ports:
       - 5432:5432
     environment:
-      - POSTGRESQL_USERNAME=my_user
-      - POSTGRESQL_PASSWORD=my_password
-      - POSTGRESQL_DATABASE=my_database
+      - POSTGRES_USER=my_user
+      - POSTGRES_PASSWORD=my_password
+      - POSTGRES_DB=my_database
     healthcheck:
       test: "exit 0"
 
@@ -60,21 +70,11 @@ services:
     healthcheck:
       test: "exit 0"
 
-  test:
-    build: .
-    volumes:
-      - ./fixtures/movies:/movies
-      - ./fixtures/shows:/shows
+  test-postgresql:
+    image: postgres
     environment:
-      - DB_USERNAME=my_user
-      - DB_PASSWORD=my_password
-      - DB_DATABASE=my_database
-      - DB_HOSTNAME=postgresql
-    depends_on:
-      postgresql:
-        condition: service_healthy
-      radarr:
-        condition: service_healthy
-      sonarr:
-        condition: service_healthy
-    command: bash -c "mix ecto.migrate && mix test"
+      - POSTGRES_USER=my_user
+      - POSTGRES_PASSWORD=my_password
+      - POSTGRES_DB=my_database
+    healthcheck:
+      test: "exit 0"
