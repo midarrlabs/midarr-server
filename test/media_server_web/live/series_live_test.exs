@@ -2,20 +2,17 @@ defmodule MediaServerWeb.SeriesLiveTest do
   use MediaServerWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import MediaServer.AccountsFixtures
-  import MediaServer.IntegrationsFixtures
 
+  alias MediaServer.AccountsFixtures
+  alias MediaServer.SeriesFixtures
   alias MediaServerWeb.Repositories.Series
 
   test "GET /series", %{conn: conn} do
-    fixture = %{
-      user: user_fixture(),
-      sonarr: sonarr_fixture()
-    }
+    fixture = %{user: AccountsFixtures.user_fixture()}
 
     conn =
       post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => fixture.user.email, "password" => valid_user_password()}
+        "user" => %{"email" => fixture.user.email, "password" => AccountsFixtures.valid_user_password()}
       })
 
     conn = get(conn, "/series")
@@ -23,29 +20,27 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "GET /series show", %{conn: conn} do
-    fixture = %{
-      user: user_fixture()
-    }
-
-    {_sonarr, series_id, _episode_id} = sonarr_fixture()
+    fixture = %{user: AccountsFixtures.user_fixture()}
 
     conn =
       post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => fixture.user.email, "password" => valid_user_password()}
+        "user" => %{"email" => fixture.user.email, "password" => AccountsFixtures.valid_user_password()}
       })
 
-    conn = get(conn, "/series/#{ series_id }")
+    serie = SeriesFixtures.get_serie()
+
+    conn = get(conn, "/series/#{ serie["id"] }")
     assert html_response(conn, 200)
 
-    {:ok, show_live, _html} = live(conn, Routes.series_show_path(conn, :show, series_id))
+    {:ok, show_live, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
 
     assert show_live |> element("button", "Play") |> render_click()
   end
 
   test "it should merge episode images with serie episode", %{conn: _conn} do
-    {_sonarr, series_id, _episode_id} = sonarr_fixture()
+    serie = SeriesFixtures.get_serie()
 
-    episodes = Series.get_episodes(series_id)
+    episodes = Series.get_episodes(serie["id"])
 
     assert Series.add_images_to_episodes(episodes) === [
              %{
