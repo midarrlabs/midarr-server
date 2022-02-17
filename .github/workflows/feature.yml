@@ -12,5 +12,8 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
+    - name: Up services
+      run: docker-compose up -d
+
     - name: Run tests
-      run: docker compose run web bash mix test
+      run: docker run --network container:midarr mix test

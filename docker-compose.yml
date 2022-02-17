@@ -1,7 +1,9 @@
 version: "3.4"
 
 services:
-  web:
+
+  midarr:
+    container_name: midarr
     build: .
     ports:
       - 4000:4000
@@ -34,6 +36,7 @@ services:
     command: bash -c "mix ecto.migrate && mix run priv/repo/seeds.exs && mix phx.server"
 
   postgresql:
+    container_name: postgresql
     image: postgres
     ports:
       - 5432:5432
@@ -45,6 +48,7 @@ services:
       test: "exit 0"
 
   test-postgresql:
+    container_name: test-postgresql
     image: postgres
     environment:
       - POSTGRES_USER=my_user
@@ -54,6 +58,7 @@ services:
       test: "exit 0"
 
   radarr:
+    container_name: radarr
     image: linuxserver/radarr:3.2.2
     ports:
       - 7878:7878
@@ -67,6 +72,7 @@ services:
       test: "exit 0"
 
   sonarr:
+    container_name: sonarr
     image: linuxserver/sonarr:3.0.6
     ports:
       - 8989:8989
