@@ -25,11 +25,11 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
+      test-postgresql:
+        condition: service_healthy
       radarr:
         condition: service_healthy
       sonarr:
-        condition: service_healthy
-      test-postgresql:
         condition: service_healthy
     command: bash -c "mix ecto.migrate && mix run priv/repo/seeds.exs && mix phx.server"
 
@@ -37,6 +37,15 @@ services:
     image: postgres
     ports:
       - 5432:5432
+    environment:
+      - POSTGRES_USER=my_user
+      - POSTGRES_PASSWORD=my_password
+      - POSTGRES_DB=my_database
+    healthcheck:
+      test: "exit 0"
+
+  test-postgresql:
+    image: postgres
     environment:
       - POSTGRES_USER=my_user
       - POSTGRES_PASSWORD=my_password
@@ -67,14 +76,5 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-    healthcheck:
-      test: "exit 0"
-
-  test-postgresql:
-    image: postgres
-    environment:
-      - POSTGRES_USER=my_user
-      - POSTGRES_PASSWORD=my_password
-      - POSTGRES_DB=my_database
     healthcheck:
       test: "exit 0"
