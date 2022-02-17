@@ -11,7 +11,6 @@ defmodule MediaServerWeb.Repositories.Series do
   end
 
   def get_latest(amount) do
-
     case HTTPoison.get(get_url("series")) do
 
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->

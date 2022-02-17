@@ -32,7 +32,7 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
       assert conn.status === 206
       assert conn.state === :file
       assert Enum.member?(conn.resp_headers, {"content-type", "video/mp4"})
-      assert Enum.member?(conn.resp_headers, {"content-range", "bytes 0-199383018/199383019"})
+      assert Enum.member?(conn.resp_headers, {"content-range", "bytes 0-47552616/47552617"})
     end
 
     test "episode range", %{conn: conn, user: user} do
@@ -55,7 +55,7 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
       assert conn.status === 206
       assert conn.state === :file
       assert Enum.member?(conn.resp_headers, {"content-type", "video/mp4"})
-      assert Enum.member?(conn.resp_headers, {"content-range", "bytes 124-199383018/199383019"})
+      assert Enum.member?(conn.resp_headers, {"content-range", "bytes 124-47552616/47552617"})
     end
 
     test "safari probe", %{conn: conn, user: user} do
@@ -78,7 +78,7 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
       assert conn.status === 206
       assert conn.state === :file
       assert Enum.member?(conn.resp_headers, {"content-type", "video/mp4"})
-      assert Enum.member?(conn.resp_headers, {"content-range", "bytes 0-1/199383019"})
+      assert Enum.member?(conn.resp_headers, {"content-range", "bytes 0-1/47552617"})
     end
   end
 end

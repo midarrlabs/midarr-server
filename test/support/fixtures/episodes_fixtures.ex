@@ -13,4 +13,8 @@ defmodule MediaServer.EpisodesFixtures do
   def get_episode(series_id) do
     get_all(series_id) |> Enum.filter(fn x -> x["hasFile"] end) |> List.first()
   end
+
+  def get_episodes(series_id) do
+    get_all(series_id) |> Enum.filter(fn x -> x["hasFile"] end)
+  end
 end
