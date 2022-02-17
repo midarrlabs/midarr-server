@@ -35,6 +35,30 @@ services:
         condition: service_healthy
     command: bash -c "mix ecto.migrate && mix run priv/repo/seeds.exs && mix phx.server"
 
+  test-midarr:
+    container_name: test-midarr
+    build: .
+    volumes:
+      - ./:/app
+      - ./fixtures/movies:/movies
+      - ./fixtures/shows:/shows
+    environment:
+      - DB_USERNAME=my_user
+      - DB_PASSWORD=my_password
+      - DB_DATABASE=my_database
+      - DB_HOSTNAME=postgresql
+      - TEST_DB_HOSTNAME=test-postgresql
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      test-postgresql:
+        condition: service_healthy
+      radarr:
+        condition: service_healthy
+      sonarr:
+        condition: service_healthy
+    command: bash -c "mix ecto.migrate && mix test"
+
   postgresql:
     container_name: postgresql
     image: postgres
