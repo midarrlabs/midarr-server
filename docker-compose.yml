@@ -45,11 +45,11 @@ services:
       test: "exit 0"
 
   radarr:
-    image: lscr.io/linuxserver/radarr
+    image: linuxserver/radarr:3.2.2
     ports:
       - 7878:7878
     volumes:
-      - ./fixtures/radarr:/config
+      - ./fixtures/radarr/config.xml:/config/config.xml
       - ./fixtures/movies:/movies
     environment:
       - PUID=1000
@@ -58,11 +58,11 @@ services:
       test: "exit 0"
 
   sonarr:
-    image: lscr.io/linuxserver/sonarr
+    image: linuxserver/sonarr:3.0.6
     ports:
       - 8989:8989
     volumes:
-      - ./fixtures/sonarr:/config
+      - ./fixtures/sonarr/config.xml:/config/config.xml
       - ./fixtures/shows:/shows
     environment:
       - PUID=1000
