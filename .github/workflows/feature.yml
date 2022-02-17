@@ -16,4 +16,4 @@ jobs:
       run: docker compose up -d
 
     - name: Run tests
-      run: docker exec -ti midarr sh -c "mix test"
+      run: docker exec midarr sh -c "mix test"
