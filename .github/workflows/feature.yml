@@ -16,4 +16,4 @@ jobs:
       run: docker compose up -d
 
     - name: Run tests
-      run: docker exec midarr /bin/bash -c 'mix deps.get'
+      run: docker ps -a
