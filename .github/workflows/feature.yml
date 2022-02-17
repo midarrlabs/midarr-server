@@ -1,0 +1,18 @@
+name: Feature
+
+on:
+  push:
+    branches: [ 'feature/**' ]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Run tests
+      run: docker compose run web
+      with:
+        entrypoint: bash -c "mix ecto.migrate && mix test"
