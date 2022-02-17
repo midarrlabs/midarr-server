@@ -28,4 +28,14 @@ defmodule MediaServer.SeriesFixtures do
     add_series_root()
     add_series()
   end
+
+  def add_env() do
+    Application.put_env(:media_server, :series_base_url, "sonarr:8989")
+    Application.put_env(:media_server, :series_api_key, "1accda4476394bfcaddefe8c4fd77d4a")
+  end
+
+  def remove_env() do
+    Application.delete_env(:media_server, :series_base_url)
+    Application.delete_env(:media_server, :series_api_key)
+  end
 end

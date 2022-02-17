@@ -28,4 +28,14 @@ defmodule MediaServer.MoviesFixtures do
     add_movie_root()
     add_movie()
   end
+
+  def add_env() do
+    Application.put_env(:media_server, :movies_base_url, "radarr:7878")
+    Application.put_env(:media_server, :movies_api_key, "d031e8c9b9df4b2fab311d1c3b3fa2c5")
+  end
+
+  def remove_env() do
+    Application.delete_env(:media_server, :movies_base_url)
+    Application.delete_env(:media_server, :movies_api_key)
+  end
 end
