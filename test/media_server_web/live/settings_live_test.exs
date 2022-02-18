@@ -2,10 +2,11 @@ defmodule MediaServerWeb.SettingsLiveTest do
   use MediaServerWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import MediaServer.AccountsFixtures
+
+  alias MediaServer.AccountsFixtures
 
   defp create_fixtures(_) do
-    %{user: user_fixture()}
+    %{user: AccountsFixtures.user_fixture()}
   end
 
   describe "Index" do
@@ -15,14 +16,12 @@ defmodule MediaServerWeb.SettingsLiveTest do
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => valid_user_password()}
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
       {:ok, _index_live, html} = live(conn, Routes.settings_index_path(conn, :index))
 
       refute html =~ "Invite Users"
-      refute html =~ "Radarr Integration"
-      refute html =~ "Sonarr Integration"
     end
 
   end

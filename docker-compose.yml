@@ -1,7 +1,9 @@
 version: "3.4"
 
 services:
-  web:
+
+  midarr:
+    container_name: midarr
     build: .
     ports:
       - 4000:4000
@@ -14,32 +16,54 @@ services:
       - DB_PASSWORD=my_password
       - DB_DATABASE=my_database
       - DB_HOSTNAME=postgresql
+      - SETUP_ADMIN_EMAIL=admin@email.com
+      - SETUP_ADMIN_NAME=admin
+      - SETUP_ADMIN_PASSWORD=passwordpassword
+      - TEST_DB_HOSTNAME=test-postgresql
+      - RADARR_BASE_URL=radarr:7878
+      - RADARR_API_KEY=d031e8c9b9df4b2fab311d1c3b3fa2c5
+      - SONARR_BASE_URL=sonarr:8989
+      - SONARR_API_KEY=1accda4476394bfcaddefe8c4fd77d4a
     depends_on:
       postgresql:
+        condition: service_healthy
+      test-postgresql:
         condition: service_healthy
       radarr:
         condition: service_healthy
       sonarr:
         condition: service_healthy
-    command: bash -c "mix ecto.migrate && mix phx.server"
+    command: bash -c "mix ecto.migrate && mix run priv/repo/seeds.exs && mix phx.server"
 
   postgresql:
-    image: bitnami/postgresql:14
+    container_name: postgresql
+    image: postgres
     ports:
       - 5432:5432
     environment:
-      - POSTGRESQL_USERNAME=my_user
-      - POSTGRESQL_PASSWORD=my_password
-      - POSTGRESQL_DATABASE=my_database
+      - POSTGRES_USER=my_user
+      - POSTGRES_PASSWORD=my_password
+      - POSTGRES_DB=my_database
+    healthcheck:
+      test: "exit 0"
+
+  test-postgresql:
+    container_name: test-postgresql
+    image: postgres
+    environment:
+      - POSTGRES_USER=my_user
+      - POSTGRES_PASSWORD=my_password
+      - POSTGRES_DB=my_database
     healthcheck:
       test: "exit 0"
 
   radarr:
-    image: lscr.io/linuxserver/radarr
+    container_name: radarr
+    image: linuxserver/radarr:3.2.2
     ports:
       - 7878:7878
     volumes:
-      - ./fixtures/radarr:/config
+      - ./fixtures/radarr/config.xml:/config/config.xml
       - ./fixtures/movies:/movies
     environment:
       - PUID=1000
@@ -48,33 +72,15 @@ services:
       test: "exit 0"
 
   sonarr:
-    image: lscr.io/linuxserver/sonarr
+    container_name: sonarr
+    image: linuxserver/sonarr:3.0.6
     ports:
       - 8989:8989
     volumes:
-      - ./fixtures/sonarr:/config
+      - ./fixtures/sonarr/config.xml:/config/config.xml
       - ./fixtures/shows:/shows
     environment:
       - PUID=1000
       - PGID=1000
     healthcheck:
       test: "exit 0"
-
-  test:
-    build: .
-    volumes:
-      - ./fixtures/movies:/movies
-      - ./fixtures/shows:/shows
-    environment:
-      - DB_USERNAME=my_user
-      - DB_PASSWORD=my_password
-      - DB_DATABASE=my_database
-      - DB_HOSTNAME=postgresql
-    depends_on:
-      postgresql:
-        condition: service_healthy
-      radarr:
-        condition: service_healthy
-      sonarr:
-        condition: service_healthy
-    command: bash -c "mix ecto.migrate && mix test"

@@ -1,11 +1,11 @@
 defmodule MediaServerWeb.WatchMovieLiveTest do
   use MediaServerWeb.ConnCase
 
-  import MediaServer.AccountsFixtures
-  import MediaServer.IntegrationsFixtures
+  alias MediaServer.AccountsFixtures
+  alias MediaServer.MoviesFixtures
 
   defp create_fixtures(_) do
-    %{user: user_fixture()}
+    %{user: AccountsFixtures.user_fixture()}
   end
 
   describe "Show movie" do
@@ -13,14 +13,14 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
     test "watch", %{conn: conn, user: user} do
 
-      {_radarr, movie_id} = real_radarr_fixture()
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => valid_user_password()}
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
-      conn = get(conn, "/movies/#{ movie_id }/watch")
+      movie = MoviesFixtures.get_movie()
+
+      conn = get(conn, "/movies/#{ movie["id"] }/watch")
       assert html_response(conn, 200)
     end
   end

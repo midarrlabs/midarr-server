@@ -12,7 +12,7 @@ config :media_server, MediaServer.Repo,
   username: System.get_env("DB_USERNAME"),
   password: System.get_env("DB_PASSWORD"),
   database: System.get_env("DB_DATABASE"),
-  hostname: System.get_env("DB_HOSTNAME"),
+  hostname: System.get_env("TEST_DB_HOSTNAME"),
   pool_size: 10,
   pool: Ecto.Adapters.SQL.Sandbox
 
@@ -31,3 +31,9 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :media_server,
+  movies_base_url: "radarr:7878",
+  movies_api_key: "d031e8c9b9df4b2fab311d1c3b3fa2c5",
+  series_base_url: "sonarr:8989",
+  series_api_key: "1accda4476394bfcaddefe8c4fd77d4a"

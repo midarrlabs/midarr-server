@@ -1,94 +1,38 @@
 defmodule MediaServerWeb.Repositories.Series do
 
-  import Ecto.Query
-  alias MediaServer.Repo
-  alias MediaServer.Integrations.Sonarr
-
   def get_url(url) do
-    sonarr = Sonarr |> first |> Repo.one
+    case Application.get_env(:media_server, :series_base_url) === nil || Application.get_env(:media_server, :series_api_key) === nil do
+      true ->
+        :error
 
-    case sonarr do
-
-      nil ->
-        nil
-
-      _ ->
-        "#{ sonarr.url }/api/v3/#{ url }?apikey=#{ sonarr.api_key }"
+      false ->
+        "#{ Application.get_env(:media_server, :series_base_url) }/api/v3/#{ url }?apikey=#{ Application.get_env(:media_server, :series_api_key) }"
     end
   end
 
   def get_latest(amount) do
+    case HTTPoison.get(get_url("series")) do
 
-    case get_url("series") do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
 
-      nil -> []
+        Enum.sort_by(Jason.decode!(body), &(&1["added"]), :desc)
+        |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] !== 0 end)
+        |> Enum.take(amount)
 
-      _ ->
-        case HTTPoison.get(get_url("series")) do
-
-          {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-
-            Enum.sort_by(Jason.decode!(body), &(&1["added"]), :desc)
-            |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] !== 0 end)
-            |> Enum.take(amount)
-        end
+      {:error, %HTTPoison.Error{id: nil, reason: :nxdomain}} -> []
     end
   end
 
   def get_all() do
+    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get(get_url("series"))
 
-    case HTTPoison.get(get_url("series")) do
-
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded = Jason.decode!(body)
-
-        Enum.sort_by(decoded, &(&1["title"]), :asc)
-        |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] !== 0 end)
-    end
+    Enum.sort_by(Jason.decode!(body), &(&1["title"]), :asc)
+    |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] !== 0 end)
   end
 
   def get_serie(id) do
+    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get(get_url("series/#{ id }"))
 
-    case HTTPoison.get(get_url("series/#{ id }")) do
-
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        Jason.decode!(body)
-    end
-  end
-
-  def get_episodes(series_id) do
-
-    case HTTPoison.get("#{ get_url("episode") }&seriesId=#{ series_id }") do
-
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        Enum.filter(Jason.decode!(body), fn x -> x["hasFile"] end)
-        |> add_images_to_episodes()
-    end
-  end
-
-  def get_episode(episode) do
-
-    case HTTPoison.get("#{ get_url("episode/#{ episode }") }") do
-
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        Jason.decode!(body)
-    end
-  end
-
-  def get_episode_path(episode) do
-
-    case HTTPoison.get("#{ get_url("episode/#{ episode }") }") do
-
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded= Jason.decode!(body)
-
-        decoded["episodeFile"]["path"]
-    end
-  end
-
-  def add_images_to_episodes(episodes) do
-    Enum.map(episodes, fn episode ->
-      Map.put(episode, "images", Map.get(get_episode(episode["id"]), "images"))
-    end)
+    Jason.decode!(body)
   end
 end

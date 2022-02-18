@@ -1,69 +1,48 @@
 defmodule MediaServerWeb.Repositories.Movies do
 
-  import Ecto.Query
-  alias MediaServer.Repo
-  alias MediaServer.Integrations.Radarr
-
   def get_url(url) do
-    radarr = Radarr |> first |> Repo.one
+    case Application.get_env(:media_server, :movies_base_url) === nil || Application.get_env(:media_server, :movies_api_key) === nil do
+      true ->
+        :error
 
-    case radarr do
-
-      nil ->
-        nil
-
-      _ ->
-        "#{ radarr.url }/api/v3/#{ url }?apiKey=#{ radarr.api_key }"
+      false ->
+        "#{ Application.get_env(:media_server, :movies_base_url) }/api/v3/#{ url }?apiKey=#{ Application.get_env(:media_server, :movies_api_key) }"
     end
   end
 
   def get_latest(amount) do
+    case HTTPoison.get(get_url("movie")) do
 
-    case get_url("movie") do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
 
-      nil -> []
+        Enum.sort_by(Jason.decode!(body), &(&1["movieFile"]["dateAdded"]), :desc)
+        |> Enum.filter(fn x -> x["hasFile"] end)
+        |> Enum.take(amount)
 
-      _ ->
-        case HTTPoison.get(get_url("movie")) do
-
-          {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-
-            Enum.sort_by(Jason.decode!(body), &(&1["movieFile"]["dateAdded"]), :desc)
-            |> Enum.filter(fn x -> x["hasFile"] end)
-            |> Enum.take(amount)
-        end
+      {:error, %HTTPoison.Error{id: nil, reason: :nxdomain}} -> []
     end
   end
 
   def get_all() do
+    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get(get_url("movie"))
 
-    case HTTPoison.get(get_url("movie")) do
-
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded = Jason.decode!(body)
-
-        Enum.filter(decoded, fn x -> x["hasFile"] end)
-        |> Enum.sort_by(&(&1["title"]), :asc)
-    end
+    Enum.filter(Jason.decode!(body), fn x -> x["hasFile"] end)
+    |> Enum.sort_by(&(&1["title"]), :asc)
   end
 
   def get_movie(id) do
+    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get(get_url("movie/#{ id }"))
 
-    case HTTPoison.get(get_url("movie/#{ id }")) do
-
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        Jason.decode!(body)
-    end
+    Jason.decode!(body)
   end
 
   def get_movie_path(id) do
+    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get("#{ get_url("movie/#{ id }") }")
 
-    case HTTPoison.get("#{ get_url("movie/#{ id }") }") do
+    Jason.decode!(body)["movieFile"]["path"]
+  end
 
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        decoded = Jason.decode!(body)
-
-        decoded["movieFile"]["path"]
-    end
+  def get_poster(movie) do
+    (Enum.filter(movie["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]
   end
 end

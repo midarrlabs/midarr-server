@@ -2,14 +2,9 @@ defmodule MediaServerWeb.UserSessionControllerTest do
   use MediaServerWeb.ConnCase
 
   import MediaServer.AccountsFixtures
-  import MediaServer.IntegrationsFixtures
 
   setup do
-    %{
-      user: user_fixture(),
-      radarr: real_radarr_fixture(),
-      sonarr: real_sonarr_fixture()
-    }
+    %{user: user_fixture()}
   end
 
   describe "GET /users/log_in" do

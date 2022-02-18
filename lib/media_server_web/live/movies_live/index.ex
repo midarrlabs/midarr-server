@@ -1,14 +1,15 @@
 defmodule MediaServerWeb.MoviesLive.Index do
   use MediaServerWeb, :live_view
 
-  @impl true
-  def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-  end
+  alias MediaServerWeb.Repositories.Movies
 
-  defp apply_action(socket, :index, _params) do
-    socket
-    |> assign(:page_title, :Movies)
-    |> assign(:decoded, MediaServerWeb.Repositories.Movies.get_all())
+  @impl true
+  def handle_params(_params, _url, socket) do
+    {
+      :noreply,
+      socket
+      |> assign(:page_title, "Movies")
+      |> assign(:movies, Movies.get_all())
+    }
   end
 end

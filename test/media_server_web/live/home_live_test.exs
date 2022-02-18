@@ -1,31 +1,52 @@
 defmodule MediaServerWeb.HomeLiveTest do
   use MediaServerWeb.ConnCase
 
-  import MediaServer.AccountsFixtures
-  import MediaServer.IntegrationsFixtures
+  alias MediaServer.AccountsFixtures
+  alias MediaServer.MoviesFixtures
+  alias MediaServer.SeriesFixtures
 
-  test "it without integrations", %{conn: conn} do
-    fixture = %{user: user_fixture()}
+  describe "without integrations" do
+    setup do
+      MoviesFixtures.remove_env()
+      SeriesFixtures.remove_env()
 
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => fixture.user.email, "password" => valid_user_password()}
-      })
+      on_exit(fn ->
+        MoviesFixtures.add_env()
+        SeriesFixtures.add_env()
+      end)
+    end
 
-    conn = get(conn, "/")
-    assert html_response(conn, 200)
+    test "without movies", %{conn: conn} do
+      fixture = %{user: AccountsFixtures.user_fixture()}
+
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => fixture.user.email, "password" => AccountsFixtures.valid_user_password()}
+        })
+
+      conn = get(conn, "/")
+      assert html_response(conn, 200)
+    end
+
+    test "without series", %{conn: conn} do
+      fixture = %{user: AccountsFixtures.user_fixture()}
+
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => fixture.user.email, "password" => AccountsFixtures.valid_user_password()}
+        })
+
+      conn = get(conn, "/")
+      assert html_response(conn, 200)
+    end
   end
 
-  test "it with integrations", %{conn: conn} do
-    fixture = %{
-      user: user_fixture(),
-      radarr: real_radarr_fixture(),
-      sonarr: real_sonarr_fixture()
-    }
+  test "with integrations", %{conn: conn} do
+    fixture = %{user: AccountsFixtures.user_fixture()}
 
     conn =
       post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => fixture.user.email, "password" => valid_user_password()}
+        "user" => %{"email" => fixture.user.email, "password" => AccountsFixtures.valid_user_password()}
       })
 
     conn = get(conn, "/")
