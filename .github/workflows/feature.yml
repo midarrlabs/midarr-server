@@ -12,17 +12,14 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-
-    - name: Build
-      uses: docker/build-push-action@v2
-      with:
-        push: false
-        tags: midarr-server_midarr:latest
-
     - name: Up services
       run: docker compose up -d
 
     - name: Run tests
-      run: docker run --network=midarr-server_default midarr-server_midarr:latest mix test
+      run: docker run --network=midarr-server_default \
+        -e DB_USERNAME='my_user' \
+        -e DB_PASSWORD='my_password' \
+        -e DB_DATABASE='my_database' \
+        -e DB_HOSTNAME='postgresql' \
+        -e TEST_DB_HOSTNAME='test-postgresql' \
+        midarr-server_midarr:latest mix test
