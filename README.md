@@ -81,9 +81,19 @@ services:
       - DB_PASSWORD=my_password
       - DB_DATABASE=my_database
       - DB_HOSTNAME=postgresql
+
+#      Initialise admin account
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
       - SETUP_ADMIN_PASSWORD=passwordpassword # min length 12
+
+#      Radarr integration
+      - RADARR_BASE_URL=radarr:7878
+      - RADARR_API_KEY=someApiKey
+
+#      Sonarr integration
+      - SONARR_BASE_URL=sonarr:8989
+      - SONARR_API_KEY=someApiKey
     depends_on:
       postgresql:
         condition: service_healthy
@@ -113,7 +123,7 @@ volumes:
 ```
 This is so `Midarr` has the same reference to your media library as your integrations, and can serve them.
 
-#### Setup
+#### Initialise admin account
 
 An admin account will be initialised for you on server startup, provided you have these `environment` variables configured:
 
@@ -125,6 +135,24 @@ environment:
 ```
 Login with these credentials, and access the `Settings` page to configure your server.
 
+#### Radarr integration
+
+```yaml
+environment:
+  - RADARR_BASE_URL=radarr:7878
+  - RADARR_API_KEY=someApiKey
+```
+Provide these environment variables to integrate your Radarr instance.
+
+#### Sonarr integration
+
+```yaml
+environment:
+  - SONARR_BASE_URL=sonarr:8989
+  - SONARR_API_KEY=someApiKey
+```
+Provide these environment variables to integrate your Sonarr instance.
+
 ## Video support
 
 * Video H.264
@@ -133,13 +161,13 @@ Login with these credentials, and access the `Settings` page to configure your s
 
 ## Contributing
 
-Thank you for your contributions! Big or small - we welcome all!
+Thank you for all your contributions! Big or small - all is welcome!
 
 ## License
 
 `Midarr` is open-sourced software licensed under the [MIT license](LICENSE).
 
-## Screenshots
+## Preview
 
 ![Preview](docs/online.png)
 ![Preview](docs/series.png)
