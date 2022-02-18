@@ -8,7 +8,9 @@
 >
 > Enjoy 🎉
 
-![Preview](docs/Midarr-light.png)
+<p align="center">
+    <img src="priv/static/logo.svg" width="150" height="150" alt="logo">
+</p>
 
 <p align="center">
     <a href="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml">
@@ -142,7 +144,7 @@ environment:
   - RADARR_BASE_URL=radarr:7878
   - RADARR_API_KEY=someApiKey
 ```
-Provide these environment variables to integrate your Radarr instance.
+Provide these `environment` variables to integrate your Radarr instance.
 
 #### Sonarr integration
 
@@ -151,7 +153,7 @@ environment:
   - SONARR_BASE_URL=sonarr:8989
   - SONARR_API_KEY=someApiKey
 ```
-Provide these environment variables to integrate your Sonarr instance.
+Provide these `environment` variables to integrate your Sonarr instance.
 
 ## Video support
 
