@@ -16,10 +16,4 @@ jobs:
       run: docker compose up -d
 
     - name: Run tests
-      run: docker run --network=midarr-server_default \
-        -e DB_USERNAME='my_user' \
-        -e DB_PASSWORD='my_password' \
-        -e DB_DATABASE='my_database' \
-        -e DB_HOSTNAME='postgresql' \
-        -e TEST_DB_HOSTNAME='test-postgresql' \
-        midarr-server_midarr:latest mix test
+      run: docker run --network=midarr-server_default --env DB_USERNAME=my_user --env DB_PASSWORD=my_password --env DB_DATABASE=my_database --env DB_HOSTNAME=postgresql --env TEST_DB_HOSTNAME=test-postgresql midarr-server_midarr:latest mix test
