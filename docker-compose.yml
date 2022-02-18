@@ -16,10 +16,10 @@ services:
       - DB_PASSWORD=my_password
       - DB_DATABASE=my_database
       - DB_HOSTNAME=postgresql
+      - TEST_DB_HOSTNAME=test-postgresql
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
       - SETUP_ADMIN_PASSWORD=passwordpassword
-      - TEST_DB_HOSTNAME=test-postgresql
       - RADARR_BASE_URL=radarr:7878
       - RADARR_API_KEY=d031e8c9b9df4b2fab311d1c3b3fa2c5
       - SONARR_BASE_URL=sonarr:8989
