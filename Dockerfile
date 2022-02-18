@@ -17,4 +17,4 @@ RUN chmod u+x /app/entry-point.sh
 
 EXPOSE 4000
 
-CMD [ "/app/entry-point.sh" ]
+CMD [ "/app/script-entry-point.sh" ]
