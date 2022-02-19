@@ -72,6 +72,7 @@ volumes:
 
 services:
   midarr:
+    container_name: midarr
     image: ghcr.io/midarrlabs/midarr-server:latest
     ports:
       - 4000:4000
@@ -101,6 +102,7 @@ services:
         condition: service_healthy
 
   postgresql:
+    container_name: postgres
     image: postgres
     volumes:
       - database-data:/var/lib/postgresql/data
