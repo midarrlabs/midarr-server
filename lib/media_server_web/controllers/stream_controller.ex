@@ -4,12 +4,12 @@ defmodule MediaServerWeb.StreamController do
   alias MediaServerWeb.Repositories.Movies
   alias MediaServerWeb.Repositories.Episodes
 
-  def show(%{req_headers: headers} = conn, %{"movie" => movie}) do
-    send_video(conn, headers, Movies.get_movie_path(movie))
+  def show(%{req_headers: headers} = conn, %{"movie" => id}) do
+    send_video(conn, headers, Movies.get_movie_path(id))
   end
 
-  def show(%{req_headers: headers} = conn, %{"episode" => episode}) do
-    send_video(conn, headers, Episodes.get_episode_path(episode))
+  def show(%{req_headers: headers} = conn, %{"episode" => id}) do
+    send_video(conn, headers, Episodes.get_episode_path(id))
   end
 
   defp get_offset(headers) do

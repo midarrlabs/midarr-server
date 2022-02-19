@@ -1,7 +1,7 @@
 defmodule MediaServerWeb.Repositories.Episodes do
 
   def get_url(url) do
-    "#{ Application.fetch_env!(:media_server, :series_base_url) }/api/v3/#{ url }?apikey=#{ Application.fetch_env!(:media_server, :series_api_key) }"
+    "#{ Application.get_env(:media_server, :series_base_url) }/api/v3/#{ url }?apikey=#{ Application.get_env(:media_server, :series_api_key) }"
   end
 
   def get_all(series_id) do
