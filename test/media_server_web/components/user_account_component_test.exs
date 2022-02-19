@@ -31,5 +31,21 @@ defmodule MediaServerWeb.UserAccountComponentTest do
       refute html =~ "Some Name"
       assert html =~ "Some Updated Name"
     end
+
+    test "it should require name", %{conn: conn, user: user} do
+
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
+        })
+
+      {:ok, index_live, html} = live(conn, Routes.settings_index_path(conn, :index))
+
+      assert html =~ "Some Name"
+
+      assert index_live
+             |> form("#user-account-form", user: %{name: ""})
+             |> render_submit() =~ "can&#39;t be blank"
+    end
   end
 end

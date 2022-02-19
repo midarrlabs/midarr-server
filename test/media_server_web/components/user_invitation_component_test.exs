@@ -29,5 +29,33 @@ defmodule MediaServerWeb.UserInvitationComponentTest do
       assert html =~ "Some Name"
       assert html =~ "test@email.com"
     end
+
+    test "it should require email address", %{conn: conn, user: user} do
+
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
+        })
+
+      {:ok, index_live, _html} = live(conn, Routes.settings_index_path(conn, :index))
+
+      assert index_live
+             |> form("#user-form", user: %{email: "", name: "Some Name"})
+             |> render_submit() =~ "can&#39;t be blank"
+    end
+
+    test "it should require name", %{conn: conn, user: user} do
+
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => valid_user_password()}
+        })
+
+      {:ok, index_live, _html} = live(conn, Routes.settings_index_path(conn, :index))
+
+      assert index_live
+             |> form("#user-form", user: %{email: "test@email.com", name: ""})
+             |> render_submit() =~ "can&#39;t be blank"
+    end
   end
 end
