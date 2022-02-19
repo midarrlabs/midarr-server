@@ -173,7 +173,7 @@ Thank you for all your contributions! Big or small - all is welcome!
 
 ## Preview
 
+![Preview](docs/login.png)
 ![Preview](docs/online.png)
-![Preview](docs/series.png)
 ![Preview](docs/movie.png)
 ![Preview](docs/player.png)
