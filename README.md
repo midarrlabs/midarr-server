@@ -102,7 +102,7 @@ services:
         condition: service_healthy
 
   postgresql:
-    container_name: postgres
+    container_name: postgresql
     image: postgres
     volumes:
       - database-data:/var/lib/postgresql/data
