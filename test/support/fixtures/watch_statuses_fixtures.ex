@@ -1,4 +1,7 @@
 defmodule MediaServer.WatchStatusesFixtures do
+
+  alias MediaServer.WatchStatuses
+
   @moduledoc """
   This module defines test helpers for creating
   entities via the `MediaServer.WatchStatuses` context.
@@ -17,5 +20,9 @@ defmodule MediaServer.WatchStatusesFixtures do
       |> MediaServer.WatchStatuses.create_movie()
 
     movie
+  end
+
+  def get_watch_status() do
+    MediaServer.WatchStatuses.list_movie_watch_statuses() |> List.first()
   end
 end

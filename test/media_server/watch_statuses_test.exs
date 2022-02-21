@@ -47,6 +47,24 @@ defmodule MediaServer.WatchStatusesTest do
       assert movie == WatchStatuses.get_movie!(movie.id)
     end
 
+    test "update_or_create_movie/2 updates movie" do
+      movie = movie_fixture()
+      update_attrs = %{movie_id: 42, timestamp: 43}
+
+      assert {:ok, %Movie{} = movie} = WatchStatuses.update_or_create_movie(movie.movie_id, update_attrs)
+      assert movie.movie_id == 42
+      assert movie.timestamp == 43
+    end
+
+    test "update_or_create_movie/2 creates movie" do
+      movie = movie_fixture()
+      update_attrs = %{movie_id: 43, timestamp: 43}
+
+      assert {:ok, %Movie{} = movie} = WatchStatuses.update_or_create_movie(movie.movie_id, update_attrs)
+      assert movie.movie_id == 43
+      assert movie.timestamp == 43
+    end
+
     test "delete_movie/1 deletes the movie" do
       movie = movie_fixture()
       assert {:ok, %Movie{}} = WatchStatuses.delete_movie(movie)

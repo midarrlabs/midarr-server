@@ -73,6 +73,18 @@ defmodule MediaServer.WatchStatuses do
     |> Repo.update()
   end
 
+  def update_or_create_movie(movie_id, attrs) do
+    movie = Repo.get_by(Movie, movie_id: movie_id)
+
+    case movie do
+      nil ->
+        create_movie(attrs)
+
+      _ ->
+        update_movie(movie, attrs)
+    end
+  end
+
   @doc """
   Deletes a movie.
 

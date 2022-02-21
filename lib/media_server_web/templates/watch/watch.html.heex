@@ -25,6 +25,7 @@
         window.userId = "<%= assigns[:current_user].id %>";
         window.userEmail = "<%= assigns[:current_user].email %>";
         window.userName = "<%= assigns[:current_user].name %>";
+        window.id = "<%= assigns[:id] %>";
     </script>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=13")}></script>
     <% end %>

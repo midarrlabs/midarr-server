@@ -5,6 +5,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
   alias MediaServer.AccountsFixtures
   alias MediaServer.MoviesFixtures
+  alias MediaServer.WatchStatusesFixtures
 
   defp create_fixtures(_) do
     %{user: AccountsFixtures.user_fixture()}
@@ -26,7 +27,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       assert html_response(conn, 200)
     end
 
-    test "video hook", %{conn: conn, user: user} do
+    test "it has watch status", %{conn: conn, user: user} do
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
@@ -37,7 +38,12 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
       {:ok, view, _html} = live(conn, "/movies/#{ movie["id"] }/watch")
 
-      render_hook(view, :video_destroyed, %{timestamp: 39.175474})
+      render_hook(view, :video_destroyed, %{
+        id: movie["id"],
+        timestamp: 39
+      })
+
+      assert WatchStatusesFixtures.get_watch_status()
     end
   end
 end

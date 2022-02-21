@@ -3,6 +3,7 @@ defmodule MediaServerWeb.WatchLive.Show do
 
   alias MediaServerWeb.Repositories.Movies
   alias MediaServerWeb.Repositories.Episodes
+  alias MediaServer.WatchStatuses
 
   @impl true
   def handle_params(%{"movie" => id}, _url, socket) do
@@ -11,8 +12,9 @@ defmodule MediaServerWeb.WatchLive.Show do
     {
       :noreply,
       socket
-      |> assign(:poster, Movies.get_poster(movie))
       |> assign(:page_title, "#{ movie["title"] }")
+      |> assign(:id, "#{ movie["id"] }")
+      |> assign(:poster, Movies.get_poster(movie))
       |> assign(:stream_url, "/movies/#{ movie["id"] }/stream")
     }
   end
@@ -31,7 +33,12 @@ defmodule MediaServerWeb.WatchLive.Show do
   end
 
   @impl true
-  def handle_event("video_destroyed", %{"timestamp" => timestamp}, socket) do
+  def handle_event("video_destroyed", %{"id" => id, "timestamp" => timestamp}, socket) do
+    WatchStatuses.update_or_create_movie(id, %{
+      movie_id: id,
+      timestamp: timestamp
+    })
+
     {:noreply, socket}
   end
 end
