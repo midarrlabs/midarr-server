@@ -29,4 +29,9 @@ defmodule MediaServerWeb.WatchLive.Show do
       |> assign(:stream_url, "/episodes/#{ episode["id"] }/stream")
     }
   end
+
+  @impl true
+  def handle_event("video_destroyed", %{"timestamp" => timestamp}, socket) do
+    {:noreply, socket}
+  end
 end

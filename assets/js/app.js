@@ -79,7 +79,21 @@ channel.join()
   })
 
 let liveSocket = new LiveSocket("/live", Socket, {
-    params: { _csrf_token: csrfToken }
+    params: { _csrf_token: csrfToken },
+    hooks: {
+        video: {
+            mounted() {
+                window.addEventListener("beforeunload", event => {
+                    this.pushEvent("video_destroyed", { timestamp: this.el.currentTime })
+
+                    delete e['returnValue']
+                })
+            },
+            destroyed() {
+                window.removeEventListener("beforeunload")
+            }
+        }
+    }
 })
 
 liveSocket.connect()
