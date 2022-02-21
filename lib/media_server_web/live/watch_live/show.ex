@@ -13,7 +13,7 @@ defmodule MediaServerWeb.WatchLive.Show do
       :noreply,
       socket
       |> assign(:page_title, "#{ movie["title"] }")
-      |> assign(:id, "#{ movie["id"] }")
+      |> assign(:movie_id, "#{ movie["id"] }")
       |> assign(:poster, Movies.get_poster(movie))
       |> assign(:stream_url, "/movies/#{ movie["id"] }/stream")
     }
@@ -33,7 +33,7 @@ defmodule MediaServerWeb.WatchLive.Show do
   end
 
   @impl true
-  def handle_event("video_destroyed", %{"id" => movie_id, "timestamp" => timestamp, "user_id" => user_id}, socket) do
+  def handle_event("video_destroyed", %{"movie_id" => movie_id, "timestamp" => timestamp, "user_id" => user_id}, socket) do
     WatchStatuses.update_or_create_movie(%{
       movie_id: movie_id,
       timestamp: timestamp,
