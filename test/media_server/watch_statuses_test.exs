@@ -49,19 +49,19 @@ defmodule MediaServer.WatchStatusesTest do
     end
 
     test "update_or_create_movie/2 updates movie" do
-      movie = movie_fixture()
-      update_attrs = %{movie_id: 42, timestamp: 43}
+      movie_fixture()
+      update_attrs = %{movie_id: 42, timestamp: 43, user_id: AccountsFixtures.user_fixture().id}
 
-      assert {:ok, %Movie{} = movie} = WatchStatuses.update_or_create_movie(movie.movie_id, update_attrs)
+      assert {:ok, %Movie{} = movie} = WatchStatuses.update_or_create_movie(update_attrs)
       assert movie.movie_id == 42
       assert movie.timestamp == 43
     end
 
     test "update_or_create_movie/2 creates movie" do
-      movie = movie_fixture()
-      update_attrs = %{movie_id: 43, timestamp: 43}
+      movie_fixture()
+      update_attrs = %{movie_id: 43, timestamp: 43, user_id: AccountsFixtures.user_fixture().id}
 
-      assert {:ok, %Movie{} = movie} = WatchStatuses.update_or_create_movie(movie.movie_id, update_attrs)
+      assert {:ok, %Movie{} = movie} = WatchStatuses.update_or_create_movie(update_attrs)
       assert movie.movie_id == 43
       assert movie.timestamp == 43
     end

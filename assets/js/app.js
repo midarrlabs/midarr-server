@@ -85,9 +85,10 @@ let liveSocket = new LiveSocket("/live", Socket, {
             mounted() {
                 window.addEventListener("beforeunload", event => {
                     this.pushEvent("video_destroyed", {
-                        user_id: window.userId,
                         id: window.id,
-                        timestamp: Math.floor(this.el.currentTime) })
+                        timestamp: Math.floor(this.el.currentTime),
+                        user_id: window.userId
+                        })
 
                     delete event['returnValue']
                 })
