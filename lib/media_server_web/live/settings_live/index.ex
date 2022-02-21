@@ -7,9 +7,10 @@ defmodule MediaServerWeb.SettingsLive.Index do
 
   @impl true
   def mount(_params, session, socket) do
-    user = Accounts.get_user_by_session_token(session["user_token"])
-
-    {:ok, socket |> assign(:current_user, user)}
+    {
+      :ok,
+      socket |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]))
+    }
   end
 
   @impl true
