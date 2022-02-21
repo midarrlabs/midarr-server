@@ -33,10 +33,11 @@ defmodule MediaServerWeb.WatchLive.Show do
   end
 
   @impl true
-  def handle_event("video_destroyed", %{"id" => id, "timestamp" => timestamp}, socket) do
+  def handle_event("video_destroyed", %{"user_id" => user_id, "id" => id, "timestamp" => timestamp}, socket) do
     WatchStatuses.update_or_create_movie(id, %{
       movie_id: id,
-      timestamp: timestamp
+      timestamp: timestamp,
+      user_id: user_id
     })
 
     {:noreply, socket}

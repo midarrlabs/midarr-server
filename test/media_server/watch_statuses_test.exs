@@ -1,6 +1,7 @@
 defmodule MediaServer.WatchStatusesTest do
   use MediaServer.DataCase
 
+  alias MediaServer.AccountsFixtures
   alias MediaServer.WatchStatuses
 
   describe "movie_watch_statuses" do
@@ -21,7 +22,7 @@ defmodule MediaServer.WatchStatusesTest do
     end
 
     test "create_movie/1 with valid data creates a movie" do
-      valid_attrs = %{movie_id: 42, timestamp: 42}
+      valid_attrs = %{movie_id: 42, timestamp: 42, user_id: AccountsFixtures.user_fixture().id}
 
       assert {:ok, %Movie{} = movie} = WatchStatuses.create_movie(valid_attrs)
       assert movie.movie_id == 42

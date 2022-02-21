@@ -5,7 +5,7 @@ defmodule MediaServer.WatchStatuses.Movie do
   schema "movie_watch_statuses" do
     field :movie_id, :integer
     field :timestamp, :integer
-    field :user_id, :id
+    belongs_to :user, MediaServer.Accounts.User
 
     timestamps()
   end
@@ -13,7 +13,7 @@ defmodule MediaServer.WatchStatuses.Movie do
   @doc false
   def changeset(movie, attrs) do
     movie
-    |> cast(attrs, [:movie_id, :timestamp])
-    |> validate_required([:movie_id, :timestamp])
+    |> cast(attrs, [:movie_id, :timestamp, :user_id])
+    |> validate_required([:movie_id, :timestamp, :user_id])
   end
 end

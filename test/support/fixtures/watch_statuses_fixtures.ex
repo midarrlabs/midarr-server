@@ -1,6 +1,7 @@
 defmodule MediaServer.WatchStatusesFixtures do
 
   alias MediaServer.WatchStatuses
+  alias MediaServer.AccountsFixtures
 
   @moduledoc """
   This module defines test helpers for creating
@@ -15,14 +16,15 @@ defmodule MediaServer.WatchStatusesFixtures do
       attrs
       |> Enum.into(%{
         movie_id: 42,
-        timestamp: 42
+        timestamp: 42,
+        user_id: AccountsFixtures.user_fixture().id
       })
-      |> MediaServer.WatchStatuses.create_movie()
+      |> WatchStatuses.create_movie()
 
     movie
   end
 
   def get_watch_status() do
-    MediaServer.WatchStatuses.list_movie_watch_statuses() |> List.first()
+    WatchStatuses.list_movie_watch_statuses() |> List.first()
   end
 end

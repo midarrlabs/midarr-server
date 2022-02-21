@@ -40,7 +40,8 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
       render_hook(view, :video_destroyed, %{
         id: movie["id"],
-        timestamp: 39
+        timestamp: 39,
+        user_id: user.id
       })
 
       assert WatchStatusesFixtures.get_watch_status()
