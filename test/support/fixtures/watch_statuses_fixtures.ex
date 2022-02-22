@@ -1,7 +1,6 @@
 defmodule MediaServer.WatchStatusesFixtures do
 
   alias MediaServer.WatchStatuses
-  alias MediaServer.AccountsFixtures
 
   @moduledoc """
   This module defines test helpers for creating
@@ -19,8 +18,7 @@ defmodule MediaServer.WatchStatusesFixtures do
         title: "some title",
         image_url: "some image url",
         current_time: 42,
-        duration: 84,
-        user_id: AccountsFixtures.user_fixture().id
+        duration: 84
       })
       |> WatchStatuses.create_movie()
 
