@@ -35,7 +35,7 @@
                         <h2 class="text-lg font-bold tracking-tight text-slate-600">Continue watching</h2>
                     </div>
                     <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-slate-600 text-sm font-medium">
-                        <%= live_redirect "See all #{ @movie_watch_statuses_total } →", to: Routes.movies_index_path(@socket, :index), class: "hover:text-slate-800" %>
+                        <%= live_redirect "See all #{ @movie_watch_statuses_total } →", to: Routes.statuses_index_path(@socket, :index), class: "hover:text-slate-800" %>
                     </div>
               </div>
 
@@ -44,29 +44,12 @@
 
                 <%= for item <- @movie_watch_statuses do %>
 
-                  <li class="col-span-1 flex shadow-sm rounded-md">
-                    <div style={"background-image: url('#{ item.image_url }')"} class="bg-cover flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md"></div>
-                    <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
-                      <div class="flex-1 px-4 py-2 text-sm truncate">
-                        <p class="text-gray-900 font-medium truncate">
-                            <%= item.title %>
-                        </p>
-                        <div class="w-full bg-gray-200 h-1 mt-4">
-                            <div class="bg-red-300 h-1" style={"width: #{ (item.current_time / item.duration) * 100 }%"}></div>
-                        </div>
-                      </div>
-                      <div class="flex-shrink-0 pr-2">
-
-                        <%= live_redirect to: "/movies/#{ item.movie_id }/watch?seconds=#{ item.current_time }", class: "w-8 h-8 bg-white inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
-
-                          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-                          </svg>
-                        <% end %>
-
-                      </div>
-                    </div>
-                  </li>
+                    <%= live_component MediaServerWeb.Components.StatusComponent,
+                     image_url: item.image_url,
+                     title: item.title,
+                     percentage_complete: (item.current_time / item.duration) * 100,
+                     link: "/movies/#{ item.movie_id }/watch?seconds=#{ item.current_time }"
+                    %>
 
                 <% end %>
 
