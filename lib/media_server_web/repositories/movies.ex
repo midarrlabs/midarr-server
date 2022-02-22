@@ -45,4 +45,8 @@ defmodule MediaServerWeb.Repositories.Movies do
   def get_poster(movie) do
     (Enum.filter(movie["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]
   end
+
+  def get_background(movie) do
+    (Enum.filter(movie["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]
+  end
 end

@@ -83,10 +83,17 @@ let liveSocket = new LiveSocket("/live", Socket, {
     hooks: {
         video: {
             mounted() {
+                const urlParams = new URLSearchParams(window.location.search)
+
+                if (urlParams.has('seconds')) {
+                    this.el.currentTime = urlParams.get('seconds')
+                }
+
                 window.addEventListener("beforeunload", event => {
                     this.pushEvent("video_destroyed", {
                         movie_id: window.movie_id,
-                        timestamp: Math.floor(this.el.currentTime),
+                        current_time: Math.floor(this.el.currentTime),
+                        duration: Math.floor(this.el.duration),
                         user_id: window.userId
                     })
 

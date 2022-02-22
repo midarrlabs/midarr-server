@@ -9,7 +9,14 @@ defmodule MediaServer.WatchStatusesTest do
 
     import MediaServer.WatchStatusesFixtures
 
-    @invalid_attrs %{movie_id: nil, timestamp: nil}
+    @invalid_attrs %{
+      movie_id: nil,
+      title: nil,
+      image_url: nil,
+      current_time: nil,
+      duration: nil,
+      user_id: nil
+    }
 
     test "list_movie_watch_statuses/0 returns all movie_watch_statuses" do
       movie = movie_fixture()
@@ -22,11 +29,21 @@ defmodule MediaServer.WatchStatusesTest do
     end
 
     test "create_movie/1 with valid data creates a movie" do
-      valid_attrs = %{movie_id: 42, timestamp: 42, user_id: AccountsFixtures.user_fixture().id}
+      valid_attrs = %{
+        movie_id: 42,
+        title: "some title",
+        image_url: "some image url",
+        current_time: 42,
+        duration: 84,
+        user_id: AccountsFixtures.user_fixture().id
+      }
 
       assert {:ok, %Movie{} = movie} = WatchStatuses.create_movie(valid_attrs)
       assert movie.movie_id == 42
-      assert movie.timestamp == 42
+      assert movie.title == "some title"
+      assert movie.image_url == "some image url"
+      assert movie.current_time == 42
+      assert movie.duration == 84
     end
 
     test "create_movie/1 with invalid data returns error changeset" do
@@ -35,11 +52,21 @@ defmodule MediaServer.WatchStatusesTest do
 
     test "update_movie/2 with valid data updates the movie" do
       movie = movie_fixture()
-      update_attrs = %{movie_id: 43, timestamp: 43}
+      update_attrs = %{
+        movie_id: 43,
+        title: "update title",
+        image_url: "update image url",
+        current_time: 62,
+        duration: 86,
+        user_id: AccountsFixtures.user_fixture().id
+      }
 
       assert {:ok, %Movie{} = movie} = WatchStatuses.update_movie(movie, update_attrs)
       assert movie.movie_id == 43
-      assert movie.timestamp == 43
+      assert movie.title == "update title"
+      assert movie.image_url == "update image url"
+      assert movie.current_time == 62
+      assert movie.duration == 86
     end
 
     test "update_movie/2 with invalid data returns error changeset" do
@@ -50,20 +77,41 @@ defmodule MediaServer.WatchStatusesTest do
 
     test "update_or_create_movie/2 updates movie" do
       movie_fixture()
-      update_attrs = %{movie_id: 42, timestamp: 43, user_id: AccountsFixtures.user_fixture().id}
+      update_attrs = %{
+        movie_id: 42,
+        title: "update title",
+        image_url: "update image url",
+        current_time: 62,
+        duration: 86,
+        user_id: AccountsFixtures.user_fixture().id
+      }
 
       assert {:ok, %Movie{} = movie} = WatchStatuses.update_or_create_movie(update_attrs)
       assert movie.movie_id == 42
-      assert movie.timestamp == 43
+      assert movie.title == "update title"
+      assert movie.image_url == "update image url"
+      assert movie.current_time == 62
+      assert movie.duration == 86
     end
 
     test "update_or_create_movie/2 creates movie" do
       movie_fixture()
-      update_attrs = %{movie_id: 43, timestamp: 43, user_id: AccountsFixtures.user_fixture().id}
-
+      user = AccountsFixtures.user_fixture()
+      update_attrs = %{
+        movie_id: 43,
+        title: "update title",
+        image_url: "update image url",
+        current_time: 62,
+        duration: 86,
+        user_id: user.id
+      }
       assert {:ok, %Movie{} = movie} = WatchStatuses.update_or_create_movie(update_attrs)
       assert movie.movie_id == 43
-      assert movie.timestamp == 43
+      assert movie.title == "update title"
+      assert movie.image_url == "update image url"
+      assert movie.current_time == 62
+      assert movie.duration == 86
+      assert movie.user_id == user.id
     end
 
     test "delete_movie/1 deletes the movie" do

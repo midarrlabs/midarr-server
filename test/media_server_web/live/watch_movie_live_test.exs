@@ -40,7 +40,8 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
       render_hook(view, :video_destroyed, %{
         movie_id: movie["id"],
-        timestamp: 39,
+        current_time: 39,
+        duration: 78,
         user_id: user.id
       })
 

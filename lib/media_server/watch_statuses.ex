@@ -74,7 +74,7 @@ defmodule MediaServer.WatchStatuses do
   end
 
   def update_or_create_movie(attrs) do
-    movie = Repo.get_by(Movie, attrs)
+    movie = Repo.get_by(Movie, [movie_id: attrs.movie_id, user_id: attrs.user_id])
 
     case movie do
       nil ->

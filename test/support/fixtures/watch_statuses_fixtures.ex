@@ -16,7 +16,10 @@ defmodule MediaServer.WatchStatusesFixtures do
       attrs
       |> Enum.into(%{
         movie_id: 42,
-        timestamp: 42,
+        title: "some title",
+        image_url: "some image url",
+        current_time: 42,
+        duration: 84,
         user_id: AccountsFixtures.user_fixture().id
       })
       |> WatchStatuses.create_movie()
