@@ -1,0 +1,24 @@
+  <div class="max-w-7xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
+
+    <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+        <div class="min-w-0 flex items-center">
+            <h2 class="text-lg font-bold tracking-tight text-slate-600"><%= @page_title %></h2>
+        </div>
+    </div>
+
+    <div>
+        <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <%= for item <- @movie_watch_statuses do %>
+
+                <%= live_component MediaServerWeb.Components.StatusComponent,
+                 image_url: item.image_url,
+                 title: item.title,
+                 percentage_complete: (item.current_time / item.duration) * 100,
+                 link: "/movies/#{ item.movie_id }/watch?seconds=#{ item.current_time }",
+                 link_item: "/movies/#{ item.movie_id }"
+                %>
+
+            <% end %>
+        </ul>
+    </div>
+</div>

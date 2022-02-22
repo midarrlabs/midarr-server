@@ -16,16 +16,13 @@ defmodule MediaServerWeb.HomeLive.Index do
 
   @impl true
   def handle_params(_params, _url, socket) do
-    watch_statuses = socket.assigns.current_user.movie_watch_statuses
-
     {
       :noreply,
       socket
       |> assign(page_title: "Home")
       |> assign(:latest_movies, Movies.get_latest(7))
       |> assign(:latest_series, Series.get_latest(6))
-      |> assign(:movie_watch_statuses_total, watch_statuses |> Enum.count())
-      |> assign(:movie_watch_statuses, watch_statuses |> Enum.take(4))
+      |> assign(:movie_watch_statuses, socket.assigns.current_user.movie_watch_statuses |> Enum.take(4))
     }
   end
 end

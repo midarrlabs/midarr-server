@@ -1,17 +1,17 @@
 <li class="col-span-1 flex shadow-sm rounded-md">
     <div style={"background-image: url('#{ @image_url }')"} class="bg-cover flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md"></div>
-    <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
+    <div class="flex-1 flex items-center justify-between border-t border-r border-b border-slate-200 bg-white rounded-r-md truncate">
       <div class="flex-1 px-4 py-2 text-sm truncate">
-        <p class="text-gray-900 font-medium truncate">
+        <%= live_redirect to: @link_item, class: "text-slate-600 font-medium truncate hover:text-slate-800 hover:underline" do %>
             <%= @title %>
-        </p>
-        <div class="w-full bg-gray-200 h-1 mt-4">
+        <% end %>
+        <div class="w-full bg-slate-200 h-1 mt-4">
             <div class="bg-red-300 h-1" style={"width: #{ @percentage_complete }%"}></div>
         </div>
       </div>
       <div class="flex-shrink-0 pr-2">
 
-        <%= live_redirect to: @link, class: "w-8 h-8 bg-white inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
+        <%= live_redirect to: @link, class: "w-8 h-8 bg-white inline-flex items-center justify-center text-slate-600 rounded-full bg-transparent hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
 
           <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
