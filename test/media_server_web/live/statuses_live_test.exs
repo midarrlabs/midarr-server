@@ -1,51 +1,41 @@
-defmodule MediaServerWeb.WatchMovieLiveTest do
+defmodule MediaServerWeb.StatusesLiveTest do
   use MediaServerWeb.ConnCase
 
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.MoviesFixtures
   alias MediaServer.WatchStatusesFixtures
 
   defp create_fixtures(_) do
     %{user: AccountsFixtures.user_fixture()}
   end
 
-  describe "Show movie" do
+  describe "Index" do
     setup [:create_fixtures]
 
-    test "watch", %{conn: conn, user: user} do
+    test "page", %{conn: conn, user: user} do
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
-      movie = MoviesFixtures.get_movie()
-
-      conn = get(conn, "/movies/#{ movie["id"] }/watch")
+      conn = get(conn, Routes.statuses_index_path(conn, :index))
       assert html_response(conn, 200)
     end
 
-    test "it has watch status", %{conn: conn, user: user} do
+    test "delete", %{conn: conn, user: user} do
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
-      movie = MoviesFixtures.get_movie()
+      movie_watch_status = WatchStatusesFixtures.movie_fixture(%{user_id: user.id})
 
-      {:ok, view, _html} = live(conn, "/movies/#{ movie["id"] }/watch")
+      {:ok, index_live, _html} = live(conn, Routes.statuses_index_path(conn, :index))
 
-      render_hook(view, :video_destroyed, %{
-        movie_id: movie["id"],
-        current_time: 39,
-        duration: 78,
-        user_id: user.id
-      })
-
-      assert WatchStatusesFixtures.get_watch_status()
+      assert index_live |> element("#delete-#{ movie_watch_status.id }") |> render_click()
     end
   end
 end

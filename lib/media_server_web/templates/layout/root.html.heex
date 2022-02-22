@@ -22,7 +22,7 @@
     </style>
     <%= if @current_user do %>
     <script>
-        window.userId = "<%= assigns[:current_user].id %>";
+        window.userId = <%= assigns[:current_user].id %>;
         window.userEmail = "<%= assigns[:current_user].email %>";
         window.userName = "<%= assigns[:current_user].name %>";
     </script>

@@ -3,7 +3,7 @@
     <div class="h-80 w-full absolute bottom-0 xl:inset-0 xl:h-full">
       <div class="h-full w-full xl:grid xl:grid-cols-2">
         <div class="h-full xl:relative xl:col-start-2">
-          <img class="h-full w-full object-cover opacity-80 xl:absolute xl:inset-0" src={(Enum.filter(Enum.at(@latest_movies, 0)["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]} alt="People working on laptops">
+          <img class="h-full w-full object-cover opacity-80 xl:absolute xl:inset-0" src={(Enum.filter(Enum.at(@latest_movies, 0)["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]} alt="Background">
           <div aria-hidden="true" class="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-gray-900 xl:inset-y-0 xl:left-0 xl:h-full xl:w-32 xl:bg-gradient-to-r"></div>
         </div>
       </div>
@@ -25,22 +25,52 @@
   </div>
 <% end %>
 
-<div class="max-w-7xl mx-auto py-6 px-4">
-    <div class="space-y-8">
+    <div class="max-w-7xl mx-auto py-6 px-4">
+        <div class="space-y-8">
+
+        <%= if !Enum.empty?(@movie_watch_statuses) do %>
+            <div>
+              <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+                    <div class="min-w-0 flex items-center">
+                        <h2 class="text-lg font-bold tracking-tight text-slate-600">Continue watching</h2>
+                    </div>
+                    <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-slate-600 text-sm font-medium">
+                        <%= live_redirect "See all", to: Routes.statuses_index_path(@socket, :index), class: "hover:text-slate-800 hover:underline uppercase" %>
+                    </div>
+              </div>
+
+              <div>
+                <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+                    <%= for item <- @movie_watch_statuses do %>
+
+                        <%= live_component MediaServerWeb.Components.StatusComponent,
+                         id: item.id,
+                         image_url: item.image_url,
+                         title: item.title,
+                         percentage_complete: (item.current_time / item.duration) * 100,
+                         link: "/movies/#{ item.movie_id }/watch?seconds=#{ item.current_time }"
+                        %>
+
+                    <% end %>
+                </ul>
+              </div>
+            </div>
+        <% end %>
 
         <%= if !Enum.empty?(@latest_movies) do %>
             <div>
               <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
                     <div class="min-w-0 flex items-center">
-                        <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Movies fresh in</h2>
+                        <h2 class="text-lg font-bold tracking-tight text-slate-600">Movies fresh in</h2>
                     </div>
                     <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-slate-600 text-sm font-medium">
 
-                        <%= live_redirect "See all movies →", to: Routes.movies_index_path(@socket, :index), class: "hover:text-slate-800" %>
+                        <%= live_redirect "See all", to: Routes.movies_index_path(@socket, :index), class: "hover:text-slate-800 hover:underline uppercase" %>
                     </div>
               </div>
 
-              <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+              <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
 
                   <%= for item <- @latest_movies |> Enum.drop(1) do %>
 
@@ -59,15 +89,15 @@
             <div>
                 <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
                     <div class="min-w-0 flex items-center">
-                        <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Series fresh in</h2>
+                        <h2 class="text-lg font-bold tracking-tight text-slate-600">Series fresh in</h2>
                     </div>
                     <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-slate-600 text-sm font-medium">
 
-                        <%= live_redirect "See all series →", to: Routes.series_index_path(@socket, :index), class: "hover:text-slate-800" %>
+                        <%= live_redirect "See all", to: Routes.series_index_path(@socket, :index), class: "hover:text-slate-800 hover:underline uppercase" %>
                     </div>
                 </div>
 
-                <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+                <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
 
                   <%= for item <- @latest_series do %>
 
