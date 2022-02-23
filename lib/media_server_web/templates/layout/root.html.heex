@@ -22,11 +22,11 @@
     </style>
     <%= if @current_user do %>
     <script>
-        window.userId = "<%= assigns[:current_user].id %>";
+        window.userId = <%= assigns[:current_user].id %>;
         window.userEmail = "<%= assigns[:current_user].email %>";
         window.userName = "<%= assigns[:current_user].name %>";
     </script>
-    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=13")}></script>
+    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=14")}></script>
     <% end %>
   </head>
   <body>

@@ -234,7 +234,10 @@ defmodule MediaServer.Accounts do
   """
   def get_user_by_session_token(token) do
     {:ok, query} = UserToken.verify_session_token_query(token)
+
     Repo.one(query)
+    |> Repo.preload(:movie_watch_statuses)
+    |> Repo.preload(:episode_watch_statuses)
   end
 
   @doc """

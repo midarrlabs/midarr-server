@@ -79,7 +79,56 @@ channel.join()
   })
 
 let liveSocket = new LiveSocket("/live", Socket, {
-    params: { _csrf_token: csrfToken }
+    params: { _csrf_token: csrfToken },
+    hooks: {
+        video: {
+            mounted() {
+                const urlParams = new URLSearchParams(window.location.search)
+
+                if (urlParams.has('seconds')) {
+                    this.el.currentTime = urlParams.get('seconds')
+                }
+
+                window.addEventListener("beforeunload", event => {
+                    this.pushEvent("video_destroyed", {
+                        movie_id: window.movie_id,
+                        current_time: Math.floor(this.el.currentTime),
+                        duration: Math.floor(this.el.duration),
+                        user_id: window.userId
+                    })
+
+                    delete event['returnValue']
+                })
+            },
+            destroyed() {
+                window.removeEventListener("beforeunload")
+            }
+        },
+        episode: {
+            mounted() {
+                const urlParams = new URLSearchParams(window.location.search)
+
+                if (urlParams.has('seconds')) {
+                    this.el.currentTime = urlParams.get('seconds')
+                }
+
+                window.addEventListener("beforeunload", event => {
+                    this.pushEvent("episode_destroyed", {
+                        episode_id: window.episode_id,
+                        serie_id: window.serie_id,
+                        current_time: Math.floor(this.el.currentTime),
+                        duration: Math.floor(this.el.duration),
+                        user_id: window.userId
+                    })
+
+                    delete event['returnValue']
+                })
+            },
+            destroyed() {
+                window.removeEventListener("beforeunload")
+            }
+        }
+    }
 })
 
 liveSocket.connect()
