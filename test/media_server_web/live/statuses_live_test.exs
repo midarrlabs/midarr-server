@@ -37,5 +37,19 @@ defmodule MediaServerWeb.StatusesLiveTest do
 
       assert index_live |> element("#delete-#{ movie_watch_status.id }") |> render_click()
     end
+
+    test "delete episode", %{conn: conn, user: user} do
+
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
+        })
+
+      episode_watch_status = WatchStatusesFixtures.episode_fixture(%{user_id: user.id})
+
+      {:ok, index_live, _html} = live(conn, Routes.statuses_index_path(conn, :index))
+
+      assert index_live |> element("#delete-#{ episode_watch_status.id }") |> render_click()
+    end
   end
 end

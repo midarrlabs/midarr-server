@@ -19,6 +19,7 @@ defmodule MediaServerWeb.StatusesLive.Index do
       socket
       |> assign(page_title: "Continue Watching")
       |> assign(:movie_watch_statuses, socket.assigns.current_user.movie_watch_statuses)
+      |> assign(:episode_watch_statuses, socket.assigns.current_user.episode_watch_statuses)
     }
   end
 end

@@ -237,6 +237,7 @@ defmodule MediaServer.Accounts do
 
     Repo.one(query)
     |> Repo.preload(:movie_watch_statuses)
+    |> Repo.preload(:episode_watch_statuses)
   end
 
   @doc """
