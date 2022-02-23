@@ -17,7 +17,7 @@
                  percentage_complete: (item.current_time / item.duration) * 100,
                  link: "/movies/#{ item.movie_id }/watch?seconds=#{ item.current_time }",
                  event: "delete",
-                 return_to: Routes.statuses_index_path(@socket, :index)
+                 return_to: Routes.watches_index_path(@socket, :index)
                 %>
 
             <% end %>
@@ -31,7 +31,7 @@
                  percentage_complete: (item.current_time / item.duration) * 100,
                  link: "/episodes/#{ item.episode_id }/watch?seconds=#{ item.current_time }",
                  event: "delete_episode",
-                 return_to: Routes.statuses_index_path(@socket, :index)
+                 return_to: Routes.watches_index_path(@socket, :index)
                 %>
 
             <% end %>

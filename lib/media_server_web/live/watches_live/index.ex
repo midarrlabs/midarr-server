@@ -1,4 +1,4 @@
-defmodule MediaServerWeb.StatusesLive.Index do
+defmodule MediaServerWeb.WatchesLive.Index do
   use MediaServerWeb, :live_view
 
   alias MediaServer.Accounts

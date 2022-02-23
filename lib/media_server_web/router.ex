@@ -29,11 +29,11 @@ defmodule MediaServerWeb.Router do
     get "/episodes/:episode/stream", StreamController, :show
 
     live_session :watch, root_layout: {MediaServerWeb.WatchView, "watch.html"} do
-      live "/movies/:movie/watch", WatchLive.Show, :show
-      live "/episodes/:episode/watch", EpisodesWatchLive.Show, :show
+      live "/movies/:movie/watch", WatchMovieLive.Show, :show
+      live "/episodes/:episode/watch", WatchEpisodeLive.Show, :show
     end
 
-    live "/statuses", StatusesLive.Index, :index
+    live "/watches", WatchesLive.Index, :index
 
     live "/settings", SettingsLive.Index, :index
 

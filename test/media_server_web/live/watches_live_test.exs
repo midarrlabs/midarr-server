@@ -1,4 +1,4 @@
-defmodule MediaServerWeb.StatusesLiveTest do
+defmodule MediaServerWeb.WatchesLiveTest do
   use MediaServerWeb.ConnCase
 
   import Phoenix.LiveViewTest
@@ -20,7 +20,7 @@ defmodule MediaServerWeb.StatusesLiveTest do
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
-      conn = get(conn, Routes.statuses_index_path(conn, :index))
+      conn = get(conn, Routes.watches_index_path(conn, :index))
       assert html_response(conn, 200)
     end
 
@@ -33,7 +33,7 @@ defmodule MediaServerWeb.StatusesLiveTest do
 
       movie_watch_status = WatchStatusesFixtures.movie_fixture(%{user_id: user.id})
 
-      {:ok, index_live, _html} = live(conn, Routes.statuses_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, Routes.watches_index_path(conn, :index))
 
       assert index_live |> element("#delete-#{ movie_watch_status.id }") |> render_click()
     end
@@ -47,7 +47,7 @@ defmodule MediaServerWeb.StatusesLiveTest do
 
       episode_watch_status = WatchStatusesFixtures.episode_fixture(%{user_id: user.id})
 
-      {:ok, index_live, _html} = live(conn, Routes.statuses_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, Routes.watches_index_path(conn, :index))
 
       assert index_live |> element("#delete-#{ episode_watch_status.id }") |> render_click()
     end
