@@ -20,19 +20,6 @@ defmodule MediaServerWeb.WatchLive.Show do
   end
 
   @impl true
-  def handle_params(%{"episode" => id}, _url, socket) do
-    episode = Episodes.get_episode(id)
-
-    {
-      :noreply,
-      socket
-      |> assign(:poster, Episodes.get_poster(episode))
-      |> assign(:page_title, "#{ episode["series"]["title"] }: #{ episode["title"] }")
-      |> assign(:stream_url, "/episodes/#{ episode["id"] }/stream")
-    }
-  end
-
-  @impl true
   def handle_event("video_destroyed", %{"movie_id" => movie_id, "current_time" => current_time, "duration" => duration, "user_id" => user_id}, socket) do
     movie = Movies.get_movie(movie_id)
 

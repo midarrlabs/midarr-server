@@ -30,7 +30,7 @@ defmodule MediaServerWeb.Router do
 
     live_session :watch, root_layout: {MediaServerWeb.WatchView, "watch.html"} do
       live "/movies/:movie/watch", WatchLive.Show, :show
-      live "/episodes/:episode/watch", WatchLive.Show, :show
+      live "/episodes/:episode/watch", EpisodesWatchLive.Show, :show
     end
 
     live "/statuses", StatusesLive.Index, :index

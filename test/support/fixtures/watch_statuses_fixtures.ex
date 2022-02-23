@@ -47,4 +47,8 @@ defmodule MediaServer.WatchStatusesFixtures do
 
     episode
   end
+
+  def get_episode_watch_status() do
+    WatchStatuses.list_episode_watch_statuses() |> List.first()
+  end
 end

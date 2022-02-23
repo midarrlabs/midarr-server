@@ -28,6 +28,10 @@
         <%= if assigns[:movie_id] do %>
         window.movie_id = <%= assigns[:movie_id] %>;
         <% end %>
+        <%= if assigns[:episode_id] && assigns[:serie_id] do %>
+        window.episode_id = <%= assigns[:episode_id] %>;
+        window.serie_id = <%= assigns[:serie_id] %>;
+        <% end %>
     </script>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js?id=13")}></script>
     <% end %>
