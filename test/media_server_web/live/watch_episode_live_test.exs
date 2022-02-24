@@ -26,7 +26,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
       episode = EpisodesFixtures.get_episode(serie["id"])
 
-      conn = get(conn, "/episodes/#{ episode["id"] }/watch")
+      conn = get(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
       assert html_response(conn, 200)
     end
 
@@ -41,7 +41,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
       episode = EpisodesFixtures.get_episode(serie["id"])
 
-      {:ok, view, _html} = live(conn, "/episodes/#{ episode["id"] }/watch")
+      {:ok, view, _html} = live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
 
       render_hook(view, :episode_destroyed, %{
         episode_id: episode["id"],

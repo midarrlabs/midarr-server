@@ -27,7 +27,7 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
 
       episode = EpisodesFixtures.get_episode(serie["id"])
 
-      conn = get(conn, "/episodes/#{ episode["id"] }/stream")
+      conn = get(conn, Routes.stream_episode_path(conn, :show, episode["id"]))
 
       assert conn.status === 206
       assert conn.state === :file
@@ -50,7 +50,7 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
       episode = EpisodesFixtures.get_episode(serie["id"])
 
       conn = conn |> recycle() |> put_req_header("range", "bytes=124-")
-      conn = get(conn, "/episodes/#{ episode["id"] }/stream")
+      conn = get(conn, Routes.stream_episode_path(conn, :show, episode["id"]))
 
       assert conn.status === 206
       assert conn.state === :file
@@ -73,7 +73,7 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
       episode = EpisodesFixtures.get_episode(serie["id"])
 
       conn = conn |> recycle() |> put_req_header("range", "bytes=0-1")
-      conn = get(conn, "/episodes/#{ episode["id"] }/stream")
+      conn = get(conn, Routes.stream_episode_path(conn, :show, episode["id"]))
 
       assert conn.status === 206
       assert conn.state === :file

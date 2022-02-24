@@ -1,3 +1,3 @@
-<video id="video" phx-hook="episode" poster={@background} controlsList="nodownload" controls autoplay>
-    <source src={@stream_url} type="video/mp4">
+<video id="video" phx-hook="episode" poster={MediaServerWeb.Repositories.Episodes.get_background(@episode)} controlsList="nodownload" controls autoplay>
+    <source src={Routes.stream_episode_path(@socket, :show, @episode["id"])} type="video/mp4">
 </video>

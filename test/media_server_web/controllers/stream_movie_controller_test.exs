@@ -24,7 +24,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
 
       movie = MoviesFixtures.get_movie()
 
-      conn = get(conn, "/movies/#{ movie["id"] }/stream")
+      conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]))
 
       assert conn.status === 206
       assert conn.state === :file
@@ -45,7 +45,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
       movie = MoviesFixtures.get_movie()
 
       conn = conn |> recycle() |> put_req_header("range", "bytes=124-")
-      conn = get(conn, "/movies/#{ movie["id"] }/stream")
+      conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]))
 
       assert conn.status === 206
       assert conn.state === :file
@@ -66,7 +66,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
       movie = MoviesFixtures.get_movie()
 
       conn = conn |> recycle() |> put_req_header("range", "bytes=0-1")
-      conn = get(conn, "/movies/#{ movie["id"] }/stream")
+      conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]))
 
       assert conn.status === 206
       assert conn.state === :file
