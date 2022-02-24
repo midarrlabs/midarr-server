@@ -35,4 +35,8 @@ defmodule MediaServerWeb.Repositories.Series do
 
     Jason.decode!(body)
   end
+
+  def get_poster(serie) do
+    (Enum.filter(serie["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"]
+  end
 end

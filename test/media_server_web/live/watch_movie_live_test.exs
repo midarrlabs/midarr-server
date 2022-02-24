@@ -38,7 +38,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
       {:ok, view, _html} = live(conn, "/movies/#{ movie["id"] }/watch")
 
-      render_hook(view, :video_destroyed, %{
+      render_hook(view, :movie_destroyed, %{
         movie_id: movie["id"],
         current_time: 39,
         duration: 78,

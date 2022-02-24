@@ -14,13 +14,13 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
       socket
       |> assign(:page_title, "#{ movie["title"] }")
       |> assign(:movie_id, "#{ movie["id"] }")
-      |> assign(:poster, Movies.get_poster(movie))
+      |> assign(:background, Movies.get_background(movie))
       |> assign(:stream_url, "/movies/#{ movie["id"] }/stream")
     }
   end
 
   @impl true
-  def handle_event("video_destroyed", %{"movie_id" => movie_id, "current_time" => current_time, "duration" => duration, "user_id" => user_id}, socket) do
+  def handle_event("movie_destroyed", %{"movie_id" => movie_id, "current_time" => current_time, "duration" => duration, "user_id" => user_id}, socket) do
     movie = Movies.get_movie(movie_id)
 
     Watches.update_or_create_movie(%{

@@ -3,7 +3,7 @@ defmodule MediaServerWeb.Components.WatchComponent do
 
   alias MediaServer.Watches
 
-  def handle_event("delete", %{"id" => id}, socket) do
+  def handle_event("delete_movie", %{"id" => id}, socket) do
     Watches.delete_movie(Watches.get_movie!(id))
 
     {

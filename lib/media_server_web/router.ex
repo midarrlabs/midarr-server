@@ -33,7 +33,7 @@ defmodule MediaServerWeb.Router do
       live "/episodes/:episode/watch", WatchEpisodeLive.Show, :show
     end
 
-    live "/watches", WatchesLive.Index, :index
+    live "/continues", WatchesLive.Index, :index
 
     live "/settings", SettingsLive.Index, :index
 

@@ -24,7 +24,7 @@ defmodule MediaServerWeb.WatchesLiveTest do
       assert html_response(conn, 200)
     end
 
-    test "delete", %{conn: conn, user: user} do
+    test "delete movie", %{conn: conn, user: user} do
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
@@ -35,7 +35,7 @@ defmodule MediaServerWeb.WatchesLiveTest do
 
       {:ok, index_live, _html} = live(conn, Routes.watches_index_path(conn, :index))
 
-      assert index_live |> element("#delete-#{ movie_watch_status.id }") |> render_click()
+      assert index_live |> element("#movie-#{ movie_watch_status.id }") |> render_click()
     end
 
     test "delete episode", %{conn: conn, user: user} do
@@ -49,7 +49,7 @@ defmodule MediaServerWeb.WatchesLiveTest do
 
       {:ok, index_live, _html} = live(conn, Routes.watches_index_path(conn, :index))
 
-      assert index_live |> element("#delete-#{ episode_watch_status.id }") |> render_click()
+      assert index_live |> element("#episode-#{ episode_watch_status.id }") |> render_click()
     end
   end
 end

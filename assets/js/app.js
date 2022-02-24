@@ -81,7 +81,7 @@ channel.join()
 let liveSocket = new LiveSocket("/live", Socket, {
     params: { _csrf_token: csrfToken },
     hooks: {
-        video: {
+        movie: {
             mounted() {
                 const urlParams = new URLSearchParams(window.location.search)
 
@@ -90,7 +90,7 @@ let liveSocket = new LiveSocket("/live", Socket, {
                 }
 
                 window.addEventListener("beforeunload", event => {
-                    this.pushEvent("video_destroyed", {
+                    this.pushEvent("movie_destroyed", {
                         movie_id: window.movie_id,
                         current_time: Math.floor(this.el.currentTime),
                         duration: Math.floor(this.el.duration),

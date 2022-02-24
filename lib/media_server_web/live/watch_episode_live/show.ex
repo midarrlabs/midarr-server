@@ -14,7 +14,7 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
       |> assign(:page_title, "#{ episode["series"]["title"] }: #{ episode["title"] }")
       |> assign(:episode_id, "#{ episode["id"] }")
       |> assign(:serie_id, "#{ episode["seriesId"] }")
-      |> assign(:poster, Episodes.get_poster(episode))
+      |> assign(:background, Episodes.get_background(episode))
       |> assign(:stream_url, "/episodes/#{ episode["id"] }/stream")
     }
   end
