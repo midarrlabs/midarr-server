@@ -236,8 +236,8 @@ defmodule MediaServer.Accounts do
     {:ok, query} = UserToken.verify_session_token_query(token)
 
     Repo.one(query)
-    |> Repo.preload(:movie_watch_statuses)
-    |> Repo.preload(:episode_watch_statuses)
+    |> Repo.preload(:movie_watches)
+    |> Repo.preload(:episode_watches)
   end
 
   @doc """

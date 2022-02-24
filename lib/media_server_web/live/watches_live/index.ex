@@ -18,8 +18,8 @@ defmodule MediaServerWeb.WatchesLive.Index do
       :noreply,
       socket
       |> assign(page_title: "Continue Watching")
-      |> assign(:movie_watch_statuses, socket.assigns.current_user.movie_watch_statuses)
-      |> assign(:episode_watch_statuses, socket.assigns.current_user.episode_watch_statuses)
+      |> assign(:movie_watches, socket.assigns.current_user.movie_watches)
+      |> assign(:episode_watches, socket.assigns.current_user.episode_watches)
     }
   end
 end

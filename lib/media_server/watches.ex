@@ -1,4 +1,4 @@
-defmodule MediaServer.WatchStatuses do
+defmodule MediaServer.Watches do
   @moduledoc """
   The WatchStatuses context.
   """
@@ -6,18 +6,18 @@ defmodule MediaServer.WatchStatuses do
   import Ecto.Query, warn: false
   alias MediaServer.Repo
 
-  alias MediaServer.WatchStatuses.Movie
+  alias MediaServer.Watches.Movie
 
   @doc """
-  Returns the list of movie_watch_statuses.
+  Returns the list of movie_watches.
 
   ## Examples
 
-      iex> list_movie_watch_statuses()
+      iex> list_movie_watches()
       [%Movie{}, ...]
 
   """
-  def list_movie_watch_statuses do
+  def list_movie_watches do
     Repo.all(Movie)
   end
 
@@ -114,18 +114,18 @@ defmodule MediaServer.WatchStatuses do
     Movie.changeset(movie, attrs)
   end
 
-  alias MediaServer.WatchStatuses.Episode
+  alias MediaServer.Watches.Episode
 
   @doc """
-  Returns the list of episode_watch_statuses.
+  Returns the list of episode_watches.
 
   ## Examples
 
-      iex> list_episode_watch_statuses()
+      iex> list_episode_watches()
       [%Episode{}, ...]
 
   """
-  def list_episode_watch_statuses do
+  def list_episode_watches do
     Repo.all(Episode)
   end
 

@@ -4,7 +4,7 @@ defmodule MediaServerWeb.WatchesLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.WatchStatusesFixtures
+  alias MediaServer.WatchesFixtures
 
   defp create_fixtures(_) do
     %{user: AccountsFixtures.user_fixture()}
@@ -31,7 +31,7 @@ defmodule MediaServerWeb.WatchesLiveTest do
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
-      movie_watch_status = WatchStatusesFixtures.movie_fixture(%{user_id: user.id})
+      movie_watch_status = WatchesFixtures.movie_fixture(%{user_id: user.id})
 
       {:ok, index_live, _html} = live(conn, Routes.watches_index_path(conn, :index))
 
@@ -45,7 +45,7 @@ defmodule MediaServerWeb.WatchesLiveTest do
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
-      episode_watch_status = WatchStatusesFixtures.episode_fixture(%{user_id: user.id})
+      episode_watch_status = WatchesFixtures.episode_fixture(%{user_id: user.id})
 
       {:ok, index_live, _html} = live(conn, Routes.watches_index_path(conn, :index))
 

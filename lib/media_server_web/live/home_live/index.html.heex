@@ -28,7 +28,7 @@
     <div class="max-w-7xl mx-auto py-6 px-4">
         <div class="space-y-8">
 
-        <%= if !Enum.empty?(@movie_watch_statuses) || !Enum.empty?(@episode_watch_statuses) do %>
+        <%= if !Enum.empty?(@movie_watches) || !Enum.empty?(@episode_watches) do %>
             <div>
               <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
                     <div class="min-w-0 flex items-center">
@@ -42,9 +42,9 @@
               <div>
                 <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
-                    <%= for item <- @movie_watch_statuses do %>
+                    <%= for item <- @movie_watches do %>
 
-                        <%= live_component MediaServerWeb.Components.StatusComponent,
+                        <%= live_component MediaServerWeb.Components.WatchComponent,
                          id: item.id,
                          image_url: item.image_url,
                          title: item.title,
@@ -56,9 +56,9 @@
 
                     <% end %>
 
-                    <%= for item <- @episode_watch_statuses do %>
+                    <%= for item <- @episode_watches do %>
 
-                        <%= live_component MediaServerWeb.Components.StatusComponent,
+                        <%= live_component MediaServerWeb.Components.WatchComponent,
                          id: item.id,
                          image_url: item.image_url,
                          title: item.title,

@@ -2,7 +2,7 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
   use MediaServerWeb, :live_view
 
   alias MediaServerWeb.Repositories.Episodes
-  alias MediaServer.WatchStatuses
+  alias MediaServer.Watches
 
   @impl true
   def handle_params(%{"episode" => id}, _url, socket) do
@@ -23,7 +23,7 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
   def handle_event("episode_destroyed", %{"episode_id" => episode_id, "serie_id" => serie_id, "current_time" => current_time, "duration" => duration, "user_id" => user_id}, socket) do
     episode = Episodes.get_episode(episode_id)
 
-    WatchStatuses.update_or_create_episode(%{
+    Watches.update_or_create_episode(%{
       episode_id: episode_id,
       serie_id: serie_id,
       title: episode["title"],

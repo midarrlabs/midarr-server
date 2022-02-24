@@ -3,7 +3,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
 
   alias MediaServerWeb.Repositories.Movies
   alias MediaServerWeb.Repositories.Episodes
-  alias MediaServer.WatchStatuses
+  alias MediaServer.Watches
 
   @impl true
   def handle_params(%{"movie" => id}, _url, socket) do
@@ -23,7 +23,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
   def handle_event("video_destroyed", %{"movie_id" => movie_id, "current_time" => current_time, "duration" => duration, "user_id" => user_id}, socket) do
     movie = Movies.get_movie(movie_id)
 
-    WatchStatuses.update_or_create_movie(%{
+    Watches.update_or_create_movie(%{
       movie_id: movie_id,
       title: movie["title"],
       image_url: Movies.get_background(movie),

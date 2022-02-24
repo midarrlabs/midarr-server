@@ -8,9 +8,9 @@
 
     <div>
         <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <%= for item <- @movie_watch_statuses do %>
+            <%= for item <- @movie_watches do %>
 
-                <%= live_component MediaServerWeb.Components.StatusComponent,
+                <%= live_component MediaServerWeb.Components.WatchComponent,
                  id: item.id,
                  image_url: item.image_url,
                  title: item.title,
@@ -22,9 +22,9 @@
 
             <% end %>
 
-            <%= for item <- @episode_watch_statuses do %>
+            <%= for item <- @episode_watches do %>
 
-                <%= live_component MediaServerWeb.Components.StatusComponent,
+                <%= live_component MediaServerWeb.Components.WatchComponent,
                  id: item.id,
                  image_url: item.image_url,
                  title: item.title,

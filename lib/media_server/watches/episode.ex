@@ -1,8 +1,8 @@
-defmodule MediaServer.WatchStatuses.Episode do
+defmodule MediaServer.Watches.Episode do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "episode_watch_statuses" do
+  schema "episode_watches" do
     field :current_time, :integer
     field :duration, :integer
     field :episode_id, :integer

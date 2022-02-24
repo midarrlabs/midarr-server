@@ -1,10 +1,10 @@
-defmodule MediaServer.WatchStatusesFixtures do
+defmodule MediaServer.WatchesFixtures do
 
-  alias MediaServer.WatchStatuses
+  alias MediaServer.Watches
 
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `MediaServer.WatchStatuses` context.
+  entities via the `MediaServer.Watches` context.
   """
 
   @doc """
@@ -20,13 +20,13 @@ defmodule MediaServer.WatchStatusesFixtures do
         current_time: 42,
         duration: 84
       })
-      |> WatchStatuses.create_movie()
+      |> Watches.create_movie()
 
     movie
   end
 
-  def get_watch_status() do
-    WatchStatuses.list_movie_watch_statuses() |> List.first()
+  def get_movie_watch() do
+    Watches.list_movie_watches() |> List.first()
   end
 
   @doc """
@@ -43,12 +43,12 @@ defmodule MediaServer.WatchStatusesFixtures do
         serie_id: 42,
         title: "some title"
       })
-      |> MediaServer.WatchStatuses.create_episode()
+      |> MediaServer.Watches.create_episode()
 
     episode
   end
 
-  def get_episode_watch_status() do
-    WatchStatuses.list_episode_watch_statuses() |> List.first()
+  def get_episode_watch() do
+    Watches.list_episode_watches() |> List.first()
   end
 end

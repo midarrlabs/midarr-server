@@ -5,7 +5,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
   alias MediaServer.AccountsFixtures
   alias MediaServer.MoviesFixtures
-  alias MediaServer.WatchStatusesFixtures
+  alias MediaServer.WatchesFixtures
 
   defp create_fixtures(_) do
     %{user: AccountsFixtures.user_fixture()}
@@ -45,7 +45,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
         user_id: user.id
       })
 
-      assert WatchStatusesFixtures.get_watch_status()
+      assert WatchesFixtures.get_movie_watch()
     end
   end
 end
