@@ -23,7 +23,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
       movie = MoviesFixtures.get_movie()
 
-      conn = get(conn, "/movies/#{ movie["id"] }/watch")
+      conn = get(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
       assert html_response(conn, 200)
     end
 
@@ -36,7 +36,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
       movie = MoviesFixtures.get_movie()
 
-      {:ok, view, _html} = live(conn, "/movies/#{ movie["id"] }/watch")
+      {:ok, view, _html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
 
       render_hook(view, :movie_destroyed, %{
         movie_id: movie["id"],

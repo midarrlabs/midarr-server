@@ -28,7 +28,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     movie = MoviesFixtures.get_movie()
 
-    conn = get(conn, "/movies/#{ movie["id"] }")
+    conn = get(conn, Routes.movies_show_path(conn, :show, movie["id"]))
     assert html_response(conn, 200)
   end
 

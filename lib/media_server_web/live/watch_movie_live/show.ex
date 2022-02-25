@@ -2,7 +2,6 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
   use MediaServerWeb, :live_view
 
   alias MediaServerWeb.Repositories.Movies
-  alias MediaServerWeb.Repositories.Episodes
   alias MediaServer.Watches
 
   @impl true
@@ -13,9 +12,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
       :noreply,
       socket
       |> assign(:page_title, "#{ movie["title"] }")
-      |> assign(:movie_id, "#{ movie["id"] }")
-      |> assign(:background, Movies.get_background(movie))
-      |> assign(:stream_url, "/movies/#{ movie["id"] }/stream")
+      |> assign(:movie, movie)
     }
   end
 

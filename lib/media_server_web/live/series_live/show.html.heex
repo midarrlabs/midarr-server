@@ -1,7 +1,7 @@
   <div>
     <div class="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-4xl lg:px-8 lg:grid lg:grid-cols-1 lg:gap-x-8">
       <div class="w-full">
-        <img src={(Enum.filter(@serie["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["remoteUrl"]}>
+        <img src={MediaServerWeb.Repositories.Series.get_background(@serie)}>
       </div>
     </div>
 
@@ -41,7 +41,7 @@
                   <div class="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
 
                     <%= if List.first(item["images"]) do %>
-                        <img class="h-48 w-full sm:w-72 object-cover" src={(Enum.filter(item["images"], fn x -> x["coverType"] === "screenshot" end) |> Enum.at(0))["url"]}>
+                        <img class="h-48 w-full sm:w-72 object-cover" src={MediaServerWeb.Repositories.Episodes.get_screenshot(item)}>
                     <% else %>
                         <svg class="h-48 w-full sm:w-72 border border-gray-300 bg-white text-gray-300" preserveAspectRatio="none" stroke="currentColor" fill="none" viewBox="0 0 200 200" aria-hidden="true">
                             <path vector-effect="non-scaling-stroke" stroke-width="1" d="M0 0l200 200M0 200L200 0" />

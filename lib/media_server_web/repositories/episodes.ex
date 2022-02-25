@@ -29,10 +29,14 @@ defmodule MediaServerWeb.Repositories.Episodes do
   end
 
   def get_poster(episode) do
-    (Enum.filter(episode["series"]["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["url"]
+    (Enum.filter(episode["series"]["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["url"]
   end
 
   def get_background(episode) do
     (Enum.filter(episode["series"]["images"], fn x -> x["coverType"] === "fanart" end) |> Enum.at(0))["url"]
+  end
+
+  def get_screenshot(episode) do
+    (Enum.filter(episode["images"], fn x -> x["coverType"] === "screenshot" end) |> Enum.at(0))["url"]
   end
 end

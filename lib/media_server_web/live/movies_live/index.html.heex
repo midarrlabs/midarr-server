@@ -11,7 +11,7 @@
       <%= for item <- @movies do %>
 
         <%= live_component MediaServerWeb.Components.PosterComponent,
-         img_src: (Enum.filter(item["images"], fn x -> x["coverType"] === "poster" end) |> Enum.at(0))["remoteUrl"],
+         img_src: MediaServerWeb.Repositories.Movies.get_poster(item),
          title: item["title"],
          link: Routes.movies_show_path(@socket, :show, item["id"])
         %>

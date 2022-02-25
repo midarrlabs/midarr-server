@@ -19,6 +19,6 @@ defmodule MediaServerWeb.SeriesLive.Show do
 
   @impl true
   def handle_event("play", %{"episode" => id}, socket) do
-    {:noreply, push_redirect(socket, to: "/episodes/#{ id }/watch")}
+    {:noreply, push_redirect(socket, to: Routes.watch_episode_show_path(socket, :show, id))}
   end
 end
