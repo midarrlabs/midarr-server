@@ -232,15 +232,31 @@ defmodule MediaServer.WatchesTest do
       update_attrs = %{
         episode_id: 42,
         serie_id: 42,
-        current_time: 62,
+        current_time: 89,
+        duration: 100,
         user_id: user.id
       }
 
       {:ok, %Episode{} = episode} = Watches.update_or_create_episode(update_attrs)
-      assert episode.current_time == 62
+      assert episode.duration == 100
+      assert episode.current_time == 89
       assert episode.episode_id == 42
       assert episode.serie_id == 42
       assert episode.user_id == user.id
+    end
+
+    test "update_or_create_movie/2 deletes movie" do
+      user = AccountsFixtures.user_fixture()
+      episode_fixture(%{user_id: user.id})
+      update_attrs = %{
+        episode_id: 42,
+        serie_id: 42,
+        current_time: 90,
+        duration: 100,
+        user_id: user.id
+      }
+
+      refute Watches.update_or_create_episode(update_attrs)
     end
 
     test "update_or_create_episode/2 creates episode" do

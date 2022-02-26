@@ -30,7 +30,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
       assert html_response(conn, 200)
     end
 
-    test "it has watch status", %{conn: conn, user: user} do
+    test "has watch status", %{conn: conn, user: user} do
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
@@ -52,6 +52,30 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
       })
 
       assert WatchesFixtures.get_episode_watch()
+    end
+
+    test "no watch status", %{conn: conn, user: user} do
+
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
+        })
+
+      serie = SeriesFixtures.get_serie()
+
+      episode = EpisodesFixtures.get_episode(serie["id"])
+
+      {:ok, view, _html} = live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
+
+      render_hook(view, :episode_destroyed, %{
+        episode_id: episode["id"],
+        serie_id: episode["seriesId"],
+        current_time: 90,
+        duration: 100,
+        user_id: user.id
+      })
+
+      refute WatchesFixtures.get_episode_watch()
     end
   end
 end

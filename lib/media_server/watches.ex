@@ -86,6 +86,7 @@ defmodule MediaServer.Watches do
         end
 
       _ ->
+
         if ((attrs.current_time / attrs.duration) * 100) < 90 do
           update_movie(movie, attrs)
         else
@@ -197,10 +198,22 @@ defmodule MediaServer.Watches do
 
     case episode do
       nil ->
-        create_episode(attrs)
+
+        if ((attrs.current_time / attrs.duration) * 100) < 90 do
+          create_episode(attrs)
+        else
+          nil
+        end
 
       _ ->
-        update_episode(episode, attrs)
+
+        if ((attrs.current_time / attrs.duration) * 100) < 90 do
+          update_episode(episode, attrs)
+        else
+          delete_episode(episode)
+
+          nil
+        end
     end
   end
 
