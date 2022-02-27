@@ -25,8 +25,8 @@
         window.userId = <%= assigns[:current_user].id %>;
         window.userEmail = "<%= assigns[:current_user].email %>";
         window.userName = "<%= assigns[:current_user].name %>";
-        <%= if assigns[:movie_id] do %>
-        window.movie_id = <%= assigns[:movie_id] %>;
+        <%= if assigns[:movie] do %>
+        window.movie_id = <%= assigns[:movie]["id"] %>;
         <% end %>
         <%= if assigns[:episode] do %>
         window.episode_id = <%= assigns[:episode]["id"] %>;
