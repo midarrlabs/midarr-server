@@ -13,9 +13,4 @@ defmodule MediaServerWeb.MoviesLive.Show do
       |> assign(:movie, movie)
     }
   end
-
-  @impl true
-  def handle_event("play", %{"movie" => id}, socket) do
-    {:noreply, push_redirect(socket, to: Routes.watch_movie_show_path(socket, :show, id))}
-  end
 end

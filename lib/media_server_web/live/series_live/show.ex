@@ -16,9 +16,4 @@ defmodule MediaServerWeb.SeriesLive.Show do
       |> assign(:episodes, Episodes.get_all(id))
     }
   end
-
-  @impl true
-  def handle_event("play", %{"episode" => id}, socket) do
-    {:noreply, push_redirect(socket, to: Routes.watch_episode_show_path(socket, :show, id))}
-  end
 end

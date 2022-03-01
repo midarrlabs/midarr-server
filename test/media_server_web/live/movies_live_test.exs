@@ -44,6 +44,6 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     {:ok, show_live, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
-    assert show_live |> element("button", "Play") |> render_click()
+    assert show_live |> element("#play-#{ movie["id"] }", "Play") |> render_click()
   end
 end

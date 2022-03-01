@@ -56,9 +56,8 @@
                     <p class="mt-2">
                         <%= item["overview"] %>
                     </p>
-                    <button id={"play-#{ item["id"] }"} phx-click="play" phx-value-episode={item["id"]} type="button" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500">
-                        Play
-                    </button>
+
+                    <%= live_redirect "Play", id: "play-#{ item["id"] }", to: Routes.watch_episode_show_path(@socket, :show, item["id"]), class: "mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" %>
                   </div>
                 </div>
               </li>
