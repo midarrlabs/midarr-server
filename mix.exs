@@ -54,6 +54,7 @@ defmodule MediaServer.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:httpoison, "~> 1.8"},
       {:excoveralls, "~> 0.10", only: :test},
+      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
     ]
   end
 
