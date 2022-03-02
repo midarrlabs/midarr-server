@@ -7,8 +7,13 @@
         <%= live_redirect to: @link, class: "hover:text-slate-800 hover:underline" do %>
             <%= @title %>
         <% end %>
-        <div class="w-full bg-slate-200 h-1 mt-4">
-            <div class="bg-red-300 h-1" style={"width: #{ @percentage_complete }%"}></div>
+        <div class="w-full flex mt-2">
+            <div class="flex-none text-xs text-slate-500">
+                <%= @minutes_remaining %> min left
+            </div>
+            <div class="flex-1 w-full bg-slate-200 h-1 mt-2 ml-2">
+                <div class="bg-red-300 h-1" style={"width: #{ @percentage_complete }%"}></div>
+            </div>
         </div>
       </div>
       <div class="flex-shrink-0 pr-2">
