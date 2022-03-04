@@ -9,11 +9,11 @@
 
       <%= for item <- @series do %>
 
-        <%= live_component MediaServerWeb.Components.PosterComponent,
-         img_src: MediaServerWeb.Repositories.Series.get_poster(item),
-         title: item["title"],
-         link: Routes.series_show_path(@socket, :show, item["id"])
-        %>
+        <%= MediaServerWeb.Components.PosterComponent.render(%{
+            img_src: MediaServerWeb.Repositories.Series.get_poster(item),
+            title: item["title"],
+            link: Routes.series_show_path(@socket, :show, item["id"])
+        }) %>
 
       <% end %>
     </div>
