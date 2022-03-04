@@ -832,6 +832,10 @@ select {
   display: none;
 }
 
+.aspect-\[4\/6\] {
+  aspect-ratio: 4 / 6;
+}
+
 .h-10 {
   height: 2.5rem;
 }
