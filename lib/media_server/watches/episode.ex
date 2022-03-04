@@ -17,7 +17,15 @@ defmodule MediaServer.Watches.Episode do
   @doc false
   def changeset(episode, attrs) do
     episode
-    |> cast(attrs, [:episode_id, :serie_id, :title, :image_url, :current_time, :duration, :user_id])
+    |> cast(attrs, [
+      :episode_id,
+      :serie_id,
+      :title,
+      :image_url,
+      :current_time,
+      :duration,
+      :user_id
+    ])
     |> validate_required([:episode_id, :serie_id, :title, :current_time, :duration, :user_id])
   end
 end

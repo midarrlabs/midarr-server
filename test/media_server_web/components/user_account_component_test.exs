@@ -12,7 +12,6 @@ defmodule MediaServerWeb.UserAccountComponentTest do
     setup [:create_fixtures]
 
     test "it should update name", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -33,7 +32,6 @@ defmodule MediaServerWeb.UserAccountComponentTest do
     end
 
     test "it should require name", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}

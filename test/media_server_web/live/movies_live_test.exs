@@ -11,7 +11,10 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     conn =
       post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => fixture.user.email, "password" => AccountsFixtures.valid_user_password()}
+        "user" => %{
+          "email" => fixture.user.email,
+          "password" => AccountsFixtures.valid_user_password()
+        }
       })
 
     conn = get(conn, "/movies")
@@ -23,7 +26,10 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     conn =
       post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => fixture.user.email, "password" => AccountsFixtures.valid_user_password()}
+        "user" => %{
+          "email" => fixture.user.email,
+          "password" => AccountsFixtures.valid_user_password()
+        }
       })
 
     movie = MoviesFixtures.get_movie()
@@ -37,13 +43,16 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     conn =
       post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => fixture.user.email, "password" => AccountsFixtures.valid_user_password()}
+        "user" => %{
+          "email" => fixture.user.email,
+          "password" => AccountsFixtures.valid_user_password()
+        }
       })
 
     movie = MoviesFixtures.get_movie()
 
     {:ok, show_live, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
-    assert show_live |> element("#play-#{ movie["id"] }", "Play") |> render_click()
+    assert show_live |> element("#play-#{movie["id"]}", "Play") |> render_click()
   end
 end

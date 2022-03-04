@@ -13,7 +13,6 @@ defmodule MediaServerWeb.SettingsLiveTest do
     setup [:create_fixtures]
 
     test "it shows sections", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -23,6 +22,5 @@ defmodule MediaServerWeb.SettingsLiveTest do
 
       refute html =~ "Invite Users"
     end
-
   end
 end

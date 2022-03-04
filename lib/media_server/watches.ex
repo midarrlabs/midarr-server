@@ -74,20 +74,18 @@ defmodule MediaServer.Watches do
   end
 
   def update_or_create_movie(attrs) do
-    movie = Repo.get_by(Movie, [movie_id: attrs.movie_id, user_id: attrs.user_id])
+    movie = Repo.get_by(Movie, movie_id: attrs.movie_id, user_id: attrs.user_id)
 
     case movie do
       nil ->
-
-        if ((attrs.current_time / attrs.duration) * 100) < 90 do
+        if attrs.current_time / attrs.duration * 100 < 90 do
           create_movie(attrs)
         else
           nil
         end
 
       _ ->
-
-        if ((attrs.current_time / attrs.duration) * 100) < 90 do
+        if attrs.current_time / attrs.duration * 100 < 90 do
           update_movie(movie, attrs)
         else
           delete_movie(movie)
@@ -194,20 +192,23 @@ defmodule MediaServer.Watches do
   end
 
   def update_or_create_episode(attrs) do
-    episode = Repo.get_by(Episode, [episode_id: attrs.episode_id, serie_id: attrs.serie_id, user_id: attrs.user_id])
+    episode =
+      Repo.get_by(Episode,
+        episode_id: attrs.episode_id,
+        serie_id: attrs.serie_id,
+        user_id: attrs.user_id
+      )
 
     case episode do
       nil ->
-
-        if ((attrs.current_time / attrs.duration) * 100) < 90 do
+        if attrs.current_time / attrs.duration * 100 < 90 do
           create_episode(attrs)
         else
           nil
         end
 
       _ ->
-
-        if ((attrs.current_time / attrs.duration) * 100) < 90 do
+        if attrs.current_time / attrs.duration * 100 < 90 do
           update_episode(episode, attrs)
         else
           delete_episode(episode)

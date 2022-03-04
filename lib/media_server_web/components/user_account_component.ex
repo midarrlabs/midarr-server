@@ -16,6 +16,7 @@ defmodule MediaServerWeb.Components.UserAccountComponent do
           |> put_flash(:info, "Success")
           |> push_redirect(to: socket.assigns.return_to)
         }
+
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
     end

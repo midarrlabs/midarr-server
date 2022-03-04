@@ -16,7 +16,6 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     setup [:create_fixtures]
 
     test "watch", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -31,7 +30,6 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     end
 
     test "has watch status", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -55,7 +53,6 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     end
 
     test "no watch status", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}

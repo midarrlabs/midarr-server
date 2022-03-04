@@ -11,13 +11,23 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
     {
       :noreply,
       socket
-      |> assign(:page_title, "#{ episode["series"]["title"] }: #{ episode["title"] }")
+      |> assign(:page_title, "#{episode["series"]["title"]}: #{episode["title"]}")
       |> assign(:episode, episode)
     }
   end
 
   @impl true
-  def handle_event("episode_destroyed", %{"episode_id" => episode_id, "serie_id" => serie_id, "current_time" => current_time, "duration" => duration, "user_id" => user_id}, socket) do
+  def handle_event(
+        "episode_destroyed",
+        %{
+          "episode_id" => episode_id,
+          "serie_id" => serie_id,
+          "current_time" => current_time,
+          "duration" => duration,
+          "user_id" => user_id
+        },
+        socket
+      ) do
     episode = Episodes.get_episode(episode_id)
 
     Watches.update_or_create_episode(%{

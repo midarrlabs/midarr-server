@@ -8,9 +8,8 @@ defmodule MediaServerWeb.MoviesLive.Show do
     movie = Movies.get_movie(id)
 
     {:noreply,
-      socket
-      |> assign(:page_title, movie["title"])
-      |> assign(:movie, movie)
-    }
+     socket
+     |> assign(:page_title, movie["title"])
+     |> assign(:movie, movie)}
   end
 end

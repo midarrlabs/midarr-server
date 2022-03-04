@@ -12,7 +12,6 @@ defmodule MediaServerWeb.UserInvitationComponentTest do
     setup [:create_fixtures]
 
     test "it should show new email address", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -31,7 +30,6 @@ defmodule MediaServerWeb.UserInvitationComponentTest do
     end
 
     test "it should require email address", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}
@@ -45,7 +43,6 @@ defmodule MediaServerWeb.UserInvitationComponentTest do
     end
 
     test "it should require name", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => valid_user_password()}

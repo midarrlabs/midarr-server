@@ -10,11 +10,9 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
   end
 
   describe "GET episode stream" do
-
     setup [:create_fixtures]
 
     test "episode", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -36,7 +34,6 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
     end
 
     test "episode range", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -59,7 +56,6 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
     end
 
     test "safari probe", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}

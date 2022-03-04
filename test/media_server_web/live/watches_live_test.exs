@@ -14,7 +14,6 @@ defmodule MediaServerWeb.WatchesLiveTest do
     setup [:create_fixtures]
 
     test "page", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -25,7 +24,6 @@ defmodule MediaServerWeb.WatchesLiveTest do
     end
 
     test "delete movie", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -35,11 +33,10 @@ defmodule MediaServerWeb.WatchesLiveTest do
 
       {:ok, index_live, _html} = live(conn, Routes.watches_index_path(conn, :index))
 
-      assert index_live |> element("#movie-#{ movie_watch_status.id }") |> render_click()
+      assert index_live |> element("#movie-#{movie_watch_status.id}") |> render_click()
     end
 
     test "delete episode", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -49,7 +46,7 @@ defmodule MediaServerWeb.WatchesLiveTest do
 
       {:ok, index_live, _html} = live(conn, Routes.watches_index_path(conn, :index))
 
-      assert index_live |> element("#episode-#{ episode_watch_status.id }") |> render_click()
+      assert index_live |> element("#episode-#{episode_watch_status.id}") |> render_click()
     end
   end
 end

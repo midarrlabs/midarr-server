@@ -21,7 +21,10 @@ defmodule MediaServerWeb.HomeLiveTest do
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => fixture.user.email, "password" => AccountsFixtures.valid_user_password()}
+          "user" => %{
+            "email" => fixture.user.email,
+            "password" => AccountsFixtures.valid_user_password()
+          }
         })
 
       conn = get(conn, "/")
@@ -33,7 +36,10 @@ defmodule MediaServerWeb.HomeLiveTest do
 
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => fixture.user.email, "password" => AccountsFixtures.valid_user_password()}
+          "user" => %{
+            "email" => fixture.user.email,
+            "password" => AccountsFixtures.valid_user_password()
+          }
         })
 
       conn = get(conn, "/")
@@ -46,7 +52,10 @@ defmodule MediaServerWeb.HomeLiveTest do
 
     conn =
       post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => fixture.user.email, "password" => AccountsFixtures.valid_user_password()}
+        "user" => %{
+          "email" => fixture.user.email,
+          "password" => AccountsFixtures.valid_user_password()
+        }
       })
 
     conn = get(conn, "/")

@@ -1,5 +1,4 @@
 defmodule MediaServer.WatchesFixtures do
-
   alias MediaServer.Watches
 
   @moduledoc """

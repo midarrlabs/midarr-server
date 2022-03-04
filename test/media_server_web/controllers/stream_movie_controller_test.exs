@@ -9,11 +9,9 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
   end
 
   describe "GET movie stream" do
-
     setup [:create_fixtures]
 
     test "movie", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -33,7 +31,6 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
     end
 
     test "movie range", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -54,7 +51,6 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
     end
 
     test "safari probe", %{conn: conn, user: user} do
-
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}

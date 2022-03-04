@@ -11,6 +11,7 @@ MediaServer.Accounts.register_user(%{
   password: System.get_env("SETUP_ADMIN_PASSWORD"),
   is_admin: true
 })
+
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.

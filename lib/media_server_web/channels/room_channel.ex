@@ -3,10 +3,25 @@ defmodule MediaServerWeb.RoomChannel do
   alias MediaServerWeb.Presence
 
   @impl true
-  def join("room:lobby", %{"user_id" => user_id, "user_name" => user_name, "page_title" => page_title, "current_location" => current_location}, socket) do
+  def join(
+        "room:lobby",
+        %{
+          "user_id" => user_id,
+          "user_name" => user_name,
+          "page_title" => page_title,
+          "current_location" => current_location
+        },
+        socket
+      ) do
     send(self(), :after_join)
 
-    {:ok, assign(socket, %{user_id: user_id, user_name: user_name, page_title: page_title, current_location: current_location})}
+    {:ok,
+     assign(socket, %{
+       user_id: user_id,
+       user_name: user_name,
+       page_title: page_title,
+       current_location: current_location
+     })}
   end
 
   @impl true
@@ -35,7 +50,7 @@ defmodule MediaServerWeb.RoomChannel do
   # broadcast to everyone in the current topic (room:lobby).
   @impl true
   def handle_in("shout", payload, socket) do
-    broadcast socket, "shout", payload
+    broadcast(socket, "shout", payload)
     {:noreply, socket}
   end
 end
