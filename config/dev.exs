@@ -2,10 +2,6 @@ import Config
 
 # Configure your database
 config :media_server, MediaServer.Repo,
-  username: System.get_env("DB_USERNAME"),
-  password: System.get_env("DB_PASSWORD"),
-  database: System.get_env("DB_DATABASE"),
-  hostname: System.get_env("DB_HOSTNAME"),
   pool_size: 10,
   show_sensitive_data_on_connection_error: true
 
@@ -73,9 +69,3 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
-
-config :media_server,
-  movies_base_url: System.get_env("RADARR_BASE_URL"),
-  movies_api_key: System.get_env("RADARR_API_KEY"),
-  series_base_url: System.get_env("SONARR_BASE_URL"),
-  series_api_key: System.get_env("SONARR_API_KEY")
