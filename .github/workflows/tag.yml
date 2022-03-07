@@ -32,7 +32,7 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: ghcr.io/midarrlabs/midarr-server:${{ env.RELEASE_VERSION }}
-          secrets: |
+          build-args: |
             "MIX_ENV=prod"
             "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}"
 
@@ -43,6 +43,6 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: ghcr.io/midarrlabs/midarr-server:latest
-          secrets: |
+          build-args: |
             "MIX_ENV=prod"
             "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}"
