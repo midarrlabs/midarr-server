@@ -47,6 +47,18 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :media_server, MediaServer.Repo,
+  username: System.get_env("DB_USERNAME"),
+  password: System.get_env("DB_PASSWORD"),
+  database: System.get_env("DB_DATABASE"),
+  hostname: System.get_env("DB_HOSTNAME")
+
+config :media_server,
+  movies_base_url: System.get_env("RADARR_BASE_URL"),
+  movies_api_key: System.get_env("RADARR_API_KEY"),
+  series_base_url: System.get_env("SONARR_BASE_URL"),
+  series_api_key: System.get_env("SONARR_API_KEY")
+
 config :tailwind,
   version: "3.0.23",
   default: [
