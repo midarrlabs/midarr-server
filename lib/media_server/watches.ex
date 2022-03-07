@@ -1,6 +1,6 @@
 defmodule MediaServer.Watches do
   @moduledoc """
-  The WatchStatuses context.
+  The Watches context.
   """
 
   import Ecto.Query, warn: false
