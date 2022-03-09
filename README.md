@@ -95,6 +95,9 @@ services:
 #       Sonarr integration
       - SONARR_BASE_URL=sonarr:8989
       - SONARR_API_KEY=someApiKey
+        
+#       Sendgrid email integration
+      - SENDGRID_API_KEY=someApiKey
     depends_on:
       postgresql:
         condition: service_healthy
