@@ -54,6 +54,9 @@ config :media_server, MediaServer.Repo,
   hostname: System.get_env("DB_HOSTNAME")
 
 config :media_server,
+  app_name: "Midarr",
+  app_url: System.get_env("APP_URL"),
+  app_mailer_from: System.get_env("APP_MAILER_FROM"),
   movies_base_url: System.get_env("RADARR_BASE_URL"),
   movies_api_key: System.get_env("RADARR_API_KEY"),
   series_base_url: System.get_env("SONARR_BASE_URL"),

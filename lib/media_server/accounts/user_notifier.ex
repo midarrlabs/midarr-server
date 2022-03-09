@@ -8,7 +8,7 @@ defmodule MediaServer.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"MyApp", "contact@example.com"})
+      |> from({Application.get_env(:media_server, :app_name), Application.get_env(:media_server, :app_mailer_from)})
       |> subject(subject)
       |> text_body(body)
 
@@ -42,9 +42,9 @@ defmodule MediaServer.Accounts.UserNotifier do
 
     ==============================
 
-    Hi #{user.email},
+    Hi #{user.name},
 
-    An account has been created for you.
+    An account has been created for you at #{Application.get_env(:media_server, :app_url)}.
 
     You're account details are:
 
