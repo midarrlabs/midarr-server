@@ -137,20 +137,6 @@ environment:
 ```
 Login with these credentials, and access the `Settings` page to configure your server.
 
-#### Integrations
-
-```yaml
-environment:
-#   Radarr integration
-  - RADARR_BASE_URL=radarr:7878
-  - RADARR_API_KEY=someApiKey
-
-#   Sonarr integration
-  - SONARR_BASE_URL=sonarr:8989
-  - SONARR_API_KEY=someApiKey
-```
-Provide these `environment` variables to integrate your instances.
-
 ## Video support
 
 * Video H.264
