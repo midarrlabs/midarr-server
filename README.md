@@ -1,13 +1,3 @@
-> **EARLY PREVIEW SOFTWARE** -
-> Please beware this is early preview software in rapid development, there will be bugs!
->
-> Please show your support by:
-> * Using the software
-> * Reporting bugs and issues
-> * Being kind and patient with the development process
->
-> Enjoy 🎉
-
 <p align="center">
     <img src="priv/static/logo.svg" width="150" height="150" alt="logo">
 </p>
@@ -27,26 +17,28 @@
     </a>
 </p>
 
-`Midarr` has arrived and aims to provide a media experience like none other:
+`Midarr` is a minimal lightweight media server alternative for enjoying your media:
 
-* Beautifully crafted interface to enhance your viewing experience
-* Social from the get go - user online and watch statuses
-* User invitations to share the experience
-* Integrations with Radarr and Sonarr
+* Free and open source
+* Beautifully crafted user interface
+* Real-time online statuses
+* Simple and easy invite system
+* Integrations with your existing services, [Radarr](https://radarr.video/) and [Sonarr](https://sonarr.tv/)
 
-with plenty more to come...
+and much more to come...
 
 ![Preview](docs/home.png)
 
 #### What is this?
 
-`Midarr` in its' current preview form, is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It relies on the integration with these services to serve your **MP4** format media untouched and unscathed.
+`Midarr` in its' current form, is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It relies on the integration with these services to serve your **MP4** format media untouched and unscathed.
 
 While more fully fledged media server options already exist, `Midarr` simply compliments as a lightweight alternative.
 
-#### What does it not do?
+#### What's lightweight about it?
 
-`Midarr` currently does not:
+`Midarr` does not:
+
 * Index your media
 * Transcode your media
 * Edit or configure your media
@@ -54,6 +46,7 @@ While more fully fledged media server options already exist, `Midarr` simply com
 #### What does it do?
 
 Your media is retrieved and served through a familiar web interface and provides:
+
 * User authentication
 * User profile settings
 * User online statuses
@@ -80,21 +73,26 @@ services:
       - /path/to/movies:/radarr/movies/path
       - /path/to/shows:/sonarr/shows/path
     environment:
+#       App config
+      - APP_URL=http://localhost:4000
+      - APP_MAILER_FROM=example@email.com
+        
+#       Database config
       - DB_USERNAME=my_user
       - DB_PASSWORD=my_password
       - DB_DATABASE=my_database
       - DB_HOSTNAME=postgresql
 
-#      Initialise admin account
+#       Initialise admin account
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
       - SETUP_ADMIN_PASSWORD=passwordpassword # min length 12
 
-#      Radarr integration
+#       Radarr integration
       - RADARR_BASE_URL=radarr:7878
       - RADARR_API_KEY=someApiKey
 
-#      Sonarr integration
+#       Sonarr integration
       - SONARR_BASE_URL=sonarr:8989
       - SONARR_API_KEY=someApiKey
     depends_on:
@@ -139,23 +137,19 @@ environment:
 ```
 Login with these credentials, and access the `Settings` page to configure your server.
 
-#### Radarr integration
+#### Integrations
 
 ```yaml
 environment:
+#   Radarr integration
   - RADARR_BASE_URL=radarr:7878
   - RADARR_API_KEY=someApiKey
-```
-Provide these `environment` variables to integrate your Radarr instance.
 
-#### Sonarr integration
-
-```yaml
-environment:
+#   Sonarr integration
   - SONARR_BASE_URL=sonarr:8989
   - SONARR_API_KEY=someApiKey
 ```
-Provide these `environment` variables to integrate your Sonarr instance.
+Provide these `environment` variables to integrate your instances.
 
 ## Video support
 
