@@ -10,7 +10,7 @@ defmodule MediaServer.Accounts.UserNotifier do
       |> to(recipient)
       |> from({Application.get_env(:media_server, :app_name), Application.get_env(:media_server, :app_mailer_from)})
       |> subject(subject)
-      |> text_body(body)
+      |> html_body(body)
 
     with {:ok, _metadata} <- Mailer.deliver(email) do
       {:ok, email}
@@ -40,20 +40,20 @@ defmodule MediaServer.Accounts.UserNotifier do
   def deliver_invitation_instructions(user, password) do
     deliver(user.email, "Invitation instructions", """
 
-    ==============================
+    <p>Hi #{user.name}</p>
 
-    Hi #{user.name},
+    <p>An account has been created for you at:</p>
 
-    An account has been created for you at #{Application.get_env(:media_server, :app_url)}.
+    #{Application.get_env(:media_server, :app_url)}
 
-    You're account details are:
+    <p>You're account details are:</p>
 
-    Email: #{user.email}
-    Password: #{password}
+    <ul>
+      <li>Email: #{user.email}</li>
+      <li>Password: #{password}</li>
+    </ul>
 
-    If you weren't expecting an account with us, please ignore this.
-
-    ==============================
+    <p>If you weren't expecting an account with us, please ignore this.</p>
     """)
   end
 
