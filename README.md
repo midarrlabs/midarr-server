@@ -25,7 +25,7 @@
 * Simple and easy invite system
 * Integrations with your existing services, [Radarr](https://radarr.video/) and [Sonarr](https://sonarr.tv/)
 
-and much more to come...
+with much more to come...
 
 ![Preview](docs/home.png)
 
