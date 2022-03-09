@@ -42,7 +42,7 @@ defmodule MediaServer.Accounts.UserNotifier do
 
     ==============================
 
-    Hi #{user.email},
+    Hi #{user.name},
 
     An account has been created for you at #{Application.get_env(:media_server, :app_url)}.
 
