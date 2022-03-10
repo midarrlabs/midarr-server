@@ -17,7 +17,7 @@
     </a>
 </p>
 
-`Midarr` is a minimal lightweight media server alternative for enjoying your media:
+`Midarr` is a minimal lightweight media server for enjoying your media:
 
 * Free and open source
 * Beautifully crafted user interface
@@ -25,7 +25,7 @@
 * Simple and easy invite system
 * Integrations with your existing services, [Radarr](https://radarr.video/) and [Sonarr](https://sonarr.tv/)
 
-with much more to come...
+and much more to come...
 
 ![Preview](docs/home.png)
 
