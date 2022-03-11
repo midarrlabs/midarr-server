@@ -14,21 +14,7 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 topbar.config({barColors: {0: "#dc2626"}, shadowColor: "rgba(0, 0, 0, .3)"})
 
 window.addEventListener("phx:page-loading-start", info => topbar.show())
-window.addEventListener("phx:page-loading-stop", info => {
-    if (info.detail.kind === 'initial' && window.location.toString().includes("/watch")) {
-        channel.push('shout', { user_id: window.userId, page_title: document.title })
-    }
-
-    topbar.hide()
-})
-
-channel.on("shout", message => {
-    const element = document.querySelector(`#user-status-${ message.user_id }`)
-
-    if(element) {
-        element.innerHTML = `Watching ${ message.page_title }`
-    }
-})
+window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 
 presence.onSync(() => {
   let presences = []
@@ -40,7 +26,7 @@ presence.onSync(() => {
   const element = document.querySelector("#online-users")
 
   if(element) {
-    element.innerHTML = ''
+    element.innerHTML = ""
 
     for (const item of presences) {
       element.innerHTML += `<li id="online-user-${ item.user_id }">
@@ -85,8 +71,8 @@ let liveSocket = new LiveSocket("/live", Socket, {
             mounted() {
                 const urlParams = new URLSearchParams(window.location.search)
 
-                if (urlParams.has('seconds')) {
-                    this.el.currentTime = urlParams.get('seconds')
+                if (urlParams.has("seconds")) {
+                    this.el.currentTime = urlParams.get("seconds")
                 }
 
                 window.addEventListener("beforeunload", event => {
@@ -97,7 +83,7 @@ let liveSocket = new LiveSocket("/live", Socket, {
                         user_id: window.userId
                     })
 
-                    delete event['returnValue']
+                    delete event["returnValue"]
                 })
             },
             destroyed() {
@@ -108,8 +94,8 @@ let liveSocket = new LiveSocket("/live", Socket, {
             mounted() {
                 const urlParams = new URLSearchParams(window.location.search)
 
-                if (urlParams.has('seconds')) {
-                    this.el.currentTime = urlParams.get('seconds')
+                if (urlParams.has("seconds")) {
+                    this.el.currentTime = urlParams.get("seconds")
                 }
 
                 window.addEventListener("beforeunload", event => {
@@ -121,7 +107,7 @@ let liveSocket = new LiveSocket("/live", Socket, {
                         user_id: window.userId
                     })
 
-                    delete event['returnValue']
+                    delete event["returnValue"]
                 })
             },
             destroyed() {
