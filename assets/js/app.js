@@ -58,7 +58,7 @@ presence.onSync(() => {
                                      </span>
                                      <div class="ml-4 truncate">
                                         <p class="text-sm text-gray-900 truncate whitespace-normal">${ item.user_name }</p>
-                                        <p id="user-status-${ item.user_id }" class="text-sm text-gray-500 truncate whitespace-normal">${ item.current_location.includes("/watch") ? `Watching ${ item.page_title }` : 'Online' }</p>
+                                        <p id="user-status-${ item.user_id }" class="text-sm text-gray-500 truncate whitespace-normal">Online</p>
                                      </div>
                                    </div>
                                  </div>
@@ -132,7 +132,7 @@ let liveSocket = new LiveSocket("/live", Socket, {
 })
 
 liveSocket.connect()
-liveSocket.enableDebug()
+//liveSocket.enableDebug()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
