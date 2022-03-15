@@ -3,11 +3,15 @@ defmodule MediaServerWeb.Repositories.Episodes do
     "#{Application.get_env(:media_server, :series_base_url)}/api/v3/#{url}?apikey=#{Application.get_env(:media_server, :series_api_key)}"
   end
 
-  def get_all(series_id) do
+  def get_all(series_id, season_number) do
     {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
       HTTPoison.get("#{get_url("episode")}&seriesId=#{series_id}")
 
-    Enum.filter(Jason.decode!(body), fn x -> x["hasFile"] end) |> add_images_to_episodes()
+    Enum.filter(Jason.decode!(body), fn x ->
+      x["seasonNumber"] === String.to_integer season_number
+    end)
+    |> Enum.filter(fn x -> x["hasFile"] end)
+    |> add_images_to_episodes()
   end
 
   def get_episode(id) do
