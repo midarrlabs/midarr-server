@@ -6,7 +6,7 @@ defmodule MediaServerWeb.Components.PosterComponent do
     <div class="group relative">
 
     <div class="w-full bg-gray-200 aspect-[4/6] rounded-md overflow-hidden group-hover:opacity-75 lg:aspect-none">
-    <img class="h-full object-cover" src={assigns.img_src}>
+      <img class="h-full object-cover" src={assigns.img_src}>
     </div>
 
     <div class="mt-2 flex">

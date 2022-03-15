@@ -25,6 +25,7 @@ defmodule MediaServerWeb.Router do
 
     live "/series", SeriesLive.Index, :index
     live "/series/:serie", SeriesLive.Show, :show
+    live "/series/:serie/seasons/:season", SeasonsLive.Show, :show
 
     get "/episodes/:episode/stream", StreamEpisodeController, :show
 
