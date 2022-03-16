@@ -29,7 +29,7 @@ presence.onSync(() => {
     element.innerHTML = ""
 
     for (const item of presences) {
-      element.innerHTML += `<li id="online-user-${ item.user_id }">
+      element.innerHTML += `<li>
                                <div class="relative group py-6 px-5 flex items-center">
                                  <div class="-m-1 flex-1 block p-1">
                                    <div class="absolute inset-0" aria-hidden="true"></div>
@@ -44,7 +44,6 @@ presence.onSync(() => {
                                      </span>
                                      <div class="ml-4 truncate">
                                         <p class="text-sm text-gray-900 truncate whitespace-normal">${ item.user_name }</p>
-                                        <p id="user-status-${ item.user_id }" class="text-sm text-gray-500 truncate whitespace-normal">Online</p>
                                      </div>
                                    </div>
                                  </div>
