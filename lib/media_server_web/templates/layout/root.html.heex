@@ -25,69 +25,123 @@
         window.userEmail = "<%= assigns[:current_user].email %>";
         window.userName = "<%= assigns[:current_user].name %>";
     </script>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
     <% end %>
   </head>
   <body>
   <%= if @current_user do %>
-    <header class="z-10 sticky top-0 w-full">
-        <div class="relative flex-shrink-0 h-16 bg-white border-b border-gray-200 shadow-sm flex">
 
-            <div class="flex-1 flex justify-between px-4 sm:px-6">
+        <script>
+        let cursors;
+        let player;
+        let leftKeyDebug;
+        let rightKeyDebug;
+        let upKeyDebug;
+        let downKeyDebug;
 
-                <div class="relative px-2 flex lg:px-0">
-                    <a href="/" class="flex-shrink-0 flex items-center">
-                      <img class="block h-8 w-auto" src="/logo.svg" alt="Logo">
-                    </a>
-                </div>
+        let game = new Phaser.Game({
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            physics: {
+               default: 'arcade',
+               arcade: {
+                   debug: true,
+                   gravity: { y: 200 }
+               }
+            },
+            scene: {
+               preload: preload,
+               create: create,
+               update: update
+            }
+        })
 
-                <div class="-my-px ml-6 flex space-x-8 self-center">
-                    <div>
-                        <button phx-click={JS.toggle(to: "#online-slide-over")} type="button" class="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                          <span class="inline-block relative">
-                              <span>Online</span>
-                              <span class="inline-block h-2.5 w-2.5 mx-1 bg-green-400 rounded-full"></span>
-                          </span>
-                        </button>
+        function preload()
+        {
+            this.load.image('sky', '/assets/wooden.png');
+            this.load.image('red', 'http://labs.phaser.io/assets/particles/red.png');
+            this.load.image('elephant', 'http://labs.phaser.io/assets/sprites/elephant.png');
+        }
 
-                        <div id="online-slide-over" class="hidden fixed inset-0 overflow-hidden" role="dialog" aria-modal="true">
-                          <div class="absolute inset-0 overflow-hidden">
+        function create()
+        {
+            this.add.image(400, 300, 'sky');
 
-                            <div class="absolute inset-0 bg-gray-900 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-                            <div class="fixed inset-y-0 right-0 pl-10 max-w-full flex">
-                              <div class="relative w-96">
-                                <div class="absolute top-0 left-0 -ml-8 pt-6 pr-2 flex sm:-ml-10 sm:pr-4">
+            let particles = this.add.particles('red');
 
-                                  <button phx-click={JS.toggle(to: "#online-slide-over")} type="button" class="rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
-                                    <span class="sr-only">Close panel</span>
-                                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                  </button>
-                                </div>
+            cursors = this.input.keyboard.createCursorKeys();
 
-                                <div class="h-full bg-white py-6 overflow-y-auto">
-                                    <h2 class="px-4 text-lg font-medium text-gray-900">
-                                        Online
-                                    </h2>
+            player = this.physics.add.image(400, 300, 'elephant');
 
-                                    <ul phx-update="ignore" id="online-users" role="list" class="flex-1 divide-y divide-gray-200 overflow-y-auto"></ul>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
+            player.setCollideWorldBounds(true);
 
-                    <%= link "Settings", to: Routes.settings_index_path(@conn, :index), class: "border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
+            let emitter = particles.createEmitter({
+                speed: 100,
+                scale: { start: 1, end: 0 },
+                blendMode: 'ADD'
+            });
 
-                    <%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
-                </div>
-            </div>
-        </div>
-    </header>
+            emitter.startFollow(player);
 
-    <%= @inner_content %>
+            leftKeyDebug = this.add.text(10, 300, 'Left', { font: '16px Courier', fill: '#00ff00' });
+            rightKeyDebug = this.add.text(570, 300, 'Right', { font: '16px Courier', fill: '#00ff00' });
+            upKeyDebug = this.add.text(300, 10, 'Up', { font: '16px Courier', fill: '#00ff00' });
+            downKeyDebug = this.add.text(300, 530, 'Down', { font: '16px Courier', fill: '#00ff00' });
+        }
+
+        function update()
+        {
+            player.setVelocity(0);
+
+            if (cursors.left.isDown)
+            {
+                player.setVelocityX(-300);
+            }
+            else if (cursors.right.isDown)
+            {
+                player.setVelocityX(300);
+            }
+
+            if (cursors.up.isDown)
+            {
+                player.setVelocityY(-300);
+            }
+            else if (cursors.down.isDown)
+            {
+                player.setVelocityY(300);
+            }
+
+            leftKeyDebug.setText([
+                'Left: ' + cursors.left.isDown,
+                'down: ' + cursors.left.timeDown,
+                'up: ' + cursors.left.timeUp,
+                'duration: ' + ((cursors.left.isDown) ? cursors.left.getDuration() : cursors.left.duration)
+            ]);
+
+            rightKeyDebug.setText([
+                'Right: ' + cursors.right.isDown,
+                'down: ' + cursors.right.timeDown,
+                'up: ' + cursors.right.timeUp,
+                'duration: ' + ((cursors.right.isDown) ? cursors.right.getDuration() : cursors.right.duration)
+            ]);
+
+            upKeyDebug.setText([
+                'Up: ' + cursors.up.isDown,
+                'down: ' + cursors.up.timeDown,
+                'up: ' + cursors.up.timeUp,
+                'duration: ' + ((cursors.up.isDown) ? cursors.up.getDuration() : cursors.up.duration)
+            ]);
+
+            downKeyDebug.setText([
+                'Down: ' + cursors.down.isDown,
+                'down: ' + cursors.down.timeDown,
+                'up: ' + cursors.down.timeUp,
+                'duration: ' + ((cursors.down.isDown) ? cursors.down.getDuration() : cursors.down.duration)
+            ]);
+        }
+        </script>
   <% else %>
 
     <div class="h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

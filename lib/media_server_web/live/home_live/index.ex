@@ -7,11 +7,7 @@ defmodule MediaServerWeb.HomeLive.Index do
 
   @impl true
   def mount(_params, session, socket) do
-    {
-      :ok,
-      socket
-      |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]))
-    }
+    {:ok, socket}
   end
 
   @impl true
@@ -20,10 +16,6 @@ defmodule MediaServerWeb.HomeLive.Index do
       :noreply,
       socket
       |> assign(page_title: "Home")
-      |> assign(:latest_movies, Movies.get_latest(7))
-      |> assign(:latest_series, Series.get_latest(6))
-      |> assign(:movie_watches, socket.assigns.current_user.movie_watches |> Enum.take(4))
-      |> assign(:episode_watches, socket.assigns.current_user.episode_watches |> Enum.take(4))
     }
   end
 end
