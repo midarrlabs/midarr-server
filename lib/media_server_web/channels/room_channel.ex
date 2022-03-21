@@ -7,9 +7,7 @@ defmodule MediaServerWeb.RoomChannel do
         "room:lobby",
         %{
           "user_id" => user_id,
-          "user_name" => user_name,
-          "page_title" => page_title,
-          "current_location" => current_location
+          "user_name" => user_name
         },
         socket
       ) do
@@ -18,9 +16,7 @@ defmodule MediaServerWeb.RoomChannel do
     {:ok,
      assign(socket, %{
        user_id: user_id,
-       user_name: user_name,
-       page_title: page_title,
-       current_location: current_location
+       user_name: user_name
      })}
   end
 
@@ -30,9 +26,7 @@ defmodule MediaServerWeb.RoomChannel do
       Presence.track(socket, socket.assigns.user_id, %{
         online_at: inspect(System.system_time(:second)),
         user_id: socket.assigns.user_id,
-        user_name: socket.assigns.user_name,
-        page_title: socket.assigns.page_title,
-        current_location: socket.assigns.current_location
+        user_name: socket.assigns.user_name
       })
 
     push(socket, "presence_state", Presence.list(socket))
@@ -48,9 +42,13 @@ defmodule MediaServerWeb.RoomChannel do
 
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (room:lobby).
-  @impl true
-  def handle_in("shout", payload, socket) do
-    broadcast(socket, "shout", payload)
+  def handle_in("player_position", payload, socket) do
+    broadcast(socket, "player_position", payload)
+    {:noreply, socket}
+  end
+
+  def handle_in("player_left", payload, socket) do
+    broadcast(socket, "player_left", payload)
     {:noreply, socket}
   end
 end
