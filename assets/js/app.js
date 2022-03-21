@@ -16,6 +16,12 @@ topbar.config({barColors: {0: "#dc2626"}, shadowColor: "rgba(0, 0, 0, .3)"})
 window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 
+window.addEventListener('beforeunload', event => {
+    channel.push('player_left', { user_id: window.userId })
+
+    delete event['returnValue']
+})
+
 let game = new Phaser.Game({
     parent: 'game',
     type: Phaser.AUTO,
@@ -96,12 +102,6 @@ class MyScene extends Phaser.Scene {
 }
 
 game.scene.add('myScene', MyScene, true, { x: 400, y: 300 })
-
-window.addEventListener('beforeunload', function (e) {
-    channel.push('player_left', { user_id: window.userId })
-    // the absence of a returnValue property on the event will guarantee the browser unload happens
-    delete e['returnValue']
-});
 
 channel.join()
   .receive("ok", resp => {
