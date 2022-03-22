@@ -2,7 +2,7 @@ import "phoenix_html"
 import { Socket, Presence } from "phoenix"
 import { LiveSocket } from "phoenix_live_view"
 import topbar from "../vendor/topbar"
-import Phaser from 'phaser'
+import Phaser from '../vendor/phaser'
 
 let socket = new Socket("/socket", {})
 socket.connect()
