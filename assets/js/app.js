@@ -42,20 +42,20 @@ class MyScene extends Phaser.Scene {
     cursors = {}
 
     preload() {
-        this.load.image('red', 'http://labs.phaser.io/assets/sprites/red_ball.png')
+        this.load.image('box', 'https://labs.phaser.io/assets/sprites/box-item-boxed.png')
+        this.load.image('red', 'https://labs.phaser.io/assets/sprites/red_ball.png')
 
         presence.onSync(() => {
             for (const property in presence.state) {
               if (parseInt(property) !== window.userId) {
-                this.otherPlayers[property] = this.physics.add.image(400, 300, 'red')
+                this.otherPlayers[property] = this.physics.add.image(400, 600, 'red')
               }
             }
         })
 
         channel.on("player_position", ({ user_id, x, y }) => {
             if (user_id !== window.userId) {
-                this.otherPlayers[user_id].setX(x)
-                this.otherPlayers[user_id].setY(y)
+                this.otherPlayers[user_id].setPosition(x, y)
             }
         })
 
@@ -67,11 +67,21 @@ class MyScene extends Phaser.Scene {
     }
 
     create(data) {
-        this.player = this.physics.add.image(data.x, data.y, 'red')
+        this.physics.add.image(50, 50, 'box').setOrigin(0, 0)
+        this.add.text(55, 130, 'Movies')
 
-        this.player.setCollideWorldBounds(true)
+        this.physics.add.image(350, 50, 'box').setOrigin(0, 0)
+        this.add.text(355, 130, 'Series')
+
+        this.physics.add.image(650, 50, 'box').setOrigin(0, 0)
+        this.add.text(600, 130, 'Continue Watching')
+
+        this.player = this.physics.add.image(data.x, data.y, 'red').setCollideWorldBounds(true)
+        this.add.text(250, 550, 'Use keyboard arrows to control')
 
         this.cursors = this.input.keyboard.createCursorKeys()
+
+        this.physics.world.on('collide', () => console.log('test'))
     }
 
     update() {
@@ -101,7 +111,7 @@ class MyScene extends Phaser.Scene {
     }
 }
 
-game.scene.add('myScene', MyScene, true, { x: 400, y: 300 })
+game.scene.add('myScene', MyScene, true, { x: 400, y: 600 })
 
 channel.join()
   .receive("ok", resp => {
