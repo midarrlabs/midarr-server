@@ -2,7 +2,7 @@ name: Next
 
 on:
   push:
-    branches: [ 'next/**' ]
+    branches: [ next ]
 
 jobs:
   test:
