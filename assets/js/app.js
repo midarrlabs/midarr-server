@@ -67,13 +67,13 @@ class MyScene extends Phaser.Scene {
     }
 
     create(data) {
-        this.physics.add.image(50, 50, 'box').setOrigin(0, 0)
+        const movies = this.physics.add.image(50, 50, 'box').setOrigin(0, 0)
         this.add.text(55, 130, 'Movies')
 
-        this.physics.add.image(350, 50, 'box').setOrigin(0, 0)
+        const series = this.physics.add.image(350, 50, 'box').setOrigin(0, 0)
         this.add.text(355, 130, 'Series')
 
-        this.physics.add.image(650, 50, 'box').setOrigin(0, 0)
+        const continues = this.physics.add.image(650, 50, 'box').setOrigin(0, 0)
         this.add.text(600, 130, 'Continue Watching')
 
         this.player = this.physics.add.image(data.x, data.y, 'red').setCollideWorldBounds(true)
@@ -81,7 +81,20 @@ class MyScene extends Phaser.Scene {
 
         this.cursors = this.input.keyboard.createCursorKeys()
 
-        this.physics.world.on('collide', () => console.log('test'))
+        this.physics.add.overlap(this.player, movies, (player, movies) => {
+            console.log('movies')
+            player.disableBody()
+        })
+
+        this.physics.add.overlap(this.player, series, (player, series) => {
+            console.log('series')
+            player.disableBody()
+        })
+
+        this.physics.add.overlap(this.player, continues, (player, continues) => {
+            console.log('continue watching')
+            player.disableBody()
+        })
     }
 
     update() {
