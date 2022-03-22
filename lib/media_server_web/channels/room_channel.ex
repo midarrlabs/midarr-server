@@ -42,6 +42,11 @@ defmodule MediaServerWeb.RoomChannel do
 
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (room:lobby).
+  def handle_in("shout", payload, socket) do
+    broadcast(socket, "shout", payload)
+    {:noreply, socket}
+  end
+
   def handle_in("player_position", payload, socket) do
     broadcast(socket, "player_position", payload)
     {:noreply, socket}

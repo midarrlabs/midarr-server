@@ -17,12 +17,6 @@ topbar.config({barColors: {0: "#dc2626"}, shadowColor: "rgba(0, 0, 0, .3)"})
 window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 
-window.addEventListener('beforeunload', event => {
-    channel.push('player_left', { user_id: window.userId })
-
-    delete event['returnValue']
-})
-
 class MyScene extends Phaser.Scene {
 
     liveView = {}
@@ -135,6 +129,12 @@ let liveSocket = new LiveSocket("/live", Socket, {
                     console.log("Unable to join", resp)
                   })
 
+                  window.addEventListener('beforeunload', event => {
+                      channel.push('player_left', { user_id: window.userId })
+
+                      delete event['returnValue']
+                  })
+
                 const phaser = new Phaser.Game({
                     parent: 'phaser',
                     type: Phaser.AUTO,
@@ -149,6 +149,56 @@ let liveSocket = new LiveSocket("/live", Socket, {
                 })
 
                 phaser.scene.add('myScene', new MyScene({ liveView: this }), true, { x: 400, y: 600 })
+            },
+            destroyed() {
+                window.removeEventListener("beforeunload")
+            }
+        },
+        movie: {
+            mounted() {
+                const urlParams = new URLSearchParams(window.location.search)
+
+                if (urlParams.has("seconds")) {
+                    this.el.currentTime = urlParams.get("seconds")
+                }
+
+                window.addEventListener("beforeunload", event => {
+                    this.pushEvent("movie_destroyed", {
+                        movie_id: window.movie_id,
+                        current_time: Math.floor(this.el.currentTime),
+                        duration: Math.floor(this.el.duration),
+                        user_id: window.userId
+                    })
+
+                    delete event["returnValue"]
+                })
+            },
+            destroyed() {
+                window.removeEventListener("beforeunload")
+            }
+        },
+        episode: {
+            mounted() {
+                const urlParams = new URLSearchParams(window.location.search)
+
+                if (urlParams.has("seconds")) {
+                    this.el.currentTime = urlParams.get("seconds")
+                }
+
+                window.addEventListener("beforeunload", event => {
+                    this.pushEvent("episode_destroyed", {
+                        episode_id: window.episode_id,
+                        serie_id: window.serie_id,
+                        current_time: Math.floor(this.el.currentTime),
+                        duration: Math.floor(this.el.duration),
+                        user_id: window.userId
+                    })
+
+                    delete event["returnValue"]
+                })
+            },
+            destroyed() {
+                window.removeEventListener("beforeunload")
             }
         }
     }
