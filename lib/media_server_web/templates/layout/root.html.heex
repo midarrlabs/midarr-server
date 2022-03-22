@@ -25,15 +25,13 @@
         window.userEmail = "<%= assigns[:current_user].email %>";
         window.userName = "<%= assigns[:current_user].name %>";
     </script>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
     <% end %>
   </head>
   <body>
   <%= if @current_user do %>
 
-    <div id="game"></div>
-
+    <%= @inner_content %>
   <% else %>
 
     <div class="h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

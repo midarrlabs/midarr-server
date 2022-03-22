@@ -2,6 +2,7 @@ import "phoenix_html"
 import { Socket, Presence } from "phoenix"
 import { LiveSocket } from "phoenix_live_view"
 import topbar from "../vendor/topbar"
+import Phaser from 'phaser'
 
 let socket = new Socket("/socket", {})
 socket.connect()
@@ -22,24 +23,19 @@ window.addEventListener('beforeunload', event => {
     delete event['returnValue']
 })
 
-let game = new Phaser.Game({
-    parent: 'game',
-    type: Phaser.AUTO,
-    width: '100%',
-    height: '100%',
-    physics: {
-       default: 'arcade',
-       arcade: {
-           debug: true,
-       }
-    }
-})
-
 class MyScene extends Phaser.Scene {
+
+    liveView = {}
 
     player = {}
     otherPlayers = {}
     cursors = {}
+
+    constructor(config) {
+        super()
+
+        this.liveView = config.liveView
+    }
 
     preload() {
         this.load.image('box', 'https://labs.phaser.io/assets/sprites/box-item-boxed.png')
@@ -82,18 +78,18 @@ class MyScene extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys()
 
         this.physics.add.overlap(this.player, movies, (player, movies) => {
-            console.log('movies')
             player.disableBody()
+            this.liveView.pushEvent('redirect_movies')
         })
 
         this.physics.add.overlap(this.player, series, (player, series) => {
-            console.log('series')
             player.disableBody()
+            this.liveView.pushEvent('redirect_series')
         })
 
         this.physics.add.overlap(this.player, continues, (player, continues) => {
-            console.log('continue watching')
             player.disableBody()
+            this.liveView.pushEvent('redirect_continues')
         })
     }
 
@@ -124,20 +120,38 @@ class MyScene extends Phaser.Scene {
     }
 }
 
-game.scene.add('myScene', MyScene, true, { x: 400, y: 600 })
-
-channel.join()
-  .receive("ok", resp => {
-
-    console.log("Joined successfully", resp)
-  })
-  .receive("error", resp => {
-
-    console.log("Unable to join", resp)
-  })
-
 let liveSocket = new LiveSocket("/live", Socket, {
-    params: { _csrf_token: csrfToken }
+    params: { _csrf_token: csrfToken },
+    hooks: {
+        phaser: {
+            mounted() {
+                channel.join()
+                  .receive("ok", resp => {
+
+                    console.log("Joined successfully", resp)
+                  })
+                  .receive("error", resp => {
+
+                    console.log("Unable to join", resp)
+                  })
+
+                const phaser = new Phaser.Game({
+                    parent: 'phaser',
+                    type: Phaser.AUTO,
+                    width: '100%',
+                    height: '100%',
+                    physics: {
+                       default: 'arcade',
+                       arcade: {
+                           debug: true,
+                       }
+                    }
+                })
+
+                phaser.scene.add('myScene', new MyScene({ liveView: this }), true, { x: 400, y: 600 })
+            }
+        }
+    }
 })
 
 liveSocket.connect()
