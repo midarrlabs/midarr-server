@@ -1,29 +1,25 @@
 defmodule MediaServerWeb.HomeLive.Index do
   use MediaServerWeb, :live_view
 
-  alias MediaServer.Accounts
-  alias MediaServerWeb.Repositories.Movies
-  alias MediaServerWeb.Repositories.Series
-
-  @impl true
-  def mount(_params, session, socket) do
-    {
-      :ok,
-      socket
-      |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]))
-    }
-  end
-
   @impl true
   def handle_params(_params, _url, socket) do
     {
       :noreply,
       socket
       |> assign(page_title: "Home")
-      |> assign(:latest_movies, Movies.get_latest(7))
-      |> assign(:latest_series, Series.get_latest(6))
-      |> assign(:movie_watches, socket.assigns.current_user.movie_watches |> Enum.take(4))
-      |> assign(:episode_watches, socket.assigns.current_user.episode_watches |> Enum.take(4))
     }
+  end
+
+  @impl true
+  def handle_event("redirect_movies", _params, socket) do
+    {:noreply, redirect(socket, to: Routes.movies_index_path(socket, :index))}
+  end
+
+  def handle_event("redirect_series", _params, socket) do
+    {:noreply, redirect(socket, to: Routes.series_index_path(socket, :index))}
+  end
+
+  def handle_event("redirect_continues", _params, socket) do
+    {:noreply, redirect(socket, to: Routes.watches_index_path(socket, :index))}
   end
 end
