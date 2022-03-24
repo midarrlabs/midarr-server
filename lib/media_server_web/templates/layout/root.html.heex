@@ -11,14 +11,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}>
-    <style>
-    .line-clamp {
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    </style>
     <%= if @current_user do %>
     <script>
         window.userId = <%= assigns[:current_user].id %>;
