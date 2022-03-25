@@ -1,7 +1,7 @@
 FROM elixir:1.13
 
 RUN apt-get update && \
-    apt-get install -y inotify-tools postgresql-client
+    apt-get install -y inotify-tools postgresql-client chromium chromium-driver
 
 RUN mkdir /app
 COPY . /app
