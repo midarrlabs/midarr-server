@@ -16,7 +16,10 @@ jobs:
         run: docker compose up -d
 
       - name: Run tests
-        run: docker run --network=midarr-server_default --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} --env CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} --env MIX_ENV=test --env DB_USERNAME=my_user --env DB_PASSWORD=my_password --env DB_DATABASE=my_database --env DB_HOSTNAME=postgresql --env TEST_DB_HOSTNAME=test-postgresql --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/shows,dst=/shows midarr-server_midarr:latest /bin/bash /app/script-code-coverage.sh
+        run: docker run --network=midarr-server_default --env MIX_ENV=test --env APP_URL=http://midarr:4000 --env DB_USERNAME=my_user --env DB_PASSWORD=my_password --env DB_DATABASE=my_database --env DB_HOSTNAME=postgresql --env TEST_DB_HOSTNAME=test-postgresql --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/shows,dst=/shows midarr-server_midarr:latest mix test
+
+      - name: Run coverage
+        run: docker run --network=midarr-server_default --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} --env CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} --env MIX_ENV=test --env APP_URL=http://midarr:4000 --env DB_USERNAME=my_user --env DB_PASSWORD=my_password --env DB_DATABASE=my_database --env DB_HOSTNAME=postgresql --env TEST_DB_HOSTNAME=test-postgresql --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/shows,dst=/shows midarr-server_midarr:latest /bin/bash /app/script-code-coverage.sh
 
   release:
     needs: test
