@@ -34,6 +34,7 @@ class MyScene extends Phaser.Scene {
     preload() {
         this.load.image('box', 'https://labs.phaser.io/assets/sprites/box-item-boxed.png')
         this.load.image('red', 'https://labs.phaser.io/assets/sprites/red_ball.png')
+        this.load.spritesheet('adam', '/assets/Adam_run_16x16.png', { frameWidth: 16, frameHeight: 32, endFrame: 23 })
 
         presence.onSync(() => {
             for (const property in presence.state) {
@@ -66,7 +67,31 @@ class MyScene extends Phaser.Scene {
         const continues = this.physics.add.image(650, 50, 'box').setOrigin(0, 0)
         this.add.text(600, 130, 'Continue Watching')
 
-        this.player = this.physics.add.image(data.x, data.y, 'red').setCollideWorldBounds(true)
+        this.anims.create({
+            key: 'right',
+            frames: this.anims.generateFrameNumbers('adam', { start: 0, end: 5, first: 0 }),
+            frameRate: 20
+        })
+
+        this.anims.create({
+            key: 'left',
+            frames: this.anims.generateFrameNumbers('adam', { start: 12, end: 17, first: 12 }),
+            frameRate: 20
+        })
+
+        this.anims.create({
+            key: 'up',
+            frames: this.anims.generateFrameNumbers('adam', { start: 6, end: 11, first: 6 }),
+            frameRate: 20
+        })
+
+        this.anims.create({
+            key: 'down',
+            frames: this.anims.generateFrameNumbers('adam', { start: 18, end: 23, first: 18 }),
+            frameRate: 20
+        })
+
+        this.player = this.physics.add.sprite(data.x, data.y, 'adam')
         this.add.text(250, 550, 'Use keyboard arrows to control')
 
         this.cursors = this.input.keyboard.createCursorKeys()
@@ -111,6 +136,22 @@ class MyScene extends Phaser.Scene {
 
             channel.push('player_position', { user_id: window.userId, x: this.player.x, y: this.player.y, })
         }
+
+        if (this.cursors.left.isDown) {
+            this.player.anims.play('left', true)
+        }
+        else if (this.cursors.right.isDown) {
+            this.player.anims.play('right', true)
+        }
+        else if (this.cursors.up.isDown) {
+            this.player.anims.play('up', true)
+        }
+        else if (this.cursors.down.isDown) {
+            this.player.anims.play('down', true)
+        }
+        else {
+            this.player.anims.stop()
+        }
     }
 }
 
@@ -141,10 +182,7 @@ let liveSocket = new LiveSocket("/live", Socket, {
                     width: '100%',
                     height: '100%',
                     physics: {
-                       default: 'arcade',
-                       arcade: {
-                           debug: true,
-                       }
+                       default: 'arcade'
                     }
                 })
 
