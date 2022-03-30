@@ -2,7 +2,7 @@ defmodule MediaServer.Watches.Movie do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "movie_watches" do
+  schema "movie_continues" do
     field :movie_id, :integer
     field :title, :string
     field :image_url, :string
