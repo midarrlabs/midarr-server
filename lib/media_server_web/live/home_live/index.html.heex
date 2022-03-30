@@ -44,7 +44,7 @@
 
                     <%= for item <- @movie_continues do %>
 
-                        <%= live_component MediaServerWeb.Components.WatchComponent,
+                        <%= live_component MediaServerWeb.Components.ContinueComponent,
                          id: "movie-#{ item.id }",
                          id_item: item.id,
                          image_url: item.image_url,
@@ -60,7 +60,7 @@
 
                     <%= for item <- @episode_continues do %>
 
-                        <%= live_component MediaServerWeb.Components.WatchComponent,
+                        <%= live_component MediaServerWeb.Components.ContinueComponent,
                          id: "episode-#{ item.id }",
                          id_item: item.id,
                          image_url: item.image_url,
