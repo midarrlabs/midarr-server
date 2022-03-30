@@ -32,6 +32,8 @@ class MyScene extends Phaser.Scene {
     }
 
     preload() {
+        this.load.image('tiles', 'https://labs.phaser.io/assets/tilemaps/tiles/tmw_desert_spacing.png')
+        this.load.tilemapTiledJSON('map', 'https://labs.phaser.io/assets/tilemaps/maps/desert.json')
         this.load.image('box', 'https://labs.phaser.io/assets/sprites/box-item-boxed.png')
         this.load.image('red', 'https://labs.phaser.io/assets/sprites/red_ball.png')
         this.load.spritesheet('adam', '/assets/Adam_run_16x16.png', { frameWidth: 16, frameHeight: 32, endFrame: 23 })
@@ -58,14 +60,18 @@ class MyScene extends Phaser.Scene {
     }
 
     create(data) {
+        const map = this.make.tilemap({ key: 'map' })
+        const tiles = map.addTilesetImage('Desert', 'tiles')
+        const layer = map.createLayer('Ground', tiles, 0, 0)
+
         const movies = this.physics.add.image(50, 50, 'box').setOrigin(0, 0)
-        this.add.text(55, 130, 'Movies')
+        this.add.text(55, 130, 'Movies', { color: "#000000" })
 
         const series = this.physics.add.image(350, 50, 'box').setOrigin(0, 0)
-        this.add.text(355, 130, 'Series')
+        this.add.text(355, 130, 'Series', { color: "#000000" })
 
         const continues = this.physics.add.image(650, 50, 'box').setOrigin(0, 0)
-        this.add.text(600, 130, 'Continue Watching')
+        this.add.text(600, 130, 'Continue Watching', { color: "#000000" })
 
         this.anims.create({
             key: 'right',
@@ -92,7 +98,6 @@ class MyScene extends Phaser.Scene {
         })
 
         this.player = this.physics.add.sprite(data.x, data.y, 'adam')
-        this.add.text(250, 550, 'Use keyboard arrows to control')
 
         this.cursors = this.input.keyboard.createCursorKeys()
 
@@ -110,6 +115,11 @@ class MyScene extends Phaser.Scene {
             player.disableBody()
             this.liveView.pushEvent('redirect_continues')
         })
+
+        this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels)
+
+        this.cameras.main.startFollow(this.player)
+//        this.cameras.main.setZoom(1.2)
     }
 
     update() {
