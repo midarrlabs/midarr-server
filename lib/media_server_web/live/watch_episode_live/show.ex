@@ -2,7 +2,7 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
   use MediaServerWeb, :live_view
 
   alias MediaServerWeb.Repositories.Episodes
-  alias MediaServer.Watches
+  alias MediaServer.Continues
 
   @impl true
   def handle_params(%{"episode" => id}, _url, socket) do
@@ -30,7 +30,7 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
       ) do
     episode = Episodes.get_episode(episode_id)
 
-    Watches.update_or_create_episode(%{
+    Continues.update_or_create_episode(%{
       episode_id: episode_id,
       serie_id: serie_id,
       title: episode["title"],

@@ -1,4 +1,4 @@
-defmodule MediaServerWeb.WatchesLive.Index do
+defmodule MediaServerWeb.ContinuesLive.Index do
   use MediaServerWeb, :live_view
 
   alias MediaServer.Accounts
@@ -18,8 +18,8 @@ defmodule MediaServerWeb.WatchesLive.Index do
       :noreply,
       socket
       |> assign(page_title: "Continue Watching")
-      |> assign(:movie_watches, socket.assigns.current_user.movie_watches)
-      |> assign(:episode_watches, socket.assigns.current_user.episode_watches)
+      |> assign(:movie_continues, socket.assigns.current_user.movie_continues)
+      |> assign(:episode_continues, socket.assigns.current_user.episode_continues)
     }
   end
 end

@@ -9,8 +9,8 @@ defmodule MediaServer.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
     field :is_admin, :boolean
-    has_many :movie_watches, MediaServer.Watches.Movie
-    has_many :episode_watches, MediaServer.Watches.Episode
+    has_many :movie_continues, MediaServer.Continues.Movie
+    has_many :episode_continues, MediaServer.Continues.Episode
 
     timestamps()
   end

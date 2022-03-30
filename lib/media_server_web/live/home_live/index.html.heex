@@ -28,23 +28,23 @@
     <div class="max-w-7xl mx-auto py-6 px-4">
         <div class="space-y-8">
 
-        <%= if !Enum.empty?(@movie_watches) || !Enum.empty?(@episode_watches) do %>
+        <%= if !Enum.empty?(@movie_continues) || !Enum.empty?(@episode_continues) do %>
             <div>
               <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
                     <div class="min-w-0 flex items-center">
                         <h2 class="text-lg font-bold tracking-tight text-slate-600">Continue watching</h2>
                     </div>
                     <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-slate-600 text-sm font-medium">
-                        <%= live_redirect "See all", to: Routes.watches_index_path(@socket, :index), class: "hover:text-slate-800 hover:underline uppercase" %>
+                        <%= live_redirect "See all", to: Routes.continues_index_path(@socket, :index), class: "hover:text-slate-800 hover:underline uppercase" %>
                     </div>
               </div>
 
               <div>
                 <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
-                    <%= for item <- @movie_watches do %>
+                    <%= for item <- @movie_continues do %>
 
-                        <%= live_component MediaServerWeb.Components.WatchComponent,
+                        <%= live_component MediaServerWeb.Components.ContinueComponent,
                          id: "movie-#{ item.id }",
                          id_item: item.id,
                          image_url: item.image_url,
@@ -58,9 +58,9 @@
 
                     <% end %>
 
-                    <%= for item <- @episode_watches do %>
+                    <%= for item <- @episode_continues do %>
 
-                        <%= live_component MediaServerWeb.Components.WatchComponent,
+                        <%= live_component MediaServerWeb.Components.ContinueComponent,
                          id: "episode-#{ item.id }",
                          id_item: item.id,
                          image_url: item.image_url,

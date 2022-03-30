@@ -6,7 +6,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   alias MediaServer.AccountsFixtures
   alias MediaServer.SeriesFixtures
   alias MediaServer.EpisodesFixtures
-  alias MediaServer.WatchesFixtures
+  alias MediaServer.ContinuesFixtures
 
   defp create_fixtures(_) do
     %{user: AccountsFixtures.user_fixture()}
@@ -15,7 +15,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   describe "Show episode" do
     setup [:create_fixtures]
 
-    test "watch", %{conn: conn, user: user} do
+    test "continue", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -29,7 +29,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
       assert html_response(conn, 200)
     end
 
-    test "has watch status", %{conn: conn, user: user} do
+    test "has continue status", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -49,10 +49,10 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
         user_id: user.id
       })
 
-      assert WatchesFixtures.get_episode_watch()
+      assert ContinuesFixtures.get_episode_continue()
     end
 
-    test "no watch status", %{conn: conn, user: user} do
+    test "no continue status", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -72,7 +72,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
         user_id: user.id
       })
 
-      refute WatchesFixtures.get_episode_watch()
+      refute ContinuesFixtures.get_episode_continue()
     end
   end
 end

@@ -2,7 +2,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
   use MediaServerWeb, :live_view
 
   alias MediaServerWeb.Repositories.Movies
-  alias MediaServer.Watches
+  alias MediaServer.Continues
 
   @impl true
   def handle_params(%{"movie" => id}, _url, socket) do
@@ -29,7 +29,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
       ) do
     movie = Movies.get_movie(movie_id)
 
-    Watches.update_or_create_movie(%{
+    Continues.update_or_create_movie(%{
       movie_id: movie_id,
       title: movie["title"],
       image_url: Movies.get_background(movie),

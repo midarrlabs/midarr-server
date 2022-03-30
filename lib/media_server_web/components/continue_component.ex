@@ -1,10 +1,10 @@
-defmodule MediaServerWeb.Components.WatchComponent do
+defmodule MediaServerWeb.Components.ContinueComponent do
   use MediaServerWeb, :live_component
 
-  alias MediaServer.Watches
+  alias MediaServer.Continues
 
   def handle_event("delete_movie", %{"id" => id}, socket) do
-    Watches.delete_movie(Watches.get_movie!(id))
+    Continues.delete_movie(Continues.get_movie!(id))
 
     {
       :noreply,
@@ -14,7 +14,7 @@ defmodule MediaServerWeb.Components.WatchComponent do
   end
 
   def handle_event("delete_episode", %{"id" => id}, socket) do
-    Watches.delete_episode(Watches.get_episode!(id))
+    Continues.delete_episode(Continues.get_episode!(id))
 
     {
       :noreply,

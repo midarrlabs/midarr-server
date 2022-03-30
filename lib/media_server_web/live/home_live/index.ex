@@ -22,8 +22,8 @@ defmodule MediaServerWeb.HomeLive.Index do
       |> assign(page_title: "Home")
       |> assign(:latest_movies, Movies.get_latest(7))
       |> assign(:latest_series, Series.get_latest(6))
-      |> assign(:movie_watches, socket.assigns.current_user.movie_watches |> Enum.take(4))
-      |> assign(:episode_watches, socket.assigns.current_user.episode_watches |> Enum.take(4))
+      |> assign(:movie_continues, socket.assigns.current_user.movie_continues |> Enum.take(4))
+      |> assign(:episode_continues, socket.assigns.current_user.episode_continues |> Enum.take(4))
     }
   end
 end
