@@ -776,12 +776,12 @@ select {
   margin-top: 1rem;
 }
 
-.mt-10 {
-  margin-top: 2.5rem;
-}
-
 .mb-4 {
   margin-bottom: 1rem;
+}
+
+.mt-10 {
+  margin-top: 2.5rem;
 }
 
 .ml-6 {
@@ -1322,10 +1322,6 @@ select {
 
 .pb-16 {
   padding-bottom: 4rem;
-}
-
-.pb-5 {
-  padding-bottom: 1.25rem;
 }
 
 .pt-1 {
