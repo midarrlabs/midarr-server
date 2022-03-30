@@ -1,13 +1,13 @@
-defmodule MediaServer.WatchesTest do
+defmodule MediaServer.ContinuesTest do
   use MediaServer.DataCase
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.Watches
+  alias MediaServer.Continues
 
-  describe "movie_watches" do
-    alias MediaServer.Watches.Movie
+  describe "movie_continues" do
+    alias MediaServer.Continues.Movie
 
-    import MediaServer.WatchesFixtures
+    import MediaServer.ContinuesFixtures
 
     @invalid_attrs %{
       movie_id: nil,
@@ -18,16 +18,16 @@ defmodule MediaServer.WatchesTest do
       user_id: nil
     }
 
-    test "list_movie_watches/0 returns all movie_watches" do
+    test "list_movie_continues/0 returns all movie_continues" do
       user = AccountsFixtures.user_fixture()
       movie = movie_fixture(%{user_id: user.id})
-      assert Watches.list_movie_watches() == [movie]
+      assert Continues.list_movie_continues() == [movie]
     end
 
     test "get_movie!/1 returns the movie with given id" do
       user = AccountsFixtures.user_fixture()
       movie = movie_fixture(%{user_id: user.id})
-      assert Watches.get_movie!(movie.id) == movie
+      assert Continues.get_movie!(movie.id) == movie
     end
 
     test "create_movie/1 with valid data creates a movie" do
@@ -40,7 +40,7 @@ defmodule MediaServer.WatchesTest do
         user_id: AccountsFixtures.user_fixture().id
       }
 
-      assert {:ok, %Movie{} = movie} = Watches.create_movie(valid_attrs)
+      assert {:ok, %Movie{} = movie} = Continues.create_movie(valid_attrs)
       assert movie.movie_id == 42
       assert movie.title == "some title"
       assert movie.image_url == "some image url"
@@ -49,7 +49,7 @@ defmodule MediaServer.WatchesTest do
     end
 
     test "create_movie/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Watches.create_movie(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Continues.create_movie(@invalid_attrs)
     end
 
     test "update_movie/2 with valid data updates the movie" do
@@ -65,7 +65,7 @@ defmodule MediaServer.WatchesTest do
         user_id: user.id
       }
 
-      assert {:ok, %Movie{} = movie} = Watches.update_movie(movie, update_attrs)
+      assert {:ok, %Movie{} = movie} = Continues.update_movie(movie, update_attrs)
       assert movie.movie_id == 43
       assert movie.title == "update title"
       assert movie.image_url == "update image url"
@@ -76,8 +76,8 @@ defmodule MediaServer.WatchesTest do
     test "update_movie/2 with invalid data returns error changeset" do
       user = AccountsFixtures.user_fixture()
       movie = movie_fixture(%{user_id: user.id})
-      assert {:error, %Ecto.Changeset{}} = Watches.update_movie(movie, @invalid_attrs)
-      assert movie == Watches.get_movie!(movie.id)
+      assert {:error, %Ecto.Changeset{}} = Continues.update_movie(movie, @invalid_attrs)
+      assert movie == Continues.get_movie!(movie.id)
     end
 
     test "update_or_create_movie/2 updates movie" do
@@ -91,7 +91,7 @@ defmodule MediaServer.WatchesTest do
         user_id: user.id
       }
 
-      {:ok, %Movie{} = movie} = Watches.update_or_create_movie(update_attrs)
+      {:ok, %Movie{} = movie} = Continues.update_or_create_movie(update_attrs)
       assert movie.movie_id == 42
       assert movie.current_time == 89
       assert movie.duration == 100
@@ -109,7 +109,7 @@ defmodule MediaServer.WatchesTest do
         user_id: user.id
       }
 
-      refute Watches.update_or_create_movie(update_attrs)
+      refute Continues.update_or_create_movie(update_attrs)
     end
 
     test "update_or_create_movie/2 creates movie" do
@@ -125,7 +125,7 @@ defmodule MediaServer.WatchesTest do
         user_id: user.id
       }
 
-      assert {:ok, %Movie{} = movie} = Watches.update_or_create_movie(update_attrs)
+      assert {:ok, %Movie{} = movie} = Continues.update_or_create_movie(update_attrs)
       assert movie.movie_id == 43
       assert movie.title == "update title"
       assert movie.image_url == "update image url"
@@ -137,21 +137,21 @@ defmodule MediaServer.WatchesTest do
     test "delete_movie/1 deletes the movie" do
       user = AccountsFixtures.user_fixture()
       movie = movie_fixture(%{user_id: user.id})
-      assert {:ok, %Movie{}} = Watches.delete_movie(movie)
-      assert_raise Ecto.NoResultsError, fn -> Watches.get_movie!(movie.id) end
+      assert {:ok, %Movie{}} = Continues.delete_movie(movie)
+      assert_raise Ecto.NoResultsError, fn -> Continues.get_movie!(movie.id) end
     end
 
     test "change_movie/1 returns a movie changeset" do
       user = AccountsFixtures.user_fixture()
       movie = movie_fixture(%{user_id: user.id})
-      assert %Ecto.Changeset{} = Watches.change_movie(movie)
+      assert %Ecto.Changeset{} = Continues.change_movie(movie)
     end
   end
 
-  describe "episode_watches" do
-    alias MediaServer.Watches.Episode
+  describe "episode_continues" do
+    alias MediaServer.Continues.Episode
 
-    import MediaServer.WatchesFixtures
+    import MediaServer.ContinuesFixtures
 
     @invalid_attrs %{
       current_time: nil,
@@ -163,16 +163,16 @@ defmodule MediaServer.WatchesTest do
       user_id: nil
     }
 
-    test "list_episode_watches/0 returns all episode_watches" do
+    test "list_episode_continues/0 returns all episode_continues" do
       user = AccountsFixtures.user_fixture()
       episode = episode_fixture(%{user_id: user.id})
-      assert Watches.list_episode_watches() == [episode]
+      assert Continues.list_episode_continues() == [episode]
     end
 
     test "get_episode!/1 returns the episode with given id" do
       user = AccountsFixtures.user_fixture()
       episode = episode_fixture(%{user_id: user.id})
-      assert Watches.get_episode!(episode.id) == episode
+      assert Continues.get_episode!(episode.id) == episode
     end
 
     test "create_episode/1 with valid data creates a episode" do
@@ -188,7 +188,7 @@ defmodule MediaServer.WatchesTest do
         user_id: user.id
       }
 
-      assert {:ok, %Episode{} = episode} = Watches.create_episode(valid_attrs)
+      assert {:ok, %Episode{} = episode} = Continues.create_episode(valid_attrs)
       assert episode.current_time == 42
       assert episode.duration == 42
       assert episode.episode_id == 42
@@ -199,7 +199,7 @@ defmodule MediaServer.WatchesTest do
     end
 
     test "create_episode/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Watches.create_episode(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Continues.create_episode(@invalid_attrs)
     end
 
     test "update_episode/2 with valid data updates the episode" do
@@ -216,7 +216,7 @@ defmodule MediaServer.WatchesTest do
         user_id: user.id
       }
 
-      assert {:ok, %Episode{} = episode} = Watches.update_episode(episode, update_attrs)
+      assert {:ok, %Episode{} = episode} = Continues.update_episode(episode, update_attrs)
       assert episode.current_time == 43
       assert episode.duration == 43
       assert episode.episode_id == 43
@@ -229,8 +229,8 @@ defmodule MediaServer.WatchesTest do
     test "update_episode/2 with invalid data returns error changeset" do
       user = AccountsFixtures.user_fixture()
       episode = episode_fixture(%{user_id: user.id})
-      assert {:error, %Ecto.Changeset{}} = Watches.update_episode(episode, @invalid_attrs)
-      assert episode == Watches.get_episode!(episode.id)
+      assert {:error, %Ecto.Changeset{}} = Continues.update_episode(episode, @invalid_attrs)
+      assert episode == Continues.get_episode!(episode.id)
     end
 
     test "update_or_create_episode/2 updates episode" do
@@ -245,7 +245,7 @@ defmodule MediaServer.WatchesTest do
         user_id: user.id
       }
 
-      {:ok, %Episode{} = episode} = Watches.update_or_create_episode(update_attrs)
+      {:ok, %Episode{} = episode} = Continues.update_or_create_episode(update_attrs)
       assert episode.duration == 100
       assert episode.current_time == 89
       assert episode.episode_id == 42
@@ -265,7 +265,7 @@ defmodule MediaServer.WatchesTest do
         user_id: user.id
       }
 
-      refute Watches.update_or_create_episode(update_attrs)
+      refute Continues.update_or_create_episode(update_attrs)
     end
 
     test "update_or_create_episode/2 creates episode" do
@@ -282,7 +282,7 @@ defmodule MediaServer.WatchesTest do
         user_id: user.id
       }
 
-      assert {:ok, %Episode{} = episode} = Watches.update_or_create_episode(update_attrs)
+      assert {:ok, %Episode{} = episode} = Continues.update_or_create_episode(update_attrs)
       assert episode.episode_id == 43
       assert episode.title == "update title"
       assert episode.image_url == "update image url"
@@ -294,14 +294,14 @@ defmodule MediaServer.WatchesTest do
     test "delete_episode/1 deletes the episode" do
       user = AccountsFixtures.user_fixture()
       episode = episode_fixture(%{user_id: user.id})
-      assert {:ok, %Episode{}} = Watches.delete_episode(episode)
-      assert_raise Ecto.NoResultsError, fn -> Watches.get_episode!(episode.id) end
+      assert {:ok, %Episode{}} = Continues.delete_episode(episode)
+      assert_raise Ecto.NoResultsError, fn -> Continues.get_episode!(episode.id) end
     end
 
     test "change_episode/1 returns a episode changeset" do
       user = AccountsFixtures.user_fixture()
       episode = episode_fixture(%{user_id: user.id})
-      assert %Ecto.Changeset{} = Watches.change_episode(episode)
+      assert %Ecto.Changeset{} = Continues.change_episode(episode)
     end
   end
 end

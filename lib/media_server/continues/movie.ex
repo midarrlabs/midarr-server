@@ -1,4 +1,4 @@
-defmodule MediaServer.Watches.Movie do
+defmodule MediaServer.Continues.Movie do
   use Ecto.Schema
   import Ecto.Changeset
 
