@@ -8,7 +8,10 @@ defmodule MediaServer.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({Application.get_env(:media_server, :app_name), Application.get_env(:media_server, :app_mailer_from)})
+      |> from(
+        {Application.get_env(:media_server, :app_name),
+         Application.get_env(:media_server, :app_mailer_from)}
+      )
       |> subject(subject)
       |> html_body(body)
 

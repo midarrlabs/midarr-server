@@ -41,7 +41,8 @@ defmodule MediaServerWeb.SeriesLiveTest do
 
     EpisodesFixtures.get_episodes(serie["id"])
     |> Enum.each(fn episode ->
-      {:ok, show_live, _html} = live(conn, Routes.seasons_show_path(conn, :show, serie["id"], episode["seasonNumber"]))
+      {:ok, show_live, _html} =
+        live(conn, Routes.seasons_show_path(conn, :show, serie["id"], episode["seasonNumber"]))
 
       assert show_live |> element("#play-#{episode["id"]}", "Play") |> render_click()
     end)

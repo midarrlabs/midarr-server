@@ -55,7 +55,7 @@ defmodule MediaServer.MixProject do
       {:httpoison, "~> 1.8"},
       {:excoveralls, "~> 0.10", only: :test},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
-      {:cors_plug, "~> 3.0"},
+      {:cors_plug, "~> 3.0"}
     ]
   end
 

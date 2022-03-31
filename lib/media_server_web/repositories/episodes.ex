@@ -8,7 +8,7 @@ defmodule MediaServerWeb.Repositories.Episodes do
       HTTPoison.get("#{get_url("episode")}&seriesId=#{series_id}")
 
     Enum.filter(Jason.decode!(body), fn x ->
-      x["seasonNumber"] === String.to_integer season_number
+      x["seasonNumber"] === String.to_integer(season_number)
     end)
     |> Enum.filter(fn x -> x["hasFile"] end)
     |> add_images_to_episodes()
