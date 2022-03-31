@@ -30,62 +30,47 @@
   </head>
   <body>
   <%= if @current_user do %>
-    <header class="z-10 sticky top-0 w-full">
-        <div class="relative flex-shrink-0 h-16 bg-white border-b border-gray-200 shadow-sm flex">
+    <nav class="z-10 sticky top-0 bg-white border-b border-gray-200 shadow-sm">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="relative flex items-center justify-between h-16">
 
-            <div class="flex-1 flex justify-between px-4 sm:px-6">
+          <div class="flex-1 flex items-center sm:items-stretch sm:justify-start">
 
-                <div class="relative px-2 flex lg:px-0">
-                    <a href="/" class="flex-shrink-0 flex items-center">
-                      <img class="block h-8 w-auto" src="/logo.svg" alt="Logo">
-                    </a>
-                </div>
+            <div class="flex-shrink-0 flex items-center">
+                <%= link to: Routes.home_index_path(@conn, :index), class: "flex-shrink-0 flex items-center" do %>
+                    <img class="block h-8 w-auto" src="/logo.svg" alt="Logo">
+                <% end %>
+            </div>
+          </div>
 
-                <div class="-my-px ml-6 flex space-x-8 self-center">
-                    <div>
-                        <button phx-click={JS.toggle(to: "#online-slide-over")} type="button" class="border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                          <span class="inline-block relative">
-                              <span>Online</span>
-                              <span class="inline-block h-2.5 w-2.5 mx-1 bg-green-400 rounded-full"></span>
-                          </span>
-                        </button>
+          <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
-                        <div id="online-slide-over" class="hidden fixed inset-0 overflow-hidden" role="dialog" aria-modal="true">
-                          <div class="absolute inset-0 overflow-hidden">
+            <%= link "Favourites", to: Routes.settings_index_path(@conn, :index), class: "text-slate-600 block px-4 py-2 text-sm hover:text-slate-800 hover:underline" %>
 
-                            <div class="absolute inset-0 bg-gray-900 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-                            <div class="fixed inset-y-0 right-0 pl-10 max-w-full flex">
-                              <div class="relative w-96">
-                                <div class="absolute top-0 left-0 -ml-8 pt-6 pr-2 flex sm:-ml-10 sm:pr-4">
+            <div class="ml-3 relative">
+                <button phx-click={JS.toggle(to: "#profile-dropdown")} phx-click-away={JS.hide(to: "#profile-dropdown")} type="button" class="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-slate-500">
+                    <span class="flex-shrink-0 inline-block relative">
+                        <span class="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
+                            <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                        </span>
+                        <span class="bg-green-400 absolute top-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white" aria-hidden="true"></span>
+                    </span>
+                </button>
 
-                                  <button phx-click={JS.toggle(to: "#online-slide-over")} type="button" class="rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
-                                    <span class="sr-only">Close panel</span>
-                                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                  </button>
-                                </div>
-
-                                <div class="h-full bg-white py-6 overflow-y-auto">
-                                    <h2 class="px-4 text-lg font-medium text-gray-900">
-                                        Online
-                                    </h2>
-
-                                    <ul phx-update="ignore" id="online-users" role="list" class="flex-1 divide-y divide-gray-200 overflow-y-auto"></ul>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                <div id="profile-dropdown" class="hidden origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div class="py-1">
+                        <%= link "Settings", to: Routes.settings_index_path(@conn, :index), class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" %>
+                        <%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" %>
                     </div>
-
-                    <%= link "Settings", to: Routes.settings_index_path(@conn, :index), class: "border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
-
-                    <%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "border-transparent text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" %>
                 </div>
             </div>
+
+          </div>
         </div>
-    </header>
+      </div>
+    </nav>
 
     <%= @inner_content %>
   <% else %>
