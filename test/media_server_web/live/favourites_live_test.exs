@@ -1,10 +1,7 @@
-defmodule MediaServerWeb.ContinuesLiveTest do
+defmodule MediaServerWeb.FavouritesLiveTest do
   use MediaServerWeb.ConnCase
 
-  import Phoenix.LiveViewTest
-
   alias MediaServer.AccountsFixtures
-  alias MediaServer.FavouritesFixtures
 
   defp create_fixtures(_) do
     %{user: AccountsFixtures.user_fixture()}

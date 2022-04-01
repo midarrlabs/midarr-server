@@ -59,10 +59,40 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     assert show_live |> element("#favourite", "Favourite") |> render_click()
 
-    favourite = Favourites.list_movie_favourites()
-                |> List.first()
+    favourite =
+      Favourites.list_movie_favourites()
+      |> List.first()
 
     assert favourite.movie_id === movie["id"]
+  end
+
+  test "it can unfavourite", %{conn: conn} do
+    fixture = %{user: AccountsFixtures.user_fixture()}
+
+    conn =
+      post(conn, Routes.user_session_path(conn, :create), %{
+        "user" => %{
+          "email" => fixture.user.email,
+          "password" => AccountsFixtures.valid_user_password()
+        }
+      })
+
+    movie = MoviesFixtures.get_movie()
+
+    {:ok, show_live, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+
+    assert show_live
+           |> element("#favourite", "Favourite")
+           |> render_click()
+
+    {:ok, show_live, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+
+    assert show_live
+           |> element("#unfavourite", "Unfavourite")
+           |> render_click()
+
+    assert Favourites.list_movie_favourites()
+           |> Enum.empty?()
   end
 
   test "Get /movies play", %{conn: conn} do

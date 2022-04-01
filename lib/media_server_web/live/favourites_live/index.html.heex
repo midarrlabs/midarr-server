@@ -7,8 +7,16 @@
     </div>
 
     <div>
-        <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <ul role="list" class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+            <%= for item <- @movie_favourites do %>
 
+                <%= MediaServerWeb.Components.PosterComponent.render(%{
+                    img_src: item.image_url,
+                    title: item.title,
+                    link: Routes.movies_show_path(@socket, :show, item.movie_id)
+                }) %>
+
+            <% end %>
 
         </ul>
     </div>
