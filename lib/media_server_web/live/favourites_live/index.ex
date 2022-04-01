@@ -8,7 +8,10 @@ defmodule MediaServerWeb.FavouritesLive.Index do
     {
       :ok,
       socket
-      |> assign(:current_user, Accounts.get_user_by_session_token_with_favourites(session["user_token"]))
+      |> assign(
+        :current_user,
+        Accounts.get_user_by_session_token_with_favourites(session["user_token"])
+      )
     }
   end
 

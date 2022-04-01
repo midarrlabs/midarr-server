@@ -5,6 +5,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
   alias MediaServer.AccountsFixtures
   alias MediaServer.MoviesFixtures
+  alias MediaServer.Favourites
 
   test "GET /movies", %{conn: conn} do
     fixture = %{user: AccountsFixtures.user_fixture()}
@@ -36,6 +37,32 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     conn = get(conn, Routes.movies_show_path(conn, :show, movie["id"]))
     assert html_response(conn, 200)
+  end
+
+  test "it can favourite", %{conn: conn} do
+    fixture = %{user: AccountsFixtures.user_fixture()}
+
+    conn =
+      post(conn, Routes.user_session_path(conn, :create), %{
+        "user" => %{
+          "email" => fixture.user.email,
+          "password" => AccountsFixtures.valid_user_password()
+        }
+      })
+
+    movie = MoviesFixtures.get_movie()
+
+    {:ok, show_live, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+
+    assert Favourites.list_movie_favourites()
+           |> Enum.empty?()
+
+    assert show_live |> element("#favourite", "Favourite") |> render_click()
+
+    favourite = Favourites.list_movie_favourites()
+                |> List.first()
+
+    assert favourite.movie_id === movie["id"]
   end
 
   test "Get /movies play", %{conn: conn} do
