@@ -18,6 +18,16 @@
 
             <% end %>
 
+            <%= for item <- @serie_favourites do %>
+
+                <%= MediaServerWeb.Components.PosterComponent.render(%{
+                    img_src: item.image_url,
+                    title: item.title,
+                    link: Routes.series_show_path(@socket, :show, item.serie_id)
+                }) %>
+
+            <% end %>
+
         </ul>
     </div>
 </div>
