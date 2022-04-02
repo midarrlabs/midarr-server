@@ -996,8 +996,8 @@ select {
   gap: 1.25rem;
 }
 
-.gap-y-12 {
-  row-gap: 3rem;
+.gap-y-10 {
+  row-gap: 2.5rem;
 }
 
 .gap-x-6 {
@@ -1005,8 +1005,8 @@ select {
        column-gap: 1.5rem;
 }
 
-.gap-y-10 {
-  row-gap: 2.5rem;
+.gap-y-12 {
+  row-gap: 3rem;
 }
 
 .space-y-6 > :not([hidden]) ~ :not([hidden]) {
