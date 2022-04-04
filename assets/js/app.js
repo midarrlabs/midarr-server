@@ -17,7 +17,23 @@ window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 
 presence.onSync(() => {
-    console.log(presence)
+    let presences = []
+
+    presence.list((id, {metas: [first, ...rest]}) => {
+        presences.push(first)
+    })
+
+    const element = document.querySelector("#users")
+
+    if(element) {
+        for (const item of presences) {
+
+            const user = document.querySelector(`#user-id-${item.user_id}`)
+
+            user.innerHTML = ""
+            user.innerHTML += '<span class="bg-green-400 absolute top-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white" aria-hidden="true"></span>'
+        }
+    }
 })
 
 channel.join()
