@@ -7,6 +7,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   alias MediaServer.SeriesFixtures
   alias MediaServer.EpisodesFixtures
   alias MediaServerWeb.Repositories.Episodes
+  alias MediaServer.Favourites
 
   test "GET /series", %{conn: conn} do
     fixture = %{user: AccountsFixtures.user_fixture()}
@@ -46,6 +47,62 @@ defmodule MediaServerWeb.SeriesLiveTest do
 
       assert show_live |> element("#play-#{episode["id"]}", "Play") |> render_click()
     end)
+  end
+
+  test "it can favourite", %{conn: conn} do
+    fixture = %{user: AccountsFixtures.user_fixture()}
+
+    conn =
+      post(conn, Routes.user_session_path(conn, :create), %{
+        "user" => %{
+          "email" => fixture.user.email,
+          "password" => AccountsFixtures.valid_user_password()
+        }
+      })
+
+    serie = SeriesFixtures.get_serie()
+
+    {:ok, show_live, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
+
+    assert Favourites.list_serie_favourites()
+           |> Enum.empty?()
+
+    assert show_live |> element("#favourite", "Favourite") |> render_click()
+
+    favourite =
+      Favourites.list_serie_favourites()
+      |> List.first()
+
+    assert favourite.serie_id === serie["id"]
+  end
+
+  test "it can unfavourite", %{conn: conn} do
+    fixture = %{user: AccountsFixtures.user_fixture()}
+
+    conn =
+      post(conn, Routes.user_session_path(conn, :create), %{
+        "user" => %{
+          "email" => fixture.user.email,
+          "password" => AccountsFixtures.valid_user_password()
+        }
+      })
+
+    serie = SeriesFixtures.get_serie()
+
+    {:ok, show_live, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
+
+    assert show_live
+           |> element("#favourite", "Favourite")
+           |> render_click()
+
+    {:ok, show_live, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
+
+    assert show_live
+           |> element("#unfavourite", "Unfavourite")
+           |> render_click()
+
+    assert Favourites.list_serie_favourites()
+           |> Enum.empty?()
   end
 
   test "it should merge episode images with serie episode", %{conn: _conn} do

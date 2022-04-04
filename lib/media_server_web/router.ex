@@ -35,6 +35,7 @@ defmodule MediaServerWeb.Router do
     end
 
     live "/continues", ContinuesLive.Index, :index
+    live "/favourites", FavouritesLive.Index, :index
 
     live "/settings", SettingsLive.Index, :index
 
