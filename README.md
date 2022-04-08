@@ -150,6 +150,10 @@ Login with these credentials, and access the `Settings` page to configure your s
 
 Thank you for all your contributions! Big or small - all is welcome!
 
+<p>
+    <a href="https://www.producthunt.com/posts/midarr?utm_source=badge-review&utm_medium=badge&utm_souce=badge-midarr#discussion-body" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/review.svg?post_id=339960&theme=light" alt="Midarr - The&#0032;minimal&#0032;lightweight&#0032;media&#0032;server&#0046; | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+</p>
+
 ## License
 
 `Midarr` is open-sourced software licensed under the [MIT license](LICENSE).
