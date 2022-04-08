@@ -1,4 +1,4 @@
-name: Feature
+name: Dependabot
 
 on:
   push:
