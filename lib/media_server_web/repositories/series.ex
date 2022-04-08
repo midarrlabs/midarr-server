@@ -10,39 +10,41 @@ defmodule MediaServerWeb.Repositories.Series do
     end
   end
 
-  def get_latest(amount) do
-    case HTTPoison.get(get_url("series")) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        Enum.sort_by(Jason.decode!(body), & &1["added"], :desc)
-        |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] !== 0 end)
-        |> Enum.take(amount)
-
-      {:error, %HTTPoison.Error{id: nil, reason: :nxdomain}} ->
-        []
-    end
-  end
-
-  def get_all() do
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get(get_url("series"))
-
-    Enum.sort_by(Jason.decode!(body), & &1["title"], :asc)
-    |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] !== 0 end)
-  end
-
-  def get_serie(id) do
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-      HTTPoison.get(get_url("series/#{id}"))
-
+  def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
     Jason.decode!(body)
   end
 
+  def handle_response({:error, %HTTPoison.Error{id: nil, reason: :nxdomain}}) do
+    []
+  end
+
+  def get_latest(amount) do
+    HTTPoison.get(get_url("series"))
+    |> handle_response()
+    |> Enum.sort_by(& &1["added"], :desc)
+    |> Enum.filter(fn item -> item["statistics"]["episodeFileCount"] !== 0 end)
+    |> Enum.take(amount)
+  end
+
+  def get_all() do
+    HTTPoison.get(get_url("series"))
+    |> handle_response()
+    |> Enum.sort_by(& &1["title"], :asc)
+    |> Enum.filter(fn item -> item["statistics"]["episodeFileCount"] !== 0 end)
+  end
+
+  def get_serie(id) do
+    HTTPoison.get(get_url("series/#{id}"))
+    |> handle_response()
+  end
+
   def get_poster(serie) do
-    (Enum.filter(serie["images"], fn x -> x["coverType"] === "poster" end)
+    (Enum.filter(serie["images"], fn item -> item["coverType"] === "poster" end)
      |> Enum.at(0))["remoteUrl"]
   end
 
   def get_background(serie) do
-    (Enum.filter(serie["images"], fn x -> x["coverType"] === "fanart" end)
+    (Enum.filter(serie["images"], fn item -> item["coverType"] === "fanart" end)
      |> Enum.at(0))["remoteUrl"]
   end
 end
