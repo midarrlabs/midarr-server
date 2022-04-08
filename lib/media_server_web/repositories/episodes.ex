@@ -3,29 +3,29 @@ defmodule MediaServerWeb.Repositories.Episodes do
     "#{Application.get_env(:media_server, :series_base_url)}/api/v3/#{url}?apikey=#{Application.get_env(:media_server, :series_api_key)}"
   end
 
-  def get_all(series_id, season_number) do
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-      HTTPoison.get("#{get_url("episode")}&seriesId=#{series_id}")
 
-    Enum.filter(Jason.decode!(body), fn x ->
-      x["seasonNumber"] === String.to_integer(season_number)
-    end)
-    |> Enum.filter(fn x -> x["hasFile"] end)
+  def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
+    Jason.decode!(body)
+  end
+
+  def get_all(series_id, season_number) do
+    HTTPoison.get("#{get_url("episode")}&seriesId=#{series_id}")
+    |> handle_response()
+    |> Enum.filter(fn episode -> episode["seasonNumber"] === String.to_integer(season_number) end)
+    |> Enum.filter(fn episode -> episode["hasFile"] end)
     |> add_images_to_episodes()
   end
 
   def get_episode(id) do
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-      HTTPoison.get("#{get_url("episode/#{id}")}")
-
-    Jason.decode!(body)
+    HTTPoison.get("#{get_url("episode/#{id}")}")
+    |> handle_response()
   end
 
   def get_episode_path(id) do
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-      HTTPoison.get("#{get_url("episode/#{id}")}")
+    episode = HTTPoison.get("#{get_url("episode/#{id}")}")
+              |> handle_response()
 
-    Jason.decode!(body)["episodeFile"]["path"]
+    episode["episodeFile"]["path"]
   end
 
   def add_images_to_episodes(episodes) do
