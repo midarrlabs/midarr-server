@@ -10,46 +10,48 @@ defmodule MediaServerWeb.Repositories.Movies do
     end
   end
 
-  def get_latest(amount) do
-    case HTTPoison.get(get_url("movie")) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        Enum.sort_by(Jason.decode!(body), & &1["movieFile"]["dateAdded"], :desc)
-        |> Enum.filter(fn x -> x["hasFile"] end)
-        |> Enum.take(amount)
+  def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
+    Jason.decode!(body)
+  end
 
-      {:error, %HTTPoison.Error{id: nil, reason: :nxdomain}} ->
-        []
-    end
+  def handle_response({:error, %HTTPoison.Error{id: nil, reason: :nxdomain}}) do
+    []
+  end
+
+  def get_latest(amount) do
+    HTTPoison.get(get_url("movie"))
+    |> handle_response()
+    |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
+    |> Enum.filter(fn item -> item["hasFile"] end)
+    |> Enum.take(amount)
   end
 
   def get_all() do
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get(get_url("movie"))
-
-    Enum.filter(Jason.decode!(body), fn x -> x["hasFile"] end)
+    HTTPoison.get(get_url("movie"))
+    |> handle_response()
+    |> Enum.filter(fn item -> item["hasFile"] end)
     |> Enum.sort_by(& &1["title"], :asc)
   end
 
   def get_movie(id) do
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-      HTTPoison.get(get_url("movie/#{id}"))
-
-    Jason.decode!(body)
+    HTTPoison.get(get_url("movie/#{id}"))
+    |> handle_response()
   end
 
   def get_movie_path(id) do
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-      HTTPoison.get("#{get_url("movie/#{id}")}")
+    movie = HTTPoison.get("#{get_url("movie/#{id}")}")
+            |> handle_response()
 
-    Jason.decode!(body)["movieFile"]["path"]
+    movie["movieFile"]["path"]
   end
 
   def get_poster(movie) do
-    (Enum.filter(movie["images"], fn x -> x["coverType"] === "poster" end)
+    (Enum.filter(movie["images"], fn item -> item["coverType"] === "poster" end)
      |> Enum.at(0))["remoteUrl"]
   end
 
   def get_background(movie) do
-    (Enum.filter(movie["images"], fn x -> x["coverType"] === "fanart" end)
+    (Enum.filter(movie["images"], fn item -> item["coverType"] === "fanart" end)
      |> Enum.at(0))["remoteUrl"]
   end
 end
