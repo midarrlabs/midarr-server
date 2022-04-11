@@ -16,6 +16,11 @@
         <img alt="GitHub license" src="https://img.shields.io/github/license/midarrlabs/midarr-server">
     </a>
 </p>
+<p align="center">
+    <a href="https://discord.gg/mnuqcVHJu2">
+        <img alt="Discord" src="https://img.shields.io/discord/962938229412216852">
+    </a>
+</p>
 
 `Midarr` is a minimal lightweight media server for enjoying your media:
 
