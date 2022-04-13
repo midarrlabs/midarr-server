@@ -30,7 +30,7 @@
 
 with much more to come...
 
-![Preview](docs/home-v1.4.0.png)
+![Preview](docs/home-v1.6.1.png)
 
 #### What is this?
 
@@ -164,5 +164,6 @@ Thank you for all your contributions! Big or small - all is welcome!
 ## Preview
 
 ![Preview](docs/login-v1.4.0.png)
-![Preview](docs/movie-v1.4.0.png)
+![Preview](docs/online-v1.6.1.png)
+![Preview](docs/movie-v1.6.1.png)
 ![Preview](docs/player.png)
