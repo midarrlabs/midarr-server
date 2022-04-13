@@ -25,6 +25,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
      socket
      |> assign(:page_title, movie["title"])
      |> assign(:movie, movie)
+     |> assign(:cast, Movies.get_cast(movie_id))
      |> assign(
        :favourite,
        socket.assigns.current_user.movie_favourites

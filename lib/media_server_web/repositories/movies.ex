@@ -54,4 +54,15 @@ defmodule MediaServerWeb.Repositories.Movies do
     (Enum.filter(movie["images"], fn item -> item["coverType"] === "fanart" end)
      |> Enum.at(0))["remoteUrl"]
   end
+
+  def get_headshot(movie) do
+    (Enum.filter(movie["images"], fn item -> item["coverType"] === "headshot" end)
+     |> Enum.at(0))["url"]
+  end
+
+  def get_cast(id) do
+    HTTPoison.get("#{get_url("credit")}&movieId=#{id}")
+    |> handle_response()
+    |> Enum.filter(fn item -> item["type"] === "cast" end)
+  end
 end
