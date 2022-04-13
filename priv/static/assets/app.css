@@ -1197,6 +1197,10 @@ select {
   --tw-gradient-to: #0f172a;
 }
 
+.to-neutral-900 {
+  --tw-gradient-to: #171717;
+}
+
 .bg-cover {
   background-size: cover;
 }
