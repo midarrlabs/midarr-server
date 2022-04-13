@@ -1608,6 +1608,11 @@ select {
     padding-top: 3rem;
     padding-bottom: 3rem;
   }
+
+  .lg\:py-8 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
 }
 
 @media (min-width: 1280px) {
