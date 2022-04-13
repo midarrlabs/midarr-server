@@ -21,18 +21,18 @@ defmodule MediaServerWeb.Router do
 
     live "/movies", MoviesLive.Index, :index
     live "/movies/:movie", MoviesLive.Show, :show
+    get "/movies/:movie/stream", StreamMovieController, :show
 
     live "/series", SeriesLive.Index, :index
     live "/series/:serie", SeriesLive.Show, :show
     live "/series/:serie/seasons/:season", SeasonsLive.Show, :show
 
+    get "/episodes/:episode/stream", StreamEpisodeController, :show
+
     live_session :watch, root_layout: {MediaServerWeb.WatchView, "watch.html"} do
       live "/movies/:movie/watch", WatchMovieLive.Show, :show
       live "/episodes/:episode/watch", WatchEpisodeLive.Show, :show
     end
-
-    get "/movies/:movie/stream.mp4", StreamMovieController, :show
-    get "/episodes/:episode/stream.mp4", StreamEpisodeController, :show
 
     live "/continues", ContinuesLive.Index, :index
     live "/favourites", FavouritesLive.Index, :index
