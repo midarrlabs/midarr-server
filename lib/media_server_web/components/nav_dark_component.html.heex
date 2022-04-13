@@ -29,7 +29,7 @@
 
             <div id="profile-dropdown" class="hidden origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div class="py-1">
-                    <%= live_redirect "Settings", to: Routes.settings_index_path(@socket, :index), class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" %>
+                    <%= link "Settings", to: Routes.settings_index_path(@socket, :index), class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" %>
                     <%= link "Log out", to: Routes.user_session_path(@socket, :delete), method: :delete, class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" %>
                 </div>
             </div>
