@@ -9,7 +9,7 @@
             <.live_component module={MediaServerWeb.Components.NavDarkComponent} id="nav-dark-component" />
         </div>
 
-        <div class="relative mt-24 max-w-md mx-auto px-4 sm:max-w-xl sm:mt-32 sm:px-6 lg:max-w-7xl lg:px-8 space-y-6">
+        <div class="relative mt-24 max-w-md mx-auto px-4 sm:max-w-xl sm:mt-32 sm:px-6 lg:max-w-6xl lg:px-8 space-y-6">
           <h2 class="text-sm font-semibold text-red-300 tracking-wide uppercase">
             Released <%= Enum.at(@latest_movies, 0)["year"] %>
           </h2>
@@ -34,7 +34,7 @@
     </header>
 <% end %>
 
-<div class="max-w-7xl mx-auto flex items-center justify-between pt-6 pb-16 px-4 sm:px-6 lg:px-8">
+<div class="max-w-6xl mx-auto flex items-center justify-between pt-6 pb-16 px-4 sm:px-6 lg:px-8">
     <div class="space-y-8">
 
     <%= if !Enum.empty?(@movie_continues) || !Enum.empty?(@episode_continues) do %>
