@@ -1,0 +1,38 @@
+<nav class="relative max-w-7xl mx-auto flex items-center justify-between pt-6 pb-2 px-4 sm:px-6 lg:px-8" aria-label="Global">
+    <div class="flex items-center justify-between w-full lg:w-auto">
+        <%= live_redirect to: Routes.home_index_path(@socket, :index), class: "flex-shrink-0 flex items-center" do %>
+            <img class="block h-8 w-auto" src="/logo.svg" alt="Logo">
+        <% end %>
+    </div>
+    <div class="hidden space-x-10 lg:flex lg:ml-10">
+      <%= live_redirect "Movies", to: Routes.movies_index_path(@socket, :index), class: "text-base font-medium text-white hover:text-gray-100" %>
+
+      <%= live_redirect "Series", to: Routes.series_index_path(@socket, :index), class: "text-base font-medium text-white hover:text-gray-100" %>
+
+      <%= live_redirect "Favourites", to: Routes.favourites_index_path(@socket, :index), class: "text-base font-medium text-white hover:text-gray-100" %>
+
+      <%= live_redirect "Continues", to: Routes.continues_index_path(@socket, :index), class: "text-base font-medium text-white hover:text-gray-100" %>
+    </div>
+
+    <div class="lg:flex lg:items-center lg:space-x-6">
+        <div class="relative">
+            <button phx-click={JS.toggle(to: "#profile-dropdown")} phx-click-away={JS.hide(to: "#profile-dropdown")} type="button" class="flex text-sm focus:outline-none focus:ring-2 focus:ring-slate-500">
+                <span class="flex-shrink-0 inline-block relative">
+                    <span class="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
+                        <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </span>
+                    <span class="bg-green-400 absolute top-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white" aria-hidden="true"></span>
+                </span>
+            </button>
+
+            <div id="profile-dropdown" class="hidden origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div class="py-1">
+                    <%= live_redirect "Settings", to: Routes.settings_index_path(@socket, :index), class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" %>
+                    <%= link "Log out", to: Routes.user_session_path(@socket, :delete), method: :delete, class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" %>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

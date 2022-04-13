@@ -5,7 +5,7 @@ defmodule MediaServerWeb.Components.PosterComponent do
     ~H"""
     <div class="group relative">
 
-      <div class="w-full bg-gray-200 aspect-[4/6] rounded-md overflow-hidden group-hover:opacity-75 lg:aspect-none">
+      <div class="w-full bg-gray-200 aspect-[4/6] rounded-sm overflow-hidden group-hover:opacity-75 lg:aspect-none">
         <img class="h-full object-cover" src={assigns.img_src} loading="lazy">
       </div>
 
