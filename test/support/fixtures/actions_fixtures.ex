@@ -4,6 +4,7 @@ defmodule MediaServer.ActionsFixtures do
   entities via the `MediaServer.Actions` context.
   """
 
+  alias MediaServer.Actions
   alias MediaServer.AccountsFixtures
   alias MediaServer.ComponentsFixtures
 
@@ -25,5 +26,9 @@ defmodule MediaServer.ActionsFixtures do
       |> MediaServer.Actions.create_movie()
 
     movie
+  end
+
+  def get_movie_played() do
+    Actions.list_movie_actions() |> List.first()
   end
 end

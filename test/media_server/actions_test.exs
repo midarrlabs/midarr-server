@@ -30,6 +30,7 @@ defmodule MediaServer.ActionsTest do
     test "create_movie/1 with valid data creates a movie" do
       action = ComponentsFixtures.action_fixture()
       user = AccountsFixtures.user_fixture()
+
       valid_attrs = %{
         movie_id: 42,
         title: "some title",
