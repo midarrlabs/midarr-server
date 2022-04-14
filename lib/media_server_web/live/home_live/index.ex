@@ -1,6 +1,7 @@
 defmodule MediaServerWeb.HomeLive.Index do
   use MediaServerWeb, :live_view
 
+  alias MediaServer.Repo
   alias MediaServer.Accounts
   alias MediaServerWeb.Repositories.Movies
   alias MediaServerWeb.Repositories.Series
@@ -10,7 +11,12 @@ defmodule MediaServerWeb.HomeLive.Index do
     {
       :ok,
       socket
-      |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]))
+      |> assign(
+        :current_user,
+        Accounts.get_user_by_session_token(session["user_token"])
+        |> Repo.preload(:movie_continues)
+        |> Repo.preload(:episode_continues)
+      )
     }
   end
 

@@ -3,7 +3,6 @@ defmodule MediaServerWeb.Repositories.Episodes do
     "#{Application.get_env(:media_server, :series_base_url)}/api/v3/#{url}?apikey=#{Application.get_env(:media_server, :series_api_key)}"
   end
 
-
   def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
     Jason.decode!(body)
   end
@@ -22,8 +21,9 @@ defmodule MediaServerWeb.Repositories.Episodes do
   end
 
   def get_episode_path(id) do
-    episode = HTTPoison.get("#{get_url("episode/#{id}")}")
-              |> handle_response()
+    episode =
+      HTTPoison.get("#{get_url("episode/#{id}")}")
+      |> handle_response()
 
     episode["episodeFile"]["path"]
   end

@@ -12,6 +12,10 @@ MediaServer.Accounts.register_user(%{
   is_admin: true
 })
 
+MediaServer.Components.create_action(%{
+  name: "played"
+})
+
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
