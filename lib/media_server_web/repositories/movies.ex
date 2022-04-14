@@ -39,8 +39,9 @@ defmodule MediaServerWeb.Repositories.Movies do
   end
 
   def get_movie_path(id) do
-    movie = HTTPoison.get("#{get_url("movie/#{id}")}")
-            |> handle_response()
+    movie =
+      HTTPoison.get("#{get_url("movie/#{id}")}")
+      |> handle_response()
 
     movie["movieFile"]["path"]
   end
