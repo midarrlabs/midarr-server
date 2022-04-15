@@ -43,9 +43,6 @@
                 <div class="min-w-0 flex items-center">
                     <h2 class="text-lg font-bold tracking-tight text-slate-600">Continue watching</h2>
                 </div>
-                <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-slate-600 text-sm font-medium">
-                    <%= live_redirect "See all", to: Routes.continues_index_path(@socket, :index), class: "hover:text-slate-800 hover:underline uppercase" %>
-                </div>
           </div>
 
           <div>
@@ -93,10 +90,6 @@
                 <div class="min-w-0 flex items-center">
                     <h2 class="text-lg font-bold tracking-tight text-slate-600">Movies fresh in</h2>
                 </div>
-                <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-slate-600 text-sm font-medium">
-
-                    <%= live_redirect "See all", to: Routes.movies_index_path(@socket, :index), class: "hover:text-slate-800 hover:underline uppercase" %>
-                </div>
           </div>
 
           <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
@@ -119,10 +112,6 @@
             <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
                 <div class="min-w-0 flex items-center">
                     <h2 class="text-lg font-bold tracking-tight text-slate-600">Series fresh in</h2>
-                </div>
-                <div class="w-full flex-none md:w-auto md:pl-6 mt-1 md:mt-0 ml-auto text-slate-600 text-sm font-medium">
-
-                    <%= live_redirect "See all", to: Routes.series_index_path(@socket, :index), class: "hover:text-slate-800 hover:underline uppercase" %>
                 </div>
             </div>
 
