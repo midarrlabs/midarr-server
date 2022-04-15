@@ -9,7 +9,7 @@
     </div>
 
     <div>
-        <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <ul role="list" class="mt-6 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <%= for item <- @movie_continues do %>
 
                 <%= live_component MediaServerWeb.Components.ContinueComponent,
