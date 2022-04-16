@@ -20,6 +20,8 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
   def handle_params(%{"movie" => movie_id}, _url, socket) do
     movie = Movies.get_movie(movie_id)
 
+    create_action(movie, socket)
+
     {
       :noreply,
       socket
@@ -32,37 +34,32 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
   def handle_event(
         "movie_destroyed",
         %{
-          "movie_id" => movie_id,
           "current_time" => current_time,
-          "duration" => duration,
-          "user_id" => user_id
+          "duration" => duration
         },
         socket
       ) do
-    movie = Movies.get_movie(movie_id)
 
     Continues.update_or_create_movie(%{
-      movie_id: movie_id,
-      title: movie["title"],
-      image_url: Movies.get_background(movie),
+      movie_id: socket.assigns.movie["id"],
+      title: socket.assigns.movie["title"],
+      image_url: Movies.get_background(socket.assigns.movie),
       current_time: current_time,
       duration: duration,
-      user_id: user_id
+      user_id: socket.assigns.current_user.id
     })
 
     {:noreply, socket}
   end
 
-  def handle_event("movie_played", _params, socket) do
+  defp create_action(movie, socket) do
     action = Components.list_actions() |> List.first()
 
     Actions.create_movie(%{
-      movie_id: socket.assigns.movie["id"],
-      title: socket.assigns.movie["title"],
+      movie_id: movie["id"],
+      title: movie["title"],
       user_id: socket.assigns.current_user.id,
       action_id: action.id
     })
-
-    {:noreply, socket}
   end
 end

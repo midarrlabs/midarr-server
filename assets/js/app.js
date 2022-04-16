@@ -59,16 +59,12 @@ let liveSocket = new LiveSocket("/live", Socket, {
 
                 window.addEventListener("beforeunload", event => {
                     this.pushEvent("movie_destroyed", {
-                        movie_id: window.movie_id,
                         current_time: Math.floor(this.el.currentTime),
-                        duration: Math.floor(this.el.duration),
-                        user_id: window.userId
+                        duration: Math.floor(this.el.duration)
                     })
 
                     delete event["returnValue"]
                 })
-
-                this.pushEvent("movie_played")
             },
             destroyed() {
                 window.removeEventListener("beforeunload")

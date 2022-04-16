@@ -10,6 +10,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   alias MediaServer.ActionsFixtures
 
   defp create_fixtures(_) do
+    ComponentsFixtures.action_fixture()
     %{user: AccountsFixtures.user_fixture()}
   end
 
@@ -39,10 +40,8 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       {:ok, view, _html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
 
       render_hook(view, :movie_destroyed, %{
-        movie_id: movie["id"],
         current_time: 89,
-        duration: 100,
-        user_id: user.id
+        duration: 100
       })
 
       assert ContinuesFixtures.get_movie_continue()
@@ -59,10 +58,8 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       {:ok, view, _html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
 
       render_hook(view, :movie_destroyed, %{
-        movie_id: movie["id"],
         current_time: 90,
-        duration: 100,
-        user_id: user.id
+        duration: 100
       })
 
       refute ContinuesFixtures.get_movie_continue()
@@ -74,13 +71,9 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
-      ComponentsFixtures.action_fixture()
-
       movie = MoviesFixtures.get_movie()
 
-      {:ok, view, _html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
-
-      render_hook(view, :movie_played)
+      live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
 
       assert ActionsFixtures.get_movie_played()
     end
