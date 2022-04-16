@@ -29,6 +29,6 @@ defmodule MediaServer.ActionsFixtures do
   end
 
   def get_movie_played() do
-    Actions.list_movie_actions() |> List.first()
+    Actions.list_movie_actions()
   end
 end

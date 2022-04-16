@@ -17,7 +17,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   describe "Show movie" do
     setup [:create_fixtures]
 
-    test "continue", %{conn: conn, user: user} do
+    test "it can show page", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -27,9 +27,10 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
       conn = get(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
       assert html_response(conn, 200)
+      assert Enum.count(ActionsFixtures.get_movie_played()) === 1
     end
 
-    test "has continue status", %{conn: conn, user: user} do
+    test "it has continue", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -47,7 +48,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       assert ContinuesFixtures.get_movie_continue()
     end
 
-    test "no continue status", %{conn: conn, user: user} do
+    test "it does not have continue", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -63,19 +64,6 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       })
 
       refute ContinuesFixtures.get_movie_continue()
-    end
-
-    test "it has played", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
-
-      movie = MoviesFixtures.get_movie()
-
-      live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
-
-      assert ActionsFixtures.get_movie_played()
     end
   end
 end
