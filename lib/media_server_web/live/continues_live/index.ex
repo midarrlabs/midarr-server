@@ -23,7 +23,7 @@ defmodule MediaServerWeb.ContinuesLive.Index do
     {
       :noreply,
       socket
-      |> assign(page_title: "Continue Watching")
+      |> assign(page_title: "Continues")
       |> assign(:movie_continues, socket.assigns.current_user.movie_continues)
       |> assign(:episode_continues, socket.assigns.current_user.episode_continues)
     }
