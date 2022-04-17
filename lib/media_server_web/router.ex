@@ -31,8 +31,6 @@ defmodule MediaServerWeb.Router do
     live "/series/:serie", SeriesLive.Show, :show
     live "/series/:serie/seasons/:season", SeasonsLive.Show, :show
 
-    get "/episodes/:episode/stream", StreamEpisodeController, :show
-
     live_session :watch, root_layout: {MediaServerWeb.WatchView, "watch.html"} do
       live "/movies/:movie/watch", WatchMovieLive.Show, :show
       live "/episodes/:episode/watch", WatchEpisodeLive.Show, :show
@@ -57,6 +55,7 @@ defmodule MediaServerWeb.Router do
     pipe_through :api
 
     get "/movies/:movie/stream", StreamMovieController, :show
+    get "/episodes/:episode/stream", StreamEpisodeController, :show
   end
 
   # Enables the Swoosh mailbox preview in development.
