@@ -53,10 +53,10 @@ defmodule MediaServerWeb.Router do
     post "/login", UserSessionController, :create
   end
 
-   scope "/api", MediaServerWeb do
-     pipe_through :api
+  scope "/api", MediaServerWeb do
+    pipe_through :api
 
-     get "/movies/:movie/stream", StreamMovieController, :show
+    get "/movies/:movie/stream", StreamMovieController, :show
   end
 
   # Enables the Swoosh mailbox preview in development.
