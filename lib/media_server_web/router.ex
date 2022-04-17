@@ -14,6 +14,11 @@ defmodule MediaServerWeb.Router do
     plug :fetch_current_user
   end
 
+  pipeline :api do
+    plug :accepts, ["json"]
+    plug MediaServerWeb.Plugs.VerifyToken
+  end
+
   scope "/", MediaServerWeb do
     pipe_through [:browser, :require_authenticated_user]
 
@@ -21,7 +26,6 @@ defmodule MediaServerWeb.Router do
 
     live "/movies", MoviesLive.Index, :index
     live "/movies/:movie", MoviesLive.Show, :show
-    get "/movies/:movie/stream", StreamMovieController, :show
 
     live "/series", SeriesLive.Index, :index
     live "/series/:serie", SeriesLive.Show, :show
@@ -47,6 +51,12 @@ defmodule MediaServerWeb.Router do
 
     get "/login", UserSessionController, :new
     post "/login", UserSessionController, :create
+  end
+
+   scope "/api", MediaServerWeb do
+     pipe_through :api
+
+     get "/movies/:movie/stream", StreamMovieController, :show
   end
 
   # Enables the Swoosh mailbox preview in development.

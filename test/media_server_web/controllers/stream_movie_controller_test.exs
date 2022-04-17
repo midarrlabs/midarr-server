@@ -22,7 +22,9 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
 
       movie = MoviesFixtures.get_movie()
 
-      conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]))
+      token = Phoenix.Token.sign(conn, "user auth", user.id)
+
+      conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]), token: token)
 
       assert conn.status === 206
       assert conn.state === :file
@@ -41,8 +43,10 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
 
       movie = MoviesFixtures.get_movie()
 
+      token = Phoenix.Token.sign(conn, "user auth", user.id)
+
       conn = conn |> recycle() |> put_req_header("range", "bytes=124-")
-      conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]))
+      conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]), token: token)
 
       assert conn.status === 206
       assert conn.state === :file
@@ -61,8 +65,10 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
 
       movie = MoviesFixtures.get_movie()
 
+      token = Phoenix.Token.sign(conn, "user auth", user.id)
+
       conn = conn |> recycle() |> put_req_header("range", "bytes=0-1")
-      conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]))
+      conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]), token: token)
 
       assert conn.status === 206
       assert conn.state === :file
