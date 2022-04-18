@@ -1625,6 +1625,10 @@ select {
     display: block;
   }
 
+  .md\:hidden {
+    display: none;
+  }
+
   .md\:grow {
     flex-grow: 1;
   }

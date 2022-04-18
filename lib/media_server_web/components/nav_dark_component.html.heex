@@ -11,8 +11,10 @@
       </div>
       <div class="flex-1 flex items-center justify-between">
 
+        <div class="md:hidden"></div>
+
         <%= live_redirect to: Routes.home_index_path(@socket, :index), class: "flex-none" do %>
-            <img class="hidden md:block h-8 w-auto" src="/logo.svg" alt="Logo">
+            <img class="h-8 w-auto" src="/logo.svg" alt="Logo">
         <% end %>
 
         <div class="grow hidden sm:block sm:ml-6">
