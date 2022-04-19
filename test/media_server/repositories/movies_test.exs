@@ -8,7 +8,7 @@ defmodule MediaServer.Repositories.MoviesTest do
     %{pid: pid}
   end
 
-  test "it should", %{pid: pid} do
+  test "get all", %{pid: pid} do
 
     movie = Movies.get_all()
 
