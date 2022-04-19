@@ -92,7 +92,16 @@ defmodule MediaServer.ActionsTest do
     end
 
     test "create_episode/1 with valid data creates a episode" do
-      valid_attrs = %{episode_id: 42, serie_id: 42, title: "some title"}
+      action = ComponentsFixtures.action_fixture()
+      user = AccountsFixtures.user_fixture()
+
+      valid_attrs = %{
+        episode_id: 42,
+        serie_id: 42,
+        title: "some title",
+        user_id: user.id,
+        action_id: action.id
+      }
 
       assert {:ok, %Episode{} = episode} = Actions.create_episode(valid_attrs)
       assert episode.episode_id == 42

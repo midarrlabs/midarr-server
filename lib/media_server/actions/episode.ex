@@ -15,7 +15,7 @@ defmodule MediaServer.Actions.Episode do
   @doc false
   def changeset(episode, attrs) do
     episode
-    |> cast(attrs, [:episode_id, :serie_id, :title])
-    |> validate_required([:episode_id, :serie_id, :title])
+    |> cast(attrs, [:episode_id, :serie_id, :title, :user_id, :action_id])
+    |> validate_required([:episode_id, :serie_id, :title, :user_id, :action_id])
   end
 end
