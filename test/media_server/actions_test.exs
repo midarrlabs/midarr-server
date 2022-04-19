@@ -73,4 +73,62 @@ defmodule MediaServer.ActionsTest do
       assert %Ecto.Changeset{} = Actions.change_movie(movie)
     end
   end
+
+  describe "episode_actions" do
+    alias MediaServer.Actions.Episode
+
+    import MediaServer.ActionsFixtures
+
+    @invalid_attrs %{episode_id: nil, serie_id: nil, title: nil}
+
+    test "list_episode_actions/0 returns all episode_actions" do
+      episode = episode_fixture()
+      assert Actions.list_episode_actions() == [episode]
+    end
+
+    test "get_episode!/1 returns the episode with given id" do
+      episode = episode_fixture()
+      assert Actions.get_episode!(episode.id) == episode
+    end
+
+    test "create_episode/1 with valid data creates a episode" do
+      valid_attrs = %{episode_id: 42, serie_id: 42, title: "some title"}
+
+      assert {:ok, %Episode{} = episode} = Actions.create_episode(valid_attrs)
+      assert episode.episode_id == 42
+      assert episode.serie_id == 42
+      assert episode.title == "some title"
+    end
+
+    test "create_episode/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Actions.create_episode(@invalid_attrs)
+    end
+
+    test "update_episode/2 with valid data updates the episode" do
+      episode = episode_fixture()
+      update_attrs = %{episode_id: 43, serie_id: 43, title: "some updated title"}
+
+      assert {:ok, %Episode{} = episode} = Actions.update_episode(episode, update_attrs)
+      assert episode.episode_id == 43
+      assert episode.serie_id == 43
+      assert episode.title == "some updated title"
+    end
+
+    test "update_episode/2 with invalid data returns error changeset" do
+      episode = episode_fixture()
+      assert {:error, %Ecto.Changeset{}} = Actions.update_episode(episode, @invalid_attrs)
+      assert episode == Actions.get_episode!(episode.id)
+    end
+
+    test "delete_episode/1 deletes the episode" do
+      episode = episode_fixture()
+      assert {:ok, %Episode{}} = Actions.delete_episode(episode)
+      assert_raise Ecto.NoResultsError, fn -> Actions.get_episode!(episode.id) end
+    end
+
+    test "change_episode/1 returns a episode changeset" do
+      episode = episode_fixture()
+      assert %Ecto.Changeset{} = Actions.change_episode(episode)
+    end
+  end
 end
