@@ -10,4 +10,11 @@ defmodule MediaServer.Repositories.Movies do
   def get_all(pid) do
     Agent.get(pid, fn state -> state end)
   end
+
+  def get_movie(pid, id) do
+    Agent.get(pid, fn state ->
+      Enum.filter(state, fn item -> item["id"] === id end)
+      |> List.first()
+    end)
+  end
 end
