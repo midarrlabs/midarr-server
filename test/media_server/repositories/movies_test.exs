@@ -1,12 +1,17 @@
 defmodule MediaServer.Repositories.MoviesTest do
   use ExUnit.Case
 
+  alias MediaServerWeb.Repositories.Movies
+
   setup do
-    repository = start_supervised!(MediaServer.Repositories.Movies)
-    %{repository: repository}
+    pid = start_supervised!(MediaServer.Repositories.Movies)
+    %{pid: pid}
   end
 
-  test "it should", %{repository: repository} do
-    assert true
+  test "it should", %{pid: pid} do
+
+    movie = Movies.get_all()
+
+    assert MediaServer.Repositories.Movies.get_all(pid) === movie
   end
 end
