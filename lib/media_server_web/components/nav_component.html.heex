@@ -1,38 +1,69 @@
-<nav class="relative max-w-7xl mx-auto flex items-center justify-between pt-6 pb-2 px-4 sm:px-6 lg:px-8" aria-label="Global">
-    <div class="flex items-center justify-between w-full lg:w-auto">
-        <%= live_redirect to: Routes.home_index_path(@socket, :index), class: "flex-shrink-0 flex items-center" do %>
-            <img class="block h-8 w-auto" src="/logo.svg" alt="Logo">
+<nav>
+  <div class="max-w-7xl mx-auto pt-4 px-4 lg:px-8">
+    <div class="relative flex items-center h-16">
+      <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+
+        <button type="button" phx-click={JS.toggle(to: "#mobile-menu")} phx-click-away={JS.hide(to: "#mobile-menu")} class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+          <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+      <div class="flex-1 flex items-center justify-between">
+
+        <div class="md:hidden"></div>
+
+        <%= live_redirect to: Routes.home_index_path(@socket, :index), class: "flex-none" do %>
+            <img class="h-8 w-auto" src="/logo.svg" alt="Logo">
         <% end %>
-    </div>
-    <div class="hidden space-x-10 lg:flex lg:ml-10 text-slate-600">
-      <%= live_redirect "Movies", to: Routes.movies_index_path(@socket, :index), class: "text-base font-medium hover:text-slate-800" %>
 
-      <%= live_redirect "Series", to: Routes.series_index_path(@socket, :index), class: "text-base font-medium hover:text-slate-800" %>
+        <div class="grow hidden sm:block sm:ml-6">
+          <div class="text-center space-x-8">
+              <%= live_redirect "Movies", to: Routes.movies_index_path(@socket, :index), class: "text-base font-medium #{ @class }" %>
 
-      <%= live_redirect "Favourites", to: Routes.favourites_index_path(@socket, :index), class: "text-base font-medium hover:text-slate-800" %>
+              <%= live_redirect "Series", to: Routes.series_index_path(@socket, :index), class: "text-base font-medium #{ @class }" %>
 
-      <%= live_redirect "Continues", to: Routes.continues_index_path(@socket, :index), class: "text-base font-medium hover:text-slate-800" %>
-    </div>
+              <%= live_redirect "Favourites", to: Routes.favourites_index_path(@socket, :index), class: "text-base font-medium #{ @class }" %>
 
-    <div class="lg:flex lg:items-center lg:space-x-6">
-        <div class="relative">
-            <button phx-click={JS.toggle(to: "#profile-dropdown")} phx-click-away={JS.hide(to: "#profile-dropdown")} type="button" class="flex text-sm focus:outline-none focus:ring-2 focus:ring-slate-500">
-                <span class="flex-shrink-0 inline-block relative">
-                    <span class="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
-                        <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
+              <%= live_redirect "Continues", to: Routes.continues_index_path(@socket, :index), class: "text-base font-medium #{ @class }" %>
+          </div>
+        </div>
+
+        <div class="flex-none">
+            <div class="relative">
+                <button phx-click={JS.toggle(to: "#profile-dropdown")} phx-click-away={JS.hide(to: "#profile-dropdown")} type="button" class="flex text-sm focus:outline-none focus:ring-2 focus:ring-slate-500">
+                    <span class="flex-shrink-0 inline-block relative">
+                        <span class="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
+                            <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                        </span>
+                        <span class="bg-green-400 absolute top-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white"></span>
                     </span>
-                    <span class="bg-green-400 absolute top-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white" aria-hidden="true"></span>
-                </span>
-            </button>
+                </button>
 
-            <div id="profile-dropdown" class="hidden origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div class="py-1">
-                    <%= link "Settings", to: Routes.settings_index_path(@socket, :index), class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" %>
-                    <%= link "Log out", to: Routes.user_session_path(@socket, :delete), method: :delete, class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" %>
+                <div id="profile-dropdown" class="hidden origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div class="py-1">
+                        <%= link "Settings", to: Routes.settings_index_path(@socket, :index), class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" %>
+                        <%= link "Log out", to: Routes.user_session_path(@socket, :delete), method: :delete, class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" %>
+                    </div>
                 </div>
             </div>
         </div>
+
+      </div>
     </div>
+  </div>
+
+  <div class="hidden" id="mobile-menu">
+    <div class="px-2 pt-2 pb-3 space-y-1">
+        <%= live_redirect "Movies", to: Routes.movies_index_path(@socket, :index), class: "text-base block px-3 py-2 font-medium #{ @class }" %>
+
+        <%= live_redirect "Series", to: Routes.series_index_path(@socket, :index), class: "text-base block px-3 py-2 font-medium #{ @class }" %>
+
+        <%= live_redirect "Favourites", to: Routes.favourites_index_path(@socket, :index), class: "text-base block px-3 py-2 font-medium #{ @class }" %>
+
+        <%= live_redirect "Continues", to: Routes.continues_index_path(@socket, :index), class: "text-base block px-3 py-2 font-medium #{ @class }" %>
+    </div>
+  </div>
 </nav>
