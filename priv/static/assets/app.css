@@ -1159,8 +1159,43 @@ select {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(226 232 240 / 0));
 }
 
+.from-slate-100 {
+  --tw-gradient-from: #f1f5f9;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(241 245 249 / 0));
+}
+
+.from-slate-600 {
+  --tw-gradient-from: #475569;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(71 85 105 / 0));
+}
+
+.from-slate-50 {
+  --tw-gradient-from: #f8fafc;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(248 250 252 / 0));
+}
+
 .to-neutral-900 {
   --tw-gradient-to: #171717;
+}
+
+.to-neutral-600 {
+  --tw-gradient-to: #525252;
+}
+
+.to-neutral-100 {
+  --tw-gradient-to: #f5f5f5;
+}
+
+.to-neutral-200 {
+  --tw-gradient-to: #e5e5e5;
+}
+
+.to-neutral-400 {
+  --tw-gradient-to: #a3a3a3;
+}
+
+.to-neutral-700 {
+  --tw-gradient-to: #404040;
 }
 
 .bg-cover {
