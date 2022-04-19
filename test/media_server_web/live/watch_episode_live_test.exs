@@ -7,8 +7,11 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   alias MediaServer.SeriesFixtures
   alias MediaServer.EpisodesFixtures
   alias MediaServer.ContinuesFixtures
+  alias MediaServer.ComponentsFixtures
+  alias MediaServer.Actions
 
   defp create_fixtures(_) do
+    ComponentsFixtures.action_fixture()
     %{user: AccountsFixtures.user_fixture()}
   end
 
@@ -27,9 +30,10 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
       conn = get(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
       assert html_response(conn, 200)
+      assert Enum.count(Actions.list_episode_actions()) === 1
     end
 
-    test "has continue status", %{conn: conn, user: user} do
+    test "has continue", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -52,7 +56,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
       assert ContinuesFixtures.get_episode_continue()
     end
 
-    test "no continue status", %{conn: conn, user: user} do
+    test "it does not have continue", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
