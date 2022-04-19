@@ -31,4 +31,25 @@ defmodule MediaServer.ActionsFixtures do
   def get_movie_played() do
     Actions.list_movie_actions()
   end
+
+  @doc """
+  Generate a episode.
+  """
+  def episode_fixture(attrs \\ %{}) do
+    action = ComponentsFixtures.action_fixture()
+    user = AccountsFixtures.user_fixture()
+
+    {:ok, episode} =
+      attrs
+      |> Enum.into(%{
+        episode_id: 42,
+        serie_id: 42,
+        title: "some title",
+        user_id: user.id,
+        action_id: action.id
+      })
+      |> MediaServer.Actions.create_episode()
+
+    episode
+  end
 end

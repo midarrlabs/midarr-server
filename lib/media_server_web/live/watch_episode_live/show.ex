@@ -4,6 +4,8 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
   alias MediaServer.Accounts
   alias MediaServerWeb.Repositories.Episodes
   alias MediaServer.Continues
+  alias MediaServer.Components
+  alias MediaServer.Actions
 
   @impl true
   def mount(_params, session, socket) do
@@ -17,6 +19,8 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
   @impl true
   def handle_params(%{"episode" => episode_id}, _url, socket) do
     episode = Episodes.get_episode(episode_id)
+
+    create_action(episode, socket)
 
     {
       :noreply,
@@ -51,5 +55,17 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
     })
 
     {:noreply, socket}
+  end
+
+  defp create_action(episode, socket) do
+    action = Components.list_actions() |> List.first()
+
+    Actions.create_episode(%{
+      episode_id: episode["id"],
+      serie_id: episode["seriesId"],
+      title: episode["title"],
+      user_id: socket.assigns.current_user.id,
+      action_id: action.id
+    })
   end
 end
