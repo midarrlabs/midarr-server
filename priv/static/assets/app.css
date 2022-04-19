@@ -1230,11 +1230,6 @@ select {
   padding-bottom: 3rem;
 }
 
-.px-6 {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
 .pr-2 {
   padding-right: 0.5rem;
 }
@@ -1575,14 +1570,6 @@ select {
     max-width: 36rem;
   }
 
-  .sm\:flex-none {
-    flex: none;
-  }
-
-  .sm\:grow {
-    flex-grow: 1;
-  }
-
   .sm\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1605,11 +1592,6 @@ select {
     padding-bottom: 1.5rem;
   }
 
-  .sm\:px-8 {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-
   .sm\:pb-32 {
     padding-bottom: 8rem;
   }
@@ -1621,16 +1603,8 @@ select {
 }
 
 @media (min-width: 768px) {
-  .md\:block {
-    display: block;
-  }
-
   .md\:hidden {
     display: none;
-  }
-
-  .md\:grow {
-    flex-grow: 1;
   }
 
   .md\:flex-nowrap {
