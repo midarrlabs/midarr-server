@@ -2,7 +2,6 @@ defmodule MediaServer.Repositories.MoviesTest do
   use ExUnit.Case
 
   alias MediaServerWeb.Repositories.Movies
-  alias MediaServer.MoviesFixtures
 
   setup do
     pid = start_supervised!(MediaServer.Repositories.Movies)
