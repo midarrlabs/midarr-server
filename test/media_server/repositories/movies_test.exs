@@ -22,4 +22,10 @@ defmodule MediaServer.Repositories.MoviesTest do
 
     assert MediaServer.Repositories.Movies.get_movie(pid, fixture["id"]) === movie
   end
+
+  test "get latest", %{pid: pid} do
+    movie = Movies.get_all()
+
+    assert MediaServer.Repositories.Movies.get_latest(pid, 2) === Enum.reject(movie, fn item -> item["id"] === 1 end)
+  end
 end

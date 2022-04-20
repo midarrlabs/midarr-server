@@ -17,4 +17,12 @@ defmodule MediaServer.Repositories.Movies do
       |> List.first()
     end)
   end
+
+  def get_latest(pid, amount) do
+    Agent.get(pid, fn state ->
+      Enum.filter(state, fn item -> item["hasFile"] end)
+      |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
+      |> Enum.take(amount)
+    end)
+  end
 end
