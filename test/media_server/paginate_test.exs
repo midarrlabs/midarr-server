@@ -21,7 +21,8 @@ defmodule MediaServer.PaginateTest do
   @total_entries length(@languages)
   @config %Scrivener.Config{page_number: 2, page_size: 4}
 
-  describe "paginate without using a repo module" do
+  describe "pagination" do
+
     test "can paginate a list when passed a Scrivener.Config. t directly - 1" do
       page = Scrivener.paginate(@languages, @config)
 
