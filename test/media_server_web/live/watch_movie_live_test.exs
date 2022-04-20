@@ -17,7 +17,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   describe "Show movie" do
     setup [:create_fixtures]
 
-    test "it can show page", %{conn: conn, user: user} do
+    test "watch", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
@@ -25,8 +25,10 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
       movie = MoviesFixtures.get_movie()
 
-      conn = get(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
-      assert html_response(conn, 200)
+      {:ok, view, _html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
+
+      render_hook(view, :movie_played)
+
       assert Enum.count(ActionsFixtures.get_movie_played()) === 1
     end
 
