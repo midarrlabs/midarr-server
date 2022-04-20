@@ -9,7 +9,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
       :noreply,
       socket
       |> assign(:page_title, "Movies")
-      |> assign(:movies, Movies.get_all())
+      |> assign(:movies, Scrivener.paginate(Movies.get_all(), %{"page" => "3", "page_size" => "10"}))
     }
   end
 end
