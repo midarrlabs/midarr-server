@@ -25,4 +25,14 @@ defmodule MediaServer.Repositories.Movies do
       |> Enum.take(amount)
     end)
   end
+
+  def get_path(pid, id) do
+    movie =
+      Agent.get(pid, fn state ->
+        Enum.filter(state, fn item -> item["id"] === id end)
+        |> List.first()
+      end)
+
+    movie["movieFile"]["path"]
+  end
 end
