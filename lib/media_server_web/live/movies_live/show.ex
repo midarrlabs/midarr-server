@@ -1,6 +1,7 @@
 defmodule MediaServerWeb.MoviesLive.Show do
   use MediaServerWeb, :live_view
 
+  alias MediaServer.Repo
   alias MediaServer.Accounts
   alias MediaServerWeb.Repositories.Movies
   alias MediaServer.Favourites
@@ -12,7 +13,8 @@ defmodule MediaServerWeb.MoviesLive.Show do
       socket
       |> assign(
         :current_user,
-        Accounts.get_user_by_session_token_with_favourites(session["user_token"])
+        Accounts.get_user_by_session_token(session["user_token"])
+        |> Repo.preload(:movie_favourites)
       )
     }
   end
@@ -36,42 +38,35 @@ defmodule MediaServerWeb.MoviesLive.Show do
   @impl true
   def handle_event(
         "favourite",
-        %{
-          "movie_id" => movie_id
-        },
+        _params,
         socket
       ) do
-    movie = Movies.get_movie(movie_id)
-
     Favourites.create_movie(%{
-      movie_id: movie_id,
-      title: movie["title"],
-      image_url: Movies.get_poster(movie),
+      movie_id: socket.assigns.movie["id"],
+      title: socket.assigns.movie["title"],
+      image_url: Movies.get_poster(socket.assigns.movie),
       user_id: socket.assigns.current_user.id
     })
 
     {
       :noreply,
       socket
-      |> push_redirect(to: Routes.movies_show_path(socket, :show, movie_id))
+      |> push_redirect(to: Routes.movies_show_path(socket, :show, socket.assigns.movie["id"]))
     }
   end
 
   @impl true
   def handle_event(
         "unfavourite",
-        %{
-          "id" => id,
-          "movie_id" => movie_id
-        },
+        _params,
         socket
       ) do
-    Favourites.delete_movie(Favourites.get_movie!(id))
+    Favourites.delete_movie(Favourites.get_movie!(socket.assigns.favourite.id))
 
     {
       :noreply,
       socket
-      |> push_redirect(to: Routes.movies_show_path(socket, :show, movie_id))
+      |> push_redirect(to: Routes.movies_show_path(socket, :show, socket.assigns.movie["id"]))
     }
   end
 end

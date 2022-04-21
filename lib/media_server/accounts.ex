@@ -239,17 +239,6 @@ defmodule MediaServer.Accounts do
   end
 
   @doc """
-  Gets the user with the given signed token with favourites.
-  """
-  def get_user_by_session_token_with_favourites(token) do
-    {:ok, query} = UserToken.verify_session_token_query(token)
-
-    Repo.one(query)
-    |> Repo.preload(:movie_favourites)
-    |> Repo.preload(:serie_favourites)
-  end
-
-  @doc """
   Deletes the signed token with the given context.
   """
   def delete_session_token(token) do

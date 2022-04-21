@@ -1,6 +1,7 @@
 defmodule MediaServerWeb.FavouritesLive.Index do
   use MediaServerWeb, :live_view
 
+  alias MediaServer.Repo
   alias MediaServer.Accounts
 
   @impl true
@@ -10,7 +11,9 @@ defmodule MediaServerWeb.FavouritesLive.Index do
       socket
       |> assign(
         :current_user,
-        Accounts.get_user_by_session_token_with_favourites(session["user_token"])
+        Accounts.get_user_by_session_token(session["user_token"])
+        |> Repo.preload(:movie_favourites)
+        |> Repo.preload(:serie_favourites)
       )
     }
   end

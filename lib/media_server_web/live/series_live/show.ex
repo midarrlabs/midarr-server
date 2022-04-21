@@ -1,6 +1,7 @@
 defmodule MediaServerWeb.SeriesLive.Show do
   use MediaServerWeb, :live_view
 
+  alias MediaServer.Repo
   alias MediaServer.Accounts
   alias MediaServerWeb.Repositories.Series
   alias MediaServer.Favourites
@@ -12,7 +13,8 @@ defmodule MediaServerWeb.SeriesLive.Show do
       socket
       |> assign(
         :current_user,
-        Accounts.get_user_by_session_token_with_favourites(session["user_token"])
+        Accounts.get_user_by_session_token(session["user_token"])
+        |> Repo.preload(:serie_favourites)
       )
     }
   end
@@ -37,42 +39,35 @@ defmodule MediaServerWeb.SeriesLive.Show do
   @impl true
   def handle_event(
         "favourite",
-        %{
-          "serie_id" => serie_id
-        },
+        _params,
         socket
       ) do
-    serie = Series.get_serie(serie_id)
-
     Favourites.create_serie(%{
-      serie_id: serie_id,
-      title: serie["title"],
-      image_url: Series.get_poster(serie),
+      serie_id: socket.assigns.serie["id"],
+      title: socket.assigns.serie["title"],
+      image_url: Series.get_poster(socket.assigns.serie),
       user_id: socket.assigns.current_user.id
     })
 
     {
       :noreply,
       socket
-      |> push_redirect(to: Routes.series_show_path(socket, :show, serie_id))
+      |> push_redirect(to: Routes.series_show_path(socket, :show, socket.assigns.serie["id"]))
     }
   end
 
   @impl true
   def handle_event(
         "unfavourite",
-        %{
-          "id" => id,
-          "serie_id" => serie_id
-        },
+        _params,
         socket
       ) do
-    Favourites.delete_serie(Favourites.get_serie!(id))
+    Favourites.delete_serie(Favourites.get_serie!(socket.assigns.favourite.id))
 
     {
       :noreply,
       socket
-      |> push_redirect(to: Routes.series_show_path(socket, :show, serie_id))
+      |> push_redirect(to: Routes.series_show_path(socket, :show, socket.assigns.serie["id"]))
     }
   end
 end
