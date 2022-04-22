@@ -37,7 +37,6 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
         },
         socket
       ) do
-
     Continues.update_or_create_episode(%{
       episode_id: socket.assigns.episode["id"],
       serie_id: socket.assigns.episode["seriesId"],
