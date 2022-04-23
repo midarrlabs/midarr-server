@@ -24,4 +24,20 @@ defmodule MediaServerWeb.SettingsLive.Index do
       |> assign(:user, User.registration_changeset(%User{}, %{}))
     }
   end
+
+  @impl true
+  def handle_event("save", %{"user" => user_params}, socket) do
+    case Accounts.update_user_name(socket.assigns.current_user, user_params) do
+      {:ok, _user} ->
+        {
+          :noreply,
+          socket
+          |> put_flash(:info, "Success")
+          |> push_redirect(to: Routes.settings_index_path(socket, :index))
+        }
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :user_name, changeset)}
+    end
+  end
 end

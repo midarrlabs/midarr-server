@@ -22,5 +22,40 @@ defmodule MediaServerWeb.SettingsLiveTest do
 
       refute html =~ "Invite Users"
     end
+
+    test "it should update account name", %{conn: conn, user: user} do
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
+        })
+
+      {:ok, index_live, html} = live(conn, Routes.settings_index_path(conn, :index))
+
+      assert html =~ "Some Name"
+
+      {:ok, _, html} =
+        index_live
+        |> form("#user-account-form", user: %{name: "Some Updated Name"})
+        |> render_submit()
+        |> follow_redirect(conn, Routes.settings_index_path(conn, :index))
+
+      refute html =~ "Some Name"
+      assert html =~ "Some Updated Name"
+    end
+
+    test "it should require account name", %{conn: conn, user: user} do
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
+        })
+
+      {:ok, index_live, html} = live(conn, Routes.settings_index_path(conn, :index))
+
+      assert html =~ "Some Name"
+
+      assert index_live
+             |> form("#user-account-form", user: %{name: ""})
+             |> render_submit() =~ "can&#39;t be blank"
+    end
   end
 end
