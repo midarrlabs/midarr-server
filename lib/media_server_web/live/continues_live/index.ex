@@ -9,6 +9,7 @@ defmodule MediaServerWeb.ContinuesLive.Index do
     {
       :ok,
       socket
+      |> assign(page_title: "Continues")
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
@@ -23,7 +24,6 @@ defmodule MediaServerWeb.ContinuesLive.Index do
     {
       :noreply,
       socket
-      |> assign(page_title: "Continues")
       |> assign(:movie_continues, socket.assigns.current_user.movie_continues)
       |> assign(:episode_continues, socket.assigns.current_user.episode_continues)
     }

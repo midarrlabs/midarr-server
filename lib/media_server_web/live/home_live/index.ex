@@ -11,6 +11,7 @@ defmodule MediaServerWeb.HomeLive.Index do
     {
       :ok,
       socket
+      |> assign(page_title: "Home")
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
@@ -25,7 +26,6 @@ defmodule MediaServerWeb.HomeLive.Index do
     {
       :noreply,
       socket
-      |> assign(page_title: "Home")
       |> assign(:latest_movies, Movies.get_latest(7))
       |> assign(:latest_series, Series.get_latest(6))
       |> assign(:movie_continues, socket.assigns.current_user.movie_continues |> Enum.take(4))

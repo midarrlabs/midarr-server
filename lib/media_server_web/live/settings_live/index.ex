@@ -9,7 +9,9 @@ defmodule MediaServerWeb.SettingsLive.Index do
   def mount(_params, session, socket) do
     {
       :ok,
-      socket |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]))
+      socket
+      |> assign(:page_title, "Settings")
+      |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]))
     }
   end
 
@@ -18,7 +20,6 @@ defmodule MediaServerWeb.SettingsLive.Index do
     {
       :noreply,
       socket
-      |> assign(:page_title, "Settings")
       |> assign(:users, Repo.all(User))
       |> assign(:user_name, User.name_changeset(socket.assigns.current_user))
       |> assign(:user, User.registration_changeset(%User{}, %{}))

@@ -9,6 +9,7 @@ defmodule MediaServerWeb.FavouritesLive.Index do
     {
       :ok,
       socket
+      |> assign(page_title: "Favourites")
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
@@ -23,7 +24,6 @@ defmodule MediaServerWeb.FavouritesLive.Index do
     {
       :noreply,
       socket
-      |> assign(page_title: "Favourites")
       |> assign(:movie_favourites, socket.assigns.current_user.movie_favourites)
       |> assign(:serie_favourites, socket.assigns.current_user.serie_favourites)
     }
