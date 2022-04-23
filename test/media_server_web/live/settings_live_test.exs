@@ -68,7 +68,10 @@ defmodule MediaServerWeb.SettingsLiveTest do
     test "it should show new email address", %{conn: conn, admin: admin} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => admin.email, "password" => AccountsFixtures.valid_user_password()}
+          "user" => %{
+            "email" => admin.email,
+            "password" => AccountsFixtures.valid_user_password()
+          }
         })
 
       {:ok, index_live, _html} = live(conn, Routes.settings_index_path(conn, :index))
@@ -86,7 +89,10 @@ defmodule MediaServerWeb.SettingsLiveTest do
     test "it should require email address", %{conn: conn, admin: admin} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => admin.email, "password" => AccountsFixtures.valid_user_password()}
+          "user" => %{
+            "email" => admin.email,
+            "password" => AccountsFixtures.valid_user_password()
+          }
         })
 
       {:ok, index_live, _html} = live(conn, Routes.settings_index_path(conn, :index))
@@ -99,7 +105,10 @@ defmodule MediaServerWeb.SettingsLiveTest do
     test "it should require name", %{conn: conn, admin: admin} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => admin.email, "password" => AccountsFixtures.valid_user_password()}
+          "user" => %{
+            "email" => admin.email,
+            "password" => AccountsFixtures.valid_user_password()
+          }
         })
 
       {:ok, index_live, _html} = live(conn, Routes.settings_index_path(conn, :index))

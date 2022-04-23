@@ -43,10 +43,10 @@ defmodule MediaServerWeb.SettingsLive.Index do
 
   def handle_event("invite", %{"user" => user_params}, socket) do
     case Accounts.register_user(%{
-      "email" => user_params["email"],
-      "name" => user_params["name"],
-      "password" => "#{Enum.take_random(?a..?z, 12)}"
-    }) do
+           "email" => user_params["email"],
+           "name" => user_params["name"],
+           "password" => "#{Enum.take_random(?a..?z, 12)}"
+         }) do
       {:ok, user} ->
         Accounts.deliver_user_invitation_instructions(user, user_params["password"])
 
