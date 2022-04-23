@@ -6,7 +6,10 @@ defmodule MediaServerWeb.SettingsLiveTest do
   alias MediaServer.AccountsFixtures
 
   defp create_fixtures(_) do
-    %{user: AccountsFixtures.user_fixture()}
+    %{
+      user: AccountsFixtures.user_fixture(),
+      admin: AccountsFixtures.user_admin_fixture()
+    }
   end
 
   describe "Index" do
@@ -55,6 +58,54 @@ defmodule MediaServerWeb.SettingsLiveTest do
 
       assert index_live
              |> form("#user-account-form", user: %{name: ""})
+             |> render_submit() =~ "can&#39;t be blank"
+    end
+  end
+
+  describe "Invite users" do
+    setup [:create_fixtures]
+
+    test "it should show new email address", %{conn: conn, admin: admin} do
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => admin.email, "password" => AccountsFixtures.valid_user_password()}
+        })
+
+      {:ok, index_live, _html} = live(conn, Routes.settings_index_path(conn, :index))
+
+      {:ok, _, html} =
+        index_live
+        |> form("#user-form", user: %{email: "test@email.com", name: "Some Name"})
+        |> render_submit()
+        |> follow_redirect(conn, Routes.settings_index_path(conn, :index))
+
+      assert html =~ "Some Name"
+      assert html =~ "test@email.com"
+    end
+
+    test "it should require email address", %{conn: conn, admin: admin} do
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => admin.email, "password" => AccountsFixtures.valid_user_password()}
+        })
+
+      {:ok, index_live, _html} = live(conn, Routes.settings_index_path(conn, :index))
+
+      assert index_live
+             |> form("#user-form", user: %{email: "", name: "Some Name"})
+             |> render_submit() =~ "can&#39;t be blank"
+    end
+
+    test "it should require name", %{conn: conn, admin: admin} do
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => admin.email, "password" => AccountsFixtures.valid_user_password()}
+        })
+
+      {:ok, index_live, _html} = live(conn, Routes.settings_index_path(conn, :index))
+
+      assert index_live
+             |> form("#user-form", user: %{email: "test@email.com", name: ""})
              |> render_submit() =~ "can&#39;t be blank"
     end
   end

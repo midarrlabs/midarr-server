@@ -39,15 +39,67 @@
     </main>
 
     <%= if @current_user.is_admin do %>
-        <div>
-            <%= live_component MediaServerWeb.Components.UserInvitationComponent,
-            id: "user-form",
-            changeset: @user,
-            return_to: Routes.settings_index_path(@socket, :index),
-            title: "Invite Users",
-            description: "Fill in the information below to invite users.",
-            users: @users
-            %>
-        </div>
+        <main class="max-w-lg mx-auto px-4 py-8">
+
+          <.form
+              let={f}
+              for={@user}
+              id="user-form"
+              phx-submit="invite">
+
+                <div class="space-y-6">
+                    <div>
+                        <h1 class="text-lg leading-6 font-medium text-gray-900">
+                          Invite Users
+                        </h1>
+                        <p class="mt-1 text-sm text-gray-500">
+                          Fill in the information below to invite users.
+                        </p>
+                    </div>
+
+                    <div>
+                        <%= label f, :name, class: "block text-sm font-medium text-gray-700" %>
+                        <%= text_input f, :name, placeholder: "Enter name", class: "mt-1 block w-full shadow-sm focus:ring-slate-500 focus:border-slate-500 sm:text-sm border-gray-300 rounded-md" %>
+                        <%= error_tag f, :name %>
+                    </div>
+
+                    <div>
+                        <%= label f, :email, class: "block text-sm font-medium text-gray-700" %>
+                        <%= text_input f, :email, placeholder: "Enter email", class: "mt-1 block w-full shadow-sm focus:ring-slate-500 focus:border-slate-500 sm:text-sm border-gray-300 rounded-md" %>
+                        <%= error_tag f, :email %>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="submit" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500">
+                          Invite
+                        </button>
+                    </div>
+
+                    <div>
+                      <ul id="users" phx-update="ignore" role="list" class="divide-y divide-gray-200">
+
+                            <%= for item <- @users do %>
+                                <li class="py-4 flex">
+                                    <span class="flex-shrink-0 inline-block relative">
+                                        <span class="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
+                                            <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                            </svg>
+                                        </span>
+                                        <span id={"user-id-#{item.id}"}>
+                                        </span>
+                                    </span>
+
+                                    <div class="ml-3 flex flex-col">
+                                        <span class="text-sm font-medium text-gray-900"><%= item.name %></span>
+                                        <span class="text-sm text-gray-500"><%= item.email %></span>
+                                    </div>
+                                </li>
+                            <% end %>
+                      </ul>
+                    </div>
+                </div>
+            </.form>
+        </main>
     <% end %>
 </div>
