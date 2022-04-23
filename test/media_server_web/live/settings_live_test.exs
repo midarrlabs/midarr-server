@@ -12,7 +12,7 @@ defmodule MediaServerWeb.SettingsLiveTest do
     }
   end
 
-  describe "Index" do
+  describe "Index page" do
     setup [:create_fixtures]
 
     test "it shows sections", %{conn: conn, user: user} do
@@ -25,6 +25,10 @@ defmodule MediaServerWeb.SettingsLiveTest do
 
       refute html =~ "Invite Users"
     end
+  end
+
+  describe "User account" do
+    setup [:create_fixtures]
 
     test "it should update account name", %{conn: conn, user: user} do
       conn =
@@ -62,7 +66,7 @@ defmodule MediaServerWeb.SettingsLiveTest do
     end
   end
 
-  describe "Invite users" do
+  describe "User invite" do
     setup [:create_fixtures]
 
     test "it should show new email address", %{conn: conn, admin: admin} do

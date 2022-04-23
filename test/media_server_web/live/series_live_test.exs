@@ -9,7 +9,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   alias MediaServerWeb.Repositories.Episodes
   alias MediaServer.Favourites
 
-  test "GET /series", %{conn: conn} do
+  test "it can render index page", %{conn: conn} do
     fixture = %{user: AccountsFixtures.user_fixture()}
 
     conn =
@@ -24,7 +24,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
     assert html_response(conn, 200)
   end
 
-  test "GET /series show", %{conn: conn} do
+  test "it can render show page", %{conn: conn} do
     fixture = %{user: AccountsFixtures.user_fixture()}
 
     conn =

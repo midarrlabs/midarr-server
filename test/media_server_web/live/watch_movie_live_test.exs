@@ -14,10 +14,10 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
     %{user: AccountsFixtures.user_fixture()}
   end
 
-  describe "Show movie" do
+  describe "Show page" do
     setup [:create_fixtures]
 
-    test "watch", %{conn: conn, user: user} do
+    test "it can watch", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}

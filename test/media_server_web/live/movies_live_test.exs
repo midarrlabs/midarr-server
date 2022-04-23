@@ -7,7 +7,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
   alias MediaServer.MoviesFixtures
   alias MediaServer.Favourites
 
-  test "GET /movies", %{conn: conn} do
+  test "it can render index page", %{conn: conn} do
     fixture = %{user: AccountsFixtures.user_fixture()}
 
     conn =
@@ -22,7 +22,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
     assert html_response(conn, 200)
   end
 
-  test "GET /movies show", %{conn: conn} do
+  test "it can render show page", %{conn: conn} do
     fixture = %{user: AccountsFixtures.user_fixture()}
 
     conn =
@@ -95,7 +95,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
            |> Enum.empty?()
   end
 
-  test "Get /movies play", %{conn: conn} do
+  test "it can click play button on show page", %{conn: conn} do
     fixture = %{user: AccountsFixtures.user_fixture()}
 
     conn =
