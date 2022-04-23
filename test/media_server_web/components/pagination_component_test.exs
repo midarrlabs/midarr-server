@@ -3,7 +3,7 @@ defmodule MediaServerWeb.PaginationComponentTest do
 
   import Phoenix.LiveViewTest
 
-  test "it should" do
+  test "it should render" do
 
     assert render_component(&MediaServerWeb.Components.PaginationComponent.render/1, page_number: 1, total_pages: 10, previous_link: "", next_link: "") =~ "1</span>\n      of"
     assert render_component(&MediaServerWeb.Components.PaginationComponent.render/1, page_number: 1, total_pages: 10, previous_link: "", next_link: "") =~ "10</span>\n      pages"
