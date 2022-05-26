@@ -58,8 +58,6 @@ with more features planned ahead.
 Docker compose example:
 
 ```yaml
-version: '3.4'
-
 volumes:
   database-data:
 
