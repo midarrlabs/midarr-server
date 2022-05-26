@@ -21,16 +21,16 @@ defmodule MediaServerWeb.Repositories.Series do
   def get_latest(amount) do
     HTTPoison.get(get_url("series"))
     |> handle_response()
-    |> Enum.sort_by(& &1["added"], :desc)
-    |> Enum.filter(fn item -> item["statistics"]["episodeFileCount"] !== 0 end)
-    |> Enum.take(amount)
+    |> Enum.reverse()
+    |> Stream.filter(fn item -> item["statistics"]["episodeFileCount"] !== 0 end)
+    |> Stream.take(amount)
   end
 
   def get_all() do
     HTTPoison.get(get_url("series"))
     |> handle_response()
+    |> Stream.filter(fn item -> item["statistics"]["episodeFileCount"] !== 0 end)
     |> Enum.sort_by(& &1["title"], :asc)
-    |> Enum.filter(fn item -> item["statistics"]["episodeFileCount"] !== 0 end)
   end
 
   def get_serie(id) do
@@ -39,12 +39,12 @@ defmodule MediaServerWeb.Repositories.Series do
   end
 
   def get_poster(serie) do
-    (Enum.filter(serie["images"], fn item -> item["coverType"] === "poster" end)
+    (Stream.filter(serie["images"], fn item -> item["coverType"] === "poster" end)
      |> Enum.at(0))["remoteUrl"]
   end
 
   def get_background(serie) do
-    (Enum.filter(serie["images"], fn item -> item["coverType"] === "fanart" end)
+    (Stream.filter(serie["images"], fn item -> item["coverType"] === "fanart" end)
      |> Enum.at(0))["remoteUrl"]
   end
 end
