@@ -6,7 +6,7 @@ defmodule MediaServerWeb.Components.PosterComponent do
     <div class="group relative">
 
       <div class="w-full bg-gray-200 aspect-[4/6] rounded-sm overflow-hidden group-hover:opacity-75 lg:aspect-none">
-        <img class="h-full object-cover" src={assigns.img_src} loading="lazy">
+        <img class="h-full object-cover" src={MediaServerWeb.Helpers.reduce_size_for_poster_url(assigns.img_src)} loading="lazy">
       </div>
 
       <div class="mt-2 flex">
