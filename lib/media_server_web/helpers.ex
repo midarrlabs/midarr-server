@@ -11,7 +11,7 @@ defmodule MediaServerWeb.Helpers do
     page_number - 1
   end
 
-  def get_pagination_next_link(page_number, total_pages) do
+  def get_pagination_next_link(page_number) do
     page_number + 1
   end
 end

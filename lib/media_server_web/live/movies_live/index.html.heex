@@ -28,6 +28,6 @@
         page_number: @movies.page_number,
         total_pages: @movies.total_pages,
         previous_link: Routes.movies_index_path(@socket, :index, page: MediaServerWeb.Helpers.get_pagination_previous_link(@movies.page_number)),
-        next_link: Routes.movies_index_path(@socket, :index, page: MediaServerWeb.Helpers.get_pagination_next_link(@movies.page_number, @movies.total_pages))
+        next_link: Routes.movies_index_path(@socket, :index, page: MediaServerWeb.Helpers.get_pagination_next_link(@movies.page_number))
     }) %>
 </div>
