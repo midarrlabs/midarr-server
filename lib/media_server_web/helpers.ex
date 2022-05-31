@@ -14,4 +14,8 @@ defmodule MediaServerWeb.Helpers do
   def get_pagination_next_link(page_number) do
     page_number + 1
   end
+
+  def reduce_size_for_poster_url(url) do
+    String.replace(url, "original", "w342")
+  end
 end
