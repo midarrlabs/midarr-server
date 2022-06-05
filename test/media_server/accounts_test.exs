@@ -421,7 +421,7 @@ defmodule MediaServer.AccountsTest do
     end
 
     test "sends invitation through notification", %{user: user} do
-      token = Accounts.deliver_user_invitation_instructions(user, "password")
+      token = Accounts.deliver_user_invitation_instructions(user, valid_user_password())
 
       {:ok, token} = Base.url_decode64(token, padding: false)
       assert user_token = Repo.get_by(UserToken, token: :crypto.hash(:sha256, token))
