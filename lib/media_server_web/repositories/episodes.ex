@@ -10,7 +10,9 @@ defmodule MediaServerWeb.Repositories.Episodes do
   def get_all(series_id, season_number) do
     HTTPoison.get("#{get_url("episode")}&seriesId=#{series_id}")
     |> handle_response()
-    |> Stream.filter(fn episode -> episode["seasonNumber"] === String.to_integer(season_number) end)
+    |> Stream.filter(fn episode ->
+      episode["seasonNumber"] === String.to_integer(season_number)
+    end)
     |> Stream.filter(fn episode -> episode["hasFile"] end)
     |> add_images_to_episodes()
   end
