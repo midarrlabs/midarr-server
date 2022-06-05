@@ -46,7 +46,7 @@ defmodule MediaServerWeb.SettingsLive.Index do
     case Accounts.register_user(%{
            "email" => user_params["email"],
            "name" => user_params["name"],
-           "password" => "#{Enum.take_random(?a..?z, 12)}"
+           "password" => user_params["password"]
          }) do
       {:ok, user} ->
         Accounts.deliver_user_invitation_instructions(user, user_params["password"])
