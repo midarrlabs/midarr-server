@@ -14,7 +14,7 @@ defmodule MediaServerWeb.Repositories.Series do
     Jason.decode!(body)
   end
 
-  def handle_response({:error, %HTTPoison.Error{id: nil, reason: :nxdomain}}) do
+  def handle_response(_) do
     []
   end
 
@@ -46,5 +46,12 @@ defmodule MediaServerWeb.Repositories.Series do
   def get_background(serie) do
     (Stream.filter(serie["images"], fn item -> item["coverType"] === "fanart" end)
      |> Enum.at(0))["remoteUrl"]
+  end
+
+  def search(query) do
+    HTTPoison.get("#{get_url("series/lookup")}&term=#{URI.encode(query)}")
+    |> handle_response()
+    |> Stream.filter(fn item -> item["seasonFolder"] end)
+    |> Enum.sort_by(& &1["title"], :asc)
   end
 end

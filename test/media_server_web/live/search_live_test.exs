@@ -5,6 +5,7 @@ defmodule MediaServerWeb.SearchLiveTest do
 
   alias MediaServer.AccountsFixtures
   alias MediaServer.MoviesFixtures
+  alias MediaServer.SeriesFixtures
 
   defp create_fixtures() do
     %{
@@ -17,7 +18,7 @@ defmodule MediaServerWeb.SearchLiveTest do
       create_fixtures()
     end
 
-    test "it can search", %{conn: conn, user: user} do
+    test "it can search movies", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{
@@ -32,6 +33,23 @@ defmodule MediaServerWeb.SearchLiveTest do
 
       assert html =~ "Caminandes Llama Drama"
       assert html =~ Routes.movies_show_path(conn, :show, movie["id"])
+    end
+
+    test "it can search series", %{conn: conn, user: user} do
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{
+            "email" => user.email,
+            "password" => AccountsFixtures.valid_user_password()
+          }
+        })
+
+      {:ok, _index_live, html} = live(conn, Routes.search_index_path(conn, :index, query: "tvdb:170551"))
+
+      serie = SeriesFixtures.get_serie()
+
+      assert html =~ "Pioneer One"
+      assert html =~ Routes.series_show_path(conn, :show, serie["id"])
     end
   end
 end

@@ -14,7 +14,7 @@ defmodule MediaServerWeb.Repositories.Movies do
     Jason.decode!(body)
   end
 
-  def handle_response({:error, %HTTPoison.Error{id: nil, reason: :nxdomain}}) do
+  def handle_response(_) do
     []
   end
 
