@@ -27,12 +27,16 @@ defmodule MediaServerWeb.SearchLiveTest do
           }
         })
 
-      {:ok, _index_live, html} = live(conn, Routes.search_index_path(conn, :index, query: "Caminandes Llama Drama"))
+      {:ok, view, _disconnected_html} =
+        live(conn, Routes.search_index_path(conn, :index, query: "Caminandes Llama Drama"))
 
       movie = MoviesFixtures.get_movie()
 
-      assert html =~ "Caminandes Llama Drama"
-      assert html =~ Routes.movies_show_path(conn, :show, movie["id"])
+      send(view.pid, {:movies, [movie]})
+      send(view.pid, {:series, []})
+
+      assert render(view) =~ "Caminandes Llama Drama"
+      assert render(view) =~ Routes.movies_show_path(conn, :show, movie["id"])
     end
 
     test "it can search series", %{conn: conn, user: user} do
@@ -44,12 +48,16 @@ defmodule MediaServerWeb.SearchLiveTest do
           }
         })
 
-      {:ok, _index_live, html} = live(conn, Routes.search_index_path(conn, :index, query: "tvdb:170551"))
+      {:ok, view, _disconnected_html} =
+        live(conn, Routes.search_index_path(conn, :index, query: "tvdb:170551"))
 
       serie = SeriesFixtures.get_serie()
 
-      assert html =~ "Pioneer One"
-      assert html =~ Routes.series_show_path(conn, :show, serie["id"])
+      send(view.pid, {:series, [serie]})
+      send(view.pid, {:movies, []})
+
+      assert render(view) =~ "Pioneer One"
+      assert render(view) =~ Routes.series_show_path(conn, :show, serie["id"])
     end
   end
 end

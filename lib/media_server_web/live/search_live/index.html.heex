@@ -13,6 +13,7 @@
 
     <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
 
+    <%= if assigns[:movies] && assigns[:series] do %>
       <%= for item <- @movies do %>
 
         <%= MediaServerWeb.Components.PosterComponent.render(%{
@@ -32,5 +33,7 @@
         }) %>
 
       <% end %>
+    <% end %>
+
     </div>
 </div>
