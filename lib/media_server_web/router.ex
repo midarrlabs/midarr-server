@@ -36,6 +36,8 @@ defmodule MediaServerWeb.Router do
       live "/episodes/:episode/watch", WatchEpisodeLive.Show, :show
     end
 
+    live "/search", SearchLive.Index, :index
+
     live "/continues", ContinuesLive.Index, :index
     live "/favourites", FavouritesLive.Index, :index
 

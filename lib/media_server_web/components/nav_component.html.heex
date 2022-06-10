@@ -66,4 +66,8 @@
         <%= live_redirect "Continues", to: Routes.continues_index_path(@socket, :index), class: "text-base block px-3 py-2 font-medium #{ @class }" %>
     </div>
   </div>
+
+    <.form let={f} for={:search} id="search" phx-target={@myself} phx-submit="search">
+        <%= text_input f, :query, placeholder: "Search", class: "mt-1 block w-full shadow-sm focus:ring-slate-500 focus:border-slate-500 sm:text-sm border-gray-300 rounded-md" %>
+    </.form>
 </nav>
