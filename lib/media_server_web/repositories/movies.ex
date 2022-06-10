@@ -66,4 +66,11 @@ defmodule MediaServerWeb.Repositories.Movies do
     |> handle_response()
     |> Stream.filter(fn item -> item["type"] === "cast" end)
   end
+
+  def search(query) do
+    HTTPoison.get("#{get_url("movie/lookup")}&term=#{URI.encode(query)}")
+    |> handle_response()
+    |> Stream.filter(fn item -> item["hasFile"] end)
+    |> Enum.sort_by(& &1["title"], :asc)
+  end
 end

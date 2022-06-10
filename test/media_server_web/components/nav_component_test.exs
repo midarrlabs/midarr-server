@@ -50,7 +50,7 @@ defmodule MediaServerWeb.Components.NavComponentTest do
         |> render_submit()
         |> follow_redirect(conn, Routes.search_index_path(conn, :index, query: "Some query"))
 
-      assert html =~ "Results"
+      assert html =~ "Some query"
     end
   end
 end

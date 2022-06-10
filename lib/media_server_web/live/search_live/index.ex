@@ -1,20 +1,15 @@
 defmodule MediaServerWeb.SearchLive.Index do
   use MediaServerWeb, :live_view
 
-  @impl true
-  def mount(_params, _session, socket) do
-    {
-      :ok,
-      socket
-      |> assign(page_title: "Search")
-    }
-  end
+  alias MediaServerWeb.Repositories.Movies
 
   @impl true
-  def handle_params(_params, _url, socket) do
+  def handle_params(%{"query" => query}, _url, socket) do
     {
       :noreply,
       socket
+      |> assign(:page_title, query)
+      |> assign(:movies, Movies.search(query))
     }
   end
 end
