@@ -36,6 +36,8 @@ defmodule MediaServerWeb.Router do
       live "/episodes/:episode/watch", WatchEpisodeLive.Show, :show
     end
 
+    live "/search", SearchLive.Index, :index
+
     live "/continues", ContinuesLive.Index, :index
     live "/favourites", FavouritesLive.Index, :index
 
@@ -58,16 +60,18 @@ defmodule MediaServerWeb.Router do
     get "/episodes/:episode/stream", StreamEpisodeController, :show
   end
 
-  # Enables the Swoosh mailbox preview in development.
-  #
-  # Note that preview only shows emails that were sent by the same
-  # node running the Phoenix server.
-  if Mix.env() == :dev do
+  if Mix.env() == :dev or Mix.env() == :test do
     scope "/dev" do
       pipe_through :browser
 
       live_dashboard "/dashboard", metrics: MediaServerWeb.Telemetry
 
+      live "/components", MediaServerWeb.ComponentsLive.Index, :index
+
+      # Enables the Swoosh mailbox preview in development.
+      #
+      # Note that preview only shows emails that were sent by the same
+      # node running the Phoenix server.
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end

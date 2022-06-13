@@ -29,7 +29,14 @@
           </div>
         </div>
 
-        <div class="flex-none">
+        <div class="flex space-x-6">
+
+           <button phx-click={JS.toggle(to: "#search-command")} type="button" class={"text-base font-medium focus:outline-none focus:ring-2 focus:ring-slate-500 #{ @class }"}>
+              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
+
             <div class="relative">
                 <button phx-click={JS.toggle(to: "#profile-dropdown")} phx-click-away={JS.hide(to: "#profile-dropdown")} type="button" class="flex text-sm focus:outline-none focus:ring-2 focus:ring-slate-500">
                     <span class="flex-shrink-0 inline-block relative">
@@ -64,6 +71,23 @@
         <%= live_redirect "Favourites", to: Routes.favourites_index_path(@socket, :index), class: "text-base block px-3 py-2 font-medium #{ @class }" %>
 
         <%= live_redirect "Continues", to: Routes.continues_index_path(@socket, :index), class: "text-base block px-3 py-2 font-medium #{ @class }" %>
+    </div>
+  </div>
+
+  <div class="hidden relative z-10" id="search-command">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity"></div>
+
+    <div class="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
+      <div class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
+        <div class="relative" phx-click-away={JS.hide(to: "#search-command")}>
+          <svg class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+          </svg>
+          <.form let={f} for={:search} id="search" phx-target={@myself} phx-submit="search">
+              <%= text_input f, :query, placeholder: "Search...", class: "h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm" %>
+          </.form>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
