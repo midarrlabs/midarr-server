@@ -35,7 +35,7 @@ defmodule MediaServerWeb.SearchLiveTest do
       send(view.pid, {:movies, [movie]})
       send(view.pid, {:series, []})
 
-      assert render(view) =~ "Caminandes Llama Drama"
+      assert render(view) =~ "Caminandes: Llama Drama"
       assert render(view) =~ Routes.movies_show_path(conn, :show, movie["id"])
     end
 
