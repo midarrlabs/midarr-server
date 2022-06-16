@@ -20,18 +20,18 @@ defmodule MediaServerWeb.MoviesLive.Show do
   end
 
   @impl true
-  def handle_params(%{"movie" => movie_id}, _url, socket) do
-    movie = Movies.get_movie(movie_id)
+  def handle_params(%{"id" => id}, _url, socket) do
+    movie = Movies.get_movie(id)
 
     {:noreply,
      socket
      |> assign(:page_title, movie["title"])
      |> assign(:movie, movie)
-     |> assign(:cast, Movies.get_cast(movie_id))
+     |> assign(:cast, Movies.get_cast(id))
      |> assign(
        :favourite,
        socket.assigns.current_user.movie_favourites
-       |> Enum.find(fn favourite -> favourite.movie_id === String.to_integer(movie_id) end)
+       |> Enum.find(fn favourite -> favourite.movie_id === String.to_integer(id) end)
      )}
   end
 
@@ -55,7 +55,6 @@ defmodule MediaServerWeb.MoviesLive.Show do
     }
   end
 
-  @impl true
   def handle_event(
         "unfavourite",
         _params,

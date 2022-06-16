@@ -20,8 +20,8 @@ defmodule MediaServerWeb.SeriesLive.Show do
   end
 
   @impl true
-  def handle_params(%{"serie" => serie_id}, _url, socket) do
-    serie = Series.get_serie(serie_id)
+  def handle_params(%{"id" => id}, _url, socket) do
+    serie = Series.get_serie(id)
 
     {
       :noreply,
@@ -31,7 +31,7 @@ defmodule MediaServerWeb.SeriesLive.Show do
       |> assign(
         :favourite,
         socket.assigns.current_user.serie_favourites
-        |> Enum.find(fn favourite -> favourite.serie_id === String.to_integer(serie_id) end)
+        |> Enum.find(fn favourite -> favourite.serie_id === String.to_integer(id) end)
       )
     }
   end
@@ -56,7 +56,6 @@ defmodule MediaServerWeb.SeriesLive.Show do
     }
   end
 
-  @impl true
   def handle_event(
         "unfavourite",
         _params,
