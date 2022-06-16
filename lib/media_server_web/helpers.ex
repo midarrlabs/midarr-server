@@ -8,19 +8,7 @@ defmodule MediaServerWeb.Helpers do
     size
   end
 
-  def get_offset(headers) do
-    case List.keyfind(headers, "range", 0) do
-      {"range", "bytes=" <> start_pos} ->
-        String.split(start_pos, "-")
-        |> hd
-        |> String.to_integer()
-
-      nil ->
-        0
-    end
-  end
-
-  def handle_range({"range", "bytes=0-1"}, conn, _headers, path) do
+  def handle_range({"range", "bytes=0-1"}, conn, path) do
     file_size = get_file_size(path)
 
     conn
@@ -29,9 +17,11 @@ defmodule MediaServerWeb.Helpers do
     |> send_file(206, path, 0, 2)
   end
 
-  def handle_range(_, conn, headers, path) do
+  def handle_range({"range", "bytes=" <> start_pos}, conn, path) do
     file_size = get_file_size(path)
-    offset = get_offset(headers)
+    offset = String.split(start_pos, "-")
+             |> hd
+             |> String.to_integer()
 
     conn
     |> put_resp_header("content-type", "video/mp4")
@@ -39,9 +29,18 @@ defmodule MediaServerWeb.Helpers do
     |> send_file(206, path, offset, file_size - offset)
   end
 
+  def handle_range(nil, conn, path) do
+    file_size = get_file_size(path)
+
+    conn
+    |> put_resp_header("content-type", "video/mp4")
+    |> put_resp_header("content-range", "bytes 0-#{file_size - 1}/#{file_size}")
+    |> send_file(206, path, 0, file_size - 0)
+  end
+
   def send_video(conn, headers, path) do
     List.keyfind(headers, "range", 0)
-    |> handle_range(conn, headers, path)
+    |> handle_range(conn, path)
   end
 
   def minutes_remaining_from_seconds(duration, current_time) do
