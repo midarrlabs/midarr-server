@@ -8,16 +8,16 @@ defmodule MediaServer.ExtitleTest do
 
   @expected [
     %{
-      from: "00:05:00,400",
-      to: "00:05:15,300",
+      from: ~T[00:05:00.400],
+      to: ~T[00:05:15.300],
       text: [
         "This is an example of",
         "a subtitle."
       ]
     },
     %{
-      from: "00:05:16,400",
-      to: "00:05:25,300",
+      from: ~T[00:05:16.400],
+      to: ~T[00:05:25.300],
       text: [
         "This is an example of",
         "a subtitle - 2nd subtitle."

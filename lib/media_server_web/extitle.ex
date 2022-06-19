@@ -4,8 +4,8 @@ defmodule MediaServer.Extitle do
 
     [
       %{
-        from: from,
-        to: to,
+        from: Time.from_iso8601!(from),
+        to: Time.from_iso8601!(to),
         text: lines
       }
     ]
