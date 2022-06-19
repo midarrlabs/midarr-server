@@ -1,5 +1,4 @@
 defmodule MediaServerWeb.Helpers do
-
   import Plug.Conn
 
   def get_file_size(path) do
@@ -19,9 +18,11 @@ defmodule MediaServerWeb.Helpers do
 
   def handle_range({"range", "bytes=" <> start_pos}, conn, path) do
     file_size = get_file_size(path)
-    offset = String.split(start_pos, "-")
-             |> hd
-             |> String.to_integer()
+
+    offset =
+      String.split(start_pos, "-")
+      |> hd
+      |> String.to_integer()
 
     conn
     |> put_resp_header("content-type", "video/mp4")
