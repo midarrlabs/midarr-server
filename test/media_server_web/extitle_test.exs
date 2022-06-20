@@ -32,7 +32,7 @@ defmodule MediaServer.ExtitleTest do
     assert File.read!(@srt_path) == @srt_read
     assert Extitle.parse(@srt_path) == @parsed
   end
-  
+
   test "it should format .vtt" do
     assert File.read!(@vtt_path) == @vtt_read
     assert Extitle.format(Extitle.parse(@srt_path)) == @vtt_read

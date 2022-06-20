@@ -21,7 +21,7 @@ defmodule MediaServer.Extitle do
     end)
   end
 
-  defp pad(time, count\\2), do: "#{time}" |> String.pad_leading(count, ["0"])
+  defp pad(time, count \\ 2), do: "#{time}" |> String.pad_leading(count, ["0"])
 
   defp format_microsecond(us), do: "#{div(us, 1000)}" |> pad(3)
 
