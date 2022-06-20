@@ -57,6 +57,8 @@ defmodule MediaServerWeb.Router do
     pipe_through :api
 
     get "/movies/:id/stream", StreamMovieController, :show
+    get "/movies/:id/subtitle", SubtitleMovieController, :show
+
     get "/episodes/:id/stream", StreamEpisodeController, :show
   end
 
