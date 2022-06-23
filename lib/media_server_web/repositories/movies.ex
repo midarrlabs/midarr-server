@@ -74,16 +74,18 @@ defmodule MediaServerWeb.Repositories.Movies do
     |> Enum.sort_by(& &1["title"], :asc)
   end
 
+  def handle_subtitle(nil, _parent_folder) do
+    nil
+  end
+
+  def handle_subtitle(subtitle, parent_folder) do
+    "#{parent_folder}/#{subtitle}"
+  end
+
   def get_subtitle_path_for(id) do
     movie = get_movie(id)
 
-    subtitle =
-      HTTPoison.get("#{get_url("extrafile")}&movieId=#{id}")
-      |> handle_response()
-      |> Stream.filter(fn item -> item["extension"] === ".srt" end)
-      |> Enum.take(1)
-      |> List.first
-
-    "#{movie["folderName"]}/#{subtitle["relativePath"]}"
+    MediaServerWeb.Helpers.get_subtitle(movie["folderName"])
+    |> handle_subtitle(movie["folderName"])
   end
 end
