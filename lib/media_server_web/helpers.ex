@@ -63,4 +63,10 @@ defmodule MediaServerWeb.Helpers do
   def reduce_size_for_poster_url(url) do
     String.replace(url, "original", "w342")
   end
+
+  def get_subtitle(path) do
+    File.ls!(path)
+    |> Enum.filter(fn item -> String.contains?(item, ".srt") end)
+    |> List.first()
+  end
 end
