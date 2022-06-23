@@ -69,4 +69,8 @@ defmodule MediaServerWeb.Helpers do
     |> Enum.filter(fn item -> String.contains?(item, ".srt") end)
     |> List.first()
   end
+
+  def has_subtitle(path) do
+    !is_nil(get_subtitle(path))
+  end
 end
