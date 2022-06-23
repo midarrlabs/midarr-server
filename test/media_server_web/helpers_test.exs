@@ -8,8 +8,8 @@ defmodule MediaServerWeb.HelpersTest do
   end
 
   @path "fixtures/movies/Caminandes Llama Drama (2013)"
-  @expected ["Caminandes.Llama.Drama.1080p.mp4", "Caminandes.Llama.Drama.1080p.srt"]
-  @filtered "Caminandes.Llama.Drama.1080p.srt"
+  @expected ["Caminandes.Llama.Drama.1080p.en.srt", "Caminandes.Llama.Drama.1080p.mp4"]
+  @filtered "Caminandes.Llama.Drama.1080p.en.srt"
 
   test "it should get subtitle" do
     assert File.ls!(@path) == @expected
