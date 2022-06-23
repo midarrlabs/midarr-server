@@ -8,7 +8,7 @@ defmodule MediaServerWeb.HelpersTest do
   end
 
   @path "fixtures/movies/Caminandes Llama Drama (2013)"
-  @expected [".DS_Store", "Caminandes.Llama.Drama.1080p.mp4", "Caminandes.Llama.Drama.1080p.srt"]
+  @expected ["Caminandes.Llama.Drama.1080p.mp4", "Caminandes.Llama.Drama.1080p.srt"]
   @filtered "Caminandes.Llama.Drama.1080p.srt"
 
   test "it should get subtitle" do
@@ -24,7 +24,7 @@ defmodule MediaServerWeb.HelpersTest do
   end
 
   @path_without "fixtures/movies/Caminandes Gran Dillama (2013)"
-  @expected_without [".DS_Store", "Caminandes.Gran.Dillama.1080p.mp4"]
+  @expected_without ["Caminandes.Gran.Dillama.1080p.mp4"]
   @filtered_without nil
 
   test "it should not get subtitle" do
