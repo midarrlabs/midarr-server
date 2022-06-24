@@ -85,7 +85,7 @@ defmodule MediaServerWeb.Repositories.Movies do
   def get_subtitle_path_for(id) do
     movie = get_movie(id)
 
-    MediaServerWeb.Helpers.get_subtitle(movie["folderName"])
+    MediaServerWeb.Helpers.get_subtitle(movie["folderName"], movie["movieFile"]["relativePath"])
     |> handle_subtitle(movie["folderName"])
   end
 end

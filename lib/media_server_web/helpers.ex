@@ -64,13 +64,14 @@ defmodule MediaServerWeb.Helpers do
     String.replace(url, "original", "w342")
   end
 
-  def get_subtitle(path) do
+  def get_subtitle(path, file_name) do
     File.ls!(path)
+    |> Enum.filter(fn item -> String.contains?(item, String.split(file_name, ~r"\.[^.]*$", trim: true)) end)
     |> Enum.filter(fn item -> String.contains?(item, ".srt") end)
     |> List.first()
   end
 
-  def has_subtitle(path) do
-    !is_nil(get_subtitle(path))
+  def has_subtitle(path, file_name) do
+    !is_nil(get_subtitle(path, file_name))
   end
 end
