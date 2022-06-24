@@ -64,9 +64,21 @@ defmodule MediaServerWeb.Helpers do
     String.replace(url, "original", "w342")
   end
 
+  def remove_extension_from(file_name) do
+    Regex.replace(~r/\.[^.]*$/, file_name, "")
+  end
+  
+  def get_file_name(full_path) do
+    Path.basename(full_path)
+  end
+  
+  def get_parent_path(full_path) do
+    Path.dirname(full_path)
+  end
+
   def get_subtitle(path, file_name) do
     File.ls!(path)
-    |> Enum.filter(fn item -> String.contains?(item, String.split(file_name, ~r"\.[^.]*$", trim: true)) end)
+    |> Enum.filter(fn item -> String.contains?(item, remove_extension_from(file_name)) end)
     |> Enum.filter(fn item -> String.contains?(item, ".srt") end)
     |> List.first()
   end

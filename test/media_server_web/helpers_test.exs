@@ -42,4 +42,49 @@ defmodule MediaServerWeb.HelpersTest do
       refute MediaServerWeb.Helpers.has_subtitle(@path_without, @file_name_without)
     end
   end
+
+  describe "episode subtitles" do
+    @path "fixtures/shows/Pioneer One/Season 1"
+    @file_name "Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
+    @expected [
+      "Pioneer.One.S01E01.Earthfall.720p.en.srt",
+      "Pioneer.One.S01E01.Earthfall.720p.mp4",
+      "Pioneer.One.S01E02.The.Man.From.Mars.720p.en.srt",
+      "Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
+    ]
+    @filtered "Pioneer.One.S01E02.The.Man.From.Mars.720p.en.srt"
+
+    test "it gets subtitle" do
+      assert File.ls!(@path) == @expected
+
+      assert MediaServerWeb.Helpers.get_subtitle(@path, @file_name) == @filtered
+    end
+
+    test "it has subtitle" do
+      assert File.ls!(@path) == @expected
+
+      assert MediaServerWeb.Helpers.has_subtitle(@path, @file_name)
+    end
+  end
+
+  @file_name_with_extension "Caminandes.Llama.Drama.1080p.mp4"
+  @file_name_without_extension "Caminandes.Llama.Drama.1080p"
+
+  test "it removes file extension" do
+    assert MediaServerWeb.Helpers.remove_extension_from(@file_name_with_extension) === @file_name_without_extension
+  end
+
+  @episode_path "/shows/Pioneer One/Season 1/Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
+  @episode_relative_path "Season 1/Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
+  @episode_expected "Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
+  @season_path_expected "/shows/Pioneer One/Season 1"
+
+  test "it gets file name" do
+    assert MediaServerWeb.Helpers.get_file_name(@episode_path) === @episode_expected
+    assert MediaServerWeb.Helpers.get_file_name(@episode_relative_path) === @episode_expected
+  end
+
+  test "it gets parent path" do
+    assert MediaServerWeb.Helpers.get_parent_path(@episode_path) === @season_path_expected
+  end
 end

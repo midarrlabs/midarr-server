@@ -60,6 +60,7 @@ defmodule MediaServerWeb.Router do
     get "/movies/:id/subtitle", SubtitleMovieController, :show
 
     get "/episodes/:id/stream", StreamEpisodeController, :show
+    get "/episodes/:id/subtitle", SubtitleEpisodeController, :show
   end
 
   if Mix.env() == :dev or Mix.env() == :test do
