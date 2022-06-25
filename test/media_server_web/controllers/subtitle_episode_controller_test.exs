@@ -31,7 +31,7 @@ defmodule MediaServerWeb.SubtitleEpisodeControllerTest do
 
       assert conn.status === 200
       assert conn.state === :sent
-      assert conn.resp_body === "WEBVTT\n\n00:01:00.400 --> 00:01:15.300\nThis is an example of\na subtitle.\n\n00:01:16.400 --> 00:01:25.300\nThis is an example of\na subtitle - 2nd subtitle."
+      assert conn.resp_body === "WEBVTT\n\n00:01:00.400 --> 00:01:15.300\nThis is an example of a subtitle for Pioneer One Season 1 Episode 1.\n\n00:01:16.400 --> 00:01:25.300\nThis is an example of a subtitle\nwith multiple lines."
     end
   end
 end

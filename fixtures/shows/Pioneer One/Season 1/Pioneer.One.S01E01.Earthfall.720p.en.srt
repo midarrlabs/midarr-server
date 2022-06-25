@@ -1,9 +1,8 @@
 1
 00:01:00,400 --> 00:01:15,300
-This is an example of
-a subtitle.
+This is an example of a subtitle for Pioneer One Season 1 Episode 1.
 
 2
 00:01:16,400 --> 00:01:25,300
-This is an example of
-a subtitle - 2nd subtitle.
+This is an example of a subtitle
+with multiple lines.
