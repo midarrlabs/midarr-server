@@ -67,11 +67,11 @@ defmodule MediaServerWeb.Helpers do
   def remove_extension_from(file_name) do
     Regex.replace(~r/\.[^.]*$/, file_name, "")
   end
-  
+
   def get_file_name(full_path) do
     Path.basename(full_path)
   end
-  
+
   def get_parent_path(full_path) do
     Path.dirname(full_path)
   end

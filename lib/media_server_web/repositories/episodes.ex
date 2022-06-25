@@ -57,7 +57,10 @@ defmodule MediaServerWeb.Repositories.Episodes do
   def get_subtitle_path_for(id) do
     episode = get_episode(id)
 
-    MediaServerWeb.Helpers.get_subtitle(MediaServerWeb.Helpers.get_parent_path(episode["episodeFile"]["path"]), MediaServerWeb.Helpers.get_file_name(episode["episodeFile"]["relativePath"]))
+    MediaServerWeb.Helpers.get_subtitle(
+      MediaServerWeb.Helpers.get_parent_path(episode["episodeFile"]["path"]),
+      MediaServerWeb.Helpers.get_file_name(episode["episodeFile"]["relativePath"])
+    )
     |> handle_subtitle(MediaServerWeb.Helpers.get_parent_path(episode["episodeFile"]["path"]))
   end
 end

@@ -88,8 +88,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
           "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
         })
 
-      {:ok, _view, disconnected_html} =
-        live(conn, Routes.watch_movie_show_path(conn, :show, 2))
+      {:ok, _view, disconnected_html} = live(conn, Routes.watch_movie_show_path(conn, :show, 2))
 
       refute disconnected_html =~ Routes.subtitle_movie_path(conn, :show, 2)
     end
