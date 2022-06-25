@@ -8,63 +8,70 @@ defmodule MediaServerWeb.HelpersTest do
   end
 
   describe "movie subtitles" do
-    @path "fixtures/movies/Caminandes Llama Drama (2013)"
-    @file_name "Caminandes.Llama.Drama.1080p.mp4"
-    @filtered "Caminandes.Llama.Drama.1080p.en.srt"
+    @movie_path "fixtures/movies/Caminandes Llama Drama (2013)"
+    @movie_file_name "Caminandes.Llama.Drama.1080p.mp4"
+    @movie_file_no_extension "Caminandes.Llama.Drama.1080p"
+    @movie_srt "Caminandes.Llama.Drama.1080p.en.srt"
+
+    @movie_path_no_srt "fixtures/movies/Caminandes Gran Dillama (2013)"
+    @movie_file_no_srt "Caminandes.Gran.Dillama.1080p.mp4"
 
     test "it gets subtitle" do
-      assert MediaServerWeb.Helpers.get_subtitle(@path, @file_name) == @filtered
+      assert MediaServerWeb.Helpers.get_subtitle(@movie_path, @movie_file_name) == @movie_srt
     end
 
     test "it has subtitle" do
-      assert MediaServerWeb.Helpers.has_subtitle(@path, @file_name)
+      assert MediaServerWeb.Helpers.has_subtitle(@movie_path, @movie_file_name)
     end
 
-    @path_without "fixtures/movies/Caminandes Gran Dillama (2013)"
-    @file_name_without "Caminandes.Gran.Dillama.1080p.mp4"
-    @filtered_without nil
-
     test "it does not get subtitle" do
-      assert MediaServerWeb.Helpers.get_subtitle(@path_without, @file_name_without) == @filtered_without
+      assert MediaServerWeb.Helpers.get_subtitle(@movie_path_no_srt, @movie_file_no_srt) == nil
     end
 
     test "it does not have subtitle" do
-      refute MediaServerWeb.Helpers.has_subtitle(@path_without, @file_name_without)
+      refute MediaServerWeb.Helpers.has_subtitle(@movie_path_no_srt, @movie_file_no_srt)
+    end
+
+    test "it removes file extension" do
+      assert MediaServerWeb.Helpers.remove_extension_from(@movie_file_name) ===
+               @movie_file_no_extension
     end
   end
 
   describe "episode subtitles" do
-    @path "fixtures/shows/Pioneer One/Season 1"
-    @file_name "Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
-    @filtered "Pioneer.One.S01E02.The.Man.From.Mars.720p.en.srt"
+    @season_1 "fixtures/shows/Pioneer One/Season 1"
+
+    @episode_2_full_path "/shows/Pioneer One/Season 1/Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
+    @episode_2_relative_path "Season 1/Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
+    @episode_2_directory "/shows/Pioneer One/Season 1"
+    @episode_2 "Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
+    @episode_2_srt "Pioneer.One.S01E02.The.Man.From.Mars.720p.en.srt"
+
+    @episode_3 "Pioneer.One.S01E03.Alone.in.the.Night.720p.mp4"
 
     test "it gets subtitle" do
-      assert MediaServerWeb.Helpers.get_subtitle(@path, @file_name) == @filtered
+      assert MediaServerWeb.Helpers.get_subtitle(@season_1, @episode_2) == @episode_2_srt
     end
 
     test "it has subtitle" do
-      assert MediaServerWeb.Helpers.has_subtitle(@path, @file_name)
+      assert MediaServerWeb.Helpers.has_subtitle(@season_1, @episode_2)
     end
-  end
 
-  @file_name_with_extension "Caminandes.Llama.Drama.1080p.mp4"
-  @file_name_without_extension "Caminandes.Llama.Drama.1080p"
+    test "it does not get subtitle" do
+      assert MediaServerWeb.Helpers.get_subtitle(@season_1, @episode_3) == nil
+    end
 
-  test "it removes file extension" do
-    assert MediaServerWeb.Helpers.remove_extension_from(@file_name_with_extension) === @file_name_without_extension
-  end
+    test "it does not have subtitle" do
+      refute MediaServerWeb.Helpers.has_subtitle(@season_1, @episode_3)
+    end
 
-  @episode_path "/shows/Pioneer One/Season 1/Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
-  @episode_relative_path "Season 1/Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
-  @episode_expected "Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
-  @season_path_expected "/shows/Pioneer One/Season 1"
+    test "it gets file name" do
+      assert MediaServerWeb.Helpers.get_file_name(@episode_2_full_path) === @episode_2
+      assert MediaServerWeb.Helpers.get_file_name(@episode_2_relative_path) === @episode_2
+    end
 
-  test "it gets file name" do
-    assert MediaServerWeb.Helpers.get_file_name(@episode_path) === @episode_expected
-    assert MediaServerWeb.Helpers.get_file_name(@episode_relative_path) === @episode_expected
-  end
-
-  test "it gets parent path" do
-    assert MediaServerWeb.Helpers.get_parent_path(@episode_path) === @season_path_expected
+    test "it gets parent path" do
+      assert MediaServerWeb.Helpers.get_parent_path(@episode_2_full_path) === @episode_2_directory
+    end
   end
 end

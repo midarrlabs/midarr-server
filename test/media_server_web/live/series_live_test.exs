@@ -152,6 +152,27 @@ defmodule MediaServerWeb.SeriesLiveTest do
                "seriesId" => 1,
                "title" => "The Man From Mars",
                "unverifiedSceneNumbering" => false
+             },
+             %{
+               "airDate" => "2011-03-28",
+               "airDateUtc" => "2011-03-28T04:00:00Z",
+               "episodeFileId" => 3,
+               "episodeNumber" => 3,
+               "hasFile" => true,
+               "id" => 3,
+               "images" => [
+                 %{
+                   "coverType" => "screenshot",
+                   "url" => "https://artworks.thetvdb.com/banners/episodes/170551/3990361.jpg"
+                 }
+               ],
+               "monitored" => false,
+               "overview" =>
+                 "Now quarantined to the Calgary base for two weeks, Taylor and his team have bought time to get answers from the supposed Martian cosmonaut. But who can get him to talk?",
+               "seasonNumber" => 1,
+               "seriesId" => 1,
+               "title" => "Alone in the Night",
+               "unverifiedSceneNumbering" => false
              }
            ]
   end

@@ -96,5 +96,16 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
       assert disconnected_html =~ Routes.subtitle_episode_path(conn, :show, episode["id"])
     end
+
+    test "it does not have subtitle", %{conn: conn, user: user} do
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
+        })
+
+      {:ok, _view, disconnected_html} = live(conn, Routes.watch_episode_show_path(conn, :show, 3))
+
+      refute disconnected_html =~ Routes.subtitle_episode_path(conn, :show, 3)
+    end
   end
 end
