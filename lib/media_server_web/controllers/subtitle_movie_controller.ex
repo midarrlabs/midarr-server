@@ -4,8 +4,8 @@ defmodule MediaServerWeb.SubtitleMovieController do
   alias MediaServerWeb.Repositories.Movies
   alias MediaServer.Extitle
 
-  def show(%{req_headers: headers} = conn, %{"id" => movie_id}) do
+  def show(%{req_headers: headers} = conn, %{"id" => id}) do
     conn
-    |> send_resp(200, Extitle.format(Extitle.parse(Movies.get_subtitle_path_for(movie_id))))
+    |> send_resp(200, Extitle.format(Extitle.parse(Movies.get_subtitle_path_for(id))))
   end
 end
