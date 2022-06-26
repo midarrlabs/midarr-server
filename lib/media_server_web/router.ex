@@ -25,15 +25,15 @@ defmodule MediaServerWeb.Router do
     live "/", HomeLive.Index, :index
 
     live "/movies", MoviesLive.Index, :index
-    live "/movies/:movie", MoviesLive.Show, :show
+    live "/movies/:id", MoviesLive.Show, :show
 
     live "/series", SeriesLive.Index, :index
-    live "/series/:serie", SeriesLive.Show, :show
-    live "/series/:serie/seasons/:season", SeasonsLive.Show, :show
+    live "/series/:id", SeriesLive.Show, :show
+    live "/series/:id/seasons/:number", SeasonsLive.Show, :show
 
     live_session :watch, root_layout: {MediaServerWeb.WatchView, "watch.html"} do
-      live "/movies/:movie/watch", WatchMovieLive.Show, :show
-      live "/episodes/:episode/watch", WatchEpisodeLive.Show, :show
+      live "/movies/:id/watch", WatchMovieLive.Show, :show
+      live "/episodes/:id/watch", WatchEpisodeLive.Show, :show
     end
 
     live "/search", SearchLive.Index, :index
@@ -56,8 +56,11 @@ defmodule MediaServerWeb.Router do
   scope "/api", MediaServerWeb do
     pipe_through :api
 
-    get "/movies/:movie/stream", StreamMovieController, :show
-    get "/episodes/:episode/stream", StreamEpisodeController, :show
+    get "/movies/:id/stream", StreamMovieController, :show
+    get "/movies/:id/subtitle", SubtitleMovieController, :show
+
+    get "/episodes/:id/stream", StreamEpisodeController, :show
+    get "/episodes/:id/subtitle", SubtitleEpisodeController, :show
   end
 
   if Mix.env() == :dev or Mix.env() == :test do

@@ -67,5 +67,30 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
       refute ContinuesFixtures.get_movie_continue()
     end
+
+    test "it has subtitle", %{conn: conn, user: user} do
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
+        })
+
+      movie = MoviesFixtures.get_movie()
+
+      {:ok, _view, disconnected_html} =
+        live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
+
+      assert disconnected_html =~ Routes.subtitle_movie_path(conn, :show, movie["id"])
+    end
+
+    test "it does not have subtitle", %{conn: conn, user: user} do
+      conn =
+        post(conn, Routes.user_session_path(conn, :create), %{
+          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
+        })
+
+      {:ok, _view, disconnected_html} = live(conn, Routes.watch_movie_show_path(conn, :show, 2))
+
+      refute disconnected_html =~ Routes.subtitle_movie_path(conn, :show, 2)
+    end
   end
 end

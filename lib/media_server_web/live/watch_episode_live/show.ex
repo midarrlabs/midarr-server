@@ -17,8 +17,8 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
   end
 
   @impl true
-  def handle_params(%{"episode" => episode_id}, _url, socket) do
-    episode = Episodes.get_episode(episode_id)
+  def handle_params(%{"id" => id}, _url, socket) do
+    episode = Episodes.get_episode(id)
 
     {
       :noreply,

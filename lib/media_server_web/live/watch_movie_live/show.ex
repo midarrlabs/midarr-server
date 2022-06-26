@@ -17,8 +17,8 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
   end
 
   @impl true
-  def handle_params(%{"movie" => movie_id}, _url, socket) do
-    movie = Movies.get_movie(movie_id)
+  def handle_params(%{"id" => id}, _url, socket) do
+    movie = Movies.get_movie(id)
 
     {
       :noreply,

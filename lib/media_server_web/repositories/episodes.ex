@@ -45,4 +45,22 @@ defmodule MediaServerWeb.Repositories.Episodes do
     (Stream.filter(episode["images"], fn x -> x["coverType"] === "screenshot" end)
      |> Enum.at(0))["url"]
   end
+
+  def handle_subtitle(nil, _parent_folder) do
+    nil
+  end
+
+  def handle_subtitle(subtitle, parent_folder) do
+    "#{parent_folder}/#{subtitle}"
+  end
+
+  def get_subtitle_path_for(id) do
+    episode = get_episode(id)
+
+    MediaServerWeb.Helpers.get_subtitle(
+      MediaServerWeb.Helpers.get_parent_path(episode["episodeFile"]["path"]),
+      MediaServerWeb.Helpers.get_file_name(episode["episodeFile"]["relativePath"])
+    )
+    |> handle_subtitle(MediaServerWeb.Helpers.get_parent_path(episode["episodeFile"]["path"]))
+  end
 end
