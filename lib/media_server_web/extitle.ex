@@ -1,5 +1,5 @@
 defmodule MediaServer.Extitle do
-  def make_cue([_, timing | lines]) do
+  defp make_cue([_, timing | lines]) do
     [from, to] = timing |> String.split(" --> ")
 
     [
@@ -23,25 +23,18 @@ defmodule MediaServer.Extitle do
 
   defp pad(time, count \\ 2), do: "#{time}" |> String.pad_leading(count, ["0"])
 
-  defp format_microsecond(us), do: "#{div(us, 1000)}" |> pad(3)
-
-  def format_time(%Time{hour: h, minute: m, second: s, microsecond: {us, _}}, sep) do
-    "#{pad(h)}:#{pad(m)}:#{pad(s)}#{sep}#{format_microsecond(us)}"
+  defp format_time(
+         %Time{hour: hour, minute: minute, second: second, microsecond: {us, _}},
+         separator
+       ) do
+    "#{pad(hour)}:#{pad(minute)}:#{pad(second)}#{separator}#{"#{div(us, 1000)}" |> pad(3)}"
   end
 
-  defp build_cue_header(%{from: from, to: to}) do
-    "#{format_time(from, ".")} --> #{format_time(to, ".")}\n"
-  end
-
-  defp build_cue_text(parts), do: parts |> Enum.map(& &1) |> Enum.join("\n")
-
-  defp build(sub) do
-    build_cue_header(sub) <> build_cue_text(sub.text)
-  end
-
-  defp build_cues(sub) do
-    sub
-    |> Enum.map(&build(&1))
+  defp build_cues(cues) do
+    cues
+    |> Enum.map(fn %{from: from, to: to, text: text} ->
+      "#{format_time(from, ".")} --> #{format_time(to, ".")}\n" <> Enum.join(text, "\n")
+    end)
     |> Enum.join("\n\n")
   end
 
