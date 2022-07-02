@@ -30,7 +30,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
 
   @impl true
   def handle_event(
-        "movie_destroyed",
+        "video_destroyed",
         %{
           "current_time" => current_time,
           "duration" => duration
@@ -49,7 +49,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
     {:noreply, socket}
   end
 
-  def handle_event("movie_played", _params, socket) do
+  def handle_event("video_played", _params, socket) do
     action = Components.list_actions() |> List.first()
 
     Actions.create_movie(%{

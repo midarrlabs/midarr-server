@@ -27,7 +27,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
       {:ok, view, _html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
 
-      render_hook(view, :movie_played)
+      render_hook(view, :video_played)
 
       assert Enum.count(ActionsFixtures.get_movie_played()) === 1
     end
@@ -42,7 +42,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
       {:ok, view, _html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
 
-      render_hook(view, :movie_destroyed, %{
+      render_hook(view, :video_destroyed, %{
         current_time: 89,
         duration: 100
       })
@@ -60,7 +60,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
       {:ok, view, _html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
 
-      render_hook(view, :movie_destroyed, %{
+      render_hook(view, :video_destroyed, %{
         current_time: 90,
         duration: 100
       })

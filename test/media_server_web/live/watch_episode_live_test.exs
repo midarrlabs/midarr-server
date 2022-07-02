@@ -30,7 +30,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
       {:ok, view, _html} = live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
 
-      render_hook(view, :episode_played)
+      render_hook(view, :video_played)
 
       assert Enum.count(Actions.list_episode_actions()) === 1
     end
@@ -47,7 +47,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
       {:ok, view, _html} = live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
 
-      render_hook(view, :episode_destroyed, %{
+      render_hook(view, :video_destroyed, %{
         episode_id: episode["id"],
         serie_id: episode["seriesId"],
         current_time: 39,
@@ -70,7 +70,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
       {:ok, view, _html} = live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
 
-      render_hook(view, :episode_destroyed, %{
+      render_hook(view, :video_destroyed, %{
         episode_id: episode["id"],
         serie_id: episode["seriesId"],
         current_time: 90,
