@@ -21,8 +21,7 @@ defmodule MediaServerWeb.Components.HeroComponentTest do
           }
         })
 
-      {:ok, _index_live, disconnected_html} =
-        live(conn, Routes.home_index_path(conn, :index))
+      {:ok, _index_live, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
 
       assert disconnected_html =~ "Released"
     end

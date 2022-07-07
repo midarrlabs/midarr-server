@@ -1,38 +1,36 @@
-<.live_component module={MediaServerWeb.Components.NavComponent}
-    id="nav-component"
-    class="text-slate-600 hover:text-slate-800"
+<.live_component
+  module={MediaServerWeb.Components.NavComponent}
+  id="nav-component"
+  class="text-slate-600 hover:text-slate-800"
 />
 
 <div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
-
-    <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
-        <div class="min-w-0 flex items-center">
-            <h2 class="text-lg font-bold tracking-tight text-slate-600"><%= @page_title %></h2>
-        </div>
+  <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+    <div class="min-w-0 flex items-center">
+      <h2 class="text-lg font-bold tracking-tight text-slate-600"><%= @page_title %></h2>
     </div>
+  </div>
 
-    <div>
-        <ul role="list" class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
-            <%= for item <- @movie_favourites do %>
+  <div>
+    <ul
+      role="list"
+      class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8"
+    >
+      <%= for item <- @movie_favourites do %>
+        <%= MediaServerWeb.Components.PosterComponent.render(%{
+          img_src: item.image_url,
+          title: item.title,
+          link: Routes.movies_show_path(@socket, :show, item.movie_id)
+        }) %>
+      <% end %>
 
-                <%= MediaServerWeb.Components.PosterComponent.render(%{
-                    img_src: item.image_url,
-                    title: item.title,
-                    link: Routes.movies_show_path(@socket, :show, item.movie_id)
-                }) %>
-
-            <% end %>
-
-            <%= for item <- @serie_favourites do %>
-
-                <%= MediaServerWeb.Components.PosterComponent.render(%{
-                    img_src: item.image_url,
-                    title: item.title,
-                    link: Routes.series_show_path(@socket, :show, item.serie_id)
-                }) %>
-
-            <% end %>
-
-        </ul>
-    </div>
+      <%= for item <- @serie_favourites do %>
+        <%= MediaServerWeb.Components.PosterComponent.render(%{
+          img_src: item.image_url,
+          title: item.title,
+          link: Routes.series_show_path(@socket, :show, item.serie_id)
+        }) %>
+      <% end %>
+    </ul>
+  </div>
 </div>

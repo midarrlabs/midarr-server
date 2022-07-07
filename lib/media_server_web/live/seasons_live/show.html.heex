@@ -1,45 +1,73 @@
-<.live_component module={MediaServerWeb.Components.NavComponent}
-    id="nav-component"
-    class="text-slate-600 hover:text-slate-800"
+<.live_component
+  module={MediaServerWeb.Components.NavComponent}
+  id="nav-component"
+  class="text-slate-600 hover:text-slate-800"
 />
 
 <div class="max-w-6xl mx-auto py-6 px-4">
-    <ul role="list" class="-my-5 divide-y divide-gray-200">
-
-      <%= for item <- @episodes do %>
-
+  <ul role="list" class="-my-5 divide-y divide-gray-200">
+    <%= for item <- @episodes do %>
       <li class="py-4">
         <div class="sm:flex">
           <div class="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
-
             <%= if List.first(item["images"]) do %>
-                <img class="h-48 w-full sm:w-72 object-cover" src={MediaServerWeb.Repositories.Episodes.get_screenshot(item)}>
+              <img
+                class="h-48 w-full sm:w-72 object-cover"
+                src={MediaServerWeb.Repositories.Episodes.get_screenshot(item)}
+              />
             <% else %>
-                <svg class="h-48 w-full sm:w-72 border border-gray-300 bg-white text-gray-300" preserveAspectRatio="none" stroke="currentColor" fill="none" viewBox="0 0 200 200" aria-hidden="true">
-                    <path vector-effect="non-scaling-stroke" stroke-width="1" d="M0 0l200 200M0 200L200 0" />
-                </svg>
+              <svg
+                class="h-48 w-full sm:w-72 border border-gray-300 bg-white text-gray-300"
+                preserveAspectRatio="none"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 200 200"
+                aria-hidden="true"
+              >
+                <path
+                  vector-effect="non-scaling-stroke"
+                  stroke-width="1"
+                  d="M0 0l200 200M0 200L200 0"
+                />
+              </svg>
             <% end %>
           </div>
           <div>
-            <h4 class="text-md font-bold"><%= "Season  #{item["seasonNumber"]} - Episode #{item["episodeNumber"]}" %></h4>
+            <h4 class="text-md font-bold">
+              <%= "Season  #{item["seasonNumber"]} - Episode #{item["episodeNumber"]}" %>
+            </h4>
             <p class="mt-1">
-                <%= item["title"] %>
+              <%= item["title"] %>
             </p>
             <p class="mt-2">
-                <%= item["overview"] %>
+              <%= item["overview"] %>
             </p>
 
             <%= live_redirect id: "play-#{ item["id"] }", to: Routes.watch_episode_show_path(@socket, :show, item["id"]), class: "mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
-                <svg xmlns="http://www.w3.org/2000/svg" class="-ml-0.5 mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Play
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="-ml-0.5 mr-2 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              Play
             <% end %>
           </div>
         </div>
       </li>
-
-      <% end %>
-    </ul>
+    <% end %>
+  </ul>
 </div>
