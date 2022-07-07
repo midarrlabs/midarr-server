@@ -25,7 +25,7 @@ defmodule MediaServerWeb.Components.NavComponentTest do
           }
         })
 
-      {:ok, _index_live, html} = live(conn, Routes.components_index_path(conn, :index))
+      {:ok, _index_live, html} = live(conn, Routes.home_index_path(conn, :index))
 
       assert html =~ "Movies"
       assert html =~ "Series"
@@ -42,7 +42,7 @@ defmodule MediaServerWeb.Components.NavComponentTest do
           }
         })
 
-      {:ok, index_live, _html} = live(conn, Routes.components_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, Routes.home_index_path(conn, :index))
 
       {:ok, _, html} =
         index_live
