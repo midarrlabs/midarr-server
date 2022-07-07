@@ -8,6 +8,7 @@
     overview={Enum.at(@latest_movies, 0)["overview"]}
     play={Routes.watch_movie_show_path(@socket, :show, Enum.at(@latest_movies, 0)["id"])}
     show={Routes.movies_show_path(@socket, :show, Enum.at(@latest_movies, 0)["id"])}
+    loading={false}
   />
 <% end %>
 
