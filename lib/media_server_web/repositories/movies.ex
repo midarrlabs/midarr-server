@@ -21,7 +21,7 @@ defmodule MediaServerWeb.Repositories.Movies do
   def get_latest(amount) do
     HTTPoison.get(get_url("movie"))
     |> handle_response()
-    |> Enum.reverse()
+    |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
     |> Stream.filter(fn item -> item["hasFile"] end)
     |> Stream.take(amount)
   end
