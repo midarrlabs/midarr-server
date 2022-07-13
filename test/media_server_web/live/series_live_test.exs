@@ -5,10 +5,10 @@ defmodule MediaServerWeb.SeriesLiveTest do
 
   alias MediaServer.AccountsFixtures
   alias MediaServer.SeriesFixtures
-  alias MediaServer.EpisodesFixtures
   alias MediaServerWeb.Repositories.Episodes
   alias MediaServer.Favourites
   alias MediaServerWeb.Repositories.Series
+  alias MediaServerWeb.Repositories.Episodes
 
   test "index series", %{conn: conn} do
     user = AccountsFixtures.user_fixture()
@@ -71,28 +71,25 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it can render show page", %{conn: conn} do
-    fixture = %{user: AccountsFixtures.user_fixture()}
-
     conn =
       post(conn, Routes.user_session_path(conn, :create), %{
         "user" => %{
-          "email" => fixture.user.email,
+          "email" => AccountsFixtures.user_fixture().email,
           "password" => AccountsFixtures.valid_user_password()
         }
       })
 
     serie = SeriesFixtures.get_serie()
 
-    conn = get(conn, "/series/#{serie["id"]}")
-    assert html_response(conn, 200)
+    {:ok, view, disconnected_html} =
+      live(conn, Routes.seasons_show_path(conn, :show, serie["id"], 1))
 
-    EpisodesFixtures.get_episodes(serie["id"])
-    |> Enum.each(fn episode ->
-      {:ok, show_live, _html} =
-        live(conn, Routes.seasons_show_path(conn, :show, serie["id"], episode["seasonNumber"]))
+    assert disconnected_html =~ "loading-spinner"
 
-      assert show_live |> element("#play-#{episode["id"]}", "Play") |> render_click()
-    end)
+    send(view.pid, {:serie, %{"serie" => serie, "number" => 1}})
+    send(view.pid, {:episodes, Episodes.get_all(serie["id"], "1")})
+
+    assert render(view) =~ "Play"
   end
 
   test "it can favourite", %{conn: conn} do
