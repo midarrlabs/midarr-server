@@ -25,17 +25,27 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     movies = Movies.get_all()
 
-    send(view.pid, {:default, %{"movies" => movies}})
+    send(view.pid, {:movies, movies})
+  end
 
-    assert render(view) =~ "Caminandes: Llama Drama"
-    assert render(view) =~ "Caminandes: Gran Dillama"
-    assert render(view) =~ "Caminandes:  Llamigos"
+  test "index paged movies", %{conn: conn} do
+    user = AccountsFixtures.user_fixture()
 
-    send(view.pid, {:paged, %{"movies" => movies, "page" => 1}})
+    conn =
+      post(conn, Routes.user_session_path(conn, :create), %{
+        "user" => %{
+          "email" => user.email,
+          "password" => AccountsFixtures.valid_user_password()
+        }
+      })
 
-    assert render(view) =~ "Caminandes: Llama Drama"
-    assert render(view) =~ "Caminandes: Gran Dillama"
-    assert render(view) =~ "Caminandes:  Llamigos"
+    {:ok, view, disconnected_html} = live(conn, Routes.movies_index_path(conn, :index, page: "1"))
+
+    assert disconnected_html =~ "loading-spinner"
+
+    movies = Movies.get_all()
+
+    send(view.pid, {:movies, movies})
   end
 
   test "it can render show page", %{conn: conn} do
