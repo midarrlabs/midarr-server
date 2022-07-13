@@ -6,20 +6,36 @@ defmodule MediaServerWeb.MoviesLiveTest do
   alias MediaServer.AccountsFixtures
   alias MediaServer.MoviesFixtures
   alias MediaServer.Favourites
+  alias MediaServerWeb.Repositories.Movies
 
-  test "it can render index page", %{conn: conn} do
-    fixture = %{user: AccountsFixtures.user_fixture()}
+  test "index movies", %{conn: conn} do
+    user = AccountsFixtures.user_fixture()
 
     conn =
       post(conn, Routes.user_session_path(conn, :create), %{
         "user" => %{
-          "email" => fixture.user.email,
+          "email" => user.email,
           "password" => AccountsFixtures.valid_user_password()
         }
       })
 
-    conn = get(conn, "/movies")
-    assert html_response(conn, 200)
+    {:ok, view, disconnected_html} = live(conn, Routes.movies_index_path(conn, :index))
+
+    assert disconnected_html =~ "loading-spinner"
+
+    movies = Movies.get_all()
+
+    send(view.pid, {:default, %{"movies" => movies}})
+
+    assert render(view) =~ "Caminandes: Llama Drama"
+    assert render(view) =~ "Caminandes: Gran Dillama"
+    assert render(view) =~ "Caminandes:  Llamigos"
+
+    send(view.pid, {:paged, %{"movies" => movies, "page" => 1}})
+
+    assert render(view) =~ "Caminandes: Llama Drama"
+    assert render(view) =~ "Caminandes: Gran Dillama"
+    assert render(view) =~ "Caminandes:  Llamigos"
   end
 
   test "it can render show page", %{conn: conn} do
