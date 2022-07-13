@@ -50,6 +50,26 @@ defmodule MediaServerWeb.SeriesLiveTest do
     send(view.pid, {:series, series})
   end
 
+  test "show serie", %{conn: conn} do
+    user = AccountsFixtures.user_fixture()
+
+    conn =
+      post(conn, Routes.user_session_path(conn, :create), %{
+        "user" => %{
+          "email" => user.email,
+          "password" => AccountsFixtures.valid_user_password()
+        }
+      })
+
+    serie = SeriesFixtures.get_serie()
+
+    {:ok, view, disconnected_html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
+
+    assert disconnected_html =~ "loading-spinner"
+
+    send(view.pid, {:serie, serie})
+  end
+
   test "it can render show page", %{conn: conn} do
     fixture = %{user: AccountsFixtures.user_fixture()}
 
@@ -88,12 +108,14 @@ defmodule MediaServerWeb.SeriesLiveTest do
 
     serie = SeriesFixtures.get_serie()
 
-    {:ok, show_live, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
+    {:ok, view, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
 
     assert Favourites.list_serie_favourites()
            |> Enum.empty?()
 
-    assert show_live |> element("#favourite", "Favourite") |> render_click()
+    send(view.pid, {:serie, serie})
+
+    assert view |> element("#favourite", "Favourite") |> render_click()
 
     favourite =
       Favourites.list_serie_favourites()
@@ -115,15 +137,19 @@ defmodule MediaServerWeb.SeriesLiveTest do
 
     serie = SeriesFixtures.get_serie()
 
-    {:ok, show_live, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
+    {:ok, view, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
 
-    assert show_live
+    send(view.pid, {:serie, serie})
+
+    assert view
            |> element("#favourite", "Favourite")
            |> render_click()
 
-    {:ok, show_live, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
+    {:ok, view, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
 
-    assert show_live
+    send(view.pid, {:serie, serie})
+
+    assert view
            |> element("#unfavourite", "Unfavourite")
            |> render_click()
 
