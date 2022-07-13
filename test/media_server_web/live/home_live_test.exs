@@ -7,6 +7,7 @@ defmodule MediaServerWeb.HomeLiveTest do
   alias MediaServer.MoviesFixtures
   alias MediaServer.SeriesFixtures
   alias MediaServerWeb.Repositories.Movies
+  alias MediaServerWeb.Repositories.Series
 
   describe "without integrations" do
     setup do
@@ -87,5 +88,27 @@ defmodule MediaServerWeb.HomeLiveTest do
     assert render(view) =~ "Caminandes: Llama Drama"
     assert render(view) =~ "Caminandes: Gran Dillama"
     refute render(view) =~ "Caminandes: Llamigos"
+  end
+
+  test "latest series section", %{conn: conn} do
+    user = AccountsFixtures.user_fixture()
+
+    conn =
+      post(conn, Routes.user_session_path(conn, :create), %{
+        "user" => %{
+          "email" => user.email,
+          "password" => AccountsFixtures.valid_user_password()
+        }
+      })
+
+    {:ok, view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
+
+    assert disconnected_html =~ "loading-series"
+
+    series = Series.get_latest(6)
+
+    send(view.pid, {:series, series})
+
+    assert render(view) =~ "Pioneer One"
   end
 end

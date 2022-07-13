@@ -29,10 +29,13 @@ defmodule MediaServerWeb.HomeLive.Index do
       send(pid, {:movies, Movies.get_latest(7)})
     end)
 
+    Task.start(fn ->
+      send(pid, {:series, Series.get_latest(6)})
+    end)
+
     {
       :noreply,
       socket
-      |> assign(:latest_series, Series.get_latest(6))
       |> assign(:movie_continues, socket.assigns.current_user.movie_continues |> Enum.take(4))
       |> assign(:episode_continues, socket.assigns.current_user.episode_continues |> Enum.take(4))
     }
@@ -44,6 +47,14 @@ defmodule MediaServerWeb.HomeLive.Index do
       :noreply,
       socket
       |> assign(:movies, movies)
+    }
+  end
+
+  def handle_info({:series, series}, socket) do
+    {
+      :noreply,
+      socket
+      |> assign(:series, series)
     }
   end
 end
