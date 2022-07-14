@@ -1,7 +1,9 @@
 <header class="relative pb-24 bg-slate-800 sm:pb-32">
   <div
     class="absolute inset-0 bg-cover bg-fixed"
-    style={"background-image: url(#{MediaServerWeb.Repositories.Movies.get_background(@movie)})"}
+    style={
+      "#{if assigns[:movie], do: "background-image: url(#{MediaServerWeb.Repositories.Movies.get_background(@movie)}) ", else: ""}"
+    }
   >
     <div
       class="absolute inset-0 bg-gradient-to-l from-slate-200 to-neutral-900 mix-blend-multiply"
@@ -19,150 +21,166 @@
   </div>
 
   <div class="relative mt-24 max-w-md mx-auto px-4 sm:max-w-xl sm:mt-32 sm:px-6 lg:max-w-6xl lg:px-8 space-y-6">
-    <h2 class="text-sm font-semibold text-red-300 tracking-wide uppercase">
-      Released <%= @movie["year"] %>
-    </h2>
-    <h1 class="text-3xl font-extrabold tracking-tight text-white">
-      <%= @movie["title"] %>
-    </h1>
-    <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6">
-      <%= live_redirect id: "play-#{ @movie["id"] }", to: Routes.watch_movie_show_path(@socket, :show, @movie["id"]), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="-ml-0.5 mr-2 h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-          />
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-        Play
-      <% end %>
+    <%= if assigns[:movie] do %>
+      <h2 class="text-sm font-semibold text-red-300 tracking-wide uppercase">
+        Released <%= @movie["year"] %>
+      </h2>
+      <h1 class="text-3xl font-extrabold tracking-tight text-white">
+        <%= @movie["title"] %>
+      </h1>
+      <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6">
+        <%= live_redirect id: "play-#{ @movie["id"] }", to: Routes.watch_movie_show_path(@socket, :show, @movie["id"]), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="-ml-0.5 mr-2 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          Play
+        <% end %>
 
-      <%= if is_nil(@favourite) do %>
-        <button
-          type="button"
-          id="favourite"
-          phx-click="favourite"
-          class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="-ml-0.5 mr-2 h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
+        <%= if is_nil(@favourite) do %>
+          <button
+            type="button"
+            id="favourite"
+            phx-click="favourite"
+            class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-            />
-          </svg>
-          Favourite
-        </button>
-      <% else %>
-        <button
-          type="button"
-          id="unfavourite"
-          phx-click="unfavourite"
-          class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="-ml-0.5 mr-2 h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="-ml-0.5 mr-2 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              />
+            </svg>
+            Favourite
+          </button>
+        <% else %>
+          <button
+            type="button"
+            id="unfavourite"
+            phx-click="unfavourite"
+            class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-            />
-          </svg>
-          Unfavourite
-        </button>
-      <% end %>
-    </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="-ml-0.5 mr-2 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              />
+            </svg>
+            Unfavourite
+          </button>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="animate-pulse space-y-6">
+        <div class="bg-gray-300 h-6 w-28 rounded"></div>
+        <div class="bg-gray-300 h-6 w-72 rounded"></div>
+        <div class="bg-gray-300 h-6 w-72 md:w-96 rounded"></div>
+      </div>
+    <% end %>
   </div>
 </header>
 
-<div class="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:py-8 lg:px-8 space-y-8">
-  <div class="lg:mt-0 lg:col-span-2 space-y-8">
-    <dl>
-      <div class="space-y-4">
-        <dt class="leading-6 font-medium text-gray-900">
-          Storyline
-        </dt>
-        <dd class="mt-2 text-base text-gray-500">
-          <%= @movie["overview"] %>
-        </dd>
-      </div>
-    </dl>
+<%= if assigns[:movie] && assigns[:cast] do %>
+  <div class="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:py-8 lg:px-8 space-y-8">
+    <div class="lg:mt-0 lg:col-span-2 space-y-8">
+      <dl>
+        <div class="space-y-4">
+          <dt class="leading-6 font-medium text-gray-900">
+            Storyline
+          </dt>
+          <dd class="mt-2 text-base text-gray-500">
+            <%= @movie["overview"] %>
+          </dd>
+        </div>
+      </dl>
 
-    <dl>
-      <div class="space-y-4">
-        <dt class="leading-6 font-medium text-gray-900">
-          Media
-        </dt>
-        <dd>
-          <ul role="list" class="divide-y divide-gray-200">
-            <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-6 lg:grid-cols-8 xl:gap-x-8">
-              <%= if @movie["youTubeTrailerId"] !== "" do %>
-                <%= MediaServerWeb.Components.MediaComponent.render(%{
-                  img_src: "https://img.youtube.com/vi/#{@movie["youTubeTrailerId"]}/1.jpg",
-                  title: "Trailer",
-                  link: "https://www.youtube.com/watch?v=#{@movie["youTubeTrailerId"]}"
-                }) %>
-              <% end %>
-
-              <%= for item <- @movie["images"] do %>
-                <%= MediaServerWeb.Components.MediaComponent.render(%{
-                  img_src: item["remoteUrl"],
-                  title: item["coverType"],
-                  link: item["remoteUrl"]
-                }) %>
-              <% end %>
-            </div>
-          </ul>
-        </dd>
-      </div>
-    </dl>
-
-    <dl>
-      <div class="space-y-4">
-        <dt class="leading-6 font-medium text-gray-900">
-          Cast
-        </dt>
-        <dd class="mt-2 text-base text-gray-500">
-          <ul role="list" class="divide-y divide-gray-200">
-            <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-6 lg:grid-cols-8 xl:gap-x-8">
-              <%= for item <- @cast do %>
-                <%= if !is_nil(MediaServerWeb.Repositories.Movies.get_headshot(item)) do %>
+      <dl>
+        <div class="space-y-4">
+          <dt class="leading-6 font-medium text-gray-900">
+            Media
+          </dt>
+          <dd>
+            <ul role="list" class="divide-y divide-gray-200">
+              <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-6 lg:grid-cols-8 xl:gap-x-8">
+                <%= if @movie["youTubeTrailerId"] !== "" do %>
                   <%= MediaServerWeb.Components.MediaComponent.render(%{
-                    img_src: MediaServerWeb.Repositories.Movies.get_headshot(item),
-                    title: item["personName"],
-                    link: MediaServerWeb.Repositories.Movies.get_headshot(item)
+                    img_src: "https://img.youtube.com/vi/#{@movie["youTubeTrailerId"]}/1.jpg",
+                    title: "Trailer",
+                    link: "https://www.youtube.com/watch?v=#{@movie["youTubeTrailerId"]}"
                   }) %>
                 <% end %>
-              <% end %>
-            </div>
-          </ul>
-        </dd>
-      </div>
-    </dl>
+
+                <%= for item <- @movie["images"] do %>
+                  <%= MediaServerWeb.Components.MediaComponent.render(%{
+                    img_src: item["remoteUrl"],
+                    title: item["coverType"],
+                    link: item["remoteUrl"]
+                  }) %>
+                <% end %>
+              </div>
+            </ul>
+          </dd>
+        </div>
+      </dl>
+
+      <dl>
+        <div class="space-y-4">
+          <dt class="leading-6 font-medium text-gray-900">
+            Cast
+          </dt>
+          <dd class="mt-2 text-base text-gray-500">
+            <ul role="list" class="divide-y divide-gray-200">
+              <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-6 lg:grid-cols-8 xl:gap-x-8">
+                <%= for item <- @cast do %>
+                  <%= if !is_nil(MediaServerWeb.Repositories.Movies.get_headshot(item)) do %>
+                    <%= MediaServerWeb.Components.MediaComponent.render(%{
+                      img_src: MediaServerWeb.Repositories.Movies.get_headshot(item),
+                      title: item["personName"],
+                      link: MediaServerWeb.Repositories.Movies.get_headshot(item)
+                    }) %>
+                  <% end %>
+                <% end %>
+              </div>
+            </ul>
+          </dd>
+        </div>
+      </dl>
+    </div>
   </div>
-</div>
+<% else %>
+  <div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
+    <div class="flex flex-row col-span-2 lg:col-span-6 justify-center mt-56">
+      <%= MediaServerWeb.Components.SpinnerComponent.render(%{}) %>
+    </div>
+  </div>
+<% end %>

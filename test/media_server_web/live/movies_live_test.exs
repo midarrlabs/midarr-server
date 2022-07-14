@@ -48,6 +48,28 @@ defmodule MediaServerWeb.MoviesLiveTest do
     send(view.pid, {:movies, movies})
   end
 
+  test "show movie", %{conn: conn} do
+    user = AccountsFixtures.user_fixture()
+
+    conn =
+      post(conn, Routes.user_session_path(conn, :create), %{
+        "user" => %{
+          "email" => user.email,
+          "password" => AccountsFixtures.valid_user_password()
+        }
+      })
+
+    movie = MoviesFixtures.get_movie()
+    cast = Movies.get_cast(movie["id"])
+
+    {:ok, view, disconnected_html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+
+    assert disconnected_html =~ "loading-spinner"
+
+    send(view.pid, {:movie, movie})
+    send(view.pid, {:cast, cast})
+  end
+
   test "it can render show page", %{conn: conn} do
     fixture = %{user: AccountsFixtures.user_fixture()}
 
@@ -77,13 +99,17 @@ defmodule MediaServerWeb.MoviesLiveTest do
       })
 
     movie = MoviesFixtures.get_movie()
+    cast = Movies.get_cast(movie["id"])
 
-    {:ok, show_live, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+    {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
     assert Favourites.list_movie_favourites()
            |> Enum.empty?()
 
-    assert show_live |> element("#favourite", "Favourite") |> render_click()
+    send(view.pid, {:movie, movie})
+    send(view.pid, {:cast, cast})
+
+    assert view |> element("#favourite", "Favourite") |> render_click()
 
     favourite =
       Favourites.list_movie_favourites()
@@ -104,16 +130,23 @@ defmodule MediaServerWeb.MoviesLiveTest do
       })
 
     movie = MoviesFixtures.get_movie()
+    cast = Movies.get_cast(movie["id"])
 
-    {:ok, show_live, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+    {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
-    assert show_live
+    send(view.pid, {:movie, movie})
+    send(view.pid, {:cast, cast})
+
+    assert view
            |> element("#favourite", "Favourite")
            |> render_click()
 
-    {:ok, show_live, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+    {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
-    assert show_live
+    send(view.pid, {:movie, movie})
+    send(view.pid, {:cast, cast})
+
+    assert view
            |> element("#unfavourite", "Unfavourite")
            |> render_click()
 
@@ -133,9 +166,13 @@ defmodule MediaServerWeb.MoviesLiveTest do
       })
 
     movie = MoviesFixtures.get_movie()
+    cast = Movies.get_cast(movie["id"])
 
-    {:ok, show_live, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+    {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
-    assert show_live |> element("#play-#{movie["id"]}", "Play") |> render_click()
+    send(view.pid, {:movie, movie})
+    send(view.pid, {:cast, cast})
+
+    assert view |> element("#play-#{movie["id"]}", "Play") |> render_click()
   end
 end
