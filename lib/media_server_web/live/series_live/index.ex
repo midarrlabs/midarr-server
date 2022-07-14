@@ -14,24 +14,37 @@ defmodule MediaServerWeb.SeriesLive.Index do
 
   @impl true
   def handle_params(%{"page" => page}, _url, socket) do
-    {
-      :noreply,
-      socket
-      |> assign(
-        :series,
-        Scrivener.paginate(Series.get_all(), %{"page" => page, "page_size" => "50"})
+    pid = self()
+
+    Task.start(fn ->
+      send(
+        pid,
+        {:series, Scrivener.paginate(Series.get_all(), %{"page" => page, "page_size" => "50"})}
       )
-    }
+    end)
+
+    {:noreply, socket}
   end
 
   def handle_params(_params, _url, socket) do
+    pid = self()
+
+    Task.start(fn ->
+      send(
+        pid,
+        {:series, Scrivener.paginate(Series.get_all(), %{"page" => "1", "page_size" => "50"})}
+      )
+    end)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:series, series}, socket) do
     {
       :noreply,
       socket
-      |> assign(
-        :series,
-        Scrivener.paginate(Series.get_all(), %{"page" => "1", "page_size" => "50"})
-      )
+      |> assign(:series, series)
     }
   end
 end

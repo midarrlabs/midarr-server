@@ -1,7 +1,30 @@
-<video id="video" phx-hook="video" poster={MediaServerWeb.Repositories.Movies.get_background(@movie)} controlsList="nodownload" controls autoplay>
-    <source src={Routes.stream_movie_path(@socket, :show, @movie["id"], token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", @current_user.id))} type="video/mp4">
+<video
+  id="video"
+  phx-hook="video"
+  poster={MediaServerWeb.Repositories.Movies.get_background(@movie)}
+  controlsList="nodownload"
+  controls
+  autoplay
+>
+  <source
+    src={
+      Routes.stream_movie_path(@socket, :show, @movie["id"],
+        token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", @current_user.id)
+      )
+    }
+    type="video/mp4"
+  />
 
-    <%= if MediaServerWeb.Helpers.has_subtitle(@movie["folderName"], @movie["movieFile"]["relativePath"]) do %>
-        <track kind="subtitles" src={Routes.subtitle_movie_path(@socket, :show, @movie["id"], token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", @current_user.id))} srclang="en"></track>
-    <% end %>
+  <%= if MediaServerWeb.Helpers.has_subtitle(@movie["folderName"], @movie["movieFile"]["relativePath"]) do %>
+    <track
+      kind="subtitles"
+      src={
+        Routes.subtitle_movie_path(@socket, :show, @movie["id"],
+          token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", @current_user.id)
+        )
+      }
+      srclang="en"
+    >
+    </track>
+  <% end %>
 </video>

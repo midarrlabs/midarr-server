@@ -1,43 +1,46 @@
 <!DOCTYPE html>
 <html lang="en" class="bg-gray-50">
   <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <%= csrf_meta_tag() %>
-    <%= live_title_tag assigns[:page_title] %>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}>
+    <%= live_title_tag(assigns[:page_title]) %>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
     <style>
-    .line-clamp {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
+      .line-clamp {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
     </style>
     <%= if @current_user do %>
-    <script>
+      <script>
         window.userId = <%= assigns[:current_user].id %>;
         window.userEmail = "<%= assigns[:current_user].email %>";
         window.userName = "<%= assigns[:current_user].name %>";
-    </script>
-    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
+      </script>
+      <script
+        defer
+        phx-track-static
+        type="text/javascript"
+        src={Routes.static_path(@conn, "/assets/app.js")}
+      >
+      </script>
     <% end %>
   </head>
   <body>
-  <%= if @current_user do %>
-
-    <%= @inner_content %>
-
-  <% else %>
-
-    <div class="h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <%= if @current_user do %>
+      <%= @inner_content %>
+    <% else %>
+      <div class="h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <%= @inner_content %>
-    </div>
-  <% end %>
+      </div>
+    <% end %>
   </body>
 </html>

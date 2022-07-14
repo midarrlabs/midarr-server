@@ -1,7 +1,30 @@
-<video id="video" phx-hook="video" poster={MediaServerWeb.Repositories.Episodes.get_background(@episode)} controlsList="nodownload" controls autoplay>
-    <source src={Routes.stream_episode_path(@socket, :show, @episode["id"], token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", @current_user.id))} type="video/mp4">
+<video
+  id="video"
+  phx-hook="video"
+  poster={MediaServerWeb.Repositories.Episodes.get_background(@episode)}
+  controlsList="nodownload"
+  controls
+  autoplay
+>
+  <source
+    src={
+      Routes.stream_episode_path(@socket, :show, @episode["id"],
+        token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", @current_user.id)
+      )
+    }
+    type="video/mp4"
+  />
 
-    <%= if MediaServerWeb.Helpers.has_subtitle(MediaServerWeb.Helpers.get_parent_path(@episode["episodeFile"]["path"]), MediaServerWeb.Helpers.get_file_name(@episode["episodeFile"]["relativePath"])) do %>
-        <track kind="subtitles" src={Routes.subtitle_episode_path(@socket, :show, @episode["id"], token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", @current_user.id))} srclang="en"></track>
-    <% end %>
+  <%= if MediaServerWeb.Helpers.has_subtitle(MediaServerWeb.Helpers.get_parent_path(@episode["episodeFile"]["path"]), MediaServerWeb.Helpers.get_file_name(@episode["episodeFile"]["relativePath"])) do %>
+    <track
+      kind="subtitles"
+      src={
+        Routes.subtitle_episode_path(@socket, :show, @episode["id"],
+          token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", @current_user.id)
+        )
+      }
+      srclang="en"
+    >
+    </track>
+  <% end %>
 </video>

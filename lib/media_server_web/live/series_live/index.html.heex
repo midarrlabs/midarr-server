@@ -1,32 +1,42 @@
-<.live_component module={MediaServerWeb.Components.NavComponent}
-    id="nav-component"
-    class="text-slate-600 hover:text-slate-800"
+<.live_component
+  module={MediaServerWeb.Components.NavComponent}
+  id="nav-component"
+  class="text-slate-600 hover:text-slate-800"
 />
 
 <div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
-    <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
-        <div class="min-w-0 flex items-center">
-            <h2 class="text-lg font-bold tracking-tight text-slate-600"><%= @page_title %></h2>
-        </div>
+  <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+    <div class="min-w-0 flex items-center">
+      <h2 class="text-lg font-bold tracking-tight text-slate-600"><%= @page_title %></h2>
     </div>
+  </div>
 
+  <%= if assigns[:series] do %>
     <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
-
       <%= for item <- @series do %>
-
         <%= MediaServerWeb.Components.PosterComponent.render(%{
-            img_src: MediaServerWeb.Repositories.Series.get_poster(item),
-            title: item["title"],
-            link: Routes.series_show_path(@socket, :show, item["id"])
+          img_src: MediaServerWeb.Repositories.Series.get_poster(item),
+          title: item["title"],
+          link: Routes.series_show_path(@socket, :show, item["id"])
         }) %>
-
       <% end %>
     </div>
 
     <%= MediaServerWeb.Components.PaginationComponent.render(%{
-        page_number: @series.page_number,
-        total_pages: @series.total_pages,
-        previous_link: Routes.series_index_path(@socket, :index, page: MediaServerWeb.Helpers.get_pagination_previous_link(@series.page_number)),
-        next_link: Routes.series_index_path(@socket, :index, page: MediaServerWeb.Helpers.get_pagination_next_link(@series.page_number))
+      page_number: @series.page_number,
+      total_pages: @series.total_pages,
+      previous_link:
+        Routes.series_index_path(@socket, :index,
+          page: MediaServerWeb.Helpers.get_pagination_previous_link(@series.page_number)
+        ),
+      next_link:
+        Routes.series_index_path(@socket, :index,
+          page: MediaServerWeb.Helpers.get_pagination_next_link(@series.page_number)
+        )
     }) %>
+  <% else %>
+    <div class="flex flex-row col-span-2 lg:col-span-6 justify-center mt-56">
+      <%= MediaServerWeb.Components.SpinnerComponent.render(%{}) %>
+    </div>
+  <% end %>
 </div>

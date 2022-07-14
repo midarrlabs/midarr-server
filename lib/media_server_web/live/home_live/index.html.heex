@@ -1,142 +1,233 @@
-<%= if !Enum.empty?(@latest_movies) do %>
-    <header class="relative pb-24 bg-slate-800 sm:pb-32">
+<header class="relative pb-24 bg-slate-800 sm:pb-32">
+  <div
+    class="absolute inset-0 bg-cover bg-fixed"
+    style={
+      "#{if assigns[:movies], do: "background-image: url(#{MediaServerWeb.Repositories.Movies.get_background(Enum.at(@movies, 0))}) ", else: ""}"
+    }
+  >
+    <div
+      class="absolute inset-0 bg-gradient-to-l from-slate-200 to-neutral-900 mix-blend-multiply"
+      aria-hidden="true"
+    >
+    </div>
+  </div>
 
-        <div class="absolute inset-0 bg-cover bg-fixed" style={"background-image: url(#{ MediaServerWeb.Repositories.Movies.get_background(Enum.at(@latest_movies, 0)) })"}>
-          <div class="absolute inset-0 bg-gradient-to-l from-slate-200 to-neutral-900 mix-blend-multiply" aria-hidden="true"></div>
-        </div>
+  <div class="relative z-10">
+    <.live_component
+      module={MediaServerWeb.Components.NavComponent}
+      id="nav-component"
+      class="text-white hover:text-gray-100"
+    />
+  </div>
 
-        <div class="relative z-10">
-            <.live_component module={MediaServerWeb.Components.NavComponent}
-                id="nav-component"
-                class="text-white hover:text-gray-100"
-             />
-        </div>
+  <div class="relative mt-24 max-w-md mx-auto px-4 sm:max-w-xl sm:mt-32 sm:px-6 lg:max-w-6xl lg:px-8 space-y-6">
+    <%= if assigns[:movies] do %>
+      <h2 class="text-sm font-semibold text-red-300 tracking-wide uppercase">
+        Released <%= Enum.at(@movies, 0)["year"] %>
+      </h2>
+      <h1 class="text-3xl font-extrabold tracking-tight text-white">
+        <%= Enum.at(@movies, 0)["title"] %>
+      </h1>
+      <p class="text-lg text-white max-w-lg line-clamp">
+        <%= Enum.at(@movies, 0)["overview"] %>
+      </p>
+      <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6">
+        <%= live_redirect to: Routes.watch_movie_show_path(@socket, :show, Enum.at(@movies, 0)["id"]), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="-ml-0.5 mr-2 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          Play
+        <% end %>
 
-        <div class="relative mt-24 max-w-md mx-auto px-4 sm:max-w-xl sm:mt-32 sm:px-6 lg:max-w-6xl lg:px-8 space-y-6">
-          <h2 class="text-sm font-semibold text-red-300 tracking-wide uppercase">
-            Released <%= Enum.at(@latest_movies, 0)["year"] %>
-          </h2>
-          <h1 class="text-3xl font-extrabold tracking-tight text-white">
-            <%= Enum.at(@latest_movies, 0)["title"] %>
-          </h1>
-          <p class="text-lg text-white max-w-lg line-clamp">
-            <%= Enum.at(@latest_movies, 0)["overview"] %>
-          </p>
-          <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6">
-
-            <%= live_redirect id: "play-#{ Enum.at(@latest_movies, 0)["id"] }", to: Routes.watch_movie_show_path(@socket, :show, Enum.at(@latest_movies, 0)["id"]), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
-                <svg xmlns="http://www.w3.org/2000/svg" class="-ml-0.5 mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Play
-            <% end %>
-
-            <%= live_redirect to: Routes.movies_show_path(@socket, :show, Enum.at(@latest_movies, 0)["id"]), class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
-                <svg xmlns="http://www.w3.org/2000/svg" class="-ml-0.5 mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                More info
-            <% end %>
-          </div>
-        </div>
-    </header>
-<% end %>
+        <%= live_redirect to: Routes.movies_show_path(@socket, :show, Enum.at(@movies, 0)["id"]), class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="-ml-0.5 mr-2 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          More info
+        <% end %>
+      </div>
+    <% else %>
+      <div class="animate-pulse space-y-6">
+        <div class="bg-gray-300 h-6 w-28 rounded"></div>
+        <div class="bg-gray-300 h-6 w-72 rounded"></div>
+        <div class="bg-gray-300 h-6 w-72 md:w-96 rounded"></div>
+      </div>
+    <% end %>
+  </div>
+</header>
 
 <div class="max-w-6xl mx-auto flex items-center justify-between pt-6 pb-16 px-4 sm:px-6 lg:px-8">
-    <div class="space-y-8">
-
+  <div class="space-y-8">
     <%= if !Enum.empty?(@movie_continues) || !Enum.empty?(@episode_continues) do %>
-        <div>
-          <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
-                <div class="min-w-0 flex items-center">
-                    <h2 class="text-lg font-bold tracking-tight text-slate-600">Continue watching</h2>
-                </div>
-          </div>
-
-          <div>
-            <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
-
-                <%= for item <- @movie_continues do %>
-
-                    <%= live_component MediaServerWeb.Components.ContinueComponent,
-                     id: "movie-#{ item.id }",
-                     id_item: item.id,
-                     image_url: item.image_url,
-                     title: item.title,
-                     minutes_remaining: MediaServerWeb.Helpers.minutes_remaining_from_seconds(item.duration, item.current_time),
-                     percentage_complete: MediaServerWeb.Helpers.percentage_complete_from_seconds(item.current_time, item.duration),
-                     link: Routes.watch_movie_show_path(@socket, :show, item.movie_id, seconds: item.current_time),
-                     event: "delete_movie",
-                     return_to: Routes.home_index_path(@socket, :index)
-                    %>
-
-                <% end %>
-
-                <%= for item <- @episode_continues do %>
-
-                    <%= live_component MediaServerWeb.Components.ContinueComponent,
-                     id: "episode-#{ item.id }",
-                     id_item: item.id,
-                     image_url: item.image_url,
-                     title: item.title,
-                     minutes_remaining: MediaServerWeb.Helpers.minutes_remaining_from_seconds(item.duration, item.current_time),
-                     percentage_complete: MediaServerWeb.Helpers.percentage_complete_from_seconds(item.current_time, item.duration),
-                     link: Routes.watch_episode_show_path(@socket, :show, item.episode_id, seconds: item.current_time),
-                     event: "delete_episode",
-                     return_to: Routes.home_index_path(@socket, :index)
-                    %>
-
-                <% end %>
-            </ul>
+      <div>
+        <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+          <div class="min-w-0 flex items-center">
+            <h2 class="text-lg font-bold tracking-tight text-slate-600">Continue watching</h2>
           </div>
         </div>
+
+        <div>
+          <ul
+            role="list"
+            class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          >
+            <%= for item <- @movie_continues do %>
+              <%= live_component(MediaServerWeb.Components.ContinueComponent,
+                id: "movie-#{item.id}",
+                id_item: item.id,
+                image_url: item.image_url,
+                title: item.title,
+                minutes_remaining:
+                  MediaServerWeb.Helpers.minutes_remaining_from_seconds(
+                    item.duration,
+                    item.current_time
+                  ),
+                percentage_complete:
+                  MediaServerWeb.Helpers.percentage_complete_from_seconds(
+                    item.current_time,
+                    item.duration
+                  ),
+                link:
+                  Routes.watch_movie_show_path(@socket, :show, item.movie_id,
+                    seconds: item.current_time
+                  ),
+                event: "delete_movie",
+                return_to: Routes.home_index_path(@socket, :index)
+              ) %>
+            <% end %>
+
+            <%= for item <- @episode_continues do %>
+              <%= live_component(MediaServerWeb.Components.ContinueComponent,
+                id: "episode-#{item.id}",
+                id_item: item.id,
+                image_url: item.image_url,
+                title: item.title,
+                minutes_remaining:
+                  MediaServerWeb.Helpers.minutes_remaining_from_seconds(
+                    item.duration,
+                    item.current_time
+                  ),
+                percentage_complete:
+                  MediaServerWeb.Helpers.percentage_complete_from_seconds(
+                    item.current_time,
+                    item.duration
+                  ),
+                link:
+                  Routes.watch_episode_show_path(@socket, :show, item.episode_id,
+                    seconds: item.current_time
+                  ),
+                event: "delete_episode",
+                return_to: Routes.home_index_path(@socket, :index)
+              ) %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
     <% end %>
 
-    <%= if !Enum.empty?(@latest_movies) do %>
+    <div>
+      <%= if assigns[:movies] do %>
         <div>
           <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
-                <div class="min-w-0 flex items-center">
-                    <h2 class="text-lg font-bold tracking-tight text-slate-600">Movies fresh in</h2>
-                </div>
+            <div class="min-w-0 flex items-center">
+              <h2 class="text-lg font-bold tracking-tight text-slate-600">Movies fresh in</h2>
+            </div>
+          </div>
+          <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+            <%= for item <- @movies |> Enum.drop(1) do %>
+              <%= MediaServerWeb.Components.PosterComponent.render(%{
+                img_src: MediaServerWeb.Repositories.Movies.get_poster(item),
+                title: item["title"],
+                link: Routes.movies_show_path(@socket, :show, item["id"])
+              }) %>
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <div id="loading-movies">
+          <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+            <div class="min-w-0 flex items-center">
+              <div class="text-sm bg-gray-200 h-6 w-28 rounded"></div>
+            </div>
           </div>
 
           <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
-
-              <%= for item <- @latest_movies |> Enum.drop(1) do %>
-
-                <%= MediaServerWeb.Components.PosterComponent.render(%{
-                    img_src: MediaServerWeb.Repositories.Movies.get_poster(item),
-                    title: item["title"],
-                    link: Routes.movies_show_path(@socket, :show, item["id"])
-                }) %>
-
-              <% end %>
+            <%= for n <- 1..6 do %>
+              <%= MediaServerWeb.Components.PosterLoadingComponent.render(%{
+                img_src: "",
+                title: "",
+                link: ""
+              }) %>
+            <% end %>
           </div>
         </div>
-    <% end %>
+      <% end %>
+    </div>
 
-    <%= if !Enum.empty?(@latest_series) do %>
+    <div>
+      <%= if assigns[:series] do %>
         <div>
-            <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
-                <div class="min-w-0 flex items-center">
-                    <h2 class="text-lg font-bold tracking-tight text-slate-600">Series fresh in</h2>
-                </div>
+          <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+            <div class="min-w-0 flex items-center">
+              <h2 class="text-lg font-bold tracking-tight text-slate-600">Series fresh in</h2>
             </div>
-
-            <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
-
-              <%= for item <- @latest_series do %>
-
-                <%= MediaServerWeb.Components.PosterComponent.render(%{
-                    img_src: MediaServerWeb.Repositories.Series.get_poster(item),
-                    title: item["title"],
-                    link: Routes.series_show_path(@socket, :show, item["id"])
-                }) %>
-
-              <% end %>
-            </div>
+          </div>
+          <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+            <%= for item <- @series do %>
+              <%= MediaServerWeb.Components.PosterComponent.render(%{
+                img_src: MediaServerWeb.Repositories.Series.get_poster(item),
+                title: item["title"],
+                link: Routes.series_show_path(@socket, :show, item["id"])
+              }) %>
+            <% end %>
+          </div>
         </div>
-    <% end %>
-</div>
+      <% else %>
+        <div id="loading-series">
+          <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+            <div class="min-w-0 flex items-center">
+              <div class="text-sm bg-gray-200 h-6 w-28 rounded"></div>
+            </div>
+          </div>
+
+          <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+            <%= for n <- 1..6 do %>
+              <%= MediaServerWeb.Components.PosterLoadingComponent.render(%{
+                img_src: "",
+                title: "",
+                link: ""
+              }) %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>

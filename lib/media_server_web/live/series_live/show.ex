@@ -21,18 +21,30 @@ defmodule MediaServerWeb.SeriesLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _url, socket) do
-    serie = Series.get_serie(id)
+    pid = self()
+
+    Task.start(fn ->
+      send(pid, {:serie, Series.get_serie(id)})
+    end)
 
     {
       :noreply,
       socket
-      |> assign(:page_title, serie["title"])
-      |> assign(:serie, serie)
       |> assign(
         :favourite,
         socket.assigns.current_user.serie_favourites
         |> Enum.find(fn favourite -> favourite.serie_id === String.to_integer(id) end)
       )
+    }
+  end
+
+  @impl true
+  def handle_info({:serie, serie}, socket) do
+    {
+      :noreply,
+      socket
+      |> assign(:page_title, serie["title"])
+      |> assign(:serie, serie)
     }
   end
 

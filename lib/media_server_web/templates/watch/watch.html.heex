@@ -1,32 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <%= csrf_meta_tag() %>
-    <%= live_title_tag assigns[:page_title] %>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <%= live_title_tag(assigns[:page_title]) %>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <style>
-        body {
-            margin: unset;
-        }
-        video {
-            height: 100vh;
-            width: 100%;
-            background-color: black;
-        }
+      body {
+          margin: unset;
+      }
+      video {
+          height: 100vh;
+          width: 100%;
+          background-color: black;
+      }
     </style>
     <%= if @current_user do %>
-    <script>
+      <script>
         window.userId = <%= assigns[:current_user].id %>;
         window.userEmail = "<%= assigns[:current_user].email %>";
         window.userName = "<%= assigns[:current_user].name %>";
-    </script>
-    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
+      </script>
+      <script
+        defer
+        phx-track-static
+        type="text/javascript"
+        src={Routes.static_path(@conn, "/assets/app.js")}
+      >
+      </script>
     <% end %>
   </head>
   <body>

@@ -21,18 +21,41 @@ defmodule MediaServerWeb.MoviesLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _url, socket) do
-    movie = Movies.get_movie(id)
+    pid = self()
+
+    Task.start(fn ->
+      send(pid, {:movie, Movies.get_movie(id)})
+    end)
+
+    Task.start(fn ->
+      send(pid, {:cast, Movies.get_cast(id)})
+    end)
 
     {:noreply,
      socket
-     |> assign(:page_title, movie["title"])
-     |> assign(:movie, movie)
-     |> assign(:cast, Movies.get_cast(id))
      |> assign(
        :favourite,
        socket.assigns.current_user.movie_favourites
        |> Enum.find(fn favourite -> favourite.movie_id === String.to_integer(id) end)
      )}
+  end
+
+  @impl true
+  def handle_info({:movie, movie}, socket) do
+    {
+      :noreply,
+      socket
+      |> assign(:page_title, movie["title"])
+      |> assign(:movie, movie)
+    }
+  end
+
+  def handle_info({:cast, cast}, socket) do
+    {
+      :noreply,
+      socket
+      |> assign(:cast, cast)
+    }
   end
 
   @impl true
