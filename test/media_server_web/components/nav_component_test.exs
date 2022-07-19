@@ -5,52 +5,28 @@ defmodule MediaServerWeb.Components.NavComponentTest do
 
   alias MediaServer.AccountsFixtures
 
-  defp create_fixtures() do
-    %{
-      user: AccountsFixtures.user_fixture()
-    }
+  setup %{conn: conn} do
+    %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
   end
 
-  describe "Component" do
-    setup do
-      create_fixtures()
-    end
+  test "it should render", %{conn: conn} do
+    {:ok, _view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
 
-    test "it should render", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{
-            "email" => user.email,
-            "password" => AccountsFixtures.valid_user_password()
-          }
-        })
+    assert disconnected_html =~ "Movies"
+    assert disconnected_html =~ "Series"
+    assert disconnected_html =~ "Favourites"
+    assert disconnected_html =~ "Continues"
+  end
 
-      {:ok, _index_live, html} = live(conn, Routes.home_index_path(conn, :index))
+  test "it should search", %{conn: conn} do
+    {:ok, view, _disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
 
-      assert html =~ "Movies"
-      assert html =~ "Series"
-      assert html =~ "Favourites"
-      assert html =~ "Continues"
-    end
+    {:ok, _, disconnected_html} =
+      view
+      |> form("#search", search: %{query: "Some query"})
+      |> render_submit()
+      |> follow_redirect(conn, Routes.search_index_path(conn, :index, query: "Some query"))
 
-    test "it can query search", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{
-            "email" => user.email,
-            "password" => AccountsFixtures.valid_user_password()
-          }
-        })
-
-      {:ok, index_live, _html} = live(conn, Routes.home_index_path(conn, :index))
-
-      {:ok, _, html} =
-        index_live
-        |> form("#search", search: %{query: "Some query"})
-        |> render_submit()
-        |> follow_redirect(conn, Routes.search_index_path(conn, :index, query: "Some query"))
-
-      assert html =~ "Some query"
-    end
+    assert disconnected_html =~ "Some query"
   end
 end
