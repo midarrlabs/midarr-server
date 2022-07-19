@@ -9,74 +9,27 @@ defmodule MediaServerWeb.HomeLiveTest do
   alias MediaServerWeb.Repositories.Movies
   alias MediaServerWeb.Repositories.Series
 
-  describe "without integrations" do
-    setup do
-      MoviesFixtures.remove_env()
-      SeriesFixtures.remove_env()
-
-      on_exit(fn ->
-        MoviesFixtures.add_env()
-        SeriesFixtures.add_env()
-      end)
-    end
-
-    test "without movies", %{conn: conn} do
-      fixture = %{user: AccountsFixtures.user_fixture()}
-
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{
-            "email" => fixture.user.email,
-            "password" => AccountsFixtures.valid_user_password()
-          }
-        })
-
-      conn = get(conn, "/")
-      assert html_response(conn, 200)
-    end
-
-    test "without series", %{conn: conn} do
-      fixture = %{user: AccountsFixtures.user_fixture()}
-
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{
-            "email" => fixture.user.email,
-            "password" => AccountsFixtures.valid_user_password()
-          }
-        })
-
-      conn = get(conn, "/")
-      assert html_response(conn, 200)
-    end
+  setup %{conn: conn} do
+    %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
   end
 
-  test "with integrations", %{conn: conn} do
-    fixture = %{user: AccountsFixtures.user_fixture()}
+  test "it should render without movies", %{conn: conn} do
+    MoviesFixtures.remove_env()
 
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => fixture.user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
+    assert html_response(get(conn, "/"), 200)
 
-    conn = get(conn, "/")
-    assert html_response(conn, 200)
+    MoviesFixtures.add_env()
+  end
+
+  test "it should render without series", %{conn: conn} do
+    SeriesFixtures.remove_env()
+
+    assert html_response(get(conn, "/"), 200)
+
+    SeriesFixtures.add_env()
   end
 
   test "latest movies section", %{conn: conn} do
-    user = AccountsFixtures.user_fixture()
-
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
     {:ok, view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
 
     assert disconnected_html =~ "loading-movies"
@@ -91,16 +44,6 @@ defmodule MediaServerWeb.HomeLiveTest do
   end
 
   test "latest series section", %{conn: conn} do
-    user = AccountsFixtures.user_fixture()
-
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
     {:ok, view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
 
     assert disconnected_html =~ "loading-series"
