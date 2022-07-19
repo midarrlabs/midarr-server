@@ -3,21 +3,11 @@ defmodule MediaServerWeb.FavouritesLiveTest do
 
   alias MediaServer.AccountsFixtures
 
-  defp create_fixtures(_) do
-    %{user: AccountsFixtures.user_fixture()}
+  setup %{conn: conn} do
+    %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
   end
 
-  describe "Index" do
-    setup [:create_fixtures]
-
-    test "page", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
-
-      conn = get(conn, Routes.favourites_index_path(conn, :index))
-      assert html_response(conn, 200)
-    end
+  test "it should render", %{conn: conn} do
+    assert html_response(get(conn, Routes.favourites_index_path(conn, :index)), 200)
   end
 end
