@@ -7,57 +7,33 @@ defmodule MediaServerWeb.SearchLiveTest do
   alias MediaServer.MoviesFixtures
   alias MediaServer.SeriesFixtures
 
-  defp create_fixtures() do
-    %{
-      user: AccountsFixtures.user_fixture()
-    }
+  setup %{conn: conn} do
+    %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
   end
 
-  describe "Index page" do
-    setup do
-      create_fixtures()
-    end
+  test "it should search movies", %{conn: conn} do
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.search_index_path(conn, :index, query: "Caminandes Llama Drama"))
 
-    test "it can search movies", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{
-            "email" => user.email,
-            "password" => AccountsFixtures.valid_user_password()
-          }
-        })
+    movie = MoviesFixtures.get_movie()
 
-      {:ok, view, _disconnected_html} =
-        live(conn, Routes.search_index_path(conn, :index, query: "Caminandes Llama Drama"))
+    send(view.pid, {:movies, [movie]})
+    send(view.pid, {:series, []})
 
-      movie = MoviesFixtures.get_movie()
+    assert render(view) =~ "Caminandes: Llama Drama"
+    assert render(view) =~ Routes.movies_show_path(conn, :show, movie["id"])
+  end
 
-      send(view.pid, {:movies, [movie]})
-      send(view.pid, {:series, []})
+  test "it should search series", %{conn: conn} do
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.search_index_path(conn, :index, query: "tvdb:170551"))
 
-      assert render(view) =~ "Caminandes: Llama Drama"
-      assert render(view) =~ Routes.movies_show_path(conn, :show, movie["id"])
-    end
+    serie = SeriesFixtures.get_serie()
 
-    test "it can search series", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{
-            "email" => user.email,
-            "password" => AccountsFixtures.valid_user_password()
-          }
-        })
+    send(view.pid, {:series, [serie]})
+    send(view.pid, {:movies, []})
 
-      {:ok, view, _disconnected_html} =
-        live(conn, Routes.search_index_path(conn, :index, query: "tvdb:170551"))
-
-      serie = SeriesFixtures.get_serie()
-
-      send(view.pid, {:series, [serie]})
-      send(view.pid, {:movies, []})
-
-      assert render(view) =~ "Pioneer One"
-      assert render(view) =~ Routes.series_show_path(conn, :show, serie["id"])
-    end
+    assert render(view) =~ "Pioneer One"
+    assert render(view) =~ Routes.series_show_path(conn, :show, serie["id"])
   end
 end
