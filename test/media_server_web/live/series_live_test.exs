@@ -10,17 +10,11 @@ defmodule MediaServerWeb.SeriesLiveTest do
   alias MediaServerWeb.Repositories.Series
   alias MediaServerWeb.Repositories.Episodes
 
-  test "index series", %{conn: conn} do
-    user = AccountsFixtures.user_fixture()
+  setup %{conn: conn} do
+    %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
+  end
 
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
+  test "it should render index", %{conn: conn} do
     {:ok, view, disconnected_html} = live(conn, Routes.series_index_path(conn, :index))
 
     assert disconnected_html =~ "loading-spinner"
@@ -30,17 +24,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
     send(view.pid, {:series, series})
   end
 
-  test "index paged series", %{conn: conn} do
-    user = AccountsFixtures.user_fixture()
-
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
+  test "it should render index paged", %{conn: conn} do
     {:ok, view, disconnected_html} = live(conn, Routes.series_index_path(conn, :index, page: "1"))
 
     assert disconnected_html =~ "loading-spinner"
@@ -50,17 +34,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
     send(view.pid, {:series, series})
   end
 
-  test "show serie", %{conn: conn} do
-    user = AccountsFixtures.user_fixture()
-
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
+  test "it should render show", %{conn: conn} do
     serie = SeriesFixtures.get_serie()
 
     {:ok, view, disconnected_html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
@@ -70,15 +44,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
     send(view.pid, {:serie, serie})
   end
 
-  test "it can render show page", %{conn: conn} do
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => AccountsFixtures.user_fixture().email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
+  test "it should render season", %{conn: conn} do
     serie = SeriesFixtures.get_serie()
 
     {:ok, view, disconnected_html} =
@@ -92,17 +58,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
     assert render(view) =~ "Play"
   end
 
-  test "it can favourite", %{conn: conn} do
-    fixture = %{user: AccountsFixtures.user_fixture()}
-
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => fixture.user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
+  test "it should favourite", %{conn: conn} do
     serie = SeriesFixtures.get_serie()
 
     {:ok, view, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
@@ -121,17 +77,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
     assert favourite.serie_id === serie["id"]
   end
 
-  test "it can unfavourite", %{conn: conn} do
-    fixture = %{user: AccountsFixtures.user_fixture()}
-
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => fixture.user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
+  test "it should unfavourite", %{conn: conn} do
     serie = SeriesFixtures.get_serie()
 
     {:ok, view, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
