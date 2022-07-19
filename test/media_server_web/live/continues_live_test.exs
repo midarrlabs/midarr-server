@@ -6,47 +6,29 @@ defmodule MediaServerWeb.ContinuesLiveTest do
   alias MediaServer.AccountsFixtures
   alias MediaServer.ContinuesFixtures
 
-  defp create_fixtures(_) do
-    %{user: AccountsFixtures.user_fixture()}
+  setup %{conn: conn} do
+    user = AccountsFixtures.user_fixture()
+
+    %{conn: conn |> log_in_user(user), user: user}
   end
 
-  describe "Index" do
-    setup [:create_fixtures]
+  test "it should render", %{conn: conn, user: _user} do
+    assert html_response(get(conn, Routes.continues_index_path(conn, :index)), 200)
+  end
 
-    test "page", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
+  test "it can delete movie continue", %{conn: conn, user: user} do
+    movie_continue_status = ContinuesFixtures.movie_fixture(%{user_id: user.id})
 
-      conn = get(conn, Routes.continues_index_path(conn, :index))
-      assert html_response(conn, 200)
-    end
+    {:ok, index_live, _html} = live(conn, Routes.continues_index_path(conn, :index))
 
-    test "delete movie", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
+    assert index_live |> element("#movie-#{movie_continue_status.id}") |> render_click()
+  end
 
-      movie_continue_status = ContinuesFixtures.movie_fixture(%{user_id: user.id})
+  test "it can delete episode continue", %{conn: conn, user: user} do
+    episode_continue_status = ContinuesFixtures.episode_fixture(%{user_id: user.id})
 
-      {:ok, index_live, _html} = live(conn, Routes.continues_index_path(conn, :index))
+    {:ok, index_live, _html} = live(conn, Routes.continues_index_path(conn, :index))
 
-      assert index_live |> element("#movie-#{movie_continue_status.id}") |> render_click()
-    end
-
-    test "delete episode", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
-
-      episode_continue_status = ContinuesFixtures.episode_fixture(%{user_id: user.id})
-
-      {:ok, index_live, _html} = live(conn, Routes.continues_index_path(conn, :index))
-
-      assert index_live |> element("#episode-#{episode_continue_status.id}") |> render_click()
-    end
+    assert index_live |> element("#episode-#{episode_continue_status.id}") |> render_click()
   end
 end
