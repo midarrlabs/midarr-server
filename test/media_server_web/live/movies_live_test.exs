@@ -8,17 +8,11 @@ defmodule MediaServerWeb.MoviesLiveTest do
   alias MediaServer.Favourites
   alias MediaServerWeb.Repositories.Movies
 
-  test "index movies", %{conn: conn} do
-    user = AccountsFixtures.user_fixture()
+  setup %{conn: conn} do
+    %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
+  end
 
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
+  test "it should render index", %{conn: conn} do
     {:ok, view, disconnected_html} = live(conn, Routes.movies_index_path(conn, :index))
 
     assert disconnected_html =~ "loading-spinner"
@@ -28,17 +22,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
     send(view.pid, {:movies, movies})
   end
 
-  test "index paged movies", %{conn: conn} do
-    user = AccountsFixtures.user_fixture()
-
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
+  test "it should render index paged", %{conn: conn} do
     {:ok, view, disconnected_html} = live(conn, Routes.movies_index_path(conn, :index, page: "1"))
 
     assert disconnected_html =~ "loading-spinner"
@@ -48,17 +32,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
     send(view.pid, {:movies, movies})
   end
 
-  test "show movie", %{conn: conn} do
-    user = AccountsFixtures.user_fixture()
-
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
+  test "it should render show", %{conn: conn} do
     movie = MoviesFixtures.get_movie()
     cast = Movies.get_cast(movie["id"])
 
@@ -70,38 +44,11 @@ defmodule MediaServerWeb.MoviesLiveTest do
     send(view.pid, {:cast, cast})
   end
 
-  test "it can render show page", %{conn: conn} do
-    fixture = %{user: AccountsFixtures.user_fixture()}
-
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => fixture.user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
-    movie = MoviesFixtures.get_movie()
-
-    conn = get(conn, Routes.movies_show_path(conn, :show, movie["id"]))
-    assert html_response(conn, 200)
-  end
-
-  test "it can favourite", %{conn: conn} do
-    fixture = %{user: AccountsFixtures.user_fixture()}
-
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => fixture.user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
+  test "it should favourite", %{conn: conn} do
     movie = MoviesFixtures.get_movie()
     cast = Movies.get_cast(movie["id"])
 
-    {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+    {:ok, view, _disconnected_html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
     assert Favourites.list_movie_favourites()
            |> Enum.empty?()
@@ -118,17 +65,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
     assert favourite.movie_id === movie["id"]
   end
 
-  test "it can unfavourite", %{conn: conn} do
-    fixture = %{user: AccountsFixtures.user_fixture()}
-
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => fixture.user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
+  test "it should unfavourite", %{conn: conn} do
     movie = MoviesFixtures.get_movie()
     cast = Movies.get_cast(movie["id"])
 
@@ -154,17 +91,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
            |> Enum.empty?()
   end
 
-  test "it can click play button on show page", %{conn: conn} do
-    fixture = %{user: AccountsFixtures.user_fixture()}
-
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{
-          "email" => fixture.user.email,
-          "password" => AccountsFixtures.valid_user_password()
-        }
-      })
-
+  test "it should play", %{conn: conn} do
     movie = MoviesFixtures.get_movie()
     cast = Movies.get_cast(movie["id"])
 
