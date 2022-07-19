@@ -16,7 +16,12 @@ defmodule MediaServerWeb.HomeLiveTest do
   test "it should render without movies", %{conn: conn} do
     MoviesFixtures.remove_env()
 
-    assert html_response(get(conn, "/"), 200)
+    {:ok, _view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
+
+    assert disconnected_html =~ "Movies"
+    assert disconnected_html =~ "Series"
+    assert disconnected_html =~ "Favourites"
+    assert disconnected_html =~ "Continues"
 
     MoviesFixtures.add_env()
   end
@@ -24,12 +29,17 @@ defmodule MediaServerWeb.HomeLiveTest do
   test "it should render without series", %{conn: conn} do
     SeriesFixtures.remove_env()
 
-    assert html_response(get(conn, "/"), 200)
+    {:ok, _view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
+
+    assert disconnected_html =~ "Movies"
+    assert disconnected_html =~ "Series"
+    assert disconnected_html =~ "Favourites"
+    assert disconnected_html =~ "Continues"
 
     SeriesFixtures.add_env()
   end
 
-  test "latest movies section", %{conn: conn} do
+  test "it has latest movies", %{conn: conn} do
     {:ok, view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
 
     assert disconnected_html =~ "loading-movies"
@@ -43,7 +53,7 @@ defmodule MediaServerWeb.HomeLiveTest do
     refute render(view) =~ "Caminandes: Llamigos"
   end
 
-  test "latest series section", %{conn: conn} do
+  test "it has latest series", %{conn: conn} do
     {:ok, view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
 
     assert disconnected_html =~ "loading-series"
@@ -53,5 +63,17 @@ defmodule MediaServerWeb.HomeLiveTest do
     send(view.pid, {:series, series})
 
     assert render(view) =~ "Pioneer One"
+  end
+
+  test "it can search", %{conn: conn} do
+    {:ok, view, _disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
+
+    {:ok, _, disconnected_html} =
+      view
+      |> form("#search", search: %{query: "Some query"})
+      |> render_submit()
+      |> follow_redirect(conn, Routes.search_index_path(conn, :index, query: "Some query"))
+
+    assert disconnected_html =~ "Some query"
   end
 end
