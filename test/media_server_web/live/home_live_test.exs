@@ -16,12 +16,7 @@ defmodule MediaServerWeb.HomeLiveTest do
   test "it should render without movies", %{conn: conn} do
     MoviesFixtures.remove_env()
 
-    {:ok, _view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
-
-    assert disconnected_html =~ "Movies"
-    assert disconnected_html =~ "Series"
-    assert disconnected_html =~ "Favourites"
-    assert disconnected_html =~ "Continues"
+    assert html_response(get(conn, Routes.home_index_path(conn, :index)), 200)
 
     MoviesFixtures.add_env()
   end
@@ -29,12 +24,7 @@ defmodule MediaServerWeb.HomeLiveTest do
   test "it should render without series", %{conn: conn} do
     SeriesFixtures.remove_env()
 
-    {:ok, _view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
-
-    assert disconnected_html =~ "Movies"
-    assert disconnected_html =~ "Series"
-    assert disconnected_html =~ "Favourites"
-    assert disconnected_html =~ "Continues"
+    assert html_response(get(conn, Routes.home_index_path(conn, :index)), 200)
 
     SeriesFixtures.add_env()
   end
