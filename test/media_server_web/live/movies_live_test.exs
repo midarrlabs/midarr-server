@@ -48,7 +48,8 @@ defmodule MediaServerWeb.MoviesLiveTest do
     movie = MoviesFixtures.get_movie()
     cast = Movies.get_cast(movie["id"])
 
-    {:ok, view, _disconnected_html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
     assert Favourites.list_movie_favourites()
            |> Enum.empty?()
