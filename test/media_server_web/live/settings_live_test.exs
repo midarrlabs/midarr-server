@@ -8,19 +8,19 @@ defmodule MediaServerWeb.SettingsLiveTest do
   test "it should not invite users", %{conn: conn} do
     conn = conn |> log_in_user(AccountsFixtures.user_fixture())
 
-    {:ok, _index_live, html} = live(conn, Routes.settings_index_path(conn, :index))
+    {:ok, _view, disconnected_html} = live(conn, Routes.settings_index_path(conn, :index))
 
-    refute html =~ "Invite Users"
+    refute disconnected_html =~ "Invite Users"
   end
 
   test "it should require account name", %{conn: conn} do
     conn = conn |> log_in_user(AccountsFixtures.user_fixture())
 
-    {:ok, index_live, html} = live(conn, Routes.settings_index_path(conn, :index))
+    {:ok, view, disconnected_html} = live(conn, Routes.settings_index_path(conn, :index))
 
-    assert html =~ "Some Name"
+    assert disconnected_html =~ "Some Name"
 
-    assert index_live
+    assert view
            |> form("#user-account-form", user: %{name: ""})
            |> render_submit() =~ "can&#39;t be blank"
   end
