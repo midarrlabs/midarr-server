@@ -5,121 +5,75 @@ defmodule MediaServerWeb.SettingsLiveTest do
 
   alias MediaServer.AccountsFixtures
 
-  defp create_fixtures(_) do
-    %{
-      user: AccountsFixtures.user_fixture(),
-      admin: AccountsFixtures.user_admin_fixture()
-    }
+  test "it should not invite users", %{conn: conn} do
+    conn = conn |> log_in_user(AccountsFixtures.user_fixture())
+
+    {:ok, _index_live, html} = live(conn, Routes.settings_index_path(conn, :index))
+
+    refute html =~ "Invite Users"
   end
 
-  describe "Index page" do
-    setup [:create_fixtures]
+  test "it should require account name", %{conn: conn} do
+    conn = conn |> log_in_user(AccountsFixtures.user_fixture())
 
-    test "it shows sections", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
+    {:ok, index_live, html} = live(conn, Routes.settings_index_path(conn, :index))
 
-      {:ok, _index_live, html} = live(conn, Routes.settings_index_path(conn, :index))
+    assert html =~ "Some Name"
 
-      refute html =~ "Invite Users"
-    end
+    assert index_live
+           |> form("#user-account-form", user: %{name: ""})
+           |> render_submit() =~ "can&#39;t be blank"
   end
 
-  describe "User account" do
-    setup [:create_fixtures]
+  test "it should update account name", %{conn: conn} do
+    conn = conn |> log_in_user(AccountsFixtures.user_fixture())
 
-    test "it should update account name", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
+    {:ok, view, disconnected_html} = live(conn, Routes.settings_index_path(conn, :index))
 
-      {:ok, index_live, html} = live(conn, Routes.settings_index_path(conn, :index))
+    assert disconnected_html =~ "Some Name"
 
-      assert html =~ "Some Name"
+    {:ok, _view, disconnected_html} =
+      view
+      |> form("#user-account-form", user: %{name: "Some Updated Name"})
+      |> render_submit()
+      |> follow_redirect(conn, Routes.settings_index_path(conn, :index))
 
-      {:ok, _, html} =
-        index_live
-        |> form("#user-account-form", user: %{name: "Some Updated Name"})
-        |> render_submit()
-        |> follow_redirect(conn, Routes.settings_index_path(conn, :index))
-
-      refute html =~ "Some Name"
-      assert html =~ "Some Updated Name"
-    end
-
-    test "it should require account name", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
-
-      {:ok, index_live, html} = live(conn, Routes.settings_index_path(conn, :index))
-
-      assert html =~ "Some Name"
-
-      assert index_live
-             |> form("#user-account-form", user: %{name: ""})
-             |> render_submit() =~ "can&#39;t be blank"
-    end
+    refute disconnected_html =~ "Some Name"
+    assert disconnected_html =~ "Some Updated Name"
   end
 
-  describe "User invite" do
-    setup [:create_fixtures]
+  test "it should require email address", %{conn: conn} do
+    conn = conn |> log_in_user(AccountsFixtures.user_admin_fixture())
 
-    test "it should show new email address", %{conn: conn, admin: admin} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{
-            "email" => admin.email,
-            "password" => AccountsFixtures.valid_user_password()
-          }
-        })
+    {:ok, view, _disconnected_html} = live(conn, Routes.settings_index_path(conn, :index))
 
-      {:ok, index_live, _html} = live(conn, Routes.settings_index_path(conn, :index))
+    assert view
+           |> form("#user-form", user: %{email: "", name: "Some Name"})
+           |> render_submit() =~ "can&#39;t be blank"
+  end
 
-      {:ok, _, html} =
-        index_live
-        |> form("#user-form", user: %{email: "test@email.com", name: "Some Name"})
-        |> render_submit()
-        |> follow_redirect(conn, Routes.settings_index_path(conn, :index))
+  test "it should update email address", %{conn: conn} do
+    conn = conn |> log_in_user(AccountsFixtures.user_admin_fixture())
 
-      assert html =~ "Some Name"
-      assert html =~ "test@email.com"
-    end
+    {:ok, view, _disconnected_html} = live(conn, Routes.settings_index_path(conn, :index))
 
-    test "it should require email address", %{conn: conn, admin: admin} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{
-            "email" => admin.email,
-            "password" => AccountsFixtures.valid_user_password()
-          }
-        })
+    {:ok, _, disconnected_html} =
+      view
+      |> form("#user-form", user: %{email: "test@email.com", name: "Some Name"})
+      |> render_submit()
+      |> follow_redirect(conn, Routes.settings_index_path(conn, :index))
 
-      {:ok, index_live, _html} = live(conn, Routes.settings_index_path(conn, :index))
+    assert disconnected_html =~ "Some Name"
+    assert disconnected_html =~ "test@email.com"
+  end
 
-      assert index_live
-             |> form("#user-form", user: %{email: "", name: "Some Name"})
-             |> render_submit() =~ "can&#39;t be blank"
-    end
+  test "it should require name", %{conn: conn} do
+    conn = conn |> log_in_user(AccountsFixtures.user_admin_fixture())
 
-    test "it should require name", %{conn: conn, admin: admin} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{
-            "email" => admin.email,
-            "password" => AccountsFixtures.valid_user_password()
-          }
-        })
+    {:ok, view, _disconnected_html} = live(conn, Routes.settings_index_path(conn, :index))
 
-      {:ok, index_live, _html} = live(conn, Routes.settings_index_path(conn, :index))
-
-      assert index_live
-             |> form("#user-form", user: %{email: "test@email.com", name: ""})
-             |> render_submit() =~ "can&#39;t be blank"
-    end
+    assert view
+           |> form("#user-form", user: %{email: "test@email.com", name: ""})
+           |> render_submit() =~ "can&#39;t be blank"
   end
 end
