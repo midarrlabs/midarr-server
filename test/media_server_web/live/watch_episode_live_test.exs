@@ -10,102 +10,76 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   alias MediaServer.ComponentsFixtures
   alias MediaServer.Actions
 
-  defp create_fixtures(_) do
+  setup %{conn: conn} do
     ComponentsFixtures.action_fixture()
-    %{user: AccountsFixtures.user_fixture()}
+
+    user = AccountsFixtures.user_fixture()
+
+    %{conn: conn |> log_in_user(user), user: user}
   end
 
-  describe "Show page" do
-    setup [:create_fixtures]
+  test "it should watch", %{conn: conn, user: _user} do
+    serie = SeriesFixtures.get_serie()
 
-    test "it can watch", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
+    episode = EpisodesFixtures.get_episode(serie["id"])
 
-      serie = SeriesFixtures.get_serie()
+    {:ok, view, _disconnected_html} = live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
 
-      episode = EpisodesFixtures.get_episode(serie["id"])
+    render_hook(view, :video_played)
 
-      {:ok, view, _html} = live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
+    assert Enum.count(Actions.list_episode_actions()) === 1
+  end
 
-      render_hook(view, :video_played)
+  test "it should continue", %{conn: conn, user: user} do
+    serie = SeriesFixtures.get_serie()
 
-      assert Enum.count(Actions.list_episode_actions()) === 1
-    end
+    episode = EpisodesFixtures.get_episode(serie["id"])
 
-    test "it has continue", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
+    {:ok, view, _disconnected_html} = live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
 
-      serie = SeriesFixtures.get_serie()
+    render_hook(view, :video_destroyed, %{
+      episode_id: episode["id"],
+      serie_id: episode["seriesId"],
+      current_time: 39,
+      duration: 78,
+      user_id: user.id
+    })
 
-      episode = EpisodesFixtures.get_episode(serie["id"])
+    assert ContinuesFixtures.get_episode_continue()
+  end
 
-      {:ok, view, _html} = live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
+  test "it should not continue", %{conn: conn, user: user} do
+    serie = SeriesFixtures.get_serie()
 
-      render_hook(view, :video_destroyed, %{
-        episode_id: episode["id"],
-        serie_id: episode["seriesId"],
-        current_time: 39,
-        duration: 78,
-        user_id: user.id
-      })
+    episode = EpisodesFixtures.get_episode(serie["id"])
 
-      assert ContinuesFixtures.get_episode_continue()
-    end
+    {:ok, view, _disconnected_html} = live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
 
-    test "it does not have continue", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
+    render_hook(view, :video_destroyed, %{
+      episode_id: episode["id"],
+      serie_id: episode["seriesId"],
+      current_time: 90,
+      duration: 100,
+      user_id: user.id
+    })
 
-      serie = SeriesFixtures.get_serie()
+    refute ContinuesFixtures.get_episode_continue()
+  end
 
-      episode = EpisodesFixtures.get_episode(serie["id"])
+  test "it should subtitle", %{conn: conn, user: _user} do
+    serie = SeriesFixtures.get_serie()
 
-      {:ok, view, _html} = live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
+    episode = EpisodesFixtures.get_episode(serie["id"])
 
-      render_hook(view, :video_destroyed, %{
-        episode_id: episode["id"],
-        serie_id: episode["seriesId"],
-        current_time: 90,
-        duration: 100,
-        user_id: user.id
-      })
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
 
-      refute ContinuesFixtures.get_episode_continue()
-    end
+    assert disconnected_html =~ Routes.subtitle_episode_path(conn, :show, episode["id"])
+  end
 
-    test "it has subtitle", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
+  test "it should not subtitle", %{conn: conn, user: _user} do
+    {:ok, _view, disconnected_html} = live(conn, Routes.watch_episode_show_path(conn, :show, 3))
 
-      serie = SeriesFixtures.get_serie()
-
-      episode = EpisodesFixtures.get_episode(serie["id"])
-
-      {:ok, _view, disconnected_html} =
-        live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
-
-      assert disconnected_html =~ Routes.subtitle_episode_path(conn, :show, episode["id"])
-    end
-
-    test "it does not have subtitle", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
-
-      {:ok, _view, disconnected_html} = live(conn, Routes.watch_episode_show_path(conn, :show, 3))
-
-      refute disconnected_html =~ Routes.subtitle_episode_path(conn, :show, 3)
-    end
+    refute disconnected_html =~ Routes.subtitle_episode_path(conn, :show, 3)
   end
 end
