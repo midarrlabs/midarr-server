@@ -153,8 +153,8 @@ videos/some-video
       └── some-video.mp4
       └── some-video.srt
 ```
-
-If a subtitle file is found and in the supported `srt` format, a subtitle / caption option will be available in the player view.
+ 
+With this setup a subtitle / caption option will be available in the player view.
 
 ## Contributing
 
