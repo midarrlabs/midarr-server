@@ -9,88 +9,61 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   alias MediaServer.ComponentsFixtures
   alias MediaServer.ActionsFixtures
 
-  defp create_fixtures(_) do
+  setup %{conn: conn} do
     ComponentsFixtures.action_fixture()
-    %{user: AccountsFixtures.user_fixture()}
+
+    user = AccountsFixtures.user_fixture()
+
+    %{conn: conn |> log_in_user(user), user: user}
   end
 
-  describe "Show page" do
-    setup [:create_fixtures]
+  test "it should watch", %{conn: conn, user: _user} do
+    movie = MoviesFixtures.get_movie()
 
-    test "it can watch", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
+    {:ok, view, _disconnected_html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
 
-      movie = MoviesFixtures.get_movie()
+    render_hook(view, :video_played)
 
-      {:ok, view, _html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
+    assert Enum.count(ActionsFixtures.get_movie_played()) === 1
+  end
 
-      render_hook(view, :video_played)
+  test "it should continue", %{conn: conn, user: _user} do
+    movie = MoviesFixtures.get_movie()
 
-      assert Enum.count(ActionsFixtures.get_movie_played()) === 1
-    end
+    {:ok, view, _disconnected_html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
 
-    test "it has continue", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
+    render_hook(view, :video_destroyed, %{
+      current_time: 89,
+      duration: 100
+    })
 
-      movie = MoviesFixtures.get_movie()
+    assert ContinuesFixtures.get_movie_continue()
+  end
 
-      {:ok, view, _html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
+  test "it should not continue", %{conn: conn, user: _user} do
+    movie = MoviesFixtures.get_movie()
 
-      render_hook(view, :video_destroyed, %{
-        current_time: 89,
-        duration: 100
-      })
+    {:ok, view, _disconnected_html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
 
-      assert ContinuesFixtures.get_movie_continue()
-    end
+    render_hook(view, :video_destroyed, %{
+      current_time: 90,
+      duration: 100
+    })
 
-    test "it does not have continue", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
+    refute ContinuesFixtures.get_movie_continue()
+  end
 
-      movie = MoviesFixtures.get_movie()
+  test "it should subtitle", %{conn: conn, user: _user} do
+    movie = MoviesFixtures.get_movie()
 
-      {:ok, view, _html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
+    {:ok, _view, disconnected_html} = live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
 
-      render_hook(view, :video_destroyed, %{
-        current_time: 90,
-        duration: 100
-      })
+    assert disconnected_html =~ Routes.subtitle_movie_path(conn, :show, movie["id"])
+  end
 
-      refute ContinuesFixtures.get_movie_continue()
-    end
+  test "it should not subtitle", %{conn: conn, user: _user} do
+    {:ok, _view, disconnected_html} = live(conn, Routes.watch_movie_show_path(conn, :show, 2))
 
-    test "it has subtitle", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
-
-      movie = MoviesFixtures.get_movie()
-
-      {:ok, _view, disconnected_html} =
-        live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"]))
-
-      assert disconnected_html =~ Routes.subtitle_movie_path(conn, :show, movie["id"])
-    end
-
-    test "it does not have subtitle", %{conn: conn, user: user} do
-      conn =
-        post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-        })
-
-      {:ok, _view, disconnected_html} = live(conn, Routes.watch_movie_show_path(conn, :show, 2))
-
-      refute disconnected_html =~ Routes.subtitle_movie_path(conn, :show, 2)
-    end
+    refute disconnected_html =~ Routes.subtitle_movie_path(conn, :show, 2)
   end
 end
