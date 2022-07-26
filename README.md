@@ -144,6 +144,18 @@ Login with these credentials, and access the `Settings` page to configure your s
 * Audio AAC / MP3
 * Container MP4
 
+## Subtitle support
+
+`Midarr` supports a single `*.srt` file in the root directory of the video:
+
+```
+videos/some-video
+      └── some-video.mp4
+      └── some-video.srt
+```
+
+If a subtitle file is found and in the supported `srt` format, a subtitle / caption option will be available in the player view.
+
 ## Contributing
 
 Thank you for all your contributions! Big or small - all is welcome!
