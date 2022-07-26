@@ -153,7 +153,6 @@ videos/some-video
       └── some-video.mp4
       └── some-video.srt
 ```
- 
 With this setup a subtitle / caption option will be available in the player view.
 
 ## Contributing
