@@ -138,15 +138,19 @@ environment:
 ```
 Login with these credentials, and access the `Settings` page to configure your server.
 
-## Video support
+## Support
+
+#### Videos
+
+The following video format is currently supported:
 
 * Video H.264
 * Audio AAC / MP3
 * Container MP4
 
-## Subtitle support
+#### Subtitles
 
-`Midarr` supports a single `*.srt` file in the root directory of the video:
+A single `*.srt` file in the root directory of the video is currently supported:
 
 ```
 videos/some-video
