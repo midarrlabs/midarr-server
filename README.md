@@ -144,7 +144,7 @@ Login with these credentials, and access the `Settings` page to configure your s
 
 The following video format is currently supported:
 
-* Video H.264
+* Codec H.264
 * Audio AAC / MP3
 * Container MP4
 
