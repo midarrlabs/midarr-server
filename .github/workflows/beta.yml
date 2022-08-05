@@ -1,8 +1,8 @@
-name: Next
+name: Beta
 
 on:
   push:
-    branches: [ next ]
+    branches: [ beta ]
 
 jobs:
   test:

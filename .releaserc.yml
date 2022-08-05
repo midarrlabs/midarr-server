@@ -2,4 +2,4 @@ plugins:
   - "@semantic-release/commit-analyzer"
   - "@semantic-release/release-notes-generator"
   - "@semantic-release/github"
-branches: [ "master", {"name": "next", "prerelease": true}, "+([0-9])?(.{+([0-9]),x}).x" ]
+branches: [ "+([0-9])?(.{+([0-9]),x}).x", "master", {"name": "beta", "prerelease": true} ]
