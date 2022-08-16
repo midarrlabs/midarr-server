@@ -71,7 +71,7 @@ services:
 
   sonarr:
     container_name: sonarr
-    image: linuxserver/sonarr:3.0.6
+    image: linuxserver/sonarr:3.0.9
     ports:
       - 8989:8989
     volumes:
