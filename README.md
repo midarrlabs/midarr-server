@@ -31,7 +31,7 @@ with much more to come...
 
 #### What is this?
 
-`Midarr` in its' current form, is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It relies on the integration with these services to serve your **MP4** format media untouched and unscathed.
+`Midarr` in its' current form, is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It relies on the integration with these services to serve your **H.264** codec media untouched and unscathed.
 
 While more fully fledged media server options already exist, `Midarr` simply compliments as a lightweight alternative.
 
@@ -146,7 +146,7 @@ The following video format is currently supported:
 
 * Codec H.264
 * Audio AAC / MP3
-* Container MP4
+* Container MP4 / MKV
 
 #### Subtitles
 

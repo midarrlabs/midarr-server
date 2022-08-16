@@ -44,7 +44,7 @@
                 <%= item["overview"] %>
               </p>
 
-              <%= live_redirect id: "play-#{ item["id"] }", to: Routes.watch_episode_show_path(@socket, :show, item["id"]), class: "mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
+              <%= live_redirect id: "play-#{ item["id"] }", to: Routes.watch_episode_show_path(@socket, :show, item["id"], "watch"), class: "mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="-ml-0.5 mr-2 h-6 w-6"
