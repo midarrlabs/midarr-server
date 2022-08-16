@@ -24,7 +24,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     episode = EpisodesFixtures.get_episode(serie["id"])
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
+      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
 
     render_hook(view, :video_played)
 
@@ -37,7 +37,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     episode = EpisodesFixtures.get_episode(serie["id"])
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
+      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
 
     render_hook(view, :video_destroyed, %{
       episode_id: episode["id"],
@@ -48,6 +48,11 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     })
 
     assert ContinuesFixtures.get_episode_continue()
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "continue"))
+
+    assert render(view) =~ "#t=39"
   end
 
   test "it should not continue", %{conn: conn, user: user} do
@@ -56,7 +61,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     episode = EpisodesFixtures.get_episode(serie["id"])
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
+      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
 
     render_hook(view, :video_destroyed, %{
       episode_id: episode["id"],
@@ -67,6 +72,11 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     })
 
     refute ContinuesFixtures.get_episode_continue()
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "continue"))
+
+    refute render(view) =~ "#t=90"
   end
 
   test "it should subtitle", %{conn: conn, user: _user} do
@@ -75,13 +85,14 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     episode = EpisodesFixtures.get_episode(serie["id"])
 
     {:ok, _view, disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"]))
+      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
 
     assert disconnected_html =~ Routes.subtitle_episode_path(conn, :show, episode["id"])
   end
 
   test "it should not subtitle", %{conn: conn, user: _user} do
-    {:ok, _view, disconnected_html} = live(conn, Routes.watch_episode_show_path(conn, :show, 3))
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.watch_episode_show_path(conn, :show, 3, "watch"))
 
     refute disconnected_html =~ Routes.subtitle_episode_path(conn, :show, 3)
   end

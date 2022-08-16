@@ -1,6 +1,7 @@
 defmodule MediaServerWeb.WatchEpisodeLive.Show do
   use MediaServerWeb, :live_view
 
+  alias MediaServer.Repo
   alias MediaServer.Accounts
   alias MediaServerWeb.Repositories.Episodes
   alias MediaServer.Continues
@@ -12,12 +13,16 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
     {
       :ok,
       socket
-      |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]))
+      |> assign(
+        :current_user,
+        Accounts.get_user_by_session_token(session["user_token"])
+        |> Repo.preload(:episode_continues)
+      )
     }
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _url, socket) do
+  def handle_params(%{"id" => id, "action" => "watch"}, _url, socket) do
     episode = Episodes.get_episode(id)
 
     {
@@ -25,6 +30,23 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
       socket
       |> assign(:page_title, "#{episode["series"]["title"]}: #{episode["title"]}")
       |> assign(:episode, episode)
+    }
+  end
+
+  def handle_params(%{"id" => id, "action" => "continue"}, _url, socket) do
+    episode = Episodes.get_episode(id)
+
+    {
+      :noreply,
+      socket
+      |> assign(:page_title, "#{episode["series"]["title"]}: #{episode["title"]}")
+      |> assign(:episode, episode)
+      |> assign(
+        :continue,
+        socket.assigns.current_user.episode_continues
+        |> Enum.filter(fn item -> item.episode_id == episode["id"] end)
+        |> List.first()
+      )
     }
   end
 
