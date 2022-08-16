@@ -63,7 +63,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "continue"))
 
-    refute render(view) =~ "#t=89"
+    refute render(view) =~ "#t=90"
   end
 
   test "it should subtitle", %{conn: conn, user: _user} do
