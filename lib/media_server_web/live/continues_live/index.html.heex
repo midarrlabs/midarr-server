@@ -29,7 +29,7 @@
               item.current_time,
               item.duration
             ),
-          link: Routes.continue_movie_show_path(@socket, :show, item.movie_id),
+          link: Routes.watch_movie_show_path(@socket, :show, item.movie_id, "continue"),
           event: "delete_movie",
           return_to: Routes.continues_index_path(@socket, :index)
         ) %>
