@@ -125,8 +125,8 @@ defmodule MediaServerWeb.SeriesLiveTest do
                "seasonNumber" => 1,
                "seriesId" => 1,
                "title" => "Earthfall",
-               "unverifiedSceneNumbering" => false,
-               "tvdbId" => 0
+               "tvdbId" => 2375761,
+               "unverifiedSceneNumbering" => false
              },
              %{
                "airDate" => "2010-06-25",
@@ -147,8 +147,8 @@ defmodule MediaServerWeb.SeriesLiveTest do
                "seasonNumber" => 1,
                "seriesId" => 1,
                "title" => "The Man From Mars",
-               "unverifiedSceneNumbering" => false,
-               "tvdbId" => 0
+               "tvdbId" => 3294321,
+               "unverifiedSceneNumbering" => false
              },
              %{
                "airDate" => "2011-03-28",
@@ -169,8 +169,8 @@ defmodule MediaServerWeb.SeriesLiveTest do
                "seasonNumber" => 1,
                "seriesId" => 1,
                "title" => "Alone in the Night",
-               "unverifiedSceneNumbering" => false,
-               "tvdbId" => 0
+               "tvdbId" => 3990361,
+               "unverifiedSceneNumbering" => false
              }
            ]
   end
