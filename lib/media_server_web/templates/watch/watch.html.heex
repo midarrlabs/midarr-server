@@ -10,14 +10,13 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.2/plyr.css" />
     <style>
       body {
           margin: unset;
       }
-      video {
-          height: 100vh;
-          width: 100%;
-          background-color: black;
+      .plyr--video {
+        height: 100vh;
       }
     </style>
     <%= if @current_user do %>
@@ -29,7 +28,6 @@
       <script
         defer
         phx-track-static
-        type="text/javascript"
         src={Routes.static_path(@conn, "/assets/app.js")}
       >
       </script>
@@ -37,5 +35,9 @@
   </head>
   <body>
     <%= @inner_content %>
+    <script src="https://cdn.plyr.io/3.7.2/plyr.js"></script>
+    <script>
+      const player = new Plyr('#video');
+    </script>
   </body>
 </html>
