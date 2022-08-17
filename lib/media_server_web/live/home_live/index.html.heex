@@ -32,7 +32,7 @@
         <%= Enum.at(@movies, 0)["overview"] %>
       </p>
       <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6">
-        <%= live_redirect to: Routes.watch_movie_show_path(@socket, :show, Enum.at(@movies, 0)["id"]), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
+        <%= live_redirect to: Routes.watch_movie_show_path(@socket, :show, Enum.at(@movies, 0)["id"], "watch"), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="-ml-0.5 mr-2 h-6 w-6"
@@ -114,10 +114,7 @@
                     item.current_time,
                     item.duration
                   ),
-                link:
-                  Routes.watch_movie_show_path(@socket, :show, item.movie_id,
-                    seconds: item.current_time
-                  ),
+                link: Routes.watch_movie_show_path(@socket, :show, item.movie_id, "continue"),
                 event: "delete_movie",
                 return_to: Routes.home_index_path(@socket, :index)
               ) %>
@@ -139,10 +136,7 @@
                     item.current_time,
                     item.duration
                   ),
-                link:
-                  Routes.watch_episode_show_path(@socket, :show, item.episode_id,
-                    seconds: item.current_time
-                  ),
+                link: Routes.watch_episode_show_path(@socket, :show, item.episode_id, "continue"),
                 event: "delete_episode",
                 return_to: Routes.home_index_path(@socket, :index)
               ) %>

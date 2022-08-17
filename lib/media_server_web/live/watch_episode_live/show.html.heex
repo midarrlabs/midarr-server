@@ -11,7 +11,7 @@
       src={
         Routes.stream_episode_path(@socket, :show, @episode["id"],
           token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", @current_user.id)
-        )
+        ) <> "#{if assigns[:continue], do: "#t=#{@continue.current_time}"}"
       }
       type="video/mp4"
     />

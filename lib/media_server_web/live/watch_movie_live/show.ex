@@ -1,6 +1,7 @@
 defmodule MediaServerWeb.WatchMovieLive.Show do
   use MediaServerWeb, :live_view
 
+  alias MediaServer.Repo
   alias MediaServer.Accounts
   alias MediaServerWeb.Repositories.Movies
   alias MediaServer.Continues
@@ -12,12 +13,16 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
     {
       :ok,
       socket
-      |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]))
+      |> assign(
+        :current_user,
+        Accounts.get_user_by_session_token(session["user_token"])
+        |> Repo.preload(:movie_continues)
+      )
     }
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _url, socket) do
+  def handle_params(%{"id" => id, "action" => "watch"}, _url, socket) do
     movie = Movies.get_movie(id)
 
     {
@@ -25,6 +30,23 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
       socket
       |> assign(:page_title, "#{movie["title"]}")
       |> assign(:movie, movie)
+    }
+  end
+
+  def handle_params(%{"id" => id, "action" => "continue"}, _url, socket) do
+    movie = Movies.get_movie(id)
+
+    {
+      :noreply,
+      socket
+      |> assign(:page_title, "#{movie["title"]}")
+      |> assign(:movie, movie)
+      |> assign(
+        :continue,
+        socket.assigns.current_user.movie_continues
+        |> Enum.filter(fn item -> item.movie_id == movie["id"] end)
+        |> List.first()
+      )
     }
   end
 
