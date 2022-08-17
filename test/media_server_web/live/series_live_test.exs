@@ -125,6 +125,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
                "seasonNumber" => 1,
                "seriesId" => 1,
                "title" => "Earthfall",
+               "tvdbId" => 2375761,
                "unverifiedSceneNumbering" => false
              },
              %{
@@ -146,6 +147,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
                "seasonNumber" => 1,
                "seriesId" => 1,
                "title" => "The Man From Mars",
+               "tvdbId" => 3294321,
                "unverifiedSceneNumbering" => false
              },
              %{
@@ -167,6 +169,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
                "seasonNumber" => 1,
                "seriesId" => 1,
                "title" => "Alone in the Night",
+               "tvdbId" => 3990361,
                "unverifiedSceneNumbering" => false
              }
            ]

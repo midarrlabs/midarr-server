@@ -57,7 +57,7 @@ services:
 
   radarr:
     container_name: radarr
-    image: linuxserver/radarr:3.2.2
+    image: linuxserver/radarr:4.1.0
     ports:
       - 7878:7878
     volumes:
@@ -71,7 +71,7 @@ services:
 
   sonarr:
     container_name: sonarr
-    image: linuxserver/sonarr:3.0.6
+    image: linuxserver/sonarr:3.0.9
     ports:
       - 8989:8989
     volumes:
