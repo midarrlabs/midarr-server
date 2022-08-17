@@ -25,17 +25,14 @@
         window.userEmail = "<%= assigns[:current_user].email %>";
         window.userName = "<%= assigns[:current_user].name %>";
       </script>
-      <script
-        defer
-        phx-track-static
-        src={Routes.static_path(@conn, "/assets/app.js")}
-      >
+      <script defer phx-track-static src={Routes.static_path(@conn, "/assets/app.js")}>
       </script>
     <% end %>
   </head>
   <body>
     <%= @inner_content %>
-    <script src="https://cdn.plyr.io/3.7.2/plyr.js"></script>
+    <script src="https://cdn.plyr.io/3.7.2/plyr.js">
+    </script>
     <script>
       const player = new Plyr('#video');
     </script>

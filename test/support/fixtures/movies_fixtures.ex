@@ -4,7 +4,9 @@ defmodule MediaServer.MoviesFixtures do
   end
 
   def add_movie_root() do
-    HTTPoison.post(get_url("rootFolder"), '{"path":"/movies/"}', %{"Content-Type" => "application/json"})
+    HTTPoison.post(get_url("rootFolder"), '{"path":"/movies/"}', %{
+      "Content-Type" => "application/json"
+    })
   end
 
   def add_movies() do
