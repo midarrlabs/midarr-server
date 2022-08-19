@@ -84,7 +84,7 @@ services:
 #       Initialise admin account
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
-      - SETUP_ADMIN_PASSWORD=passwordpassword # min length 12
+      - SETUP_ADMIN_PASSWORD=passwordpassword # minimum length 12
 
 #       Radarr integration
       - RADARR_BASE_URL=radarr:7878
@@ -96,6 +96,7 @@ services:
         
 #       Sendgrid email integration
       - SENDGRID_API_KEY=someApiKey
+
     depends_on:
       postgresql:
         condition: service_healthy
@@ -134,7 +135,7 @@ An admin account will be initialised for you on server startup, provided you hav
 environment:
   - SETUP_ADMIN_EMAIL=admin@email.com
   - SETUP_ADMIN_NAME=admin
-  - SETUP_ADMIN_PASSWORD=passwordpassword # min length 12
+  - SETUP_ADMIN_PASSWORD=passwordpassword # minimum length 12
 ```
 Login with these credentials, and access the `Settings` page to configure your server.
 
@@ -144,9 +145,9 @@ Login with these credentials, and access the `Settings` page to configure your s
 
 The following video format is currently supported:
 
-* Codec H.264
-* Audio AAC / MP3
-* Container MP4 / MKV
+* H.264 codec
+* AAC / MP3 audio
+* MP4 / MKV container
 
 #### Subtitles
 
