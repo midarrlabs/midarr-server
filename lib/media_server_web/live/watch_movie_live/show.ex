@@ -30,6 +30,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
       socket
       |> assign(:page_title, "#{movie["title"]}")
       |> assign(:movie, movie)
+      |> assign(:media_stream, Routes.stream_movie_path(socket, :show, movie["id"], token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", socket.assigns.current_user.id)))
     }
   end
 
@@ -41,6 +42,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
       socket
       |> assign(:page_title, "#{movie["title"]}")
       |> assign(:movie, movie)
+      |> assign(:media_stream, Routes.stream_movie_path(socket, :show, movie["id"], token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", socket.assigns.current_user.id)))
       |> assign(
         :continue,
         socket.assigns.current_user.movie_continues

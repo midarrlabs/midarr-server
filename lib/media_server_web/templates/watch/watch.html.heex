@@ -27,22 +27,13 @@
         window.userId = <%= assigns[:current_user].id %>;
         window.userEmail = "<%= assigns[:current_user].email %>";
         window.userName = "<%= assigns[:current_user].name %>";
+        window.mediaStream = "<%= System.get_env("APP_URL", "") <> assigns[:media_stream] %>";
     </script>
   </head>
   <body>
     <%= @inner_content %>
-    <script src="https://cdn.plyr.io/3.7.2/plyr.js"></script>
-    <script>
-        const player = new Plyr('#video');
-
-        window['__onGCastApiAvailable'] = function(isAvailable) {
-            if (isAvailable) {
-                cast.framework.CastContext.getInstance().setOptions({
-                  receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
-                });
-            }
-        }
-    </script>
+    <script phx-track-static src={Routes.static_path(@conn, "/assets/player.js")}></script>
+    <script phx-track-static src={Routes.static_path(@conn, "/assets/cast.js")}></script>
     <script src="//www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     <script defer phx-track-static src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </body>
