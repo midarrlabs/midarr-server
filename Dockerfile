@@ -3,7 +3,7 @@ FROM node:18-alpine as node
 COPY assets/package.json assets/package-lock.json .
 RUN npm install
 
--------------------------
+#-------------------------
 
 FROM elixir:1.13
 
