@@ -1,5 +1,7 @@
 FROM node:18-alpine as node
 
+WORKDIR /assets
+
 COPY assets/package.json assets/package-lock.json .
 RUN npm install
 
@@ -12,7 +14,7 @@ RUN apt-get update && \
 
 WORKDIR /app
 COPY . .
-COPY --from=node node_modules assets
+COPY --from=node /assets/node_modules assets
 
 ARG MIX_ENV="dev"
 ARG SECRET_KEY_BASE=""
