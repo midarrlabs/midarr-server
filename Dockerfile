@@ -13,8 +13,8 @@ RUN apt-get update && \
     apt-get install -y inotify-tools postgresql-client
 
 WORKDIR /app
-COPY . .
-COPY --from=node /assets/node_modules assets
+COPY . /app
+COPY --from=node /assets/node_modules /app/assets
 
 ARG MIX_ENV="dev"
 ARG SECRET_KEY_BASE=""
@@ -22,7 +22,7 @@ ARG SECRET_KEY_BASE=""
 ENV MIX_ENV="${MIX_ENV}"
 ENV SECRET_KEY_BASE="${SECRET_KEY_BASE}"
 
-RUN chmod u+x script-entry-point.sh
+RUN chmod u+x /app/script-entry-point.sh
 
 EXPOSE 4000
 
