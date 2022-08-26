@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.2/plyr.css" />
     <style>
       body {
-          margin: unset;
+        margin: unset;
       }
-      .plyr--video {
+      video, .plyr--video {
         height: 100vh;
       }
       :root {
@@ -23,22 +23,18 @@
         --plyr-video-control-background-hover: #4b5563;
       }
     </style>
-    <%= if @current_user do %>
-      <script>
+    <script>
         window.userId = <%= assigns[:current_user].id %>;
         window.userEmail = "<%= assigns[:current_user].email %>";
         window.userName = "<%= assigns[:current_user].name %>";
-      </script>
-      <script defer phx-track-static src={Routes.static_path(@conn, "/assets/app.js")}>
-      </script>
-    <% end %>
+        window.mediaStream = "<%= System.get_env("APP_URL", "") <> assigns[:media_stream] %>";
+    </script>
   </head>
   <body>
     <%= @inner_content %>
-    <script src="https://cdn.plyr.io/3.7.2/plyr.js">
-    </script>
-    <script>
-      const player = new Plyr('#video');
-    </script>
+    <script phx-track-static src={Routes.static_path(@conn, "/assets/player.js")}></script>
+    <script phx-track-static src={Routes.static_path(@conn, "/assets/cast.js")}></script>
+    <script src="//www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+    <script defer phx-track-static src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </body>
 </html>

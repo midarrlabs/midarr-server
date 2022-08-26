@@ -1,7 +1,7 @@
 import "phoenix_html"
 import { Socket, Presence } from "phoenix"
 import { LiveSocket } from "phoenix_live_view"
-import topbar from "../vendor/topbar"
+import topbar from "topbar"
 
 let socket = new Socket("/socket", {})
 socket.connect()
