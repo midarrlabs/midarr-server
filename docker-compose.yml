@@ -31,7 +31,7 @@ services:
         condition: service_healthy
       sonarr:
         condition: service_healthy
-    command: bash -c "mix deps.get && mix compile && mix ecto.migrate && mix run priv/repo/seeds.exs && mix phx.server"
+    command: bash -c "mix deps.get && mix compile && mix assets.deploy && mix ecto.migrate && mix run priv/repo/seeds.exs && mix phx.server"
 
   postgresql:
     container_name: postgresql

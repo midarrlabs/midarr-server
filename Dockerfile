@@ -22,12 +22,6 @@ ARG SECRET_KEY_BASE=""
 ENV MIX_ENV="${MIX_ENV}"
 ENV SECRET_KEY_BASE="${SECRET_KEY_BASE}"
 
-RUN mix local.hex --force && \
-    mix local.rebar --force && \
-    mix deps.get && \
-    mix compile && \
-    mix assets.deploy
-
 RUN chmod u+x script-entry-point.sh
 
 EXPOSE 4000

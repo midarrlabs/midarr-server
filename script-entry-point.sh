@@ -7,6 +7,13 @@ do
 done
 
 if [[ -z `psql -Atqc "\\list $DB_DATABASE"` ]]; then
+
+  mix local.hex --force
+  mix local.rebar --force
+  mix deps.get
+  mix compile
+  mix assets.deploy
+
   mix ecto.migrate
   mix run priv/repo/seeds.exs
   echo "Database $DB_DATABASE ready"
