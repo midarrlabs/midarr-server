@@ -25,7 +25,8 @@ ENV SECRET_KEY_BASE="${SECRET_KEY_BASE}"
 RUN mix local.hex --force && \
     mix local.rebar --force && \
     mix deps.get && \
-    mix assets.deploy
+    mix assets.deploy && \
+    mix compile
 
 RUN chmod u+x /app/script-entry-point.sh
 
