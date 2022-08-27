@@ -30,4 +30,4 @@ RUN chmod u+x script-entry-point.sh
 
 EXPOSE 4000
 
-CMD [ "script-entry-point.sh" ]
+CMD [ "/app/script-entry-point.sh" ]
