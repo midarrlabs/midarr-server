@@ -48,8 +48,6 @@ RUN mix assets.deploy
 
 # Compile the release
 COPY lib lib
-COPY _build _build
-COPY deps deps
 
 RUN mix compile
 
