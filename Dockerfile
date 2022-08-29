@@ -7,13 +7,16 @@ RUN npm install
 
 #-------------------------
 
+FROM elixir:1.13
+
 ARG MIX_ENV="dev"
 ARG SECRET_KEY_BASE=""
 
 ENV MIX_ENV="${MIX_ENV}"
 ENV SECRET_KEY_BASE="${SECRET_KEY_BASE}"
 
-FROM elixir:1.13
+RUN MIX_ENV=$MIX_ENV
+RUN SECRET_KEY_BASE=$SECRET_KEY_BASE
 
 RUN apt-get update && \
     apt-get install -y inotify-tools postgresql-client
