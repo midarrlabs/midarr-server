@@ -10,6 +10,9 @@ RUN npm install
 ARG MIX_ENV="dev"
 ARG SECRET_KEY_BASE=""
 
+ENV MIX_ENV="${MIX_ENV}"
+ENV SECRET_KEY_BASE="${SECRET_KEY_BASE}"
+
 FROM elixir:1.13-otp-25
 
 RUN apt-get update && \
@@ -17,16 +20,12 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-RUN mix archive.install github hexpm/hex branch latest --force && \
-    mix local.rebar --force
-
-ENV MIX_ENV="${MIX_ENV}"
-ENV SECRET_KEY_BASE="${SECRET_KEY_BASE}"
-
 COPY . .
 COPY --from=node /assets/node_modules assets/node_modules
 
-RUN mix deps.get && \
+RUN mix local.hex --force && \
+    mix local.rebar --force && \
+    mix deps.get && \
     mix deps.compile && \
     mix assets.deploy && \
     mix compile
