@@ -13,7 +13,7 @@ ARG SECRET_KEY_BASE=""
 ENV MIX_ENV="${MIX_ENV}"
 ENV SECRET_KEY_BASE="${SECRET_KEY_BASE}"
 
-FROM elixir:1.13-otp-25
+FROM elixir:1.13
 
 RUN apt-get update && \
     apt-get install -y inotify-tools postgresql-client
