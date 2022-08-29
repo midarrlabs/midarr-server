@@ -10,7 +10,7 @@ RUN npm install
 ARG MIX_ENV="dev"
 ARG SECRET_KEY_BASE=""
 
-FROM elixir:1.14
+FROM elixir:1.13-otp-25
 
 # Install build dependencies
 RUN apt-get update && \
