@@ -5,7 +5,7 @@ defmodule MediaServer.MixProject do
     [
       app: :media_server,
       version: "1.16.0",
-      elixir: "~> 1.14",
+      elixir: "~> 1",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
