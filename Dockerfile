@@ -30,12 +30,11 @@ ENV SECRET_KEY_BASE="${SECRET_KEY_BASE}"
 # Install mix dependencies
 COPY mix.exs mix.lock ./
 RUN mix deps.get --only $MIX_ENV
-RUN mkdir config
 
 # Copy compile-time config files before we compile dependencies
 # to ensure any relevant config change will trigger the
 # dependencies to be re-compiled.
-COPY config/config.exs config/${MIX_ENV}.exs config/
+COPY config config
 RUN mix deps.compile
 
 COPY priv priv
