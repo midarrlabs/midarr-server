@@ -50,10 +50,10 @@ COPY lib lib
 
 RUN mix compile
 
-# Changes to config/runtime.exs don't require recompiling the code
-COPY config/runtime.exs config/
+COPY script-code-coverage.sh ./
+COPY script-entry-point.sh ./
 
-RUN chmod u+x /app/script-entry-point.sh
+RUN chmod u+x script-entry-point.sh
 
 EXPOSE 4000
 
