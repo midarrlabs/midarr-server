@@ -22,12 +22,31 @@
 
   <div class="relative mt-24 max-w-md mx-auto px-4 sm:max-w-xl sm:mt-32 sm:px-6 lg:max-w-6xl lg:px-8 space-y-6">
     <%= if assigns[:movie] do %>
-      <h2 class="text-sm font-semibold text-red-300 tracking-wide uppercase">
-        Released <%= @movie["year"] %>
-      </h2>
-      <h1 class="text-3xl font-extrabold tracking-tight text-white">
-        <%= @movie["title"] %>
-      </h1>
+      <div class="space-y-2">
+        <h1 class="text-3xl font-extrabold tracking-tight text-white">
+          <%= @movie["title"] %>
+        </h1>
+        <div class="flex space-x-4 text-sm font-semibold text-red-300 tracking-wide uppercase">
+          <h2>
+            <%= @movie["year"] %>
+          </h2>
+          <%= if @movie["certification"] do %>
+            <div>
+              |
+            </div>
+            <h2>
+              <%= @movie["certification"] %>
+            </h2>
+          <% end %>
+          <div>
+            |
+          </div>
+          <h2>
+            <%= @movie["movieFile"]["mediaInfo"]["runTime"] %>
+          </h2>
+        </div>
+      </div>
+
       <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6">
         <%= live_redirect id: "play-#{ @movie["id"] }", to: Routes.watch_movie_show_path(@socket, :show, @movie["id"], "watch"), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
           <svg
