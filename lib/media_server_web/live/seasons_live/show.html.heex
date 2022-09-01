@@ -38,7 +38,7 @@
                 <%= "Season  #{item["seasonNumber"]} - Episode #{item["episodeNumber"]}" %>
               </h4>
               <p class="mt-1">
-                <%= item["title"] %>
+                <%= item["episodeFile"]["mediaInfo"]["runTime"] %> - <%= item["title"] %>
               </p>
               <p class="mt-2">
                 <%= item["overview"] %>
