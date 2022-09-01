@@ -14,7 +14,7 @@ defmodule MediaServerWeb.Repositories.Episodes do
       episode["seasonNumber"] === String.to_integer(season_number)
     end)
     |> Stream.filter(fn episode -> episode["hasFile"] end)
-    |> add_more_info_to_episodes()
+    |> replace_each_with_episode_show_response()
   end
 
   def get_episode(id) do
@@ -30,9 +30,9 @@ defmodule MediaServerWeb.Repositories.Episodes do
     episode["episodeFile"]["path"]
   end
 
-  def add_more_info_to_episodes(episodes) do
+  def replace_each_with_episode_show_response(episodes) do
     Enum.map(episodes, fn episode ->
-      Map.put(episode, "_moreInfo", get_episode(episode["id"]))
+      get_episode(episode["id"])
     end)
   end
 
@@ -42,7 +42,7 @@ defmodule MediaServerWeb.Repositories.Episodes do
   end
 
   def get_screenshot(episode) do
-    (Stream.filter(episode["_moreInfo"]["images"], fn x -> x["coverType"] === "screenshot" end)
+    (Stream.filter(episode["images"], fn x -> x["coverType"] === "screenshot" end)
      |> Enum.at(0))["url"]
   end
 
