@@ -8,10 +8,11 @@ plugins: [
     }
   ],
   [
-    "@semantic-release/github",
+    "@semantic-release/git",
     {
       "assets": ["CHANGELOG.md"]
     }
-  ]
+  ],
+  "@semantic-release/github"
 ]
 branches: [ "+([0-9])?(.{+([0-9]),x}).x", "master", {"name": "beta", "prerelease": true} ]

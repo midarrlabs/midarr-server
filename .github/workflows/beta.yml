@@ -43,4 +43,4 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
-        run: npm install @semantic-release/changelog -D & npx semantic-release
+        run: npm install @semantic-release/changelog @semantic-release/git -D & npx semantic-release
