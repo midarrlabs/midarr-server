@@ -22,12 +22,30 @@
 
   <div class="relative mt-24 max-w-md mx-auto px-4 sm:max-w-xl sm:mt-32 sm:px-6 lg:max-w-6xl lg:px-8 space-y-6">
     <%= if assigns[:movies] do %>
-      <h2 class="text-sm font-semibold text-red-300 tracking-wide uppercase">
-        Released <%= Enum.at(@movies, 0)["year"] %>
-      </h2>
-      <h1 class="text-3xl font-extrabold tracking-tight text-white">
-        <%= Enum.at(@movies, 0)["title"] %>
-      </h1>
+      <div class="space-y-2">
+        <h1 class="text-3xl font-extrabold tracking-tight text-white">
+          <%= Enum.at(@movies, 0)["title"] %>
+        </h1>
+        <div class="flex space-x-4 text-sm font-semibold text-red-300 tracking-wide uppercase">
+          <h2>
+            <%= Enum.at(@movies, 0)["year"] %>
+          </h2>
+          <%= if Enum.at(@movies, 0)["certification"] do %>
+            <div>
+              |
+            </div>
+            <h2>
+              <%= Enum.at(@movies, 0)["certification"] %>
+            </h2>
+          <% end %>
+          <div>
+            |
+          </div>
+          <h2>
+            <%= Enum.at(@movies, 0)["movieFile"]["mediaInfo"]["runTime"] %>
+          </h2>
+        </div>
+      </div>
       <p class="text-lg text-white max-w-lg line-clamp">
         <%= Enum.at(@movies, 0)["overview"] %>
       </p>

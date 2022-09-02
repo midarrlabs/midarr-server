@@ -11,7 +11,7 @@
         <li class="py-4">
           <div class="sm:flex">
             <div class="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
-              <%= if List.first(item["images"]) do %>
+              <%= if MediaServerWeb.Repositories.Episodes.get_screenshot(item) do %>
                 <img
                   class="h-48 w-full sm:w-72 object-cover"
                   src={MediaServerWeb.Repositories.Episodes.get_screenshot(item)}
@@ -38,7 +38,7 @@
                 <%= "Season  #{item["seasonNumber"]} - Episode #{item["episodeNumber"]}" %>
               </h4>
               <p class="mt-1">
-                <%= item["title"] %>
+                <%= item["episodeFile"]["mediaInfo"]["runTime"] %> - <%= item["title"] %>
               </p>
               <p class="mt-2">
                 <%= item["overview"] %>
