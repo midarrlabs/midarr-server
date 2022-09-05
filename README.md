@@ -164,6 +164,39 @@ With this setup a subtitle / caption option will be available in the player view
 
 Thank you for all your contributions! Big or small - all is welcome!
 
+#### Local development
+
+Setting up your local development environment is easy and only a few steps:
+
+1. Git clone the repository
+
+```shell
+git clone https://github.com/midarrlabs/midarr-server.git
+```
+
+2. Docker compose up the stack
+
+```shell
+docker compose up -d
+```
+
+3. Bash into `Midarr` container
+
+```shell
+docker exec -it midarr bash
+```
+
+4. Run the tests to seed fixtures
+
+```shell
+MIX_ENV=test mix test
+```
+
+Your local environment is now setup for development:
+- `http://localhost:4000` - Midarr
+- `http://localhost:7878` - Radarr
+- `http://localhost:8989` - Sonarr
+
 ## License
 
 `Midarr` is open-sourced software licensed under the [MIT license](LICENSE).
