@@ -168,10 +168,10 @@ Thank you for all your contributions! Big or small - all is welcome!
 
 Setting up your local development environment is easy and only a few steps:
 
-1. Git clone the repository
+1. Fork and git clone the repository
 
 ```shell
-git clone https://github.com/midarrlabs/midarr-server.git
+git clone https://github.com/{ YOUR-ACCOUNT }/midarr-server.git
 ```
 
 2. Docker compose up the stack
