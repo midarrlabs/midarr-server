@@ -193,9 +193,9 @@ MIX_ENV=test mix test
 ```
 
 Your local environment is now setup for development:
-- `http://localhost:4000` - Midarr
-- `http://localhost:7878` - Radarr
-- `http://localhost:8989` - Sonarr
+- [http://localhost:4000](http://localhost:4000) - Midarr
+- [http://localhost:7878](http://localhost:7878) - Radarr
+- [http://localhost:8989](http://localhost:8989) - Sonarr
 
 ## License
 
