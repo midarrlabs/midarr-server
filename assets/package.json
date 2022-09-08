@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "plyr": "^3.7.2",
     "topbar": "^1.0.1"
   }
 }
