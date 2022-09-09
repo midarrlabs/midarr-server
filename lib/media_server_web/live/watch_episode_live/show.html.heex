@@ -1,8 +1,7 @@
-<div id="parent" phx-update="ignore">
   <video
     id="video"
     phx-hook="video"
-    data-poster={MediaServerWeb.Repositories.Episodes.get_background(@episode)}
+    poster={MediaServerWeb.Repositories.Episodes.get_background(@episode)}
     controlsList="nodownload"
     controls
     autoplay
@@ -30,4 +29,3 @@
       </track>
     <% end %>
   </video>
-</div>
