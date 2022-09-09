@@ -84,7 +84,7 @@ services:
 #       Initialise admin account
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
-      - SETUP_ADMIN_PASSWORD=passwordpassword # min length 12
+      - SETUP_ADMIN_PASSWORD=passwordpassword # minimum length 12
 
 #       Radarr integration
       - RADARR_BASE_URL=radarr:7878
@@ -96,6 +96,7 @@ services:
         
 #       Sendgrid email integration
       - SENDGRID_API_KEY=someApiKey
+
     depends_on:
       postgresql:
         condition: service_healthy
@@ -134,7 +135,7 @@ An admin account will be initialised for you on server startup, provided you hav
 environment:
   - SETUP_ADMIN_EMAIL=admin@email.com
   - SETUP_ADMIN_NAME=admin
-  - SETUP_ADMIN_PASSWORD=passwordpassword # min length 12
+  - SETUP_ADMIN_PASSWORD=passwordpassword # minimum length 12
 ```
 Login with these credentials, and access the `Settings` page to configure your server.
 
@@ -144,9 +145,9 @@ Login with these credentials, and access the `Settings` page to configure your s
 
 The following video format is currently supported:
 
-* Codec H.264
-* Audio AAC / MP3
-* Container MP4 / MKV
+* H.264 codec
+* AAC / MP3 audio
+* MP4 / MKV container
 
 #### Subtitles
 
@@ -162,6 +163,39 @@ With this setup a subtitle / caption option will be available in the player view
 ## Contributing
 
 Thank you for all your contributions! Big or small - all is welcome!
+
+#### Local development
+
+Setting up your local development environment is easy and only a few steps:
+
+1. Fork and git clone the repository
+
+```shell
+git clone https://github.com/{ YOUR-ACCOUNT }/midarr-server.git
+```
+
+2. Docker compose up the stack
+
+```shell
+docker compose up -d
+```
+
+3. Bash into `Midarr` container
+
+```shell
+docker exec -it midarr bash
+```
+
+4. Run the tests to seed fixtures
+
+```shell
+MIX_ENV=test mix test
+```
+
+Your local environment is now setup for development:
+- [http://localhost:4000](http://localhost:4000) - Midarr
+- [http://localhost:7878](http://localhost:7878) - Radarr
+- [http://localhost:8989](http://localhost:8989) - Sonarr
 
 ## License
 
