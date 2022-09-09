@@ -1,7 +1,7 @@
 import "phoenix_html"
 import { Socket, Presence } from "phoenix"
 import { LiveSocket } from "phoenix_live_view"
-import topbar from "../vendor/topbar"
+import topbar from "topbar"
 
 let socket = new Socket("/socket", {})
 socket.connect()
@@ -51,12 +51,6 @@ let liveSocket = new LiveSocket("/live", Socket, {
     hooks: {
         video: {
             mounted() {
-                const urlParams = new URLSearchParams(window.location.search)
-
-                if (urlParams.has("seconds")) {
-                    this.el.currentTime = urlParams.get("seconds")
-                }
-
                 window.addEventListener("beforeunload", event => {
                     this.pushEvent("video_destroyed", {
                         current_time: Math.floor(this.el.currentTime),
@@ -76,7 +70,5 @@ let liveSocket = new LiveSocket("/live", Socket, {
 })
 
 liveSocket.connect()
-//liveSocket.enableDebug()
-// >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
-// >> liveSocket.disableLatencySim()
+
 window.liveSocket = liveSocket

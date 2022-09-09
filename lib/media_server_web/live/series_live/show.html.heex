@@ -22,12 +22,25 @@
 
   <div class="relative mt-24 max-w-md mx-auto px-4 sm:max-w-xl sm:mt-32 sm:px-6 lg:max-w-6xl lg:px-8 space-y-6">
     <%= if assigns[:serie] do %>
-      <h2 class="text-sm font-semibold text-red-300 tracking-wide uppercase">
-        Released <%= @serie["year"] %>
-      </h2>
-      <h1 class="text-3xl font-extrabold tracking-tight text-white">
-        <%= @serie["title"] %>
-      </h1>
+      <div class="space-y-2">
+        <h1 class="text-3xl font-extrabold tracking-tight text-white">
+          <%= @serie["title"] %>
+        </h1>
+        <div class="flex space-x-4 text-sm font-semibold text-red-300 tracking-wide uppercase">
+          <h2>
+            <%= @serie["year"] %>
+          </h2>
+          <%= if @serie["certification"] do %>
+            <div>
+              |
+            </div>
+            <h2>
+              <%= @serie["certification"] %>
+            </h2>
+          <% end %>
+        </div>
+      </div>
+
       <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6">
         <%= if is_nil(@favourite) do %>
           <button

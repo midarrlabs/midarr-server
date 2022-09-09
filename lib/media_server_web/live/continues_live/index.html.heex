@@ -29,8 +29,7 @@
               item.current_time,
               item.duration
             ),
-          link:
-            Routes.watch_movie_show_path(@socket, :show, item.movie_id, seconds: item.current_time),
+          link: Routes.watch_movie_show_path(@socket, :show, item.movie_id, "continue"),
           event: "delete_movie",
           return_to: Routes.continues_index_path(@socket, :index)
         ) %>
@@ -52,10 +51,7 @@
               item.current_time,
               item.duration
             ),
-          link:
-            Routes.watch_episode_show_path(@socket, :show, item.episode_id,
-              seconds: item.current_time
-            ),
+          link: Routes.watch_episode_show_path(@socket, :show, item.episode_id, "continue"),
           event: "delete_episode",
           return_to: Routes.continues_index_path(@socket, :index)
         ) %>

@@ -11,7 +11,7 @@
         <li class="py-4">
           <div class="sm:flex">
             <div class="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
-              <%= if List.first(item["images"]) do %>
+              <%= if MediaServerWeb.Repositories.Episodes.get_screenshot(item) do %>
                 <img
                   class="h-48 w-full sm:w-72 object-cover"
                   src={MediaServerWeb.Repositories.Episodes.get_screenshot(item)}
@@ -38,13 +38,13 @@
                 <%= "Season  #{item["seasonNumber"]} - Episode #{item["episodeNumber"]}" %>
               </h4>
               <p class="mt-1">
-                <%= item["title"] %>
+                <%= item["episodeFile"]["mediaInfo"]["runTime"] %> - <%= item["title"] %>
               </p>
               <p class="mt-2">
                 <%= item["overview"] %>
               </p>
 
-              <%= live_redirect id: "play-#{ item["id"] }", to: Routes.watch_episode_show_path(@socket, :show, item["id"]), class: "mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
+              <%= live_redirect id: "play-#{ item["id"] }", to: Routes.watch_episode_show_path(@socket, :show, item["id"], "watch"), class: "mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="-ml-0.5 mr-2 h-6 w-6"

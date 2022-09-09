@@ -4,7 +4,7 @@ defmodule MediaServer.MixProject do
   def project do
     [
       app: :media_server,
-      version: "1.15.0",
+      version: "1.16.0",
       elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
@@ -73,7 +73,7 @@ defmodule MediaServer.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
     ]
   end
 end
