@@ -44,3 +44,5 @@ npm-debug.log
 /.idea
 /fixtures/radarr
 /fixtures/sonarr
+/lib/media_server/release.ex
+/rel/overlays/bin/
