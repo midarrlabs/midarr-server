@@ -41,6 +41,13 @@ defmodule MediaServerWeb.Router do
     live "/continues", ContinuesLive.Index, :index
     live "/favourites", FavouritesLive.Index, :index
 
+    live "/playlists", PlaylistLive.Index, :index
+    live "/playlists/new", PlaylistLive.Index, :new
+    live "/playlists/:id/edit", PlaylistLive.Index, :edit
+
+    live "/playlists/:id", PlaylistLive.Show, :show
+    live "/playlists/:id/show/edit", PlaylistLive.Show, :edit
+
     live "/settings", SettingsLive.Index, :index
 
     delete "/logout", UserSessionController, :delete

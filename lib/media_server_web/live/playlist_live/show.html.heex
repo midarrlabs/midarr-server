@@ -1,0 +1,31 @@
+<h1>Show Playlist</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.playlist_show_path(@socket, :show, @playlist)}>
+    <.live_component
+      module={MediaServerWeb.PlaylistLive.FormComponent}
+      id={@playlist.id}
+      title={@page_title}
+      action={@live_action}
+      playlist={@playlist}
+      return_to={Routes.playlist_show_path(@socket, :show, @playlist)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @playlist.name %>
+  </li>
+
+  <li>
+    <strong>Can delete:</strong>
+    <%= @playlist.can_delete %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.playlist_show_path(@socket, :edit, @playlist), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.playlist_index_path(@socket, :index) %></span>

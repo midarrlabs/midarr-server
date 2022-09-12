@@ -1,0 +1,41 @@
+<h1>Listing Playlists</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.playlist_index_path(@socket, :index)}>
+    <.live_component
+      module={MediaServerWeb.PlaylistLive.FormComponent}
+      id={@playlist.id || :new}
+      title={@page_title}
+      action={@live_action}
+      playlist={@playlist}
+      return_to={Routes.playlist_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Can delete</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="playlists">
+    <%= for playlist <- @playlists do %>
+      <tr id={"playlist-#{playlist.id}"}>
+        <td><%= playlist.name %></td>
+        <td><%= playlist.can_delete %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.playlist_show_path(@socket, :show, playlist) %></span>
+          <span><%= live_patch "Edit", to: Routes.playlist_index_path(@socket, :edit, playlist) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: playlist.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Playlist", to: Routes.playlist_index_path(@socket, :new) %></span>
