@@ -58,10 +58,8 @@ with more features planned ahead.
 Docker compose example:
 
 ```yaml
-volumes:
-  database-data:
-
 services:
+  
   midarr:
     container_name: midarr
     image: ghcr.io/midarrlabs/midarr-server:latest
@@ -74,12 +72,6 @@ services:
 #       App config
       - APP_URL=http://localhost:4000
       - APP_MAILER_FROM=example@email.com
-        
-#       Database config
-      - DB_USERNAME=my_user
-      - DB_PASSWORD=my_password
-      - DB_DATABASE=my_database
-      - DB_HOSTNAME=postgresql
 
 #       Initialise admin account
       - SETUP_ADMIN_EMAIL=admin@email.com
@@ -96,22 +88,6 @@ services:
         
 #       Sendgrid email integration
       - SENDGRID_API_KEY=someApiKey
-
-    depends_on:
-      postgresql:
-        condition: service_healthy
-
-  postgresql:
-    container_name: postgresql
-    image: postgres
-    volumes:
-      - database-data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=my_user
-      - POSTGRES_PASSWORD=my_password
-      - POSTGRES_DB=my_database
-    healthcheck:
-      test: "exit 0"
 ```
 
 ## Configuration

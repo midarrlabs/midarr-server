@@ -9,8 +9,8 @@ config :bcrypt_elixir, :log_rounds, 1
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :media_server, MediaServer.Repo,
-  hostname: System.get_env("TEST_DB_HOSTNAME"),
-  pool_size: 10,
+  database: Path.expand("../media_server_test.db", Path.dirname(__ENV__.file)),
+  pool_size: 5,
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,
