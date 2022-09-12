@@ -1,10 +1,9 @@
-defmodule MediaServer.Repo.Migrations.CreateEpisodeWatches do
+defmodule MediaServer.Repo.Migrations.CreateMovieContinues do
   use Ecto.Migration
 
   def change do
-    create table(:episode_watches) do
-      add :episode_id, :integer, null: false
-      add :serie_id, :integer, null: false
+    create table(:movie_continues) do
+      add :movie_id, :integer, null: false
       add :title, :string, null: false
       add :image_url, :string
       add :current_time, :integer, null: false
@@ -14,6 +13,6 @@ defmodule MediaServer.Repo.Migrations.CreateEpisodeWatches do
       timestamps()
     end
 
-    create index(:episode_watches, [:user_id])
+    create index(:movie_continues, [:user_id])
   end
 end
