@@ -3,9 +3,11 @@ defmodule MediaServer.Repo.Migrations.CreateUsersAuthTables do
 
   def change do
     create table(:users) do
+      add :name, :string
       add :email, :citext, null: false
       add :hashed_password, :string, null: false
       add :confirmed_at, :naive_datetime
+      add :is_admin, :boolean
       timestamps()
     end
 
