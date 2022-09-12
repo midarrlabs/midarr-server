@@ -10,11 +10,6 @@ services:
       - ./fixtures/movies:/movies
       - ./fixtures/shows:/shows
     environment:
-      - DB_USERNAME=my_user
-      - DB_PASSWORD=my_password
-      - DB_DATABASE=my_database
-      - DB_HOSTNAME=postgresql
-      - TEST_DB_HOSTNAME=test-postgresql
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
       - SETUP_ADMIN_PASSWORD=passwordpassword
@@ -23,37 +18,11 @@ services:
       - SONARR_BASE_URL=sonarr:8989
       - SONARR_API_KEY=1accda4476394bfcaddefe8c4fd77d4a
     depends_on:
-      postgresql:
-        condition: service_healthy
-      test-postgresql:
-        condition: service_healthy
       radarr:
         condition: service_healthy
       sonarr:
         condition: service_healthy
     command: bash -c "mix deps.get && mix ecto.migrate && mix run priv/repo/seeds.exs && mix phx.server"
-
-  postgresql:
-    container_name: postgresql
-    image: postgres
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_USER=my_user
-      - POSTGRES_PASSWORD=my_password
-      - POSTGRES_DB=my_database
-    healthcheck:
-      test: "exit 0"
-
-  test-postgresql:
-    container_name: test-postgresql
-    image: postgres
-    environment:
-      - POSTGRES_USER=my_user
-      - POSTGRES_PASSWORD=my_password
-      - POSTGRES_DB=my_database
-    healthcheck:
-      test: "exit 0"
 
   radarr:
     container_name: radarr

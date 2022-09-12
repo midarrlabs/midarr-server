@@ -47,12 +47,6 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :media_server, MediaServer.Repo,
-  username: System.get_env("DB_USERNAME"),
-  password: System.get_env("DB_PASSWORD"),
-  database: System.get_env("DB_DATABASE"),
-  hostname: System.get_env("DB_HOSTNAME")
-
 config :media_server,
   app_name: "Midarr",
   app_url: System.get_env("APP_URL"),
