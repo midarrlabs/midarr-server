@@ -3,10 +3,14 @@ defmodule MediaServerWeb.PlaylistLive.Index do
 
   alias MediaServer.Playlists
   alias MediaServer.Playlists.Playlist
+  alias MediaServer.Accounts
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :playlists, list_playlists())}
+  def mount(_params, session, socket) do
+    {:ok,
+      socket
+      |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]))
+      |> assign(:playlists, list_playlists())}
   end
 
   @impl true

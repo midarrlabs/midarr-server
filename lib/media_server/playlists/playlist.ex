@@ -3,8 +3,9 @@ defmodule MediaServer.Playlists.Playlist do
   import Ecto.Changeset
 
   schema "playlists" do
-    field :can_delete, :boolean, default: false
     field :name, :string
+    field :can_delete, :boolean, default: true
+    belongs_to :user, MediaServer.Accounts.User
 
     timestamps()
   end
@@ -12,7 +13,7 @@ defmodule MediaServer.Playlists.Playlist do
   @doc false
   def changeset(playlist, attrs) do
     playlist
-    |> cast(attrs, [:name, :can_delete])
-    |> validate_required([:name, :can_delete])
+    |> cast(attrs, [:name, :can_delete, :user_id])
+    |> validate_required([:name, :can_delete, :user_id])
   end
 end

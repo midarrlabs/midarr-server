@@ -11,7 +11,6 @@ defmodule MediaServer.PlaylistsFixtures do
     {:ok, playlist} =
       attrs
       |> Enum.into(%{
-        can_delete: true,
         name: "some name"
       })
       |> MediaServer.Playlists.create_playlist()

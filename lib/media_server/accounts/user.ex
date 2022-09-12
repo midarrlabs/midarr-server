@@ -14,6 +14,8 @@ defmodule MediaServer.Accounts.User do
     has_many :movie_favourites, MediaServer.Favourites.Movie
     has_many :serie_favourites, MediaServer.Favourites.Serie
 
+    has_many :playlists, MediaServer.Playlists.Playlist
+
     timestamps()
   end
 

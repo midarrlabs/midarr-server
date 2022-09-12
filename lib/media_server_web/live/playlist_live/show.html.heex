@@ -9,6 +9,7 @@
       action={@live_action}
       playlist={@playlist}
       return_to={Routes.playlist_show_path(@socket, :show, @playlist)}
+      user_id={@current_user.id}
     />
   </.modal>
 <% end %>
