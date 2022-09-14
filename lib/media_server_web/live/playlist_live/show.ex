@@ -1,6 +1,7 @@
 defmodule MediaServerWeb.PlaylistLive.Show do
   use MediaServerWeb, :live_view
 
+  alias MediaServer.Repo
   alias MediaServer.Playlists
   alias MediaServer.Accounts
 
@@ -8,7 +9,7 @@ defmodule MediaServerWeb.PlaylistLive.Show do
   def mount(_params, session, socket) do
     {:ok,
       socket
-      |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]))
+      |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]) |> Repo.preload(:playlists))
     }
   end
 

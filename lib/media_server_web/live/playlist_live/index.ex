@@ -1,6 +1,7 @@
 defmodule MediaServerWeb.PlaylistLive.Index do
   use MediaServerWeb, :live_view
 
+  alias MediaServer.Repo
   alias MediaServer.Playlists
   alias MediaServer.Playlists.Playlist
   alias MediaServer.Accounts
@@ -9,8 +10,8 @@ defmodule MediaServerWeb.PlaylistLive.Index do
   def mount(_params, session, socket) do
     {:ok,
       socket
-      |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]))
-      |> assign(:playlists, list_playlists())}
+      |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]) |> Repo.preload(:playlists))
+    }
   end
 
   @impl true
@@ -41,10 +42,6 @@ defmodule MediaServerWeb.PlaylistLive.Index do
     playlist = Playlists.get_playlist!(id)
     {:ok, _} = Playlists.delete_playlist(playlist)
 
-    {:noreply, assign(socket, :playlists, list_playlists())}
-  end
-
-  defp list_playlists do
-    Playlists.list_playlists()
+    {:noreply, socket |> push_redirect(to: Routes.playlist_index_path(socket, :index))}
   end
 end

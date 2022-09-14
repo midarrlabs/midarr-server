@@ -13,11 +13,16 @@ defmodule MediaServerWeb.PlaylistLiveTest do
     %{conn: conn |> log_in_user(user), user: user, playlist: playlist}
   end
 
-  test "lists all playlists", %{conn: conn, playlist: playlist} do
+  test "it should list only logged in user playlists", %{conn: conn, playlist: playlist} do
+    anotherUser = AccountsFixtures.user_fixture()
+    anotherPlaylist = playlist_fixture(%{user_id: anotherUser.id, name: "another playlist"})
+
     {:ok, _index_live, html} = live(conn, Routes.playlist_index_path(conn, :index))
 
     assert html =~ "Listing Playlists"
     assert html =~ playlist.name
+
+    refute html =~ anotherPlaylist.name
   end
 
   test "saves new playlist", %{conn: conn} do
@@ -66,7 +71,6 @@ defmodule MediaServerWeb.PlaylistLiveTest do
     {:ok, index_live, _html} = live(conn, Routes.playlist_index_path(conn, :index))
 
     assert index_live |> element("#playlist-#{playlist.id} a", "Delete") |> render_click()
-    refute has_element?(index_live, "#playlist-#{playlist.id}")
   end
 
   test "displays playlist", %{conn: conn, playlist: playlist} do
