@@ -18,7 +18,6 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Can delete</th>
 
       <th></th>
     </tr>
@@ -27,7 +26,6 @@
     <%= for playlist <- @playlists do %>
       <tr id={"playlist-#{playlist.id}"}>
         <td><%= playlist.name %></td>
-        <td><%= playlist.can_delete %></td>
 
         <td>
           <span><%= live_redirect "Show", to: Routes.playlist_show_path(@socket, :show, playlist) %></span>

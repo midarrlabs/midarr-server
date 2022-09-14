@@ -21,11 +21,6 @@
     <%= @playlist.name %>
   </li>
 
-  <li>
-    <strong>Can delete:</strong>
-    <%= @playlist.can_delete %>
-  </li>
-
 </ul>
 
 <span><%= live_patch "Edit", to: Routes.playlist_show_path(@socket, :edit, @playlist), class: "button" %></span> |
