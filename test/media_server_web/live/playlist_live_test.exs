@@ -38,7 +38,6 @@ defmodule MediaServerWeb.PlaylistLiveTest do
       |> render_submit()
       |> follow_redirect(conn, Routes.playlist_index_path(conn, :index))
 
-    assert html =~ "Playlist created successfully"
     assert html =~ "some name"
   end
 
@@ -60,7 +59,6 @@ defmodule MediaServerWeb.PlaylistLiveTest do
       |> render_submit()
       |> follow_redirect(conn, Routes.playlist_index_path(conn, :index))
 
-    assert html =~ "Playlist updated successfully"
     assert html =~ "some updated name"
   end
 
@@ -96,7 +94,6 @@ defmodule MediaServerWeb.PlaylistLiveTest do
       |> render_submit()
       |> follow_redirect(conn, Routes.playlist_show_path(conn, :show, playlist))
 
-    assert html =~ "Playlist updated successfully"
     assert html =~ "some updated name"
   end
 end

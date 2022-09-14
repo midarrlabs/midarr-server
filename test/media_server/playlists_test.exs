@@ -39,11 +39,11 @@ defmodule MediaServer.PlaylistsTest do
     end
 
     test "update_playlist/2 with valid data updates the playlist" do
-      playlist = playlist_fixture()
+      user = AccountsFixtures.user_fixture()
+      playlist = playlist_fixture(%{user_id: user.id})
       update_attrs = %{name: "some updated name"}
 
       assert {:ok, %Playlist{} = playlist} = Playlists.update_playlist(playlist, update_attrs)
-      assert playlist.can_delete == false
       assert playlist.name == "some updated name"
     end
 

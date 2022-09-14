@@ -32,7 +32,6 @@ defmodule MediaServerWeb.PlaylistLive.FormComponent do
       {:ok, _playlist} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Playlist updated successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -45,7 +44,6 @@ defmodule MediaServerWeb.PlaylistLive.FormComponent do
       {:ok, _playlist} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Playlist created successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
