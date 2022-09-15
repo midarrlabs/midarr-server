@@ -22,6 +22,6 @@
 </ul>
 
 <span>
-  <%= live_patch("Edit", to: Routes.playlist_show_path(@socket, :edit, @playlist), class: "button") %>
+  <%= live_redirect("Edit", to: Routes.playlist_show_path(@socket, :edit, @playlist), class: "button") %>
 </span> |
 <span><%= live_redirect("Back", to: Routes.playlist_index_path(@socket, :index)) %></span>

@@ -47,12 +47,7 @@ defmodule MediaServerWeb.PlaylistLiveTest do
   end
 
   test "updates playlist in listing", %{conn: conn, playlist: playlist} do
-    {:ok, index_live, _html} = live(conn, Routes.playlist_index_path(conn, :index))
-
-    assert index_live |> element("#playlist-#{playlist.id} a", "Edit") |> render_click() =~
-             "Edit Playlist"
-
-    assert_patch(index_live, Routes.playlist_index_path(conn, :edit, playlist))
+    {:ok, index_live, _html} = live(conn, Routes.playlist_show_path(conn, :edit, playlist))
 
     assert index_live
            |> form("#playlist-form", playlist: %{name: nil})
@@ -62,7 +57,7 @@ defmodule MediaServerWeb.PlaylistLiveTest do
       index_live
       |> form("#playlist-form", playlist: %{name: "some updated name name"})
       |> render_submit()
-      |> follow_redirect(conn, Routes.playlist_index_path(conn, :index))
+      |> follow_redirect(conn, Routes.playlist_show_path(conn, :show, playlist))
 
     assert html =~ "some updated name"
   end
@@ -82,18 +77,13 @@ defmodule MediaServerWeb.PlaylistLiveTest do
     anotherUser = AccountsFixtures.user_fixture()
     anotherPlaylist = playlist_fixture(%{user_id: anotherUser.id, name: "another playlist"})
 
-    {:error, {result, _}} = live(conn, Routes.playlist_show_path(conn, :show, anotherPlaylist))
-
-    assert result === :live_redirect
+    assert_raise Ecto.NoResultsError, fn ->
+      live(conn, Routes.playlist_show_path(conn, :show, anotherPlaylist))
+    end
   end
 
   test "it should only update logged in user playlist within modal", %{conn: conn, playlist: playlist} do
-    {:ok, show_live, _html} = live(conn, Routes.playlist_show_path(conn, :show, playlist))
-
-    assert show_live |> element("a", "Edit") |> render_click() =~
-             "Edit Playlist"
-
-    assert_patch(show_live, Routes.playlist_show_path(conn, :edit, playlist))
+    {:ok, show_live, _html} = live(conn, Routes.playlist_show_path(conn, :edit, playlist))
 
     assert show_live
            |> form("#playlist-form", playlist: %{name: nil})
@@ -110,8 +100,8 @@ defmodule MediaServerWeb.PlaylistLiveTest do
     anotherUser = AccountsFixtures.user_fixture()
     anotherPlaylist = playlist_fixture(%{user_id: anotherUser.id, name: "another playlist"})
 
-    {:error, {result, _}} = live(conn, Routes.playlist_show_path(conn, :edit, anotherPlaylist))
-
-    assert result === :live_redirect
+    assert_raise Ecto.NoResultsError, fn ->
+      live(conn, Routes.playlist_show_path(conn, :edit, anotherPlaylist))
+    end
   end
 end
