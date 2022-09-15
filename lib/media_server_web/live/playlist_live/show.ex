@@ -8,17 +8,27 @@ defmodule MediaServerWeb.PlaylistLive.Show do
   @impl true
   def mount(_params, session, socket) do
     {:ok,
-      socket
-      |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]) |> Repo.preload(:playlists))
-    }
+     socket
+     |> assign(
+       :current_user,
+       Accounts.get_user_by_session_token(session["user_token"]) |> Repo.preload(:playlists)
+     )}
   end
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    {:noreply,
-     socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:playlist, Playlists.get_playlist!(id))}
+    playlist = Playlists.get_playlist!(id)
+
+    if playlist.user_id != socket.assigns.current_user.id do
+      {:noreply,
+       socket
+       |> push_redirect(to: Routes.playlist_index_path(socket, :index))}
+    else
+      {:noreply,
+       socket
+       |> assign(:page_title, page_title(socket.assigns.live_action))
+       |> assign(:playlist, Playlists.get_playlist!(id))}
+    end
   end
 
   defp page_title(:show), do: "Show Playlist"

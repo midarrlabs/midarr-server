@@ -73,11 +73,18 @@ defmodule MediaServerWeb.PlaylistLiveTest do
     assert index_live |> element("#playlist-#{playlist.id} a", "Delete") |> render_click()
   end
 
-  test "displays playlist", %{conn: conn, playlist: playlist} do
+  test "it should only display logged in user playlist", %{conn: conn, playlist: playlist} do
     {:ok, _show_live, html} = live(conn, Routes.playlist_show_path(conn, :show, playlist))
 
     assert html =~ "Show Playlist"
     assert html =~ playlist.name
+
+    anotherUser = AccountsFixtures.user_fixture()
+    anotherPlaylist = playlist_fixture(%{user_id: anotherUser.id, name: "another playlist"})
+
+    {:error, {result, _}} = live(conn, Routes.playlist_show_path(conn, :show, anotherPlaylist))
+
+    assert result === :live_redirect
   end
 
   test "updates playlist within modal", %{conn: conn, playlist: playlist} do
