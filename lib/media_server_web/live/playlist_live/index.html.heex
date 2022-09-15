@@ -1,46 +1,61 @@
-<h1>Listing Playlists</h1>
+<.live_component
+  module={MediaServerWeb.Components.NavComponent}
+  id="nav-component"
+  class="text-slate-600 hover:text-slate-800"
+/>
 
-<%= if @live_action in [:new] do %>
-  <.modal return_to={Routes.playlist_index_path(@socket, :index)}>
-    <.live_component
-      module={MediaServerWeb.PlaylistLive.FormComponent}
-      id={@playlist.id || :new}
-      title={@page_title}
-      action={@live_action}
-      playlist={@playlist}
-      return_to={Routes.playlist_index_path(@socket, :index)}
-      user_id={@current_user.id}
-    />
-  </.modal>
-<% end %>
+<div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
+  <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+    <div class="min-w-0 flex items-center">
+      <h2 class="text-lg font-bold tracking-tight text-slate-600"><%= @page_title %></h2>
+    </div>
+  </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
+  <div>
+      <%= if @live_action in [:new] do %>
+        <.modal return_to={Routes.playlist_index_path(@socket, :index)}>
+          <.live_component
+            module={MediaServerWeb.PlaylistLive.FormComponent}
+            id={@playlist.id || :new}
+            title={@page_title}
+            action={@live_action}
+            playlist={@playlist}
+            return_to={Routes.playlist_index_path(@socket, :index)}
+            user_id={@current_user.id}
+          />
+        </.modal>
+      <% end %>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="playlists">
-    <%= for playlist <- @current_user.playlists do %>
-      <tr id={"playlist-#{playlist.id}"}>
-        <td><%= playlist.name %></td>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
 
-        <td>
-          <span>
-            <%= live_redirect("Show", to: Routes.playlist_show_path(@socket, :show, playlist)) %>
-          </span>
-          <span>
-            <%= live_redirect("Edit", to: Routes.playlist_show_path(@socket, :edit, playlist)) %>
-          </span>
-          <span>
-            <%= link("Delete", to: "#", phx_click: "delete", phx_value_id: playlist.id) %>
-          </span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="playlists">
+          <%= for playlist <- @current_user.playlists do %>
+            <tr id={"playlist-#{playlist.id}"}>
+              <td><%= playlist.name %></td>
 
-<span><%= live_patch("New Playlist", to: Routes.playlist_index_path(@socket, :new)) %></span>
+              <td>
+                <span>
+                  <%= live_redirect("Show", to: Routes.playlist_show_path(@socket, :show, playlist)) %>
+                </span>
+                <span>
+                  <%= live_redirect("Edit", to: Routes.playlist_show_path(@socket, :edit, playlist)) %>
+                </span>
+                <span>
+                  <%= link("Delete", to: "#", phx_click: "delete", phx_value_id: playlist.id) %>
+                </span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <span><%= live_patch("New Playlist", to: Routes.playlist_index_path(@socket, :new)) %></span>
+
+  </div>
+</div>

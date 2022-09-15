@@ -43,8 +43,8 @@
               class: "text-base font-medium #{@class}"
             ) %>
 
-            <%= live_redirect("Favourites",
-              to: Routes.favourites_index_path(@socket, :index),
+            <%= live_redirect("Playlists",
+              to: Routes.playlist_index_path(@socket, :index),
               class: "text-base font-medium #{@class}"
             ) %>
 
@@ -131,8 +131,8 @@
         class: "text-base block px-3 py-2 font-medium #{@class}"
       ) %>
 
-      <%= live_redirect("Favourites",
-        to: Routes.favourites_index_path(@socket, :index),
+      <%= live_redirect("Playlists",
+        to: Routes.playlist_index_path(@socket, :index),
         class: "text-base block px-3 py-2 font-medium #{@class}"
       ) %>
 
