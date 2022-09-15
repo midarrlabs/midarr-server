@@ -9,9 +9,11 @@ defmodule MediaServerWeb.PlaylistLive.Index do
   @impl true
   def mount(_params, session, socket) do
     {:ok,
-      socket
-      |> assign(:current_user, Accounts.get_user_by_session_token(session["user_token"]) |> Repo.preload(:playlists))
-    }
+     socket
+     |> assign(
+       :current_user,
+       Accounts.get_user_by_session_token(session["user_token"]) |> Repo.preload(:playlists)
+     )}
   end
 
   @impl true

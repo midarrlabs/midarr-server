@@ -28,13 +28,19 @@
         <td><%= playlist.name %></td>
 
         <td>
-          <span><%= live_redirect "Show", to: Routes.playlist_show_path(@socket, :show, playlist) %></span>
-          <span><%= live_patch "Edit", to: Routes.playlist_index_path(@socket, :edit, playlist) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: playlist.id %></span>
+          <span>
+            <%= live_redirect("Show", to: Routes.playlist_show_path(@socket, :show, playlist)) %>
+          </span>
+          <span>
+            <%= live_patch("Edit", to: Routes.playlist_index_path(@socket, :edit, playlist)) %>
+          </span>
+          <span>
+            <%= link("Delete", to: "#", phx_click: "delete", phx_value_id: playlist.id) %>
+          </span>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<span><%= live_patch "New Playlist", to: Routes.playlist_index_path(@socket, :new) %></span>
+<span><%= live_patch("New Playlist", to: Routes.playlist_index_path(@socket, :new)) %></span>

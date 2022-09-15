@@ -21,39 +21,41 @@
       }
     </style>
     <script>
-        window.userId = <%= assigns[:current_user].id %>;
-        window.userEmail = "<%= assigns[:current_user].email %>";
-        window.userName = "<%= assigns[:current_user].name %>";
+      window.userId = <%= assigns[:current_user].id %>;
+      window.userEmail = "<%= assigns[:current_user].email %>";
+      window.userName = "<%= assigns[:current_user].name %>";
     </script>
   </head>
   <body>
     <%= @inner_content %>
 
     <script>
-        window['__onGCastApiAvailable'] = function(isAvailable) {
-            if (isAvailable) {
-                cast.framework.CastContext.getInstance().setOptions({
-                  receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
-                });
+      window['__onGCastApiAvailable'] = function(isAvailable) {
+          if (isAvailable) {
+              cast.framework.CastContext.getInstance().setOptions({
+                receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
+              });
 
-                cast.framework.CastContext.getInstance().addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function({ castState }) {
-                    if (castState === 'CONNECTED') {
-                        const mediaInfo = new chrome.cast.media.MediaInfo('<%= System.get_env("APP_URL", "") <> assigns[:media_stream] %>', 'video/mp4');
-                        const request = new chrome.cast.media.LoadRequest(mediaInfo);
+              cast.framework.CastContext.getInstance().addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function({ castState }) {
+                  if (castState === 'CONNECTED') {
+                      const mediaInfo = new chrome.cast.media.MediaInfo('<%= System.get_env("APP_URL", "") <> assigns[:media_stream] %>', 'video/mp4');
+                      const request = new chrome.cast.media.LoadRequest(mediaInfo);
 
-                        cast.framework.CastContext.getInstance().getCurrentSession().loadMedia(request).then(
-                          function() {
-                            console.log('Cast media loaded');
-                          },
-                          function(errorCode) {
-                            console.log(errorCode);
-                        });
-                    }
-                });
-            }
-        }
+                      cast.framework.CastContext.getInstance().getCurrentSession().loadMedia(request).then(
+                        function() {
+                          console.log('Cast media loaded');
+                        },
+                        function(errorCode) {
+                          console.log(errorCode);
+                      });
+                  }
+              });
+          }
+      }
     </script>
-    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
-    <script defer phx-track-static src={Routes.static_path(@conn, "/assets/app.js")}></script>
+    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1">
+    </script>
+    <script defer phx-track-static src={Routes.static_path(@conn, "/assets/app.js")}>
+    </script>
   </body>
 </html>
