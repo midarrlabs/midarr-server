@@ -11,4 +11,5 @@
   <LaunchBrowser>True</LaunchBrowser>
   <Branch>main</Branch>
   <SslCertHash></SslCertHash>
+  <InstanceName>Sonarr</InstanceName>
 </Config>
