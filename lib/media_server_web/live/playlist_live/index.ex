@@ -22,9 +22,17 @@ defmodule MediaServerWeb.PlaylistLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Playlist")
-    |> assign(:playlist, Playlists.get_playlist!(id))
+
+    playlist = Playlists.get_playlist!(id)
+
+    if playlist.user_id != socket.assigns.current_user.id do
+      socket
+      |> push_redirect(to: Routes.playlist_index_path(socket, :index))
+    else
+      socket
+      |> assign(:page_title, "Edit Playlist")
+      |> assign(:playlist, Playlists.get_playlist!(id))
+    end
   end
 
   defp apply_action(socket, :new, _params) do

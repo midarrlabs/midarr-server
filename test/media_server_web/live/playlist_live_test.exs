@@ -87,7 +87,7 @@ defmodule MediaServerWeb.PlaylistLiveTest do
     assert result === :live_redirect
   end
 
-  test "updates playlist within modal", %{conn: conn, playlist: playlist} do
+  test "it should only update logged in user playlist within modal", %{conn: conn, playlist: playlist} do
     {:ok, show_live, _html} = live(conn, Routes.playlist_show_path(conn, :show, playlist))
 
     assert show_live |> element("a", "Edit") |> render_click() =~
@@ -106,5 +106,12 @@ defmodule MediaServerWeb.PlaylistLiveTest do
       |> follow_redirect(conn, Routes.playlist_show_path(conn, :show, playlist))
 
     assert html =~ "some updated name"
+
+    anotherUser = AccountsFixtures.user_fixture()
+    anotherPlaylist = playlist_fixture(%{user_id: anotherUser.id, name: "another playlist"})
+
+    {:error, {result, _}} = live(conn, Routes.playlist_show_path(conn, :edit, anotherPlaylist))
+
+    assert result === :live_redirect
   end
 end
