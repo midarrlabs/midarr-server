@@ -82,7 +82,10 @@ defmodule MediaServerWeb.PlaylistLiveTest do
     end
   end
 
-  test "it should only update logged in user playlist within modal", %{conn: conn, playlist: playlist} do
+  test "it should only update logged in user playlist within modal", %{
+    conn: conn,
+    playlist: playlist
+  } do
     {:ok, show_live, _html} = live(conn, Routes.playlist_show_path(conn, :edit, playlist))
 
     assert show_live
