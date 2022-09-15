@@ -6,9 +6,6 @@ defmodule MediaServerWeb.PlaylistLive.Show do
   def handle_params(%{"id" => id}, _url, socket) do
     {:noreply,
       socket
-      |> assign(:page_title, page_title(socket.assigns.live_action))}
+      |> assign(:page_title, socket.assigns.playlist.name)}
   end
-
-  defp page_title(:show), do: "Show Playlist"
-  defp page_title(:edit), do: "Edit Playlist"
 end
