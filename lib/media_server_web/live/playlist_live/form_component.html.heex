@@ -1,22 +1,14 @@
-<div>
-  <h2><%= @title %></h2>
-
-  <.form
-    let={f}
-    for={@changeset}
-    id="playlist-form"
-    phx-target={@myself}
-    phx-change="validate"
-    phx-submit="save"
-  >
-    <%= label(f, :name) %>
-    <%= text_input(f, :name) %>
-    <%= error_tag(f, :name) %>
-
-    <input type="hidden" name="playlist[user_id]" value={@user_id} />
-
-    <div>
-      <%= submit("Save", phx_disable_with: "Saving...") %>
-    </div>
-  </.form>
-</div>
+<.form
+  let={f}
+  for={@playlist}
+  id="playlist-form"
+  phx-target={@myself}
+  phx-change="validate"
+  phx-submit="save"
+>
+  <%= text_input(f, :name,
+    placeholder: "Enter name",
+    class:
+      "mt-1 block w-full shadow-sm focus:ring-slate-500 focus:border-slate-500 sm:text-sm border-gray-300 rounded-md"
+  ) %>
+</.form>

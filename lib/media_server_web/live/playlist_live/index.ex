@@ -2,6 +2,7 @@ defmodule MediaServerWeb.PlaylistLive.Index do
   use MediaServerWeb, :live_view
   on_mount MediaServerWeb.PlaylistLive.Auth
 
+  alias Phoenix.LiveView.JS
   alias MediaServer.Playlists
   alias MediaServer.Playlists.Playlist
 
@@ -28,5 +29,17 @@ defmodule MediaServerWeb.PlaylistLive.Index do
     {:ok, _} = Playlists.delete_playlist(playlist)
 
     {:noreply, socket |> push_redirect(to: Routes.playlist_index_path(socket, :index))}
+  end
+
+  def handle_event("save", %{"playlist" => playlist}, socket) do
+    case Playlists.create_playlist(playlist) do
+      {:ok, _playlist} ->
+        {:noreply,
+         socket
+         |> push_redirect(to: Routes.playlist_index_path(socket, :index))}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+    end
   end
 end

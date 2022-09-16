@@ -1,6 +1,8 @@
 defmodule MediaServerWeb.PlaylistLive.Auth do
   import Phoenix.LiveView
 
+  import Ecto.Query
+
   alias MediaServer.Repo
   alias MediaServer.Accounts
   alias MediaServer.Playlists
@@ -9,7 +11,6 @@ defmodule MediaServerWeb.PlaylistLive.Auth do
     socket =
       assign_new(socket, :current_user, fn ->
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(:playlists)
       end)
 
     playlist = Playlists.get_playlist!(id)
@@ -30,7 +31,8 @@ defmodule MediaServerWeb.PlaylistLive.Auth do
      socket
      |> assign(
        :current_user,
-       Accounts.get_user_by_session_token(session["user_token"]) |> Repo.preload(:playlists)
+       Accounts.get_user_by_session_token(session["user_token"])
+       |> Repo.preload(playlists: from(p in Playlists.Playlist, order_by: [desc: p.id]))
      )}
   end
 end
