@@ -35,7 +35,7 @@ defmodule MediaServerWeb.UserSessionControllerTest do
       response = html_response(conn, 200)
       assert response =~ "Movies"
       assert response =~ "Series"
-      assert response =~ "Favourites"
+      assert response =~ "Playlists"
       assert response =~ "Continues"
     end
 

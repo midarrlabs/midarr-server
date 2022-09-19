@@ -10,35 +10,4 @@
       <h2 class="text-lg font-bold tracking-tight text-slate-600"><%= @page_title %></h2>
     </div>
   </div>
-
-  <div>
-    <%= if @live_action in [:edit] do %>
-      <.modal return_to={Routes.playlist_show_path(@socket, :show, @playlist)}>
-        <.live_component
-          module={MediaServerWeb.PlaylistLive.FormComponent}
-          id={@playlist.id}
-          title={@page_title}
-          action={@live_action}
-          playlist={@playlist}
-          return_to={Routes.playlist_show_path(@socket, :show, @playlist)}
-          user_id={@current_user.id}
-        />
-      </.modal>
-    <% end %>
-
-    <ul>
-      <li>
-        <strong>Name:</strong>
-        <%= @playlist.name %>
-      </li>
-    </ul>
-
-    <span>
-      <%= live_redirect("Edit",
-        to: Routes.playlist_show_path(@socket, :edit, @playlist),
-        class: "button"
-      ) %>
-    </span>
-    | <span><%= live_redirect("Back", to: Routes.playlist_index_path(@socket, :index)) %></span>
-  </div>
 </div>
