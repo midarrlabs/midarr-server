@@ -1,11 +1,14 @@
 defmodule MediaServerWeb.MoviesLive.Show do
   use MediaServerWeb, :live_view
 
+  import Ecto.Query
+
   alias Phoenix.LiveView.JS
   alias MediaServer.Repo
   alias MediaServer.Accounts
   alias MediaServerWeb.Repositories.Movies
   alias MediaServer.Favourites
+  alias MediaServer.Playlists
 
   @impl true
   def mount(_params, session, socket) do
@@ -16,6 +19,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
         |> Repo.preload(:movie_favourites)
+        |> Repo.preload(playlists: from(p in Playlists.Playlist, order_by: [desc: p.id]))
       )
     }
   end
