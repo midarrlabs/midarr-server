@@ -5,7 +5,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
   alias MediaServer.AccountsFixtures
   alias MediaServer.MoviesFixtures
-  alias MediaServer.Favourites
+  alias MediaServer.Playlists
   alias MediaServerWeb.Repositories.Movies
 
   setup %{conn: conn} do
@@ -44,53 +44,53 @@ defmodule MediaServerWeb.MoviesLiveTest do
     send(view.pid, {:cast, cast})
   end
 
-  test "it should favourite", %{conn: conn} do
+  test "it should add to playlist", %{conn: conn} do
     movie = MoviesFixtures.get_movie()
     cast = Movies.get_cast(movie["id"])
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
-    assert Favourites.list_movie_favourites()
+    assert Playlists.list_playlists()
            |> Enum.empty?()
 
     send(view.pid, {:movie, movie})
     send(view.pid, {:cast, cast})
 
-    assert view |> element("#favourite", "Favourite") |> render_click()
+    assert view |> element("#add-to-playlists") |> render_click()
 
-    favourite =
-      Favourites.list_movie_favourites()
+    playlist =
+      Playlists.list_playlists()
       |> List.first()
 
-    assert favourite.movie_id === movie["id"]
+    assert playlist.movie.movie_id === movie["id"]
   end
 
-  test "it should unfavourite", %{conn: conn} do
-    movie = MoviesFixtures.get_movie()
-    cast = Movies.get_cast(movie["id"])
-
-    {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
-
-    send(view.pid, {:movie, movie})
-    send(view.pid, {:cast, cast})
-
-    assert view
-           |> element("#favourite", "Favourite")
-           |> render_click()
-
-    {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
-
-    send(view.pid, {:movie, movie})
-    send(view.pid, {:cast, cast})
-
-    assert view
-           |> element("#unfavourite", "Unfavourite")
-           |> render_click()
-
-    assert Favourites.list_movie_favourites()
-           |> Enum.empty?()
-  end
+#  test "it should delete from playlist", %{conn: conn} do
+#    movie = MoviesFixtures.get_movie()
+#    cast = Movies.get_cast(movie["id"])
+#
+#    {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+#
+#    send(view.pid, {:movie, movie})
+#    send(view.pid, {:cast, cast})
+#
+#    assert view
+#           |> element("#favourite", "Favourite")
+#           |> render_click()
+#
+#    {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+#
+#    send(view.pid, {:movie, movie})
+#    send(view.pid, {:cast, cast})
+#
+#    assert view
+#           |> element("#unfavourite", "Unfavourite")
+#           |> render_click()
+#
+#    assert Favourites.list_movie_favourites()
+#           |> Enum.empty?()
+#  end
 
   test "it should play", %{conn: conn} do
     movie = MoviesFixtures.get_movie()

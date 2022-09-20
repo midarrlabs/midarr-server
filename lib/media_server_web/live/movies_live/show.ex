@@ -1,6 +1,7 @@
 defmodule MediaServerWeb.MoviesLive.Show do
   use MediaServerWeb, :live_view
 
+  alias Phoenix.LiveView.JS
   alias MediaServer.Repo
   alias MediaServer.Accounts
   alias MediaServerWeb.Repositories.Movies

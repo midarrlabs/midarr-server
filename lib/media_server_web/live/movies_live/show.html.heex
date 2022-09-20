@@ -48,76 +48,91 @@
       </div>
 
       <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6">
+
         <%= live_redirect id: "play-#{ @movie["id"] }", to: Routes.watch_movie_show_path(@socket, :show, @movie["id"], "watch"), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="-ml-0.5 mr-2 h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-            />
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
+          <svg class="-ml-0.5 mr-2 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
           </svg>
           Play
         <% end %>
 
-        <%= if is_nil(@favourite) do %>
-          <button
-            type="button"
-            id="favourite"
-            phx-click="favourite"
-            class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="-ml-0.5 mr-2 h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
+        <button
+        id="add-to-playlists"
+        phx-click={JS.toggle(to: "#playlists")}
+        class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500">
+            <svg class="-ml-0.5 mr-2 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
-            Favourite
-          </button>
-        <% else %>
-          <button
-            type="button"
-            id="unfavourite"
-            phx-click="unfavourite"
-            class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="-ml-0.5 mr-2 h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
-            </svg>
-            Unfavourite
-          </button>
-        <% end %>
+            Playlist
+        </button>
+
+        <div id="playlists" class="hidden relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+
+          <div class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity"></div>
+
+          <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center">
+
+              <div phx-click-away={JS.hide(to: "#playlists")} class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+
+                <fieldset>
+                  <legend class="text-lg font-medium text-gray-900">Playlists</legend>
+
+                  <div class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
+
+                    <div class="relative flex items-start py-4">
+                      <div class="min-w-0 flex-1 text-sm">
+                        <label for="person-1" class="select-none font-medium text-gray-700">Annette Black</label>
+                      </div>
+                      <div class="ml-3 flex h-5 items-center">
+                        <input id="person-1" name="person-1" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-slate-600 focus:ring-slate-500">
+                      </div>
+                    </div>
+
+                    <div class="relative flex items-start py-4">
+                      <div class="min-w-0 flex-1 text-sm">
+                        <label for="person-2" class="select-none font-medium text-gray-700">Cody Fisher</label>
+                      </div>
+                      <div class="ml-3 flex h-5 items-center">
+                        <input id="person-2" name="person-2" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-slate-600 focus:ring-slate-500">
+                      </div>
+                    </div>
+
+                    <div class="relative flex items-start py-4">
+                      <div class="min-w-0 flex-1 text-sm">
+                        <label for="person-3" class="select-none font-medium text-gray-700">Courtney Henry</label>
+                      </div>
+                      <div class="ml-3 flex h-5 items-center">
+                        <input id="person-3" name="person-3" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-slate-600 focus:ring-slate-500">
+                      </div>
+                    </div>
+
+                    <div class="relative flex items-start py-4">
+                      <div class="min-w-0 flex-1 text-sm">
+                        <label for="person-4" class="select-none font-medium text-gray-700">Kathryn Murphy</label>
+                      </div>
+                      <div class="ml-3 flex h-5 items-center">
+                        <input id="person-4" name="person-4" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-slate-600 focus:ring-slate-500">
+                      </div>
+                    </div>
+
+                    <div class="relative flex items-start py-4">
+                      <div class="min-w-0 flex-1 text-sm">
+                        <label for="person-5" class="select-none font-medium text-gray-700">Theresa Webb</label>
+                      </div>
+                      <div class="ml-3 flex h-5 items-center">
+                        <input id="person-5" name="person-5" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-slate-600 focus:ring-slate-500">
+                      </div>
+                    </div>
+
+                  </div>
+                </fieldset>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     <% else %>
       <div class="animate-pulse space-y-6">
