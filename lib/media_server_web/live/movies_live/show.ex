@@ -96,4 +96,15 @@ defmodule MediaServerWeb.MoviesLive.Show do
       |> push_redirect(to: Routes.movies_show_path(socket, :show, socket.assigns.movie["id"]))
     }
   end
+
+  def handle_event("save", %{"playlist" => playlist}, socket) do
+
+    Playlists.insert_or_update_all(playlist, %{
+      movie_id: socket.assigns.movie["id"],
+      title: socket.assigns.movie["title"],
+      image_url: Movies.get_poster(socket.assigns.movie),
+    })
+
+    {:noreply, socket}
+  end
 end

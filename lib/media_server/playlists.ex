@@ -197,4 +197,28 @@ defmodule MediaServer.Playlists do
   def change_movie(%Movie{} = movie, attrs \\ %{}) do
     Movie.changeset(movie, attrs)
   end
+
+  def insert_or_update_all(ids, attrs \\ %{}) do
+    ids
+    |> Enum.each(fn item ->
+      {id, result} = item
+
+      case result do
+        "true" ->
+          attrs
+          |> Enum.into(%{
+            playlist_id: id
+          })
+          |> create_movie()
+        "false" ->
+          movie = Repo.get_by(Movie, movie_id: attrs.movie_id, playlist_id: id)
+
+          case movie do
+            nil -> nil
+            _ -> delete_movie(movie)
+          end
+      end
+
+    end)
+  end
 end

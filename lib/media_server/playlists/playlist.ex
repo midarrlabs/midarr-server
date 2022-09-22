@@ -5,7 +5,9 @@ defmodule MediaServer.Playlists.Playlist do
   schema "playlists" do
     field :name, :string
     field :can_delete, :boolean, default: true
+
     belongs_to :user, MediaServer.Accounts.User
+    has_many :movies, MediaServer.Playlists.Movie
 
     timestamps()
   end

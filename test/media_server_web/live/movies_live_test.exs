@@ -6,6 +6,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
   alias MediaServer.AccountsFixtures
   alias MediaServer.MoviesFixtures
   alias MediaServer.Playlists
+  alias MediaServer.Playlists.Movie
   alias MediaServerWeb.Repositories.Movies
 
   setup %{conn: conn} do
@@ -51,19 +52,16 @@ defmodule MediaServerWeb.MoviesLiveTest do
     {:ok, view, _disconnected_html} =
       live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
-    assert Playlists.list_playlists()
-           |> Enum.empty?()
+    assert Movie.list_playlist_movies() |> Enum.empty?()
 
     send(view.pid, {:movie, movie})
     send(view.pid, {:cast, cast})
 
 
 
-    playlist =
-      Playlists.list_playlists()
-      |> List.first()
+    playlist_movie = Movie.list_playlist_movies() |> List.first()
 
-    assert playlist.movie.movie_id === movie["id"]
+    assert playlist_movie.movie_id === movie["id"]
   end
 
 #  test "it should delete from playlist", %{conn: conn} do

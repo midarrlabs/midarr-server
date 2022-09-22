@@ -79,17 +79,26 @@ defmodule MediaServer.PlaylistsTest do
     @invalid_attrs %{image_url: nil, movie_id: nil, title: nil}
 
     test "list_playlist_movies/0 returns all playlist_movies" do
-      movie = movie_fixture()
+      user = AccountsFixtures.user_fixture()
+      playlist = playlist_fixture(%{user_id: user.id})
+      movie = movie_fixture(%{playlist_id: playlist.id})
+
       assert Playlists.list_playlist_movies() == [movie]
     end
 
     test "get_movie!/1 returns the movie with given id" do
-      movie = movie_fixture()
+      user = AccountsFixtures.user_fixture()
+      playlist = playlist_fixture(%{user_id: user.id})
+      movie = movie_fixture(%{playlist_id: playlist.id})
+
       assert Playlists.get_movie!(movie.id) == movie
     end
 
     test "create_movie/1 with valid data creates a movie" do
-      valid_attrs = %{image_url: "some image_url", movie_id: 42, title: "some title"}
+      user = AccountsFixtures.user_fixture()
+      playlist = playlist_fixture(%{user_id: user.id})
+
+      valid_attrs = %{image_url: "some image_url", movie_id: 42, title: "some title", playlist_id: playlist.id}
 
       assert {:ok, %Movie{} = movie} = Playlists.create_movie(valid_attrs)
       assert movie.image_url == "some image_url"
@@ -102,7 +111,9 @@ defmodule MediaServer.PlaylistsTest do
     end
 
     test "update_movie/2 with valid data updates the movie" do
-      movie = movie_fixture()
+      user = AccountsFixtures.user_fixture()
+      playlist = playlist_fixture(%{user_id: user.id})
+      movie = movie_fixture(%{playlist_id: playlist.id})
       update_attrs = %{image_url: "some updated image_url", movie_id: 43, title: "some updated title"}
 
       assert {:ok, %Movie{} = movie} = Playlists.update_movie(movie, update_attrs)
@@ -112,20 +123,64 @@ defmodule MediaServer.PlaylistsTest do
     end
 
     test "update_movie/2 with invalid data returns error changeset" do
-      movie = movie_fixture()
+      user = AccountsFixtures.user_fixture()
+      playlist = playlist_fixture(%{user_id: user.id})
+      movie = movie_fixture(%{playlist_id: playlist.id})
+
       assert {:error, %Ecto.Changeset{}} = Playlists.update_movie(movie, @invalid_attrs)
       assert movie == Playlists.get_movie!(movie.id)
     end
 
     test "delete_movie/1 deletes the movie" do
-      movie = movie_fixture()
+      user = AccountsFixtures.user_fixture()
+      playlist = playlist_fixture(%{user_id: user.id})
+      movie = movie_fixture(%{playlist_id: playlist.id})
+
       assert {:ok, %Movie{}} = Playlists.delete_movie(movie)
       assert_raise Ecto.NoResultsError, fn -> Playlists.get_movie!(movie.id) end
     end
 
     test "change_movie/1 returns a movie changeset" do
-      movie = movie_fixture()
+      user = AccountsFixtures.user_fixture()
+      playlist = playlist_fixture(%{user_id: user.id})
+      movie = movie_fixture(%{playlist_id: playlist.id})
+
       assert %Ecto.Changeset{} = Playlists.change_movie(movie)
+    end
+    
+    test "insert_or_update_all inserts a movie" do
+      user = AccountsFixtures.user_fixture()
+      some_playlist = playlist_fixture(%{user_id: user.id})
+      another_playlist = playlist_fixture(%{user_id: user.id})
+
+      assert Playlists.insert_or_update_all(%{
+        "#{ some_playlist.id }" => "true",
+        "#{ another_playlist.id }" => "false"
+      }, %{image_url: "some image_url", movie_id: 42, title: "some title"})
+
+      refute Playlists.list_playlist_movies() |> Enum.empty?()
+      assert Playlists.list_playlist_movies() |> Enum.count() === 1
+    end
+
+    test "insert_or_update_all removes a movie" do
+      user = AccountsFixtures.user_fixture()
+      some_playlist = playlist_fixture(%{user_id: user.id})
+      another_playlist = playlist_fixture(%{user_id: user.id})
+
+      movie_fixture(%{playlist_id: some_playlist.id})
+
+      assert Playlists.list_playlist_movies() |> Enum.count() === 1
+
+      assert Playlists.insert_or_update_all(%{
+        "#{ some_playlist.id }" => "false",
+        "#{ another_playlist.id }" => "true"
+      }, %{image_url: "some image_url", movie_id: 42, title: "some title"})
+
+      assert Playlists.list_playlist_movies() |> Enum.count() === 1
+
+      result = Playlists.list_playlist_movies() |> List.first()
+
+      assert result.playlist_id === another_playlist.id
     end
   end
 end

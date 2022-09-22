@@ -10,4 +10,20 @@
       <h2 class="text-lg font-bold tracking-tight text-slate-600"><%= @page_title %></h2>
     </div>
   </div>
+
+    <div>
+      <ul
+        role="list"
+        class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8"
+      >
+        <%= for item <- @playlist.movies do %>
+          <%= MediaServerWeb.Components.PosterComponent.render(%{
+            img_src: item.image_url,
+            title: item.title,
+            link: Routes.movies_show_path(@socket, :show, item.movie_id)
+          }) %>
+        <% end %>
+
+      </ul>
+    </div>
 </div>

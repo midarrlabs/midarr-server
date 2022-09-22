@@ -6,6 +6,7 @@ defmodule MediaServer.Playlists.Movie do
     field :image_url, :string
     field :movie_id, :integer
     field :title, :string
+
     belongs_to :playlist, MediaServer.Playlists.Playlist
 
     timestamps()
@@ -14,7 +15,7 @@ defmodule MediaServer.Playlists.Movie do
   @doc false
   def changeset(movie, attrs) do
     movie
-    |> cast(attrs, [:movie_id, :title, :image_url])
-    |> validate_required([:movie_id, :title, :image_url])
+    |> cast(attrs, [:movie_id, :title, :image_url, :playlist_id])
+    |> validate_required([:movie_id, :title, :image_url, :playlist_id])
   end
 end

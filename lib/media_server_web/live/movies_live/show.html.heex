@@ -56,6 +56,54 @@
           Play
         <% end %>
 
+                <%= if is_nil(@favourite) do %>
+                  <button
+                    type="button"
+                    id="favourite"
+                    phx-click="favourite"
+                    class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="-ml-0.5 mr-2 h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                      />
+                    </svg>
+                    Favourite
+                  </button>
+                <% else %>
+                  <button
+                    type="button"
+                    id="unfavourite"
+                    phx-click="unfavourite"
+                    class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="-ml-0.5 mr-2 h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                      />
+                    </svg>
+                    Unfavourite
+                  </button>
+                <% end %>
+
         <button
         id="add-to-playlists"
         phx-click={JS.toggle(to: "#playlists")}
@@ -78,19 +126,24 @@
                 <fieldset>
                   <legend class="text-lg font-medium text-gray-900">Playlists</legend>
 
-                  <div class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
+                  <div class="mt-4 border-t border-gray-200">
 
-                    <%= for item <- @current_user.playlists do %>
+                      <.form id="playlist-form" let={f} for={:playlist} phx-change="save" class="divide-y divide-gray-200">
 
-                        <div class="relative flex items-start py-4">
-                          <div class="min-w-0 flex-1 text-sm">
-                            <label for={ "playlist-#{ item.id }" } class="select-none font-medium text-gray-700"><%= item.name %></label>
-                          </div>
-                          <div class="ml-3 flex h-5 items-center">
-                            <input id={ "playlist-#{ item.id }" } name="person-1" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-slate-600 focus:ring-slate-500">
-                          </div>
-                        </div>
-                    <% end %>
+                        <%= for item <- @current_user.playlists do %>
+                            <div class="relative flex items-start py-4">
+                              <div class="min-w-0 flex-1 text-sm">
+                                <label for={ "playlist-#{ item.id }" } class="select-none font-medium text-gray-700"><%= item.name %></label>
+                              </div>
+
+                              <div class="ml-3 flex h-5 items-center">
+                                <%= checkbox(f, "#{ item.id }",
+                                id: "playlist-#{ item.id }",
+                                class: "h-4 w-4 rounded border-gray-300 text-slate-600 focus:ring-slate-500" ) %>
+                              </div>
+                            </div>
+                        <% end %>
+                      </.form>
 
                   </div>
                 </fieldset>

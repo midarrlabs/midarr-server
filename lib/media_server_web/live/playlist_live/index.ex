@@ -1,9 +1,24 @@
 defmodule MediaServerWeb.PlaylistLive.Index do
   use MediaServerWeb, :live_view
-  on_mount MediaServerWeb.PlaylistLive.Auth
 
+  import Ecto.Query
+
+  alias MediaServer.Repo
+  alias MediaServer.Accounts
   alias Phoenix.LiveView.JS
   alias MediaServer.Playlists
+
+  @impl true
+  def mount(_params, session, socket) do
+    {
+      :ok,
+      socket
+      |> assign(:current_user,
+           Accounts.get_user_by_session_token(session["user_token"])
+           |> Repo.preload(playlists: from(p in Playlists.Playlist, order_by: [desc: p.id]))
+         )
+    }
+  end
 
   @impl true
   def handle_params(_params, _url, socket) do
