@@ -3,9 +3,9 @@ defmodule MediaServerWeb.PlaylistLive.Index do
 
   import Ecto.Query
 
+  alias Phoenix.LiveView.JS
   alias MediaServer.Repo
   alias MediaServer.Accounts
-  alias Phoenix.LiveView.JS
   alias MediaServer.Playlists
 
   @impl true
@@ -13,20 +13,19 @@ defmodule MediaServerWeb.PlaylistLive.Index do
     {
       :ok,
       socket
-      |> assign(:current_user,
-           Accounts.get_user_by_session_token(session["user_token"])
-           |> Repo.preload(playlists: from(p in Playlists.Playlist, order_by: [desc: p.id]))
-         )
+      |> assign(
+        :current_user,
+        Accounts.get_user_by_session_token(session["user_token"])
+        |> Repo.preload(playlists: from(p in Playlists.Playlist, order_by: [desc: p.id]))
+      )
     }
   end
 
   @impl true
   def handle_params(_params, _url, socket) do
     {:noreply,
-      socket
-      |> assign(:page_title, "Playlists")
-      |> assign(:playlist, nil)
-    }
+     socket
+     |> assign(:page_title, "Playlists")}
   end
 
   @impl true

@@ -23,11 +23,11 @@
   <div class="relative mt-24 max-w-md mx-auto px-4 sm:max-w-xl sm:mt-32 sm:px-6 lg:max-w-6xl lg:px-8 space-y-6">
     <%= if assigns[:movies] do %>
       <div class="space-y-2">
-          <%= live_redirect to: Routes.movies_show_path(@socket, :show, Enum.at(@movies, 0)["id"]) do %>
-              <h1 class="text-3xl font-extrabold tracking-tight text-white hover:underline">
-                <%= Enum.at(@movies, 0)["title"] %>
-              </h1>
-          <% end %>
+        <%= live_redirect to: Routes.movies_show_path(@socket, :show, Enum.at(@movies, 0)["id"]) do %>
+          <h1 class="text-3xl font-extrabold tracking-tight text-white hover:underline">
+            <%= Enum.at(@movies, 0)["title"] %>
+          </h1>
+        <% end %>
         <div class="flex space-x-4 text-sm font-semibold text-red-300 tracking-wide uppercase">
           <h2>
             <%= Enum.at(@movies, 0)["year"] %>
@@ -53,17 +53,37 @@
       </p>
       <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6">
         <%= live_redirect to: Routes.watch_movie_show_path(@socket, :show, Enum.at(@movies, 0)["id"], "watch"), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
-          <svg class="-ml-0.5 mr-2 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+          <svg
+            class="-ml-0.5 mr-2 h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"
+            />
           </svg>
           Play
         <% end %>
 
         <%= live_redirect to: Routes.movies_show_path(@socket, :show, Enum.at(@movies, 0)["id"]), class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
-            <svg class="-ml-0.5 mr-2 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            Playlist
+          <svg
+            class="-ml-0.5 mr-2 h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Playlist
         <% end %>
       </div>
     <% else %>

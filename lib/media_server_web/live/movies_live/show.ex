@@ -98,11 +98,10 @@ defmodule MediaServerWeb.MoviesLive.Show do
   end
 
   def handle_event("save", %{"playlist" => playlist}, socket) do
-
     Playlists.insert_or_update_all(playlist, %{
       movie_id: socket.assigns.movie["id"],
       title: socket.assigns.movie["title"],
-      image_url: Movies.get_poster(socket.assigns.movie),
+      image_url: Movies.get_poster(socket.assigns.movie)
     })
 
     {:noreply, socket}

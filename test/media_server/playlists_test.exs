@@ -98,7 +98,12 @@ defmodule MediaServer.PlaylistsTest do
       user = AccountsFixtures.user_fixture()
       playlist = playlist_fixture(%{user_id: user.id})
 
-      valid_attrs = %{image_url: "some image_url", movie_id: 42, title: "some title", playlist_id: playlist.id}
+      valid_attrs = %{
+        image_url: "some image_url",
+        movie_id: 42,
+        title: "some title",
+        playlist_id: playlist.id
+      }
 
       assert {:ok, %Movie{} = movie} = Playlists.create_movie(valid_attrs)
       assert movie.image_url == "some image_url"
@@ -114,7 +119,12 @@ defmodule MediaServer.PlaylistsTest do
       user = AccountsFixtures.user_fixture()
       playlist = playlist_fixture(%{user_id: user.id})
       movie = movie_fixture(%{playlist_id: playlist.id})
-      update_attrs = %{image_url: "some updated image_url", movie_id: 43, title: "some updated title"}
+
+      update_attrs = %{
+        image_url: "some updated image_url",
+        movie_id: 43,
+        title: "some updated title"
+      }
 
       assert {:ok, %Movie{} = movie} = Playlists.update_movie(movie, update_attrs)
       assert movie.image_url == "some updated image_url"
@@ -147,16 +157,19 @@ defmodule MediaServer.PlaylistsTest do
 
       assert %Ecto.Changeset{} = Playlists.change_movie(movie)
     end
-    
+
     test "insert_or_update_all inserts a movie" do
       user = AccountsFixtures.user_fixture()
       some_playlist = playlist_fixture(%{user_id: user.id})
       another_playlist = playlist_fixture(%{user_id: user.id})
 
-      assert Playlists.insert_or_update_all(%{
-        "#{ some_playlist.id }" => "true",
-        "#{ another_playlist.id }" => "false"
-      }, %{image_url: "some image_url", movie_id: 42, title: "some title"})
+      assert Playlists.insert_or_update_all(
+               %{
+                 "#{some_playlist.id}" => "true",
+                 "#{another_playlist.id}" => "false"
+               },
+               %{image_url: "some image_url", movie_id: 42, title: "some title"}
+             )
 
       refute Playlists.list_playlist_movies() |> Enum.empty?()
       assert Playlists.list_playlist_movies() |> Enum.count() === 1
@@ -171,10 +184,13 @@ defmodule MediaServer.PlaylistsTest do
 
       assert Playlists.list_playlist_movies() |> Enum.count() === 1
 
-      assert Playlists.insert_or_update_all(%{
-        "#{ some_playlist.id }" => "false",
-        "#{ another_playlist.id }" => "true"
-      }, %{image_url: "some image_url", movie_id: 42, title: "some title"})
+      assert Playlists.insert_or_update_all(
+               %{
+                 "#{some_playlist.id}" => "false",
+                 "#{another_playlist.id}" => "true"
+               },
+               %{image_url: "some image_url", movie_id: 42, title: "some title"}
+             )
 
       assert Playlists.list_playlist_movies() |> Enum.count() === 1
 

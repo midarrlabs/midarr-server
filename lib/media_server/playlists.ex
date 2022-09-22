@@ -210,6 +210,7 @@ defmodule MediaServer.Playlists do
             playlist_id: id
           })
           |> create_movie()
+
         "false" ->
           movie = Repo.get_by(Movie, movie_id: attrs.movie_id, playlist_id: id)
 
@@ -218,7 +219,6 @@ defmodule MediaServer.Playlists do
             _ -> delete_movie(movie)
           end
       end
-
     end)
   end
 end
