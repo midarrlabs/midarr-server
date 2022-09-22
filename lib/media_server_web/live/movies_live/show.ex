@@ -20,6 +20,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
         Accounts.get_user_by_session_token(session["user_token"])
         |> Repo.preload(:movie_favourites)
         |> Repo.preload(playlists: from(p in Playlists.Playlist, order_by: [desc: p.id]))
+        |> Repo.preload(playlists: [:movies])
       )
     }
   end
@@ -38,6 +39,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
 
     {:noreply,
      socket
+     |> assign(:id, id)
      |> assign(
        :favourite,
        socket.assigns.current_user.movie_favourites

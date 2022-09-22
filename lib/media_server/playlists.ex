@@ -205,11 +205,18 @@ defmodule MediaServer.Playlists do
 
       case result do
         "true" ->
-          attrs
-          |> Enum.into(%{
-            playlist_id: id
-          })
-          |> create_movie()
+          movie = Repo.get_by(Movie, movie_id: attrs.movie_id, playlist_id: id)
+
+          case movie do
+            nil ->
+              attrs
+              |> Enum.into(%{
+                playlist_id: id
+              })
+              |> create_movie()
+
+            _ -> nil
+          end
 
         "false" ->
           movie = Repo.get_by(Movie, movie_id: attrs.movie_id, playlist_id: id)

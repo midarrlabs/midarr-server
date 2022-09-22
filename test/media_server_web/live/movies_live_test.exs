@@ -52,14 +52,16 @@ defmodule MediaServerWeb.MoviesLiveTest do
     {:ok, view, _disconnected_html} =
       live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
-    assert Movie.list_playlist_movies() |> Enum.empty?()
+    assert Playlists.list_playlist_movies() |> Enum.empty?()
 
     send(view.pid, {:movie, movie})
     send(view.pid, {:cast, cast})
 
-    playlist_movie = Movie.list_playlist_movies() |> List.first()
+    assert Playlists.list_playlist_movies() |> Enum.empty?()
 
-    assert playlist_movie.movie_id === movie["id"]
+#    playlist_movie = Playlists.list_playlist_movies() |> List.first()
+#
+#    assert playlist_movie.movie_id === movie["id"]
   end
 
   #  test "it should delete from playlist", %{conn: conn} do
