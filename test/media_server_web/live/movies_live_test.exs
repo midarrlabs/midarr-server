@@ -8,6 +8,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
   alias MediaServer.Playlists
   alias MediaServer.Playlists.Movie
   alias MediaServerWeb.Repositories.Movies
+  alias MediaServer.PlaylistsFixtures
 
   setup %{conn: conn} do
     %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
@@ -48,6 +49,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
   test "it should add to playlist", %{conn: conn} do
     movie = MoviesFixtures.get_movie()
     cast = Movies.get_cast(movie["id"])
+    playlist = PlaylistsFixtures.playlist_fixture(%{user_id: 1})
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
@@ -57,38 +59,38 @@ defmodule MediaServerWeb.MoviesLiveTest do
     send(view.pid, {:movie, movie})
     send(view.pid, {:cast, cast})
 
-    assert Playlists.list_playlist_movies() |> Enum.empty?()
+    view
+    |> form("#playlist-form", playlist: %{"1" => "true"})
+    |> render_change()
 
-#    playlist_movie = Playlists.list_playlist_movies() |> List.first()
-#
-#    assert playlist_movie.movie_id === movie["id"]
+    playlist_movie = Playlists.list_playlist_movies() |> List.first()
+
+    assert playlist_movie.movie_id === movie["id"]
   end
 
-  #  test "it should delete from playlist", %{conn: conn} do
-  #    movie = MoviesFixtures.get_movie()
-  #    cast = Movies.get_cast(movie["id"])
-  #
-  #    {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
-  #
-  #    send(view.pid, {:movie, movie})
-  #    send(view.pid, {:cast, cast})
-  #
-  #    assert view
-  #           |> element("#favourite", "Favourite")
-  #           |> render_click()
-  #
-  #    {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
-  #
-  #    send(view.pid, {:movie, movie})
-  #    send(view.pid, {:cast, cast})
-  #
-  #    assert view
-  #           |> element("#unfavourite", "Unfavourite")
-  #           |> render_click()
-  #
-  #    assert Favourites.list_movie_favourites()
-  #           |> Enum.empty?()
-  #  end
+    test "it should delete from playlist", %{conn: conn} do
+      movie = MoviesFixtures.get_movie()
+      cast = Movies.get_cast(movie["id"])
+      playlist = PlaylistsFixtures.playlist_fixture(%{user_id: 1})
+
+      PlaylistsFixtures.movie_fixture(%{movie_id: movie["id"], playlist_id: playlist.id})
+
+      playlist_movie = Playlists.list_playlist_movies() |> List.first()
+
+      assert playlist_movie.movie_id === movie["id"]
+
+      {:ok, view, _disconnected_html} =
+        live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+
+      send(view.pid, {:movie, movie})
+      send(view.pid, {:cast, cast})
+
+      view
+      |> form("#playlist-form", playlist: %{"1" => "false"})
+      |> render_change()
+
+      assert Playlists.list_playlist_movies() |> Enum.empty?()
+    end
 
   test "it should play", %{conn: conn} do
     movie = MoviesFixtures.get_movie()
