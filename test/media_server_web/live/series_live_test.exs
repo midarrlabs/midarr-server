@@ -5,7 +5,6 @@ defmodule MediaServerWeb.SeriesLiveTest do
 
   alias MediaServer.AccountsFixtures
   alias MediaServer.SeriesFixtures
-  alias MediaServer.Favourites
   alias MediaServerWeb.Repositories.Series
   alias MediaServerWeb.Repositories.Episodes
 
@@ -57,48 +56,6 @@ defmodule MediaServerWeb.SeriesLiveTest do
     assert render(view) =~ "Play"
     assert render(view) =~ "5:24"
     assert render(view) =~ "5:19"
-  end
-
-  test "it should favourite", %{conn: conn} do
-    serie = SeriesFixtures.get_serie()
-
-    {:ok, view, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
-
-    assert Favourites.list_serie_favourites()
-           |> Enum.empty?()
-
-    send(view.pid, {:serie, serie})
-
-    assert view |> element("#favourite", "Favourite") |> render_click()
-
-    favourite =
-      Favourites.list_serie_favourites()
-      |> List.first()
-
-    assert favourite.serie_id === serie["id"]
-  end
-
-  test "it should unfavourite", %{conn: conn} do
-    serie = SeriesFixtures.get_serie()
-
-    {:ok, view, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
-
-    send(view.pid, {:serie, serie})
-
-    assert view
-           |> element("#favourite", "Favourite")
-           |> render_click()
-
-    {:ok, view, _html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
-
-    send(view.pid, {:serie, serie})
-
-    assert view
-           |> element("#unfavourite", "Unfavourite")
-           |> render_click()
-
-    assert Favourites.list_serie_favourites()
-           |> Enum.empty?()
   end
 
   test "it should replace each episode with episode show response", %{conn: _conn} do
