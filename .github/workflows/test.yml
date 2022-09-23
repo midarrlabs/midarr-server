@@ -1,8 +1,9 @@
-name: Feature
+name: Test
 
 on:
   push:
-    branches: [ 'feature/**' ]
+    branches:
+      - '**'
 
 jobs:
   test:
