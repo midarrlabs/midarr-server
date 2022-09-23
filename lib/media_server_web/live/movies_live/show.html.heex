@@ -174,7 +174,10 @@
                           <div class="ml-3 flex h-5 items-center">
                             <%= checkbox(f, "#{item.id}",
                               id: "playlist-#{item.id}",
-                              checked: Enum.any?(item.movies, fn x -> x.movie_id == String.to_integer(@id) end),
+                              checked:
+                                Enum.any?(item.movies, fn x ->
+                                  x.movie_id == String.to_integer(@id)
+                                end),
                               class:
                                 "h-4 w-4 rounded border-gray-300 text-slate-600 focus:ring-slate-500"
                             ) %>

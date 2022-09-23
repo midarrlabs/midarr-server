@@ -215,7 +215,8 @@ defmodule MediaServer.Playlists do
               })
               |> create_movie()
 
-            _ -> nil
+            _ ->
+              nil
           end
 
         "false" ->
