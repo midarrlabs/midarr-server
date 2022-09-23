@@ -158,12 +158,12 @@ defmodule MediaServer.PlaylistsTest do
       assert %Ecto.Changeset{} = Playlists.change_movie(movie)
     end
 
-    test "insert_or_update_all inserts a movie" do
+    test "insert_or_delete/2 inserts a movie" do
       user = AccountsFixtures.user_fixture()
       some_playlist = playlist_fixture(%{user_id: user.id})
       another_playlist = playlist_fixture(%{user_id: user.id})
 
-      assert Playlists.insert_or_update_all(
+      assert Playlists.insert_or_delete(
                %{
                  "#{some_playlist.id}" => "true",
                  "#{another_playlist.id}" => "false"
@@ -175,7 +175,7 @@ defmodule MediaServer.PlaylistsTest do
       assert Playlists.list_playlist_movies() |> Enum.count() === 1
     end
 
-    test "insert_or_update_all removes a movie" do
+    test "insert_or_delete/2 deletes a movie" do
       user = AccountsFixtures.user_fixture()
       some_playlist = playlist_fixture(%{user_id: user.id})
       another_playlist = playlist_fixture(%{user_id: user.id})
@@ -184,7 +184,7 @@ defmodule MediaServer.PlaylistsTest do
 
       assert Playlists.list_playlist_movies() |> Enum.count() === 1
 
-      assert Playlists.insert_or_update_all(
+      assert Playlists.insert_or_delete(
                %{
                  "#{some_playlist.id}" => "false",
                  "#{another_playlist.id}" => "true"
@@ -197,6 +197,26 @@ defmodule MediaServer.PlaylistsTest do
       result = Playlists.list_playlist_movies() |> List.first()
 
       assert result.playlist_id === another_playlist.id
+    end
+
+    test "insert_or_delete/2 leaves movie if already exists" do
+      user = AccountsFixtures.user_fixture()
+      some_playlist = playlist_fixture(%{user_id: user.id})
+      another_playlist = playlist_fixture(%{user_id: user.id})
+
+      movie_fixture(%{playlist_id: some_playlist.id})
+
+      assert Playlists.list_playlist_movies() |> Enum.count() === 1
+
+      assert Playlists.insert_or_delete(
+               %{
+                 "#{some_playlist.id}" => "true",
+                 "#{another_playlist.id}" => "true"
+               },
+               %{image_url: "some image_url", movie_id: 42, title: "some title"}
+             )
+
+      assert Playlists.list_playlist_movies() |> Enum.count() === 2
     end
   end
 end

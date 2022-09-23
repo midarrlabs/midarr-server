@@ -198,7 +198,7 @@ defmodule MediaServer.Playlists do
     Movie.changeset(movie, attrs)
   end
 
-  def insert_or_update_all(ids, attrs \\ %{}) do
+  def insert_or_delete(ids, attrs \\ %{}) do
     ids
     |> Enum.each(fn item ->
       {id, result} = item
