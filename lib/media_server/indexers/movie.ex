@@ -10,4 +10,11 @@ defmodule MediaServer.Indexers.Movie do
   def get_all() do
     Agent.get(__MODULE__, & &1)
   end
+
+  def get_latest(amount) do
+    Agent.get(__MODULE__, & &1)
+    |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
+    |> Enum.filter(fn item -> item["hasFile"] end)
+    |> Enum.take(amount)
+  end
 end

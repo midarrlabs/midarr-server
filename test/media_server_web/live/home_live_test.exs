@@ -6,7 +6,6 @@ defmodule MediaServerWeb.HomeLiveTest do
   alias MediaServer.AccountsFixtures
   alias MediaServer.MoviesFixtures
   alias MediaServer.SeriesFixtures
-  alias MediaServerWeb.Repositories.Movies
   alias MediaServerWeb.Repositories.Series
 
   setup %{conn: conn} do
@@ -30,17 +29,11 @@ defmodule MediaServerWeb.HomeLiveTest do
   end
 
   test "it has latest movies", %{conn: conn} do
-    {:ok, view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
+    {:ok, _view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
 
-    assert disconnected_html =~ "loading-movies"
-
-    movies = Movies.get_latest(7)
-
-    send(view.pid, {:movies, movies})
-
-    assert render(view) =~ "Caminandes: Llama Drama"
-    assert render(view) =~ "Caminandes: Gran Dillama"
-    refute render(view) =~ "Caminandes: Llamigos"
+    assert disconnected_html =~ "Caminandes: Llama Drama"
+    assert disconnected_html =~ "Caminandes: Gran Dillama"
+    refute disconnected_html =~ "Caminandes: Llamigos"
   end
 
   test "it has latest series", %{conn: conn} do
