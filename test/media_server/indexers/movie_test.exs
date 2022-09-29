@@ -1,17 +1,15 @@
 defmodule MediaServer.Indexers.MovieTest do
   use ExUnit.Case, async: true
 
-  alias MediaServer.Indexers.Movie
+  alias MediaServer.Indexers.Movie, as: Indexer
+  alias MediaServerWeb.Repositories.Movies
 
   setup do
-    {:ok, bucket} = Movie.start_link([])
+    {:ok, bucket} = Indexer.start_link()
     %{bucket: bucket}
   end
 
-  test "stores values by key", %{bucket: bucket} do
-    assert Movie.get(bucket, "milk") == nil
-
-    Movie.put(bucket, "milk", 3)
-    assert Movie.get(bucket, "milk") == 3
+  test "it should get all", %{bucket: bucket} do
+    assert Indexer.get_all(bucket) == Movies.get_all()
   end
 end
