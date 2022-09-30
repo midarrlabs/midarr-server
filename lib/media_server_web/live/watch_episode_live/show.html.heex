@@ -15,7 +15,7 @@
     type="video/mp4"
   />
 
-  <%= if MediaServerWeb.Helpers.has_subtitle(MediaServerWeb.Helpers.get_parent_path(@episode["episodeFile"]["path"]), MediaServerWeb.Helpers.get_file_name(@episode["episodeFile"]["relativePath"])) do %>
+  <%= if MediaServer.Subtitles.has_subtitle(MediaServer.Subtitles.get_parent_path(@episode["episodeFile"]["path"]), MediaServer.Subtitles.get_file_name(@episode["episodeFile"]["relativePath"])) do %>
     <track
       kind="captions"
       label="Captions"

@@ -8,6 +8,8 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
   alias MediaServer.Components
   alias MediaServer.Actions
 
+  alias MediaServer.Indexers.Movie
+
   @impl true
   def mount(_params, session, socket) do
     {
@@ -23,7 +25,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
 
   @impl true
   def handle_params(%{"id" => id, "action" => "watch"}, _url, socket) do
-    movie = Movies.get_movie(id)
+    movie = Movie.get_movie(id)
 
     {
       :noreply,
@@ -45,7 +47,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
   end
 
   def handle_params(%{"id" => id, "action" => "continue"}, _url, socket) do
-    movie = Movies.get_movie(id)
+    movie = Movie.get_movie(id)
 
     {
       :noreply,

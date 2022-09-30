@@ -1,4 +1,7 @@
 defmodule MediaServerWeb.Repositories.Episodes do
+
+  alias MediaServer.Subtitles
+
   def get_url(url) do
     "#{Application.get_env(:media_server, :series_base_url)}/api/v3/#{url}?apikey=#{Application.get_env(:media_server, :series_api_key)}"
   end
@@ -46,21 +49,13 @@ defmodule MediaServerWeb.Repositories.Episodes do
      |> Enum.at(0))["url"]
   end
 
-  def handle_subtitle(nil, _parent_folder) do
-    nil
-  end
-
-  def handle_subtitle(subtitle, parent_folder) do
-    "#{parent_folder}/#{subtitle}"
-  end
-
   def get_subtitle_path_for(id) do
     episode = get_episode(id)
 
-    MediaServerWeb.Helpers.get_subtitle(
-      MediaServerWeb.Helpers.get_parent_path(episode["episodeFile"]["path"]),
-      MediaServerWeb.Helpers.get_file_name(episode["episodeFile"]["relativePath"])
+    Subtitles.get_subtitle(
+      Subtitles.get_parent_path(episode["episodeFile"]["path"]),
+      Subtitles.get_file_name(episode["episodeFile"]["relativePath"])
     )
-    |> handle_subtitle(MediaServerWeb.Helpers.get_parent_path(episode["episodeFile"]["path"]))
+    |> Subtitles.handle_subtitle(Subtitles.get_parent_path(episode["episodeFile"]["path"]))
   end
 end

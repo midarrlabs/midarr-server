@@ -25,11 +25,6 @@ defmodule MediaServerWeb.Repositories.Movies do
     |> Enum.sort_by(& &1["title"], :asc)
   end
 
-  def get_movie(id) do
-    HTTPoison.get(get_url("movie/#{id}"))
-    |> handle_response()
-  end
-
   def get_movie_path(id) do
     movie =
       HTTPoison.get("#{get_url("movie/#{id}")}")
@@ -64,20 +59,5 @@ defmodule MediaServerWeb.Repositories.Movies do
     |> handle_response()
     |> Stream.filter(fn item -> item["hasFile"] end)
     |> Enum.sort_by(& &1["title"], :asc)
-  end
-
-  def handle_subtitle(nil, _parent_folder) do
-    nil
-  end
-
-  def handle_subtitle(subtitle, parent_folder) do
-    "#{parent_folder}/#{subtitle}"
-  end
-
-  def get_subtitle_path_for(id) do
-    movie = get_movie(id)
-
-    MediaServerWeb.Helpers.get_subtitle(movie["folderName"], movie["movieFile"]["relativePath"])
-    |> handle_subtitle(movie["folderName"])
   end
 end
