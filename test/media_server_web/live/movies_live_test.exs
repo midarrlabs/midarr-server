@@ -9,6 +9,8 @@ defmodule MediaServerWeb.MoviesLiveTest do
   alias MediaServerWeb.Repositories.Movies
   alias MediaServer.PlaylistsFixtures
 
+  alias MediaServer.Indexers.Movie
+
   setup %{conn: conn} do
     %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
   end
@@ -37,12 +39,11 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     assert disconnected_html =~ "loading-spinner"
 
-    send(view.pid, {:movie, movie})
     send(view.pid, {:cast, cast})
   end
 
   test "it should add to playlist", %{conn: conn} do
-    movie = MoviesFixtures.get_movie()
+    movie = Movie.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
 
     PlaylistsFixtures.playlist_fixture(%{user_id: 1})
@@ -52,7 +53,6 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     assert Playlists.list_playlist_movies() |> Enum.empty?()
 
-    send(view.pid, {:movie, movie})
     send(view.pid, {:cast, cast})
 
     view
@@ -65,7 +65,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
   end
 
   test "it should delete from playlist", %{conn: conn} do
-    movie = MoviesFixtures.get_movie()
+    movie = Movie.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
     playlist = PlaylistsFixtures.playlist_fixture(%{user_id: 1})
 
@@ -78,7 +78,6 @@ defmodule MediaServerWeb.MoviesLiveTest do
     {:ok, view, _disconnected_html} =
       live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
-    send(view.pid, {:movie, movie})
     send(view.pid, {:cast, cast})
 
     view
@@ -89,12 +88,11 @@ defmodule MediaServerWeb.MoviesLiveTest do
   end
 
   test "it should play", %{conn: conn} do
-    movie = MoviesFixtures.get_movie()
+    movie = Movie.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
 
     {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
-    send(view.pid, {:movie, movie})
     send(view.pid, {:cast, cast})
 
     assert view |> element("#play-#{movie["id"]}", "Play") |> render_click()

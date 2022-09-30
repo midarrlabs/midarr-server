@@ -17,4 +17,9 @@ defmodule MediaServer.Indexers.Movie do
     |> Enum.filter(fn item -> item["hasFile"] end)
     |> Enum.take(amount)
   end
+
+  def get_movie(id) do
+    Agent.get(__MODULE__, & &1)
+    |> Enum.find(fn item -> item["id"] === String.to_integer(id) end)
+  end
 end
