@@ -24,7 +24,8 @@ defmodule MediaServerWeb.MoviesLiveTest do
   end
 
   test "it should render index paged", %{conn: conn} do
-    {:ok, _view, disconnected_html} = live(conn, Routes.movies_index_path(conn, :index, page: "1"))
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.movies_index_path(conn, :index, page: "1"))
 
     assert disconnected_html =~ "Caminandes: Llama Drama"
     assert disconnected_html =~ "Caminandes: Gran Dillama"
