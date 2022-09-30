@@ -30,28 +30,21 @@ defmodule MediaServerWeb.MoviesLive.Show do
     pid = self()
 
     Task.start(fn ->
-      send(pid, {:movie, Movie.get_movie(id)})
-    end)
-
-    Task.start(fn ->
       send(pid, {:cast, Movies.get_cast(id)})
     end)
 
-    {:noreply,
-     socket
-     |> assign(:id, id)}
-  end
+    movie = Movie.get_movie(id)
 
-  @impl true
-  def handle_info({:movie, movie}, socket) do
     {
       :noreply,
       socket
+      |> assign(:id, id)
       |> assign(:page_title, movie["title"])
       |> assign(:movie, movie)
     }
   end
 
+  @impl true
   def handle_info({:cast, cast}, socket) do
     {
       :noreply,
