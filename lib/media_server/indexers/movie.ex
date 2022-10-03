@@ -28,4 +28,19 @@ defmodule MediaServer.Indexers.Movie do
 
     movie["movieFile"]["path"]
   end
+
+  def get_poster(movie) do
+    (Enum.filter(movie["images"], fn item -> item["coverType"] === "poster" end)
+     |> Enum.at(0))["remoteUrl"]
+  end
+
+  def get_background(movie) do
+    (Enum.filter(movie["images"], fn item -> item["coverType"] === "fanart" end)
+     |> Enum.at(0))["remoteUrl"]
+  end
+
+  def get_headshot(movie) do
+    (Enum.filter(movie["images"], fn item -> item["coverType"] === "headshot" end)
+     |> Enum.at(0))["url"]
+  end
 end

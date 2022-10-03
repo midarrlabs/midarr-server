@@ -3,7 +3,6 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
 
   alias MediaServer.Repo
   alias MediaServer.Accounts
-  alias MediaServerWeb.Repositories.Movies
   alias MediaServer.Continues
   alias MediaServer.Components
   alias MediaServer.Actions
@@ -86,7 +85,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
     Continues.update_or_create_movie(%{
       movie_id: socket.assigns.movie["id"],
       title: socket.assigns.movie["title"],
-      image_url: Movies.get_background(socket.assigns.movie),
+      image_url: Movie.get_background(socket.assigns.movie),
       current_time: current_time,
       duration: duration,
       user_id: socket.assigns.current_user.id

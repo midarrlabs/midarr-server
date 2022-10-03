@@ -58,7 +58,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
     Playlists.insert_or_delete(playlist, %{
       movie_id: socket.assigns.movie["id"],
       title: socket.assigns.movie["title"],
-      image_url: Movies.get_poster(socket.assigns.movie)
+      image_url: Movie.get_poster(socket.assigns.movie)
     })
 
     {:noreply, socket}

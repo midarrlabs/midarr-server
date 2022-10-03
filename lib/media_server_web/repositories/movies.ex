@@ -25,21 +25,6 @@ defmodule MediaServerWeb.Repositories.Movies do
     |> Enum.sort_by(& &1["title"], :asc)
   end
 
-  def get_poster(movie) do
-    (Stream.filter(movie["images"], fn item -> item["coverType"] === "poster" end)
-     |> Enum.at(0))["remoteUrl"]
-  end
-
-  def get_background(movie) do
-    (Stream.filter(movie["images"], fn item -> item["coverType"] === "fanart" end)
-     |> Enum.at(0))["remoteUrl"]
-  end
-
-  def get_headshot(movie) do
-    (Stream.filter(movie["images"], fn item -> item["coverType"] === "headshot" end)
-     |> Enum.at(0))["url"]
-  end
-
   def get_cast(id) do
     HTTPoison.get("#{get_url("credit")}&movieId=#{id}")
     |> handle_response()
