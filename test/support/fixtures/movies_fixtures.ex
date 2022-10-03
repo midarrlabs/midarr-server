@@ -29,16 +29,6 @@ defmodule MediaServer.MoviesFixtures do
     )
   end
 
-  def get_all() do
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get(get_url("movie"))
-
-    Jason.decode!(body)
-  end
-
-  def get_movie() do
-    get_all() |> List.first()
-  end
-
   def setup() do
     add_movie_root()
     add_movies()

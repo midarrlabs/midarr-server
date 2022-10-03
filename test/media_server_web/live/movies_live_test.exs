@@ -4,7 +4,6 @@ defmodule MediaServerWeb.MoviesLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.MoviesFixtures
   alias MediaServer.Playlists
   alias MediaServerWeb.Repositories.Movies
   alias MediaServer.PlaylistsFixtures
@@ -33,7 +32,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
   end
 
   test "it should render show", %{conn: conn} do
-    movie = MoviesFixtures.get_movie()
+    movie = Movie.get_movie("1")
     cast = Movies.get_cast(movie["id"])
 
     {:ok, view, disconnected_html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))

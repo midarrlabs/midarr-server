@@ -4,10 +4,11 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.MoviesFixtures
   alias MediaServer.ContinuesFixtures
   alias MediaServer.ComponentsFixtures
   alias MediaServer.ActionsFixtures
+
+  alias MediaServer.Indexers.Movie
 
   setup %{conn: conn} do
     ComponentsFixtures.action_fixture()
@@ -18,7 +19,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   end
 
   test "it should watch", %{conn: conn, user: _user} do
-    movie = MoviesFixtures.get_movie()
+    movie = Movie.get_movie("1")
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
@@ -29,7 +30,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   end
 
   test "it should continue", %{conn: conn, user: _user} do
-    movie = MoviesFixtures.get_movie()
+    movie = Movie.get_movie("1")
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
@@ -48,7 +49,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   end
 
   test "it should not continue", %{conn: conn, user: _user} do
-    movie = MoviesFixtures.get_movie()
+    movie = Movie.get_movie("1")
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
@@ -67,7 +68,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   end
 
   test "it should subtitle", %{conn: conn, user: _user} do
-    movie = MoviesFixtures.get_movie()
+    movie = Movie.get_movie("1")
 
     {:ok, _view, disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
