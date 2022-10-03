@@ -22,4 +22,10 @@ defmodule MediaServer.Indexers.Movie do
     Agent.get(__MODULE__, & &1)
     |> Enum.find(fn item -> item["id"] === String.to_integer(id) end)
   end
+
+  def get_movie_path(id) do
+    movie = get_movie(id)
+
+    movie["movieFile"]["path"]
+  end
 end
