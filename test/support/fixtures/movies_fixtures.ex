@@ -1,4 +1,7 @@
 defmodule MediaServer.MoviesFixtures do
+
+  alias MediaServer.Indexers.Movie
+
   def get_url(url) do
     "#{Application.get_env(:media_server, :movies_base_url)}/api/v3/#{url}?apiKey=#{Application.get_env(:media_server, :movies_api_key)}"
   end
@@ -32,6 +35,8 @@ defmodule MediaServer.MoviesFixtures do
   def setup() do
     add_movie_root()
     add_movies()
+
+    Movie.reset_state()
   end
 
   def add_env() do
