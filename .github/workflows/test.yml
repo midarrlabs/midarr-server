@@ -5,19 +5,33 @@ on:
     branches:
       - '**'
 
+env:
+  MIX_ENV: test
+
 jobs:
-  test:
-    name: Test
+  integrations:
+    name: integrations
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
 
       - name: Up services
-        run: docker compose up -d
+        run: docker compose up -d radarr sonarr
 
-      - name: Run tests
-        run: docker run --network=midarr-server_default --env MIX_ENV=test --env APP_URL=http://midarr:4000 --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/shows,dst=/shows midarr-server-midarr:latest mix test
-
-      - name: Run coverage
-        run: docker run --network=midarr-server_default --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} --env CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} --env MIX_ENV=test --env APP_URL=http://midarr:4000 --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/shows,dst=/shows midarr-server-midarr:latest /bin/bash /app/script-code-coverage.sh
+  test:
+    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    needs: integrations
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        otp: [ '24' ]
+        elixir: [ '1.13.4' ]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+      - run: mix deps.get
+      - run: mix test
