@@ -5,7 +5,6 @@ defmodule MediaServerWeb.PlaylistLive.Show do
 
   alias MediaServer.Repo
   alias MediaServer.Accounts
-  alias MediaServer.Playlists
   alias MediaServer.Playlists.Playlist
 
   @impl true

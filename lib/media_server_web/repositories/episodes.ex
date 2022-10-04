@@ -1,5 +1,4 @@
 defmodule MediaServerWeb.Repositories.Episodes do
-
   alias MediaServer.Subtitles
 
   def get_url(url) do

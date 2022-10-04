@@ -1,5 +1,4 @@
 defmodule MediaServer.MoviesFixtures do
-
   alias MediaServer.Indexers.Movie
 
   def get_url(url) do

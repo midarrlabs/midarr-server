@@ -1,5 +1,4 @@
 defmodule MediaServer.Subtitles do
-
   def remove_extension_from(file_name) do
     Regex.replace(~r/\.[^.]*$/, file_name, "")
   end
