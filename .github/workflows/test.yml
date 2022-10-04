@@ -9,19 +9,9 @@ env:
   MIX_ENV: test
 
 jobs:
-  integrations:
-    name: integrations
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-
-      - name: Up services
-        run: docker compose up -d radarr sonarr
 
   test:
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
-    needs: integrations
     runs-on: ubuntu-latest
     strategy:
       matrix:
