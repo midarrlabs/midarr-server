@@ -18,7 +18,7 @@ config :media_server, MediaServer.Repo,
 config :media_server, MediaServerWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "62B5xZrG1FF9/9KoKGBTwSiiuq4aGoO/m2ZBORy8I1D/k4DXyi/khr1NBKmoFl0p",
-  server: false
+  server: true
 
 # In test we don't send emails.
 config :media_server, MediaServer.Mailer, adapter: Swoosh.Adapters.Test
