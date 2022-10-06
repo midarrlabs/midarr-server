@@ -10,30 +10,21 @@ env:
 
 jobs:
 
-  integrations:
-    name: integrations
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
 
       - name: Up services
-        run: docker compose up -d radarr sonarr
+        run: docker compose up -d
 
-  test:
-    needs: integrations
-    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        otp: [ '24' ]
-        elixir: [ '1.13.4' ]
-    steps:
-      - uses: actions/checkout@v2
-      - uses: erlef/setup-beam@v1
-        with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
-      - run: mix deps.get
-      - run: mix run priv/repo/seeds_fixtures.exs
-      - run: mix test
+      - name: Seed fixtures
+        run: docker compose run midarr mix run priv/repo/seeds_fixtures.exs
+
+      - name: Run tests
+        run: docker compose run midarr mix test
+
+      - name: Run coverage
+        run: docker compose run midarr bash /app/script-code-coverage.sh
