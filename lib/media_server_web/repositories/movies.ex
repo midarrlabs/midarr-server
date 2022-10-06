@@ -3,10 +3,6 @@ defmodule MediaServerWeb.Repositories.Movies do
     "#{System.get_env("RADARR_BASE_URL")}/api/v3/#{url}?apiKey=#{System.get_env("RADARR_API_KEY")}"
   end
 
-  def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: []}}) do
-    []
-  end
-
   def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
     Jason.decode!(body)
   end
