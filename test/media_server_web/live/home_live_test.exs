@@ -4,28 +4,10 @@ defmodule MediaServerWeb.HomeLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.MoviesFixtures
-  alias MediaServer.SeriesFixtures
   alias MediaServerWeb.Repositories.Series
 
   setup %{conn: conn} do
     %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
-  end
-
-  test "it should render without movies", %{conn: conn} do
-    MoviesFixtures.remove_env()
-
-    assert html_response(get(conn, Routes.home_index_path(conn, :index)), 200)
-
-    MoviesFixtures.add_env()
-  end
-
-  test "it should render without series", %{conn: conn} do
-    SeriesFixtures.remove_env()
-
-    assert html_response(get(conn, Routes.home_index_path(conn, :index)), 200)
-
-    SeriesFixtures.add_env()
   end
 
   test "it has latest movies", %{conn: conn} do

@@ -7,10 +7,6 @@ defmodule MediaServer.Indexers.Movie do
     Agent.start_link(fn -> Movies.get_all() end, name: __MODULE__)
   end
 
-  def reset_state() do
-    Agent.update(__MODULE__, fn _state -> Movies.get_all() end)
-  end
-
   def get_all() do
     Agent.get(__MODULE__, & &1)
   end

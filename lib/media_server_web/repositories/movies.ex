@@ -1,13 +1,6 @@
 defmodule MediaServerWeb.Repositories.Movies do
   def get_url(url) do
-    case Application.get_env(:media_server, :movies_base_url) === nil ||
-           Application.get_env(:media_server, :movies_api_key) === nil do
-      true ->
-        :error
-
-      false ->
-        "#{Application.get_env(:media_server, :movies_base_url)}/api/v3/#{url}?apiKey=#{Application.get_env(:media_server, :movies_api_key)}"
-    end
+    "#{System.get_env("RADARR_BASE_URL")}/api/v3/#{url}?apiKey=#{System.get_env("RADARR_API_KEY")}"
   end
 
   def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do

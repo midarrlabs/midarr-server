@@ -13,9 +13,9 @@ services:
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
       - SETUP_ADMIN_PASSWORD=passwordpassword
-      - RADARR_BASE_URL=radarr:7878
+      - RADARR_BASE_URL=http://radarr:7878
       - RADARR_API_KEY=d031e8c9b9df4b2fab311d1c3b3fa2c5
-      - SONARR_BASE_URL=sonarr:8989
+      - SONARR_BASE_URL=http://sonarr:8989
       - SONARR_API_KEY=1accda4476394bfcaddefe8c4fd77d4a
     depends_on:
       radarr:

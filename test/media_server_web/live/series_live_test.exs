@@ -4,7 +4,6 @@ defmodule MediaServerWeb.SeriesLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.SeriesFixtures
   alias MediaServerWeb.Repositories.Series
   alias MediaServerWeb.Repositories.Episodes
 
@@ -33,7 +32,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it should render show", %{conn: conn} do
-    serie = SeriesFixtures.get_serie()
+    serie = Series.get_all() |> List.first()
 
     {:ok, view, disconnected_html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
 
@@ -43,7 +42,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it should render season", %{conn: conn} do
-    serie = SeriesFixtures.get_serie()
+    serie = Series.get_all() |> List.first()
 
     {:ok, view, disconnected_html} =
       live(conn, Routes.seasons_show_path(conn, :show, serie["id"], 1))
@@ -59,7 +58,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it should replace each episode with episode show response", %{conn: _conn} do
-    serie = SeriesFixtures.get_serie()
+    serie = Series.get_all() |> List.first()
 
     episodes = Episodes.get_all(serie["id"], "1")
 

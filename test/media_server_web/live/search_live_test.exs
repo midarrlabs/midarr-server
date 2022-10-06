@@ -4,7 +4,7 @@ defmodule MediaServerWeb.SearchLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.SeriesFixtures
+  alias MediaServerWeb.Repositories.Series
 
   alias MediaServer.Indexers.Movie
 
@@ -29,7 +29,7 @@ defmodule MediaServerWeb.SearchLiveTest do
     {:ok, view, _disconnected_html} =
       live(conn, Routes.search_index_path(conn, :index, query: "tvdb:170551"))
 
-    serie = SeriesFixtures.get_serie()
+    serie = Series.get_all() |> List.first()
 
     send(view.pid, {:series, [serie]})
     send(view.pid, {:movies, []})

@@ -2,8 +2,8 @@ defmodule MediaServerWeb.SubtitleEpisodeControllerTest do
   use MediaServerWeb.ConnCase
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.SeriesFixtures
-  alias MediaServer.EpisodesFixtures
+  alias MediaServerWeb.Repositories.Series
+  alias MediaServerWeb.Repositories.Episodes
 
   defp create_fixtures(_) do
     %{user: AccountsFixtures.user_fixture()}
@@ -21,9 +21,9 @@ defmodule MediaServerWeb.SubtitleEpisodeControllerTest do
       assert get_session(conn, :user_token)
       assert redirected_to(conn) == "/"
 
-      serie = SeriesFixtures.get_serie()
+      serie = Series.get_all() |> List.first()
 
-      episode = EpisodesFixtures.get_episode(serie["id"])
+      episode = Episodes.get_episode(serie["id"])
 
       token = Phoenix.Token.sign(conn, "user auth", user.id)
 

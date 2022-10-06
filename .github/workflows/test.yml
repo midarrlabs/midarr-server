@@ -10,7 +10,18 @@ env:
 
 jobs:
 
+  integrations:
+    name: integrations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Up services
+        run: docker compose up -d radarr sonarr
+
   test:
+    needs: integrations
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     runs-on: ubuntu-latest
     strategy:
@@ -24,4 +35,5 @@ jobs:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
       - run: mix deps.get
+      - run: mix run priv/repo/seeds_fixtures.exs
       - run: mix test

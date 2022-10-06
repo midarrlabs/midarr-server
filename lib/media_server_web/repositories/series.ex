@@ -1,13 +1,6 @@
 defmodule MediaServerWeb.Repositories.Series do
   def get_url(url) do
-    case Application.get_env(:media_server, :series_base_url) === nil ||
-           Application.get_env(:media_server, :series_api_key) === nil do
-      true ->
-        :error
-
-      false ->
-        "#{Application.get_env(:media_server, :series_base_url)}/api/v3/#{url}?apikey=#{Application.get_env(:media_server, :series_api_key)}"
-    end
+    "#{System.get_env("SONARR_BASE_URL")}/api/v3/#{url}?apikey=#{System.get_env("SONARR_API_KEY")}"
   end
 
   def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
