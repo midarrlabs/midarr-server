@@ -1,4 +1,4 @@
-defmodule MediaServer.MoviesFixtures do
+defmodule MediaServer.Seeds.Movies do
 
   alias MediaServerWeb.Repositories.Movies
 
@@ -28,7 +28,7 @@ defmodule MediaServer.MoviesFixtures do
     )
   end
 
-  def setup() do
+  def seed() do
     add_root()
     add_movies()
   end

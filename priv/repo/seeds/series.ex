@@ -1,4 +1,4 @@
-defmodule MediaServer.SeriesFixtures do
+defmodule MediaServer.Seeds.Series do
 
   alias MediaServerWeb.Repositories.Series
 
@@ -13,7 +13,7 @@ defmodule MediaServer.SeriesFixtures do
     )
   end
 
-  def setup() do
+  def seed() do
     add_root()
     add_series()
   end

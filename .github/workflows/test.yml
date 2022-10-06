@@ -23,7 +23,7 @@ jobs:
         run: docker compose up -d
 
       - name: Seed fixtures
-        run: docker compose run midarr mix run priv/repo/seeds_fixtures.exs
+        run: docker compose run midarr mix run priv/repo/seed_fixtures.exs
 
       - name: Run tests
         run: docker compose run midarr mix test
