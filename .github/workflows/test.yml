@@ -23,7 +23,7 @@ jobs:
         run: docker compose up -d
 
       - name: Seed fixtures
-        run: docker run --network=midarr-server_default --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/shows,dst=/shows midarr-server-midarr:latest mix run priv/repo/seeds_fixtures.exs
+        run: docker run --network=midarr-server_default --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/shows,dst=/shows midarr-server-midarr:latest mix run priv/repo/seed_fixtures.exs
 
       - name: Run tests
         run: docker run --network=midarr-server_default --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/shows,dst=/shows midarr-server-midarr:latest mix test
