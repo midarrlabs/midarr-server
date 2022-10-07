@@ -19,20 +19,26 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Up services
-        run: docker compose up -d
+      - name: Start radarr
+        run: docker compose up -d radarr
 
-      - name: Seed movies root
+      - name: Seed root
         run: docker compose run radarr curl -d "@/config/root-folder.json" -H "Content-Type:application/json" -X POST "http://radarr:7878/api/v3/rootfolder?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
 
       - name: Seed movies
         run: docker compose run radarr curl -d "@/config/movies.json" -H "Content-Type:application/json" -X POST "http://radarr:7878/api/v3/movie/import?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
 
-      - name: Seed series root
+      - name: Start sonarr
+        run: docker compose up -d sonarr
+
+      - name: Seed root
         run: docker compose run sonarr curl -d "@/config/root-folder.json" -H "Content-Type:application/json" -X POST "http://sonarr:8989/api/v3/rootfolder?apiKey=1accda4476394bfcaddefe8c4fd77d4a"
 
       - name: Seed series
         run: docker compose run sonarr curl -d "@/config/series.json" -H "Content-Type:application/json" -X POST "http://sonarr:8989/api/v3/series/import?apiKey=1accda4476394bfcaddefe8c4fd77d4a"
+
+      - name: Start midarr
+        run: docker compose up -d midarr
 
       - name: Run tests
         run: docker run --network=midarr-server_default --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/series,dst=/series midarr-server-midarr:latest mix test
