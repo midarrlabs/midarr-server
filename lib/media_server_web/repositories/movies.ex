@@ -1,6 +1,6 @@
 defmodule MediaServerWeb.Repositories.Movies do
   def get_url(url) do
-    "http://radarr:7878/api/v3/#{url}?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
+    "#{System.get_env("RADARR_BASE_URL")}/api/v3/#{url}?apiKey=#{System.get_env("RADARR_API_KEY")}"
   end
 
   def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
