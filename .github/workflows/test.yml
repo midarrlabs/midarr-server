@@ -39,4 +39,4 @@ jobs:
         run: docker compose run midarr bash "-c" "mix deps.get && mix ecto.migrate && mix run priv/repo/seeds.exs && MIX_ENV=test mix test"
 
       - name: Run coverage
-        run: docker compose run -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} -e CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} -e MIX_ENV=test midarr ./script-code-coverage.sh
+        run: docker compose run -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} -e CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} -e MIX_ENV=test midarr bash "-c" "./script-code-coverage.sh"
