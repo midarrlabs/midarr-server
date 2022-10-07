@@ -41,7 +41,7 @@ jobs:
         run: docker compose up -d midarr --wait
 
       - name: Run tests
-        run: docker compose run midarr mix test
+        run: docker run --network=midarr-server_default --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/series,dst=/series midarr-server-midarr:latest mix test
 
       - name: Run coverage
-        run: docker compose run bash /app/script-code-coverage.sh
+        run: docker run --network=midarr-server_default --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/series,dst=/series midarr-server-midarr:latest /bin/bash /app/script-code-coverage.sh
