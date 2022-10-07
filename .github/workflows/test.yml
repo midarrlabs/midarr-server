@@ -5,11 +5,6 @@ on:
     branches:
       - '**'
 
-env:
-  MIX_ENV: test
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
 jobs:
 
   test:
@@ -41,7 +36,7 @@ jobs:
         run: docker compose up -d midarr --wait
 
       - name: Run tests
-        run: docker run --network=midarr-server_default --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/series,dst=/series midarr-server-midarr:latest mix test
+        run: docker run --network=midarr-server_default --env MIX_ENV=test --env APP_URL=http://midarr:4000 --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/series,dst=/series midarr-server-midarr:latest mix test
 
       - name: Run coverage
-        run: docker run --network=midarr-server_default --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/series,dst=/series midarr-server-midarr:latest /bin/bash /app/script-code-coverage.sh
+        run: docker run --network=midarr-server_default --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} --env CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} --env MIX_ENV=test --env APP_URL=http://midarr:4000 --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/series,dst=/series midarr-server-midarr:latest /bin/bash /app/script-code-coverage.sh
