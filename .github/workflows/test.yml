@@ -35,7 +35,7 @@ jobs:
         run: docker compose run sonarr curl -d "@/config/series.json" -H "Content-Type:application/json" -X POST "http://sonarr:8989/api/v3/series/import?apiKey=1accda4476394bfcaddefe8c4fd77d4a"
 
       - name: Run tests
-        run: docker run --network=midarr-server_default --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/shows,dst=/shows midarr-server-midarr:latest mix test
+        run: docker run --network=midarr-server_default --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/series,dst=/series midarr-server-midarr:latest mix test
 
       - name: Run coverage
-        run: docker run --network=midarr-server_default --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/shows,dst=/shows midarr-server-midarr:latest /bin/bash /app/script-code-coverage.sh
+        run: docker run --network=midarr-server_default --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/series,dst=/series midarr-server-midarr:latest /bin/bash /app/script-code-coverage.sh
