@@ -39,11 +39,11 @@ defmodule MediaServerWeb.HelpersTest do
   end
 
   describe "episode subtitles" do
-    @season_1 "fixtures/shows/Pioneer One/Season 1"
+    @season_1 "fixtures/series/Pioneer One/Season 1"
 
-    @episode_2_full_path "/shows/Pioneer One/Season 1/Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
+    @episode_2_full_path "/series/Pioneer One/Season 1/Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
     @episode_2_relative_path "Season 1/Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
-    @episode_2_directory "/shows/Pioneer One/Season 1"
+    @episode_2_directory "/series/Pioneer One/Season 1"
     @episode_2 "Pioneer.One.S01E02.The.Man.From.Mars.720p.mp4"
     @episode_2_srt "Pioneer.One.S01E02.The.Man.From.Mars.720p.en.srt"
 
