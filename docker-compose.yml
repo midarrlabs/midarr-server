@@ -35,8 +35,8 @@ services:
       - ./fixtures/radarr/movies.json:/config/movies.json
       - ./fixtures/movies:/movies
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=0
+      - PGID=0
     healthcheck:
       test: "exit 0"
 
@@ -51,7 +51,7 @@ services:
       - ./fixtures/sonarr/series.json:/config/series.json
       - ./fixtures/series:/series
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=0
+      - PGID=0
     healthcheck:
       test: "exit 0"
