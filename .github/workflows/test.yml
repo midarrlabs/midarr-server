@@ -6,7 +6,6 @@ on:
       - '**'
 
 env:
-  MIX_ENV: test
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -41,7 +40,7 @@ jobs:
         run: docker compose up -d midarr --wait
 
       - name: Run tests
-        run: docker compose run midarr mix test
+        run: docker compose run -e MIX_ENV=test midarr mix test
 
       - name: Run coverage
         run: docker compose run bash /app/script-code-coverage.sh
