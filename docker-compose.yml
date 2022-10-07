@@ -8,7 +8,7 @@ services:
     volumes:
       - ./:/app
       - ./fixtures/movies:/movies
-      - ./fixtures/shows:/shows
+      - ./fixtures/series:/series
     environment:
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
@@ -31,6 +31,7 @@ services:
       - 7878:7878
     volumes:
       - ./fixtures/radarr/config.xml:/config/config.xml
+      - ./fixtures/radarr/seeds:/seeds
       - ./fixtures/movies:/movies
     environment:
       - PUID=1000
@@ -45,7 +46,8 @@ services:
       - 8989:8989
     volumes:
       - ./fixtures/sonarr/config.xml:/config/config.xml
-      - ./fixtures/shows:/shows
+      - ./fixtures/sonarr/seeds:/seeds
+      - ./fixtures/series:/series
     environment:
       - PUID=1000
       - PGID=1000
