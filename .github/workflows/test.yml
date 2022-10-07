@@ -23,22 +23,16 @@ jobs:
         run: docker compose up -d
 
       - name: Seed movies root
-        run: docker compose run radarr curl -d "@/seeds/root-folder.json" -H "Content-Type:application/json" -X POST "http://radarr:7878/api/v3/rootfolder?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
+        run: docker compose run radarr curl -d "@/config/root-folder.json" -H "Content-Type:application/json" -X POST "http://radarr:7878/api/v3/rootfolder?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
 
-      - name: Seed movie
-        run: docker compose run radarr curl -d "@/seeds/caminandes-gran-dillama.json" -H "Content-Type:application/json" -X POST "http://radarr:7878/api/v3/movie/import?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
-
-      - name: Seed movie
-        run: docker compose run radarr curl -d "@/seeds/caminandes-llama-drama.json" -H "Content-Type:application/json" -X POST "http://radarr:7878/api/v3/movie/import?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
-
-      - name: Seed movie
-        run: docker compose run radarr curl -d "@/seeds/caminandes-llamigos.json" -H "Content-Type:application/json" -X POST "http://radarr:7878/api/v3/movie/import?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
+      - name: Seed movies
+        run: docker compose run radarr curl -d "@/config/movies.json" -H "Content-Type:application/json" -X POST "http://radarr:7878/api/v3/movie/import?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
 
       - name: Seed series root
-        run: docker compose run sonarr curl -d "@/seeds/root-folder.json" -H "Content-Type:application/json" -X POST "http://sonarr:8989/api/v3/rootfolder?apiKey=1accda4476394bfcaddefe8c4fd77d4a"
+        run: docker compose run sonarr curl -d "@/config/root-folder.json" -H "Content-Type:application/json" -X POST "http://sonarr:8989/api/v3/rootfolder?apiKey=1accda4476394bfcaddefe8c4fd77d4a"
 
-      - name: Seed serie
-        run: docker compose run sonarr curl -d "@/seeds/pioneer-one.json" -H "Content-Type:application/json" -X POST "http://sonarr:8989/api/v3/series/import?apiKey=1accda4476394bfcaddefe8c4fd77d4a"
+      - name: Seed series
+        run: docker compose run sonarr curl -d "@/config/series.json" -H "Content-Type:application/json" -X POST "http://sonarr:8989/api/v3/series/import?apiKey=1accda4476394bfcaddefe8c4fd77d4a"
 
       - name: Run tests
         run: docker run --network=midarr-server_default --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/shows,dst=/shows midarr-server-midarr:latest mix test

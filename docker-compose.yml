@@ -31,7 +31,8 @@ services:
       - 7878:7878
     volumes:
       - ./fixtures/radarr/config.xml:/config/config.xml
-      - ./fixtures/radarr/seeds:/seeds
+      - ./fixtures/radarr/root-folder.json:/config/root-folder.json
+      - ./fixtures/radarr/movies.json:/config/movies.json
       - ./fixtures/movies:/movies
     environment:
       - PUID=1000
@@ -46,7 +47,8 @@ services:
       - 8989:8989
     volumes:
       - ./fixtures/sonarr/config.xml:/config/config.xml
-      - ./fixtures/sonarr/seeds:/seeds
+      - ./fixtures/sonarr/root-folder.json:/config/root-folder.json
+      - ./fixtures/sonarr/series.json:/config/series.json
       - ./fixtures/series:/series
     environment:
       - PUID=1000
