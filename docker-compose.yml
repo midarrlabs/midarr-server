@@ -17,11 +17,6 @@ services:
       - RADARR_API_KEY=d031e8c9b9df4b2fab311d1c3b3fa2c5
       - SONARR_BASE_URL=http://sonarr:8989
       - SONARR_API_KEY=1accda4476394bfcaddefe8c4fd77d4a
-    depends_on:
-      radarr:
-        condition: service_healthy
-      sonarr:
-        condition: service_healthy
     command: bash -c "mix deps.get && mix ecto.migrate && mix run priv/repo/seeds.exs && mix phx.server"
 
   radarr:
