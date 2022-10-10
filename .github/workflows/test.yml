@@ -18,3 +18,4 @@ jobs:
       - uses: actions/checkout@v2
       - run: chmod u+x script-install-radarr.sh
       - run: ./script-install-radarr.sh
+      - run: curl http://localhost:7878

@@ -27,3 +27,5 @@ Restart=on-failure
 [Install]
 WantedBy=multi-user.target
 EOF
+sudo systemctl -q daemon-reload
+sudo systemctl enable --now -q radarr
