@@ -20,7 +20,7 @@ User=sonarr
 Group=media
 Type=simple
 
-ExecStart=/opt/Sonarr/bin/Sonarr -nobrowser -data=/var/lib/sonarr/
+ExecStart=/opt/Sonarr/Sonarr.exe -nobrowser -data=/var/lib/sonarr/
 TimeoutStopSec=20
 KillMode=process
 Restart=on-failure
