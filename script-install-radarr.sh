@@ -4,6 +4,7 @@ sudo groupadd media
 sudo adduser --system --no-create-home --ingroup media radarr
 sudo usermod -a -G media radarr
 sudo mkdir -p /var/lib/radarr
+sudo mv ${GITHUB_WORKSPACE}/fixtures/radarr/config.xml /var/lib/radarr/config
 sudo chown -R radarr:media /var/lib/radarr
 sudo chmod 775 /var/lib/radarr
 sudo apt install curl sqlite3
@@ -20,7 +21,7 @@ User=radarr
 Group=media
 Type=simple
 
-ExecStart=/opt/Radarr/Radarr -nobrowser -data=/var/lib/radarr/
+ExecStart=/opt/Radarr/Radarr -nobrowser -data=/var/lib/radarr
 TimeoutStopSec=20
 KillMode=process
 Restart=on-failure
