@@ -19,16 +19,16 @@ jobs:
         elixir: [ '1.13.4' ]
     steps:
       - uses: actions/checkout@v2
-      - run: groupadd "media"
-      - run: usermod -a -G "media" "radarr"
-      - run: mkdir -p "/var/lib/radarr/"
-      - run: chown -R "radarr":"media" "/var/lib/radarr/"
-      - run: chmod 775 "/var/lib/radarr/"
-      - run: apt install curl sqlite3
+      - run: sudo groupadd "media"
+      - run: sudo usermod -a -G "media" "radarr"
+      - run: sudo mkdir -p "/var/lib/radarr/"
+      - run: sudo chown -R "radarr":"media" "/var/lib/radarr/"
+      - run: sudo chmod 775 "/var/lib/radarr/"
+      - run: sudo apt install curl sqlite3
       - run: wget --content-disposition 'http://radarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64'
       - run: tar -xvzf Radarr*.linux*.tar.gz
-      - run: mv Radarr /opt/
-      - run: chown radarr:radarr -R /opt/Radarr
+      - run: sudo mv Radarr /opt/
+      - run: sudo chown radarr:radarr -R /opt/Radarr
       - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{matrix.otp}}
