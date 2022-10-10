@@ -3,10 +3,16 @@
 sudo groupadd media
 sudo adduser --system --no-create-home --ingroup media radarr
 sudo usermod -a -G media radarr
+
+sudo mv ${GITHUB_WORKSPACE}/fixtures/movies /movies
+sudo chown -R radarr:media /movies
+sudo chmod 775 /movies
+
 sudo mkdir -p /var/lib/radarr
-sudo mv ${GITHUB_WORKSPACE}/fixtures/radarr/config.xml /var/lib/radarr/config
+sudo mv ${GITHUB_WORKSPACE}/fixtures/radarr/config.xml /var/lib/radarr
 sudo chown -R radarr:media /var/lib/radarr
 sudo chmod 775 /var/lib/radarr
+
 sudo apt install curl sqlite3
 wget --content-disposition "https://github.com/Radarr/Radarr/releases/download/v4.1.0.6175/Radarr.master.4.1.0.6175.linux-core-x64.tar.gz"
 tar -xvzf Radarr*.linux*.tar.gz
