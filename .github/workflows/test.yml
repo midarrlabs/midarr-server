@@ -46,9 +46,3 @@ jobs:
               [Install]
               WantedBy=multi-user.target
               EOF
-      - uses: erlef/setup-beam@v1
-        with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
-      - run: mix deps.get
-      - run: mix test
