@@ -5,38 +5,33 @@ on:
     branches:
       - '**'
 
+env:
+  MIX_ENV: test
+
 jobs:
 
   test:
-    name: Test
+    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        otp: [ '24' ]
+        elixir: [ '1.13.4' ]
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-
-      - name: Start radarr
-        run: docker compose up -d radarr --wait
-
-      - name: Seed root
-        run: docker compose run radarr curl -d "@/config/root-folder.json" -H "Content-Type:application/json" -X POST "http://radarr:7878/api/v3/rootfolder?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
-
-      - name: Seed movies
-        run: docker compose run radarr curl -d "@/config/movies.json" -H "Content-Type:application/json" -X POST "http://radarr:7878/api/v3/movie/import?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
-
-      - name: Start sonarr
-        run: docker compose up -d sonarr --wait
-
-      - name: Seed root
-        run: docker compose run sonarr curl -d "@/config/root-folder.json" -H "Content-Type:application/json" -X POST "http://sonarr:8989/api/v3/rootfolder?apiKey=1accda4476394bfcaddefe8c4fd77d4a"
-
-      - name: Seed series
-        run: docker compose run sonarr curl -d "@/config/series.json" -H "Content-Type:application/json" -X POST "http://sonarr:8989/api/v3/series/import?apiKey=1accda4476394bfcaddefe8c4fd77d4a"
-
-      - name: Start midarr
-        run: docker compose up -d midarr --wait
-
-      - name: Run tests
-        run: docker compose run midarr bash "-c" "mix deps.get && MIX_ENV=test mix test"
-
-      - name: Run coverage
-        run: docker compose run -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} -e CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} -e MIX_ENV=test midarr bash "-c" "./script-code-coverage.sh"
+      - uses: actions/checkout@v2
+      - run: groupadd "media"
+      - run: usermod -a -G "media" "radarr"
+      - run: mkdir -p "/var/lib/radarr/"
+      - run: chown -R "radarr":"media" "/var/lib/radarr/"
+      - run: chmod 775 "/var/lib/radarr/"
+      - run: apt install curl sqlite3
+      - run: wget --content-disposition 'http://radarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64'
+      - run: tar -xvzf Radarr*.linux*.tar.gz
+      - run: mv Radarr /opt/
+      - run: chown radarr:radarr -R /opt/Radarr
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+      - run: mix deps.get
+      - run: mix test
