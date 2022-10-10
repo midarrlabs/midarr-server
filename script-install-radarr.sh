@@ -29,3 +29,4 @@ WantedBy=multi-user.target
 EOF
 sudo systemctl -q daemon-reload
 sudo systemctl enable --now -q radarr
+sudo journalctl --since today -u radarr
