@@ -39,7 +39,6 @@ jobs:
       # Seed Sonarr
       - run: curl -d "@${GITHUB_WORKSPACE}/fixtures/sonarr/root-folder.json" -H "Content-Type:application/json" -X POST "http://localhost:8989/api/v3/rootfolder?apikey=1accda4476394bfcaddefe8c4fd77d4a"
       - run: curl -d "@${GITHUB_WORKSPACE}/fixtures/sonarr/series.json" -H "Content-Type:application/json" -X POST "http://localhost:8989/api/v3/series/import?apikey=1accda4476394bfcaddefe8c4fd77d4a"
-      - run: ls -a /var/lib/sonarr
 
       # Run tests
       - uses: erlef/setup-beam@v1

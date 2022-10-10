@@ -10,7 +10,7 @@ sudo groupadd media
 sudo adduser --system --no-create-home --ingroup media sonarr
 sudo usermod -a -G media sonarr
 sudo mkdir -p /var/lib/sonarr
-sudo mv ${GITHUB_WORKSPACE}/fixtures/sonarr/config.xml /var/lib/sonarr/config
+sudo mv ${GITHUB_WORKSPACE}/fixtures/sonarr/config.xml /var/lib/sonarr
 sudo chown -R sonarr:media /var/lib/sonarr
 sudo chmod 775 /var/lib/sonarr
 sudo apt install curl sqlite3
