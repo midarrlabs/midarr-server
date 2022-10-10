@@ -9,10 +9,16 @@ sudo apt install mono-devel
 sudo groupadd media
 sudo adduser --system --no-create-home --ingroup media sonarr
 sudo usermod -a -G media sonarr
+
+sudo mv ${GITHUB_WORKSPACE}/fixtures/series /series
+sudo chown -R sonarr:media /series
+sudo chmod 775 /series
+
 sudo mkdir -p /var/lib/sonarr
 sudo mv ${GITHUB_WORKSPACE}/fixtures/sonarr/config.xml /var/lib/sonarr
 sudo chown -R sonarr:media /var/lib/sonarr
 sudo chmod 775 /var/lib/sonarr
+
 sudo apt install curl sqlite3
 wget --content-disposition "https://download.sonarr.tv/v3/main/3.0.9.1549/Sonarr.main.3.0.9.1549.linux.tar.gz"
 tar -xvzf Sonarr*.linux*.tar.gz
