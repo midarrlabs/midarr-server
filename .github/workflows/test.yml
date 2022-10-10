@@ -30,6 +30,22 @@ jobs:
       - run: tar -xvzf Radarr*.linux*.tar.gz
       - run: sudo mv Radarr /opt
       - run: sudo chown radarr:media -R /opt/Radarr
+      - run: cat <<EOF | tee /etc/systemd/system/radarr.service >/dev/null
+              [Unit]
+              Description=radarr Daemon
+              After=syslog.target network.target
+              [Service]
+              User=radarr
+              Group=media
+              UMask=0002
+              Type=simple
+              ExecStart=/opt/radarr -nobrowser -data=/var/lib/radarr
+              TimeoutStopSec=20
+              KillMode=process
+              Restart=on-failure
+              [Install]
+              WantedBy=multi-user.target
+              EOF
       - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{matrix.otp}}
