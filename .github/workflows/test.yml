@@ -36,7 +36,7 @@ jobs:
         run: docker compose up -d midarr --wait
 
       - name: Run tests
-        run: docker compose run midarr bash "-c" "MIX_ENV=test mix test"
+        run: docker compose run midarr bash "-c" "mix deps.get && MIX_ENV=test mix test"
 
       - name: Run coverage
         run: docker compose run -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} -e CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} -e MIX_ENV=test midarr bash "-c" "./script-code-coverage.sh"
