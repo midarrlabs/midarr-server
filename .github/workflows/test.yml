@@ -20,6 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: sudo groupadd "media"
+      - run: sudo adduser --system --no-create-home --ingroup "media" "radarr"
       - run: sudo usermod -a -G "media" "radarr"
       - run: sudo mkdir -p "/var/lib/radarr/"
       - run: sudo chown -R "radarr":"media" "/var/lib/radarr/"
