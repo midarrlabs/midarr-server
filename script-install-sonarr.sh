@@ -1,5 +1,11 @@
 #!/bin/bash
 
+sudo apt install gnupg ca-certificates
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+sudo apt update
+sudo apt install mono-devel
+
 sudo groupadd media
 sudo adduser --system --no-create-home --ingroup media sonarr
 sudo usermod -a -G media sonarr
@@ -20,7 +26,7 @@ User=sonarr
 Group=media
 Type=simple
 
-ExecStart=/opt/Sonarr/Sonarr.exe -nobrowser -data=/var/lib/sonarr/
+ExecStart=/usr/bin/mono --debug /opt/Sonarr/Sonarr.exe -nobrowser -data=/var/lib/sonarr/
 TimeoutStopSec=20
 KillMode=process
 Restart=on-failure
