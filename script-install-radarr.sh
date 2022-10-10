@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo groupadd media
 sudo adduser --system --no-create-home --ingroup media radarr
 sudo usermod -a -G media radarr
 sudo mkdir -p /var/lib/radarr

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo groupadd media
 sudo adduser --system --no-create-home --ingroup media sonarr
 sudo usermod -a -G media sonarr
 sudo mkdir -p /var/lib/sonarr
