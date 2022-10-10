@@ -27,7 +27,7 @@ User=sonarr
 Group=media
 Type=simple
 
-ExecStart=/usr/bin/mono --debug /opt/Sonarr/Sonarr.exe -nobrowser -data=/var/lib/sonarr/
+ExecStart=/usr/bin/mono --debug /opt/Sonarr/Sonarr.exe -nobrowser -data=/var/lib/sonarr
 TimeoutStopSec=20
 KillMode=process
 Restart=on-failure

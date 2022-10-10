@@ -5,6 +5,13 @@ on:
     branches:
       - '**'
 
+env:
+  MIX_ENV: test
+  RADARR_BASE_URL: http://localhost:7878
+  RADARR_API_KEY: d031e8c9b9df4b2fab311d1c3b3fa2c5
+  SONARR_BASE_URL: http://localhost:8989
+  SONARR_API_KEY: 1accda4476394bfcaddefe8c4fd77d4a
+
 jobs:
 
   test:
@@ -32,3 +39,11 @@ jobs:
       # Seed Sonarr
       - run: curl -d "@${GITHUB_WORKSPACE}/fixtures/sonarr/root-folder.json" -H "Content-Type:application/json" -X POST "http://localhost:8989/api/v3/rootfolder?apiKey=1accda4476394bfcaddefe8c4fd77d4a"
       - run: curl -d "@${GITHUB_WORKSPACE}/fixtures/sonarr/series.json" -H "Content-Type:application/json" -X POST "http://localhost:8989/api/v3/series/import?apiKey=1accda4476394bfcaddefe8c4fd77d4a"
+
+      # Run tests
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+      - run: mix deps.get
+      - run: mix test
