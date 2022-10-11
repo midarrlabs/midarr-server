@@ -6,13 +6,13 @@ on:
       - '**'
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   MIX_ENV: test
   RADARR_BASE_URL: http://localhost:7878
   RADARR_API_KEY: d031e8c9b9df4b2fab311d1c3b3fa2c5
   SONARR_BASE_URL: http://localhost:8989
   SONARR_API_KEY: 1accda4476394bfcaddefe8c4fd77d4a
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
 
@@ -29,20 +29,20 @@ jobs:
       # Setup Radarr
       - run: chmod u+x script-install-radarr.sh
       - run: ./script-install-radarr.sh
-      - run: curl --head -X GET --retry 5 --retry-connrefused --retry-delay 5 http://localhost:7878
+      - run: curl --head -X GET --retry 5 --retry-connrefused --retry-delay 5 ${RADARR_BASE_URL}
 
       # Seed Radarr
-      - run: curl -d "@${GITHUB_WORKSPACE}/fixtures/radarr/root-folder.json" -H "Content-Type:application/json" -X POST "http://localhost:7878/api/v3/rootfolder?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
-      - run: curl -d "@${GITHUB_WORKSPACE}/fixtures/radarr/movies.json" -H "Content-Type:application/json" -X POST "http://localhost:7878/api/v3/movie/import?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
+      - run: curl -d "@${GITHUB_WORKSPACE}/fixtures/radarr/root-folder.json" -H "Content-Type:application/json" -X POST "${RADARR_BASE_URL}/api/v3/rootfolder?apiKey=${RADARR_API_KEY}"
+      - run: curl -d "@${GITHUB_WORKSPACE}/fixtures/radarr/movies.json" -H "Content-Type:application/json" -X POST "${RADARR_BASE_URL}/api/v3/movie/import?apiKey=${RADARR_API_KEY}"
 
       # Setup Sonarr
       - run: chmod u+x script-install-sonarr.sh
       - run: ./script-install-sonarr.sh
-      - run: curl --head -X GET --retry 5 --retry-connrefused --retry-delay 5 http://localhost:8989
+      - run: curl --head -X GET --retry 5 --retry-connrefused --retry-delay 5 ${SONARR_BASE_URL}
 
       # Seed Sonarr
-      - run: curl -d "@${GITHUB_WORKSPACE}/fixtures/sonarr/root-folder.json" -H "Content-Type:application/json" -X POST "http://localhost:8989/api/v3/rootfolder?apikey=1accda4476394bfcaddefe8c4fd77d4a"
-      - run: curl -d "@${GITHUB_WORKSPACE}/fixtures/sonarr/series.json" -H "Content-Type:application/json" -X POST "http://localhost:8989/api/v3/series/import?apikey=1accda4476394bfcaddefe8c4fd77d4a"
+      - run: curl -d "@${GITHUB_WORKSPACE}/fixtures/sonarr/root-folder.json" -H "Content-Type:application/json" -X POST "${SONARR_BASE_URL}/api/v3/rootfolder?apikey=${SONARR_API_KEY}"
+      - run: curl -d "@${GITHUB_WORKSPACE}/fixtures/sonarr/series.json" -H "Content-Type:application/json" -X POST "${SONARR_BASE_URL}/api/v3/series/import?apikey=${SONARR_API_KEY}"
 
       # Run test coverage
       - uses: erlef/setup-beam@v1
