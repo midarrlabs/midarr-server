@@ -50,6 +50,8 @@ jobs:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
       - run: mix deps.get
+      - run: mix ecto.migrate
+      - run: mix run priv/repo/seeds.exs
       - run: mix test
       - run: chmod u+x script-code-coverage.sh
       - run: ./script-code-coverage.sh
