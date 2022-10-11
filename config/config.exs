@@ -50,11 +50,7 @@ config :phoenix, :json_library, Jason
 config :media_server,
   app_name: "Midarr",
   app_url: System.get_env("APP_URL"),
-  app_mailer_from: System.get_env("APP_MAILER_FROM") || "example@email.com",
-  movies_base_url: System.get_env("RADARR_BASE_URL"),
-  movies_api_key: System.get_env("RADARR_API_KEY"),
-  series_base_url: System.get_env("SONARR_BASE_URL"),
-  series_api_key: System.get_env("SONARR_API_KEY")
+  app_mailer_from: System.get_env("APP_MAILER_FROM") || "example@email.com"
 
 config :tailwind,
   version: "3.1.8",

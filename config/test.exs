@@ -28,9 +28,3 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
-
-config :media_server,
-  movies_base_url: "radarr:7878",
-  movies_api_key: "d031e8c9b9df4b2fab311d1c3b3fa2c5",
-  series_base_url: "sonarr:8989",
-  series_api_key: "1accda4476394bfcaddefe8c4fd77d4a"

@@ -4,24 +4,25 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.SeriesFixtures
-  alias MediaServer.EpisodesFixtures
   alias MediaServer.ContinuesFixtures
   alias MediaServer.ComponentsFixtures
   alias MediaServer.Actions
+
+  alias MediaServerWeb.Repositories.Series
+  alias MediaServerWeb.Repositories.Episodes
 
   setup %{conn: conn} do
     ComponentsFixtures.action_fixture()
 
     user = AccountsFixtures.user_fixture()
 
-    %{conn: conn |> log_in_user(user), user: user}
+    %{conn: conn |> log_in_user(user)}
   end
 
-  test "it should watch", %{conn: conn, user: _user} do
-    serie = SeriesFixtures.get_serie()
+  test "it should watch", %{conn: conn} do
+    serie = Series.get_all() |> List.first()
 
-    episode = EpisodesFixtures.get_episode(serie["id"])
+    episode = Episodes.get_episode(serie["id"])
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
@@ -31,20 +32,17 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     assert Enum.count(Actions.list_episode_actions()) === 1
   end
 
-  test "it should continue", %{conn: conn, user: user} do
-    serie = SeriesFixtures.get_serie()
+  test "it should continue", %{conn: conn} do
+    serie = Series.get_all() |> List.first()
 
-    episode = EpisodesFixtures.get_episode(serie["id"])
+    episode = Episodes.get_episode(serie["id"])
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
 
     render_hook(view, :video_destroyed, %{
-      episode_id: episode["id"],
-      serie_id: episode["seriesId"],
       current_time: 39,
-      duration: 78,
-      user_id: user.id
+      duration: 78
     })
 
     assert ContinuesFixtures.get_episode_continue()
@@ -55,20 +53,17 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     assert render(view) =~ "#t=39"
   end
 
-  test "it should not continue", %{conn: conn, user: user} do
-    serie = SeriesFixtures.get_serie()
+  test "it should not continue", %{conn: conn} do
+    serie = Series.get_all() |> List.first()
 
-    episode = EpisodesFixtures.get_episode(serie["id"])
+    episode = Episodes.get_episode(serie["id"])
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
 
     render_hook(view, :video_destroyed, %{
-      episode_id: episode["id"],
-      serie_id: episode["seriesId"],
       current_time: 90,
-      duration: 100,
-      user_id: user.id
+      duration: 100
     })
 
     refute ContinuesFixtures.get_episode_continue()
@@ -79,10 +74,10 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     refute render(view) =~ "#t=90"
   end
 
-  test "it should subtitle", %{conn: conn, user: _user} do
-    serie = SeriesFixtures.get_serie()
+  test "it should subtitle", %{conn: conn} do
+    serie = Series.get_all() |> List.first()
 
-    episode = EpisodesFixtures.get_episode(serie["id"])
+    episode = Episodes.get_episode(serie["id"])
 
     {:ok, _view, disconnected_html} =
       live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
@@ -90,7 +85,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     assert disconnected_html =~ Routes.subtitle_episode_path(conn, :show, episode["id"])
   end
 
-  test "it should not subtitle", %{conn: conn, user: _user} do
+  test "it should not subtitle", %{conn: conn} do
     {:ok, _view, disconnected_html} =
       live(conn, Routes.watch_episode_show_path(conn, :show, 3, "watch"))
 

@@ -2,7 +2,8 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
   use MediaServerWeb.ConnCase
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.MoviesFixtures
+
+  alias MediaServer.Indexers.Movie
 
   setup %{conn: conn} do
     %{conn: conn, user: AccountsFixtures.user_fixture()}
@@ -17,7 +18,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
     assert get_session(conn, :user_token)
     assert redirected_to(conn) == "/"
 
-    movie = MoviesFixtures.get_movie()
+    movie = Movie.get_movie("1")
 
     token = Phoenix.Token.sign(conn, "user auth", user.id)
 
@@ -38,7 +39,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
     assert get_session(conn, :user_token)
     assert redirected_to(conn) == "/"
 
-    movie = MoviesFixtures.get_movie()
+    movie = Movie.get_movie("1")
 
     Phoenix.Token.sign(conn, "user auth", user.id)
 
@@ -57,7 +58,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
     assert get_session(conn, :user_token)
     assert redirected_to(conn) == "/"
 
-    movie = MoviesFixtures.get_movie()
+    movie = Movie.get_movie("1")
 
     Phoenix.Token.sign(conn, "user auth", user.id)
 
@@ -76,7 +77,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
     assert get_session(conn, :user_token)
     assert redirected_to(conn) == "/"
 
-    movie = MoviesFixtures.get_movie()
+    movie = Movie.get_movie("1")
 
     token = Phoenix.Token.sign(conn, "user auth", user.id)
 
@@ -98,7 +99,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
     assert get_session(conn, :user_token)
     assert redirected_to(conn) == "/"
 
-    movie = MoviesFixtures.get_movie()
+    movie = Movie.get_movie("1")
 
     token = Phoenix.Token.sign(conn, "user auth", user.id)
 

@@ -4,21 +4,22 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.MoviesFixtures
   alias MediaServer.ContinuesFixtures
   alias MediaServer.ComponentsFixtures
   alias MediaServer.ActionsFixtures
+
+  alias MediaServer.Indexers.Movie
 
   setup %{conn: conn} do
     ComponentsFixtures.action_fixture()
 
     user = AccountsFixtures.user_fixture()
 
-    %{conn: conn |> log_in_user(user), user: user}
+    %{conn: conn |> log_in_user(user)}
   end
 
-  test "it should watch", %{conn: conn, user: _user} do
-    movie = MoviesFixtures.get_movie()
+  test "it should watch", %{conn: conn} do
+    movie = Movie.get_movie("1")
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
@@ -28,8 +29,8 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
     assert Enum.count(ActionsFixtures.get_movie_played()) === 1
   end
 
-  test "it should continue", %{conn: conn, user: _user} do
-    movie = MoviesFixtures.get_movie()
+  test "it should continue", %{conn: conn} do
+    movie = Movie.get_movie("1")
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
@@ -47,8 +48,8 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
     assert render(view) =~ "#t=89"
   end
 
-  test "it should not continue", %{conn: conn, user: _user} do
-    movie = MoviesFixtures.get_movie()
+  test "it should not continue", %{conn: conn} do
+    movie = Movie.get_movie("1")
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
@@ -66,8 +67,8 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
     refute render(view) =~ "#t=90"
   end
 
-  test "it should subtitle", %{conn: conn, user: _user} do
-    movie = MoviesFixtures.get_movie()
+  test "it should subtitle", %{conn: conn} do
+    movie = Movie.get_movie("1")
 
     {:ok, _view, disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
@@ -75,7 +76,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
     assert disconnected_html =~ Routes.subtitle_movie_path(conn, :show, movie["id"])
   end
 
-  test "it should not subtitle", %{conn: conn, user: _user} do
+  test "it should not subtitle", %{conn: conn} do
     {:ok, _view, disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, 2, "watch"))
 
