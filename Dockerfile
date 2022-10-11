@@ -34,7 +34,6 @@ RUN mix local.hex --force && \
     mix compile
 
 RUN chmod u+x script-entry-point.sh
-RUN chmod u+x script-code-coverage.sh
 
 EXPOSE 4000
 
