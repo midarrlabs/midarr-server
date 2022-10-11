@@ -11,8 +11,7 @@ defmodule MediaServer.ComponentsTest do
     @invalid_attrs %{name: nil}
 
     test "list_actions/0 returns all actions" do
-      action = action_fixture()
-      assert Components.list_actions() == [action]
+      assert Enum.count(Components.list_actions()) === 1
     end
 
     test "get_action!/1 returns the action with given id" do
