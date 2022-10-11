@@ -26,12 +26,10 @@ services:
       - 7878:7878
     volumes:
       - ./fixtures/radarr/config.xml:/config/config.xml
-      - ./fixtures/radarr/root-folder.json:/config/root-folder.json
-      - ./fixtures/radarr/movies.json:/config/movies.json
       - ./fixtures/movies:/movies
     environment:
-      - PUID=0
-      - PGID=0
+      - PUID=1000
+      - PGID=1000
     healthcheck:
       test: "exit 0"
 
@@ -42,11 +40,9 @@ services:
       - 8989:8989
     volumes:
       - ./fixtures/sonarr/config.xml:/config/config.xml
-      - ./fixtures/sonarr/root-folder.json:/config/root-folder.json
-      - ./fixtures/sonarr/series.json:/config/series.json
       - ./fixtures/series:/series
     environment:
-      - PUID=0
-      - PGID=0
+      - PUID=1000
+      - PGID=1000
     healthcheck:
       test: "exit 0"
