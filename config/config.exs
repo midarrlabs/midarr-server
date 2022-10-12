@@ -47,11 +47,6 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :media_server,
-  app_name: "Midarr",
-  app_url: System.get_env("APP_URL"),
-  app_mailer_from: System.get_env("APP_MAILER_FROM") || "example@email.com"
-
 config :tailwind,
   version: "3.1.8",
   default: [
