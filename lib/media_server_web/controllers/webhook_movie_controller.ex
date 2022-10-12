@@ -3,7 +3,7 @@ defmodule MediaServerWeb.Webhooks.MovieController do
 
   def create(conn, %{"eventType" => "Download"}) do
     conn
-    |> send_resp(200, "Ok")
+    |> send_resp(201, "Ok")
   end
 
   def create(conn, _payload) do
