@@ -64,6 +64,8 @@ defmodule MediaServerWeb.Router do
 
     get "/episodes/:id/stream", StreamEpisodeController, :show
     get "/episodes/:id/subtitle", SubtitleEpisodeController, :show
+
+    post "/webhooks/movie", Webhooks.MovieController, :create
   end
 
   if Mix.env() == :dev do
