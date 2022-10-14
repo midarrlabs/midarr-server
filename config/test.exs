@@ -16,9 +16,8 @@ config :media_server, MediaServer.Repo,
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :media_server, MediaServerWeb.Endpoint,
-  http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "vntrbGOG0ngkMhJnD8v1GRpRkt+gFCmU1EYFAMeKnXMYfM//anh6WfWP1OUSCu3z",
-  server: false
+  http: [ip: {127, 0, 0, 1}, port: 4000],
+  secret_key_base: "vntrbGOG0ngkMhJnD8v1GRpRkt+gFCmU1EYFAMeKnXMYfM//anh6WfWP1OUSCu3z"
 
 # In test we don't send emails.
 config :media_server, MediaServer.Mailer, adapter: Swoosh.Adapters.Test
