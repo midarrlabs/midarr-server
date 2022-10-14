@@ -20,6 +20,7 @@ defmodule MediaServer.Application do
       # {MediaServer.Worker, arg}
       MediaServerWeb.Presence,
       MediaServer.Api.Token,
+      MediaServer.Webhooks.Movie,
       MediaServer.Indexers.Movie
     ]
 

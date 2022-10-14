@@ -10,7 +10,7 @@ defmodule MediaServer.Accounts.UserNotifier do
       |> to(recipient)
       |> from(
         {System.get_env("APP_NAME", "Midarr"),
-          System.get_env("APP_MAILER_FROM", "example@email.com")}
+         System.get_env("APP_MAILER_FROM", "example@email.com")}
       )
       |> subject(subject)
       |> html_body(body)

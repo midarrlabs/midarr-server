@@ -4,7 +4,6 @@ defmodule MediaServerWeb.Webhooks.MovieController do
   alias MediaServer.Indexers.Movie
 
   def create(conn, %{"eventType" => "Download"}) do
-
     Movie.reset()
 
     conn

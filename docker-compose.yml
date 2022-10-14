@@ -10,6 +10,7 @@ services:
       - ./fixtures/movies:/movies
       - ./fixtures/series:/series
     environment:
+      - APP_URL=http://midarr:4000
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
       - SETUP_ADMIN_PASSWORD=passwordpassword

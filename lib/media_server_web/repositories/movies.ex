@@ -30,4 +30,15 @@ defmodule MediaServerWeb.Repositories.Movies do
     |> Stream.filter(fn item -> item["hasFile"] end)
     |> Enum.sort_by(& &1["title"], :asc)
   end
+
+  def set_notification(payload) do
+    HTTPoison.post(get_url("notification"), Jason.encode!(payload), %{
+      "Content-Type" => "application/json"
+    })
+  end
+
+  def get_notification do
+    HTTPoison.get(get_url("notification"))
+    |> handle_response()
+  end
 end
