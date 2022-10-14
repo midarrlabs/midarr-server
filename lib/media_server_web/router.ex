@@ -16,7 +16,7 @@ defmodule MediaServerWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug MediaServerWeb.Plugs.VerifyToken
+    plug MediaServerWeb.VerifyToken
   end
 
   scope "/", MediaServerWeb do
