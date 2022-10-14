@@ -1,7 +1,7 @@
 defmodule MediaServerWeb.Webhooks.MovieControllerTest do
   use MediaServerWeb.ConnCase
 
-  alias MediaServer.Api.Token
+  alias MediaServer.Token
 
   test "it should halt", %{conn: conn} do
     conn =

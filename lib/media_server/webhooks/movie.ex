@@ -1,7 +1,7 @@
 defmodule MediaServer.Webhooks.Movie do
   use Agent
 
-  alias MediaServer.Api.Token
+  alias MediaServer.Token
   alias MediaServerWeb.Repositories.Movies
 
   def start_link(_opts) do

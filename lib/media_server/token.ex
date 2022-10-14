@@ -1,4 +1,4 @@
-defmodule MediaServer.Api.Token do
+defmodule MediaServer.Token do
   use Agent
 
   def start_link(_opts) do
