@@ -17,7 +17,7 @@ config :media_server, MediaServer.Repo,
 # you can enable the server option below.
 config :media_server, MediaServerWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "62B5xZrG1FF9/9KoKGBTwSiiuq4aGoO/m2ZBORy8I1D/k4DXyi/khr1NBKmoFl0p",
+  secret_key_base: "vntrbGOG0ngkMhJnD8v1GRpRkt+gFCmU1EYFAMeKnXMYfM//anh6WfWP1OUSCu3z",
   server: false
 
 # In test we don't send emails.

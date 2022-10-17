@@ -7,6 +7,7 @@ on:
 
 env:
   MIX_ENV: test
+  APP_URL: http://localhost:4000
   RADARR_BASE_URL: http://localhost:7878
   RADARR_API_KEY: d031e8c9b9df4b2fab311d1c3b3fa2c5
   SONARR_BASE_URL: http://localhost:8989

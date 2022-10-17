@@ -1,4 +1,4 @@
-defmodule MediaServerWeb.Plugs.VerifyToken do
+defmodule MediaServerWeb.VerifyToken do
   import Plug.Conn
 
   def init(default), do: default
