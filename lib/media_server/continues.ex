@@ -6,7 +6,7 @@ defmodule MediaServer.Continues do
   import Ecto.Query, warn: false
   alias MediaServer.Repo
 
-  alias MediaServer.Continues.Movie
+  alias MediaServer.Movies.Continue, as: Movie
 
   @doc """
   Returns the list of movie_continues.
@@ -124,7 +124,7 @@ defmodule MediaServer.Continues do
     Movie.changeset(movie, attrs)
   end
 
-  alias MediaServer.Continues.Episode
+  alias MediaServer.Episodes.Continue, as: Episode
 
   @doc """
   Returns the list of episode_continues.

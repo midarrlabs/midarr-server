@@ -6,7 +6,7 @@ defmodule MediaServer.Components do
   import Ecto.Query, warn: false
   alias MediaServer.Repo
 
-  alias MediaServer.Components.Action
+  alias MediaServer.Action
 
   @doc """
   Returns the list of actions.

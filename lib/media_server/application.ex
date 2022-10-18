@@ -20,8 +20,8 @@ defmodule MediaServer.Application do
       # {MediaServer.Worker, arg}
       MediaServerWeb.Presence,
       MediaServer.Token,
-      MediaServer.Webhooks.Movie,
-      MediaServer.Indexers.Movie
+      MediaServer.Movies.Webhook,
+      MediaServer.Movies.Indexer
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

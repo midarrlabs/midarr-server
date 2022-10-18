@@ -5,7 +5,7 @@ defmodule MediaServerWeb.HomeLive.Index do
   alias MediaServer.Accounts
   alias MediaServerWeb.Repositories.Series
 
-  alias MediaServer.Indexers.Movie
+  alias MediaServer.Movies.Indexer
 
   @impl true
   def mount(_params, session, socket) do
@@ -33,7 +33,7 @@ defmodule MediaServerWeb.HomeLive.Index do
     {
       :noreply,
       socket
-      |> assign(:movies, Movie.get_latest(7))
+      |> assign(:movies, Indexer.get_latest(7))
       |> assign(:movie_continues, socket.assigns.current_user.movie_continues |> Enum.take(4))
       |> assign(:episode_continues, socket.assigns.current_user.episode_continues |> Enum.take(4))
     }

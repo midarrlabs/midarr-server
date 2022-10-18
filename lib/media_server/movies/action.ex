@@ -1,4 +1,4 @@
-defmodule MediaServer.Actions.Movie do
+defmodule MediaServer.Movies.Action do
   use Ecto.Schema
   import Ecto.Changeset
 

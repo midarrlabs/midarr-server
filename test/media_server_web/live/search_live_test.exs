@@ -6,7 +6,7 @@ defmodule MediaServerWeb.SearchLiveTest do
   alias MediaServer.AccountsFixtures
   alias MediaServerWeb.Repositories.Series
 
-  alias MediaServer.Indexers.Movie
+  alias MediaServer.Movies.Indexer
 
   setup %{conn: conn} do
     %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
@@ -16,7 +16,7 @@ defmodule MediaServerWeb.SearchLiveTest do
     {:ok, view, _disconnected_html} =
       live(conn, Routes.search_index_path(conn, :index, query: "Caminandes Llama Drama"))
 
-    movie = Movie.get_movie("1")
+    movie = Indexer.get_movie("1")
 
     send(view.pid, {:movies, [movie]})
     send(view.pid, {:series, []})

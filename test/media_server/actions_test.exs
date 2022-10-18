@@ -6,7 +6,7 @@ defmodule MediaServer.ActionsTest do
   alias MediaServer.Actions
 
   describe "movie_actions" do
-    alias MediaServer.Actions.Movie
+    alias MediaServer.Movies.Action, as: Movie
 
     import MediaServer.ActionsFixtures
 
@@ -75,7 +75,7 @@ defmodule MediaServer.ActionsTest do
   end
 
   describe "episode_actions" do
-    alias MediaServer.Actions.Episode
+    alias MediaServer.Episodes.Action, as: Episode
 
     import MediaServer.ActionsFixtures
 

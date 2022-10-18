@@ -6,7 +6,7 @@ defmodule MediaServer.Actions do
   import Ecto.Query, warn: false
   alias MediaServer.Repo
 
-  alias MediaServer.Actions.Movie
+  alias MediaServer.Movies.Action, as: Movie
 
   @doc """
   Returns the list of movie_actions.
@@ -102,7 +102,7 @@ defmodule MediaServer.Actions do
     Movie.changeset(movie, attrs)
   end
 
-  alias MediaServer.Actions.Episode
+  alias MediaServer.Episodes.Action, as: Episode
 
   @doc """
   Returns the list of episode_actions.

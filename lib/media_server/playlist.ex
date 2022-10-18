@@ -7,7 +7,7 @@ defmodule MediaServer.Playlists.Playlist do
     field :can_delete, :boolean, default: true
 
     belongs_to :user, MediaServer.Accounts.User
-    has_many :movies, MediaServer.Playlists.Movie
+    has_many :movies, MediaServer.Movies.Playlist
 
     timestamps()
   end

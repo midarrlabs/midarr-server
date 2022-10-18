@@ -5,7 +5,7 @@ defmodule MediaServer.ContinuesTest do
   alias MediaServer.Continues
 
   describe "movie_continues" do
-    alias MediaServer.Continues.Movie
+    alias MediaServer.Movies.Continue, as: Movie
 
     import MediaServer.ContinuesFixtures
 
@@ -149,7 +149,7 @@ defmodule MediaServer.ContinuesTest do
   end
 
   describe "episode_continues" do
-    alias MediaServer.Continues.Episode
+    alias MediaServer.Episodes.Continue, as: Episode
 
     import MediaServer.ContinuesFixtures
 

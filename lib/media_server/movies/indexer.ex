@@ -1,4 +1,4 @@
-defmodule MediaServer.Indexers.Movie do
+defmodule MediaServer.Movies.Indexer do
   use Agent
 
   alias MediaServerWeb.Repositories.Movies

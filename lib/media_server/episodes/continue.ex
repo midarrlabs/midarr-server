@@ -1,4 +1,4 @@
-defmodule MediaServer.Continues.Episode do
+defmodule MediaServer.Episodes.Continue do
   use Ecto.Schema
   import Ecto.Changeset
 

@@ -1,10 +1,10 @@
 defmodule MediaServerWeb.Webhooks.MovieController do
   use MediaServerWeb, :controller
 
-  alias MediaServer.Indexers.Movie
+  alias MediaServer.Movies.Indexer
 
   def create(conn, %{"eventType" => "Download"}) do
-    Movie.reset()
+    Indexer.reset()
 
     conn
     |> send_resp(201, "Ok")

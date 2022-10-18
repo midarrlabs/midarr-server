@@ -102,7 +102,7 @@ defmodule MediaServer.Playlists do
     Playlist.changeset(playlist, attrs)
   end
 
-  alias MediaServer.Playlists.Movie
+  alias MediaServer.Movies.Playlist, as: Movie
 
   @doc """
   Returns the list of playlist_movies.

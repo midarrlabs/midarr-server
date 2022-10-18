@@ -4,7 +4,7 @@ defmodule MediaServer.ComponentsTest do
   alias MediaServer.Components
 
   describe "actions" do
-    alias MediaServer.Components.Action
+    alias MediaServer.Action
 
     import MediaServer.ComponentsFixtures
 

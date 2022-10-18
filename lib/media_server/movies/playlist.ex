@@ -1,4 +1,4 @@
-defmodule MediaServer.Playlists.Movie do
+defmodule MediaServer.Movies.Playlist do
   use Ecto.Schema
   import Ecto.Changeset
 

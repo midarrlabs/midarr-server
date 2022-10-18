@@ -1,7 +1,7 @@
-defmodule MediaServer.Indexers.MovieTest do
+defmodule MediaServer.Movies.IndexerTest do
   use ExUnit.Case
 
-  alias MediaServer.Indexers.Movie, as: Indexer
+  alias MediaServer.Movies.Indexer
   alias MediaServerWeb.Repositories.Movies
 
   test "it should get all" do

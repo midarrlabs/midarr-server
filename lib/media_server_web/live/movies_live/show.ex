@@ -9,7 +9,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
   alias MediaServerWeb.Repositories.Movies
   alias MediaServer.Playlists
 
-  alias MediaServer.Indexers.Movie
+  alias MediaServer.Movies.Indexer
 
   @impl true
   def mount(_params, session, socket) do
@@ -33,7 +33,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
       send(pid, {:cast, Movies.get_cast(id)})
     end)
 
-    movie = Movie.get_movie(id)
+    movie = Indexer.get_movie(id)
 
     {
       :noreply,
@@ -58,7 +58,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
     Playlists.insert_or_delete(playlist, %{
       movie_id: socket.assigns.movie["id"],
       title: socket.assigns.movie["title"],
-      image_url: Movie.get_poster(socket.assigns.movie)
+      image_url: Indexer.get_poster(socket.assigns.movie)
     })
 
     {:noreply, socket}

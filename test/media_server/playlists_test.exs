@@ -72,7 +72,7 @@ defmodule MediaServer.PlaylistsTest do
   end
 
   describe "playlist_movies" do
-    alias MediaServer.Playlists.Movie
+    alias MediaServer.Movies.Playlist, as: Movie
 
     import MediaServer.PlaylistsFixtures
 

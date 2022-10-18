@@ -1,10 +1,10 @@
 defmodule MediaServerWeb.StreamMovieControllerTest do
   use MediaServerWeb.ConnCase
 
-  alias MediaServer.Indexers.Movie
+  alias MediaServer.Movies.Indexer
 
   test "movie", %{conn: conn} do
-    movie = Movie.get_movie("1")
+    movie = Indexer.get_movie("1")
 
     token = Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", "id")
 
@@ -17,7 +17,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
   end
 
   test "it halts with random token", %{conn: conn} do
-    movie = Movie.get_movie("1")
+    movie = Indexer.get_movie("1")
 
     conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]), token: "someToken")
 
@@ -26,7 +26,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
   end
 
   test "it halts without token", %{conn: conn} do
-    movie = Movie.get_movie("1")
+    movie = Indexer.get_movie("1")
 
     conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]))
 
@@ -35,7 +35,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
   end
 
   test "movie range", %{conn: conn} do
-    movie = Movie.get_movie("1")
+    movie = Indexer.get_movie("1")
 
     token = Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", "id")
 
@@ -49,7 +49,7 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
   end
 
   test "safari probe", %{conn: conn} do
-    movie = Movie.get_movie("1")
+    movie = Indexer.get_movie("1")
 
     token = Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", "id")
 

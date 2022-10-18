@@ -3,11 +3,11 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
 
   alias MediaServer.Repo
   alias MediaServer.Accounts
-  alias MediaServer.Continues
   alias MediaServer.Components
-  alias MediaServer.Actions
 
-  alias MediaServer.Indexers.Movie
+  alias MediaServer.Continues
+  alias MediaServer.Actions
+  alias MediaServer.Movies.Indexer
 
   @impl true
   def mount(_params, session, socket) do
@@ -24,7 +24,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
 
   @impl true
   def handle_params(%{"id" => id, "action" => "watch"}, _url, socket) do
-    movie = Movie.get_movie(id)
+    movie = Indexer.get_movie(id)
 
     {
       :noreply,
@@ -46,7 +46,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
   end
 
   def handle_params(%{"id" => id, "action" => "continue"}, _url, socket) do
-    movie = Movie.get_movie(id)
+    movie = Indexer.get_movie(id)
 
     {
       :noreply,
@@ -85,7 +85,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
     Continues.update_or_create_movie(%{
       movie_id: socket.assigns.movie["id"],
       title: socket.assigns.movie["title"],
-      image_url: Movie.get_background(socket.assigns.movie),
+      image_url: Indexer.get_background(socket.assigns.movie),
       current_time: current_time,
       duration: duration,
       user_id: socket.assigns.current_user.id
