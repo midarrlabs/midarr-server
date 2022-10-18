@@ -1,5 +1,4 @@
 defmodule MediaServer.Movies.Subtitle do
-
   alias MediaServer.Movies.Indexer
   alias MediaServer.Subtitles
 
