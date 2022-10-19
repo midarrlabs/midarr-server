@@ -4,7 +4,6 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.ContinuesFixtures
   alias MediaServer.Fixtures.UserActions
   alias MediaServer.ActionsFixtures
 
@@ -40,7 +39,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       duration: 100
     })
 
-    assert ContinuesFixtures.get_movie_continue()
+    assert MediaServer.Repo.all(MediaServer.Movies.Continue) |> List.first()
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "continue"))
@@ -59,7 +58,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       duration: 100
     })
 
-    refute ContinuesFixtures.get_movie_continue()
+    refute MediaServer.Repo.all(MediaServer.Movies.Continue) |> List.first()
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "continue"))

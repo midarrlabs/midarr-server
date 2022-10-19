@@ -9,19 +9,6 @@ defmodule MediaServer.Continues do
   alias MediaServer.Movies.Continue, as: Movie
 
   @doc """
-  Returns the list of movie_continues.
-
-  ## Examples
-
-      iex> list_movie_continues()
-      [%Movie{}, ...]
-
-  """
-  def list_movie_continues do
-    Repo.all(Movie)
-  end
-
-  @doc """
   Gets a single movie.
 
   Raises `Ecto.NoResultsError` if the Movie does not exist.

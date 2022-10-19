@@ -18,12 +18,6 @@ defmodule MediaServer.ContinuesTest do
       user_id: nil
     }
 
-    test "list_movie_continues/0 returns all movie_continues" do
-      user = AccountsFixtures.user_fixture()
-      movie = movie_fixture(%{user_id: user.id})
-      assert Continues.list_movie_continues() == [movie]
-    end
-
     test "get_movie!/1 returns the movie with given id" do
       user = AccountsFixtures.user_fixture()
       movie = movie_fixture(%{user_id: user.id})

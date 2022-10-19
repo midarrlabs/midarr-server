@@ -24,10 +24,6 @@ defmodule MediaServer.ContinuesFixtures do
     movie
   end
 
-  def get_movie_continue() do
-    Continues.list_movie_continues() |> List.first()
-  end
-
   @doc """
   Generate a episode.
   """
