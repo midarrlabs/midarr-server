@@ -24,6 +24,20 @@ defmodule MediaServer.ContinuesFixtures do
     movie
   end
 
+  def another_movie_fixture(attrs \\ %{}) do
+    {:ok, movie} =
+      attrs
+      |> Enum.into(%{
+        media_id: 42,
+        current_time: 42,
+        duration: 84,
+        media_type_id: MediaServer.MediaTypes.get_id("movie")
+      })
+      |> MediaServer.Accounts.UserContinues.create()
+
+    movie
+  end
+
   @doc """
   Generate a episode.
   """

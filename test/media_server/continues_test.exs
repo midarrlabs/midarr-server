@@ -18,10 +18,10 @@ defmodule MediaServer.ContinuesTest do
       user_id: nil
     }
 
-    test "get_movie!/1 returns the movie with given id" do
+    test "should find" do
       user = AccountsFixtures.user_fixture()
-      movie = movie_fixture(%{user_id: user.id})
-      assert Continues.get_movie!(movie.id) == movie
+      movie = another_movie_fixture(%{user_id: user.id})
+      assert MediaServer.Accounts.UserContinues.find(movie.id) == movie
     end
 
     test "create_movie/1 with valid data creates a movie" do

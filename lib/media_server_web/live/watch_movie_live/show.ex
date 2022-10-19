@@ -3,9 +3,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
 
   alias MediaServer.Repo
   alias MediaServer.Accounts
-  alias MediaServer.Components
 
-  alias MediaServer.Continues
   alias MediaServer.Actions
   alias MediaServer.Movies.Indexer
 
@@ -67,7 +65,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
       |> assign(
         :continue,
         socket.assigns.current_user.movie_continues
-        |> Enum.filter(fn item -> item.movie_id == movie["id"] end)
+        |> Enum.filter(fn item -> item.media_id == movie["id"] end)
         |> List.first()
       )
     }
@@ -82,13 +80,12 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
         },
         socket
       ) do
-    Continues.update_or_create_movie(%{
-      movie_id: socket.assigns.movie["id"],
-      title: socket.assigns.movie["title"],
-      image_url: Indexer.get_background(socket.assigns.movie),
+    MediaServer.Accounts.UserContinues.update_or_create(%{
+      media_id: socket.assigns.movie["id"],
       current_time: current_time,
       duration: duration,
-      user_id: socket.assigns.current_user.id
+      user_id: socket.assigns.current_user.id,
+      media_type_id: MediaServer.MediaTypes.get_id("movie")
     })
 
     {:noreply, socket}

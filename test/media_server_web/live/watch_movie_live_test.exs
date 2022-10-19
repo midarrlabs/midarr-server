@@ -39,7 +39,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       duration: 100
     })
 
-    assert MediaServer.Repo.all(MediaServer.Movies.Continue) |> List.first()
+    assert MediaServer.Repo.all(MediaServer.Accounts.UserContinues) |> List.first()
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "continue"))
@@ -58,7 +58,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       duration: 100
     })
 
-    refute MediaServer.Repo.all(MediaServer.Movies.Continue) |> List.first()
+    refute MediaServer.Repo.all(MediaServer.Accounts.UserContinues) |> List.first()
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "continue"))

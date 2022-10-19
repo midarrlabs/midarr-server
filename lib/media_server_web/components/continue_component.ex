@@ -4,12 +4,12 @@ defmodule MediaServerWeb.Components.ContinueComponent do
   alias MediaServer.Continues
 
   def handle_event("delete_movie", %{"id" => id}, socket) do
-    Continues.delete_movie(Continues.get_movie!(id))
+    MediaServer.Accounts.UserContinues.delete(id)
 
     {
       :noreply,
       socket
-      |> push_redirect(to: socket.assigns.return_to)
+      |> push_redirect(to: Routes.continues_index_path(socket, :index))
     }
   end
 
