@@ -5,21 +5,7 @@ defmodule MediaServer.Components do
 
   import Ecto.Query, warn: false
   alias MediaServer.Repo
-
   alias MediaServer.Action
-
-  @doc """
-  Returns the list of actions.
-
-  ## Examples
-
-      iex> list_actions()
-      [%Action{}, ...]
-
-  """
-  def list_actions do
-    Repo.all(Action)
-  end
 
   @doc """
   Gets a single action.

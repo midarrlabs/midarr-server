@@ -95,7 +95,7 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
   end
 
   def handle_event("video_played", _params, socket) do
-    action = Components.list_actions() |> List.first()
+    action = MediaServer.Action.list_actions() |> List.first()
 
     Actions.create_episode(%{
       episode_id: socket.assigns.episode["id"],
