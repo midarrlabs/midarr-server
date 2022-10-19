@@ -6,13 +6,13 @@ defmodule MediaServer.ActionsFixtures do
 
   alias MediaServer.Actions
   alias MediaServer.AccountsFixtures
-  alias MediaServer.ComponentsFixtures
+  alias MediaServer.Fixtures.UserActions
 
   @doc """
   Generate a movie.
   """
   def movie_fixture(attrs \\ %{}) do
-    action = ComponentsFixtures.action_fixture()
+    action = UserActions.action_fixture()
     user = AccountsFixtures.user_fixture()
 
     {:ok, movie} =
@@ -36,7 +36,7 @@ defmodule MediaServer.ActionsFixtures do
   Generate a episode.
   """
   def episode_fixture(attrs \\ %{}) do
-    action = ComponentsFixtures.action_fixture()
+    action = UserActions.action_fixture()
     user = AccountsFixtures.user_fixture()
 
     {:ok, episode} =

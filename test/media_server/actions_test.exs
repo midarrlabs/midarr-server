@@ -2,7 +2,7 @@ defmodule MediaServer.ActionsTest do
   use MediaServer.DataCase
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.ComponentsFixtures
+  alias MediaServer.Fixtures.UserActions
   alias MediaServer.Actions
 
   describe "movie_actions" do
@@ -28,7 +28,7 @@ defmodule MediaServer.ActionsTest do
     end
 
     test "create_movie/1 with valid data creates a movie" do
-      action = ComponentsFixtures.action_fixture()
+      action = UserActions.action_fixture()
       user = AccountsFixtures.user_fixture()
 
       valid_attrs = %{
@@ -92,7 +92,7 @@ defmodule MediaServer.ActionsTest do
     end
 
     test "create_episode/1 with valid data creates a episode" do
-      action = ComponentsFixtures.action_fixture()
+      action = UserActions.action_fixture()
       user = AccountsFixtures.user_fixture()
 
       valid_attrs = %{

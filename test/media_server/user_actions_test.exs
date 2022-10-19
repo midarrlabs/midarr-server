@@ -1,4 +1,4 @@
-defmodule MediaServer.ComponentsTest do
+defmodule MediaServer.UserActionsTest do
   use MediaServer.DataCase
 
   test "list_actions/0 returns all actions" do
@@ -6,9 +6,7 @@ defmodule MediaServer.ComponentsTest do
   end
 
   test "create_action/1 with valid data creates a action" do
-    valid_attrs = %{action: "some action"}
-
-    assert {:ok, %MediaServer.Action{} = action} = MediaServer.Action.create_action(valid_attrs)
+    assert {:ok, %MediaServer.Action{} = action} = MediaServer.Action.create_action(%{action: "some action"})
     assert action.action == "some action"
   end
 

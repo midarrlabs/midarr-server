@@ -5,14 +5,14 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
   alias MediaServer.AccountsFixtures
   alias MediaServer.ContinuesFixtures
-  alias MediaServer.ComponentsFixtures
+  alias MediaServer.Fixtures.UserActions
   alias MediaServer.Actions
 
   alias MediaServerWeb.Repositories.Series
   alias MediaServerWeb.Repositories.Episodes
 
   setup %{conn: conn} do
-    ComponentsFixtures.action_fixture()
+    UserActions.action_fixture()
 
     user = AccountsFixtures.user_fixture()
 
