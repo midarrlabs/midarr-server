@@ -17,10 +17,6 @@ MediaServer.MediaTypes.create(%{
 })
 
 MediaServer.MediaTypes.create(%{
-  type: "serie"
-})
-
-MediaServer.MediaTypes.create(%{
   type: "episode"
 })
 

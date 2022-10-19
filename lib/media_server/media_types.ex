@@ -21,4 +21,8 @@ defmodule MediaServer.MediaTypes do
     |> __MODULE__.changeset(attrs)
     |> Repo.insert()
   end
+
+  def get_id(type) do
+    Repo.get_by!(__MODULE__, type: type).id
+  end
 end
