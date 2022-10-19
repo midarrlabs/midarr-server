@@ -24,22 +24,23 @@ defmodule MediaServer.ContinuesTest do
       assert MediaServer.Accounts.UserContinues.find(movie.id) == movie
     end
 
-    test "create_movie/1 with valid data creates a movie" do
+    test "it should create" do
+      user = AccountsFixtures.user_fixture()
+
       valid_attrs = %{
-        movie_id: 42,
-        title: "some title",
-        image_url: "some image url",
+        media_id: 42,
         current_time: 42,
         duration: 84,
-        user_id: AccountsFixtures.user_fixture().id
+        user_id: user.id,
+        media_type_id: MediaServer.MediaTypes.get_id("movie")
       }
 
-      assert {:ok, %Movie{} = movie} = Continues.create_movie(valid_attrs)
-      assert movie.movie_id == 42
-      assert movie.title == "some title"
-      assert movie.image_url == "some image url"
-      assert movie.current_time == 42
-      assert movie.duration == 84
+      assert {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.create(valid_attrs)
+      assert continue.media_id == 42
+      assert continue.current_time == 42
+      assert continue.duration == 84
+      assert continue.user_id == user.id
+      assert continue.media_type_id == MediaServer.MediaTypes.get_id("movie")
     end
 
     test "create_movie/1 with invalid data returns error changeset" do
@@ -74,22 +75,22 @@ defmodule MediaServer.ContinuesTest do
       assert movie == Continues.get_movie!(movie.id)
     end
 
-    test "update_or_create_movie/2 updates movie" do
+    test "it should update continue" do
       user = AccountsFixtures.user_fixture()
-      movie_fixture(%{user_id: user.id})
+      another_movie_fixture(%{user_id: user.id})
 
       update_attrs = %{
-        movie_id: 42,
+        media_id: 42,
         current_time: 89,
         duration: 100,
         user_id: user.id
       }
 
-      {:ok, %Movie{} = movie} = Continues.update_or_create_movie(update_attrs)
-      assert movie.movie_id == 42
-      assert movie.current_time == 89
-      assert movie.duration == 100
-      assert movie.user_id == user.id
+      {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.update_or_create(update_attrs)
+      assert continue.media_id == 42
+      assert continue.current_time == 89
+      assert continue.duration == 100
+      assert continue.user_id == user.id
     end
 
     test "update_or_create_movie/2 deletes movie" do

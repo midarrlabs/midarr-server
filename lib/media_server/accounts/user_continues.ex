@@ -55,11 +55,9 @@ defmodule MediaServer.Accounts.UserContinues do
 
       _ ->
         if attrs.current_time / attrs.duration * 100 < 90 do
-          continue
-          |> Repo.update()
+          update(continue.id, attrs)
         else
-          continue
-          |> Repo.delete()
+          delete(continue.id)
 
           nil
         end
