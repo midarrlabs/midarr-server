@@ -20,4 +20,10 @@ defmodule MediaServer.Action do
   def list_actions do
     Repo.all(__MODULE__)
   end
+
+  def create_action(attrs \\ %{}) do
+    %__MODULE__{}
+    |> __MODULE__.changeset(attrs)
+    |> Repo.insert()
+  end
 end

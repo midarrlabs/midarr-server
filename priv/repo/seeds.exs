@@ -12,7 +12,7 @@ MediaServer.Accounts.register_user(%{
   is_admin: true
 })
 
-MediaServer.Components.create_action(%{
+MediaServer.Action.create_action(%{
   action: "played"
 })
 

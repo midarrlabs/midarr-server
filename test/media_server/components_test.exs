@@ -1,58 +1,18 @@
 defmodule MediaServer.ComponentsTest do
   use MediaServer.DataCase
 
-  alias MediaServer.Components
+  test "list_actions/0 returns all actions" do
+    assert Enum.count(MediaServer.Action.list_actions()) === 1
+  end
 
-  describe "actions" do
-    alias MediaServer.Action
+  test "create_action/1 with valid data creates a action" do
+    valid_attrs = %{action: "some action"}
 
-    import MediaServer.ComponentsFixtures
+    assert {:ok, %MediaServer.Action{} = action} = MediaServer.Action.create_action(valid_attrs)
+    assert action.action == "some action"
+  end
 
-    @invalid_attrs %{action: nil}
-
-    test "list_actions/0 returns all actions" do
-      assert Enum.count(MediaServer.Action.list_actions()) === 1
-    end
-
-    test "get_action!/1 returns the action with given id" do
-      action = action_fixture()
-      assert Components.get_action!(action.id) == action
-    end
-
-    test "create_action/1 with valid data creates a action" do
-      valid_attrs = %{action: "some action"}
-
-      assert {:ok, %Action{} = action} = Components.create_action(valid_attrs)
-      assert action.action == "some action"
-    end
-
-    test "create_action/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Components.create_action(@invalid_attrs)
-    end
-
-    test "update_action/2 with valid data updates the action" do
-      action = action_fixture()
-      update_attrs = %{action: "some updated action"}
-
-      assert {:ok, %Action{} = action} = Components.update_action(action, update_attrs)
-      assert action.action == "some updated action"
-    end
-
-    test "update_action/2 with invalid data returns error changeset" do
-      action = action_fixture()
-      assert {:error, %Ecto.Changeset{}} = Components.update_action(action, @invalid_attrs)
-      assert action == Components.get_action!(action.id)
-    end
-
-    test "delete_action/1 deletes the action" do
-      action = action_fixture()
-      assert {:ok, %Action{}} = Components.delete_action(action)
-      assert_raise Ecto.NoResultsError, fn -> Components.get_action!(action.id) end
-    end
-
-    test "change_action/1 returns a action changeset" do
-      action = action_fixture()
-      assert %Ecto.Changeset{} = Components.change_action(action)
-    end
+  test "create_action/1 with invalid data returns error changeset" do
+    assert {:error, %Ecto.Changeset{}} = MediaServer.Action.create_action(%{action: nil})
   end
 end
