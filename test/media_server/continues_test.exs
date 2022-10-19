@@ -93,40 +93,36 @@ defmodule MediaServer.ContinuesTest do
       assert continue.user_id == user.id
     end
 
-    test "update_or_create_movie/2 deletes movie" do
+    test "it should delete continue" do
       user = AccountsFixtures.user_fixture()
-      movie_fixture(%{user_id: user.id})
+      another_movie_fixture(%{user_id: user.id})
 
       update_attrs = %{
-        movie_id: 42,
+        media_id: 42,
         current_time: 90,
         duration: 100,
         user_id: user.id
       }
 
-      refute Continues.update_or_create_movie(update_attrs)
+      refute MediaServer.Accounts.UserContinues.update_or_create(update_attrs)
     end
 
-    test "update_or_create_movie/2 creates movie" do
+    test "it should create continue" do
       user = AccountsFixtures.user_fixture()
-      movie_fixture(%{user_id: user.id})
+      another_movie_fixture(%{user_id: user.id})
 
       update_attrs = %{
-        movie_id: 43,
-        title: "update title",
-        image_url: "update image url",
+        media_id: 42,
         current_time: 62,
         duration: 86,
         user_id: user.id
       }
 
-      assert {:ok, %Movie{} = movie} = Continues.update_or_create_movie(update_attrs)
-      assert movie.movie_id == 43
-      assert movie.title == "update title"
-      assert movie.image_url == "update image url"
-      assert movie.current_time == 62
-      assert movie.duration == 86
-      assert movie.user_id == user.id
+      assert {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.update_or_create(update_attrs)
+      assert continue.media_id == 42
+      assert continue.current_time == 62
+      assert continue.duration == 86
+      assert continue.user_id == user.id
     end
 
     test "delete_movie/1 deletes the movie" do
