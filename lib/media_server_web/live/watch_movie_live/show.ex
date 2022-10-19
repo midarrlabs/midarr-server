@@ -101,7 +101,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
       movie_id: socket.assigns.movie["id"],
       title: socket.assigns.movie["title"],
       user_id: socket.assigns.current_user.id,
-      action_id: action.id
+      user_action_id: action.id
     })
 
     {:noreply, socket}

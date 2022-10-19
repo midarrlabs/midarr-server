@@ -7,7 +7,7 @@ defmodule MediaServer.Episodes.Action do
     field :serie_id, :integer
     field :title, :string
     field :user_id, :id
-    field :action_id, :id
+    field :user_action_id, :id
 
     timestamps()
   end
@@ -15,7 +15,7 @@ defmodule MediaServer.Episodes.Action do
   @doc false
   def changeset(episode, attrs) do
     episode
-    |> cast(attrs, [:episode_id, :serie_id, :title, :user_id, :action_id])
-    |> validate_required([:episode_id, :serie_id, :title, :user_id, :action_id])
+    |> cast(attrs, [:episode_id, :serie_id, :title, :user_id, :user_action_id])
+    |> validate_required([:episode_id, :serie_id, :title, :user_id, :user_action_id])
   end
 end

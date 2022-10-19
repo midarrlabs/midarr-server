@@ -8,7 +8,7 @@ defmodule MediaServer.ComponentsTest do
 
     import MediaServer.ComponentsFixtures
 
-    @invalid_attrs %{name: nil}
+    @invalid_attrs %{action: nil}
 
     test "list_actions/0 returns all actions" do
       assert Enum.count(Components.list_actions()) === 1
@@ -20,10 +20,10 @@ defmodule MediaServer.ComponentsTest do
     end
 
     test "create_action/1 with valid data creates a action" do
-      valid_attrs = %{name: "some name"}
+      valid_attrs = %{action: "some action"}
 
       assert {:ok, %Action{} = action} = Components.create_action(valid_attrs)
-      assert action.name == "some name"
+      assert action.action == "some action"
     end
 
     test "create_action/1 with invalid data returns error changeset" do
@@ -32,10 +32,10 @@ defmodule MediaServer.ComponentsTest do
 
     test "update_action/2 with valid data updates the action" do
       action = action_fixture()
-      update_attrs = %{name: "some updated name"}
+      update_attrs = %{action: "some updated action"}
 
       assert {:ok, %Action{} = action} = Components.update_action(action, update_attrs)
-      assert action.name == "some updated name"
+      assert action.action == "some updated action"
     end
 
     test "update_action/2 with invalid data returns error changeset" do

@@ -14,7 +14,7 @@ defmodule MediaServer.ActionsTest do
       movie_id: nil,
       title: nil,
       user_id: nil,
-      action_id: nil
+      user_action_id: nil
     }
 
     test "list_movie_actions/0 returns all movie_actions" do
@@ -35,7 +35,7 @@ defmodule MediaServer.ActionsTest do
         movie_id: 42,
         title: "some title",
         user_id: user.id,
-        action_id: action.id
+        user_action_id: action.id
       }
 
       assert {:ok, %Movie{} = movie} = Actions.create_movie(valid_attrs)
@@ -100,7 +100,7 @@ defmodule MediaServer.ActionsTest do
         serie_id: 42,
         title: "some title",
         user_id: user.id,
-        action_id: action.id
+        user_action_id: action.id
       }
 
       assert {:ok, %Episode{} = episode} = Actions.create_episode(valid_attrs)

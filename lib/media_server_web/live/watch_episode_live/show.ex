@@ -102,7 +102,7 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
       serie_id: socket.assigns.episode["seriesId"],
       title: socket.assigns.episode["title"],
       user_id: socket.assigns.current_user.id,
-      action_id: action.id
+      user_action_id: action.id
     })
 
     {:noreply, socket}

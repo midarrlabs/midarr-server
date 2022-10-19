@@ -2,12 +2,10 @@ defmodule MediaServer.Repo.Migrations.CreateActions do
   use Ecto.Migration
 
   def change do
-    create table(:actions) do
-      add :name, :string, null: false
+    create table(:user_actions) do
+      add :action, :string, null: false
 
       timestamps()
     end
-
-    create unique_index(:actions, [:name])
   end
 end

@@ -11,7 +11,7 @@ defmodule MediaServer.ComponentsFixtures do
     {:ok, action} =
       attrs
       |> Enum.into(%{
-        name: "some name"
+        action: "some action"
       })
       |> MediaServer.Components.create_action()
 

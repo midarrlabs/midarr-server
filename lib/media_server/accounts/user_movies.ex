@@ -6,7 +6,7 @@ defmodule MediaServer.Movies.Action do
     field :movie_id, :integer
     field :title, :string
     field :user_id, :id
-    field :action_id, :id
+    field :user_action_id, :id
 
     timestamps()
   end
@@ -14,7 +14,7 @@ defmodule MediaServer.Movies.Action do
   @doc false
   def changeset(movie, attrs) do
     movie
-    |> cast(attrs, [:movie_id, :title, :user_id, :action_id])
-    |> validate_required([:movie_id, :title, :user_id, :action_id])
+    |> cast(attrs, [:movie_id, :title, :user_id, :user_action_id])
+    |> validate_required([:movie_id, :title, :user_id, :user_action_id])
   end
 end

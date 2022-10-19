@@ -13,7 +13,7 @@ MediaServer.Accounts.register_user(%{
 })
 
 MediaServer.Components.create_action(%{
-  name: "played"
+  action: "played"
 })
 
 #

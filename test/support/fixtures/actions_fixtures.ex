@@ -21,7 +21,7 @@ defmodule MediaServer.ActionsFixtures do
         movie_id: 42,
         title: "some title",
         user_id: user.id,
-        action_id: action.id
+        user_action_id: action.id
       })
       |> MediaServer.Actions.create_movie()
 
@@ -46,7 +46,7 @@ defmodule MediaServer.ActionsFixtures do
         serie_id: 42,
         title: "some title",
         user_id: user.id,
-        action_id: action.id
+        user_action_id: action.id
       })
       |> MediaServer.Actions.create_episode()
 
