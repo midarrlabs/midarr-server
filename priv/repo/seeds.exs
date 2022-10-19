@@ -12,10 +12,21 @@ MediaServer.Accounts.register_user(%{
   is_admin: true
 })
 
+MediaServer.MediaTypes.create(%{
+  type: "movie"
+})
+
+MediaServer.MediaTypes.create(%{
+  type: "serie"
+})
+
+MediaServer.MediaTypes.create(%{
+  type: "episode"
+})
+
 MediaServer.Action.create_action(%{
   action: "played"
 })
-
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
