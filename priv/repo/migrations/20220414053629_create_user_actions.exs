@@ -1,4 +1,4 @@
-defmodule MediaServer.Repo.Migrations.CreateActions do
+defmodule MediaServer.Repo.Migrations.CreateUserActions do
   use Ecto.Migration
 
   def change do
@@ -7,5 +7,7 @@ defmodule MediaServer.Repo.Migrations.CreateActions do
 
       timestamps()
     end
+
+    create unique_index(:user_actions, [:action])
   end
 end
