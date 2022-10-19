@@ -23,7 +23,7 @@ defmodule MediaServer.Accounts.UserContinues do
 
   def create(attrs \\ %{}) do
     %__MODULE__{}
-    |> __MODULE__.changeset(attrs)
+    |> changeset(attrs)
     |> Repo.insert()
   end
 
@@ -55,9 +55,11 @@ defmodule MediaServer.Accounts.UserContinues do
 
       _ ->
         if attrs.current_time / attrs.duration * 100 < 90 do
-          update(continue.id, attrs)
+          continue
+          |> Repo.update()
         else
-          delete(continue.id)
+          continue
+          |> Repo.delete()
 
           nil
         end
