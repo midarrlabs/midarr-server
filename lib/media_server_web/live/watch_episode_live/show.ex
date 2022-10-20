@@ -66,7 +66,7 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
       |> assign(
         :continue,
         socket.assigns.current_user.episode_continues
-        |> Enum.filter(fn item -> item.episode_id == episode["id"] end)
+        |> Enum.filter(fn item -> item.media_id == episode["id"] end)
         |> List.first()
       )
     }
@@ -81,14 +81,12 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
         },
         socket
       ) do
-    Continues.update_or_create_episode(%{
-      episode_id: socket.assigns.episode["id"],
-      serie_id: socket.assigns.episode["seriesId"],
-      title: socket.assigns.episode["title"],
-      image_url: Episodes.get_background(socket.assigns.episode),
+    MediaServer.Accounts.UserContinues.update_or_create(%{
+      media_id: socket.assigns.episode["id"],
       current_time: current_time,
       duration: duration,
-      user_id: socket.assigns.current_user.id
+      user_id: socket.assigns.current_user.id,
+      media_type_id: MediaServer.MediaTypes.get_id("episode")
     })
 
     {:noreply, socket}

@@ -25,7 +25,7 @@ defmodule MediaServerWeb.ContinuesLiveTest do
   end
 
   test "it can delete episode continue", %{conn: conn, user: user} do
-    continue = ContinuesFixtures.episode_fixture(%{user_id: user.id})
+    continue = ContinuesFixtures.create_episode(%{user_id: user.id})
 
     {:ok, index_live, _html} = live(conn, Routes.continues_index_path(conn, :index))
 

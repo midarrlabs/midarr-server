@@ -4,7 +4,6 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.ContinuesFixtures
   alias MediaServer.Fixtures.UserActions
   alias MediaServer.Actions
 
@@ -45,7 +44,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
       duration: 78
     })
 
-    assert ContinuesFixtures.get_episode_continue()
+    assert MediaServer.Repo.all(MediaServer.Accounts.UserContinues) |> List.first()
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "continue"))
@@ -66,7 +65,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
       duration: 100
     })
 
-    refute ContinuesFixtures.get_episode_continue()
+    refute MediaServer.Repo.all(MediaServer.Accounts.UserContinues) |> List.first()
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "continue"))
