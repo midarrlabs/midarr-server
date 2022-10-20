@@ -17,7 +17,7 @@ defmodule MediaServerWeb.ContinuesLiveTest do
   end
 
   test "it should delete", %{conn: conn, user: user} do
-    continue = ContinuesFixtures.another_movie_fixture(%{user_id: user.id})
+    continue = ContinuesFixtures.create(%{user_id: user.id})
 
     {:ok, index_live, _html} = live(conn, Routes.continues_index_path(conn, :index))
 

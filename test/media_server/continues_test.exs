@@ -4,139 +4,124 @@ defmodule MediaServer.ContinuesTest do
   alias MediaServer.AccountsFixtures
   alias MediaServer.Continues
 
-  describe "movie_continues" do
-    alias MediaServer.Movies.Continue, as: Movie
+  test "should find" do
+    user = AccountsFixtures.user_fixture()
+    movie = MediaServer.ContinuesFixtures.create(%{user_id: user.id})
+    assert MediaServer.Accounts.UserContinues.find(movie.id) == movie
+  end
 
-    import MediaServer.ContinuesFixtures
+  test "it should create" do
+    user = AccountsFixtures.user_fixture()
 
-    @invalid_attrs %{
-      movie_id: nil,
-      title: nil,
-      image_url: nil,
-      current_time: nil,
-      duration: nil,
-      user_id: nil
+    valid_attrs = %{
+      media_id: 42,
+      current_time: 42,
+      duration: 84,
+      user_id: user.id,
+      media_type_id: MediaServer.MediaTypes.get_id("movie")
     }
 
-    test "should find" do
-      user = AccountsFixtures.user_fixture()
-      movie = another_movie_fixture(%{user_id: user.id})
-      assert MediaServer.Accounts.UserContinues.find(movie.id) == movie
-    end
+    assert {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.create(valid_attrs)
+    assert continue.media_id == 42
+    assert continue.current_time == 42
+    assert continue.duration == 84
+    assert continue.user_id == user.id
+    assert continue.media_type_id == MediaServer.MediaTypes.get_id("movie")
+  end
 
-    test "it should create" do
-      user = AccountsFixtures.user_fixture()
+  test "it should error on create" do
+    assert {:error, %Ecto.Changeset{}} = MediaServer.Accounts.UserContinues.create(%{
+             media_id: nil,
+             current_time: nil,
+             duration: nil,
+             user_id: nil
+           })
+  end
 
-      valid_attrs = %{
-        media_id: 42,
-        current_time: 42,
-        duration: 84,
-        user_id: user.id,
-        media_type_id: MediaServer.MediaTypes.get_id("movie")
-      }
+  test "it should update" do
+    user = AccountsFixtures.user_fixture()
+    continue = MediaServer.ContinuesFixtures.create(%{user_id: user.id})
 
-      assert {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.create(valid_attrs)
-      assert continue.media_id == 42
-      assert continue.current_time == 42
-      assert continue.duration == 84
-      assert continue.user_id == user.id
-      assert continue.media_type_id == MediaServer.MediaTypes.get_id("movie")
-    end
+    update_attrs = %{
+      media_id: 42,
+      current_time: 62,
+      duration: 86,
+      user_id: user.id
+    }
 
-    test "create_movie/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Continues.create_movie(@invalid_attrs)
-    end
+    assert {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.update(continue.id, update_attrs)
+    assert continue.media_id == 42
+    assert continue.current_time == 62
+    assert continue.duration == 86
+  end
 
-    test "update_movie/2 with valid data updates the movie" do
-      user = AccountsFixtures.user_fixture()
-      movie = movie_fixture(%{user_id: user.id})
+  test "it should error on update" do
+    user = AccountsFixtures.user_fixture()
+    continue = MediaServer.ContinuesFixtures.create(%{user_id: user.id})
+    assert {:error, %Ecto.Changeset{}} = MediaServer.Accounts.UserContinues.update(continue.id, %{
+             media_id: nil,
+             current_time: nil,
+             duration: nil,
+             user_id: nil
+           })
+    assert continue == MediaServer.Accounts.UserContinues.find(continue.id)
+  end
 
-      update_attrs = %{
-        movie_id: 43,
-        title: "update title",
-        image_url: "update image url",
-        current_time: 62,
-        duration: 86,
-        user_id: user.id
-      }
+  test "it should update on update or create" do
+    user = AccountsFixtures.user_fixture()
+    MediaServer.ContinuesFixtures.create(%{user_id: user.id})
 
-      assert {:ok, %Movie{} = movie} = Continues.update_movie(movie, update_attrs)
-      assert movie.movie_id == 43
-      assert movie.title == "update title"
-      assert movie.image_url == "update image url"
-      assert movie.current_time == 62
-      assert movie.duration == 86
-    end
+    update_attrs = %{
+      media_id: 42,
+      current_time: 89,
+      duration: 100,
+      user_id: user.id
+    }
 
-    test "update_movie/2 with invalid data returns error changeset" do
-      user = AccountsFixtures.user_fixture()
-      movie = movie_fixture(%{user_id: user.id})
-      assert {:error, %Ecto.Changeset{}} = Continues.update_movie(movie, @invalid_attrs)
-      assert movie == Continues.get_movie!(movie.id)
-    end
+    {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.update_or_create(update_attrs)
+    assert continue.media_id == 42
+    assert continue.current_time == 89
+    assert continue.duration == 100
+    assert continue.user_id == user.id
+  end
 
-    test "it should update continue" do
-      user = AccountsFixtures.user_fixture()
-      another_movie_fixture(%{user_id: user.id})
+  test "it should delete on update or create" do
+    user = AccountsFixtures.user_fixture()
+    MediaServer.ContinuesFixtures.create(%{user_id: user.id})
 
-      update_attrs = %{
-        media_id: 42,
-        current_time: 89,
-        duration: 100,
-        user_id: user.id
-      }
+    update_attrs = %{
+      media_id: 42,
+      current_time: 90,
+      duration: 100,
+      user_id: user.id
+    }
 
-      {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.update_or_create(update_attrs)
-      assert continue.media_id == 42
-      assert continue.current_time == 89
-      assert continue.duration == 100
-      assert continue.user_id == user.id
-    end
+    refute MediaServer.Accounts.UserContinues.update_or_create(update_attrs)
+  end
 
-    test "it should delete continue" do
-      user = AccountsFixtures.user_fixture()
-      another_movie_fixture(%{user_id: user.id})
+  test "it should create on update or create" do
+    user = AccountsFixtures.user_fixture()
+    MediaServer.ContinuesFixtures.create(%{user_id: user.id})
 
-      update_attrs = %{
-        media_id: 42,
-        current_time: 90,
-        duration: 100,
-        user_id: user.id
-      }
+    update_attrs = %{
+      media_id: 42,
+      current_time: 62,
+      duration: 86,
+      user_id: user.id
+    }
 
-      refute MediaServer.Accounts.UserContinues.update_or_create(update_attrs)
-    end
+    assert {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.update_or_create(update_attrs)
+    assert continue.media_id == 42
+    assert continue.current_time == 62
+    assert continue.duration == 86
+    assert continue.user_id == user.id
+  end
 
-    test "it should create continue" do
-      user = AccountsFixtures.user_fixture()
-      another_movie_fixture(%{user_id: user.id})
-
-      update_attrs = %{
-        media_id: 42,
-        current_time: 62,
-        duration: 86,
-        user_id: user.id
-      }
-
-      assert {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.update_or_create(update_attrs)
-      assert continue.media_id == 42
-      assert continue.current_time == 62
-      assert continue.duration == 86
-      assert continue.user_id == user.id
-    end
-
-    test "delete_movie/1 deletes the movie" do
-      user = AccountsFixtures.user_fixture()
-      movie = movie_fixture(%{user_id: user.id})
-      assert {:ok, %Movie{}} = Continues.delete_movie(movie)
-      assert_raise Ecto.NoResultsError, fn -> Continues.get_movie!(movie.id) end
-    end
-
-    test "change_movie/1 returns a movie changeset" do
-      user = AccountsFixtures.user_fixture()
-      movie = movie_fixture(%{user_id: user.id})
-      assert %Ecto.Changeset{} = Continues.change_movie(movie)
-    end
+  test "it should delete" do
+    user = AccountsFixtures.user_fixture()
+    continue = MediaServer.ContinuesFixtures.create(%{user_id: user.id})
+    assert {:ok, %MediaServer.Accounts.UserContinues{}} = MediaServer.Accounts.UserContinues.delete(continue.id)
+    assert_raise Ecto.NoResultsError, fn -> MediaServer.Accounts.UserContinues.find(continue.id) end
   end
 
   describe "episode_continues" do
