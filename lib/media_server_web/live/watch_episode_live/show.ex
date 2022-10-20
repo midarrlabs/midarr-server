@@ -16,7 +16,7 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(:episode_continues)
+        |> Repo.preload(:user_continues)
       )
     }
   end
@@ -65,7 +65,7 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
       )
       |> assign(
         :continue,
-        socket.assigns.current_user.episode_continues
+        socket.assigns.current_user.user_continues
         |> Enum.filter(fn item -> item.media_id == episode["id"] end)
         |> List.first()
       )

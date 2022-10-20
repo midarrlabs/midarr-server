@@ -16,8 +16,7 @@ defmodule MediaServerWeb.HomeLive.Index do
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(:movie_continues)
-        |> Repo.preload(:episode_continues)
+        |> Repo.preload(:user_continues)
       )
     }
   end
@@ -34,8 +33,7 @@ defmodule MediaServerWeb.HomeLive.Index do
       :noreply,
       socket
       |> assign(:movies, Indexer.get_latest(7))
-      |> assign(:movie_continues, socket.assigns.current_user.movie_continues |> Enum.take(4))
-      |> assign(:episode_continues, socket.assigns.current_user.episode_continues |> Enum.take(4))
+      |> assign(:user_continues, socket.assigns.current_user.user_continues)
     }
   end
 

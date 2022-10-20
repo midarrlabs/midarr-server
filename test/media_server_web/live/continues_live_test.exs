@@ -17,18 +17,12 @@ defmodule MediaServerWeb.ContinuesLiveTest do
   end
 
   test "it should delete", %{conn: conn, user: user} do
-    continue = ContinuesFixtures.create(%{user_id: user.id})
+    continue = ContinuesFixtures.create(%{
+      user_id: user.id
+    })
 
     {:ok, index_live, _html} = live(conn, Routes.continues_index_path(conn, :index))
 
-    assert index_live |> element("#movie-#{continue.id}") |> render_click()
-  end
-
-  test "it can delete episode continue", %{conn: conn, user: user} do
-    continue = ContinuesFixtures.create_episode(%{user_id: user.id})
-
-    {:ok, index_live, _html} = live(conn, Routes.continues_index_path(conn, :index))
-
-    assert index_live |> element("#episode-#{continue.id}") |> render_click()
+    assert index_live |> element("#media-#{continue.id}") |> render_click()
   end
 end

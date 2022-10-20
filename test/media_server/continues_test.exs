@@ -5,27 +5,25 @@ defmodule MediaServer.ContinuesTest do
 
   test "should find" do
     user = AccountsFixtures.user_fixture()
-    movie = MediaServer.ContinuesFixtures.create(%{user_id: user.id})
-    assert MediaServer.Accounts.UserContinues.find(movie.id) == movie
+    media = MediaServer.ContinuesFixtures.create(%{user_id: user.id})
+    assert MediaServer.Accounts.UserContinues.find(media.id) == media
   end
 
   test "it should create" do
     user = AccountsFixtures.user_fixture()
 
-    valid_attrs = %{
-      media_id: 42,
-      current_time: 42,
-      duration: 84,
-      user_id: user.id,
-      media_type_id: MediaServer.MediaTypes.get_id("movie")
-    }
+    assert {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.create(%{
+             media_id: 42,
+             current_time: 42,
+             duration: 84,
+             user_id: user.id,
+             media_type_id: MediaServer.MediaTypes.get_id("movie")
+           })
 
-    assert {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.create(valid_attrs)
     assert continue.media_id == 42
     assert continue.current_time == 42
     assert continue.duration == 84
     assert continue.user_id == user.id
-    assert continue.media_type_id == MediaServer.MediaTypes.get_id("movie")
   end
 
   test "it should error on create" do
@@ -41,14 +39,13 @@ defmodule MediaServer.ContinuesTest do
     user = AccountsFixtures.user_fixture()
     continue = MediaServer.ContinuesFixtures.create(%{user_id: user.id})
 
-    update_attrs = %{
-      media_id: 42,
-      current_time: 62,
-      duration: 86,
-      user_id: user.id
-    }
+    assert {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.update(continue.id, %{
+             media_id: 42,
+             current_time: 62,
+             duration: 86,
+             user_id: user.id
+           })
 
-    assert {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.update(continue.id, update_attrs)
     assert continue.media_id == 42
     assert continue.current_time == 62
     assert continue.duration == 86
@@ -70,14 +67,13 @@ defmodule MediaServer.ContinuesTest do
     user = AccountsFixtures.user_fixture()
     MediaServer.ContinuesFixtures.create(%{user_id: user.id})
 
-    update_attrs = %{
+    {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.update_or_create(%{
       media_id: 42,
       current_time: 89,
       duration: 100,
       user_id: user.id
-    }
+    })
 
-    {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.update_or_create(update_attrs)
     assert continue.media_id == 42
     assert continue.current_time == 89
     assert continue.duration == 100
@@ -88,28 +84,25 @@ defmodule MediaServer.ContinuesTest do
     user = AccountsFixtures.user_fixture()
     MediaServer.ContinuesFixtures.create(%{user_id: user.id})
 
-    update_attrs = %{
+    refute MediaServer.Accounts.UserContinues.update_or_create(%{
       media_id: 42,
       current_time: 90,
       duration: 100,
       user_id: user.id
-    }
-
-    refute MediaServer.Accounts.UserContinues.update_or_create(update_attrs)
+    })
   end
 
   test "it should create on update or create" do
     user = AccountsFixtures.user_fixture()
     MediaServer.ContinuesFixtures.create(%{user_id: user.id})
 
-    update_attrs = %{
-      media_id: 42,
-      current_time: 62,
-      duration: 86,
-      user_id: user.id
-    }
+    assert {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.update_or_create(%{
+             media_id: 42,
+             current_time: 62,
+             duration: 86,
+             user_id: user.id
+           })
 
-    assert {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.update_or_create(update_attrs)
     assert continue.media_id == 42
     assert continue.current_time == 62
     assert continue.duration == 86

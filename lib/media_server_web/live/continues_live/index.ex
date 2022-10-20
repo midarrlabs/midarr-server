@@ -13,8 +13,7 @@ defmodule MediaServerWeb.ContinuesLive.Index do
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(:movie_continues)
-        |> Repo.preload(:episode_continues)
+        |> Repo.preload(:user_continues)
       )
     }
   end
@@ -24,8 +23,7 @@ defmodule MediaServerWeb.ContinuesLive.Index do
     {
       :noreply,
       socket
-      |> assign(:movie_continues, socket.assigns.current_user.movie_continues)
-      |> assign(:episode_continues, socket.assigns.current_user.episode_continues)
+      |> assign(:user_continues, socket.assigns.current_user.user_continues)
     }
   end
 end

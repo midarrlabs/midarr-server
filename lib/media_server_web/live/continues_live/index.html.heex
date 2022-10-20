@@ -13,9 +13,9 @@
 
   <div>
     <ul role="list" class="mt-6 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      <%= for item <- @movie_continues do %>
+      <%= for item <- @user_continues do %>
         <%= live_component(MediaServerWeb.Components.ContinueComponent,
-          id: "movie-#{item.id}",
+          id: "media-#{item.id}",
           id_item: item.id,
           minutes_remaining:
             MediaServerWeb.Helpers.minutes_remaining_from_seconds(
@@ -27,25 +27,7 @@
               item.current_time,
               item.duration
             ),
-          event: "delete_movie"
-        ) %>
-      <% end %>
-
-      <%= for item <- @episode_continues do %>
-        <%= live_component(MediaServerWeb.Components.ContinueComponent,
-          id: "episode-#{item.id}",
-          id_item: item.id,
-          minutes_remaining:
-            MediaServerWeb.Helpers.minutes_remaining_from_seconds(
-              item.duration,
-              item.current_time
-            ),
-          percentage_complete:
-            MediaServerWeb.Helpers.percentage_complete_from_seconds(
-              item.current_time,
-              item.duration
-            ),
-          event: "delete_episode"
+          event: "delete_continue"
         ) %>
       <% end %>
     </ul>
