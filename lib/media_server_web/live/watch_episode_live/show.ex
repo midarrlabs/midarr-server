@@ -4,8 +4,6 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
   alias MediaServer.Repo
   alias MediaServer.Accounts
   alias MediaServerWeb.Repositories.Episodes
-  alias MediaServer.Continues
-  alias MediaServer.Components
   alias MediaServer.Actions
 
   @impl true
