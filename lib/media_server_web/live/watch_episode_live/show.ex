@@ -4,7 +4,6 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
   alias MediaServer.Repo
   alias MediaServer.Accounts
   alias MediaServerWeb.Repositories.Episodes
-  alias MediaServer.Actions
 
   @impl true
   def mount(_params, session, socket) do
@@ -93,11 +92,10 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
   def handle_event("video_played", _params, socket) do
     action = MediaServer.Action.list_actions() |> List.first()
 
-    Actions.create_episode(%{
-      episode_id: socket.assigns.episode["id"],
-      serie_id: socket.assigns.episode["seriesId"],
-      title: socket.assigns.episode["title"],
+    MediaServer.Accounts.UserMedia.create(%{
+      media_id: socket.assigns.episode["id"],
       user_id: socket.assigns.current_user.id,
+      media_type_id: MediaServer.MediaTypes.get_id("episode"),
       user_action_id: action.id
     })
 

@@ -3,8 +3,6 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
 
   alias MediaServer.Repo
   alias MediaServer.Accounts
-
-  alias MediaServer.Actions
   alias MediaServer.Movies.Indexer
 
   @impl true

@@ -5,7 +5,6 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
   alias MediaServer.AccountsFixtures
   alias MediaServer.Fixtures.UserActions
-  alias MediaServer.Actions
 
   alias MediaServerWeb.Repositories.Series
   alias MediaServerWeb.Repositories.Episodes
@@ -28,7 +27,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
     render_hook(view, :video_played)
 
-    assert Enum.count(Actions.list_episode_actions()) === 1
+    assert Enum.count(MediaServer.Accounts.UserMedia.all()) === 1
   end
 
   test "it should continue", %{conn: conn} do
