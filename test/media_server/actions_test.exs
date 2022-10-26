@@ -18,13 +18,13 @@ defmodule MediaServer.ActionsTest do
     }
 
     test "list_movie_actions/0 returns all movie_actions" do
-      movie = movie_fixture()
-      assert Actions.list_movie_actions() == [movie]
+      movie = MediaServer.ActionsFixtures.create()
+      assert MediaServer.Accounts.UserMedia.all() == [movie]
     end
 
     test "get_movie!/1 returns the movie with given id" do
-      movie = movie_fixture()
-      assert Actions.get_movie!(movie.id) == movie
+      movie = MediaServer.ActionsFixtures.create()
+      assert MediaServer.Accounts.UserMedia.get(movie.id) == movie
     end
 
     test "create_movie/1 with valid data creates a movie" do

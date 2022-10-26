@@ -4,9 +4,27 @@ defmodule MediaServer.ActionsFixtures do
   entities via the `MediaServer.Actions` context.
   """
 
-  alias MediaServer.Actions
   alias MediaServer.AccountsFixtures
   alias MediaServer.Fixtures.UserActions
+
+  def create(attrs \\ %{}) do
+    action = UserActions.action_fixture()
+    user = AccountsFixtures.user_fixture()
+
+    {:ok, %MediaServer.MediaTypes{} = media} = MediaServer.MediaTypes.create(%{type: "some type"})
+
+    {:ok, movie} =
+      attrs
+      |> Enum.into(%{
+        media_id: 42,
+        user_id: user.id,
+        user_action_id: action.id,
+        media_type_id: media.id
+      })
+      |> MediaServer.Accounts.UserMedia.create()
+
+    movie
+  end
 
   @doc """
   Generate a movie.
@@ -26,10 +44,6 @@ defmodule MediaServer.ActionsFixtures do
       |> MediaServer.Actions.create_movie()
 
     movie
-  end
-
-  def get_movie_played() do
-    Actions.list_movie_actions()
   end
 
   @doc """

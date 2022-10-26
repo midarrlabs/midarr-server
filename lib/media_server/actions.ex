@@ -9,19 +9,6 @@ defmodule MediaServer.Actions do
   alias MediaServer.Movies.Action, as: Movie
 
   @doc """
-  Returns the list of movie_actions.
-
-  ## Examples
-
-      iex> list_movie_actions()
-      [%Movie{}, ...]
-
-  """
-  def list_movie_actions do
-    Repo.all(Movie)
-  end
-
-  @doc """
   Gets a single movie.
 
   Raises `Ecto.NoResultsError` if the Movie does not exist.

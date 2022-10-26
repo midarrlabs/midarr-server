@@ -94,10 +94,10 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
   def handle_event("video_played", _params, socket) do
     action = MediaServer.Action.list_actions() |> List.first()
 
-    Actions.create_movie(%{
-      movie_id: socket.assigns.movie["id"],
-      title: socket.assigns.movie["title"],
+    MediaServer.Accounts.UserMedia.create(%{
+      media_id: socket.assigns.movie["id"],
       user_id: socket.assigns.current_user.id,
+      media_type_id: MediaServer.MediaTypes.get_id("movie"),
       user_action_id: action.id
     })
 
