@@ -6,8 +6,6 @@ defmodule MediaServer.MediaTypes do
 
   schema "media_types" do
     field :type, :string
-
-    timestamps()
   end
 
   def changeset(media_type, attrs) do

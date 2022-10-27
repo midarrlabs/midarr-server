@@ -4,10 +4,8 @@ defmodule MediaServer.Action do
 
   alias MediaServer.Repo
 
-  schema "user_actions" do
+  schema "actions" do
     field :action, :string
-
-    timestamps()
   end
 
   def changeset(action, attrs) do
