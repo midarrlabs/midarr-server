@@ -106,9 +106,9 @@
 
                   <div class="mt-4 border-t border-gray-200">
                     <.form
-                      id="playlist-form"
+                      id="playlists-form"
                       let={f}
-                      for={:playlist}
+                      for={:playlists}
                       phx-change="save"
                       class="divide-y divide-gray-200"
                     >
@@ -116,7 +116,7 @@
                         <div class="relative flex items-start py-4">
                           <div class="min-w-0 flex-1 text-sm">
                             <label
-                              for={"playlist-#{item.id}"}
+                              for={"playlists-#{item.id}"}
                               class="select-none font-medium text-gray-700"
                             >
                               <%= item.name %>
@@ -125,7 +125,7 @@
 
                           <div class="ml-3 flex h-5 items-center">
                             <%= checkbox(f, "#{item.id}",
-                              id: "playlist-#{item.id}",
+                              id: "playlists-#{item.id}",
                               checked:
                                 Enum.any?(item.playlist_media, fn x ->
                                   x.media.media_id == String.to_integer(@id)

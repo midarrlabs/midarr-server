@@ -16,7 +16,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(playlists: from(p in MediaServer.Playlist, order_by: [desc: p.id]))
+        |> Repo.preload(playlists: from(p in MediaServer.Playlists, order_by: [desc: p.id]))
         |> Repo.preload(playlists: [playlist_media: :media])
       )
     }
@@ -51,14 +51,14 @@ defmodule MediaServerWeb.MoviesLive.Show do
   end
 
   @impl true
-  def handle_event("save", %{"playlist" => playlist}, socket) do
+  def handle_event("save", %{"playlists" => playlists}, socket) do
     media =
       MediaServer.Media.find_or_create(%{
         media_id: socket.assigns.movie["id"],
         media_type_id: MediaServer.MediaTypes.get_id("movie")
       })
 
-    MediaServer.PlaylistMedia.insert_or_delete(playlist, %{
+    MediaServer.PlaylistMedia.insert_or_delete(playlists, %{
       media_id: media.id
     })
 

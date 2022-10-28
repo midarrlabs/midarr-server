@@ -11,7 +11,7 @@ defmodule MediaServer.Accounts.User do
     field :is_admin, :boolean
 
     has_many :continues, MediaServer.Continues
-    has_many :playlists, MediaServer.Playlist
+    has_many :playlists, MediaServer.Playlists
 
     timestamps()
   end

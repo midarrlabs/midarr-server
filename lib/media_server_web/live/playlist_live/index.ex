@@ -15,7 +15,7 @@ defmodule MediaServerWeb.PlaylistLive.Index do
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(playlists: from(p in MediaServer.Playlist, order_by: [desc: p.id]))
+        |> Repo.preload(playlists: from(p in MediaServer.Playlists, order_by: [desc: p.id]))
       )
     }
   end
@@ -28,9 +28,9 @@ defmodule MediaServerWeb.PlaylistLive.Index do
   end
 
   @impl true
-  def handle_event("save", %{"playlist" => playlist}, socket) do
-    case MediaServer.Playlist.create(playlist) do
-      {:ok, _playlist} ->
+  def handle_event("save", %{"playlists" => playlists}, socket) do
+    case MediaServer.Playlists.create(playlists) do
+      {:ok, _playlists} ->
         {:noreply,
          socket
          |> push_redirect(to: Routes.playlist_index_path(socket, :index))}

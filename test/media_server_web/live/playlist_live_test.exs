@@ -9,7 +9,7 @@ defmodule MediaServerWeb.PlaylistLiveTest do
     user = AccountsFixtures.user_fixture()
 
     {:ok, playlist} =
-      MediaServer.Playlist.create(%{user_id: user.id, name: "some playlist"})
+      MediaServer.Playlists.create(%{user_id: user.id, name: "some playlist"})
 
     %{conn: conn |> log_in_user(user), user: user, playlist: playlist}
   end
@@ -18,7 +18,7 @@ defmodule MediaServerWeb.PlaylistLiveTest do
     anotherUser = AccountsFixtures.user_fixture()
 
     {:ok, anotherPlaylist} =
-      MediaServer.Playlist.create(%{user_id: anotherUser.id, name: "another playlist"})
+      MediaServer.Playlists.create(%{user_id: anotherUser.id, name: "another playlist"})
 
     {:ok, _index_live, html} = live(conn, Routes.playlist_index_path(conn, :index))
 
@@ -33,7 +33,7 @@ defmodule MediaServerWeb.PlaylistLiveTest do
 
     {:ok, _, html} =
       index_live
-      |> form("#playlist-form", playlist: %{name: "some name"})
+      |> form("#playlists-form", playlists: %{name: "some name"})
       |> render_submit()
       |> follow_redirect(conn, Routes.playlist_index_path(conn, :index))
 
@@ -48,7 +48,7 @@ defmodule MediaServerWeb.PlaylistLiveTest do
     anotherUser = AccountsFixtures.user_fixture()
 
     {:ok, anotherPlaylist} =
-      MediaServer.Playlist.create(%{user_id: anotherUser.id, name: "another playlist"})
+      MediaServer.Playlists.create(%{user_id: anotherUser.id, name: "another playlist"})
 
     assert_raise Ecto.NoResultsError, fn ->
       live(conn, Routes.playlist_show_path(conn, :show, anotherPlaylist))

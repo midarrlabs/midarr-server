@@ -17,13 +17,13 @@ defmodule MediaServerWeb.PlaylistLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _url, socket) do
-    query = from playlist in MediaServer.Playlist, where: playlist.user_id == ^socket.assigns.current_user.id
+    query = from playlists in MediaServer.Playlists, where: playlists.user_id == ^socket.assigns.current_user.id
 
-    playlist = Repo.get!(query, id)
+    playlists = Repo.get!(query, id)
 
     {:noreply,
      socket
-     |> assign(:page_title, playlist.name)
-     |> assign(:playlist, playlist |> Repo.preload(playlist_media: [:media]))}
+     |> assign(:page_title, playlists.name)
+     |> assign(:playlists, playlists |> Repo.preload(playlist_media: [:media]))}
   end
 end

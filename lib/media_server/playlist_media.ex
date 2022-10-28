@@ -5,7 +5,7 @@ defmodule MediaServer.PlaylistMedia do
   alias MediaServer.Repo
 
   schema "playlist_media" do
-    belongs_to :playlist, MediaServer.Playlist
+    belongs_to :playlists, MediaServer.Playlists
     belongs_to :media, MediaServer.Media
 
     timestamps()
@@ -13,8 +13,8 @@ defmodule MediaServer.PlaylistMedia do
 
   def changeset(movie, attrs) do
     movie
-    |> cast(attrs, [:playlist_id, :media_id])
-    |> validate_required([:playlist_id, :media_id])
+    |> cast(attrs, [:playlists_id, :media_id])
+    |> validate_required([:playlists_id, :media_id])
   end
 
   def create(attrs \\ %{}) do
@@ -43,13 +43,13 @@ defmodule MediaServer.PlaylistMedia do
 
       case result do
         "true" ->
-          media = Repo.get_by(__MODULE__, playlist_id: id, media_id: attrs.media_id)
+          media = Repo.get_by(__MODULE__, playlists_id: id, media_id: attrs.media_id)
 
           case media do
             nil ->
               attrs
               |> Enum.into(%{
-                playlist_id: id
+                playlists_id: id
               })
               |> create()
 
@@ -58,7 +58,7 @@ defmodule MediaServer.PlaylistMedia do
           end
 
         "false" ->
-          media = Repo.get_by(__MODULE__, playlist_id: id, media_id: attrs.media_id)
+          media = Repo.get_by(__MODULE__, playlists_id: id, media_id: attrs.media_id)
 
           case media do
             nil -> nil
