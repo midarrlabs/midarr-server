@@ -128,7 +128,7 @@
                               id: "playlist-#{item.id}",
                               checked:
                                 Enum.any?(item.playlist_media, fn x ->
-                                  x.media_id == String.to_integer(@id)
+                                  x.media.media_id == String.to_integer(@id)
                                 end),
                               class:
                                 "h-4 w-4 rounded border-gray-300 text-slate-600 focus:ring-slate-500"

@@ -51,34 +51,23 @@ defmodule MediaServerWeb.MoviesLiveTest do
     {:ok, view, _disconnected_html} =
       live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
-    assert MediaServer.Movies.Playlist.all() |> Enum.empty?()
-
     send(view.pid, {:cast, cast})
 
     view
     |> form("#playlist-form", playlist: %{"1" => "true"})
     |> render_change()
 
-    playlist_movie = MediaServer.Media.all() |> List.first()
+    playlist_movie = MediaServer.Movies.Playlist.all() |> List.first()
+    media = MediaServer.Media.all() |> List.first()
 
-    assert playlist_movie.media_id === movie["id"]
+    assert playlist_movie.media_id === media.id
   end
 
   test "it should delete from playlist", %{conn: conn, user: user} do
     movie = Indexer.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
-    {:ok, playlist} = MediaServer.Playlists.Playlist.create(%{name: "some playlist", user_id: user.id})
-
-    media = MediaServer.Media.find_or_create(%{
-      media_id: movie["id"],
-      media_type_id: MediaServer.MediaTypes.get_id("movie")
-    })
-
-    MediaServer.Movies.Playlist.create(%{playlist_id: playlist.id, media_id: media.id})
-
-    playlist_movie = MediaServer.Media.all() |> List.first()
-
-    assert playlist_movie.media_id === movie["id"]
+    MediaServer.Playlists.Playlist.create(%{name: "some playlist", user_id: user.id})
+    MediaServer.Playlists.Playlist.create(%{name: "another playlist", user_id: user.id})
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
@@ -86,10 +75,16 @@ defmodule MediaServerWeb.MoviesLiveTest do
     send(view.pid, {:cast, cast})
 
     view
-    |> form("#playlist-form", playlist: %{"1" => "false"})
+    |> form("#playlist-form", playlist: %{"1" => "true", "2" => "true"})
     |> render_change()
 
-    assert MediaServer.Movies.Playlist.all() |> Enum.empty?()
+    assert Enum.count(MediaServer.Movies.Playlist.all()) === 2
+
+    view
+    |> form("#playlist-form", playlist: %{"1" => "false", "2" => "true"})
+    |> render_change()
+
+    assert Enum.count(MediaServer.Movies.Playlist.all()) === 1
   end
 
   test "it should play", %{conn: conn} do

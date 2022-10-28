@@ -20,7 +20,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
         |> Repo.preload(playlists: from(p in Playlists.Playlist, order_by: [desc: p.id]))
-        |> Repo.preload(playlists: [:playlist_media])
+        |> Repo.preload(playlists: [playlist_media: :media])
       )
     }
   end

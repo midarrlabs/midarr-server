@@ -18,9 +18,9 @@
     >
       <%= for item <- @playlist.playlist_media do %>
         <%= MediaServerWeb.Components.PosterComponent.render(%{
-          img_src: item.image_url,
-          title: item.title,
-          link: Routes.movies_show_path(@socket, :show, item.movie_id)
+          img_src: "",
+          title: "",
+          link: Routes.movies_show_path(@socket, :show, item.media.media_id)
         }) %>
       <% end %>
     </ul>

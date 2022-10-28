@@ -8,6 +8,8 @@ defmodule MediaServer.Movies.Playlist do
 
     belongs_to :playlist, MediaServer.Playlists.Playlist
     belongs_to :media, MediaServer.Media
+
+    timestamps()
   end
 
   def changeset(movie, attrs) do

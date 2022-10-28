@@ -25,6 +25,6 @@ defmodule MediaServerWeb.PlaylistLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, playlist.name)
-     |> assign(:playlist, playlist |> Repo.preload(:playlist_media))}
+     |> assign(:playlist, playlist |> Repo.preload(playlist_media: [:media]))}
   end
 end
