@@ -10,7 +10,7 @@ defmodule MediaServer.Accounts.User do
     field :confirmed_at, :naive_datetime
     field :is_admin, :boolean
 
-    has_many :continues, MediaServer.Accounts.UserContinues
+    has_many :continues, MediaServer.Continues
     has_many :playlists, MediaServer.Playlists.Playlist
 
     timestamps()

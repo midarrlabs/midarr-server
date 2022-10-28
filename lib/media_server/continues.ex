@@ -1,4 +1,4 @@
-defmodule MediaServer.Accounts.UserContinues do
+defmodule MediaServer.Continues do
   use Ecto.Schema
   import Ecto.Changeset
 

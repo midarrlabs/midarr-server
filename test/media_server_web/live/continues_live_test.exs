@@ -19,7 +19,7 @@ defmodule MediaServerWeb.ContinuesLiveTest do
     {:ok, %MediaServer.MediaTypes{} = mediaType} = MediaServer.MediaTypes.create(%{type: "some type"})
     {:ok, %MediaServer.Media{} = media} = MediaServer.Media.create(%{media_id: 123, media_type_id: mediaType.id})
 
-    {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.create(%{
+    {:ok, continue} = MediaServer.Continues.create(%{
       current_time: 42,
       duration: 84,
       user_id: user.id,

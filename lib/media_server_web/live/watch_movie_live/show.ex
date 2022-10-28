@@ -85,7 +85,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
       media_type_id: MediaServer.MediaTypes.get_id("movie")
     })
 
-    MediaServer.Accounts.UserContinues.update_or_create(%{
+    MediaServer.Continues.update_or_create(%{
       media_id: media.id,
       current_time: current_time,
       duration: duration,
