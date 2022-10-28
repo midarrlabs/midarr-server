@@ -8,8 +8,8 @@ defmodule MediaServer.MediaTypes do
     field :type, :string
   end
 
-  def changeset(media_type, attrs) do
-    media_type
+  def changeset(media_types, attrs) do
+    media_types
     |> cast(attrs, [:type])
     |> validate_required([:type])
   end

@@ -12,8 +12,8 @@ defmodule MediaServer.MediaActions do
     timestamps()
   end
 
-  def changeset(continue, attrs) do
-    continue
+  def changeset(media_actions, attrs) do
+    media_actions
     |> cast(attrs, [:user_id, :media_id, :action_id])
     |> validate_required([:user_id, :media_id, :action_id])
   end
