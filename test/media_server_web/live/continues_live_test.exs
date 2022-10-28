@@ -4,7 +4,6 @@ defmodule MediaServerWeb.ContinuesLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.ContinuesFixtures
 
   setup %{conn: conn} do
     user = AccountsFixtures.user_fixture()
@@ -17,8 +16,14 @@ defmodule MediaServerWeb.ContinuesLiveTest do
   end
 
   test "it should delete", %{conn: conn, user: user} do
-    continue = ContinuesFixtures.create(%{
-      user_id: user.id
+    {:ok, %MediaServer.MediaTypes{} = mediaType} = MediaServer.MediaTypes.create(%{type: "some type"})
+    {:ok, %MediaServer.Media{} = media} = MediaServer.Media.create(%{media_id: 123, media_type_id: mediaType.id})
+
+    {:ok, %MediaServer.Accounts.UserContinues{} = continue} = MediaServer.Accounts.UserContinues.create(%{
+      current_time: 42,
+      duration: 84,
+      user_id: user.id,
+      media_id: media.id,
     })
 
     {:ok, index_live, _html} = live(conn, Routes.continues_index_path(conn, :index))

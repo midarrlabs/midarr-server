@@ -30,7 +30,7 @@ defmodule MediaServerWeb.PlaylistLive.Index do
 
   @impl true
   def handle_event("save", %{"playlist" => playlist}, socket) do
-    case Playlists.create_playlist(playlist) do
+    case MediaServer.Playlists.Playlist.create(playlist) do
       {:ok, _playlist} ->
         {:noreply,
          socket

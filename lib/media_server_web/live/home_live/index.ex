@@ -16,7 +16,7 @@ defmodule MediaServerWeb.HomeLive.Index do
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(:user_continues)
+        |> Repo.preload(:continues)
       )
     }
   end
@@ -33,7 +33,7 @@ defmodule MediaServerWeb.HomeLive.Index do
       :noreply,
       socket
       |> assign(:movies, Indexer.get_latest(7))
-      |> assign(:user_continues, socket.assigns.current_user.user_continues)
+      |> assign(:user_continues, socket.assigns.current_user.continues)
     }
   end
 

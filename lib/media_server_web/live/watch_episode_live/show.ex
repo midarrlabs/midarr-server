@@ -13,7 +13,8 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(:user_continues)
+        |> Repo.preload(:continues)
+        |> Repo.preload(continues: [:media])
       )
     }
   end
@@ -62,8 +63,8 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
       )
       |> assign(
         :continue,
-        socket.assigns.current_user.user_continues
-        |> Enum.filter(fn item -> item.media_id == episode["id"] end)
+        socket.assigns.current_user.continues
+        |> Enum.filter(fn item -> item.media.media_id == episode["id"] end)
         |> List.first()
       )
     }
@@ -78,12 +79,17 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
         },
         socket
       ) do
-    MediaServer.Accounts.UserContinues.update_or_create(%{
+
+    media = MediaServer.Media.find_or_create(%{
       media_id: socket.assigns.episode["id"],
+      media_type_id: MediaServer.MediaTypes.get_id("episode")
+    })
+
+    MediaServer.Accounts.UserContinues.update_or_create(%{
+      media_id: media.id,
       current_time: current_time,
       duration: duration,
-      user_id: socket.assigns.current_user.id,
-      media_type_id: MediaServer.MediaTypes.get_id("episode")
+      user_id: socket.assigns.current_user.id
     })
 
     {:noreply, socket}

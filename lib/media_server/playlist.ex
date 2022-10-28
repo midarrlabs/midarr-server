@@ -2,20 +2,26 @@ defmodule MediaServer.Playlists.Playlist do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias MediaServer.Repo
+
   schema "playlists" do
     field :name, :string
-    field :can_delete, :boolean, default: true
 
     belongs_to :user, MediaServer.Accounts.User
-    has_many :movies, MediaServer.Movies.Playlist
+    has_many :playlist_media, MediaServer.Movies.Playlist
 
     timestamps()
   end
 
-  @doc false
   def changeset(playlist, attrs) do
     playlist
-    |> cast(attrs, [:name, :can_delete, :user_id])
-    |> validate_required([:name, :can_delete, :user_id])
+    |> cast(attrs, [:name, :user_id])
+    |> validate_required([:name, :user_id])
+  end
+
+  def create(attrs \\ %{}) do
+    %__MODULE__{}
+    |> changeset(attrs)
+    |> Repo.insert()
   end
 end

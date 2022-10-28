@@ -4,9 +4,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.Playlists
   alias MediaServerWeb.Repositories.Movies
-  alias MediaServer.PlaylistsFixtures
 
   alias MediaServer.Movies.Indexer
 
@@ -48,12 +46,12 @@ defmodule MediaServerWeb.MoviesLiveTest do
     movie = Indexer.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
 
-    PlaylistsFixtures.playlist_fixture(%{user_id: user.id})
+    MediaServer.Playlists.Playlist.create(%{name: "some playlist", user_id: user.id})
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
-    assert Playlists.list_playlist_movies() |> Enum.empty?()
+    assert MediaServer.Movies.Playlist.all() |> Enum.empty?()
 
     send(view.pid, {:cast, cast})
 
@@ -61,21 +59,26 @@ defmodule MediaServerWeb.MoviesLiveTest do
     |> form("#playlist-form", playlist: %{"1" => "true"})
     |> render_change()
 
-    playlist_movie = Playlists.list_playlist_movies() |> List.first()
+    playlist_movie = MediaServer.Media.all() |> List.first()
 
-    assert playlist_movie.movie_id === movie["id"]
+    assert playlist_movie.media_id === movie["id"]
   end
 
   test "it should delete from playlist", %{conn: conn, user: user} do
     movie = Indexer.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
-    playlist = PlaylistsFixtures.playlist_fixture(%{user_id: user.id})
+    {:ok, playlist} = MediaServer.Playlists.Playlist.create(%{name: "some playlist", user_id: user.id})
 
-    PlaylistsFixtures.movie_fixture(%{movie_id: movie["id"], playlist_id: playlist.id})
+    media = MediaServer.Media.find_or_create(%{
+      media_id: movie["id"],
+      media_type_id: MediaServer.MediaTypes.get_id("movie")
+    })
 
-    playlist_movie = Playlists.list_playlist_movies() |> List.first()
+    MediaServer.Movies.Playlist.create(%{playlist_id: playlist.id, media_id: media.id})
 
-    assert playlist_movie.movie_id === movie["id"]
+    playlist_movie = MediaServer.Media.all() |> List.first()
+
+    assert playlist_movie.media_id === movie["id"]
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
@@ -86,7 +89,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
     |> form("#playlist-form", playlist: %{"1" => "false"})
     |> render_change()
 
-    assert Playlists.list_playlist_movies() |> Enum.empty?()
+    assert MediaServer.Movies.Playlist.all() |> Enum.empty?()
   end
 
   test "it should play", %{conn: conn} do

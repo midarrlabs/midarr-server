@@ -4,21 +4,20 @@ defmodule MediaServer.Accounts.UserContinues do
 
   alias MediaServer.Repo
 
-  schema "user_continues" do
-    field :media_id, :integer
+  schema "continues" do
     field :current_time, :integer
     field :duration, :integer
 
     belongs_to :user, MediaServer.Accounts.User
-    belongs_to :media_type, MediaServer.MediaTypes
+    belongs_to :media, MediaServer.Media
 
     timestamps()
   end
 
   def changeset(continue, attrs) do
     continue
-    |> cast(attrs, [:media_id, :current_time, :duration, :user_id, :media_type_id])
-    |> validate_required([:media_id, :current_time, :duration, :user_id, :media_type_id])
+    |> cast(attrs, [:current_time, :duration, :user_id, :media_id])
+    |> validate_required([:current_time, :duration, :user_id, :media_id])
   end
 
   def create(attrs \\ %{}) do
