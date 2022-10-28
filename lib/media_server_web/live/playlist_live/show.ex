@@ -5,7 +5,6 @@ defmodule MediaServerWeb.PlaylistLive.Show do
 
   alias MediaServer.Repo
   alias MediaServer.Accounts
-  alias MediaServer.Playlists.Playlist
 
   @impl true
   def mount(_params, session, socket) do
@@ -18,7 +17,7 @@ defmodule MediaServerWeb.PlaylistLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _url, socket) do
-    query = from playlist in Playlist, where: playlist.user_id == ^socket.assigns.current_user.id
+    query = from playlist in MediaServer.Playlist, where: playlist.user_id == ^socket.assigns.current_user.id
 
     playlist = Repo.get!(query, id)
 

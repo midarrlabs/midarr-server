@@ -1,10 +1,10 @@
-defmodule MediaServer.Playlists.Playlist do
+defmodule MediaServer.Playlist do
   use Ecto.Schema
   import Ecto.Changeset
 
   alias MediaServer.Repo
 
-  schema "playlists" do
+  schema "playlist" do
     field :name, :string
 
     belongs_to :user, MediaServer.Accounts.User

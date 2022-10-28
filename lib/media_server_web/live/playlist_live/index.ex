@@ -6,7 +6,6 @@ defmodule MediaServerWeb.PlaylistLive.Index do
   alias Phoenix.LiveView.JS
   alias MediaServer.Repo
   alias MediaServer.Accounts
-  alias MediaServer.Playlists
 
   @impl true
   def mount(_params, session, socket) do
@@ -16,7 +15,7 @@ defmodule MediaServerWeb.PlaylistLive.Index do
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(playlists: from(p in Playlists.Playlist, order_by: [desc: p.id]))
+        |> Repo.preload(playlists: from(p in MediaServer.Playlist, order_by: [desc: p.id]))
       )
     }
   end
@@ -30,7 +29,7 @@ defmodule MediaServerWeb.PlaylistLive.Index do
 
   @impl true
   def handle_event("save", %{"playlist" => playlist}, socket) do
-    case MediaServer.Playlists.Playlist.create(playlist) do
+    case MediaServer.Playlist.create(playlist) do
       {:ok, _playlist} ->
         {:noreply,
          socket

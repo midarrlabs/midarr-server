@@ -44,7 +44,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
     movie = MediaServer.MovieIndexer.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
 
-    MediaServer.Playlists.Playlist.create(%{name: "some playlist", user_id: user.id})
+    MediaServer.Playlist.create(%{name: "some playlist", user_id: user.id})
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
@@ -64,8 +64,8 @@ defmodule MediaServerWeb.MoviesLiveTest do
   test "it should delete from playlist", %{conn: conn, user: user} do
     movie = MediaServer.MovieIndexer.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
-    MediaServer.Playlists.Playlist.create(%{name: "some playlist", user_id: user.id})
-    MediaServer.Playlists.Playlist.create(%{name: "another playlist", user_id: user.id})
+    MediaServer.Playlist.create(%{name: "some playlist", user_id: user.id})
+    MediaServer.Playlist.create(%{name: "another playlist", user_id: user.id})
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.movies_show_path(conn, :show, movie["id"]))

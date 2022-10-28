@@ -8,8 +8,8 @@ defmodule MediaServerWeb.PlaylistLiveTest do
   setup %{conn: conn} do
     user = AccountsFixtures.user_fixture()
 
-    {:ok, %MediaServer.Playlists.Playlist{} = playlist} =
-      MediaServer.Playlists.Playlist.create(%{user_id: user.id, name: "some playlist"})
+    {:ok, playlist} =
+      MediaServer.Playlist.create(%{user_id: user.id, name: "some playlist"})
 
     %{conn: conn |> log_in_user(user), user: user, playlist: playlist}
   end
@@ -17,8 +17,8 @@ defmodule MediaServerWeb.PlaylistLiveTest do
   test "it should list only logged in user playlists", %{conn: conn, playlist: playlist} do
     anotherUser = AccountsFixtures.user_fixture()
 
-    {:ok, %MediaServer.Playlists.Playlist{} = anotherPlaylist} =
-      MediaServer.Playlists.Playlist.create(%{user_id: anotherUser.id, name: "another playlist"})
+    {:ok, anotherPlaylist} =
+      MediaServer.Playlist.create(%{user_id: anotherUser.id, name: "another playlist"})
 
     {:ok, _index_live, html} = live(conn, Routes.playlist_index_path(conn, :index))
 
@@ -47,8 +47,8 @@ defmodule MediaServerWeb.PlaylistLiveTest do
 
     anotherUser = AccountsFixtures.user_fixture()
 
-    {:ok, %MediaServer.Playlists.Playlist{} = anotherPlaylist} =
-      MediaServer.Playlists.Playlist.create(%{user_id: anotherUser.id, name: "another playlist"})
+    {:ok, anotherPlaylist} =
+      MediaServer.Playlist.create(%{user_id: anotherUser.id, name: "another playlist"})
 
     assert_raise Ecto.NoResultsError, fn ->
       live(conn, Routes.playlist_show_path(conn, :show, anotherPlaylist))
