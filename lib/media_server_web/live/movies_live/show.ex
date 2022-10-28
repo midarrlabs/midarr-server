@@ -9,8 +9,6 @@ defmodule MediaServerWeb.MoviesLive.Show do
   alias MediaServerWeb.Repositories.Movies
   alias MediaServer.Playlists
 
-  alias MediaServer.Movies.Indexer
-
   @impl true
   def mount(_params, session, socket) do
     {
@@ -33,7 +31,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
       send(pid, {:cast, Movies.get_cast(id)})
     end)
 
-    movie = Indexer.get_movie(id)
+    movie = MediaServer.MovieIndexer.get_movie(id)
 
     {
       :noreply,

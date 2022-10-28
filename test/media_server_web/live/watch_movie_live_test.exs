@@ -5,14 +5,12 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
   alias MediaServer.AccountsFixtures
 
-  alias MediaServer.Movies.Indexer
-
   setup %{conn: conn} do
     %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
   end
 
   test "it should watch", %{conn: conn} do
-    movie = Indexer.get_movie("1")
+    movie = MediaServer.MovieIndexer.get_movie("1")
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
@@ -23,7 +21,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   end
 
   test "it should have 1 movie entry in media", %{conn: conn} do
-    movie = Indexer.get_movie("1")
+    movie = MediaServer.MovieIndexer.get_movie("1")
 
     MediaServer.Media.create(%{
       media_id: movie["id"],
@@ -48,7 +46,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   end
 
   test "it should continue", %{conn: conn} do
-    movie = Indexer.get_movie("1")
+    movie = MediaServer.MovieIndexer.get_movie("1")
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
@@ -67,7 +65,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   end
 
   test "it should not continue", %{conn: conn} do
-    movie = Indexer.get_movie("1")
+    movie = MediaServer.MovieIndexer.get_movie("1")
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
@@ -86,7 +84,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   end
 
   test "it should subtitle", %{conn: conn} do
-    movie = Indexer.get_movie("1")
+    movie = MediaServer.MovieIndexer.get_movie("1")
 
     {:ok, _view, disconnected_html} =
       live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))

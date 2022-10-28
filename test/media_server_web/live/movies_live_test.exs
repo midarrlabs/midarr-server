@@ -6,8 +6,6 @@ defmodule MediaServerWeb.MoviesLiveTest do
   alias MediaServer.AccountsFixtures
   alias MediaServerWeb.Repositories.Movies
 
-  alias MediaServer.Movies.Indexer
-
   setup %{conn: conn} do
     user = AccountsFixtures.user_fixture()
 
@@ -32,7 +30,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
   end
 
   test "it should render show", %{conn: conn} do
-    movie = Indexer.get_movie("1")
+    movie = MediaServer.MovieIndexer.get_movie("1")
     cast = Movies.get_cast(movie["id"])
 
     {:ok, view, disconnected_html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
@@ -43,7 +41,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
   end
 
   test "it should add to playlist", %{conn: conn, user: user} do
-    movie = Indexer.get_all() |> List.first()
+    movie = MediaServer.MovieIndexer.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
 
     MediaServer.Playlists.Playlist.create(%{name: "some playlist", user_id: user.id})
@@ -64,7 +62,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
   end
 
   test "it should delete from playlist", %{conn: conn, user: user} do
-    movie = Indexer.get_all() |> List.first()
+    movie = MediaServer.MovieIndexer.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
     MediaServer.Playlists.Playlist.create(%{name: "some playlist", user_id: user.id})
     MediaServer.Playlists.Playlist.create(%{name: "another playlist", user_id: user.id})
@@ -88,7 +86,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
   end
 
   test "it should play", %{conn: conn} do
-    movie = Indexer.get_all() |> List.first()
+    movie = MediaServer.MovieIndexer.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
 
     {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))

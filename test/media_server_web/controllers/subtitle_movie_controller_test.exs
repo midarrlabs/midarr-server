@@ -1,10 +1,8 @@
 defmodule MediaServerWeb.SubtitleMovieControllerTest do
   use MediaServerWeb.ConnCase
 
-  alias MediaServer.Movies.Indexer
-
   test "movie", %{conn: conn} do
-    movie = Indexer.get_movie("1")
+    movie = MediaServer.MovieIndexer.get_movie("1")
 
     token = Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", "id")
 
