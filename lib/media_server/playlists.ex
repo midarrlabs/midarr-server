@@ -8,7 +8,7 @@ defmodule MediaServer.Playlists.Playlist do
     field :name, :string
 
     belongs_to :user, MediaServer.Accounts.User
-    has_many :playlist_media, MediaServer.Movies.Playlist
+    has_many :playlist_media, MediaServer.PlaylistMedia
 
     timestamps()
   end

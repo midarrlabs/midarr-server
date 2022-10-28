@@ -55,7 +55,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
     |> form("#playlist-form", playlist: %{"1" => "true"})
     |> render_change()
 
-    playlist_movie = MediaServer.Movies.Playlist.all() |> List.first()
+    playlist_movie = MediaServer.PlaylistMedia.all() |> List.first()
     media = MediaServer.Media.all() |> List.first()
 
     assert playlist_movie.media_id === media.id
@@ -76,13 +76,13 @@ defmodule MediaServerWeb.MoviesLiveTest do
     |> form("#playlist-form", playlist: %{"1" => "true", "2" => "true"})
     |> render_change()
 
-    assert Enum.count(MediaServer.Movies.Playlist.all()) === 2
+    assert Enum.count(MediaServer.PlaylistMedia.all()) === 2
 
     view
     |> form("#playlist-form", playlist: %{"1" => "false", "2" => "true"})
     |> render_change()
 
-    assert Enum.count(MediaServer.Movies.Playlist.all()) === 1
+    assert Enum.count(MediaServer.PlaylistMedia.all()) === 1
   end
 
   test "it should play", %{conn: conn} do

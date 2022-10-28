@@ -59,7 +59,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
         media_type_id: MediaServer.MediaTypes.get_id("movie")
       })
 
-    MediaServer.Movies.Playlist.insert_or_delete(playlist, %{
+    MediaServer.PlaylistMedia.insert_or_delete(playlist, %{
       media_id: media.id
     })
 
