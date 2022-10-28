@@ -4,18 +4,19 @@ defmodule MediaServer.Accounts.UserMedia do
 
   alias MediaServer.Repo
 
-  schema "media" do
-    field :media_id, :integer
+  schema "media_actions" do
 
-    belongs_to :media_type, MediaServer.MediaTypes
+    belongs_to :user, MediaServer.Accounts.User
+    belongs_to :media, MediaServer.Media
+    belongs_to :action, MediaServer.Action
 
     timestamps()
   end
 
   def changeset(continue, attrs) do
     continue
-    |> cast(attrs, [:media_id, :media_type_id])
-    |> validate_required([:media_id, :media_type_id])
+    |> cast(attrs, [:user_id, :media_id, :action_id])
+    |> validate_required([:user_id, :media_id, :action_id])
   end
 
   def create(attrs \\ %{}) do

@@ -98,11 +98,15 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
   def handle_event("video_played", _params, socket) do
     action = MediaServer.Action.list_actions() |> List.first()
 
-    MediaServer.Accounts.UserMedia.create(%{
+    media = MediaServer.Media.find_or_create(%{
       media_id: socket.assigns.episode["id"],
+      media_type_id: MediaServer.MediaTypes.get_id("episode")
+    })
+
+    MediaServer.Accounts.UserMedia.create(%{
+      media_id: media.id,
       user_id: socket.assigns.current_user.id,
-      media_type_id: MediaServer.MediaTypes.get_id("episode"),
-      user_action_id: action.id
+      action_id: action.id
     })
 
     {:noreply, socket}

@@ -4,13 +4,14 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.Fixtures.UserActions
 
   alias MediaServerWeb.Repositories.Series
   alias MediaServerWeb.Repositories.Episodes
 
   setup %{conn: conn} do
-    UserActions.action_fixture()
+    MediaServer.Action.create_action(%{
+      action: "some action"
+    })
 
     user = AccountsFixtures.user_fixture()
 
