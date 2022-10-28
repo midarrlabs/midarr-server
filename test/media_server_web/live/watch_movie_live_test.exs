@@ -4,16 +4,11 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.Fixtures.UserActions
 
   alias MediaServer.Movies.Indexer
 
   setup %{conn: conn} do
-    UserActions.action_fixture()
-
-    user = AccountsFixtures.user_fixture()
-
-    %{conn: conn |> log_in_user(user)}
+    %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
   end
 
   test "it should watch", %{conn: conn} do
