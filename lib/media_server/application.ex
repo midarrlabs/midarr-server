@@ -20,7 +20,7 @@ defmodule MediaServer.Application do
       # {MediaServer.Worker, arg}
       MediaServerWeb.Presence,
       MediaServer.Token,
-      MediaServer.Movies.Webhook,
+      MediaServer.MovieWebhook,
       MediaServer.MovieIndexer
     ]
 
