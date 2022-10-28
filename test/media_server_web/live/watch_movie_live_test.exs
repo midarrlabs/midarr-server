@@ -19,7 +19,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
     render_hook(view, :video_played)
 
-    assert Enum.count(MediaServer.Accounts.UserMedia.all()) === 1
+    assert Enum.count(MediaServer.MediaActions.all()) === 1
   end
 
   test "it should have 1 movie entry in media", %{conn: conn} do

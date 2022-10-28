@@ -103,7 +103,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
       media_type_id: MediaServer.MediaTypes.get_id("movie")
     })
 
-    MediaServer.Accounts.UserMedia.create(%{
+    MediaServer.MediaActions.create(%{
       media_id: media.id,
       user_id: socket.assigns.current_user.id,
       action_id: action.id

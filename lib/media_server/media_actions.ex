@@ -1,4 +1,4 @@
-defmodule MediaServer.Accounts.UserMedia do
+defmodule MediaServer.MediaActions do
   use Ecto.Schema
   import Ecto.Changeset
 

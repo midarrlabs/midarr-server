@@ -28,7 +28,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
     render_hook(view, :video_played)
 
-    assert Enum.count(MediaServer.Accounts.UserMedia.all()) === 1
+    assert Enum.count(MediaServer.MediaActions.all()) === 1
   end
 
   test "it should continue", %{conn: conn} do
