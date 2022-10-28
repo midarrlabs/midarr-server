@@ -53,14 +53,14 @@ defmodule MediaServerWeb.MoviesLive.Show do
 
   @impl true
   def handle_event("save", %{"playlist" => playlist}, socket) do
-
-    media = MediaServer.Media.find_or_create(%{
-      media_id: socket.assigns.movie["id"],
-      media_type_id: MediaServer.MediaTypes.get_id("movie")
-    })
+    media =
+      MediaServer.Media.find_or_create(%{
+        media_id: socket.assigns.movie["id"],
+        media_type_id: MediaServer.MediaTypes.get_id("movie")
+      })
 
     MediaServer.Movies.Playlist.insert_or_delete(playlist, %{
-      media_id: media.id,
+      media_id: media.id
     })
 
     {:noreply, socket}

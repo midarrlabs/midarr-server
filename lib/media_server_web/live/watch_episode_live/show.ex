@@ -79,11 +79,11 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
         },
         socket
       ) do
-
-    media = MediaServer.Media.find_or_create(%{
-      media_id: socket.assigns.episode["id"],
-      media_type_id: MediaServer.MediaTypes.get_id("episode")
-    })
+    media =
+      MediaServer.Media.find_or_create(%{
+        media_id: socket.assigns.episode["id"],
+        media_type_id: MediaServer.MediaTypes.get_id("episode")
+      })
 
     MediaServer.Continues.update_or_create(%{
       media_id: media.id,
@@ -98,10 +98,11 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
   def handle_event("video_played", _params, socket) do
     action = MediaServer.Actions.list_actions() |> List.first()
 
-    media = MediaServer.Media.find_or_create(%{
-      media_id: socket.assigns.episode["id"],
-      media_type_id: MediaServer.MediaTypes.get_id("episode")
-    })
+    media =
+      MediaServer.Media.find_or_create(%{
+        media_id: socket.assigns.episode["id"],
+        media_type_id: MediaServer.MediaTypes.get_id("episode")
+      })
 
     MediaServer.MediaActions.create(%{
       media_id: media.id,

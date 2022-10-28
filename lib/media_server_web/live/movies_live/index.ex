@@ -17,7 +17,10 @@ defmodule MediaServerWeb.MoviesLive.Index do
       socket
       |> assign(
         :movies,
-        Scrivener.paginate(MediaServer.MovieIndexer.get_all(), %{"page" => page, "page_size" => "50"})
+        Scrivener.paginate(MediaServer.MovieIndexer.get_all(), %{
+          "page" => page,
+          "page_size" => "50"
+        })
       )
     }
   end
@@ -28,7 +31,10 @@ defmodule MediaServerWeb.MoviesLive.Index do
       socket
       |> assign(
         :movies,
-        Scrivener.paginate(MediaServer.MovieIndexer.get_all(), %{"page" => "1", "page_size" => "50"})
+        Scrivener.paginate(MediaServer.MovieIndexer.get_all(), %{
+          "page" => "1",
+          "page_size" => "50"
+        })
       )
     }
   end

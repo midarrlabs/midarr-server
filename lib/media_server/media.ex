@@ -37,7 +37,8 @@ defmodule MediaServer.Media do
 
         created
 
-      _ -> media
+      _ ->
+        media
     end
   end
 end

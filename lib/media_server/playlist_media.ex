@@ -5,7 +5,6 @@ defmodule MediaServer.Movies.Playlist do
   alias MediaServer.Repo
 
   schema "playlist_media" do
-
     belongs_to :playlist, MediaServer.Playlists.Playlist
     belongs_to :media, MediaServer.Media
 

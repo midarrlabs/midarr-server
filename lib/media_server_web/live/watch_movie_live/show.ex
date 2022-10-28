@@ -78,11 +78,11 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
         },
         socket
       ) do
-
-    media = MediaServer.Media.find_or_create(%{
-      media_id: socket.assigns.movie["id"],
-      media_type_id: MediaServer.MediaTypes.get_id("movie")
-    })
+    media =
+      MediaServer.Media.find_or_create(%{
+        media_id: socket.assigns.movie["id"],
+        media_type_id: MediaServer.MediaTypes.get_id("movie")
+      })
 
     MediaServer.Continues.update_or_create(%{
       media_id: media.id,
@@ -97,10 +97,11 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
   def handle_event("video_played", _params, socket) do
     action = MediaServer.Actions.list_actions() |> List.first()
 
-    media = MediaServer.Media.find_or_create(%{
-      media_id: socket.assigns.movie["id"],
-      media_type_id: MediaServer.MediaTypes.get_id("movie")
-    })
+    media =
+      MediaServer.Media.find_or_create(%{
+        media_id: socket.assigns.movie["id"],
+        media_type_id: MediaServer.MediaTypes.get_id("movie")
+      })
 
     MediaServer.MediaActions.create(%{
       media_id: media.id,

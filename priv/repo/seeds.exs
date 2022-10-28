@@ -23,6 +23,7 @@ MediaServer.MediaTypes.create(%{
 MediaServer.Actions.create_action(%{
   action: "played"
 })
+
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
