@@ -9,7 +9,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   alias MediaServerWeb.Repositories.Episodes
 
   setup %{conn: conn} do
-    MediaServer.Actions.create_action(%{
+    MediaServer.Actions.create(%{
       action: "some action"
     })
 

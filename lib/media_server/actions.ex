@@ -15,11 +15,11 @@ defmodule MediaServer.Actions do
     |> unique_constraint(:action)
   end
 
-  def list_actions do
+  def all do
     Repo.all(__MODULE__)
   end
 
-  def create_action(attrs \\ %{}) do
+  def create(attrs \\ %{}) do
     %__MODULE__{}
     |> __MODULE__.changeset(attrs)
     |> Repo.insert()
