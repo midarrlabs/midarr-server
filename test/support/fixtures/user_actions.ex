@@ -6,7 +6,7 @@ defmodule MediaServer.Fixtures.UserActions do
       |> Enum.into(%{
         action: "some action"
       })
-      |> MediaServer.Action.create_action()
+      |> MediaServer.Actions.create_action()
 
     action
   end

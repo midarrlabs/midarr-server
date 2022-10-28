@@ -8,7 +8,7 @@ defmodule MediaServer.Accounts.UserMedia do
 
     belongs_to :user, MediaServer.Accounts.User
     belongs_to :media, MediaServer.Media
-    belongs_to :action, MediaServer.Action
+    belongs_to :action, MediaServer.Actions
 
     timestamps()
   end

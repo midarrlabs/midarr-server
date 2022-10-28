@@ -96,7 +96,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
   end
 
   def handle_event("video_played", _params, socket) do
-    action = MediaServer.Action.list_actions() |> List.first()
+    action = MediaServer.Actions.list_actions() |> List.first()
 
     media = MediaServer.Media.find_or_create(%{
       media_id: socket.assigns.movie["id"],

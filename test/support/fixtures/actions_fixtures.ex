@@ -1,4 +1,4 @@
-defmodule MediaServer.ActionsFixtures do
+defmodule MediaServer.ActionssFixtures do
 
   def create(attrs \\ %{}) do
     action = MediaServer.Fixtures.UserActions.action_fixture()
