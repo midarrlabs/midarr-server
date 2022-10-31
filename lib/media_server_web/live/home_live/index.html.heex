@@ -1,9 +1,7 @@
 <header class="relative pb-24 bg-slate-800 sm:pb-32">
   <div
     class="absolute inset-0 bg-cover bg-fixed"
-    style={
-      "#{if assigns[:movies], do: "background-image: url(#{MediaServer.MovieIndexer.get_background(Enum.at(@movies, 0))}) ", else: ""}"
-    }
+    style={"background-image: url(#{MediaServer.MovieIndexer.get_background(Enum.at(@movies, 0))})"}
   >
     <div
       class="absolute inset-0 bg-gradient-to-l from-slate-200 to-neutral-900 mix-blend-multiply"
@@ -21,63 +19,55 @@
   </div>
 
   <div class="relative mt-24 max-w-md mx-auto px-4 sm:max-w-xl sm:mt-32 sm:px-6 lg:max-w-6xl lg:px-8 space-y-6">
-    <%= if assigns[:movies] do %>
-      <div class="space-y-2">
-        <%= live_redirect to: Routes.movies_show_path(@socket, :show, Enum.at(@movies, 0)["id"]) do %>
-          <h1 class="text-3xl font-extrabold tracking-tight text-white hover:underline">
-            <%= Enum.at(@movies, 0)["title"] %>
-          </h1>
-        <% end %>
-        <div class="flex space-x-4 text-sm font-semibold text-red-300 tracking-wide uppercase">
-          <h2>
-            <%= Enum.at(@movies, 0)["year"] %>
-          </h2>
-          <%= if Enum.at(@movies, 0)["certification"] do %>
+        <div class="space-y-2">
+          <%= live_redirect to: Routes.movies_show_path(@socket, :show, Enum.at(@movies, 0)["id"]) do %>
+            <h1 class="text-3xl font-extrabold tracking-tight text-white hover:underline">
+              <%= Enum.at(@movies, 0)["title"] %>
+            </h1>
+          <% end %>
+          <div class="flex space-x-4 text-sm font-semibold text-red-300 tracking-wide uppercase">
+            <h2>
+              <%= Enum.at(@movies, 0)["year"] %>
+            </h2>
+            <%= if Enum.at(@movies, 0)["certification"] do %>
+              <div>
+                |
+              </div>
+              <h2>
+                <%= Enum.at(@movies, 0)["certification"] %>
+              </h2>
+            <% end %>
             <div>
               |
             </div>
             <h2>
-              <%= Enum.at(@movies, 0)["certification"] %>
+              <%= Enum.at(@movies, 0)["movieFile"]["mediaInfo"]["runTime"] %>
             </h2>
-          <% end %>
-          <div>
-            |
           </div>
-          <h2>
-            <%= Enum.at(@movies, 0)["movieFile"]["mediaInfo"]["runTime"] %>
-          </h2>
         </div>
-      </div>
-      <p class="text-lg text-white max-w-lg line-clamp">
-        <%= Enum.at(@movies, 0)["overview"] %>
-      </p>
-      <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6">
-        <%= live_redirect to: Routes.watch_movie_show_path(@socket, :show, Enum.at(@movies, 0)["id"], "watch"), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
-          <svg
-            class="-ml-0.5 mr-2 h-6 w-6"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"
-            />
-          </svg>
-          Play
-        <% end %>
-      </div>
-    <% else %>
-      <div class="animate-pulse space-y-6">
-        <div class="bg-gray-300 h-6 w-28 rounded"></div>
-        <div class="bg-gray-300 h-6 w-72 rounded"></div>
-        <div class="bg-gray-300 h-6 w-72 md:w-96 rounded"></div>
-      </div>
-    <% end %>
+        <p class="text-lg text-white max-w-lg line-clamp">
+          <%= Enum.at(@movies, 0)["overview"] %>
+        </p>
+        <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6">
+          <%= live_redirect to: Routes.watch_movie_show_path(@socket, :show, Enum.at(@movies, 0)["id"], "watch"), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
+            <svg
+              class="-ml-0.5 mr-2 h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"
+              />
+            </svg>
+            Play
+          <% end %>
+        </div>
   </div>
 </header>
 
