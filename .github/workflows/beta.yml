@@ -9,29 +9,23 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        otp: [ '24' ]
+        elixir: [ '1.13.4' ]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.PAT }}
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14
-
-      - name: Install dependencies
-        run: |
-          rm -rf node_modules
-          yarn install --frozen-lockfile
-
-      - name: Prepare release
-        run: |
-          mix compile
-          mix release
-        env:
+      - env:
           MIX_ENV: prod
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+      - run: mix deps.get
+      - run: mix compile
+      - run: mix assets.deploy
+      - run: mix phx.gen.release
+      - run: mix release
 
       - name: Publish release
         uses: moomerman/actions/bin/ghr@master
