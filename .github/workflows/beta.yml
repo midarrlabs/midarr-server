@@ -17,7 +17,7 @@ jobs:
         otp: [ '24' ]
         elixir: [ '1.13.4' ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{matrix.otp}}
@@ -27,9 +27,8 @@ jobs:
       - run: mix phx.gen.release
       - run: mix release
 
-      - name: Publish release
-        uses: moomerman/actions/bin/ghr@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_PATH: _build/prod/rel
-          APPLICATION: Midarr
+      - name: Create a Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: _build/prod/rel
+          token: ${{ secrets.GITHUB_TOKEN }}
