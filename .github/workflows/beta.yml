@@ -24,7 +24,6 @@ jobs:
           elixir-version: ${{matrix.elixir}}
       - run: mix deps.get
       - run: mix compile
-      - run: mix assets.deploy
       - run: mix phx.gen.release
       - run: mix release
 
