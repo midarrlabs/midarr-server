@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*.*.*-beta.*'
 
+env:
+  MIX_ENV: prod
+
 jobs:
   release:
     name: Release
@@ -14,8 +17,6 @@ jobs:
         otp: [ '24' ]
         elixir: [ '1.13.4' ]
     steps:
-      - env:
-          MIX_ENV: prod
       - uses: actions/checkout@v2
       - uses: erlef/setup-beam@v1
         with:
