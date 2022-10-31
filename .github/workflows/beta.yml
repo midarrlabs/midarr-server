@@ -34,7 +34,7 @@ jobs:
           MIX_ENV: prod
 
       - name: Publish release
-        uses: midarrlabs/actions/bin/ghr@beta
+        uses: moomerman/actions/bin/ghr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_PATH: _build/prod/rel
