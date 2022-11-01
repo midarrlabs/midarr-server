@@ -27,8 +27,13 @@ jobs:
       - run: mix phx.gen.release
       - run: mix release
 
+      - name: Zip release
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r /release.zip _build/prod/rel
+
       - name: Create a Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: _build/prod/rel
+          artifacts: /release.zip
           token: ${{ secrets.GITHUB_TOKEN }}
