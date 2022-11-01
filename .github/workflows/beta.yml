@@ -28,9 +28,10 @@ jobs:
       - run: mix release
 
       - name: Zip release
-        uses: montudor/action-zip@v1
+        uses: vimtor/action-zip@v1
         with:
-          args: zip -qq -r release.zip _build/prod/rel/media_server
+          files: _build/prod/rel/media_server/
+          dest: release.zip
 
       - name: Create release
         uses: ncipollo/release-action@v1
