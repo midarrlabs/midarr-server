@@ -6,12 +6,13 @@ on:
       - 'v*.*.*-beta.*'
 
 env:
-  IMAGE_OS: ubuntu20
   MIX_ENV: prod
 
 jobs:
   release:
     name: Release
+    env:
+      IMAGE_OS: ubuntu20
     runs-on: self-hosted
     strategy:
       matrix:
