@@ -18,12 +18,11 @@ jobs:
         with:
           image_additional_mb: 4000
           commands: |
-            echo "deb https://packages.erlang-solutions.com/debian buster contrib" | sudo tee /etc/apt/sources.list.d/erlang-solutions.list
-            wget https://packages.erlang-solutions.com/debian/erlang_solutions.asc
-            cat erlang_solutions.asc | gpg --dearmor > erlang_solutions.gpg
-            sudo install -o root -g root -m 644 erlang_solutions.gpg /etc/apt/trusted.gpg.d/
+            wget https://packages.erlang-solutions.com/erlang/debian/pool/elixir_1.13.4-1~ubuntu~focal_all.deb
+            sudo dpkg -i elixir_1.13.4-1~ubuntu~focal_all.deb
             sudo apt update
-            sudo apt install elixir
+            sudo apt-get install esl-erlang
+            sudo apt-get install elixir
             mix deps.get
             mix compile
             mix phx.gen.release
