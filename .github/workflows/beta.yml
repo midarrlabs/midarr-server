@@ -6,7 +6,6 @@ on:
       - 'v*.*.*-beta.*'
 
 env:
-  IMAGE_OS: 'ubuntu20'
   MIX_ENV: prod
 
 jobs:
