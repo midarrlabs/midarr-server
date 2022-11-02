@@ -12,24 +12,20 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        otp: [ '24' ]
+        elixir: [ '1.13.4' ]
     steps:
       - uses: actions/checkout@v3
-      - uses: pguyot/arm-runner-action@v2
+      - uses: erlef/setup-beam@v1
         with:
-          image_additional_mb: 4000
-          commands: |
-            wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb
-            sudo dpkg -i erlang-solutions_2.0_all.deb
-            sudo apt-get update
-            sudo apt-get -y install erlang
-            wget https://packages.erlang-solutions.com/erlang/debian/pool/elixir_1.13.4-1~ubuntu~focal_all.deb
-            sudo dpkg -i elixir_1.13.4-1~ubuntu~focal_all.deb
-            sudo apt update
-            sudo apt-get -y install elixir
-            mix deps.get
-            mix compile
-            mix phx.gen.release
-            mix release
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+      - run: mix deps.get
+      - run: mix compile
+      - run: mix phx.gen.release
+      - run: mix release
 
       - name: Zip release
         uses: vimtor/action-zip@v1
