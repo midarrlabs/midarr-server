@@ -12,20 +12,21 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        otp: [ '24' ]
-        elixir: [ '1.13.4' ]
     steps:
       - uses: actions/checkout@v3
-      - uses: erlef/setup-beam@v1
+      - uses: pguyot/arm-runner-action@v2
         with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
-      - run: mix deps.get
-      - run: mix compile
-      - run: mix phx.gen.release
-      - run: mix release
+          commands: |
+            echo "deb https://packages.erlang-solutions.com/debian buster contrib" | sudo tee /etc/apt/sources.list.d/erlang-solutions.list
+            wget https://packages.erlang-solutions.com/debian/erlang_solutions.asc
+            cat erlang_solutions.asc | gpg --dearmor > erlang_solutions.gpg
+            sudo install -o root -g root -m 644 erlang_solutions.gpg /etc/apt/trusted.gpg.d/
+            sudo apt update
+            sudo apt install elixir
+            mix deps.get
+            mix compile
+            mix phx.gen.release
+            mix release
 
       - name: Zip release
         uses: vimtor/action-zip@v1
