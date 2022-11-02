@@ -18,10 +18,13 @@ jobs:
         with:
           image_additional_mb: 4000
           commands: |
+            wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb
+            sudo dpkg -i erlang-solutions_2.0_all.deb
+            sudo apt-get update
+            sudo apt-get install erlang
             wget https://packages.erlang-solutions.com/erlang/debian/pool/elixir_1.13.4-1~ubuntu~focal_all.deb
             sudo dpkg -i elixir_1.13.4-1~ubuntu~focal_all.deb
             sudo apt update
-            sudo apt-get install esl-erlang
             sudo apt-get install elixir
             mix deps.get
             mix compile
