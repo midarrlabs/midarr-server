@@ -19,9 +19,7 @@ jobs:
       - run: sudo dpkg -i erlang-solutions_2.0_all.deb
       - run: sudo apt-get update
       - run: sudo apt-get -y install erlang
-      - run: wget https://packages.erlang-solutions.com/erlang/debian/pool/elixir_1.13.4-1~ubuntu~focal_all.deb
-      - run: sudo dpkg -i elixir_1.13.4-1~ubuntu~focal_all.deb
-      - run: sudo apt update
+      - run: sudo apt-get update
       - run: sudo apt-get -y install elixir
       - run: mix deps.get
       - run: mix compile
