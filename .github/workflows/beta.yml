@@ -15,12 +15,8 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
-      - run: wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb
-      - run: sudo dpkg -i erlang-solutions_2.0_all.deb
-      - run: sudo apt-get update
-      - run: sudo apt-get -y install erlang
-      - run: sudo apt-get update
-      - run: sudo apt-get -y install elixir
+      - run: sudo apt update
+      - run: sudo apt -y install elixir
       - run: mix deps.get
       - run: mix compile
       - run: mix phx.gen.release
