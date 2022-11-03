@@ -16,7 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: mix local.hex --force
-      - run: local.rebar --force
       - run: mix deps.get
       - run: mix compile
       - run: mix phx.gen.release
