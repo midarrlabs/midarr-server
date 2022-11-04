@@ -23,7 +23,7 @@ jobs:
       - name: Zip release
         uses: vimtor/action-zip@v1
         with:
-          files: _build/prod/rel/media_server/
+          files: _build/
           dest: release.zip
 
       - name: Create release
