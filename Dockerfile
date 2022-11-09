@@ -2,7 +2,7 @@ FROM node:18-alpine as node
 
 WORKDIR /assets
 
-COPY assets/package.json assets/package-lock.json /assets
+COPY assets/package.json assets/package-lock.json /assets/
 RUN npm install
 
 #-------------------------
@@ -23,8 +23,8 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-COPY . .
-COPY --from=node /assets/node_modules assets/node_modules
+COPY . ./
+COPY --from=node /assets/node_modules /assets/node_modules/
 
 RUN mix local.hex --force && \
     mix local.rebar --force && \
