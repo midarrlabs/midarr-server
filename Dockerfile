@@ -24,7 +24,7 @@ RUN apt-get update && \
 WORKDIR /app
 
 COPY . ./
-COPY --from=node /assets/node_modules /assets/node_modules/
+COPY --from=node /assets/node_modules /app/assets/node_modules/
 
 RUN mix local.hex --force && \
     mix local.rebar --force && \
