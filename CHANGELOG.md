@@ -1,3 +1,11 @@
+## [1.16.1](https://github.com/midarrlabs/midarr-server/compare/v1.16.0...v1.16.1) (2022-11-09)
+
+
+### Bug Fixes
+
+* add end slash to Dockerfile copy destination ([cd34863](https://github.com/midarrlabs/midarr-server/commit/cd34863bcece0e45ce839a9195b95c20861feab6)), closes [#208](https://github.com/midarrlabs/midarr-server/issues/208)
+* add workdir to Dockerfile copy ([d4ec21e](https://github.com/midarrlabs/midarr-server/commit/d4ec21ea22b5f7c5687b25417119e516b6c94bb8))
+
 # [1.16.0](https://github.com/midarrlabs/midarr-server/compare/v1.15.0...v1.16.0) (2022-09-09)
 
 
