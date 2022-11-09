@@ -2,7 +2,7 @@ import Config
 
 # Configure your database
 config :media_server, MediaServer.Repo,
-  database: Path.expand("../media_server_dev.db", Path.dirname(__ENV__.file)),
+  database: Path.expand("../database/media_server_dev.db", Path.dirname(__ENV__.file)),
   pool_size: 5,
   show_sensitive_data_on_connection_error: true
 
