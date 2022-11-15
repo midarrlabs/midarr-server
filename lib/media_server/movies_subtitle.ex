@@ -1,4 +1,4 @@
-defmodule MediaServer.MovieSubtitle do
+defmodule MediaServer.MoviesSubtitle do
   def get_subtitle_path_for(id) do
     movie = MediaServer.MoviesIndex.get_movie(id)
 

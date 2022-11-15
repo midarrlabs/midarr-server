@@ -5,7 +5,7 @@ defmodule MediaServerWeb.SubtitleMovieController do
     conn
     |> send_resp(
       200,
-      Extitles.format(Extitles.parse(MediaServer.MovieSubtitle.get_subtitle_path_for(id)))
+      Extitles.format(Extitles.parse(MediaServer.MoviesSubtitle.get_subtitle_path_for(id)))
     )
   end
 end
