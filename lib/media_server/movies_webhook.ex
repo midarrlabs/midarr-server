@@ -1,4 +1,4 @@
-defmodule MediaServer.MovieWebhook do
+defmodule MediaServer.MoviesWebhook do
   use Agent
 
   alias MediaServerWeb.Repositories.Movies
