@@ -32,25 +32,22 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it should render show", %{conn: conn} do
-    serie = Series.get_all() |> List.first()
+    series = Series.get_all() |> List.first()
 
-    {:ok, view, disconnected_html} = live(conn, Routes.series_show_path(conn, :show, serie["id"]))
+    {:ok, _view, disconnected_html} = live(conn, Routes.series_show_path(conn, :show, series["id"]))
 
-    assert disconnected_html =~ "loading-spinner"
-
-    send(view.pid, {:serie, serie})
+    assert disconnected_html =~ series["title"]
   end
 
   test "it should render season", %{conn: conn} do
-    serie = Series.get_all() |> List.first()
+    series = Series.get_all() |> List.first()
 
     {:ok, view, disconnected_html} =
-      live(conn, Routes.seasons_show_path(conn, :show, serie["id"], 1))
+      live(conn, Routes.seasons_show_path(conn, :show, series["id"], 1))
 
     assert disconnected_html =~ "loading-spinner"
 
-    send(view.pid, {:serie, %{"serie" => serie, "number" => 1}})
-    send(view.pid, {:episodes, Episodes.get_all(serie["id"], "1")})
+    send(view.pid, {:episodes, Episodes.get_all(series["id"], "1")})
 
     assert render(view) =~ "Play"
     assert render(view) =~ "5:24"
@@ -58,9 +55,9 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it should replace each episode with episode show response", %{conn: _conn} do
-    serie = Series.get_all() |> List.first()
+    series = Series.get_all() |> List.first()
 
-    episodes = Episodes.get_all(serie["id"], "1")
+    episodes = Episodes.get_all(series["id"], "1")
 
     assert Map.get(Enum.at(episodes, 0), "episodeNumber") === 1
     assert Map.get(Enum.at(episodes, 1), "episodeNumber") === 2

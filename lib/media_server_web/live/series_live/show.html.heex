@@ -2,7 +2,7 @@
   <div
     class="absolute inset-0 bg-cover bg-fixed"
     style={
-      "#{if assigns[:serie], do: "background-image: url(#{MediaServerWeb.Repositories.Series.get_background(@serie)}) ", else: ""}"
+      "#{if assigns[:serie], do: "background-image: url(#{MediaServer.SeriesIndex.get_background(@serie)}) ", else: ""}"
     }
   >
     <div

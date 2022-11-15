@@ -3,7 +3,6 @@ defmodule MediaServerWeb.HomeLive.Index do
 
   alias MediaServer.Repo
   alias MediaServer.Accounts
-  alias MediaServerWeb.Repositories.Series
 
   @impl true
   def mount(_params, session, socket) do
@@ -21,26 +20,12 @@ defmodule MediaServerWeb.HomeLive.Index do
 
   @impl true
   def handle_params(_params, _url, socket) do
-    pid = self()
-
-    Task.start(fn ->
-      send(pid, {:series, Series.get_latest(6)})
-    end)
-
     {
       :noreply,
       socket
       |> assign(:movies, MediaServer.MoviesIndex.get_latest(7))
+      |> assign(:series, MediaServer.SeriesIndex.get_latest(6))
       |> assign(:user_continues, socket.assigns.current_user.continues)
-    }
-  end
-
-  @impl true
-  def handle_info({:series, series}, socket) do
-    {
-      :noreply,
-      socket
-      |> assign(:series, series)
     }
   end
 end

@@ -4,7 +4,6 @@ defmodule MediaServerWeb.HomeLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServerWeb.Repositories.Series
 
   setup %{conn: conn} do
     %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
@@ -19,13 +18,7 @@ defmodule MediaServerWeb.HomeLiveTest do
   end
 
   test "it has latest series", %{conn: conn} do
-    {:ok, view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
-
-    assert disconnected_html =~ "loading-series"
-
-    series = Series.get_latest(6)
-
-    send(view.pid, {:series, series})
+    {:ok, view, _disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
 
     assert render(view) =~ "Pioneer One"
   end

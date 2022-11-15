@@ -11,34 +11,11 @@ defmodule MediaServerWeb.Repositories.Series do
     []
   end
 
-  def get_latest(amount) do
-    HTTPoison.get(get_url("series"))
-    |> handle_response()
-    |> Enum.reverse()
-    |> Stream.filter(fn item -> item["statistics"]["episodeFileCount"] !== 0 end)
-    |> Stream.take(amount)
-  end
-
   def get_all() do
     HTTPoison.get(get_url("series"))
     |> handle_response()
     |> Stream.filter(fn item -> item["statistics"]["episodeFileCount"] !== 0 end)
     |> Enum.sort_by(& &1["title"], :asc)
-  end
-
-  def get_serie(id) do
-    HTTPoison.get(get_url("series/#{id}"))
-    |> handle_response()
-  end
-
-  def get_poster(serie) do
-    (Stream.filter(serie["images"], fn item -> item["coverType"] === "poster" end)
-     |> Enum.at(0))["remoteUrl"]
-  end
-
-  def get_background(serie) do
-    (Stream.filter(serie["images"], fn item -> item["coverType"] === "fanart" end)
-     |> Enum.at(0))["remoteUrl"]
   end
 
   def search(query) do

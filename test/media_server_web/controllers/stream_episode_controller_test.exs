@@ -1,13 +1,12 @@
 defmodule MediaServerWeb.StreamEpisodeControllerTest do
   use MediaServerWeb.ConnCase
 
-  alias MediaServerWeb.Repositories.Series
   alias MediaServerWeb.Repositories.Episodes
 
   test "episode", %{conn: conn} do
-    serie = Series.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
-    episode = Episodes.get_episode(serie["id"])
+    episode = Episodes.get_episode(series["id"])
 
     token = Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", "id")
 
@@ -20,9 +19,9 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
   end
 
   test "it halts with random token", %{conn: conn} do
-    serie = Series.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
-    episode = Episodes.get_episode(serie["id"])
+    episode = Episodes.get_episode(series["id"])
 
     conn = get(conn, Routes.stream_episode_path(conn, :show, episode["id"]), token: "someToken")
 
@@ -31,9 +30,9 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
   end
 
   test "it halts without token", %{conn: conn} do
-    serie = Series.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
-    episode = Episodes.get_episode(serie["id"])
+    episode = Episodes.get_episode(series["id"])
 
     conn = get(conn, Routes.stream_episode_path(conn, :show, episode["id"]))
 
@@ -42,9 +41,9 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
   end
 
   test "episode range", %{conn: conn} do
-    serie = Series.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
-    episode = Episodes.get_episode(serie["id"])
+    episode = Episodes.get_episode(series["id"])
 
     token = Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", "id")
 
@@ -58,9 +57,9 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
   end
 
   test "safari probe", %{conn: conn} do
-    serie = Series.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
-    episode = Episodes.get_episode(serie["id"])
+    episode = Episodes.get_episode(series["id"])
 
     token = Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", "id")
 
