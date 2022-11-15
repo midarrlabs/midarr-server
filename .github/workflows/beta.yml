@@ -24,11 +24,11 @@ jobs:
         uses: vimtor/action-zip@v1
         with:
           files: _build/
-          dest: release.zip
+          dest: arm64.zip
 
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
           prerelease: true
-          artifacts: release.zip
+          artifacts: arm64.zip
           token: ${{ secrets.GITHUB_TOKEN }}
