@@ -30,7 +30,7 @@ defmodule MediaServerWeb.HomeLive.Index do
     {
       :noreply,
       socket
-      |> assign(:movies, MediaServer.MovieIndexer.get_latest(7))
+      |> assign(:movies, MediaServer.MoviesIndex.get_latest(7))
       |> assign(:user_continues, socket.assigns.current_user.continues)
     }
   end

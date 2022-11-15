@@ -21,7 +21,7 @@ defmodule MediaServer.Application do
       MediaServerWeb.Presence,
       MediaServer.Token,
       MediaServer.MovieWebhook,
-      MediaServer.MovieIndexer
+      MediaServer.MoviesIndex
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

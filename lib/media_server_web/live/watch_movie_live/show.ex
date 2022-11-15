@@ -20,7 +20,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
 
   @impl true
   def handle_params(%{"id" => id, "action" => "watch"}, _url, socket) do
-    movie = MediaServer.MovieIndexer.get_movie(id)
+    movie = MediaServer.MoviesIndex.get_movie(id)
 
     {
       :noreply,
@@ -42,7 +42,7 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
   end
 
   def handle_params(%{"id" => id, "action" => "continue"}, _url, socket) do
-    movie = MediaServer.MovieIndexer.get_movie(id)
+    movie = MediaServer.MoviesIndex.get_movie(id)
 
     {
       :noreply,

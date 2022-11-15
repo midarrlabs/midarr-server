@@ -9,7 +9,7 @@
     <%= if assigns[:movies] && assigns[:series] do %>
       <%= for item <- @movies do %>
         <%= MediaServerWeb.Components.PosterComponent.render(%{
-          img_src: MediaServer.MovieIndexer.get_poster(item),
+          img_src: MediaServer.MoviesIndex.get_poster(item),
           title: item["title"],
           link: Routes.movies_show_path(@socket, :show, item["id"])
         }) %>

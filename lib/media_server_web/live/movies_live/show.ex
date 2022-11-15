@@ -30,7 +30,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
       send(pid, {:cast, Movies.get_cast(id)})
     end)
 
-    movie = MediaServer.MovieIndexer.get_movie(id)
+    movie = MediaServer.MoviesIndex.get_movie(id)
 
     {
       :noreply,

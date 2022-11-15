@@ -14,7 +14,7 @@ defmodule MediaServerWeb.SearchLiveTest do
     {:ok, view, _disconnected_html} =
       live(conn, Routes.search_index_path(conn, :index, query: "Caminandes Llama Drama"))
 
-    movie = MediaServer.MovieIndexer.get_movie("1")
+    movie = MediaServer.MoviesIndex.get_movie("1")
 
     send(view.pid, {:movies, [movie]})
     send(view.pid, {:series, []})
