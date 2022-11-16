@@ -1,9 +1,7 @@
 <header class="relative pb-24 bg-slate-800 sm:pb-32">
   <div
     class="absolute inset-0 bg-cover bg-fixed"
-    style={
-      "#{if assigns[:serie], do: "background-image: url(#{MediaServer.SeriesIndex.get_background(@serie)}) ", else: ""}"
-    }
+    style={"background-image: url(#{MediaServer.SeriesIndex.get_background(@serie)})"}
   >
     <div
       class="absolute inset-0 bg-gradient-to-l from-slate-200 to-neutral-900 mix-blend-multiply"
@@ -21,7 +19,6 @@
   </div>
 
   <div class="relative mt-24 max-w-md mx-auto px-4 sm:max-w-xl sm:mt-32 sm:px-6 lg:max-w-6xl lg:px-8 space-y-6">
-    <%= if assigns[:serie] do %>
       <div class="space-y-2">
         <h1 class="text-3xl font-extrabold tracking-tight text-white">
           <%= @serie["title"] %>
@@ -42,17 +39,9 @@
       </div>
 
       <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6"></div>
-    <% else %>
-      <div class="animate-pulse space-y-6">
-        <div class="bg-gray-300 h-6 w-28 rounded"></div>
-        <div class="bg-gray-300 h-6 w-72 rounded"></div>
-        <div class="bg-gray-300 h-6 w-72 md:w-96 rounded"></div>
-      </div>
-    <% end %>
   </div>
 </header>
 
-<%= if assigns[:serie] do %>
   <div class="lg:max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:py-8 lg:px-8 space-y-8">
     <div class="lg:mt-0 lg:col-span-2">
       <dl>
@@ -91,10 +80,3 @@
       </dl>
     </div>
   </div>
-<% else %>
-  <div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
-    <div class="flex flex-row col-span-2 lg:col-span-6 justify-center mt-56">
-      <%= MediaServerWeb.Components.SpinnerComponent.render(%{}) %>
-    </div>
-  </div>
-<% end %>

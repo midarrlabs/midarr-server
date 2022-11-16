@@ -11,32 +11,26 @@
     </div>
   </div>
 
-  <%= if assigns[:series] do %>
-    <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
-      <%= for item <- @series do %>
-        <%= MediaServerWeb.Components.PosterComponent.render(%{
-          img_src: MediaServer.SeriesIndex.get_poster(item),
-          title: item["title"],
-          link: Routes.series_show_path(@socket, :show, item["id"])
-        }) %>
-      <% end %>
-    </div>
+  <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+    <%= for item <- @series do %>
+      <%= MediaServerWeb.Components.PosterComponent.render(%{
+        img_src: MediaServer.SeriesIndex.get_poster(item),
+        title: item["title"],
+        link: Routes.series_show_path(@socket, :show, item["id"])
+      }) %>
+    <% end %>
+  </div>
 
-    <%= MediaServerWeb.Components.PaginationComponent.render(%{
-      page_number: @series.page_number,
-      total_pages: @series.total_pages,
-      previous_link:
-        Routes.series_index_path(@socket, :index,
-          page: MediaServerWeb.Helpers.get_pagination_previous_link(@series.page_number)
-        ),
-      next_link:
-        Routes.series_index_path(@socket, :index,
-          page: MediaServerWeb.Helpers.get_pagination_next_link(@series.page_number)
-        )
-    }) %>
-  <% else %>
-    <div class="flex flex-row col-span-2 lg:col-span-6 justify-center mt-56">
-      <%= MediaServerWeb.Components.SpinnerComponent.render(%{}) %>
-    </div>
-  <% end %>
+  <%= MediaServerWeb.Components.PaginationComponent.render(%{
+    page_number: @series.page_number,
+    total_pages: @series.total_pages,
+    previous_link:
+      Routes.series_index_path(@socket, :index,
+        page: MediaServerWeb.Helpers.get_pagination_previous_link(@series.page_number)
+      ),
+    next_link:
+      Routes.series_index_path(@socket, :index,
+        page: MediaServerWeb.Helpers.get_pagination_next_link(@series.page_number)
+      )
+  }) %>
 </div>

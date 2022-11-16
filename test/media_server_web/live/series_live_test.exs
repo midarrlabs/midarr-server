@@ -12,23 +12,19 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it should render index", %{conn: conn} do
-    {:ok, view, disconnected_html} = live(conn, Routes.series_index_path(conn, :index))
+    {:ok, _view, disconnected_html} = live(conn, Routes.series_index_path(conn, :index))
 
-    assert disconnected_html =~ "loading-spinner"
+    series = Series.get_all() |> List.first()
 
-    series = Series.get_all()
-
-    send(view.pid, {:series, series})
+    assert disconnected_html =~ series["title"]
   end
 
   test "it should render index paged", %{conn: conn} do
-    {:ok, view, disconnected_html} = live(conn, Routes.series_index_path(conn, :index, page: "1"))
+    {:ok, _view, disconnected_html} = live(conn, Routes.series_index_path(conn, :index, page: "1"))
 
-    assert disconnected_html =~ "loading-spinner"
+    series = Series.get_all() |> List.first()
 
-    series = Series.get_all()
-
-    send(view.pid, {:series, series})
+    assert disconnected_html =~ series["title"]
   end
 
   test "it should render show", %{conn: conn} do
