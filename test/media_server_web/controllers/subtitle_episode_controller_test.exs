@@ -1,11 +1,10 @@
 defmodule MediaServerWeb.SubtitleEpisodeControllerTest do
   use MediaServerWeb.ConnCase
 
-  alias MediaServerWeb.Repositories.Series
   alias MediaServerWeb.Repositories.Episodes
 
   test "episode", %{conn: conn} do
-    serie = Series.get_all() |> List.first()
+    serie = MediaServer.SeriesIndex.get_all() |> List.first()
 
     episode = Episodes.get_episode(serie["id"])
 

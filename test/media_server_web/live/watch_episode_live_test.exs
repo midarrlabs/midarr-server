@@ -5,7 +5,6 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
   alias MediaServer.AccountsFixtures
 
-  alias MediaServerWeb.Repositories.Series
   alias MediaServerWeb.Repositories.Episodes
 
   setup %{conn: conn} do
@@ -19,7 +18,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   end
 
   test "it should watch", %{conn: conn} do
-    serie = Series.get_all() |> List.first()
+    serie = MediaServer.SeriesIndex.get_all() |> List.first()
 
     episode = Episodes.get_episode(serie["id"])
 
@@ -32,7 +31,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   end
 
   test "it should continue", %{conn: conn} do
-    serie = Series.get_all() |> List.first()
+    serie = MediaServer.SeriesIndex.get_all() |> List.first()
 
     episode = Episodes.get_episode(serie["id"])
 
@@ -53,7 +52,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   end
 
   test "it should not continue", %{conn: conn} do
-    serie = Series.get_all() |> List.first()
+    serie = MediaServer.SeriesIndex.get_all() |> List.first()
 
     episode = Episodes.get_episode(serie["id"])
 
@@ -74,7 +73,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   end
 
   test "it should subtitle", %{conn: conn} do
-    serie = Series.get_all() |> List.first()
+    serie = MediaServer.SeriesIndex.get_all() |> List.first()
 
     episode = Episodes.get_episode(serie["id"])
 

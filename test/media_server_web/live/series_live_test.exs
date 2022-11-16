@@ -4,7 +4,6 @@ defmodule MediaServerWeb.SeriesLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServerWeb.Repositories.Series
   alias MediaServerWeb.Repositories.Episodes
 
   setup %{conn: conn} do
@@ -14,7 +13,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   test "it should render index", %{conn: conn} do
     {:ok, _view, disconnected_html} = live(conn, Routes.series_index_path(conn, :index))
 
-    series = Series.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
     assert disconnected_html =~ series["title"]
   end
@@ -22,13 +21,13 @@ defmodule MediaServerWeb.SeriesLiveTest do
   test "it should render index paged", %{conn: conn} do
     {:ok, _view, disconnected_html} = live(conn, Routes.series_index_path(conn, :index, page: "1"))
 
-    series = Series.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
     assert disconnected_html =~ series["title"]
   end
 
   test "it should render show", %{conn: conn} do
-    series = Series.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
     {:ok, _view, disconnected_html} = live(conn, Routes.series_show_path(conn, :show, series["id"]))
 
@@ -36,7 +35,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it should render season", %{conn: conn} do
-    series = Series.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
     {:ok, view, disconnected_html} =
       live(conn, Routes.seasons_show_path(conn, :show, series["id"], 1))
@@ -51,7 +50,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it should replace each episode with episode show response", %{conn: _conn} do
-    series = Series.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
     episodes = Episodes.get_all(series["id"], "1")
 
