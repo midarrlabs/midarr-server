@@ -5,10 +5,10 @@ defmodule MediaServerWeb.Repositories.Episodes do
   def get_all(series_id, season_number) do
     HTTPoison.get("#{Series.get_url("episode")}&seriesId=#{series_id}")
     |> Series.handle_response()
-    |> Stream.filter(fn episode ->
+    |> Enum.filter(fn episode ->
       episode["seasonNumber"] === String.to_integer(season_number)
     end)
-    |> Stream.filter(fn episode -> episode["hasFile"] end)
+    |> Enum.filter(fn episode -> episode["hasFile"] end)
     |> replace_each_with_episode_show_response()
   end
 
@@ -32,12 +32,12 @@ defmodule MediaServerWeb.Repositories.Episodes do
   end
 
   def get_background(episode) do
-    (Stream.filter(episode["series"]["images"], fn x -> x["coverType"] === "fanart" end)
+    (Enum.filter(episode["series"]["images"], fn x -> x["coverType"] === "fanart" end)
      |> Enum.at(0))["url"]
   end
 
   def get_screenshot(episode) do
-    (Stream.filter(episode["images"], fn x -> x["coverType"] === "screenshot" end)
+    (Enum.filter(episode["images"], fn x -> x["coverType"] === "screenshot" end)
      |> Enum.at(0))["url"]
   end
 

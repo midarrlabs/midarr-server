@@ -14,14 +14,14 @@ defmodule MediaServerWeb.Repositories.Series do
   def get_all() do
     HTTPoison.get(get_url("series"))
     |> handle_response()
-    |> Stream.filter(fn item -> item["statistics"]["episodeFileCount"] !== 0 end)
+    |> Enum.filter(fn item -> item["statistics"]["episodeFileCount"] !== 0 end)
     |> Enum.sort_by(& &1["title"], :asc)
   end
 
   def search(query) do
     HTTPoison.get("#{get_url("series/lookup")}&term=#{URI.encode(query)}")
     |> handle_response()
-    |> Stream.filter(fn item -> item["seasonFolder"] end)
+    |> Enum.filter(fn item -> item["seasonFolder"] end)
     |> Enum.sort_by(& &1["title"], :asc)
   end
 end
