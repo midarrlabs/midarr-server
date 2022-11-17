@@ -1,6 +1,4 @@
 defmodule MediaServerWeb.Repositories.Movies do
-  alias MediaServer.Token
-
   def get_url(url) do
     "#{System.get_env("RADARR_BASE_URL")}/api/v3/#{url}?apiKey=#{System.get_env("RADARR_API_KEY")}"
   end
@@ -61,7 +59,7 @@ defmodule MediaServerWeb.Repositories.Movies do
           %{
             "name" => "url",
             "value" =>
-              "#{System.get_env("APP_URL")}/api/webhooks/movie?token=#{Token.get_token()}"
+              "#{System.get_env("APP_URL")}/api/webhooks/movie?token=#{MediaServer.Token.get_token()}"
           },
           %{
             "name" => "method",

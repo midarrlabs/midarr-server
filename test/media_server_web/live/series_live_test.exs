@@ -19,7 +19,8 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it should render index paged", %{conn: conn} do
-    {:ok, _view, disconnected_html} = live(conn, Routes.series_index_path(conn, :index, page: "1"))
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.series_index_path(conn, :index, page: "1"))
 
     series = MediaServer.SeriesIndex.get_all() |> List.first()
 
@@ -29,7 +30,8 @@ defmodule MediaServerWeb.SeriesLiveTest do
   test "it should render show", %{conn: conn} do
     series = MediaServer.SeriesIndex.get_all() |> List.first()
 
-    {:ok, _view, disconnected_html} = live(conn, Routes.series_show_path(conn, :show, series["id"]))
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.series_show_path(conn, :show, series["id"]))
 
     assert disconnected_html =~ series["title"]
   end

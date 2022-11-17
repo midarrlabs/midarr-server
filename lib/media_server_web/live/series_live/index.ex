@@ -15,7 +15,13 @@ defmodule MediaServerWeb.SeriesLive.Index do
     {
       :noreply,
       socket
-      |> assign(:series, Scrivener.paginate(MediaServer.SeriesIndex.get_all(), %{"page" => page, "page_size" => "50"}))
+      |> assign(
+        :series,
+        Scrivener.paginate(MediaServer.SeriesIndex.get_all(), %{
+          "page" => page,
+          "page_size" => "50"
+        })
+      )
     }
   end
 
@@ -23,7 +29,13 @@ defmodule MediaServerWeb.SeriesLive.Index do
     {
       :noreply,
       socket
-      |> assign(:series, Scrivener.paginate(MediaServer.SeriesIndex.get_all(), %{"page" => "1", "page_size" => "50"}))
+      |> assign(
+        :series,
+        Scrivener.paginate(MediaServer.SeriesIndex.get_all(), %{
+          "page" => "1",
+          "page_size" => "50"
+        })
+      )
     }
   end
 end

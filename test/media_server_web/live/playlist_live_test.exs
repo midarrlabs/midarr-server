@@ -8,8 +8,7 @@ defmodule MediaServerWeb.PlaylistLiveTest do
   setup %{conn: conn} do
     user = AccountsFixtures.user_fixture()
 
-    {:ok, playlist} =
-      MediaServer.Playlists.create(%{user_id: user.id, name: "some playlist"})
+    {:ok, playlist} = MediaServer.Playlists.create(%{user_id: user.id, name: "some playlist"})
 
     %{conn: conn |> log_in_user(user), user: user, playlist: playlist}
   end

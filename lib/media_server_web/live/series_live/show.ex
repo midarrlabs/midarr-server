@@ -17,7 +17,6 @@ defmodule MediaServerWeb.SeriesLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _url, socket) do
-
     series = MediaServer.SeriesIndex.get_serie(id)
 
     {

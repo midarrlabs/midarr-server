@@ -17,7 +17,9 @@ defmodule MediaServerWeb.PlaylistLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _url, socket) do
-    query = from playlists in MediaServer.Playlists, where: playlists.user_id == ^socket.assigns.current_user.id
+    query =
+      from playlists in MediaServer.Playlists,
+        where: playlists.user_id == ^socket.assigns.current_user.id
 
     playlists = Repo.get!(query, id)
 
