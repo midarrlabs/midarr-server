@@ -31,7 +31,7 @@ with much more to come...
 
 #### What is this?
 
-`Midarr` in its' current form, is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It relies on the integration with these services to serve your **H.264** codec media untouched and unscathed.
+`Midarr` in its' current form, is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It relies on the integration with these services to serve your **H.264** / **H.265** codec media untouched and unscathed.
 
 While more fully fledged media server options already exist, `Midarr` simply compliments as a lightweight alternative.
 
@@ -121,7 +121,7 @@ Login with these credentials, and access the `Settings` page to configure your s
 
 The following video format is currently supported:
 
-* H.264 codec
+* H.264 / H.265 codec
 * AAC / MP3 audio
 * MP4 / MKV container
 
@@ -142,8 +142,6 @@ Thank you for all your contributions! Big or small - all is welcome!
 
 #### Local development
 
-Setting up your local development environment is easy and only a few steps:
-
 1. Fork and git clone the repository
 
 ```shell
@@ -155,20 +153,7 @@ git clone https://github.com/{ YOUR-ACCOUNT }/midarr-server.git
 ```shell
 docker compose up -d
 ```
-
-3. Bash into `Midarr` container
-
-```shell
-docker exec -it midarr bash
-```
-
-4. Run the tests to seed fixtures
-
-```shell
-MIX_ENV=test mix test
-```
-
-Your local environment is now setup for development:
+Access local services:
 - [http://localhost:4000](http://localhost:4000) - Midarr
 - [http://localhost:7878](http://localhost:7878) - Radarr
 - [http://localhost:8989](http://localhost:8989) - Sonarr
