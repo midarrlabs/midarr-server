@@ -33,6 +33,13 @@ defmodule MediaServer.MoviesIndex do
     movie["movieFile"]["path"]
   end
 
+  def get_movie_title(id) do
+    movie = Agent.get(__MODULE__, & &1)
+            |> Enum.find(fn item -> item["id"] === id end)
+
+    movie["title"]
+  end
+
   def get_poster(movie) do
     (Enum.filter(movie["images"], fn item -> item["coverType"] === "poster" end)
      |> Enum.at(0))["remoteUrl"]

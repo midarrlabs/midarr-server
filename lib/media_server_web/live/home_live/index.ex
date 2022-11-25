@@ -13,7 +13,7 @@ defmodule MediaServerWeb.HomeLive.Index do
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(:continues)
+        |> Repo.preload(continues: [:media])
       )
     }
   end
