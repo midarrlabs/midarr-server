@@ -7,7 +7,7 @@ defmodule MediaServerWeb.Components.ContinueComponent do
     {
       :noreply,
       socket
-      |> push_redirect(to: Routes.continues_index_path(socket, :index))
+      |> push_redirect(to: socket.assigns.return_to)
     }
   end
 end

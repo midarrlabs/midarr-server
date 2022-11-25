@@ -17,6 +17,7 @@
         <%= live_component(MediaServerWeb.Components.ContinueComponent,
           id: "media-#{item.id}",
           id_item: item.id,
+          title: "Some title",
           minutes_remaining:
             MediaServerWeb.Helpers.minutes_remaining_from_seconds(
               item.duration,
@@ -27,7 +28,9 @@
               item.current_time,
               item.duration
             ),
-          event: "delete_continue"
+          link: Routes.watch_movie_show_path(@socket, :show, item.id, "continue"),
+          event: "delete_continue",
+          return_to: Routes.continues_index_path(@socket, :index)
         ) %>
       <% end %>
     </ul>

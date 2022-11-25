@@ -1,25 +1,42 @@
-<div>
-  <%= @minutes_remaining %> min left <%= @percentage_complete %>
-  <button
-    id={@id}
-    phx-click={@event}
-    phx-target={@myself}
-    phx-value-id={@id_item}
-    type="button"
-    class="w-8 h-8 bg-white inline-flex items-center justify-center text-slate-600 rounded-full bg-transparent hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
-  >
-    <svg
-      class="w-5 h-5"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-        clip-rule="evenodd"
-      />
-    </svg>
-  </button>
-</div>
+<li class="col-span-1 flex shadow-sm">
+
+  <div class="flex-1 flex items-center justify-between border border-slate-200 bg-white rounded-r-sm truncate">
+    <div class="flex-1 px-4 py-2 text-sm text-slate-600 truncate">
+      <%= live_redirect to: @link, class: "hover:text-slate-800 hover:underline" do %>
+        <%= @title %>
+      <% end %>
+      <div class="w-full flex mt-2">
+        <div class="flex-none text-xs text-slate-500">
+          <%= @minutes_remaining %> min left
+        </div>
+        <div class="flex-1 w-full bg-slate-200 h-1 mt-2 ml-2">
+          <div class="bg-red-300 h-1" style={"width: #{@percentage_complete}%"}></div>
+        </div>
+      </div>
+    </div>
+    <div class="flex-shrink-0 pr-2">
+      <button
+        id={@id}
+        phx-click={@event}
+        phx-target={@myself}
+        phx-value-id={@id_item}
+        type="button"
+        class="w-8 h-8 bg-white inline-flex items-center justify-center text-slate-600 rounded-full bg-transparent hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+      >
+        <svg
+          class="w-5 h-5"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</li>
