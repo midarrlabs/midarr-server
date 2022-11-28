@@ -5,8 +5,6 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
   alias MediaServer.AccountsFixtures
 
-  alias MediaServerWeb.Repositories.Episodes
-
   setup %{conn: conn} do
     MediaServer.Actions.create(%{
       action: "some action"
@@ -18,9 +16,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   end
 
   test "it should watch", %{conn: conn} do
-    serie = MediaServer.SeriesIndex.get_all() |> List.first()
-
-    episode = Episodes.get_episode(serie["id"])
+    episode = MediaServerWeb.Repositories.Episodes.get_episode(1)
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
@@ -33,7 +29,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   test "it should continue", %{conn: conn} do
     serie = MediaServer.SeriesIndex.get_all() |> List.first()
 
-    episode = Episodes.get_episode(serie["id"])
+    episode = MediaServerWeb.Repositories.Episodes.get_episode(serie["id"])
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
@@ -54,7 +50,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   test "it should not continue", %{conn: conn} do
     serie = MediaServer.SeriesIndex.get_all() |> List.first()
 
-    episode = Episodes.get_episode(serie["id"])
+    episode = MediaServerWeb.Repositories.Episodes.get_episode(serie["id"])
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
@@ -75,7 +71,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   test "it should subtitle", %{conn: conn} do
     serie = MediaServer.SeriesIndex.get_all() |> List.first()
 
-    episode = Episodes.get_episode(serie["id"])
+    episode = MediaServerWeb.Repositories.Episodes.get_episode(serie["id"])
 
     {:ok, _view, disconnected_html} =
       live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))

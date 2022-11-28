@@ -37,24 +37,52 @@ defmodule MediaServerWeb.HomeLiveTest do
     assert disconnected_html =~ "Some query"
   end
 
-  test "it has movie continue", %{conn: conn, user: user} do
-    movie = MediaServer.MoviesIndex.get_movie("2")
+  test "it has continues", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
 
-    media =
-      MediaServer.Media.find_or_create(%{
-        media_id: movie["id"],
-        media_type_id: MediaServer.MediaTypes.get_id("movie")
-      })
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
 
-    MediaServer.Continues.create(%{
-      current_time: 42,
-      duration: 84,
-      user_id: user.id,
-      media_id: media.id
+    render_hook(view, :video_destroyed, %{
+      current_time: 89,
+      duration: 100
+    })
+
+    another_movie = MediaServer.MoviesIndex.get_movie("2")
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_movie_show_path(conn, :show, another_movie["id"], "watch"))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 89,
+      duration: 100
+    })
+
+    episode = MediaServerWeb.Repositories.Episodes.get_episode(1)
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 39,
+      duration: 78
+    })
+
+    another_episode = MediaServerWeb.Repositories.Episodes.get_episode(2)
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_episode_show_path(conn, :show, another_episode["id"], "watch"))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 39,
+      duration: 78
     })
 
     {:ok, _view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
 
     assert disconnected_html =~ Routes.watch_movie_show_path(conn, :show, movie["id"], "continue")
+    assert disconnected_html =~ Routes.watch_movie_show_path(conn, :show, another_movie["id"], "continue")
+    assert disconnected_html =~ Routes.watch_episode_show_path(conn, :show, episode["id"], "continue")
+    assert disconnected_html =~ Routes.watch_episode_show_path(conn, :show, another_episode["id"], "continue")
   end
 end

@@ -56,9 +56,8 @@ defmodule MediaServerWeb.MoviesLiveTest do
     |> render_change()
 
     playlist_movie = MediaServer.PlaylistMedia.all() |> List.first()
-    media = MediaServer.Media.all() |> List.first()
 
-    assert playlist_movie.media_id === media.id
+    assert playlist_movie.media_id === movie["id"]
   end
 
   test "it should delete from playlist", %{conn: conn, user: user} do

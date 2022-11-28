@@ -16,18 +16,18 @@ defmodule MediaServerWeb.ContinuesLiveTest do
   end
 
   test "it should delete", %{conn: conn, user: user} do
-    {:ok, %MediaServer.MediaTypes{} = mediaType} =
-      MediaServer.MediaTypes.create(%{type: "some type"})
+    movie = MediaServer.MoviesIndex.get_movie("1")
 
-    {:ok, %MediaServer.Media{} = media} =
-      MediaServer.Media.create(%{media_id: 123, media_type_id: mediaType.id})
+    {:ok, %MediaServer.MediaTypes{} = media_type} =
+      MediaServer.MediaTypes.create(%{type: "some type"})
 
     {:ok, continue} =
       MediaServer.Continues.create(%{
+        media_id: movie["id"],
         current_time: 42,
         duration: 84,
         user_id: user.id,
-        media_id: media.id
+        media_type_id: media_type.id
       })
 
     {:ok, index_live, _html} = live(conn, Routes.continues_index_path(conn, :index))

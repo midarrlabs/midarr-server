@@ -36,4 +36,11 @@ defmodule MediaServer.SeriesIndex do
     (Enum.filter(series["images"], fn item -> item["coverType"] === "fanart" end)
      |> Enum.at(0))["remoteUrl"]
   end
+
+  def get_episode_title(id) do
+    episode = Agent.get(__MODULE__, & &1)
+              |> Enum.find(fn item -> item["id"] === id end)
+
+    episode["title"]
+  end
 end

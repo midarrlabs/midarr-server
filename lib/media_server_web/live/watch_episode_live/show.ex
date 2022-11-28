@@ -14,7 +14,6 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
         |> Repo.preload(:continues)
-        |> Repo.preload(continues: [:media])
       )
     }
   end
@@ -64,7 +63,7 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
       |> assign(
         :continue,
         socket.assigns.current_user.continues
-        |> Enum.filter(fn item -> item.media.media_id == episode["id"] end)
+        |> Enum.filter(fn item -> item.media_id == episode["id"] end)
         |> List.first()
       )
     }
@@ -79,17 +78,13 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
         },
         socket
       ) do
-    media =
-      MediaServer.Media.find_or_create(%{
-        media_id: socket.assigns.episode["id"],
-        media_type_id: MediaServer.MediaTypes.get_id("episode")
-      })
 
     MediaServer.Continues.update_or_create(%{
-      media_id: media.id,
+      media_id: socket.assigns.episode["id"],
       current_time: current_time,
       duration: duration,
-      user_id: socket.assigns.current_user.id
+      user_id: socket.assigns.current_user.id,
+      media_type_id: MediaServer.MediaTypes.get_episode_id()
     })
 
     {:noreply, socket}
@@ -98,16 +93,11 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
   def handle_event("video_played", _params, socket) do
     action = MediaServer.Actions.all() |> List.first()
 
-    media =
-      MediaServer.Media.find_or_create(%{
-        media_id: socket.assigns.episode["id"],
-        media_type_id: MediaServer.MediaTypes.get_id("episode")
-      })
-
     MediaServer.MediaActions.create(%{
-      media_id: media.id,
+      media_id: socket.assigns.episode["id"],
       user_id: socket.assigns.current_user.id,
-      action_id: action.id
+      action_id: action.id,
+      media_type_id: MediaServer.MediaTypes.get_episode_id()
     })
 
     {:noreply, socket}

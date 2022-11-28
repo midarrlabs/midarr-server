@@ -5,16 +5,17 @@ defmodule MediaServer.PlaylistMedia do
   alias MediaServer.Repo
 
   schema "playlist_media" do
+    field :media_id, :integer
+
     belongs_to :playlists, MediaServer.Playlists
-    belongs_to :media, MediaServer.Media
 
     timestamps()
   end
 
   def changeset(movie, attrs) do
     movie
-    |> cast(attrs, [:playlists_id, :media_id])
-    |> validate_required([:playlists_id, :media_id])
+    |> cast(attrs, [:media_id, :playlists_id])
+    |> validate_required([:media_id, :playlists_id])
   end
 
   def create(attrs \\ %{}) do

@@ -105,24 +105,50 @@
             class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4"
           >
             <%= for item <- @user_continues do %>
-              <%= live_component(MediaServerWeb.Components.ContinueComponent,
-                id: "media-#{item.id}",
-                id_item: item.id,
-                title: MediaServer.MoviesIndex.get_movie_title(item.media.media_id),
-                minutes_remaining:
-                  MediaServerWeb.Helpers.minutes_remaining_from_seconds(
-                    item.duration,
-                    item.current_time
-                  ),
-                percentage_complete:
-                  MediaServerWeb.Helpers.percentage_complete_from_seconds(
-                    item.current_time,
-                    item.duration
-                  ),
-                link: Routes.watch_movie_show_path(@socket, :show, item.media.media_id, "continue"),
-                event: "delete_continue",
-                return_to: Routes.home_index_path(@socket, :index)
-              ) %>
+
+                <%= if item.media_type_id === MediaServer.MediaTypes.get_movie_id() do %>
+
+                  <%= live_component(MediaServerWeb.Components.ContinueComponent,
+                    id: "continue-movie-#{item.id}",
+                    id_item: item.id,
+                    title: MediaServer.MoviesIndex.get_movie_title(item.media_id),
+                    minutes_remaining:
+                      MediaServerWeb.Helpers.minutes_remaining_from_seconds(
+                        item.duration,
+                        item.current_time
+                      ),
+                    percentage_complete:
+                      MediaServerWeb.Helpers.percentage_complete_from_seconds(
+                        item.current_time,
+                        item.duration
+                      ),
+                    link: Routes.watch_movie_show_path(@socket, :show, item.media_id, "continue"),
+                    event: "delete_continue",
+                    return_to: Routes.home_index_path(@socket, :index)
+                  ) %>
+
+                <% else %>
+
+                  <%= live_component(MediaServerWeb.Components.ContinueComponent,
+                    id: "continue-episode-#{item.id}",
+                    id_item: item.id,
+                    title: MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["title"],
+                    minutes_remaining:
+                      MediaServerWeb.Helpers.minutes_remaining_from_seconds(
+                        item.duration,
+                        item.current_time
+                      ),
+                    percentage_complete:
+                      MediaServerWeb.Helpers.percentage_complete_from_seconds(
+                        item.current_time,
+                        item.duration
+                      ),
+                    link: Routes.watch_episode_show_path(@socket, :show, item.media_id, "continue"),
+                    event: "delete_continue",
+                    return_to: Routes.home_index_path(@socket, :index)
+                  ) %>
+
+                <% end %>
             <% end %>
           </ul>
         </div>
