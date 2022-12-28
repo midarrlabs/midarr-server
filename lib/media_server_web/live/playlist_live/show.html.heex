@@ -20,7 +20,7 @@
         <%= MediaServerWeb.Components.PosterComponent.render(%{
           img_src: "",
           title: "",
-          link: Routes.movies_show_path(@socket, :show, item.media.media_id)
+          link: Routes.movies_show_path(@socket, :show, item.media_id)
         }) %>
       <% end %>
     </ul>
