@@ -72,6 +72,7 @@ services:
 #       App config
       - APP_URL=http://localhost:4000
       - APP_MAILER_FROM=example@email.com
+      - SENDGRID_API_KEY=someApiKey
 
 #       Initialise admin account
       - SETUP_ADMIN_EMAIL=admin@email.com
@@ -85,9 +86,6 @@ services:
 #       Sonarr integration
       - SONARR_BASE_URL=sonarr:8989
       - SONARR_API_KEY=someApiKey
-        
-#       Sendgrid email integration
-      - SENDGRID_API_KEY=someApiKey
 ```
 
 ## Configuration
