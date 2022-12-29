@@ -31,7 +31,7 @@ with much more to come...
 
 #### What is this?
 
-`Midarr` in its' current form, is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It relies on the integration with these services to serve your **H.264** / **H.265** codec media untouched and unscathed.
+`Midarr` in its' current form, is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It relies on the integration with these services to serve your **H.264** / **H.265** codec video untouched and unscathed.
 
 While more fully fledged media server options already exist, `Midarr` simply compliments as a lightweight alternative.
 
@@ -66,8 +66,13 @@ services:
     ports:
       - 4000:4000
     volumes:
+#       Persist database
+      - /path/to/persist/database:/app/database
+
+#       Media paths
       - /path/to/movies:/radarr/movies/path
       - /path/to/shows:/sonarr/shows/path
+
     environment:
 #       App config
       - APP_URL=http://localhost:4000
@@ -90,16 +95,16 @@ services:
 
 ## Configuration
 
-#### Volumes
+#### Media
 
-Volumes must be provided as mounted in your Radarr and Sonarr instances:
+Media must be mounted as in your Radarr and Sonarr instances:
 
 ```yaml
 volumes:
   - /path/to/movies:/radarr/movies/path
   - /path/to/shows:/sonarr/shows/path
 ```
-This is so `Midarr` has the same reference to your media library as your integrations, and can serve them.
+This is so `Midarr` has the same reference to your media library as your integrations, and can resolve their locations.
 
 #### Initialise admin account
 
@@ -114,6 +119,19 @@ environment:
 Login with these credentials, and access the `Settings` page to configure your server.
 
 ## Support
+
+#### Radarr version
+
+```
+v4.1.0.6175
+```
+
+#### Sonarr version
+
+```
+v3.0.9.1549
+```
+
 
 #### Videos
 
