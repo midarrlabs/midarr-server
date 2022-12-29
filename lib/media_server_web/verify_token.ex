@@ -20,7 +20,7 @@ defmodule MediaServerWeb.VerifyToken do
   end
 
   def call(%Plug.Conn{params: %{"token" => token}} = conn, _default) do
-    Phoenix.Token.verify(conn, "user auth", token, max_age: 86400)
+    Phoenix.Token.verify(conn, "user auth", token, max_age: :infinity)
     |> handle_response(conn)
   end
 
