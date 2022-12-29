@@ -95,9 +95,9 @@ services:
 
 ## Configuration
 
-#### Media
+#### Media library
 
-Media must be mounted as in your Radarr and Sonarr instances:
+This must be mounted as in your Radarr and Sonarr instances:
 
 ```yaml
 volumes:
@@ -120,18 +120,17 @@ Login with these credentials, and access the `Settings` page to configure your s
 
 ## Support
 
-#### Radarr version
+#### Radarr
 
 ```
 v4.1.0.6175
 ```
 
-#### Sonarr version
+#### Sonarr
 
 ```
 v3.0.9.1549
 ```
-
 
 #### Videos
 
@@ -146,9 +145,9 @@ The following video format is currently supported:
 A single `*.srt` file in the root directory of the video is currently supported:
 
 ```
-videos/some-video
-      └── some-video.mp4
-      └── some-video.srt
+library/video
+          └──video.srt
+          └──video.mp4
 ```
 With this setup a subtitle / caption option will be available in the player view.
 
@@ -160,16 +159,17 @@ Thank you for all your contributions! Big or small - all is welcome!
 
 1. Fork and git clone the repository
 
-```shell
+```
 git clone https://github.com/{ YOUR-ACCOUNT }/midarr-server.git
 ```
 
 2. Docker compose up the stack
 
-```shell
-docker compose up -d
 ```
-Access local services:
+cd midarr-server && docker compose up -d
+```
+3. Service locations:
+
 - [http://localhost:4000](http://localhost:4000) - Midarr
 - [http://localhost:7878](http://localhost:7878) - Radarr
 - [http://localhost:8989](http://localhost:8989) - Sonarr
