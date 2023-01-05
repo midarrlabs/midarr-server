@@ -17,7 +17,7 @@
     </a>
 </p>
 
-`Midarr` is a minimal lightweight media server for enjoying your media:
+***Midarr*** is a minimal lightweight media server for enjoying your media:
 
 * Free and open source
 * Beautifully crafted user interface
@@ -31,13 +31,13 @@ with much more to come...
 
 #### What is this?
 
-`Midarr` in its' current form, is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It relies on the integration with these services to serve your **H.264** / **H.265** codec video untouched and unscathed.
+***Midarr*** in its' current form, is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It integrates with these services to serve your **H.264** / **H.265** codec video untouched and unscathed.
 
-While more fully fledged media server options already exist, `Midarr` simply compliments as a lightweight alternative.
+> While more fully fledged media server options already exist, ***Midarr*** simply compliments as a lightweight alternative.
 
 #### What's lightweight about it?
 
-`Midarr` does not:
+***Midarr*** does not:
 
 * Index your media
 * Transcode your media
@@ -45,13 +45,15 @@ While more fully fledged media server options already exist, `Midarr` simply com
 
 #### What does it do?
 
-Your media is retrieved and served through a familiar web interface and provides:
+***Midarr*** serves your media through a slick web interface providing:
 
 * User authentication
 * User profile settings
 * User online statuses
 
 with more features planned ahead.
+
+> ***Midarr*** enhances and aims to extend Radarr and Sonarr capabilities far beyond what has been done by conventional mainstream media servers.
 
 ## Usage
 
@@ -104,7 +106,7 @@ volumes:
   - /path/to/movies:/radarr/movies/path
   - /path/to/shows:/sonarr/shows/path
 ```
-This is so `Midarr` has the same reference to your media library as your integrations, and can resolve their locations.
+This is so ***Midarr*** has the same reference to your media library as your integrations, and can resolve their locations.
 
 #### Initialise admin account
 
@@ -120,17 +122,17 @@ Login with these credentials, and access the `Settings` page to configure your s
 
 ## Support
 
-#### Radarr
+#### Integrations
 
-```
-v4.1.0
-```
+* Radarr - `v4.1.0`
+* Sonarr - `v3.0.9`
 
-#### Sonarr
+> It's important to understand how ***Midarr*** achieves enhanced integration functionality:
 
-```
-v3.0.9.1549
-```
+On server startup ***Midarr*** attempts a few things:
+
+* Caches movie and series responses - this is to speed up the initial querying of your library
+* Adds webhook / connect endpoints - this is used to update the cache
 
 #### Videos
 
@@ -176,7 +178,7 @@ cd midarr-server && docker compose up -d
 
 ## License
 
-`Midarr` is open-sourced software licensed under the [MIT license](LICENSE).
+***Midarr*** is open-sourced software licensed under the [MIT license](LICENSE).
 
 ## Preview
 
