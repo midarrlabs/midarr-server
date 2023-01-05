@@ -27,7 +27,7 @@
 
 with much more to come...
 
-![Preview](docs/home-v1.15.0.png)
+![Preview](docs/home-v2.0.0.png)
 
 #### What is this?
 
@@ -66,10 +66,10 @@ services:
     ports:
       - 4000:4000
     volumes:
-#       Persist database
-      - /path/to/persist/database:/app/database
+#       Database path
+      - /path/to/database:/app/database
 
-#       Media paths
+#       Media path
       - /path/to/movies:/radarr/movies/path
       - /path/to/shows:/sonarr/shows/path
 
@@ -123,7 +123,7 @@ Login with these credentials, and access the `Settings` page to configure your s
 #### Radarr
 
 ```
-v4.1.0.6175
+v4.1.0
 ```
 
 #### Sonarr
@@ -182,5 +182,5 @@ cd midarr-server && docker compose up -d
 
 ![Preview](docs/login-v1.4.0.png)
 ![Preview](docs/online-v1.6.1.png)
-![Preview](docs/movie-v1.15.0.png)
+![Preview](docs/movie-v2.0.0.png)
 ![Preview](docs/player-v1.15.0.png)
