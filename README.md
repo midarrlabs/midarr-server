@@ -29,13 +29,13 @@ with much more to come...
 
 ![Preview](docs/home-v2.0.0.png)
 
-#### What is this?
+### What is this?
 
 ***Midarr*** in its' current form, is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It integrates with these services to serve your **H.264** / **H.265** codec video untouched and unscathed.
 
 > While more fully fledged media server options already exist, ***Midarr*** simply compliments as a lightweight alternative.
 
-#### What's lightweight about it?
+### What's lightweight about it?
 
 ***Midarr*** does not:
 
@@ -43,7 +43,7 @@ with much more to come...
 * Transcode your media
 * Edit or configure your media
 
-#### What does it do?
+### What does it do?
 
 ***Midarr*** serves your media through a slick web interface providing:
 
@@ -97,7 +97,7 @@ services:
 
 ## Configuration
 
-#### Media library
+### Media library
 
 This must be mounted as in your Radarr and Sonarr instances:
 
@@ -108,7 +108,7 @@ volumes:
 ```
 This is so ***Midarr*** has the same reference to your media library as your integrations, and can resolve their locations.
 
-#### Initialise admin account
+### Initialise admin account
 
 An admin account will be initialised for you on server startup, provided you have these `environment` variables configured:
 
@@ -122,7 +122,7 @@ Login with these credentials, and access the `Settings` page to configure your s
 
 ## Support
 
-#### Integrations
+### Integrations
 
 * Radarr - `v4.1.0`
 * Sonarr - `v3.0.9`
@@ -134,7 +134,7 @@ On server startup ***Midarr*** attempts a few things:
 * Caches movie and series responses - this is to speed up the initial querying of your library
 * Adds webhook / connect endpoints - this is used to update the cache
 
-#### Videos
+### Videos
 
 The following video format is currently supported:
 
@@ -142,7 +142,7 @@ The following video format is currently supported:
 * AAC / MP3 audio
 * MP4 / MKV container
 
-#### Subtitles
+### Subtitles
 
 A single `*.srt` file in the root directory of the video is currently supported:
 
@@ -157,7 +157,7 @@ With this setup a subtitle / caption option will be available in the player view
 
 Thank you for all your contributions! Big or small - all is welcome!
 
-#### Local development
+### Local development
 
 1. Fork and git clone the repository
 
