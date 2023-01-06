@@ -93,7 +93,7 @@ services:
       - SONARR_API_KEY=someApiKey
 ```
 
-## Configuration
+## Setup
 
 ### Media library
 
@@ -105,7 +105,7 @@ volumes:
   - /path/to/shows:/sonarr/shows/path
 ```
 
-### Initialise admin account
+### Admin account
 
 An admin account will be initialised for you on server startup, provided you have these `environment` variables configured. Login with these credentials, and access the `Settings` page to configure your server.
 
