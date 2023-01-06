@@ -120,8 +120,8 @@ environment:
 
 ### Integrations
 
-* Radarr - `v4.1.0`
-* Sonarr - `v3.0.9`
+* Radarr - `v4.1`
+* Sonarr - `v3.0`
 
 On server startup ***Midarr*** attempts to auto configure a few things:
 
