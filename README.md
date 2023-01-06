@@ -97,7 +97,7 @@ services:
 
 ### Media library
 
-This must be mounted as in your Radarr and Sonarr instances:
+This must be mounted as in your integration instances:
 
 ```yaml
 volumes:
@@ -125,7 +125,7 @@ Login with these credentials, and access the `Settings` page to configure your s
 * Radarr - `v4.1.0`
 * Sonarr - `v3.0.9`
 
-On server startup ***Midarr*** attempts a few things:
+On server startup ***Midarr*** attempts to auto configure a few things:
 
 * Caches movie and series responses - this is to speed up the initial querying of your library
 * Adds webhook / connect endpoints - this is used to update the cache
