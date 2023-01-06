@@ -107,7 +107,7 @@ volumes:
 
 ### Admin account
 
-An admin account will be initialised for you on server startup, provided you have these `environment` variables configured. Login with these credentials, and access the `Settings` page to configure your server.
+This will be initialised for you on server startup, provided you have these `environment` variables configured. Login with these credentials, and access the `Settings` page to configure your server.
 
 ```yaml
 environment:
