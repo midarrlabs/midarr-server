@@ -31,29 +31,25 @@ with much more to come...
 
 ### What is this?
 
-***Midarr*** in its' current form, is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It integrates with these services to serve your **H.264** / **H.265** codec video untouched and unscathed.
+In its' current form, this a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It integrates with these services to serve your **H.264** / **H.265** codec video untouched and unscathed.
 
 > While more fully fledged media server options already exist, ***Midarr*** simply compliments as a lightweight alternative.
 
-### What's lightweight about it?
+### How is it lightweight?
 
-***Midarr*** does not:
-
-* Index your media
-* Transcode your media
-* Edit or configure your media
+* No media indexing
+* No media transcoding
+* No media editing
 
 ### What does it do?
 
-***Midarr*** serves your media through a slick web interface providing:
+Your media is served through a slick web interface providing:
 
 * User authentication
 * User profile settings
 * User online statuses
 
 with more features planned ahead.
-
-> ***Midarr*** enhances and aims to extend Radarr and Sonarr capabilities far beyond what has been done by conventional mainstream media servers.
 
 ## Usage
 
@@ -127,7 +123,7 @@ Login with these credentials, and access the `Settings` page to configure your s
 * Radarr - `v4.1.0`
 * Sonarr - `v3.0.9`
 
-> It's important to understand how ***Midarr*** achieves enhanced integration functionality:
+> Your integrations are auto configured through best effort attempts
 
 On server startup ***Midarr*** attempts a few things:
 
