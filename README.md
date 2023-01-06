@@ -125,16 +125,14 @@ environment:
 
 On server startup ***Midarr*** attempts to auto configure a few things:
 
-* Caches movie and series responses - this is to speed up the initial querying of your library
-* Adds webhook / connect endpoints - this is used to update the cache
+* Caches movie and series responses - this speeds up the querying of your library
+* Adds webhook / connect endpoints - this updates the cache
 
 > __Warning__
 >
 > Make sure your integration environment variables are set for auto configuration to complete
 
 ### Videos
-
-The following video format is currently supported:
 
 * H.264 / H.265 codec
 * AAC / MP3 audio
