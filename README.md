@@ -125,6 +125,8 @@ Login with these credentials, and access the `Settings` page to configure your s
 * Radarr - `v4.1.0`
 * Sonarr - `v3.0.9`
 
+> __Note__
+>
 > Your integrations are auto configured through best effort attempts
 
 On server startup ***Midarr*** attempts a few things:
