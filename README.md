@@ -116,8 +116,6 @@ environment:
   - SETUP_ADMIN_PASSWORD=passwordpassword # minimum length 12
 ```
 
-## Support
-
 ### Integrations
 
 * Radarr - `v4.1`
@@ -125,12 +123,26 @@ environment:
 
 On server startup ***Midarr*** attempts to auto configure a few things:
 
+> __Warning__
+>
+> Ensure your integration environment variables are set for this to complete
+
+
 * Caches movie and series responses - this is required to speed up access to your library
 * Adds webhook / connect endpoints - this is required to update the cache
 
-> __Warning__
->
-> Make sure your integration environment variables are set for auto configuration to complete
+You can set the following environment variables for your integrations:
+
+```yaml
+environment:
+  - RADARR_BASE_URL=radarr:7878
+  - RADARR_API_KEY=someApiKey
+
+  - SONARR_BASE_URL=sonarr:8989
+  - SONARR_API_KEY=someApiKey
+```
+
+## Support
 
 ### Videos
 
