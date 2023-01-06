@@ -31,7 +31,7 @@ with much more to come...
 
 ### What is this?
 
-In its' current form, this a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It integrates with these services to serve your **H.264** / **H.265** codec video untouched and unscathed.
+In its' current form, this is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It integrates with these services to serve your **H.264** / **H.265** codec video untouched and unscathed.
 
 > __Note__
 > 
@@ -97,18 +97,17 @@ services:
 
 ### Media library
 
-This must be mounted as in your integration instances:
+This must be mounted as in your integration instances. This is so ***Midarr*** has the same reference to your media library as your integrations, and can resolve their locations.
 
 ```yaml
 volumes:
   - /path/to/movies:/radarr/movies/path
   - /path/to/shows:/sonarr/shows/path
 ```
-This is so ***Midarr*** has the same reference to your media library as your integrations, and can resolve their locations.
 
 ### Initialise admin account
 
-An admin account will be initialised for you on server startup, provided you have these `environment` variables configured:
+An admin account will be initialised for you on server startup, provided you have these `environment` variables configured. Login with these credentials, and access the `Settings` page to configure your server.
 
 ```yaml
 environment:
@@ -116,7 +115,6 @@ environment:
   - SETUP_ADMIN_NAME=admin
   - SETUP_ADMIN_PASSWORD=passwordpassword # minimum length 12
 ```
-Login with these credentials, and access the `Settings` page to configure your server.
 
 ## Support
 
@@ -144,14 +142,13 @@ The following video format is currently supported:
 
 ### Subtitles
 
-A single `*.srt` file in the root directory of the video is currently supported:
+A single `*.srt` file in the root directory of the video is currently supported. With this setup a subtitle / caption option will be available in the player view.
 
 ```
 library/video
           └──video.srt
           └──video.mp4
 ```
-With this setup a subtitle / caption option will be available in the player view.
 
 ## Contributing
 
