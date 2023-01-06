@@ -125,14 +125,14 @@ Login with these credentials, and access the `Settings` page to configure your s
 * Radarr - `v4.1.0`
 * Sonarr - `v3.0.9`
 
-> __Note__
->
-> Your integrations are auto configured through best effort attempts
-
 On server startup ***Midarr*** attempts a few things:
 
 * Caches movie and series responses - this is to speed up the initial querying of your library
 * Adds webhook / connect endpoints - this is used to update the cache
+
+> __Warning__
+>
+> Make sure your integration environment variables are set for auto configuration to complete
 
 ### Videos
 
