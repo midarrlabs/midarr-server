@@ -35,7 +35,7 @@ In its' current form, this is a lightweight (albeit companion) media server to t
 
 > __Note__
 > 
-> While more fully fledged media server options already exist, ***Midarr*** simply compliments as a lightweight alternative.
+> While more fully fledged media server options already exist, this simply compliments as a lightweight alternative.
 
 ### How is it lightweight?
 
@@ -125,8 +125,8 @@ environment:
 
 On server startup ***Midarr*** attempts to auto configure a few things:
 
-* Caches movie and series responses - this speeds up the querying of your library
-* Adds webhook / connect endpoints - this updates the cache
+* Caches movie and series responses - this is required to speed up access to your library
+* Adds webhook / connect endpoints - this is required to update the cache
 
 > __Warning__
 >
