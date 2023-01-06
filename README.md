@@ -33,6 +33,7 @@ with much more to come...
 
 In its' current form, this a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It integrates with these services to serve your **H.264** / **H.265** codec video untouched and unscathed.
 
+> __Note__
 > While more fully fledged media server options already exist, ***Midarr*** simply compliments as a lightweight alternative.
 
 ### How is it lightweight?
