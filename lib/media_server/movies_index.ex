@@ -71,8 +71,8 @@ defmodule MediaServer.MoviesIndex do
   end
 
   def get_background(movie) do
-    (Enum.filter(movie["images"], fn item -> item["coverType"] === "fanart" end)
-     |> Enum.at(0))["remoteUrl"]
+    Map.fetch(movie, "images")
+    |> some_test("fanart")
   end
 
   def get_headshot(movie) do

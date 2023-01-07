@@ -4,12 +4,12 @@ defmodule MediaServer.MoviesIndexTest do
   @some_movie %{
     "images" => [
       %{
-        "coverType" => "banner",
-        "remoteUrl" => "https://some.remote.url/some-banner"
-      },
-      %{
         "coverType" => "poster",
         "remoteUrl" => "https://some.remote.url/some-poster"
+      },
+      %{
+        "coverType" => "fanart",
+        "remoteUrl" => "https://some.remote.url/some-fanart"
       },
       %{
         "coverType" => "headshot",
@@ -21,8 +21,8 @@ defmodule MediaServer.MoviesIndexTest do
   @some_movie_without_poster %{
     "images" => [
       %{
-        "coverType" => "banner",
-        "remoteUrl" => "https://some.remote.url/some-banner"
+        "coverType" => "fanart",
+        "remoteUrl" => "https://some.remote.url/some-fanart"
       },
       %{
         "coverType" => "headshot",
@@ -30,6 +30,23 @@ defmodule MediaServer.MoviesIndexTest do
       }
     ]
   }
+
+  @some_movie_without_fanart %{
+    "images" => [
+      %{
+        "coverType" => "poster",
+        "remoteUrl" => "https://some.remote.url/some-poster"
+      },
+      %{
+        "coverType" => "headshot",
+        "remoteUrl" => "https://some.remote.url/some-headshot"
+      }
+    ]
+  }
+
+  test "it should get empty string without images" do
+    assert MediaServer.MoviesIndex.get_poster(%{}) === ""
+  end
 
   test "it should get poster" do
     assert MediaServer.MoviesIndex.get_poster(@some_movie) === "https://some.remote.url/some-poster"
@@ -39,7 +56,11 @@ defmodule MediaServer.MoviesIndexTest do
     assert MediaServer.MoviesIndex.get_poster(@some_movie_without_poster) === ""
   end
 
-  test "it should get empty string without images" do
-    assert MediaServer.MoviesIndex.get_poster(%{}) === ""
+  test "it should get background" do
+    assert MediaServer.MoviesIndex.get_background(@some_movie) === "https://some.remote.url/some-fanart"
+  end
+
+  test "it should get empty string without background" do
+    assert MediaServer.MoviesIndex.get_background(@some_movie_without_fanart) === ""
   end
 end
