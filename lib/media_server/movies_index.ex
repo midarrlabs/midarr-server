@@ -39,9 +39,35 @@ defmodule MediaServer.MoviesIndex do
     movie["title"]
   end
 
+  def some_value({:ok, value}) do
+    value
+  end
+
+  def some_value({:error}) do
+    ""
+  end
+
+  def another_test(nil) do
+    ""
+  end
+
+  def another_test(value) do
+    Map.fetch(value, "remoteUrl")
+    |> some_value()
+  end
+
+  def some_test({:ok, value}, type) do
+    Enum.find(value, fn item -> item["coverType"] === type end)
+    |> another_test()
+  end
+
+  def some_test(:error, _type) do
+    ""
+  end
+
   def get_poster(movie) do
-    (Enum.filter(movie["images"], fn item -> item["coverType"] === "poster" end)
-     |> Enum.at(0))["remoteUrl"]
+    Map.fetch(movie, "images")
+    |> some_test("poster")
   end
 
   def get_background(movie) do
