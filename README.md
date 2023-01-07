@@ -17,7 +17,7 @@
     </a>
 </p>
 
-***Midarr*** is a minimal lightweight media server for enjoying your media:
+**Midarr** is a minimal lightweight media server for enjoying your media:
 
 * Free and open source
 * Beautifully crafted user interface
@@ -37,13 +37,13 @@ In its' current form, this is a lightweight (albeit companion) media server to t
 > 
 > While more fully fledged media server options already exist, this simply compliments as a lightweight alternative.
 
-### How is it lightweight?
+### How is this lightweight?
 
 * No media indexing
 * No media transcoding
 * No media editing
 
-### What does it do?
+### What does this do?
 
 Your media is served through a slick web interface providing:
 
@@ -55,7 +55,7 @@ with more features planned ahead.
 
 ## Usage
 
-Docker compose example:
+### Docker compose
 
 ```yaml
 services:
@@ -97,7 +97,7 @@ services:
 
 ### Media library
 
-This must be mounted as in your integration instances. This is so ***Midarr*** has the same reference to your media library as your integrations, and can resolve their locations.
+This must be mounted as in your integration instances. This is so **Midarr** has the same reference to your media library as your integrations, and can resolve their locations.
 
 ```yaml
 volumes:
@@ -107,7 +107,7 @@ volumes:
 
 ### Admin account
 
-This will be initialised for you on server startup, provided you have these `environment` variables configured. Login with these credentials, and access the `Settings` page to configure your server.
+On server startup this will be initialised for you, provided you have these `environment` variables configured. Login with these credentials, and access the `Settings` page to configure your server.
 
 ```yaml
 environment:
@@ -118,18 +118,18 @@ environment:
 
 ### Integrations
 
-* Radarr - `v4.1`
-* Sonarr - `v3.0`
+* Supports Radarr - `v4.1`
+* Supports Sonarr - `v3.0`
 
-On server startup ***Midarr*** attempts to auto configure a few things:
+On server startup **Midarr** attempts to auto configure a few things:
+
+* Caches movie and series responses - used for speedy access to your library
+* Adds webhook / connect endpoints - used for updating the cache
 
 > __Warning__
 >
-> Ensure your integration environment variables are set for this to complete
+> Ensure your integration environment variables are set for auto configuration to complete
 
-
-* Caches movie and series responses - this is required to speed up access to your library
-* Adds webhook / connect endpoints - this is required to update the cache
 
 You can set the following environment variables for your integrations:
 
@@ -185,7 +185,7 @@ cd midarr-server && docker compose up -d
 
 ## License
 
-***Midarr*** is open-sourced software licensed under the [MIT license](LICENSE).
+**Midarr** is open-sourced software licensed under the [MIT license](LICENSE).
 
 ## Preview
 
