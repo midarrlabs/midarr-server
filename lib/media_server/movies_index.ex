@@ -16,14 +16,13 @@ defmodule MediaServer.MoviesIndex do
   end
 
   def get_latest(amount) do
-    Agent.get(__MODULE__, & &1)
+    get_all()
     |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
-    |> Enum.filter(fn item -> item["hasFile"] end)
     |> Enum.take(amount)
   end
 
   def get_movie(id) do
-    Agent.get(__MODULE__, & &1)
+    get_all()
     |> Enum.find(fn item -> item["id"] === String.to_integer(id) end)
   end
 
@@ -34,7 +33,7 @@ defmodule MediaServer.MoviesIndex do
   end
 
   def get_movie_title(id) do
-    movie = Agent.get(__MODULE__, & &1)
+    movie = get_all()
             |> Enum.find(fn item -> item["id"] === id end)
 
     movie["title"]
