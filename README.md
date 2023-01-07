@@ -95,27 +95,6 @@ services:
 
 ## Setup
 
-### Media library
-
-This must be mounted as in your integration instances. This is so **Midarr** has the same reference to your media library as your integrations, and can resolve their locations.
-
-```yaml
-volumes:
-  - /path/to/movies:/radarr/movies/path
-  - /path/to/shows:/sonarr/shows/path
-```
-
-### Admin account
-
-On server startup this will be initialised for you, provided you have these `environment` variables configured. Login with these credentials, and access the `Settings` page to configure your server.
-
-```yaml
-environment:
-  - SETUP_ADMIN_EMAIL=admin@email.com
-  - SETUP_ADMIN_NAME=admin
-  - SETUP_ADMIN_PASSWORD=passwordpassword # minimum length 12
-```
-
 ### Integrations
 
 * Supports Radarr - `v4.1`
@@ -140,6 +119,28 @@ environment:
 
   - SONARR_BASE_URL=sonarr:8989
   - SONARR_API_KEY=someApiKey
+```
+
+
+### Media library
+
+This must be mounted as in your integration instances. This is so **Midarr** has the same reference to your media library as your integrations, and can resolve their locations.
+
+```yaml
+volumes:
+  - /path/to/movies:/radarr/movies/path
+  - /path/to/shows:/sonarr/shows/path
+```
+
+### Admin account
+
+On server startup this will be initialised for you, provided you have these `environment` variables configured. Login with these credentials, and access the `Settings` page to configure your server.
+
+```yaml
+environment:
+  - SETUP_ADMIN_EMAIL=admin@email.com
+  - SETUP_ADMIN_NAME=admin
+  - SETUP_ADMIN_PASSWORD=passwordpassword # minimum length 12
 ```
 
 ## Support
