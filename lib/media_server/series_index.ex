@@ -17,8 +17,7 @@ defmodule MediaServer.SeriesIndex do
 
   def get_latest(amount) do
     get_all()
-    |> Enum.reverse()
-    |> Enum.filter(fn item -> item["statistics"]["episodeFileCount"] !== 0 end)
+    |> Enum.sort_by(& &1["added"], :desc)
     |> Enum.take(amount)
   end
 
