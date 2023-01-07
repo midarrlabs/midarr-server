@@ -43,22 +43,27 @@ defmodule MediaServer.MoviesIndex do
     value
   end
 
-  def some_value({:error}) do
+  def some_value(:error) do
     ""
   end
 
-  def another_test(nil) do
+  def another_test(nil, _url_type) do
     ""
   end
 
-  def another_test(value) do
-    Map.fetch(value, "remoteUrl")
+  def another_test(value, url_type) do
+    Map.fetch(value, url_type)
     |> some_value()
+  end
+
+  def some_test({:ok, value}, "headshot") do
+    Enum.find(value, fn item -> item["coverType"] === "headshot" end)
+    |> another_test("url")
   end
 
   def some_test({:ok, value}, type) do
     Enum.find(value, fn item -> item["coverType"] === type end)
-    |> another_test()
+    |> another_test("remoteUrl")
   end
 
   def some_test(:error, _type) do
@@ -76,7 +81,7 @@ defmodule MediaServer.MoviesIndex do
   end
 
   def get_headshot(movie) do
-    (Enum.filter(movie["images"], fn item -> item["coverType"] === "headshot" end)
-     |> Enum.at(0))["url"]
+    Map.fetch(movie, "images")
+    |> some_test("headshot")
   end
 end

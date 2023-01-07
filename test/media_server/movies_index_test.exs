@@ -13,7 +13,7 @@ defmodule MediaServer.MoviesIndexTest do
       },
       %{
         "coverType" => "headshot",
-        "remoteUrl" => "https://some.remote.url/some-headshot"
+        "url" => "https://some.remote.url/some-headshot"
       }
     ]
   }
@@ -44,6 +44,19 @@ defmodule MediaServer.MoviesIndexTest do
     ]
   }
 
+  @some_movie_without_headshot %{
+    "images" => [
+      %{
+        "coverType" => "poster",
+        "remoteUrl" => "https://some.remote.url/some-poster"
+      },
+      %{
+        "coverType" => "fanart",
+        "remoteUrl" => "https://some.remote.url/some-fanart"
+      }
+    ]
+  }
+
   test "it should get empty string without images" do
     assert MediaServer.MoviesIndex.get_poster(%{}) === ""
   end
@@ -62,5 +75,13 @@ defmodule MediaServer.MoviesIndexTest do
 
   test "it should get empty string without background" do
     assert MediaServer.MoviesIndex.get_background(@some_movie_without_fanart) === ""
+  end
+
+  test "it should get headshot" do
+    assert MediaServer.MoviesIndex.get_headshot(@some_movie) === "https://some.remote.url/some-headshot"
+  end
+
+  test "it should get empty string without headshot" do
+    assert MediaServer.MoviesIndex.get_headshot(@some_movie_without_headshot) === ""
   end
 end
