@@ -196,13 +196,11 @@
             <ul role="list" class="divide-y divide-gray-200">
               <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-6 lg:grid-cols-8 xl:gap-x-8">
                 <%= for item <- @cast do %>
-                  <%= if !is_nil(MediaServer.MoviesIndex.get_headshot(item)) do %>
                     <%= MediaServerWeb.Components.MediaComponent.render(%{
                       img_src: MediaServer.MoviesIndex.get_headshot(item),
                       title: item["personName"],
                       link: MediaServer.MoviesIndex.get_headshot(item)
                     }) %>
-                  <% end %>
                 <% end %>
               </div>
             </ul>
