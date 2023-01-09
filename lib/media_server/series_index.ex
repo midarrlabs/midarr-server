@@ -27,13 +27,11 @@ defmodule MediaServer.SeriesIndex do
   end
 
   def get_poster(series) do
-    (Enum.filter(series["images"], fn item -> item["coverType"] === "poster" end)
-     |> Enum.at(0))["remoteUrl"]
+    MediaServer.Helpers.get_poster(series)
   end
 
   def get_background(series) do
-    (Enum.filter(series["images"], fn item -> item["coverType"] === "fanart" end)
-     |> Enum.at(0))["remoteUrl"]
+    MediaServer.Helpers.get_background(series)
   end
 
   def get_episode_title(id) do
