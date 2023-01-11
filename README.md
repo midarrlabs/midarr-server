@@ -33,9 +33,9 @@ with much more to come...
 
 In its' current form, this is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It integrates with these services to serve your **H.264** / **H.265** codec video untouched and unscathed.
 
-> __Note__
-> 
-> While more fully fledged media server options already exist, this simply compliments as a lightweight alternative.
+Where **Midarr** really shines is the seamless "arr" integrated experience it provides. If Radarr and Sonarr form the center of your media server, **Midarr** is the missing piece to the perfect trifecta.
+
+![Preview](docs/ecosystem-v2.0.0.png)
 
 ### How is this lightweight?
 
@@ -100,10 +100,10 @@ services:
 * Supports Radarr - `v4.1`
 * Supports Sonarr - `v3.0`
 
-On server startup **Midarr** attempts to auto configure a few things:
+On server startup **Midarr** attempts to auto configure your integrations by:
 
-* Caches movie and series responses - used for speedy access to your library
-* Adds webhook / connect endpoints - used for updating the cache
+* Caching movie and series responses - for speedy access to your library
+* Adding webhook / connect endpoints - for keeping the cache in sync
 
 > __Warning__
 >
