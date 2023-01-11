@@ -109,9 +109,6 @@ On server startup **Midarr** attempts to auto configure your integrations by:
 >
 > Ensure your integration environment variables are set for auto configuration to complete
 
-
-You can set the following environment variables for your integrations:
-
 ```yaml
 environment:
   - RADARR_BASE_URL=radarr:7878
