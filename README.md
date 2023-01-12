@@ -40,8 +40,9 @@ This is a lightweight (albeit companion) media server to the likes of Radarr and
 Your media is left untouched and unscathed as it is served through a simple (yet familiar) web interface that puts your media front and center for
 **you** and **your** users to enjoy.
 
-While other media solutions look to re-index, re-fetch and re-double handle your media library, **Midarr** simply levarages your already existing
-services to delight and enchant **you** and **your** users' media experience.
+While other media solutions look to re-index, re-fetch and re-double handle your media library, negatively impacting **you** delivering **your** users the best experience.
+
+**You** now can delight and enchant **your** users' media experience by **Midarr** simply levaraging your already existing services.
 
 ![Preview](docs/ecosystem-v2.0.0.jpg)
 
