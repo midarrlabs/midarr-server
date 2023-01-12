@@ -27,7 +27,7 @@
     </a>
 </p>
 
-Free and open source (and always will be), **Midarr** aims to provide a beautifully tailored experience for **you** and **your**
+Free and open source (and always will be), **Midarr** aims to provide a tailored experience for **you** and **your**
 users:
 
 * Beautifully crafted user interface
