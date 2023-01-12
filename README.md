@@ -93,7 +93,7 @@ services:
 #       Admin account
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
-      - SETUP_ADMIN_PASSWORD=passwordpassword # minimum length 12
+      - SETUP_ADMIN_PASSWORD=somepassword # minimum length 12
 
 #       Radarr integration
       - RADARR_BASE_URL=radarr:7878
@@ -148,7 +148,7 @@ To initialise this, please provide the following **environment variables**. This
 environment:
   - SETUP_ADMIN_EMAIL=admin@email.com
   - SETUP_ADMIN_NAME=admin
-  - SETUP_ADMIN_PASSWORD=passwordpassword # minimum length 12
+  - SETUP_ADMIN_PASSWORD=somepassword # minimum length 12
 ```
 
 ## Support
