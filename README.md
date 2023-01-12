@@ -1,3 +1,5 @@
+![Preview](docs/home-v2.0.0.png)
+
 <p align="center">
     <img src="priv/static/logo.svg" width="150" height="150" alt="logo">
 </p>
@@ -20,8 +22,6 @@
         <img alt="GitHub license" src="https://img.shields.io/github/license/midarrlabs/midarr-server">
     </a>
 </p>
-
-![Preview](docs/home-v2.0.0.png)
 
 Free and open source (and always will be), **Midarr** aims to provide a beautifully tailored experience for **you** and **your**
 users:
