@@ -46,7 +46,7 @@ services to delight and enchant **your** users' media experience.
 
 * **No media indexing.** All the metadata needed is already on your server. **Midarr** never goes out looking for more, everything we need you already have.
 * **No media transcoding.** Nope, none whatsoever. Your media is served fresh off the metal.
-* **No media editing.** We trust you already have it the way you like it in your integrations, let's keep it that way.
+* **No media editing.** We trust you already have it the way you like it, let's keep it that way.
 
 ### What does this do?
 
