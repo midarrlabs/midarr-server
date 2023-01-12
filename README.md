@@ -10,6 +10,9 @@
     <a href="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml">
         <img src="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml/badge.svg" alt="Build Status">
     </a>
+    <a href="https://github.com/midarrlabs/midarr-server/actions/workflows/beta.yml">
+        <img src="https://github.com/midarrlabs/midarr-server/actions/workflows/beta.yml/badge.svg" alt="Build Status">
+    </a>
     <a href="https://codecov.io/gh/midarrlabs/midarr-server">
         <img src="https://codecov.io/gh/midarrlabs/midarr-server/branch/master/graph/badge.svg?token=8PJVJG09RK"/>
     </a>
