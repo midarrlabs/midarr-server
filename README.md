@@ -1,5 +1,3 @@
-![Preview](docs/home-v2.0.0.png)
-
 <p align="center">
     <img src="priv/static/logo.svg" width="150" height="150" alt="logo">
 </p>
@@ -30,6 +28,8 @@ users:
 * Real-time online statuses
 * Simple and easy invite system
 * Integrates with your existing services, [Radarr](https://radarr.video/) and [Sonarr](https://sonarr.tv/)
+
+![Preview](docs/home-v2.0.0.png)
 
 ### What is this?
 
