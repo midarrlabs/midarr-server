@@ -14,7 +14,7 @@
         <img src="https://github.com/midarrlabs/midarr-server/actions/workflows/beta.yml/badge.svg" alt="Build Status">
     </a>
     <a href="https://codecov.io/gh/midarrlabs/midarr-server">
-        <img src="https://codecov.io/gh/midarrlabs/midarr-server/branch/master/graph/badge.svg?token=8PJVJG09RK"/>
+        <img src="https://codecov.io/gh/midarrlabs/midarr-server/branch/master/graph/badge.svg?token=8PJVJG09RK&style=flat-square"/>
     </a>
     <a href="https://github.com/midarrlabs/midarr-server/releases">
         <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/midarrlabs/midarr-server">
@@ -40,7 +40,7 @@ In its' current form, this is a lightweight (albeit companion) media server to t
 Your media is left untouched and unscathed as it is served through a simple (yet familiar) web interface that puts your media front and center for
 **your** users to enjoy.
 
-While other media solutions re-index, re-fetch and re-double handle your media library, **Midarr** simply levarages your already existing
+While other media solutions look to re-index, re-fetch and re-double handle your media library, **Midarr** simply levarages your already existing
 services to delight and enchant **your** users' media experience.
 
 ![Preview](docs/ecosystem-v2.0.0.jpg)
