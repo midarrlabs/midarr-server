@@ -33,8 +33,8 @@ RUN mix local.hex --force && \
     mix assets.deploy && \
     mix compile
 
-RUN chmod u+x script-entry-point.sh
+RUN chmod u+x /app/scripts/entry-point.sh
 
 EXPOSE 4000
 
-CMD [ "/app/script-entry-point.sh" ]
+CMD [ "/app/scripts/entry-point.sh" ]
