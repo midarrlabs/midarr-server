@@ -38,10 +38,10 @@ users:
 
 This is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. 
 Your media is left untouched and unscathed as it is served through a simple (yet familiar) web interface that puts your media front and center for
-**your** users to enjoy.
+**you** and **your** users to enjoy.
 
 While other media solutions look to re-index, re-fetch and re-double handle your media library, **Midarr** simply levarages your already existing
-services to delight and enchant **your** users' media experience.
+services to delight and enchant **you** and **your** users' media experience.
 
 ![Preview](docs/ecosystem-v2.0.0.jpg)
 
