@@ -90,7 +90,7 @@ services:
       - APP_MAILER_FROM=example@email.com
       - SENDGRID_API_KEY=someApiKey
 
-#       Initialise admin account
+#       Admin account
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
       - SETUP_ADMIN_PASSWORD=passwordpassword # minimum length 12
