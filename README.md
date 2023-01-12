@@ -3,6 +3,10 @@
 </p>
 
 <p align="center">
+    <em>Your media enjoyed through a minimal lightweight media server</em>
+</p>
+
+<p align="center">
     <a href="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml">
         <img src="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml/badge.svg" alt="Build Status">
     </a>
@@ -17,31 +21,32 @@
     </a>
 </p>
 
-**Midarr** is a minimal lightweight media server for enjoying your media:
+![Preview](docs/home-v2.0.0.png)
 
-* Free and open source
+Free and open source (and always will be), **Midarr** aims to provide a beautifully tailored experience for **you** and **your**
+users:
+
 * Beautifully crafted user interface
 * Real-time online statuses
 * Simple and easy invite system
 * Integrates with your existing services, [Radarr](https://radarr.video/) and [Sonarr](https://sonarr.tv/)
 
-with much more to come...
-
-![Preview](docs/home-v2.0.0.png)
-
 ### What is this?
 
-In its' current form, this is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. It integrates with these services to serve your **H.264** / **H.265** codec video untouched and unscathed.
+In its' current form, this is a lightweight (albeit companion) media server to the likes of Radarr and Sonarr. 
+Your media is left untouched and unscathed as it is served through a simple (yet familiar) web interface that puts your media front and center for
+**your** users to enjoy.
 
-Where **Midarr** really shines is the seamless "arr" integrated experience it provides. If Radarr and Sonarr form the center of your media server, **Midarr** is the missing piece to the perfect trifecta.
+While other media solutions re-index, re-fetch metadata and double / triple handle your media library, **Midarr** simply levarages your already existing
+services to delight and enchant **your** users' media experience.
 
-![Preview](docs/ecosystem-v2.0.0.png)
+![Preview](docs/ecosystem-v2.0.0.jpg)
 
 ### How is this lightweight?
 
-* No media indexing
-* No media transcoding
-* No media editing
+* **No media indexing.** All the metadata needed is already on your server. **Midarr** never goes out looking for more, everything we need you already have.
+* **No media transcoding.** Nope, none whatsoever. Your media is served fresh off the metal.
+* **No media editing.** We trust you already have it the way you like it in your integrations, let's keep it that way.
 
 ### What does this do?
 
