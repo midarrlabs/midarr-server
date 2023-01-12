@@ -110,8 +110,8 @@ services:
 
 On server startup **Midarr** attempts to auto configure your integrations by:
 
-* Caching movie and series responses - for speedy access to your library
-* Adding webhook / connect endpoints - for keeping the cache in sync
+* **Caching movie and series responses.** This is for speedy access to your library
+* **Adding webhook / connect endpoints.** This is for keeping your cache in sync
 
 > __Warning__
 >
@@ -129,7 +129,7 @@ environment:
 
 ### Media library
 
-This must be mounted as in your integration instances. This is so **Midarr** has the same reference to your media library as your integrations, and can resolve their locations.
+For your media locations to resolve, please provide the following **paths** as found in your integrations.
 
 ```yaml
 volumes:
@@ -139,7 +139,7 @@ volumes:
 
 ### Admin account
 
-On server startup this will be initialised for you, provided you have these `environment` variables configured. Login with these credentials, and access the `Settings` page to configure your server.
+To initialise this, please provide the following **environment variables**. This will allow you to configure your server at the **settings** page.
 
 ```yaml
 environment:
@@ -158,7 +158,7 @@ environment:
 
 ### Subtitles
 
-A single `*.srt` file in the root directory of the video is currently supported. With this setup a subtitle / caption option will be available in the player view.
+A single **.srt** file in the root directory of the video is currently supported. With this setup a subtitle / caption option will be available in the player view.
 
 ```
 library/video
