@@ -23,7 +23,13 @@ defmodule MediaServer.MoviesIndex do
 
   def get_movie(id) do
     get_all()
-    |> Enum.find(fn item -> item["id"] === String.to_integer(id) end)
+    |> Enum.find(fn item ->
+      if String.valid?(id) do
+        item["id"] === String.to_integer(id)
+      else
+        item["id"] === id
+      end
+    end)
   end
 
   def get_movie_path(id) do
