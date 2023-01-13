@@ -42,3 +42,5 @@ npm-debug.log
 /samples/copies
 
 /.idea
+/lib/media_server/release.ex
+/rel/overlays/bin/

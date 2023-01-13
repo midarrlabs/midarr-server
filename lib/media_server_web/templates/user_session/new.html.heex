@@ -12,13 +12,7 @@
     </div>
   <% end %>
 
-  <.form
-    let={_f}
-    for={@conn}
-    action={Routes.user_session_path(@conn, :create)}
-    as={:user}
-    class="mt-8 space-y-6"
-  >
+  <%= form_for @conn, Routes.user_session_path(@conn, :create), [as: :user, class: "mt-8 space-y-6"], fn _f -> %>
     <input type="hidden" name="user[remember_me]" value="true" />
 
     <div class="rounded-md shadow-sm -space-y-px">
@@ -72,5 +66,5 @@
         Login
       </button>
     </div>
-  </.form>
+  <% end %>
 </div>
