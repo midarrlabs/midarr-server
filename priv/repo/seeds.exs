@@ -12,8 +12,16 @@ MediaServer.Accounts.register_user(%{
   is_admin: true
 })
 
-MediaServer.Components.create_action(%{
-  name: "played"
+MediaServer.MediaTypes.create(%{
+  type: "movie"
+})
+
+MediaServer.MediaTypes.create(%{
+  type: "episode"
+})
+
+MediaServer.Actions.create(%{
+  action: "played"
 })
 
 #

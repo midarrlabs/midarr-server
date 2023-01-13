@@ -7,62 +7,27 @@ services:
       - 4000:4000
     volumes:
       - ./:/app
-      - ./fixtures/movies:/movies
-      - ./fixtures/shows:/shows
+      - ./misc/movies:/movies
+      - ./misc/series:/series
     environment:
-      - DB_USERNAME=my_user
-      - DB_PASSWORD=my_password
-      - DB_DATABASE=my_database
-      - DB_HOSTNAME=postgresql
-      - TEST_DB_HOSTNAME=test-postgresql
+      - APP_URL=http://midarr:4000
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
       - SETUP_ADMIN_PASSWORD=passwordpassword
-      - RADARR_BASE_URL=radarr:7878
+      - RADARR_BASE_URL=http://radarr:7878
       - RADARR_API_KEY=d031e8c9b9df4b2fab311d1c3b3fa2c5
-      - SONARR_BASE_URL=sonarr:8989
+      - SONARR_BASE_URL=http://sonarr:8989
       - SONARR_API_KEY=1accda4476394bfcaddefe8c4fd77d4a
-    depends_on:
-      postgresql:
-        condition: service_healthy
-      test-postgresql:
-        condition: service_healthy
-      radarr:
-        condition: service_healthy
-      sonarr:
-        condition: service_healthy
-    command: bash -c "mix deps.get && mix ecto.migrate && mix run priv/repo/seeds.exs && mix phx.server"
-
-  postgresql:
-    container_name: postgresql
-    image: postgres
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_USER=my_user
-      - POSTGRES_PASSWORD=my_password
-      - POSTGRES_DB=my_database
-    healthcheck:
-      test: "exit 0"
-
-  test-postgresql:
-    container_name: test-postgresql
-    image: postgres
-    environment:
-      - POSTGRES_USER=my_user
-      - POSTGRES_PASSWORD=my_password
-      - POSTGRES_DB=my_database
-    healthcheck:
-      test: "exit 0"
+    command: bash -c "chmod u+x misc/entry-point-local.sh && ./misc/entry-point-local.sh"
 
   radarr:
     container_name: radarr
-    image: linuxserver/radarr:4.1.0
+    image: linuxserver/radarr:version-4.1.0.6175
     ports:
       - 7878:7878
     volumes:
-      - ./fixtures/radarr/config.xml:/config/config.xml
-      - ./fixtures/movies:/movies
+      - ./misc/radarr/config.xml:/config/config.xml
+      - ./misc/movies:/movies
     environment:
       - PUID=1000
       - PGID=1000
@@ -71,12 +36,12 @@ services:
 
   sonarr:
     container_name: sonarr
-    image: linuxserver/sonarr:3.0.9
+    image: linuxserver/sonarr:version-3.0.9.1549
     ports:
       - 8989:8989
     volumes:
-      - ./fixtures/sonarr/config.xml:/config/config.xml
-      - ./fixtures/shows:/shows
+      - ./misc/sonarr/config.xml:/config/config.xml
+      - ./misc/series:/series
     environment:
       - PUID=1000
       - PGID=1000

@@ -1,25 +1,10 @@
 defmodule MediaServerWeb.StreamMovieControllerTest do
   use MediaServerWeb.ConnCase
 
-  alias MediaServer.AccountsFixtures
-  alias MediaServer.MoviesFixtures
+  test "movie", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
 
-  setup %{conn: conn} do
-    %{conn: conn, user: AccountsFixtures.user_fixture()}
-  end
-
-  test "movie", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-      })
-
-    assert get_session(conn, :user_token)
-    assert redirected_to(conn) == "/"
-
-    movie = MoviesFixtures.get_movie()
-
-    token = Phoenix.Token.sign(conn, "user auth", user.id)
+    token = Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", "id")
 
     conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]), token: token)
 
@@ -29,18 +14,8 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
     assert Enum.member?(conn.resp_headers, {"content-range", "bytes 0-35103579/35103580"})
   end
 
-  test "it halts with random token", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-      })
-
-    assert get_session(conn, :user_token)
-    assert redirected_to(conn) == "/"
-
-    movie = MoviesFixtures.get_movie()
-
-    Phoenix.Token.sign(conn, "user auth", user.id)
+  test "it halts with random token", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
 
     conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]), token: "someToken")
 
@@ -48,18 +23,8 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
     assert conn.halted
   end
 
-  test "it halts without token", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-      })
-
-    assert get_session(conn, :user_token)
-    assert redirected_to(conn) == "/"
-
-    movie = MoviesFixtures.get_movie()
-
-    Phoenix.Token.sign(conn, "user auth", user.id)
+  test "it halts without token", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
 
     conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]))
 
@@ -67,18 +32,10 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
     assert conn.halted
   end
 
-  test "movie range", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-      })
+  test "movie range", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
 
-    assert get_session(conn, :user_token)
-    assert redirected_to(conn) == "/"
-
-    movie = MoviesFixtures.get_movie()
-
-    token = Phoenix.Token.sign(conn, "user auth", user.id)
+    token = Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", "id")
 
     conn = conn |> recycle() |> put_req_header("range", "bytes=124-")
     conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]), token: token)
@@ -89,18 +46,10 @@ defmodule MediaServerWeb.StreamMovieControllerTest do
     assert Enum.member?(conn.resp_headers, {"content-range", "bytes 124-35103579/35103580"})
   end
 
-  test "safari probe", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-      })
+  test "safari probe", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
 
-    assert get_session(conn, :user_token)
-    assert redirected_to(conn) == "/"
-
-    movie = MoviesFixtures.get_movie()
-
-    token = Phoenix.Token.sign(conn, "user auth", user.id)
+    token = Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", "id")
 
     conn = conn |> recycle() |> put_req_header("range", "bytes=0-1")
     conn = get(conn, Routes.stream_movie_path(conn, :show, movie["id"]), token: token)

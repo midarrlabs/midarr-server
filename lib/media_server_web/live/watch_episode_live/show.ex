@@ -4,9 +4,6 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
   alias MediaServer.Repo
   alias MediaServer.Accounts
   alias MediaServerWeb.Repositories.Episodes
-  alias MediaServer.Continues
-  alias MediaServer.Components
-  alias MediaServer.Actions
 
   @impl true
   def mount(_params, session, socket) do
@@ -16,7 +13,7 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(:episode_continues)
+        |> Repo.preload(:continues)
       )
     }
   end
@@ -30,7 +27,17 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
       socket
       |> assign(:page_title, "#{episode["series"]["title"]}: #{episode["title"]}")
       |> assign(:episode, episode)
-      |> assign(:media_stream, Routes.stream_episode_path(socket, :show, episode["id"], token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", socket.assigns.current_user.id)))
+      |> assign(
+        :media_stream,
+        Routes.stream_episode_path(socket, :show, episode["id"],
+          token:
+            Phoenix.Token.sign(
+              MediaServerWeb.Endpoint,
+              "user auth",
+              socket.assigns.current_user.id
+            )
+        )
+      )
     }
   end
 
@@ -42,11 +49,21 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
       socket
       |> assign(:page_title, "#{episode["series"]["title"]}: #{episode["title"]}")
       |> assign(:episode, episode)
-      |> assign(:media_stream, Routes.stream_episode_path(socket, :show, episode["id"], token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", socket.assigns.current_user.id)))
+      |> assign(
+        :media_stream,
+        Routes.stream_episode_path(socket, :show, episode["id"],
+          token:
+            Phoenix.Token.sign(
+              MediaServerWeb.Endpoint,
+              "user auth",
+              socket.assigns.current_user.id
+            )
+        )
+      )
       |> assign(
         :continue,
-        socket.assigns.current_user.episode_continues
-        |> Enum.filter(fn item -> item.episode_id == episode["id"] end)
+        socket.assigns.current_user.continues
+        |> Enum.filter(fn item -> item.media_id == episode["id"] end)
         |> List.first()
       )
     }
@@ -61,28 +78,26 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
         },
         socket
       ) do
-    Continues.update_or_create_episode(%{
-      episode_id: socket.assigns.episode["id"],
-      serie_id: socket.assigns.episode["seriesId"],
-      title: socket.assigns.episode["title"],
-      image_url: Episodes.get_background(socket.assigns.episode),
+
+    MediaServer.Continues.update_or_create(%{
+      media_id: socket.assigns.episode["id"],
       current_time: current_time,
       duration: duration,
-      user_id: socket.assigns.current_user.id
+      user_id: socket.assigns.current_user.id,
+      media_type_id: MediaServer.MediaTypes.get_episode_id()
     })
 
     {:noreply, socket}
   end
 
   def handle_event("video_played", _params, socket) do
-    action = Components.list_actions() |> List.first()
+    action = MediaServer.Actions.all() |> List.first()
 
-    Actions.create_episode(%{
-      episode_id: socket.assigns.episode["id"],
-      serie_id: socket.assigns.episode["seriesId"],
-      title: socket.assigns.episode["title"],
+    MediaServer.MediaActions.create(%{
+      media_id: socket.assigns.episode["id"],
       user_id: socket.assigns.current_user.id,
-      action_id: action.id
+      action_id: action.id,
+      media_type_id: MediaServer.MediaTypes.get_episode_id()
     })
 
     {:noreply, socket}

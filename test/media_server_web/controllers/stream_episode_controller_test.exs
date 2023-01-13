@@ -1,28 +1,14 @@
 defmodule MediaServerWeb.StreamEpisodeControllerTest do
   use MediaServerWeb.ConnCase
 
-  alias MediaServer.AccountsFixtures
-  alias MediaServer.SeriesFixtures
-  alias MediaServer.EpisodesFixtures
+  alias MediaServerWeb.Repositories.Episodes
 
-  setup %{conn: conn} do
-    %{conn: conn, user: AccountsFixtures.user_fixture()}
-  end
+  test "episode", %{conn: conn} do
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
-  test "episode", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-      })
+    episode = Episodes.get_episode(series["id"])
 
-    assert get_session(conn, :user_token)
-    assert redirected_to(conn) == "/"
-
-    serie = SeriesFixtures.get_serie()
-
-    episode = EpisodesFixtures.get_episode(serie["id"])
-
-    token = Phoenix.Token.sign(conn, "user auth", user.id)
+    token = Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", "id")
 
     conn = get(conn, Routes.stream_episode_path(conn, :show, episode["id"]), token: token)
 
@@ -32,20 +18,10 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
     assert Enum.member?(conn.resp_headers, {"content-range", "bytes 0-47552616/47552617"})
   end
 
-  test "it halts with random token", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-      })
+  test "it halts with random token", %{conn: conn} do
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
-    assert get_session(conn, :user_token)
-    assert redirected_to(conn) == "/"
-
-    serie = SeriesFixtures.get_serie()
-
-    episode = EpisodesFixtures.get_episode(serie["id"])
-
-    Phoenix.Token.sign(conn, "user auth", user.id)
+    episode = Episodes.get_episode(series["id"])
 
     conn = get(conn, Routes.stream_episode_path(conn, :show, episode["id"]), token: "someToken")
 
@@ -53,20 +29,10 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
     assert conn.halted
   end
 
-  test "it halts without token", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-      })
+  test "it halts without token", %{conn: conn} do
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
-    assert get_session(conn, :user_token)
-    assert redirected_to(conn) == "/"
-
-    serie = SeriesFixtures.get_serie()
-
-    episode = EpisodesFixtures.get_episode(serie["id"])
-
-    Phoenix.Token.sign(conn, "user auth", user.id)
+    episode = Episodes.get_episode(series["id"])
 
     conn = get(conn, Routes.stream_episode_path(conn, :show, episode["id"]))
 
@@ -74,20 +40,12 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
     assert conn.halted
   end
 
-  test "episode range", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-      })
+  test "episode range", %{conn: conn} do
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
-    assert get_session(conn, :user_token)
-    assert redirected_to(conn) == "/"
+    episode = Episodes.get_episode(series["id"])
 
-    serie = SeriesFixtures.get_serie()
-
-    episode = EpisodesFixtures.get_episode(serie["id"])
-
-    token = Phoenix.Token.sign(conn, "user auth", user.id)
+    token = Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", "id")
 
     conn = conn |> recycle() |> put_req_header("range", "bytes=124-")
     conn = get(conn, Routes.stream_episode_path(conn, :show, episode["id"]), token: token)
@@ -98,20 +56,12 @@ defmodule MediaServerWeb.StreamEpisodeControllerTest do
     assert Enum.member?(conn.resp_headers, {"content-range", "bytes 124-47552616/47552617"})
   end
 
-  test "safari probe", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.user_session_path(conn, :create), %{
-        "user" => %{"email" => user.email, "password" => AccountsFixtures.valid_user_password()}
-      })
+  test "safari probe", %{conn: conn} do
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
 
-    assert get_session(conn, :user_token)
-    assert redirected_to(conn) == "/"
+    episode = Episodes.get_episode(series["id"])
 
-    serie = SeriesFixtures.get_serie()
-
-    episode = EpisodesFixtures.get_episode(serie["id"])
-
-    token = Phoenix.Token.sign(conn, "user auth", user.id)
+    token = Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", "id")
 
     conn = conn |> recycle() |> put_req_header("range", "bytes=0-1")
     conn = get(conn, Routes.stream_episode_path(conn, :show, episode["id"]), token: token)

@@ -4,53 +4,23 @@ defmodule MediaServerWeb.HomeLiveTest do
   import Phoenix.LiveViewTest
 
   alias MediaServer.AccountsFixtures
-  alias MediaServer.MoviesFixtures
-  alias MediaServer.SeriesFixtures
-  alias MediaServerWeb.Repositories.Movies
-  alias MediaServerWeb.Repositories.Series
 
   setup %{conn: conn} do
-    %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
-  end
+    user = AccountsFixtures.user_fixture()
 
-  test "it should render without movies", %{conn: conn} do
-    MoviesFixtures.remove_env()
-
-    assert html_response(get(conn, Routes.home_index_path(conn, :index)), 200)
-
-    MoviesFixtures.add_env()
-  end
-
-  test "it should render without series", %{conn: conn} do
-    SeriesFixtures.remove_env()
-
-    assert html_response(get(conn, Routes.home_index_path(conn, :index)), 200)
-
-    SeriesFixtures.add_env()
+    %{conn: conn |> log_in_user(user), user: user}
   end
 
   test "it has latest movies", %{conn: conn} do
-    {:ok, view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
+    {:ok, _view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
 
-    assert disconnected_html =~ "loading-movies"
-
-    movies = Movies.get_latest(7)
-
-    send(view.pid, {:movies, movies})
-
-    assert render(view) =~ "Caminandes: Llama Drama"
-    assert render(view) =~ "Caminandes: Gran Dillama"
-    refute render(view) =~ "Caminandes: Llamigos"
+    assert disconnected_html =~ "Caminandes: Llama Drama"
+    assert disconnected_html =~ "Caminandes: Gran Dillama"
+    refute disconnected_html =~ "Caminandes: Llamigos"
   end
 
   test "it has latest series", %{conn: conn} do
-    {:ok, view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
-
-    assert disconnected_html =~ "loading-series"
-
-    series = Series.get_latest(6)
-
-    send(view.pid, {:series, series})
+    {:ok, view, _disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
 
     assert render(view) =~ "Pioneer One"
   end
@@ -65,5 +35,54 @@ defmodule MediaServerWeb.HomeLiveTest do
       |> follow_redirect(conn, Routes.search_index_path(conn, :index, query: "Some query"))
 
     assert disconnected_html =~ "Some query"
+  end
+
+  test "it has continues", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 89,
+      duration: 100
+    })
+
+    another_movie = MediaServer.MoviesIndex.get_movie("2")
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_movie_show_path(conn, :show, another_movie["id"], "watch"))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 89,
+      duration: 100
+    })
+
+    episode = MediaServerWeb.Repositories.Episodes.get_episode(1)
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 39,
+      duration: 78
+    })
+
+    another_episode = MediaServerWeb.Repositories.Episodes.get_episode(2)
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_episode_show_path(conn, :show, another_episode["id"], "watch"))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 39,
+      duration: 78
+    })
+
+    {:ok, _view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
+
+    assert disconnected_html =~ Routes.watch_movie_show_path(conn, :show, movie["id"], "continue")
+    assert disconnected_html =~ Routes.watch_movie_show_path(conn, :show, another_movie["id"], "continue")
+    assert disconnected_html =~ Routes.watch_episode_show_path(conn, :show, episode["id"], "continue")
+    assert disconnected_html =~ Routes.watch_episode_show_path(conn, :show, another_episode["id"], "continue")
   end
 end

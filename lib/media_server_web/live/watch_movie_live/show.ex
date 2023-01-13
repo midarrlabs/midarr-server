@@ -3,10 +3,6 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
 
   alias MediaServer.Repo
   alias MediaServer.Accounts
-  alias MediaServerWeb.Repositories.Movies
-  alias MediaServer.Continues
-  alias MediaServer.Components
-  alias MediaServer.Actions
 
   @impl true
   def mount(_params, session, socket) do
@@ -16,37 +12,57 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(:movie_continues)
+        |> Repo.preload(:continues)
       )
     }
   end
 
   @impl true
   def handle_params(%{"id" => id, "action" => "watch"}, _url, socket) do
-    movie = Movies.get_movie(id)
+    movie = MediaServer.MoviesIndex.get_movie(id)
 
     {
       :noreply,
       socket
       |> assign(:page_title, "#{movie["title"]}")
       |> assign(:movie, movie)
-      |> assign(:media_stream, Routes.stream_movie_path(socket, :show, movie["id"], token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", socket.assigns.current_user.id)))
+      |> assign(
+        :media_stream,
+        Routes.stream_movie_path(socket, :show, movie["id"],
+          token:
+            Phoenix.Token.sign(
+              MediaServerWeb.Endpoint,
+              "user auth",
+              socket.assigns.current_user.id
+            )
+        )
+      )
     }
   end
 
   def handle_params(%{"id" => id, "action" => "continue"}, _url, socket) do
-    movie = Movies.get_movie(id)
+    movie = MediaServer.MoviesIndex.get_movie(id)
 
     {
       :noreply,
       socket
       |> assign(:page_title, "#{movie["title"]}")
       |> assign(:movie, movie)
-      |> assign(:media_stream, Routes.stream_movie_path(socket, :show, movie["id"], token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", socket.assigns.current_user.id)))
+      |> assign(
+        :media_stream,
+        Routes.stream_movie_path(socket, :show, movie["id"],
+          token:
+            Phoenix.Token.sign(
+              MediaServerWeb.Endpoint,
+              "user auth",
+              socket.assigns.current_user.id
+            )
+        )
+      )
       |> assign(
         :continue,
-        socket.assigns.current_user.movie_continues
-        |> Enum.filter(fn item -> item.movie_id == movie["id"] end)
+        socket.assigns.current_user.continues
+        |> Enum.filter(fn item -> item.media_id == movie["id"] end)
         |> List.first()
       )
     }
@@ -61,26 +77,26 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
         },
         socket
       ) do
-    Continues.update_or_create_movie(%{
-      movie_id: socket.assigns.movie["id"],
-      title: socket.assigns.movie["title"],
-      image_url: Movies.get_background(socket.assigns.movie),
+
+    MediaServer.Continues.update_or_create(%{
+      media_id: socket.assigns.movie["id"],
       current_time: current_time,
       duration: duration,
-      user_id: socket.assigns.current_user.id
+      user_id: socket.assigns.current_user.id,
+      media_type_id: MediaServer.MediaTypes.get_movie_id()
     })
 
     {:noreply, socket}
   end
 
   def handle_event("video_played", _params, socket) do
-    action = Components.list_actions() |> List.first()
+    action = MediaServer.Actions.all() |> List.first()
 
-    Actions.create_movie(%{
-      movie_id: socket.assigns.movie["id"],
-      title: socket.assigns.movie["title"],
+    MediaServer.MediaActions.create(%{
+      media_id: socket.assigns.movie["id"],
       user_id: socket.assigns.current_user.id,
-      action_id: action.id
+      action_id: action.id,
+      media_type_id: MediaServer.MediaTypes.get_movie_id()
     })
 
     {:noreply, socket}

@@ -18,7 +18,12 @@ defmodule MediaServer.Application do
       MediaServerWeb.Endpoint,
       # Start a worker by calling: MediaServer.Worker.start_link(arg)
       # {MediaServer.Worker, arg}
-      MediaServerWeb.Presence
+      MediaServerWeb.Presence,
+      MediaServer.Token,
+      MediaServer.MoviesIndex,
+      MediaServer.MoviesWebhook,
+      MediaServer.SeriesIndex,
+      MediaServer.SeriesWebhook
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

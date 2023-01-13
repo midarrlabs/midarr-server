@@ -19,7 +19,7 @@ RUN MIX_ENV=$MIX_ENV
 RUN SECRET_KEY_BASE=$SECRET_KEY_BASE
 
 RUN apt-get update && \
-    apt-get install -y inotify-tools postgresql-client
+    apt-get install -y inotify-tools sqlite3
 
 WORKDIR /app
 
@@ -33,8 +33,8 @@ RUN mix local.hex --force && \
     mix assets.deploy && \
     mix compile
 
-RUN chmod u+x script-entry-point.sh
+RUN chmod u+x /app/misc/entry-point.sh
 
 EXPOSE 4000
 
-CMD [ "/app/script-entry-point.sh" ]
+CMD [ "/app/misc/entry-point.sh" ]

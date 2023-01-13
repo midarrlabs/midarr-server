@@ -1,249 +1,67 @@
 defmodule MediaServer.Continues do
-  @moduledoc """
-  The Continues context.
-  """
+  use Ecto.Schema
+  import Ecto.Changeset
 
-  import Ecto.Query, warn: false
   alias MediaServer.Repo
 
-  alias MediaServer.Continues.Movie
+  schema "continues" do
+    field :media_id, :integer
 
-  @doc """
-  Returns the list of movie_continues.
+    field :current_time, :integer
+    field :duration, :integer
 
-  ## Examples
+    belongs_to :user, MediaServer.Accounts.User
+    belongs_to :media_type, MediaServer.MediaTypes
 
-      iex> list_movie_continues()
-      [%Movie{}, ...]
-
-  """
-  def list_movie_continues do
-    Repo.all(Movie)
+    timestamps()
   end
 
-  @doc """
-  Gets a single movie.
+  def changeset(continue, attrs) do
+    continue
+    |> cast(attrs, [:media_id, :current_time, :duration, :user_id, :media_type_id])
+    |> validate_required([:media_id, :current_time, :duration, :user_id, :media_type_id])
+  end
 
-  Raises `Ecto.NoResultsError` if the Movie does not exist.
-
-  ## Examples
-
-      iex> get_movie!(123)
-      %Movie{}
-
-      iex> get_movie!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_movie!(id), do: Repo.get!(Movie, id)
-
-  @doc """
-  Creates a movie.
-
-  ## Examples
-
-      iex> create_movie(%{field: value})
-      {:ok, %Movie{}}
-
-      iex> create_movie(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_movie(attrs \\ %{}) do
-    %Movie{}
-    |> Movie.changeset(attrs)
+  def create(attrs \\ %{}) do
+    %__MODULE__{}
+    |> changeset(attrs)
     |> Repo.insert()
   end
 
-  @doc """
-  Updates a movie.
+  def find(id) do
+    Repo.get!(__MODULE__, id)
+  end
 
-  ## Examples
+  def delete(id) do
+    find(id)
+    |> Repo.delete()
+  end
 
-      iex> update_movie(movie, %{field: new_value})
-      {:ok, %Movie{}}
-
-      iex> update_movie(movie, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_movie(%Movie{} = movie, attrs) do
-    movie
-    |> Movie.changeset(attrs)
+  def update(id, attrs) do
+    find(id)
+    |> changeset(attrs)
     |> Repo.update()
   end
 
-  def update_or_create_movie(attrs) do
-    movie = Repo.get_by(Movie, movie_id: attrs.movie_id, user_id: attrs.user_id)
+  def update_or_create(attrs) do
+    continue = Repo.get_by(__MODULE__, media_id: attrs.media_id, user_id: attrs.user_id, media_type_id: attrs.media_type_id)
 
-    case movie do
+    case continue do
       nil ->
         if attrs.current_time / attrs.duration * 100 < 90 do
-          create_movie(attrs)
+          create(attrs)
         else
           nil
         end
 
       _ ->
         if attrs.current_time / attrs.duration * 100 < 90 do
-          update_movie(movie, attrs)
+          update(continue.id, attrs)
         else
-          delete_movie(movie)
+          delete(continue.id)
 
           nil
         end
     end
-  end
-
-  @doc """
-  Deletes a movie.
-
-  ## Examples
-
-      iex> delete_movie(movie)
-      {:ok, %Movie{}}
-
-      iex> delete_movie(movie)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_movie(%Movie{} = movie) do
-    Repo.delete(movie)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking movie changes.
-
-  ## Examples
-
-      iex> change_movie(movie)
-      %Ecto.Changeset{data: %Movie{}}
-
-  """
-  def change_movie(%Movie{} = movie, attrs \\ %{}) do
-    Movie.changeset(movie, attrs)
-  end
-
-  alias MediaServer.Continues.Episode
-
-  @doc """
-  Returns the list of episode_continues.
-
-  ## Examples
-
-      iex> list_episode_continues()
-      [%Episode{}, ...]
-
-  """
-  def list_episode_continues do
-    Repo.all(Episode)
-  end
-
-  @doc """
-  Gets a single episode.
-
-  Raises `Ecto.NoResultsError` if the Episode does not exist.
-
-  ## Examples
-
-      iex> get_episode!(123)
-      %Episode{}
-
-      iex> get_episode!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_episode!(id), do: Repo.get!(Episode, id)
-
-  @doc """
-  Creates a episode.
-
-  ## Examples
-
-      iex> create_episode(%{field: value})
-      {:ok, %Episode{}}
-
-      iex> create_episode(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_episode(attrs \\ %{}) do
-    %Episode{}
-    |> Episode.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a episode.
-
-  ## Examples
-
-      iex> update_episode(episode, %{field: new_value})
-      {:ok, %Episode{}}
-
-      iex> update_episode(episode, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_episode(%Episode{} = episode, attrs) do
-    episode
-    |> Episode.changeset(attrs)
-    |> Repo.update()
-  end
-
-  def update_or_create_episode(attrs) do
-    episode =
-      Repo.get_by(Episode,
-        episode_id: attrs.episode_id,
-        serie_id: attrs.serie_id,
-        user_id: attrs.user_id
-      )
-
-    case episode do
-      nil ->
-        if attrs.current_time / attrs.duration * 100 < 90 do
-          create_episode(attrs)
-        else
-          nil
-        end
-
-      _ ->
-        if attrs.current_time / attrs.duration * 100 < 90 do
-          update_episode(episode, attrs)
-        else
-          delete_episode(episode)
-
-          nil
-        end
-    end
-  end
-
-  @doc """
-  Deletes a episode.
-
-  ## Examples
-
-      iex> delete_episode(episode)
-      {:ok, %Episode{}}
-
-      iex> delete_episode(episode)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_episode(%Episode{} = episode) do
-    Repo.delete(episode)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking episode changes.
-
-  ## Examples
-
-      iex> change_episode(episode)
-      %Ecto.Changeset{data: %Episode{}}
-
-  """
-  def change_episode(%Episode{} = episode, attrs \\ %{}) do
-    Episode.changeset(episode, attrs)
   end
 end

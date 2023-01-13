@@ -3,8 +3,6 @@ defmodule MediaServerWeb.HomeLive.Index do
 
   alias MediaServer.Repo
   alias MediaServer.Accounts
-  alias MediaServerWeb.Repositories.Movies
-  alias MediaServerWeb.Repositories.Series
 
   @impl true
   def mount(_params, session, socket) do
@@ -15,46 +13,19 @@ defmodule MediaServerWeb.HomeLive.Index do
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(:movie_continues)
-        |> Repo.preload(:episode_continues)
+        |> Repo.preload(:continues)
       )
     }
   end
 
   @impl true
   def handle_params(_params, _url, socket) do
-    pid = self()
-
-    Task.start(fn ->
-      send(pid, {:movies, Movies.get_latest(7)})
-    end)
-
-    Task.start(fn ->
-      send(pid, {:series, Series.get_latest(6)})
-    end)
-
     {
       :noreply,
       socket
-      |> assign(:movie_continues, socket.assigns.current_user.movie_continues |> Enum.take(4))
-      |> assign(:episode_continues, socket.assigns.current_user.episode_continues |> Enum.take(4))
-    }
-  end
-
-  @impl true
-  def handle_info({:movies, movies}, socket) do
-    {
-      :noreply,
-      socket
-      |> assign(:movies, movies)
-    }
-  end
-
-  def handle_info({:series, series}, socket) do
-    {
-      :noreply,
-      socket
-      |> assign(:series, series)
+      |> assign(:movies, MediaServer.MoviesIndex.get_latest(7))
+      |> assign(:series, MediaServer.SeriesIndex.get_latest(6))
+      |> assign(:user_continues, socket.assigns.current_user.continues)
     }
   end
 end

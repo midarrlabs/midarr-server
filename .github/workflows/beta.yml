@@ -2,45 +2,36 @@ name: Beta
 
 on:
   push:
-    branches: [ beta ]
+    tags:
+      - 'v*.*.*-beta.*'
 
 jobs:
-  test:
-    name: Test
+  docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
-      - name: Up services
-        run: docker compose up -d
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
 
-      - name: Run tests
-        run: docker run --network=midarr-server_default --env MIX_ENV=test --env APP_URL=http://midarr:4000 --env DB_USERNAME=my_user --env DB_PASSWORD=my_password --env DB_DATABASE=my_database --env DB_HOSTNAME=postgresql --env TEST_DB_HOSTNAME=test-postgresql --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/shows,dst=/shows midarr-server-midarr:latest mix test
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      - name: Run coverage
-        run: docker run --network=midarr-server_default --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} --env CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} --env MIX_ENV=test --env APP_URL=http://midarr:4000 --env DB_USERNAME=my_user --env DB_PASSWORD=my_password --env DB_DATABASE=my_database --env DB_HOSTNAME=postgresql --env TEST_DB_HOSTNAME=test-postgresql --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/movies,dst=/movies --mount type=bind,src=${GITHUB_WORKSPACE}/fixtures/shows,dst=/shows midarr-server-midarr:latest /bin/bash /app/script-code-coverage.sh
-
-  release:
-    needs: test
-    name: Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
         with:
-          token: ${{ secrets.PAT }}
-          fetch-depth: 0
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.PAT }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
+      - name: Build tag push
+        id: docker_build
+        uses: docker/build-push-action@v2
         with:
-          node-version: 14
-
-      - name: Install dependencies
-        run: rm -rf node_modules && yarn install --frozen-lockfile
-
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        run: npm install @semantic-release/changelog @semantic-release/git -D & npx semantic-release
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ghcr.io/midarrlabs/midarr-server:${{ env.RELEASE_VERSION }}
+          build-args: |
+            "MIX_ENV=prod"
+            "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}"

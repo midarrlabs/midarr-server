@@ -1,0 +1,80 @@
+<.live_component
+  module={MediaServerWeb.Components.NavComponent}
+  id="nav-component"
+  class="text-slate-600 hover:text-slate-800"
+/>
+
+<div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
+  <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
+    <div class="min-w-0 flex items-center">
+      <h2 class="text-lg font-bold tracking-tight text-slate-600"><%= @page_title %></h2>
+    </div>
+  </div>
+
+  <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+    <div class="group relative">
+      <div class="flex items-center w-full border-2 border-dashed border-gray-300 aspect-[4/6] rounded-sm overflow-hidden group-hover:border-gray-400 lg:aspect-none text-center">
+        <svg
+          class="mx-auto h-12 w-12 text-gray-400"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+      </div>
+
+      <div class="mt-2 flex">
+        <button
+          id="new-playlist"
+          phx-click={JS.toggle(to: "#add-playlist")}
+          class="hover:text-slate-800 hover:underline"
+        >
+          <span aria-hidden="true" class="absolute inset-0"></span>
+        </button>
+      </div>
+    </div>
+
+    <%= for item <- @current_user.playlists do %>
+      <%= MediaServerWeb.Components.PosterComponent.render(%{
+        img_src: "",
+        title: item.name,
+        link: Routes.playlist_show_path(@socket, :show, item.id)
+      }) %>
+    <% end %>
+  </div>
+
+  <div id="add-playlist" class="hidden relative z-10">
+    <div class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity"></div>
+
+    <div class="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
+      <div class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
+        <div class="relative" phx-click-away={JS.hide(to: "#add-playlist")}>
+          <svg
+            class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          <.form id="playlists-form" let={f} for={:playlists} phx-submit="save">
+            <%= text_input(f, :name,
+              placeholder: "New playlist",
+              class:
+                "h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
+            ) %>
+
+            <input type="hidden" name="playlists[user_id]" value={@current_user.id} />
+          </.form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

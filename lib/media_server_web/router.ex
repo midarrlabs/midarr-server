@@ -16,7 +16,7 @@ defmodule MediaServerWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug MediaServerWeb.Plugs.VerifyToken
+    plug MediaServerWeb.VerifyToken
   end
 
   scope "/", MediaServerWeb do
@@ -39,7 +39,10 @@ defmodule MediaServerWeb.Router do
     live "/search", SearchLive.Index, :index
 
     live "/continues", ContinuesLive.Index, :index
-    live "/favourites", FavouritesLive.Index, :index
+
+    live "/playlists", PlaylistLive.Index, :index
+    live "/playlists/new", PlaylistLive.Index, :new
+    live "/playlists/:id", PlaylistLive.Show, :show
 
     live "/settings", SettingsLive.Index, :index
 
@@ -61,6 +64,9 @@ defmodule MediaServerWeb.Router do
 
     get "/episodes/:id/stream", StreamEpisodeController, :show
     get "/episodes/:id/subtitle", SubtitleEpisodeController, :show
+
+    post "/webhooks/movie", Webhooks.MovieController, :create
+    post "/webhooks/series", Webhooks.SeriesController, :create
   end
 
   if Mix.env() == :dev do

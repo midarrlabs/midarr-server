@@ -9,8 +9,8 @@ defmodule MediaServer.Accounts.UserNotifier do
       new()
       |> to(recipient)
       |> from(
-        {Application.get_env(:media_server, :app_name),
-         Application.get_env(:media_server, :app_mailer_from)}
+        {System.get_env("APP_NAME", "Midarr"),
+         System.get_env("APP_MAILER_FROM", "example@email.com")}
       )
       |> subject(subject)
       |> html_body(body)
@@ -47,7 +47,7 @@ defmodule MediaServer.Accounts.UserNotifier do
 
     <p>An account has been created for you at:</p>
 
-    #{Application.get_env(:media_server, :app_url)}
+    #{System.get_env("APP_URL", "")}
 
     <p>You're account details are:</p>
 

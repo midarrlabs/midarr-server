@@ -1,9 +1,7 @@
 <header class="relative pb-24 bg-slate-800 sm:pb-32">
   <div
     class="absolute inset-0 bg-cover bg-fixed"
-    style={
-      "#{if assigns[:serie], do: "background-image: url(#{MediaServerWeb.Repositories.Series.get_background(@serie)}) ", else: ""}"
-    }
+    style={"background-image: url(#{MediaServer.SeriesIndex.get_background(@serie)})"}
   >
     <div
       class="absolute inset-0 bg-gradient-to-l from-slate-200 to-neutral-900 mix-blend-multiply"
@@ -21,128 +19,64 @@
   </div>
 
   <div class="relative mt-24 max-w-md mx-auto px-4 sm:max-w-xl sm:mt-32 sm:px-6 lg:max-w-6xl lg:px-8 space-y-6">
-    <%= if assigns[:serie] do %>
-      <div class="space-y-2">
-        <h1 class="text-3xl font-extrabold tracking-tight text-white">
-          <%= @serie["title"] %>
-        </h1>
-        <div class="flex space-x-4 text-sm font-semibold text-red-300 tracking-wide uppercase">
+    <div class="space-y-2">
+      <h1 class="text-3xl font-extrabold tracking-tight text-white">
+        <%= @serie["title"] %>
+      </h1>
+      <div class="flex space-x-4 text-sm font-semibold text-red-300 tracking-wide uppercase">
+        <h2>
+          <%= @serie["year"] %>
+        </h2>
+        <%= if @serie["certification"] do %>
+          <div>
+            |
+          </div>
           <h2>
-            <%= @serie["year"] %>
+            <%= @serie["certification"] %>
           </h2>
-          <%= if @serie["certification"] do %>
-            <div>
-              |
-            </div>
-            <h2>
-              <%= @serie["certification"] %>
-            </h2>
-          <% end %>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6">
-        <%= if is_nil(@favourite) do %>
-          <button
-            type="button"
-            id="favourite"
-            phx-click="favourite"
-            class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="-ml-0.5 mr-2 h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
-            </svg>
-            Favourite
-          </button>
-        <% else %>
-          <button
-            type="button"
-            id="unfavourite"
-            phx-click="unfavourite"
-            class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="-ml-0.5 mr-2 h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
-            </svg>
-            Unfavourite
-          </button>
         <% end %>
       </div>
-    <% else %>
-      <div class="animate-pulse space-y-6">
-        <div class="bg-gray-300 h-6 w-28 rounded"></div>
-        <div class="bg-gray-300 h-6 w-72 rounded"></div>
-        <div class="bg-gray-300 h-6 w-72 md:w-96 rounded"></div>
-      </div>
-    <% end %>
+    </div>
+
+    <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6"></div>
   </div>
 </header>
 
-<%= if assigns[:serie] do %>
-  <div class="lg:max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:py-8 lg:px-8 space-y-8">
-    <div class="lg:mt-0 lg:col-span-2">
-      <dl>
-        <div class="space-y-4">
-          <dt class="leading-6 font-medium text-gray-900">
-            Storyline
-          </dt>
-          <dd class="mt-2 text-base text-gray-500">
-            <%= @serie["overview"] %>
-          </dd>
-        </div>
-      </dl>
-    </div>
+<div class="lg:max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:py-8 lg:px-8 space-y-8">
+  <div class="lg:mt-0 lg:col-span-2">
+    <dl>
+      <div class="space-y-4">
+        <dt class="leading-6 font-medium text-gray-900">
+          Storyline
+        </dt>
+        <dd class="mt-2 text-base text-gray-500">
+          <%= @serie["overview"] %>
+        </dd>
+      </div>
+    </dl>
+  </div>
 
-    <div class="lg:mt-0 lg:col-span-2">
-      <dl>
-        <div class="space-y-4">
-          <dt class="leading-6 font-medium text-gray-900">
-            Seasons
-          </dt>
-          <dd>
-            <ul role="list" class="divide-y divide-gray-200">
-              <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-6 lg:grid-cols-8 xl:gap-x-8">
-                <%= for item <- @serie["seasons"] |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] > 0 end) do %>
-                  <%= MediaServerWeb.Components.PosterComponent.render(%{
-                    img_src: "",
-                    title: "Season #{item["seasonNumber"]}",
-                    link:
-                      Routes.seasons_show_path(@socket, :show, @serie["id"], item["seasonNumber"])
-                  }) %>
-                <% end %>
-              </div>
-            </ul>
-          </dd>
-        </div>
-      </dl>
-    </div>
+  <div class="lg:mt-0 lg:col-span-2">
+    <dl>
+      <div class="space-y-4">
+        <dt class="leading-6 font-medium text-gray-900">
+          Seasons
+        </dt>
+        <dd>
+          <ul role="list" class="divide-y divide-gray-200">
+            <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-6 lg:grid-cols-8 xl:gap-x-8">
+              <%= for item <- @serie["seasons"] |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] > 0 end) do %>
+                <%= MediaServerWeb.Components.PosterComponent.render(%{
+                  img_src: "",
+                  title: "Season #{item["seasonNumber"]}",
+                  link:
+                    Routes.seasons_show_path(@socket, :show, @serie["id"], item["seasonNumber"])
+                }) %>
+              <% end %>
+            </div>
+          </ul>
+        </dd>
+      </div>
+    </dl>
   </div>
-<% else %>
-  <div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
-    <div class="flex flex-row col-span-2 lg:col-span-6 justify-center mt-56">
-      <%= MediaServerWeb.Components.SpinnerComponent.render(%{}) %>
-    </div>
-  </div>
-<% end %>
+</div>

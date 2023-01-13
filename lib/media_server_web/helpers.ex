@@ -63,27 +63,4 @@ defmodule MediaServerWeb.Helpers do
   def reduce_size_for_poster_url(url) do
     String.replace(url, "original", "w342")
   end
-
-  def remove_extension_from(file_name) do
-    Regex.replace(~r/\.[^.]*$/, file_name, "")
-  end
-
-  def get_file_name(full_path) do
-    Path.basename(full_path)
-  end
-
-  def get_parent_path(full_path) do
-    Path.dirname(full_path)
-  end
-
-  def get_subtitle(path, file_name) do
-    File.ls!(path)
-    |> Enum.filter(fn item -> String.contains?(item, remove_extension_from(file_name)) end)
-    |> Enum.filter(fn item -> String.contains?(item, ".srt") end)
-    |> List.first()
-  end
-
-  def has_subtitle(path, file_name) do
-    !is_nil(get_subtitle(path, file_name))
-  end
 end

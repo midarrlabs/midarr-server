@@ -1,12 +1,23 @@
 defmodule MediaServerWeb.Repositories.Movies do
-  def get_url(url) do
-    case Application.get_env(:media_server, :movies_base_url) === nil ||
-           Application.get_env(:media_server, :movies_api_key) === nil do
-      true ->
-        :error
 
-      false ->
-        "#{Application.get_env(:media_server, :movies_base_url)}/api/v3/#{url}?apiKey=#{Application.get_env(:media_server, :movies_api_key)}"
+  def get(url) do
+    if String.valid?(System.get_env("RADARR_BASE_URL")) and String.valid?(System.get_env("RADARR_API_KEY")) do
+      HTTPoison.get("#{System.get_env("RADARR_BASE_URL")}/api/v3/#{url}", %{
+        "X-Api-Key" => System.get_env("RADARR_API_KEY")
+      })
+    else
+      nil
+    end
+  end
+
+  def post(url, body) do
+    if String.valid?(System.get_env("RADARR_BASE_URL")) and String.valid?(System.get_env("RADARR_API_KEY")) do
+      HTTPoison.post("#{System.get_env("RADARR_BASE_URL")}/api/v3/#{url}", body, %{
+        "X-Api-Key" => System.get_env("RADARR_API_KEY"),
+        "Content-Type" => "application/json"
+      })
+    else
+      nil
     end
   end
 
@@ -18,74 +29,76 @@ defmodule MediaServerWeb.Repositories.Movies do
     []
   end
 
-  def get_latest(amount) do
-    HTTPoison.get(get_url("movie"))
-    |> handle_response()
-    |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
-    |> Stream.filter(fn item -> item["hasFile"] end)
-    |> Stream.take(amount)
-  end
-
   def get_all() do
-    HTTPoison.get(get_url("movie"))
+    get("movie")
     |> handle_response()
-    |> Stream.filter(fn item -> item["hasFile"] end)
+    |> Enum.filter(fn item -> item["hasFile"] end)
     |> Enum.sort_by(& &1["title"], :asc)
   end
 
-  def get_movie(id) do
-    HTTPoison.get(get_url("movie/#{id}"))
-    |> handle_response()
-  end
-
-  def get_movie_path(id) do
-    movie =
-      HTTPoison.get("#{get_url("movie/#{id}")}")
-      |> handle_response()
-
-    movie["movieFile"]["path"]
-  end
-
-  def get_poster(movie) do
-    (Stream.filter(movie["images"], fn item -> item["coverType"] === "poster" end)
-     |> Enum.at(0))["remoteUrl"]
-  end
-
-  def get_background(movie) do
-    (Stream.filter(movie["images"], fn item -> item["coverType"] === "fanart" end)
-     |> Enum.at(0))["remoteUrl"]
-  end
-
-  def get_headshot(movie) do
-    (Stream.filter(movie["images"], fn item -> item["coverType"] === "headshot" end)
-     |> Enum.at(0))["url"]
-  end
-
   def get_cast(id) do
-    HTTPoison.get("#{get_url("credit")}&movieId=#{id}")
+    get("credit?movieId=#{id}")
     |> handle_response()
     |> Stream.filter(fn item -> item["type"] === "cast" end)
   end
 
   def search(query) do
-    HTTPoison.get("#{get_url("movie/lookup")}&term=#{URI.encode(query)}")
+    get("movie/lookup?term=#{URI.encode(query)}")
     |> handle_response()
     |> Stream.filter(fn item -> item["hasFile"] end)
     |> Enum.sort_by(& &1["title"], :asc)
   end
 
-  def handle_subtitle(nil, _parent_folder) do
-    nil
+  def set_notification() do
+    post("notification", Jason.encode!(%{
+      "onGrab" => false,
+      "onDownload" => true,
+      "onUpgrade" => false,
+      "onRename" => false,
+      "onMovieDelete" => false,
+      "onMovieFileDelete" => false,
+      "onMovieFileDeleteForUpgrade" => true,
+      "onHealthIssue" => false,
+      "onApplicationUpdate" => false,
+      "supportsOnGrab" => true,
+      "supportsOnDownload" => true,
+      "supportsOnUpgrade" => true,
+      "supportsOnRename" => true,
+      "supportsOnMovieDelete" => true,
+      "supportsOnMovieFileDelete" => true,
+      "supportsOnMovieFileDeleteForUpgrade" => true,
+      "supportsOnHealthIssue" => true,
+      "supportsOnApplicationUpdate" => true,
+      "includeHealthWarnings" => false,
+      "name" => "Midarr",
+      "fields" => [
+        %{
+          "name" => "url",
+          "value" =>
+            "#{System.get_env("APP_URL")}/api/webhooks/movie?token=#{MediaServer.Token.get_token()}"
+        },
+        %{
+          "name" => "method",
+          "value" => 1
+        },
+        %{
+          "name" => "username"
+        },
+        %{
+          "name" => "password"
+        }
+      ],
+      "implementationName" => "Webhook",
+      "implementation" => "Webhook",
+      "configContract" => "WebhookSettings",
+      "infoLink" => "https://wiki.servarr.com/radarr/supported#webhook",
+      "tags" => []
+    })
+    )
   end
 
-  def handle_subtitle(subtitle, parent_folder) do
-    "#{parent_folder}/#{subtitle}"
-  end
-
-  def get_subtitle_path_for(id) do
-    movie = get_movie(id)
-
-    MediaServerWeb.Helpers.get_subtitle(movie["folderName"], movie["movieFile"]["relativePath"])
-    |> handle_subtitle(movie["folderName"])
+  def get_notification do
+    get("notification")
+    |> handle_response()
   end
 end

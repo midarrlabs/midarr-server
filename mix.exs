@@ -4,7 +4,7 @@ defmodule MediaServer.MixProject do
   def project do
     [
       app: :media_server,
-      version: "1.16.0",
+      version: "2.0.0",
       elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
@@ -37,8 +37,7 @@ defmodule MediaServer.MixProject do
       {:bcrypt_elixir, "~> 3.0"},
       {:phoenix, "~> 1.6.2"},
       {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.6"},
-      {:postgrex, ">= 0.0.0"},
+      {:ecto_sqlite3, "~> 0.8.1"},
       {:phoenix_html, "~> 3.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.17", override: true},
