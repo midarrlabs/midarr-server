@@ -26,8 +26,7 @@ jobs:
           password: ${{ secrets.PAT }}
 
       - name: Build tag
-        id: docker_build
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           platforms: linux/amd64,linux/arm64
           push: true
@@ -37,8 +36,7 @@ jobs:
             "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}"
 
       - name: Build latest
-        id: docker_build_latest
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           platforms: linux/amd64,linux/arm64
           push: true
