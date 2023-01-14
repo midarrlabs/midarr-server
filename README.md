@@ -7,14 +7,14 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml">
-        <img src="https://github.com/midarrlabs/midarr-server/actions/workflows/master.yml/badge.svg" alt="Build Status">
-    </a>
-    <a href="https://github.com/midarrlabs/midarr-server/actions/workflows/beta.yml">
-        <img src="https://github.com/midarrlabs/midarr-server/actions/workflows/beta.yml/badge.svg" alt="Build Status">
+    <a href="https://github.com/midarrlabs/midarr-server/actions/workflows/test.yml">
+        <img src="https://github.com/midarrlabs/midarr-server/actions/workflows/test.yml/badge.svg" alt="Build Status">
     </a>
     <a href="https://codecov.io/gh/midarrlabs/midarr-server">
         <img src="https://codecov.io/gh/midarrlabs/midarr-server/branch/master/graph/badge.svg?token=8PJVJG09RK&style=flat-square" alt="Code Coverage">
+    </a>
+    <a href="https://github.com/midarrlabs/midarr-server/issues?q=is%3Aopen+is%3Aissue">
+        <img src="https://img.shields.io/github/issues-raw/midarrlabs/midarr-server" alt="Open Issues">
     </a>
     <a href="https://github.com/midarrlabs/midarr-server/issues?q=is%3Aissue+is%3Aclosed">
         <img src="https://img.shields.io/github/issues-closed-raw/midarrlabs/midarr-server" alt="Closed Issues">
