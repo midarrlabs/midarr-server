@@ -64,7 +64,7 @@
           >
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
           </svg>
-          <.form id="playlists-form" let={f} for={:playlists} phx-submit="save">
+          <.form id="playlists-form" :let={f} for={:playlists} phx-submit="save">
             <%= text_input(f, :name,
               placeholder: "New playlist",
               class:
