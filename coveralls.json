@@ -1,0 +1,7 @@
+{
+  "skip_files": [
+    "lib/media_server_web.ex",
+    "lib/media_server_web/telemetry.ex",
+    "test"
+  ]
+}
