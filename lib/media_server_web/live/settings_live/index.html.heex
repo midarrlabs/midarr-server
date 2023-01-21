@@ -6,7 +6,7 @@
 
 <div class="max-w-6xl mx-auto py-6 px-4 divide-y">
   <main class="max-w-lg mx-auto px-4 py-8">
-    <.form let={f} for={@user_name} id="user-account-form" phx-submit="save">
+    <.form :let={f} for={@user_name} id="user-account-form" phx-submit="save">
       <div class="space-y-6">
         <div>
           <h1 class="text-lg leading-6 font-medium text-gray-900">
@@ -41,7 +41,7 @@
 
   <%= if @current_user.is_admin do %>
     <main class="max-w-lg mx-auto px-4 py-8">
-      <.form let={f} for={@user} id="user-form" phx-submit="invite">
+      <.form :let={f} for={@user} id="user-form" phx-submit="invite">
         <div class="space-y-6">
           <div>
             <h1 class="text-lg leading-6 font-medium text-gray-900">
