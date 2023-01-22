@@ -13,17 +13,17 @@
     <a href="https://codecov.io/gh/midarrlabs/midarr-server">
         <img src="https://codecov.io/gh/midarrlabs/midarr-server/branch/master/graph/badge.svg?token=8PJVJG09RK&style=flat-square" alt="Code Coverage">
     </a>
+    <a href="https://github.com/midarrlabs/midarr-server/blob/master/LICENSE">
+        <img alt="GitHub license" src="https://img.shields.io/github/license/midarrlabs/midarr-server" alt="License">
+    </a>
+    <a href="https://github.com/midarrlabs/midarr-server/releases">
+        <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/midarrlabs/midarr-server" alt="Release">
+    </a>
     <a href="https://github.com/midarrlabs/midarr-server/issues?q=is%3Aopen+is%3Aissue">
         <img src="https://img.shields.io/github/issues-raw/midarrlabs/midarr-server" alt="Open Issues">
     </a>
     <a href="https://github.com/midarrlabs/midarr-server/issues?q=is%3Aissue+is%3Aclosed">
         <img src="https://img.shields.io/github/issues-closed-raw/midarrlabs/midarr-server" alt="Closed Issues">
-    </a>
-    <a href="https://github.com/midarrlabs/midarr-server/releases">
-        <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/midarrlabs/midarr-server" alt="Release">
-    </a>
-    <a href="https://github.com/midarrlabs/midarr-server/blob/master/LICENSE">
-        <img alt="GitHub license" src="https://img.shields.io/github/license/midarrlabs/midarr-server" alt="License">
     </a>
 </p>
 
