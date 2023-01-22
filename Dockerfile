@@ -19,7 +19,7 @@ RUN MIX_ENV=$MIX_ENV
 RUN SECRET_KEY_BASE=$SECRET_KEY_BASE
 
 RUN apt-get update && \
-    apt-get install -y inotify-tools sqlite3
+    apt-get install -y inotify-tools sqlite3 ffmpeg
 
 WORKDIR /app
 
