@@ -20,6 +20,13 @@ defmodule MediaServerWeb.Router do
   end
 
   scope "/", MediaServerWeb do
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
+
+    get "/login", UserSessionController, :new
+    post "/login", UserSessionController, :create
+  end
+
+  scope "/", MediaServerWeb do
     pipe_through [:browser, :require_authenticated_user]
 
     live "/", HomeLive.Index, :index
@@ -47,13 +54,6 @@ defmodule MediaServerWeb.Router do
     live "/settings", SettingsLive.Index, :index
 
     delete "/logout", UserSessionController, :delete
-  end
-
-  scope "/", MediaServerWeb do
-    pipe_through [:browser, :redirect_if_user_is_authenticated]
-
-    get "/login", UserSessionController, :new
-    post "/login", UserSessionController, :create
   end
 
   scope "/api", MediaServerWeb do
