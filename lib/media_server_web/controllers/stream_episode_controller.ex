@@ -1,10 +1,9 @@
 defmodule MediaServerWeb.StreamEpisodeController do
   use MediaServerWeb, :controller
 
-  alias MediaServerWeb.Repositories.Episodes
-  alias MediaServerWeb.Helpers
+  plug MediaServerWeb.StreamVideo, "episode"
 
-  def show(%{req_headers: headers} = conn, %{"id" => id}) do
-    Helpers.send_video(conn, headers, Episodes.get_episode_path(id))
+  def show(conn, _params) do
+    conn
   end
 end
