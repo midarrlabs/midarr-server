@@ -8,7 +8,6 @@ defmodule MediaServerWeb.Repositories.Episodes do
     |> Enum.filter(fn episode ->
       episode["seasonNumber"] === String.to_integer(season_number)
     end)
-    |> Enum.filter(fn episode -> episode["hasFile"] end)
     |> replace_each_with_episode_show_response()
   end
 
