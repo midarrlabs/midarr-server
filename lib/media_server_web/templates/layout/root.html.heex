@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-gray-50">
+<html lang="en" class="h-full antialiased js-focus-visible dark">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -34,7 +34,7 @@
       </script>
     <% end %>
   </head>
-  <body>
+  <body class="flex h-full flex-col bg-zinc-50 dark:bg-black">
     <%= if @current_user do %>
       <%= @inner_content %>
     <% else %>
