@@ -6,7 +6,6 @@
     </div>
   </div>
   <div class="relative">
-
     <header
       class="pointer-events-none relative z-50 flex flex-col"
       style="height:var(--header-height);margin-bottom:var(--header-mb)"
@@ -146,12 +145,15 @@
                           viewBox="0 0 24 24"
                           aria-hidden="true"
                           class="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400 [@media_not_(prefers-color-scheme:dark)]:fill-teal-400/10 [@media_not_(prefers-color-scheme:dark)]:stroke-teal-500"
-                        ><path
-                          d="M17.25 16.22a6.937 6.937 0 0 1-9.47-9.47 7.451 7.451 0 1 0 9.47 9.47ZM12.75 7C17 7 17 2.75 17 2.75S17 7 21.25 7C17 7 17 11.25 17 11.25S17 7 12.75 7Z"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        ></path></svg>
+                        >
+                          <path
+                            d="M17.25 16.22a6.937 6.937 0 0 1-9.47-9.47 7.451 7.451 0 1 0 9.47 9.47ZM12.75 7C17 7 17 2.75 17 2.75S17 7 21.25 7C17 7 17 11.25 17 11.25S17 7 12.75 7Z"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                          </path>
+                        </svg>
                       </button>
                     </div>
                   </div>
@@ -163,53 +165,59 @@
       </div>
     </header>
 
-
     <main>
       <div class="sm:px-8 mt-9">
         <div class="mx-auto max-w-7xl lg:px-8">
           <div class="relative px-4 sm:px-8 lg:px-12">
-
             <div class="mx-auto max-w-2xl lg:max-w-5xl">
-              <div class="max-w-2xl">
-                <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-                  <%= Enum.at(@movies, 0)["title"] %>
-                </h1>
-                <p class="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-                  <%= Enum.at(@movies, 0)["overview"] %>
-                </p>
-                <div class="mt-6 flex gap-6">
-                  <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
-                    <a
-                      href="#"
-                      class="flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        viewBox="0 0 10 10"
-                        fill="none"
-                        class="h-2.5 w-2.5 fill-current"
+              <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
+                <div class="lg:pl-10">
+                  <div class="px-2.5">
+                    <img
+                      alt=""
+                      src={MediaServer.MoviesIndex.get_background(Enum.at(@movies, 0))}
+                      class="aspect-video rounded-lg bg-zinc-100 object-cover dark:bg-zinc-800"
+                    />
+                  </div>
+                </div>
+                <div class="lg:order-first lg:row-span-2">
+                  <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+                    <%= Enum.at(@movies, 0)["title"] %>                  </h1>
+                  <div class="mt-6 text-base text-zinc-600 dark:text-zinc-400">
+                    <p>
+                    <%= Enum.at(@movies, 0)["overview"] %>
+                    </p>
+                  </div>
+                  <div class="mt-6 flex gap-6">
+                    <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+                      <a
+                        href="#"
+                        class="flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400"
                       >
-                        <path d="M8.25 4.567a.5.5 0 0 1 0 .866l-7.5 4.33A.5.5 0 0 1 0 9.33V.67A.5.5 0 0 1 .75.237l7.5 4.33Z">
-                        </path>
-                      </svg>
-                      <span class="ml-3">Watch</span>
-                    </a>
-                  </ul>
+                        <svg
+                          aria-hidden="true"
+                          viewBox="0 0 10 10"
+                          fill="none"
+                          class="h-2.5 w-2.5 fill-current"
+                        >
+                          <path d="M8.25 4.567a.5.5 0 0 1 0 .866l-7.5 4.33A.5.5 0 0 1 0 9.33V.67A.5.5 0 0 1 .75.237l7.5 4.33Z">
+                          </path>
+                        </svg>
+                        <span class="ml-3">Watch</span>
+                      </a>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
-
-
-
           </div>
         </div>
       </div>
 
-
       <div class="mt-16 sm:mt-20">
-        <div class="my-32 flex justify-center gap-5 overflow-hidden py-4 sm:gap-8">
+        <div class="overflow-x-auto my-32 flex justify-center gap-5 overflow-hidden py-4 sm:gap-8">
           <%= for item <- @movies do %>
-            <div class="relative aspect-[9/10] w-44 flex-none overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 sm:w-56 sm:rounded-2xl">
+            <div class="bg-blend-overlay relative aspect-[4/6] w-44 flex-none overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 rounded-lg">
               <img
                 alt=""
                 src={MediaServer.MoviesIndex.get_poster(item)}
@@ -575,7 +583,9 @@
                     <a
                       class="transition hover:text-teal-500 dark:hover:text-teal-400"
                       href="/projects"
-                    >Projects</a><a
+                    >
+                      Projects
+                    </a><a
                       class="transition hover:text-teal-500 dark:hover:text-teal-400"
                       href="/speaking"
                     >Speaking</a><a
