@@ -6,8 +6,9 @@ defmodule MediaServerWeb.Components.PaginationComponent do
     <nav class="bg-gray-50 mt-12 py-3 flex items-center justify-between border-t border-gray-200 bottom-0 sticky pb-4">
       <div class="hidden sm:block">
         <p class="text-sm text-gray-700">
-          Showing <span class="font-medium"><%= assigns.page_number %></span> of
-          <span class="font-medium"><%= assigns.total_pages %></span> pages
+          Showing <span class="font-medium"><%= assigns.page_number %></span>
+          of <span class="font-medium"><%= assigns.total_pages %></span>
+          pages
         </p>
       </div>
 
