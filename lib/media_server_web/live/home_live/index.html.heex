@@ -62,15 +62,12 @@
       </div>
 
       <div class="mt-16 sm:mt-20">
-        <div class="overflow-x-auto my-32 flex justify-center gap-5 overflow-hidden py-4 sm:gap-8">
+        <div class="h-72 overflow-x-auto my-32 flex gap-5 overflow-hidden p-4 sm:gap-6">
           <%= for item <- @movies do %>
-            <div class="bg-blend-overlay relative aspect-[4/6] w-44 flex-none overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800 rounded-lg">
-              <img
-                alt=""
-                src={MediaServer.MoviesIndex.get_poster(item)}
-                class="absolute inset-0 h-full w-full object-cover"
-              />
-            </div>
+              <%= MediaServerWeb.Components.PosterComponent.render(%{
+                img_src: MediaServer.MoviesIndex.get_poster(item),
+                link: Routes.movies_show_path(@socket, :show, item["id"])
+              }) %>
           <% end %>
         </div>
       </div>

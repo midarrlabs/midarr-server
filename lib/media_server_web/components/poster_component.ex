@@ -3,24 +3,15 @@ defmodule MediaServerWeb.Components.PosterComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="group relative">
-      <div class="w-full bg-gray-200 aspect-[4/6] rounded-sm overflow-hidden group-hover:opacity-75 lg:aspect-none">
-        <img
-          class="h-full object-cover"
-          src={MediaServerWeb.Helpers.reduce_size_for_poster_url(assigns.img_src)}
-          loading="lazy"
-        />
+      <div class="bg-blend-overlay relative aspect-[4/6] w-34 flex-none overflow-hidden rounded-md bg-zinc-100 dark:bg-zinc-800">
+        <%= live_redirect to: assigns.link do %>
+            <img
+              alt=""
+              src={MediaServerWeb.Helpers.reduce_size_for_poster_url(assigns.img_src)}
+              loading="lazy"
+            />
+        <% end %>
       </div>
-
-      <div class="mt-2 flex">
-        <h3 class="text-sm text-slate-600">
-          <%= live_redirect to: assigns.link, class: "hover:text-slate-800 hover:underline" do %>
-            <span aria-hidden="true" class="absolute inset-0"></span>
-            <%= assigns.title %>
-          <% end %>
-        </h3>
-      </div>
-    </div>
     """
   end
 end

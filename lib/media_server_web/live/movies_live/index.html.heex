@@ -1,8 +1,13 @@
-<.live_component
-  module={MediaServerWeb.Components.NavComponent}
-  id="nav-component"
-  class="text-slate-600 hover:text-slate-800"
-/>
+  <div>
+    <div class="fixed inset-0 flex justify-center sm:px-8">
+      <div class="flex w-full max-w-7xl lg:px-8">
+        <div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20">
+        </div>
+      </div>
+    </div>
+
+    <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+  </div>
 
 <div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
   <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
@@ -15,22 +20,8 @@
     <%= for item <- @movies do %>
       <%= MediaServerWeb.Components.PosterComponent.render(%{
         img_src: MediaServer.MoviesIndex.get_poster(item),
-        title: item["title"],
         link: Routes.movies_show_path(@socket, :show, item["id"])
       }) %>
     <% end %>
   </div>
-
-  <%= MediaServerWeb.Components.PaginationComponent.render(%{
-    page_number: @movies.page_number,
-    total_pages: @movies.total_pages,
-    previous_link:
-      Routes.movies_index_path(@socket, :index,
-        page: MediaServerWeb.Helpers.get_pagination_previous_link(@movies.page_number)
-      ),
-    next_link:
-      Routes.movies_index_path(@socket, :index,
-        page: MediaServerWeb.Helpers.get_pagination_next_link(@movies.page_number)
-      )
-  }) %>
 </div>
