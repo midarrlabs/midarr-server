@@ -1,116 +1,113 @@
-<nav>
-  <div class="max-w-7xl mx-auto pt-4 px-4 lg:px-8">
-    <div class="relative flex items-center h-16">
-      <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-        <button
-          type="button"
-          phx-click={JS.toggle(to: "#mobile-menu")}
-          phx-click-away={JS.hide(to: "#mobile-menu")}
-          class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-        >
-          <svg
-            class="block h-6 w-6"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+<header
+  class="pointer-events-none relative z-50 flex flex-col"
+  style="height:var(--header-height);margin-bottom:var(--header-mb)"
+>
+  <div class="order-last mt-[calc(theme(spacing.16)-theme(spacing.3))]"></div>
+  <div class="sm:px-8 top-0 order-last -mb-3 pt-3" style="position: var(--header-position);">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="relative px-4 sm:px-8 lg:px-12">
+        <div class="mx-auto max-w-2xl lg:max-w-5xl">
+          <div
+            class="top-[var(--avatar-top,theme(spacing.3))] w-full"
+            style="position: var(--header-inner-position);"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
-      </div>
-      <div class="flex-1 flex items-center justify-between">
-        <div class="md:hidden"></div>
-
-        <%= live_redirect to: Routes.home_index_path(@socket, :index), class: "flex-none" do %>
-          <img class="h-8 w-auto" src="/logo.svg" alt="Logo" />
-        <% end %>
-
-        <div class="grow hidden sm:block sm:ml-6">
-          <div class="text-center space-x-8">
-            <%= live_redirect("Movies",
-              to: Routes.movies_index_path(@socket, :index),
-              class: "text-base font-medium #{@class}"
-            ) %>
-
-            <%= live_redirect("Series",
-              to: Routes.series_index_path(@socket, :index),
-              class: "text-base font-medium #{@class}"
-            ) %>
-
-            <%= live_redirect("Playlists",
-              to: Routes.playlist_index_path(@socket, :index),
-              class: "text-base font-medium #{@class}"
-            ) %>
-
-            <%= live_redirect("Continues",
-              to: Routes.continues_index_path(@socket, :index),
-              class: "text-base font-medium #{@class}"
-            ) %>
+            <div class="relative">
+              <div
+                class="absolute left-0 top-3 origin-left transition-opacity h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10"
+                style="opacity: var(--avatar-border-opacity, 0); transform: var(--avatar-border-transform);"
+              >
+              </div>
+              <%= live_redirect to: Routes.home_index_path(@socket, :index), class: "block h-16 w-16 origin-left pointer-events-auto", style: "transform: var(--avatar-image-transform);" do %>
+                <svg viewBox="0 0 20 20" fill="#ef4444" class="w-16 h-16">
+                  <path
+                    fill-rule="evenodd"
+                    d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              <% end %>
+            </div>
           </div>
         </div>
-
-        <div class="flex space-x-6">
-          <button
-            phx-click={JS.toggle(to: "#search-command") |> JS.focus(to: "#search_query")}
-            type="button"
-            class={
-              "text-base font-medium focus:outline-none focus:ring-2 focus:ring-slate-500 #{@class}"
-            }
-          >
-            <svg
-              class="h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </button>
-
-          <div class="relative">
-            <button
-              phx-click={JS.toggle(to: "#profile-dropdown")}
-              phx-click-away={JS.hide(to: "#profile-dropdown")}
-              type="button"
-              class="flex text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
-            >
-              <span class="flex-shrink-0 inline-block relative">
-                <span class="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
-                  <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                </span>
-                <span class="bg-green-400 absolute top-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white">
-                </span>
-              </span>
-            </button>
-
-            <div
-              id="profile-dropdown"
-              class="hidden origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-            >
-              <div class="py-1">
-                <%= link("Settings",
-                  to: Routes.settings_index_path(@socket, :index),
-                  class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                ) %>
-                <%= link("Log out",
-                  to: Routes.user_session_path(@socket, :delete),
-                  method: :delete,
-                  class: "text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                ) %>
+      </div>
+    </div>
+  </div>
+  <div class="top-0 z-10 h-16 pt-6" style="position:var(--header-position)">
+    <div
+      class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full"
+      style="position:var(--header-inner-position)"
+    >
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="relative flex gap-4">
+              <div class="flex flex-1"></div>
+              <div class="flex flex-1 justify-end md:justify-center">
+                <div class="pointer-events-auto md:hidden">
+                  <button
+                    class="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20"
+                    type="button"
+                  >
+                    Menu<svg
+                      viewBox="0 0 8 6"
+                      class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400"
+                    ><path
+                        d="M1.75 1.75 4 4.25l2.25-2.5"
+                        fill="none"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path></svg>
+                  </button>
+                </div>
+                <nav class="pointer-events-auto hidden md:block">
+                  <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200">
+                    <li>
+                      <%= live_redirect("Movies",
+                        to: Routes.movies_index_path(@socket, :index),
+                        class:
+                          "relative block px-3 py-2 transition hover:text-red-500 dark:hover:text-red-400"
+                      ) %>
+                    </li>
+                    <li>
+                      <%= live_redirect("Series",
+                        to: Routes.series_index_path(@socket, :index),
+                        class:
+                          "relative block px-3 py-2 transition hover:text-red-500 dark:hover:text-red-400"
+                      ) %>
+                    </li>
+                    <li>
+                      <%= live_redirect("Playlists",
+                        to: Routes.playlist_index_path(@socket, :index),
+                        class:
+                          "relative block px-3 py-2 transition hover:text-red-500 dark:hover:text-red-400"
+                      ) %>
+                    </li>
+                    <li>
+                      <%= live_redirect("Continues",
+                        to: Routes.continues_index_path(@socket, :index),
+                        class:
+                          "relative block px-3 py-2 transition hover:text-red-500 dark:hover:text-red-400"
+                      ) %>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+              <div class="flex justify-end md:flex-1">
+                <div class="pointer-events-auto">
+                  <button
+                    type="button"
+                    class="group rounded-full px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:bg-zinc-800/90"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="h-6 w-6 fill-white transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:fill-red-400"
+                    >
+                      <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -118,58 +115,4 @@
       </div>
     </div>
   </div>
-
-  <div class="hidden" id="mobile-menu">
-    <div class="px-2 pt-2 pb-3 space-y-1">
-      <%= live_redirect("Movies",
-        to: Routes.movies_index_path(@socket, :index),
-        class: "text-base block px-3 py-2 font-medium #{@class}"
-      ) %>
-
-      <%= live_redirect("Series",
-        to: Routes.series_index_path(@socket, :index),
-        class: "text-base block px-3 py-2 font-medium #{@class}"
-      ) %>
-
-      <%= live_redirect("Playlists",
-        to: Routes.playlist_index_path(@socket, :index),
-        class: "text-base block px-3 py-2 font-medium #{@class}"
-      ) %>
-
-      <%= live_redirect("Continues",
-        to: Routes.continues_index_path(@socket, :index),
-        class: "text-base block px-3 py-2 font-medium #{@class}"
-      ) %>
-    </div>
-  </div>
-
-  <div class="hidden relative z-10" id="search-command">
-    <div class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity"></div>
-
-    <div class="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
-      <div class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
-        <div class="relative" phx-click-away={JS.hide(to: "#search-command")}>
-          <svg
-            class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <.form :let={f} for={:search} id="search" phx-target={@myself} phx-submit="search">
-            <%= text_input(f, :query,
-              placeholder: "Search...",
-              class:
-                "h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
-            ) %>
-          </.form>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
+</header>
