@@ -32,35 +32,34 @@
         </div>
       </div>
 
-        <div class="sm:px-8 mt-24 md:mt-28">
-          <div class="mx-auto lg:px-8">
-               <nav class="flex">
-                 <%= for item <- @serie["seasons"] |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] > 0 end) do %>
-                     <%= live_patch to: Routes.series_show_path(@socket, :show, @serie["id"], season: item["seasonNumber"]) do %>
-                       <h2 class="p-4 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100 dark:hover:text-red-400">
-                         Season <%= item["seasonNumber"] %>
-                       </h2>
-                     <% end %>
-                 <% end %>
-               </nav>
+      <div class="sm:px-8 mt-24 md:mt-28">
+        <div class="mx-auto lg:px-8">
+          <nav class="flex">
+            <%= for item <- @serie["seasons"] |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] > 0 end) do %>
+              <%= live_patch to: Routes.series_show_path(@socket, :show, @serie["id"], season: item["seasonNumber"]) do %>
+                <h2 class="p-4 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100 dark:hover:text-red-400">
+                  Season <%= item["seasonNumber"] %>
+                </h2>
+              <% end %>
+            <% end %>
+          </nav>
 
-            <div class="h-72 overflow-x-auto mb-8 flex gap-5 p-4 overflow-hidden sm:gap-6">
-                <%= if assigns[:episodes] do %>
-                <%= for item <- @episodes do %>
-                    <%= if MediaServerWeb.Repositories.Episodes.get_screenshot(item) do %>
-                      <img
-                        class="h-48 w-full md:w-1/4 object-cover rounded-lg"
-                        src={MediaServerWeb.Repositories.Episodes.get_screenshot(item)}
-                      />
-                    <% else %>
-                      <div class="h-48 w-full md:w-1/4 bg-gray-200"></div>
-                    <% end %>
+          <div class="h-72 overflow-x-auto mb-8 flex gap-5 p-4 overflow-hidden sm:gap-6">
+            <%= if assigns[:episodes] do %>
+              <%= for item <- @episodes do %>
+                <%= if MediaServerWeb.Repositories.Episodes.get_screenshot(item) do %>
+                  <img
+                    class="h-48 w-full md:w-1/4 object-cover rounded-lg"
+                    src={MediaServerWeb.Repositories.Episodes.get_screenshot(item)}
+                  />
+                <% else %>
+                  <div class="h-48 w-full md:w-1/4 bg-gray-200"></div>
                 <% end %>
-                <% end %>
-            </div>
+              <% end %>
+            <% end %>
           </div>
         </div>
-
+      </div>
     </main>
 
     <%= MediaServerWeb.Components.FooterComponent.render(%{}) %>
