@@ -21,6 +21,19 @@
 
       <div class="sm:px-8 mt-24 md:mt-28">
         <div class="mx-auto px-6 lg:px-8">
+          <%= MediaServerWeb.Components.PaginationComponent.render(%{
+            page_number: @movies.page_number,
+            total_pages: @movies.total_pages,
+            previous_link:
+              Routes.movies_index_path(@socket, :index,
+                page: MediaServerWeb.Helpers.get_pagination_previous_link(@movies.page_number)
+              ),
+            next_link:
+              Routes.movies_index_path(@socket, :index,
+                page: MediaServerWeb.Helpers.get_pagination_next_link(@movies.page_number)
+              )
+          }) %>
+
           <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-7 xl:gap-x-8">
             <%= for item <- @movies do %>
               <%= MediaServerWeb.Components.PosterComponent.render(%{
@@ -29,6 +42,19 @@
               }) %>
             <% end %>
           </div>
+
+          <%= MediaServerWeb.Components.PaginationComponent.render(%{
+            page_number: @movies.page_number,
+            total_pages: @movies.total_pages,
+            previous_link:
+              Routes.movies_index_path(@socket, :index,
+                page: MediaServerWeb.Helpers.get_pagination_previous_link(@movies.page_number)
+              ),
+            next_link:
+              Routes.movies_index_path(@socket, :index,
+                page: MediaServerWeb.Helpers.get_pagination_next_link(@movies.page_number)
+              )
+          }) %>
         </div>
       </div>
     </main>
