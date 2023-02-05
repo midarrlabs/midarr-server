@@ -1,63 +1,41 @@
 <div>
+  <div class="fixed inset-0 flex justify-center sm:px-8">
+    <div class="flex w-full max-w-7xl lg:px-8">
+      <div class="w-full bg-white ring-1 ring-zinc-100 dark:bg-zinc-900 dark:ring-zinc-300/20">
+      </div>
+    </div>
+  </div>
+
   <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
 
   <div class="relative">
-    <main>
-      <div class="sm:px-8 mt-9">
-        <div class="mx-auto max-w-7xl lg:px-8">
-          <div class="relative px-4 sm:px-8 lg:px-12">
-            <div class="mx-auto max-w-2xl lg:max-w-5xl">
-              <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
-                <div class="lg:order-first lg:row-span-2">
-                  <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-                    Movies
-                  </h1>
-                </div>
+    <div class="sm:px-8 mt-9">
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
+              <div class="lg:order-first lg:row-span-2">
+                <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+                  Movies
+                </h1>
               </div>
             </div>
           </div>
         </div>
       </div>
-
+    </div>
+    <div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
       <div class="sm:px-8 mt-24 md:mt-28">
-        <div class="mx-auto px-6 lg:px-8">
-          <%= MediaServerWeb.Components.PaginationComponent.render(%{
-            page_number: @movies.page_number,
-            total_pages: @movies.total_pages,
-            previous_link:
-              Routes.movies_index_path(@socket, :index,
-                page: MediaServerWeb.Helpers.get_pagination_previous_link(@movies.page_number)
-              ),
-            next_link:
-              Routes.movies_index_path(@socket, :index,
-                page: MediaServerWeb.Helpers.get_pagination_next_link(@movies.page_number)
-              )
-          }) %>
-
-          <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-7 xl:gap-x-8">
-            <%= for item <- @movies do %>
-              <%= MediaServerWeb.Components.PosterComponent.render(%{
-                img_src: MediaServer.MoviesIndex.get_poster(item),
-                link: Routes.movies_show_path(@socket, :show, item["id"])
-              }) %>
-            <% end %>
-          </div>
-
-          <%= MediaServerWeb.Components.PaginationComponent.render(%{
-            page_number: @movies.page_number,
-            total_pages: @movies.total_pages,
-            previous_link:
-              Routes.movies_index_path(@socket, :index,
-                page: MediaServerWeb.Helpers.get_pagination_previous_link(@movies.page_number)
-              ),
-            next_link:
-              Routes.movies_index_path(@socket, :index,
-                page: MediaServerWeb.Helpers.get_pagination_next_link(@movies.page_number)
-              )
-          }) %>
+        <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+          <%= for item <- @movies do %>
+            <%= MediaServerWeb.Components.PosterComponent.render(%{
+              img_src: MediaServer.MoviesIndex.get_poster(item),
+              link: Routes.movies_show_path(@socket, :show, item["id"])
+            }) %>
+          <% end %>
         </div>
       </div>
-    </main>
+    </div>
 
     <%= MediaServerWeb.Components.FooterComponent.render(%{}) %>
   </div>
