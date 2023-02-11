@@ -70,7 +70,8 @@ defmodule MediaServer.HelpersTest do
   end
 
   test "it should get background" do
-    assert MediaServer.Helpers.get_background(@some_media) === "https://some.remote.url/some-fanart"
+    assert MediaServer.Helpers.get_background(@some_media) ===
+             "https://some.remote.url/some-fanart"
   end
 
   test "it should get empty string without background" do
@@ -78,7 +79,8 @@ defmodule MediaServer.HelpersTest do
   end
 
   test "it should get headshot" do
-    assert MediaServer.Helpers.get_headshot(@some_media) === "https://some.remote.url/some-headshot"
+    assert MediaServer.Helpers.get_headshot(@some_media) ===
+             "https://some.remote.url/some-headshot"
   end
 
   test "it should get empty string without headshot" do

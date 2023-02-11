@@ -44,7 +44,12 @@ defmodule MediaServer.Continues do
   end
 
   def update_or_create(attrs) do
-    continue = Repo.get_by(__MODULE__, media_id: attrs.media_id, user_id: attrs.user_id, media_type_id: attrs.media_type_id)
+    continue =
+      Repo.get_by(__MODULE__,
+        media_id: attrs.media_id,
+        user_id: attrs.user_id,
+        media_type_id: attrs.media_type_id
+      )
 
     case continue do
       nil ->

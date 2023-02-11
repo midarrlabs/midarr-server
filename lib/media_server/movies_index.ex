@@ -39,8 +39,9 @@ defmodule MediaServer.MoviesIndex do
   end
 
   def get_movie_title(id) do
-    movie = get_all()
-            |> Enum.find(fn item -> item["id"] === id end)
+    movie =
+      get_all()
+      |> Enum.find(fn item -> item["id"] === id end)
 
     movie["title"]
   end

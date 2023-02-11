@@ -27,9 +27,9 @@ defmodule MediaServerWeb.Components.HeaderHome do
 
       <div class="relative mt-24 max-w-md mx-auto px-4 sm:max-w-xl sm:mt-32 sm:px-6 lg:max-w-6xl lg:px-8 space-y-6">
         <div class="space-y-2">
-            <h1 class="text-3xl font-extrabold tracking-tight text-white">
-              <%= Enum.at(@movies, 0)["title"] %>
-            </h1>
+          <h1 class="text-3xl font-extrabold tracking-tight text-white">
+            <%= Enum.at(@movies, 0)["title"] %>
+          </h1>
           <div class="flex space-x-4 text-sm font-semibold text-red-300 tracking-wide uppercase">
             <h2>
               <%= Enum.at(@movies, 0)["year"] %>
