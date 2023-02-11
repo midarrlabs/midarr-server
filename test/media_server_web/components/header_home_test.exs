@@ -13,4 +13,11 @@ defmodule MediaServerWeb.HeaderHomeTest do
              movies: @movies
            ) =~ @movie["title"]
   end
+
+  test "it should render without images", %{conn: conn} do
+    assert render_component(&MediaServerWeb.Components.HeaderHome.render/1,
+             socket: conn,
+             movies: [@movie_without_images]
+           ) =~ "background-image: url()"
+  end
 end
