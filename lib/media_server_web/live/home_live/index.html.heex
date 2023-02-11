@@ -1,6 +1,9 @@
 <%= if String.valid?(System.get_env("RADARR_BASE_URL")) and String.valid?(System.get_env("RADARR_API_KEY")) do %>
 
-
+<%= MediaServerWeb.Components.HeaderHome.render(%{
+    socket: @socket,
+    movies: @movies
+}) %>
 
 <% else %>
 
