@@ -75,8 +75,14 @@ defmodule MediaServerWeb.ContinuesLiveTest do
     {:ok, _view, disconnected_html} = live(conn, Routes.continues_index_path(conn, :index))
 
     assert disconnected_html =~ Routes.watch_movie_show_path(conn, :show, movie["id"], "continue")
-    assert disconnected_html =~ Routes.watch_movie_show_path(conn, :show, another_movie["id"], "continue")
-    assert disconnected_html =~ Routes.watch_episode_show_path(conn, :show, episode["id"], "continue")
-    assert disconnected_html =~ Routes.watch_episode_show_path(conn, :show, another_episode["id"], "continue")
+
+    assert disconnected_html =~
+             Routes.watch_movie_show_path(conn, :show, another_movie["id"], "continue")
+
+    assert disconnected_html =~
+             Routes.watch_episode_show_path(conn, :show, episode["id"], "continue")
+
+    assert disconnected_html =~
+             Routes.watch_episode_show_path(conn, :show, another_episode["id"], "continue")
   end
 end

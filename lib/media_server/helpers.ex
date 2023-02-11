@@ -1,5 +1,4 @@
 defmodule MediaServer.Helpers do
-
   def some_value({:ok, value}) do
     value
   end
@@ -30,7 +29,7 @@ defmodule MediaServer.Helpers do
   def some_test(:error, _type) do
     ""
   end
-  
+
   def get_poster(media) do
     Map.fetch(media, "images")
     |> some_test("poster")
@@ -40,7 +39,7 @@ defmodule MediaServer.Helpers do
     Map.fetch(media, "images")
     |> some_test("fanart")
   end
-  
+
   def get_headshot(media) do
     Map.fetch(media, "images")
     |> some_test("headshot")

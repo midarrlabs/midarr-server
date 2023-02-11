@@ -35,8 +35,9 @@ defmodule MediaServer.SeriesIndex do
   end
 
   def get_episode_title(id) do
-    episode = Agent.get(__MODULE__, & &1)
-              |> Enum.find(fn item -> item["id"] === id end)
+    episode =
+      Agent.get(__MODULE__, & &1)
+      |> Enum.find(fn item -> item["id"] === id end)
 
     episode["title"]
   end

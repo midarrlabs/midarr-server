@@ -77,7 +77,6 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
         },
         socket
       ) do
-
     MediaServer.Continues.update_or_create(%{
       media_id: socket.assigns.movie["id"],
       current_time: current_time,
