@@ -32,10 +32,24 @@ defmodule MediaServer.MoviesIndex do
     end)
   end
 
+  def get_full_path(movie) do
+    Regex.split(~r|/|, Map.get(Map.get(movie, "movieFile"), "path"))
+  end
+
+  def get_folder_path(movie) do
+    get_full_path(movie)
+    |> Enum.at(2)
+  end
+  
+  def get_file_path(movie) do
+    get_full_path(movie)
+    |> Enum.at(3)
+  end
+
   def get_movie_path(id) do
     movie = get_movie(id)
 
-    movie["movieFile"]["path"]
+    "/movies/#{ get_folder_path(movie) }/#{ get_file_path(movie) }"
   end
 
   def get_movie_title(id) do
