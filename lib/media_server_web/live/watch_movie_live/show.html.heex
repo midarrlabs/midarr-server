@@ -15,7 +15,7 @@
     type="video/mp4"
   />
 
-  <%= if MediaServer.Subtitles.has_subtitle(@movie["folderName"], @movie["movieFile"]["relativePath"]) do %>
+  <%= if MediaServer.Subtitles.has_subtitle("#{ MediaServer.MoviesIndex.get_root_path() }/#{ MediaServer.MoviesIndex.get_folder_path(@movie) }", MediaServer.MoviesIndex.get_file_path(@movie)) do %>
     <track
       kind="captions"
       label="Captions"

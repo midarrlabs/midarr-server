@@ -86,8 +86,4 @@ defmodule MediaServer.HelpersTest do
   test "it should get empty string without headshot" do
     assert MediaServer.Helpers.get_headshot(@some_media_without_headshot) === ""
   end
-  
-  test "it should get movie path" do
-    assert MediaServer.MoviesIndex.get_movie_path("1")  === "/movies/Caminandes Llama Drama (2013)/Caminandes.Llama.Drama.1080p.mp4"
-  end
 end

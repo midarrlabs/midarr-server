@@ -32,6 +32,10 @@ defmodule MediaServer.MoviesIndex do
     end)
   end
 
+  def get_root_path() do
+    "/movies"
+  end
+
   def get_full_path(movie) do
     Regex.split(~r|/|, Map.get(Map.get(movie, "movieFile"), "path"))
   end
@@ -49,7 +53,7 @@ defmodule MediaServer.MoviesIndex do
   def get_movie_path(id) do
     movie = get_movie(id)
 
-    "/movies/#{ get_folder_path(movie) }/#{ get_file_path(movie) }"
+    "#{ get_root_path() }/#{ get_folder_path(movie) }/#{ get_file_path(movie) }"
   end
 
   def get_movie_title(id) do
