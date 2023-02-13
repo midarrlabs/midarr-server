@@ -3,7 +3,7 @@ defmodule MediaServerWeb.Components.PaginationComponent do
 
   def render(assigns) do
     ~H"""
-    <nav class="mt-12 py-3 flex items-center justify-between pb-4">
+    <nav class="mt-6 py-3 flex items-center justify-between bottom-0 sticky pb-4 dark:bg-zinc-900">
       <div class="hidden sm:block">
         <h2 class="text-sm text-zinc-400 dark:text-zinc-500">
           Showing <%= assigns.page_number %> of <%= assigns.total_pages %> pages

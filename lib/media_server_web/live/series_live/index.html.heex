@@ -34,6 +34,19 @@
             }) %>
           <% end %>
         </div>
+
+          <%= MediaServerWeb.Components.PaginationComponent.render(%{
+            page_number: @series.page_number,
+            total_pages: @series.total_pages,
+            previous_link:
+              Routes.series_index_path(@socket, :index,
+                page: MediaServerWeb.Helpers.get_pagination_previous_link(@series.page_number)
+              ),
+            next_link:
+              Routes.series_index_path(@socket, :index,
+                page: MediaServerWeb.Helpers.get_pagination_next_link(@series.page_number)
+              )
+          }) %>
       </div>
     </div>
 
