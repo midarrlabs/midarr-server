@@ -95,18 +95,46 @@
               </div>
               <div class="flex justify-end md:flex-1">
                 <div class="pointer-events-auto">
-                  <button
-                    type="button"
-                    class="group rounded-full px-3 py-2 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur transition dark:bg-zinc-800/90 dark:ring-white/10"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      class="h-6 w-6 fill-white transition dark:block [@media(prefers-color-scheme:dark)]:group-hover:fill-red-400"
+                  <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+                    <li>
+                    <button
+                      type="button"
+                      phx-click={JS.toggle(to: "#search-command") |> JS.focus(to: "#search_query")}
+                      class="relative block px-3 py-2 transition hover:text-red-500 dark:hover:text-red-400"
                     >
-                      <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
-                    </svg>
-                  </button>
+            <svg
+              class="h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+                    </button>
+
+                    </li>
+                    <li>
+                    <button
+                      type="button"
+                      class="relative block px-3 py-2 transition hover:text-red-500 dark:hover:text-red-400"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        class="h-6 w-6"
+                      >
+                        <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
+                      </svg>
+                    </button>
+
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -115,4 +143,34 @@
       </div>
     </div>
   </div>
+
+    <div class="hidden relative z-10" id="search-command">
+      <div class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity"></div>
+
+      <div class="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
+        <div class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
+          <div class="relative" phx-click-away={JS.hide(to: "#search-command")}>
+            <svg
+              class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <.form :let={f} for={:search} id="search" phx-target={@myself} phx-submit="search">
+              <%= text_input(f, :query,
+                placeholder: "Search...",
+                class:
+                  "h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
+              ) %>
+            </.form>
+          </div>
+        </div>
+      </div>
+    </div>
 </header>
