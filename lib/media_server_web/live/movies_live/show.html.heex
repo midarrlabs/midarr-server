@@ -122,8 +122,8 @@
 
                 <div class="mt-4 border-t border-gray-200">
                   <.form
-                    id="playlists-form"
                     :let={f}
+                    id="playlists-form"
                     for={:playlists}
                     phx-change="save"
                     class="divide-y divide-gray-200"
@@ -215,11 +215,11 @@
             <ul role="list" class="divide-y divide-gray-200">
               <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-6 lg:grid-cols-8 xl:gap-x-8">
                 <%= for item <- @cast do %>
-                    <%= MediaServerWeb.Components.MediaComponent.render(%{
-                      img_src: MediaServer.MoviesIndex.get_headshot(item),
-                      title: item["personName"],
-                      link: MediaServer.MoviesIndex.get_headshot(item)
-                    }) %>
+                  <%= MediaServerWeb.Components.MediaComponent.render(%{
+                    img_src: MediaServer.MoviesIndex.get_headshot(item),
+                    title: item["personName"],
+                    link: MediaServer.MoviesIndex.get_headshot(item)
+                  }) %>
                 <% end %>
               </div>
             </ul>

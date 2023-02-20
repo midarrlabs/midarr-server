@@ -59,7 +59,8 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     assert playlist_movie.media_id === movie["id"]
 
-    {:ok, _view, disconnected_html} = live(conn, Routes.playlist_show_path(conn, :show, playlist.id))
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.playlist_show_path(conn, :show, playlist.id))
 
     assert disconnected_html =~ Routes.movies_show_path(conn, :show, movie["id"])
   end

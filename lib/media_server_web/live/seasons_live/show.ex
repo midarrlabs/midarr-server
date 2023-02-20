@@ -1,14 +1,12 @@
 defmodule MediaServerWeb.SeasonsLive.Show do
   use MediaServerWeb, :live_view
 
-  alias MediaServerWeb.Repositories.Episodes
-
   @impl true
   def handle_params(%{"id" => id, "number" => number}, _url, socket) do
     pid = self()
 
     Task.start(fn ->
-      send(pid, {:episodes, Episodes.get_all(id, number)})
+      send(pid, {:episodes, MediaServerWeb.Repositories.Episodes.get_all(id, number)})
     end)
 
     series = MediaServer.SeriesIndex.get_serie(id)
