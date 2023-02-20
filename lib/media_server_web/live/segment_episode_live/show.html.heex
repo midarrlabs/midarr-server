@@ -1,3 +1,10 @@
-<media-player id="ignore" phx-update="ignore" src={ @media_stream } controls>
-    <media-outlet></media-outlet>
+<media-player
+    id="ignore"
+    phx-update="ignore"
+    src={ @media_stream }
+    poster={MediaServerWeb.Repositories.Episodes.get_background(@episode)}
+    controlsList="nodownload"
+    controls
+    autoplay>
+        <media-outlet></media-outlet>
 </media-player>
