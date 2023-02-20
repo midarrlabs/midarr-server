@@ -1,9 +1,7 @@
 defmodule MediaServerWeb.StreamMovieController do
   use MediaServerWeb, :controller
 
-  plug MediaServerWeb.StreamVideo, "movie"
-
-  def show(conn, _params) do
-    conn
+  def show(conn, %{"id" => id}) do
+    Exstream.Range.get_video(conn, MediaServer.MoviesIndex.get_movie_path(id))
   end
 end
