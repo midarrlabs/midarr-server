@@ -15,6 +15,7 @@ defmodule MediaServerWeb.WatchEpisodeLive.Show do
         Accounts.get_user_by_session_token(session["user_token"])
         |> Repo.preload(:continues)
       )
+      |> assign(:mime_type, "video/mp4")
     }
   end
 
