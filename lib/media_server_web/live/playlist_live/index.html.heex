@@ -49,11 +49,11 @@
             </div>
 
             <%= for item <- @current_user.playlists do %>
-              <%= MediaServerWeb.Components.PosterComponent.render(%{
-                img_src: "",
-                title: item.name,
-                link: Routes.playlist_show_path(@socket, :show, item.id)
-              }) %>
+                <div class="bg-blend-overlay relative aspect-[4/6] w-34 flex-none overflow-hidden rounded-md">
+                  <%= live_redirect to: Routes.playlist_show_path(@socket, :show, item.id) do %>
+                    <div><%= item.name %></div>
+                  <% end %>
+                </div>
             <% end %>
         </div>
       </div>
