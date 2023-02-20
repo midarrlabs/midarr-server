@@ -39,6 +39,8 @@ defmodule MediaServerWeb.Router do
     live "/series/:id/seasons/:number", SeasonsLive.Show, :show
 
     live_session :watch, root_layout: {MediaServerWeb.WatchView, :watch} do
+      live "/movies/:id/segment", SegmentMovieLive.Show, :show
+
       live "/movies/:id/:action", WatchMovieLive.Show, :show
       live "/episodes/:id/:action", WatchEpisodeLive.Show, :show
     end
@@ -59,7 +61,9 @@ defmodule MediaServerWeb.Router do
   scope "/api", MediaServerWeb do
     pipe_through :api
 
+    get "/movies/:id/playlist.m3u8", PlaylistMovieController, :show
     get "/movies/:id/stream", StreamMovieController, :show
+
     get "/episodes/:id/stream", StreamEpisodeController, :show
 
     get "/movies/:id/subtitle", SubtitleMovieController, :show
