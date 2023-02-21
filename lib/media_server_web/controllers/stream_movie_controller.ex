@@ -1,9 +1,12 @@
 defmodule MediaServerWeb.StreamMovieController do
   use MediaServerWeb, :controller
 
-  alias MediaServerWeb.Helpers
+  def show(conn, %{"id" => id, "segment" => segment}) do
+    conn
+    |> send_resp(200, Exstream.segment(MediaServer.MoviesIndex.get_movie_path(id), String.to_integer(segment)))
+  end
 
-  def show(%{req_headers: headers} = conn, %{"id" => id}) do
-    Helpers.send_video(conn, headers, MediaServer.MoviesIndex.get_movie_path(id))
+  def show(conn, %{"id" => id}) do
+    Exstream.Range.get_video(conn, MediaServer.MoviesIndex.get_movie_path(id))
   end
 end

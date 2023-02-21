@@ -16,7 +16,7 @@
                 src={MediaServerWeb.Repositories.Episodes.get_screenshot(item)}
               />
             <% else %>
-              <div class="h-48 w-full md:w-1/4 bg-gray-200"></div>
+                <div class="h-48 w-full md:w-1/4 bg-gray-200"></div>
             <% end %>
             <div class="lg:px-8">
               <div class="lg:max-w-4xl">
@@ -25,47 +25,62 @@
                     <h2 id="episode-5-title" class="mt-2 text-lg font-bold text-slate-900">
                       <%= item["episodeNumber"] %>: <%= item["title"] %>
                     </h2>
-                    <time class="order-first font-mono text-sm leading-7 text-slate-500">
-                      <%= Calendar.strftime(
-                        Date.from_iso8601!(Map.get(item, "airDate")),
-                        "%B %-d, %Y"
-                      ) %>
+                    <time
+                      class="order-first font-mono text-sm leading-7 text-slate-500"
+                    >
+                    <%= Calendar.strftime(Date.from_iso8601!(Map.get(item, "airDate")), "%B %-d, %Y") %>
                     </time>
                     <p class="mt-1 text-base leading-7 text-slate-700">
-                      <%= item["overview"] %>
+                        <%= item["overview"] %>
                     </p>
                     <div class="mt-4 flex items-center gap-4">
-                      <%= if item["hasFile"] do %>
-                        <%= live_redirect id: "play-#{ item["id"] }", to: Routes.watch_episode_show_path(@socket, :show, item["id"], "watch"), class: "flex items-center text-sm font-bold leading-6 text-red-700 hover:text-red-500" do %>
-                          <svg
-                            aria-hidden="true"
-                            viewBox="0 0 10 10"
-                            fill="none"
-                            class="h-2.5 w-2.5 fill-current"
+
+                        <%= if item["hasFile"] do %>
+
+                            <%= live_redirect id: "play-#{ item["id"] }", to: Routes.watch_episode_show_path(@socket, :show, item["id"], "watch"), class: "flex items-center text-sm font-bold leading-6 text-red-700 hover:text-red-500" do %>
+                                <svg
+                                  aria-hidden="true"
+                                  viewBox="0 0 10 10"
+                                  fill="none"
+                                  class="h-2.5 w-2.5 fill-current"
+                                >
+                                  <path d="M8.25 4.567a.5.5 0 0 1 0 .866l-7.5 4.33A.5.5 0 0 1 0 9.33V.67A.5.5 0 0 1 .75.237l7.5 4.33Z">
+                                  </path>
+                                </svg>
+                                <span class="ml-3">Play</span>
+                            <% end %>
+
+                            <%= live_redirect id: "test-#{ item["id"] }", to: Routes.segment_episode_show_path(@socket, :show, item["id"]), class: "flex items-center text-sm font-bold leading-6 text-red-700 hover:text-red-500" do %>
+                                <svg
+                                  aria-hidden="true"
+                                  viewBox="0 0 10 10"
+                                  fill="none"
+                                  class="h-2.5 w-2.5 fill-current"
+                                >
+                                  <path d="M8.25 4.567a.5.5 0 0 1 0 .866l-7.5 4.33A.5.5 0 0 1 0 9.33V.67A.5.5 0 0 1 .75.237l7.5 4.33Z">
+                                  </path>
+                                </svg>
+                                <span class="ml-3">Test</span>
+                            <% end %>
+
+                        <% else %>
+                          <button
+                            type="button"
+                            class="flex items-center text-sm font-bold leading-6 text-slate-500"
+                            disabled
                           >
-                            <path d="M8.25 4.567a.5.5 0 0 1 0 .866l-7.5 4.33A.5.5 0 0 1 0 9.33V.67A.5.5 0 0 1 .75.237l7.5 4.33Z">
-                            </path>
-                          </svg>
-                          <span class="ml-3">Play</span>
+                            <svg
+                              aria-hidden="true"
+                              viewBox="0 0 10 10"
+                              fill="none"
+                              class="h-2.5 w-2.5 fill-current"
+                            >
+                              <path d="M8.25 4.567a.5.5 0 0 1 0 .866l-7.5 4.33A.5.5 0 0 1 0 9.33V.67A.5.5 0 0 1 .75.237l7.5 4.33Z">
+                              </path>
+                            </svg>
+                            <span class="ml-3">Play</span>
+                          </button>
                         <% end %>
-                      <% else %>
-                        <button
-                          type="button"
-                          class="flex items-center text-sm font-bold leading-6 text-slate-500"
-                          disabled
-                        >
-                          <svg
-                            aria-hidden="true"
-                            viewBox="0 0 10 10"
-                            fill="none"
-                            class="h-2.5 w-2.5 fill-current"
-                          >
-                            <path d="M8.25 4.567a.5.5 0 0 1 0 .866l-7.5 4.33A.5.5 0 0 1 0 9.33V.67A.5.5 0 0 1 .75.237l7.5 4.33Z">
-                            </path>
-                          </svg>
-                          <span class="ml-3">Play</span>
-                        </button>
-                      <% end %>
                     </div>
                   </div>
                 </div>
