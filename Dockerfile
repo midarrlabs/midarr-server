@@ -7,7 +7,7 @@ RUN npm install
 
 #-------------------------
 
-FROM elixir:1.14
+FROM elixir:1.14.3-otp-24
 
 ARG MIX_ENV="dev"
 ARG SECRET_KEY_BASE=""
