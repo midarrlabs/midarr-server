@@ -57,7 +57,7 @@ defmodule MediaServer.MixProject do
       {:cors_plug, "~> 3.0"},
       {:scrivener, "~> 2.0"},
       {:extitles, "~> 0.1.0"},
-      {:exstream, "~> 0.6.0"}
+      {:exstream, "~> 0.12.0"}
     ]
   end
 
