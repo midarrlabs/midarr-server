@@ -33,8 +33,8 @@ RUN mix deps.compile
 RUN mix assets.deploy
 RUN mix compile
 
-RUN chmod u+x /app/support/entry-point.sh
+RUN chmod u+x /app/priv/entry-point.sh
 
 EXPOSE 4000
 
-CMD [ "/app/support/entry-point.sh" ]
+CMD [ "/app/priv/entry-point.sh" ]
