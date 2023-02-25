@@ -35,7 +35,7 @@ users:
 * Simple and easy invite system
 * Integrates with your existing services, [Radarr](https://radarr.video/) and [Sonarr](https://sonarr.tv/)
 
-![Preview](support/screenshots/home-v2.0.0.png)
+![Preview](priv/screenshots/home-v2.0.0.png)
 
 ### What is this?
 
@@ -46,7 +46,7 @@ Your media is left untouched and unscathed as it is served through a simple (yet
 While other media solutions look to re-index, re-fetch and re-double handle your media library, **Midarr** simply levarages your pre-existing
 services to delight and enchant **you** and **your** users' media experience.
 
-![Preview](support/screenshots/ecosystem-v2.0.0.jpg)
+![Preview](priv/screenshots/ecosystem-v2.0.0.jpg)
 
 ### How is this lightweight?
 
@@ -198,7 +198,7 @@ cd midarr-server && docker compose up -d
 
 ## Preview
 
-![Preview](support/screenshots/login-v1.4.0.png)
-![Preview](support/screenshots/online-v1.6.1.png)
-![Preview](support/screenshots/movie-v2.0.0.png)
-![Preview](support/screenshots/player-v1.15.0.png)
+![Preview](priv/screenshots/login-v1.4.0.png)
+![Preview](priv/screenshots/online-v1.6.1.png)
+![Preview](priv/screenshots/movie-v2.0.0.png)
+![Preview](priv/screenshots/player-v1.15.0.png)
