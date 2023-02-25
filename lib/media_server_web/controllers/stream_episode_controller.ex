@@ -1,12 +1,20 @@
 defmodule MediaServerWeb.StreamEpisodeController do
   use MediaServerWeb, :controller
 
-  def show(conn, %{"id" => id, "segment" => segment}) do
-    conn
-    |> send_resp(200, Exstream.segment(MediaServerWeb.Repositories.Episodes.get_episode_path(id), String.to_integer(segment)))
+  def show(conn, %{"id" => id, "start" => start, "end" => finish}) do
+
+    Exstream.stream(%Exstream{
+      conn: conn,
+      path: MediaServerWeb.Repositories.Episodes.get_episode_path(id),
+      start: start,
+      end: finish
+    })
   end
 
   def show(conn, %{"id" => id}) do
-    Exstream.Range.get_video(conn, MediaServerWeb.Repositories.Episodes.get_episode_path(id))
+    Exstream.Range.stream(%Exstream.Range{
+      conn: conn,
+      path: MediaServerWeb.Repositories.Episodes.get_episode_path(id)
+    })
   end
 end

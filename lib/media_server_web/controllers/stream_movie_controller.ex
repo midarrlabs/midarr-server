@@ -1,12 +1,20 @@
 defmodule MediaServerWeb.StreamMovieController do
   use MediaServerWeb, :controller
 
-  def show(conn, %{"id" => id, "segment" => segment}) do
-    conn
-    |> send_resp(200, Exstream.segment(MediaServer.MoviesIndex.get_movie_path(id), String.to_integer(segment)))
+  def show(conn, %{"id" => id, "start" => start, "end" => finish}) do
+
+    Exstream.stream(%Exstream{
+      conn: conn,
+      path: MediaServer.MoviesIndex.get_movie_path(id),
+      start: start,
+      end: finish
+    })
   end
 
   def show(conn, %{"id" => id}) do
-    Exstream.Range.get_video(conn, MediaServer.MoviesIndex.get_movie_path(id))
+    Exstream.Range.stream(%Exstream.Range{
+      conn: conn,
+      path: MediaServer.MoviesIndex.get_movie_path(id)
+    })
   end
 end
