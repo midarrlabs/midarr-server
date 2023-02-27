@@ -45,7 +45,7 @@ defmodule MediaServerWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {MediaServerWeb.LayoutView, "live.html"}
+        layout: {MediaServerWeb.LayoutView, :live}
 
       unquote(view_helpers())
     end
