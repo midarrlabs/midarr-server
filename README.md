@@ -50,7 +50,7 @@ services to delight and enchant **your** media experience.
 
 ### How is this lightweight?
 
-* **Direct streaming.** Your media is served fresh off the metal (*An experimental transcoder is also available*).
+* **Direct streaming.** Your media is served fresh off the metal (*an experimental transcoder is available*).
 * **Smart caching.** Your metadata is retrieved fresh off the metal, smartly kept in sync with your integrations.
 * **No media editing.** We trust you already have it the way you like it, lets keep it that way.
 
