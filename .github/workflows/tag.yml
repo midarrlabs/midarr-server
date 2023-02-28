@@ -1,9 +1,9 @@
-name: Beta
+name: Tag
 
 on:
   push:
     tags:
-      - 'v*.*.*-beta.*'
+      - 'v2.1.0'
 
 jobs:
   docker:
@@ -31,6 +31,16 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/midarrlabs/midarr-server:${{ env.RELEASE_VERSION }}
+          build-args: |
+            "MIX_ENV=prod"
+            "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}"
+
+      - name: Build latest
+        uses: docker/build-push-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ghcr.io/midarrlabs/midarr-server:latest
           build-args: |
             "MIX_ENV=prod"
             "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}"
