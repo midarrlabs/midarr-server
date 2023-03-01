@@ -1,7 +1,7 @@
 <div>
   <div>
     <div class="absolute w-full">
-      <img alt="" src={MediaServer.MoviesIndex.get_background(Enum.at(@movies, 0))} class="object-cover w-full" />
+      <img alt={Enum.at(@movies, 0)["title"]} src={MediaServer.MoviesIndex.get_background(Enum.at(@movies, 0))} class="object-cover w-full" />
       <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-slate-500 mix-blend-multiply">
       </div>
       <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-black mix-blend-multiply">
@@ -52,6 +52,63 @@
       </div>
 
       <div class="sm:px-8 mt-24 md:mt-28">
+          <%= if !Enum.empty?(@user_continues) do %>
+
+              <div class="mx-auto lg:px-8">
+                <h2 class="p-4 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+                  Continue watching
+                </h2>
+                <div class="overflow-x-auto mb-8 flex gap-5 p-4 overflow-hidden sm:gap-6">
+            <%= for item <- @user_continues do %>
+
+                <%= if item.media_type_id === MediaServer.MediaTypes.get_movie_id() do %>
+
+                  <%= live_component(MediaServerWeb.Components.ContinueComponent,
+                    id: "continue-movie-#{item.id}",
+                    id_item: item.id,
+                    title: MediaServer.MoviesIndex.get_movie_title(item.media_id),
+                    minutes_remaining:
+                      MediaServerWeb.Helpers.minutes_remaining_from_seconds(
+                        item.duration,
+                        item.current_time
+                      ),
+                    percentage_complete:
+                      MediaServerWeb.Helpers.percentage_complete_from_seconds(
+                        item.current_time,
+                        item.duration
+                      ),
+                    link: Routes.watch_movie_show_path(@socket, :show, item.media_id, "continue"),
+                    event: "delete_continue",
+                    return_to: Routes.home_index_path(@socket, :index)
+                  ) %>
+
+                <% else %>
+
+                  <%= live_component(MediaServerWeb.Components.ContinueComponent,
+                    id: "continue-episode-#{item.id}",
+                    id_item: item.id,
+                    title: MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["title"],
+                    minutes_remaining:
+                      MediaServerWeb.Helpers.minutes_remaining_from_seconds(
+                        item.duration,
+                        item.current_time
+                      ),
+                    percentage_complete:
+                      MediaServerWeb.Helpers.percentage_complete_from_seconds(
+                        item.current_time,
+                        item.duration
+                      ),
+                    link: Routes.watch_episode_show_path(@socket, :show, item.media_id, "continue"),
+                    event: "delete_continue",
+                    return_to: Routes.home_index_path(@socket, :index)
+                  ) %>
+
+                <% end %>
+            <% end %>
+                </div>
+              </div>
+
+              <% end %>
         <div class="mx-auto lg:px-8">
           <h2 class="p-4 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
             Movies fresh in
@@ -59,6 +116,7 @@
           <div class="overflow-x-auto mb-8 flex gap-5 p-4 overflow-hidden sm:gap-6">
             <%= for item <- @movies do %>
               <%= MediaServerWeb.Components.PosterComponent.render(%{
+                title: item["title"],
                 img_src: MediaServer.MoviesIndex.get_poster(item),
                 link: Routes.movies_show_path(@socket, :show, item["id"])
               }) %>
@@ -72,6 +130,7 @@
           <div class="overflow-x-auto mb-8 flex gap-5 p-4 overflow-hidden sm:gap-6">
             <%= for item <- @series do %>
               <%= MediaServerWeb.Components.PosterComponent.render(%{
+                title: item["title"],
                 img_src: MediaServer.SeriesIndex.get_poster(item),
                 link: Routes.series_show_path(@socket, :show, item["id"])
               }) %>

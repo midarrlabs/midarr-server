@@ -37,14 +37,14 @@
           <div class="space-y-12 px-4 py-6">
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-10">
 
-      <%= for item <- @playlists.playlist_media do %>
-        <%= MediaServerWeb.Components.PosterComponent.render(%{
-          img_src:
-            MediaServer.MoviesIndex.get_poster(MediaServer.MoviesIndex.get_movie(item.media_id)),
-          title: MediaServer.MoviesIndex.get_movie_title(item.media_id),
-          link: Routes.movies_show_path(@socket, :show, item.media_id)
-        }) %>
-      <% end %>
+              <%= for item <- @playlists.playlist_media do %>
+                <%= MediaServerWeb.Components.PosterComponent.render(%{
+                  img_src:
+                    MediaServer.MoviesIndex.get_poster(MediaServer.MoviesIndex.get_movie(item.media_id)),
+                  title: MediaServer.MoviesIndex.get_movie_title(item.media_id),
+                  link: Routes.movies_show_path(@socket, :show, item.media_id)
+                }) %>
+              <% end %>
             </div>
           </div>
         </div>

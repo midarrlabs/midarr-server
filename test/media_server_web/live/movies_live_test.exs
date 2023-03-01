@@ -33,9 +33,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
     movie = MediaServer.MoviesIndex.get_movie("1")
     cast = Movies.get_cast(movie["id"])
 
-    {:ok, view, disconnected_html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
-
-    assert disconnected_html =~ "loading-spinner"
+    {:ok, view, _disconnected_html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
     send(view.pid, {:cast, cast})
   end

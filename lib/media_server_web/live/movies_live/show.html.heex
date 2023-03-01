@@ -43,6 +43,103 @@
                         <span class="ml-3">Watch</span>
                       </a>
                     </ul>
+
+                          <%= live_redirect id: "play-#{ @movie["id"] }", to: Routes.watch_movie_show_path(@socket, :show, @movie["id"], "watch"), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
+                            <svg
+                              class="-ml-0.5 mr-2 h-6 w-6"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="w-6 h-6"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"
+                              />
+                            </svg>
+                            Play
+                          <% end %>
+
+                          <button
+                            id="add-to-playlists"
+                            phx-click={JS.toggle(to: "#playlists")}
+                            class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+                          >
+                            <svg
+                              class="-ml-0.5 mr-2 h-6 w-6"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="w-6 h-6"
+                            >
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            Playlist
+                          </button>
+
+                                <div
+                                  id="playlists"
+                                  class="hidden relative z-10"
+                                  aria-labelledby="modal-title"
+                                  role="dialog"
+                                  aria-modal="true"
+                                >
+                                  <div class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity"></div>
+
+                                  <div class="fixed inset-0 z-10">
+                                    <div class="flex min-h-full items-center justify-center p-4 text-center">
+                                      <div
+                                        phx-click-away={JS.hide(to: "#playlists")}
+                                        class="h-96 relative transform overflow-auto rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg sm:p-6"
+                                      >
+                                        <fieldset>
+                                          <legend class="text-lg font-medium text-gray-900">Playlists</legend>
+
+                                          <div class="mt-4 border-t border-gray-200">
+                                            <.form
+                                              :let={f}
+                                              id="playlists-form"
+                                              for={:playlists}
+                                              phx-change="save"
+                                              class="divide-y divide-gray-200"
+                                            >
+                                              <%= for item <- @current_user.playlists do %>
+                                                <div class="relative flex items-start py-4">
+                                                  <div class="min-w-0 flex-1 text-sm">
+                                                    <label
+                                                      for={"playlists-#{item.id}"}
+                                                      class="select-none font-medium text-gray-700"
+                                                    >
+                                                      <%= item.name %>
+                                                    </label>
+                                                  </div>
+
+                                                  <div class="ml-3 flex h-5 items-center">
+                                                    <%= checkbox(f, "#{item.id}",
+                                                      id: "playlists-#{item.id}",
+                                                      checked:
+                                                        Enum.any?(item.playlist_media, fn x ->
+                                                          x.media_id == String.to_integer(@id)
+                                                        end),
+                                                      class:
+                                                        "h-4 w-4 rounded border-gray-300 text-slate-600 focus:ring-slate-500"
+                                                    ) %>
+                                                  </div>
+                                                </div>
+                                              <% end %>
+                                            </.form>
+                                          </div>
+                                        </fieldset>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
                   </div>
                 </div>
               </div>
