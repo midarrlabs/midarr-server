@@ -1,26 +1,41 @@
-<div class="dark:bg-zinc-900">
+<div>
+  <div>
+    <div class="absolute w-full">
+      <div class="bg-zinc-600 h-64 w-full"></div>
+      <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-slate-500 mix-blend-multiply">
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-black mix-blend-multiply">
+      </div>
+    </div>
 
-  <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+    <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+  </div>
 
   <div class="relative">
-    <div class="sm:px-8 mt-9">
-      <div class="mx-auto max-w-7xl lg:px-8">
-        <div class="relative px-4 sm:px-8 lg:px-12">
-          <div class="mx-auto max-w-2xl lg:max-w-5xl">
-            <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
-              <div class="lg:order-first lg:row-span-2">
-                <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-                  <%= @page_title %>
-                </h1>
+    <main>
+      <div class="sm:px-8 mt-16 sm:mt-32">
+        <div class="mx-auto max-w-7xl lg:px-8">
+          <div class="relative px-4 sm:px-8 lg:px-12">
+            <div class="mx-auto max-w-2xl lg:max-w-5xl">
+              <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
+                <div class="lg:order-first lg:row-span-2">
+                  <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+                    Continues
+                  </h1>
+                  <div class="mt-6 text-base text-zinc-600 dark:text-zinc-200">
+                    Your continues live here.
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
+
       <div class="sm:px-8 mt-24 md:mt-28">
-        <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+        <div class="mx-auto lg:px-8">
+          <div class="space-y-12 px-4 py-6">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-10">
               <%= for item <- @user_continues do %>
                 <%= if item.media_type_id === MediaServer.MediaTypes.get_movie_id() do %>
                   <%= live_component(MediaServerWeb.Components.ContinueComponent,
@@ -62,9 +77,11 @@
                   ) %>
                 <% end %>
               <% end %>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </main>
 
     <%= MediaServerWeb.Components.FooterComponent.render(%{}) %>
   </div>
