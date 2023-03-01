@@ -1,12 +1,8 @@
-<div class="dark:bg-black">
+<div>
 
     <div>
-      <div class="absolute">
-        <img
-          alt=""
-          src={MediaServer.SeriesIndex.get_background(Enum.at(@series, 0))}
-          class="object-cover"
-        />
+      <div class="absolute w-full">
+        <img alt="" src={MediaServer.SeriesIndex.get_background(Enum.at(@series, 0))} class="object-cover w-full" />
         <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-slate-500 mix-blend-multiply">
         </div>
         <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-black mix-blend-multiply">

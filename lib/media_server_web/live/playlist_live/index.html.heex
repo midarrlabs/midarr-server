@@ -1,94 +1,109 @@
-<div class="dark:bg-zinc-900">
+<div>
+  <div>
+    <div class="absolute w-full">
+      <div class="bg-zinc-600 h-64 w-full"></div>
+      <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-slate-500 mix-blend-multiply">
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-black mix-blend-multiply">
+      </div>
+    </div>
 
-  <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+    <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+  </div>
 
   <div class="relative">
-    <div class="sm:px-8 mt-9">
-      <div class="mx-auto max-w-7xl lg:px-8">
-        <div class="relative px-4 sm:px-8 lg:px-12">
-          <div class="mx-auto max-w-2xl lg:max-w-5xl">
-            <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
-              <div class="lg:order-first lg:row-span-2">
-                <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-                  <%= @page_title %>
-                </h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
-      <div class="sm:px-8 mt-24 md:mt-28">
-        <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
-
-            <div class="group relative">
-              <div class="flex items-center w-full border-2 border-dashed border-gray-300 aspect-[4/6] rounded-md overflow-hidden group-hover:border-gray-400 lg:aspect-none text-center">
-                <svg
-                  class="mx-auto h-12 w-12 text-gray-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-              </div>
-
-              <div class="mt-2 flex">
-                <button
-                  id="new-playlist"
-                  phx-click={JS.toggle(to: "#add-playlist")}
-                  class="hover:text-slate-800 hover:underline"
-                >
-                  <span aria-hidden="true" class="absolute inset-0"></span>
-                </button>
-              </div>
-            </div>
-
-            <%= for item <- @current_user.playlists do %>
-                <div class="bg-blend-overlay relative aspect-[4/6] w-34 flex-none overflow-hidden rounded-md">
-                  <%= live_redirect to: Routes.playlist_show_path(@socket, :show, item.id) do %>
-                    <div><%= item.name %></div>
-                  <% end %>
+    <main>
+      <div class="sm:px-8 mt-16 sm:mt-32">
+        <div class="mx-auto max-w-7xl lg:px-8">
+          <div class="relative px-4 sm:px-8 lg:px-12">
+            <div class="mx-auto max-w-2xl lg:max-w-5xl">
+              <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
+                <div class="lg:order-first lg:row-span-2">
+                  <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+                    Playlists
+                  </h1>
+                  <div class="mt-6 text-base text-zinc-600 dark:text-zinc-200">
+                    Your playlists live here.
+                  </div>
                 </div>
-            <% end %>
-        </div>
-      </div>
-    </div>
-
-      <div id="add-playlist" class="hidden relative z-10">
-        <div class="fixed inset-0 bg-black/50"></div>
-
-        <div class="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
-          <div class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
-            <div class="relative" phx-click-away={JS.hide(to: "#add-playlist")}>
-              <svg
-                class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-              </svg>
-              <.form :let={f} id="playlists-form" for={:playlists} phx-submit="save">
-                <%= text_input(f, :name,
-                  placeholder: "New playlist",
-                  class:
-                    "h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
-                ) %>
-
-                <input type="hidden" name="playlists[user_id]" value={@current_user.id} />
-              </.form>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="sm:px-8 mt-24 md:mt-28">
+        <div class="mx-auto lg:px-8">
+          <div class="space-y-12 px-4 py-6">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-10">
+                        <div class="group relative">
+                          <div class="flex items-center w-full border-2 border-dashed border-gray-300 aspect-square rounded-md overflow-hidden group-hover:border-gray-400 lg:aspect-none text-center">
+                            <svg
+                              class="mx-auto h-12 w-12 text-gray-400"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="w-6 h-6"
+                            >
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                          </div>
+
+                          <div class="mt-2 flex">
+                            <button
+                              id="new-playlist"
+                              phx-click={JS.toggle(to: "#add-playlist")}
+                              class="hover:text-slate-800 hover:underline"
+                            >
+                              <span aria-hidden="true" class="absolute inset-0"></span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <%= for item <- @current_user.playlists do %>
+                            <div class="bg-gray-500 relative aspect-auto w-40 md:w-48 flex-none overflow-hidden rounded-md">
+                              <%= live_redirect to: Routes.playlist_show_path(@socket, :show, item.id) do %>
+                                <div><%= item.name %></div>
+                              <% end %>
+                            </div>
+                        <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+          <div id="add-playlist" class="hidden relative z-10">
+            <div class="fixed inset-0 bg-black/50"></div>
+
+            <div class="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
+              <div class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
+                <div class="relative" phx-click-away={JS.hide(to: "#add-playlist")}>
+                  <svg
+                    class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                  </svg>
+                  <.form :let={f} id="playlists-form" for={:playlists} phx-submit="save">
+                    <%= text_input(f, :name,
+                      placeholder: "New playlist",
+                      class:
+                        "h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
+                    ) %>
+
+                    <input type="hidden" name="playlists[user_id]" value={@current_user.id} />
+                  </.form>
+                </div>
+              </div>
+            </div>
+          </div>
 
     <%= MediaServerWeb.Components.FooterComponent.render(%{}) %>
   </div>
