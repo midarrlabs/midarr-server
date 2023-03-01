@@ -1,48 +1,81 @@
-<div class="dark:bg-zinc-900">
+<div class="dark:bg-black">
+  <div>
+    <div class="absolute">
+      <img
+        alt=""
+        src={MediaServer.MoviesIndex.get_background(Enum.at(@movies, 0))}
+        class="object-cover"
+      />
+      <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-slate-500 mix-blend-multiply">
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-black mix-blend-multiply">
+      </div>
+    </div>
 
-  <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+    <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+  </div>
 
   <div class="relative">
-    <div class="sm:px-8 mt-9">
-      <div class="mx-auto max-w-7xl lg:px-8">
-        <div class="relative px-4 sm:px-8 lg:px-12">
-          <div class="mx-auto max-w-2xl lg:max-w-5xl">
-            <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
-              <div class="lg:order-first lg:row-span-2">
-                <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-                  Movies
-                </h1>
+    <main>
+      <div class="sm:px-8 mt-9">
+        <div class="mx-auto max-w-7xl lg:px-8">
+          <div class="relative px-4 sm:px-8 lg:px-12">
+            <div class="mx-auto max-w-2xl lg:max-w-5xl">
+              <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
+                <div class="lg:order-first lg:row-span-2">
+                  <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+                    <%= Enum.at(@movies, 0)["title"] %>
+                  </h1>
+                  <div class="mt-6 text-base text-zinc-600 dark:text-zinc-200">
+                    <%= Enum.at(@movies, 0)["overview"] %>
+                  </div>
+                  <div class="mt-6 flex gap-6">
+                    <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+                      <a
+                        href="#"
+                        class="flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          viewBox="0 0 10 10"
+                          fill="none"
+                          class="h-2.5 w-2.5 fill-current"
+                        >
+                          <path d="M8.25 4.567a.5.5 0 0 1 0 .866l-7.5 4.33A.5.5 0 0 1 0 9.33V.67A.5.5 0 0 1 .75.237l7.5 4.33Z">
+                          </path>
+                        </svg>
+                        <span class="ml-3">Watch</span>
+                      </a>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
-      <div class="sm:px-8 mt-24 md:mt-28">
-        <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
-          <%= for item <- @movies do %>
-            <%= MediaServerWeb.Components.PosterComponent.render(%{
-              img_src: MediaServer.MoviesIndex.get_poster(item),
-              link: Routes.movies_show_path(@socket, :show, item["id"])
-            }) %>
-          <% end %>
-        </div>
 
-          <%= MediaServerWeb.Components.PaginationComponent.render(%{
-            page_number: @movies.page_number,
-            total_pages: @movies.total_pages,
-            previous_link:
-              Routes.movies_index_path(@socket, :index,
-                page: MediaServerWeb.Helpers.get_pagination_previous_link(@movies.page_number)
-              ),
-            next_link:
-              Routes.movies_index_path(@socket, :index,
-                page: MediaServerWeb.Helpers.get_pagination_next_link(@movies.page_number)
-              )
-          }) %>
+      <div class="sm:px-8 mt-24 md:mt-28">
+        <div class="mx-auto lg:px-8">
+          <div
+            id="tabs-1-panel-1"
+            class="space-y-12 px-4 py-6"
+            aria-labelledby="tabs-1-tab-1"
+            role="tabpanel"
+            tabindex="0"
+          >
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-10">
+              <%= for item <- @movies do %>
+                <%= MediaServerWeb.Components.PosterComponent.render(%{
+                  img_src: MediaServer.MoviesIndex.get_poster(item),
+                  link: Routes.movies_show_path(@socket, :show, item["id"])
+                }) %>
+              <% end %>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </main>
 
     <%= MediaServerWeb.Components.FooterComponent.render(%{}) %>
   </div>

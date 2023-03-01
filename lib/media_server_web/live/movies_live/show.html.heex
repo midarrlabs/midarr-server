@@ -56,7 +56,7 @@
           <h2 class="p-4 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
             Cast
           </h2>
-          <div class="h-72 overflow-x-auto mb-8 flex gap-5 p-4 overflow-hidden sm:gap-6">
+          <div class="overflow-x-auto mb-8 flex gap-5 p-4 overflow-hidden sm:gap-6">
             <%= if assigns[:cast] do %>
               <%= for item <- @cast do %>
                 <%= MediaServerWeb.Components.PosterComponent.render(%{
