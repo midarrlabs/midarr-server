@@ -22,9 +22,6 @@
                   <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
                     Playlists
                   </h1>
-                  <div class="mt-6 text-base text-zinc-600 dark:text-zinc-200">
-                    Your playlists live here.
-                  </div>
                 </div>
               </div>
             </div>
@@ -105,6 +102,6 @@
             </div>
           </div>
 
-    <%= MediaServerWeb.Components.FooterComponent.render(%{}) %>
+    <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
   </div>
 </div>
