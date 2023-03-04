@@ -82,7 +82,6 @@
                       >
                         <svg
                           class="h-5 w-5"
-                          xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke-width="2"
@@ -98,6 +97,8 @@
                     </li>
                     <li>
                       <button
+                      phx-click={JS.toggle(to: "#profile-dropdown")}
+                      phx-click-away={JS.hide(to: "#profile-dropdown")}
                         type="button"
                         class="relative block px-3 py-2 transition hover:text-red-500 dark:hover:text-red-400"
                       >
@@ -109,6 +110,22 @@
                           />
                         </svg>
                       </button>
+                       <div
+                         id="profile-dropdown"
+                         class="hidden origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-zinc-800 dark:ring-zinc-800"
+                       >
+                         <div class="divide-y divide-zinc-100 text-sm font-medium text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
+                           <%= link("Settings",
+                             to: Routes.settings_index_path(@socket, :index),
+                             class: "block px-4 py-2 dark:hover:text-red-400"
+                           ) %>
+                           <%= link("Log out",
+                             to: Routes.user_session_path(@socket, :delete),
+                             method: :delete,
+                             class: "block px-4 py-2 dark:hover:text-red-400"
+                           ) %>
+                         </div>
+                       </div>
                     </li>
                   </ul>
                 </div>
@@ -128,7 +145,6 @@
           <div class="relative" phx-click-away={JS.hide(to: "#search-command")}>
             <svg
               class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
-              xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
