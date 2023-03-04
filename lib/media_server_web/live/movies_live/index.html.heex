@@ -26,7 +26,7 @@
                   <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
                     <%= Enum.at(@movies, 0)["title"] %>
                   </h1>
-                  <div class="mt-6 text-base text-zinc-600 dark:text-zinc-200 line-clamp-3">
+                  <div class="mt-6 text-base text-zinc-600 dark:text-zinc-200 line-clamp-2">
                     <%= Enum.at(@movies, 0)["overview"] %>
                   </div>
                   <div class="mt-6 flex gap-6">
@@ -76,6 +76,128 @@
 
       <div class="sm:px-8 mt-24 md:mt-28">
         <div class="mx-auto lg:px-8">
+
+          <div class="flex">
+
+              <%= live_patch to: Routes.movies_index_path(@socket, :index) do %>
+                <h2 class="p-4 text-base font-semibold text-zinc-800 dark:text-zinc-100 dark:hover:text-red-400">
+                  All
+                </h2>
+              <% end %>
+
+            <%= live_patch to: Routes.movies_index_path(@socket, :index, sort_by: "latest") do %>
+              <h2 class="p-4 text-base font-semibold text-zinc-800 dark:text-zinc-100 dark:hover:text-red-400">
+                Latest
+              </h2>
+            <% end %>
+
+            <div>
+              <button
+                phx-click={JS.toggle(to: "#genre-dropdown")}
+                phx-click-away={JS.hide(to: "#genre-dropdown")}
+                type="button"
+                class="relative block inline-flex justify-center p-4 text-base font-semibold text-zinc-800 dark:text-zinc-100 dark:hover:text-red-400">
+                Genres
+                <svg class="self-center -mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 dark:text-zinc-100 group-hover:text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                </svg>
+              </button>
+             <div
+                  id="genre-dropdown"
+               class="hidden z-20 origin-top-right absolute left-36 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-zinc-800 dark:ring-zinc-800"
+             >
+               <div class="overflow-y-auto h-48 divide-y divide-zinc-100 text-sm font-medium text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
+
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "action") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Action
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "adventure") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Adventure
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "animation") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Animation
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "comedy") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Comedy
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "crime") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Crime
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "documentary") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Documentary
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "drama") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Drama
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "family") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Family
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "fantasy") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Fantasy
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "history") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    History
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "horror") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Horror
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "music") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Music
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "mystery") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Mystery
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "romance") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Romance
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "thriller") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Thriller
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "war") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    War
+                  </h2>
+                <% end %>
+                <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "western") do %>
+                  <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                    Western
+                  </h2>
+                <% end %>
+               </div>
+             </div>
+            </div>
+          </div>
+
           <div class="space-y-12 px-4 py-6">
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-10">
               <%= for item <- @movies do %>
