@@ -43,6 +43,16 @@ defmodule MediaServer.MoviesIndex do
     end)
   end
 
+  def get_related(movie) do
+
+    genre = Enum.take(movie["genres"], 1) |> List.first()
+
+    get_all()
+    |> Enum.filter(fn item -> genre in item["genres"] end)
+    |> Enum.take_random(20)
+    |> Enum.reject(fn x -> x["id"] === movie["id"] end)
+  end
+
   def get_movie_path(id) do
     movie = get_movie(id)
 
