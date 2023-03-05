@@ -79,34 +79,34 @@
 
           <div class="flex">
 
-              <%= live_patch to: Routes.movies_index_path(@socket, :index) do %>
-                <h2 class="p-4 text-base font-semibold text-zinc-800 dark:text-zinc-100 dark:hover:text-red-400">
-                  All
-                </h2>
-              <% end %>
-
-            <%= live_patch to: Routes.movies_index_path(@socket, :index, sort_by: "latest") do %>
-              <h2 class="p-4 text-base font-semibold text-zinc-800 dark:text-zinc-100 dark:hover:text-red-400">
-                Latest
-              </h2>
-            <% end %>
-
             <div>
               <button
-                phx-click={JS.toggle(to: "#genre-dropdown")}
-                phx-click-away={JS.hide(to: "#genre-dropdown")}
+                phx-click={JS.toggle(to: "#filter-dropdown")}
+                phx-click-away={JS.hide(to: "#filter-dropdown")}
                 type="button"
                 class="relative block inline-flex justify-center p-4 text-base font-semibold text-zinc-800 dark:text-zinc-100 dark:hover:text-red-400">
-                Genres
-                <svg class="self-center -mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 dark:text-zinc-100 group-hover:text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                </svg>
+                    Filters
+                    <svg class="self-center -mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 dark:text-zinc-100 group-hover:text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                    </svg>
               </button>
              <div
-                  id="genre-dropdown"
-               class="hidden z-20 origin-top-right absolute left-36 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-zinc-800 dark:ring-zinc-800"
+                  id="filter-dropdown"
+               class="hidden z-20 origin-top-right absolute left-4 md:left-20 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-zinc-800 dark:ring-zinc-800"
              >
                <div class="overflow-y-auto h-48 divide-y divide-zinc-100 text-sm font-medium text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
+
+                 <%= live_redirect to: Routes.movies_index_path(@socket, :index) do %>
+                   <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                     All
+                   </h2>
+                 <% end %>
+
+               <%= live_redirect to: Routes.movies_index_path(@socket, :index, sort_by: "latest") do %>
+                 <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                   Latest
+                 </h2>
+               <% end %>
 
                 <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "action") do %>
                   <h2 class="block px-4 py-2 dark:hover:text-red-400">
