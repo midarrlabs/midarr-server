@@ -77,14 +77,14 @@
       <div class="sm:px-8 mt-24 md:mt-28">
         <div class="mx-auto lg:px-8">
 
-          <div class="flex">
+          <div class="flex justify-between">
 
             <div>
               <button
                 phx-click={JS.toggle(to: "#filter-dropdown")}
                 phx-click-away={JS.hide(to: "#filter-dropdown")}
                 type="button"
-                class="relative block inline-flex justify-center p-4 text-base font-semibold text-zinc-800 dark:text-zinc-100 dark:hover:text-red-400">
+                class="relative block inline-flex justify-center px-2 text-base font-semibold text-zinc-800 dark:text-zinc-100 dark:hover:text-red-400">
                     Filters
                     <svg class="self-center -mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 dark:text-zinc-100 group-hover:text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                       <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
@@ -196,10 +196,23 @@
                </div>
              </div>
             </div>
+
+              <%= MediaServerWeb.Components.PaginationComponent.render(%{
+                page_number: @movies.page_number,
+                total_pages: @movies.total_pages,
+                previous_link:
+                  Routes.movies_index_path(@socket, :index,
+                    page: MediaServerWeb.Helpers.get_pagination_previous_link(@movies.page_number)
+                  ),
+                next_link:
+                  Routes.movies_index_path(@socket, :index,
+                    page: MediaServerWeb.Helpers.get_pagination_next_link(@movies.page_number)
+                  )
+              }) %>
           </div>
 
           <div class="space-y-12 px-4 py-6">
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-10">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-10 place-items-center">
               <%= for item <- @movies do %>
                 <%= MediaServerWeb.Components.PosterComponent.render(%{
                   title: item["title"],
