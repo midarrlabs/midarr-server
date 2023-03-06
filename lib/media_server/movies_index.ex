@@ -29,7 +29,6 @@ defmodule MediaServer.MoviesIndex do
   def get_genre(genre) do
     get_all()
     |> Enum.filter(fn item -> Enum.member?(item["genres"], genre) end)
-    |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
   end
 
   def get_movie(id) do
