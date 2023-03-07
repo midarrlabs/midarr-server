@@ -155,12 +155,12 @@
         </div>
       </div>
 
-      <div class="sm:px-8 mt-24 md:mt-28">
+      <div class="sm:px-8 mt-24 md:mt-28 space-y-12">
         <div class="mx-auto lg:px-8">
           <h2 class="p-4 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
             Cast
           </h2>
-          <div class="overflow-x-auto mb-8 flex gap-5 p-4 overflow-hidden sm:gap-6">
+          <div class="overflow-x-auto flex gap-5 p-4 overflow-hidden sm:gap-6">
             <%= if assigns[:cast] do %>
               <%= for item <- @cast do %>
                 <%= MediaServerWeb.Components.PosterComponent.render(%{
@@ -177,7 +177,7 @@
           <h2 class="p-4 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
             Similar
           </h2>
-          <div class="overflow-x-auto mb-8 flex gap-5 p-4 overflow-hidden sm:gap-6">
+          <div class="overflow-x-auto flex gap-5 p-4 overflow-hidden sm:gap-6">
             <%= for item <- MediaServer.MoviesIndex.get_related(@movie) do %>
               <%= MediaServerWeb.Components.PosterComponent.render(%{
                 title: item["title"],

@@ -1,5 +1,4 @@
 <div>
-  <div>
     <div class="absolute w-full">
       <img
         alt={@serie["title"]}
@@ -13,7 +12,6 @@
     </div>
 
     <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
-  </div>
 
   <div class="relative">
     <main>
@@ -36,7 +34,7 @@
         </div>
       </div>
 
-      <div class="sm:px-8 mt-24 md:mt-28">
+      <div class="sm:px-8 mt-24 md:mt-28 space-y-12">
         <div class="mx-auto lg:px-8">
           <div class="flex overflow-x-auto">
             <%= for item <- @serie["seasons"] |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] > 0 end) do %>
@@ -49,7 +47,7 @@
           </div>
 
           <div class="mx-auto">
-            <div class="overflow-x-auto mb-8 flex gap-5 p-4 overflow-hidden">
+            <div class="overflow-x-auto flex gap-5 p-4 overflow-hidden">
               <%= if assigns[:episodes] do %>
                 <%= for item <- @episodes do %>
                   <article class="aspect-auto w-full md:w-1/2 lg:w-1/4 flex-none overflow-hidden rounded-sm">
@@ -111,7 +109,7 @@
           <h2 class="p-4 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
             Similar
           </h2>
-          <div class="overflow-x-auto mb-8 flex gap-5 p-4 overflow-hidden sm:gap-6">
+          <div class="overflow-x-auto flex gap-5 p-4 overflow-hidden sm:gap-6">
             <%= for item <- MediaServer.SeriesIndex.get_related(@serie) do %>
               <%= MediaServerWeb.Components.PosterComponent.render(%{
                 title: item["title"],
