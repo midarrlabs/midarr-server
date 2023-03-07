@@ -1,15 +1,5 @@
-<div>
-  <div>
-    <div class="absolute w-full">
-      <div class="bg-zinc-600 h-64 w-full"></div>
-      <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-slate-500 mix-blend-multiply">
-      </div>
-      <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-black mix-blend-multiply">
-      </div>
-    </div>
-
-    <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
-  </div>
+<div class="dark:bg-zinc-900">
+  <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
 
   <div class="relative">
     <main>
@@ -22,6 +12,9 @@
                   <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
                     <%= @page_title %>
                   </h1>
+                    <div class="mt-6 text-base text-zinc-600 dark:text-zinc-200 line-clamp-2">
+                      Nice playlist!
+                    </div>
                 </div>
               </div>
             </div>
@@ -31,6 +24,11 @@
 
       <div class="sm:px-8 mt-24 md:mt-28">
         <div class="mx-auto lg:px-8">
+
+        <h2 class="p-4 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+          Movies
+        </h2>
+
           <div class="space-y-12 px-4 py-6">
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-10">
 
