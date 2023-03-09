@@ -9,6 +9,7 @@ defmodule MediaServerWeb.Components.PosterComponent do
           <img
             alt={assigns.title}
             src={MediaServerWeb.Helpers.reduce_size_for_poster_url(assigns.img_src)}
+            class="h-full"
             loading="lazy"
           />
         <% else %>
