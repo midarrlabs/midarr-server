@@ -87,7 +87,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
     assert Enum.count(MediaServer.PlaylistMedia.all()) === 1
   end
 
-  test "it should play", %{conn: conn} do
+  test "it should watch", %{conn: conn} do
     movie = MediaServer.MoviesIndex.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
 
@@ -95,6 +95,6 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     send(view.pid, {:cast, cast})
 
-    assert view |> element("#play-#{movie["id"]}", "Play") |> render_click()
+    assert view |> element("#play-#{movie["id"]}", "Watch") |> render_click()
   end
 end

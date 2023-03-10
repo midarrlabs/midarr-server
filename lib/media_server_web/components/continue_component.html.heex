@@ -1,41 +1,54 @@
-<li class="col-span-1 flex shadow-sm">
-  <div class="flex-1 flex items-center justify-between border border-slate-200 bg-white rounded-r-sm truncate">
-    <div class="flex-1 px-4 py-2 text-sm text-slate-600 truncate">
-      <%= live_redirect to: @link, class: "hover:text-slate-800 hover:underline" do %>
-        <%= @title %>
-      <% end %>
-      <div class="w-full flex mt-2">
-        <div class="flex-none text-xs text-slate-500">
-          <%= @minutes_remaining %> min left
+<article class="aspect-auto w-full flex-none overflow-hidden rounded-sm">
+  <div class="relative w-full">
+    <img
+      src={@image}
+      alt={@title}
+      class="w-full rounded-sm bg-gray-100 object-cover lg:aspect-[3/2]"
+    />
+  </div>
+  <div class="max-w-xl">
+    <div class="mt-8 flex items-center gap-x-2 text-xs">
+      <time class="text-sm text-zinc-400 dark:text-zinc-500 flex-grow">
+        <%= @minutes_remaining %> minutes left
+      </time>
+      <%= if @item["hasFile"] do %>
+        <div class="flex rounded-full bg-white/90 px-3 mr-1 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+          <%= live_redirect id: "play-#{ @item["id"] }", to: @link, class: "flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400" do %>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 10 10"
+              fill="none"
+              class="h-2.5 w-2.5 fill-current"
+            >
+              <path d="M8.25 4.567a.5.5 0 0 1 0 .866l-7.5 4.33A.5.5 0 0 1 0 9.33V.67A.5.5 0 0 1 .75.237l7.5 4.33Z">
+              </path>
+            </svg>
+            <span class="ml-3">Watch</span>
+          <% end %>
         </div>
-        <div class="flex-1 w-full bg-slate-200 h-1 mt-2 ml-2">
-          <div class="bg-red-300 h-1" style={"width: #{@percentage_complete}%"}></div>
-        </div>
-      </div>
-    </div>
-    <div class="flex-shrink-0 pr-2">
-      <button
-        id={@id}
-        phx-click={@event}
-        phx-target={@myself}
-        phx-value-id={@id_item}
-        type="button"
-        class="w-8 h-8 bg-white inline-flex items-center justify-center text-slate-600 rounded-full bg-transparent hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
-      >
-        <svg
-          class="w-5 h-5"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
+
+        <button
+          id={@id}
+          phx-click={@event}
+          phx-target={@myself}
+          phx-value-id={@id_item}
+          type="button"
+          class="dark:text-zinc-200 flex items-center text-sm transition hover:text-red-500 dark:hover:text-red-400"
         >
-          <path
-            fill-rule="evenodd"
-            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          />
-        </svg>
-      </button>
+          <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+      <% end %>
+    </div>
+    <div class="group relative">
+      <h3 class="mt-3 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+        <%= @item["title"] %>
+      </h3>
     </div>
   </div>
-</li>
+</article>
