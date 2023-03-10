@@ -1,41 +1,36 @@
 <div class="dark:bg-zinc-900">
   <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
 
-  <div class="relative">
-    <main>
-      <MediaServerWeb.Components.PageHeaderComponent.render title="Search" />
+  <MediaServerWeb.Components.PageHeaderComponent.render title="Search" />
 
-      <div class="sm:px-8 mt-24 md:mt-28">
-        <div class="mx-auto lg:px-8">
+  <div class="sm:px-8 mt-24 md:mt-28">
+    <div class="mx-auto lg:px-8">
 
-          <MediaServerWeb.Components.PageSectionComponent.render>
-            <%= if assigns[:movies] && assigns[:series] do %>
-              <%= for item <- @movies do %>
-                <%= MediaServerWeb.Components.PosterComponent.render(%{
-                  img_src: MediaServer.MoviesIndex.get_poster(item),
-                  title: item["title"],
-                  link: Routes.movies_show_path(@socket, :show, item["id"])
-                }) %>
-              <% end %>
+      <MediaServerWeb.Components.PageSectionComponent.render>
+        <%= if assigns[:movies] && assigns[:series] do %>
+          <%= for item <- @movies do %>
+            <%= MediaServerWeb.Components.PosterComponent.render(%{
+              img_src: MediaServer.MoviesIndex.get_poster(item),
+              title: item["title"],
+              link: Routes.movies_show_path(@socket, :show, item["id"])
+            }) %>
+          <% end %>
 
-              <%= for item <- @series do %>
-                <%= MediaServerWeb.Components.PosterComponent.render(%{
-                  img_src: MediaServer.SeriesIndex.get_poster(item),
-                  title: item["title"],
-                  link: Routes.series_show_path(@socket, :show, item["id"])
-                }) %>
-              <% end %>
-            <% else %>
-              <div class="flex flex-row col-span-2 lg:col-span-6 justify-center">
-                <%= MediaServerWeb.Components.SpinnerComponent.render(%{}) %>
-              </div>
-            <% end %>
-          </MediaServerWeb.Components.PageSectionComponent.render>
+          <%= for item <- @series do %>
+            <%= MediaServerWeb.Components.PosterComponent.render(%{
+              img_src: MediaServer.SeriesIndex.get_poster(item),
+              title: item["title"],
+              link: Routes.series_show_path(@socket, :show, item["id"])
+            }) %>
+          <% end %>
+        <% else %>
+          <div class="flex flex-row col-span-2 lg:col-span-6 justify-center">
+            <%= MediaServerWeb.Components.SpinnerComponent.render(%{}) %>
+          </div>
+        <% end %>
+      </MediaServerWeb.Components.PageSectionComponent.render>
 
-        </div>
-      </div>
-
-    </main>
+    </div>
   </div>
 
   <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
