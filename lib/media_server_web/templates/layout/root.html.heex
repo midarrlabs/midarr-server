@@ -38,7 +38,7 @@
     <%= if @current_user do %>
       <%= @inner_content %>
     <% else %>
-      <div class="h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div class="bg-zinc-900 h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <%= @inner_content %>
       </div>
     <% end %>

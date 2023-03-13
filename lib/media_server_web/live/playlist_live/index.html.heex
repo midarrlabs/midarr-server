@@ -13,7 +13,7 @@
                     Playlists
                   </h1>
                   <div class="mt-6 text-base text-zinc-600 dark:text-zinc-200 line-clamp-2">
-                    Add and manage your playlists here. Easily add and remove videos through out the site.
+                    Add and manage your playlists here.
                   </div>
                   <div class="mt-6 flex gap-6">
                     <div class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
@@ -46,25 +46,16 @@
       </div>
     </main>
 
-    <div class="sm:px-8 mt-24 md:mt-28">
-      <div class="mx-auto lg:px-8">
-        <h2 class="p-4 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
-          Playlists
-        </h2>
+      <MediaServerWeb.Components.PageSectionComponent.render>
 
-        <div class="space-y-12 py-4">
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-10 place-items-center">
-            <%= for item <- @current_user.playlists do %>
-              <%= MediaServerWeb.Components.PosterComponent.render(%{
-                title: item.name,
-                img_src: "",
-                link: Routes.playlist_show_path(@socket, :show, item.id)
-              }) %>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    </div>
+        <%= for item <- @current_user.playlists do %>
+          <%= MediaServerWeb.Components.PosterComponent.render(%{
+            title: item.name,
+            img_src: "",
+            link: Routes.playlist_show_path(@socket, :show, item.id)
+          }) %>
+        <% end %>
+      </MediaServerWeb.Components.PageSectionComponent.render>
 
     <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
   </div>
