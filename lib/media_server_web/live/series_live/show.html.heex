@@ -2,7 +2,7 @@
   <div class="absolute w-full">
     <img
       alt={@serie["title"]}
-      src={MediaServer.SeriesIndex.get_background(@serie)}
+      src={Routes.images_path(@socket, :index, series: @serie["id"], type: "background")}
       class="object-cover w-full"
     />
     <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-slate-500 mix-blend-multiply">

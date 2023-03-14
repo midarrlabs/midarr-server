@@ -2,7 +2,7 @@
     <div class="absolute w-full">
       <img
         alt={Enum.at(@series, 0)["title"]}
-        src={MediaServer.SeriesIndex.get_background(Enum.at(@series, 0))}
+        src={Routes.images_path(@socket, :index, series: Enum.at(@series, 0)["id"], type: "background")}
         class="object-cover w-full"
       />
       <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-slate-500 mix-blend-multiply">
