@@ -46,6 +46,8 @@ defmodule MediaServerWeb.Router do
       live "/settings", SettingsLive.Index, :index
     end
 
+    get "/images", ImagesController, :index
+
     delete "/logout", UserSessionController, :delete
   end
 

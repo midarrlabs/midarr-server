@@ -44,4 +44,12 @@ defmodule MediaServer.Helpers do
     Map.fetch(media, "images")
     |> some_test("headshot")
   end
+  
+  def get_poster_file(<<"https://image.tmdb.org/t/p/original/", poster::binary>>) do
+    poster
+  end
+
+  def get_poster_file(<<"https://artworks.thetvdb.com/banners/posters/", poster::binary>>) do
+    poster
+  end
 end
