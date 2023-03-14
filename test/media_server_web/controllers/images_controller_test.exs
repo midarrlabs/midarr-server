@@ -42,4 +42,13 @@ defmodule MediaServerWeb.ImagesControllerTest do
 
     assert is_binary(conn.resp_body)
   end
+
+  test "it should get episode screenshot", %{conn: conn} do
+    conn = get(conn, Routes.images_path(conn, :index), episode: "1", type: "screenshot")
+
+    assert conn.status === 200
+    assert conn.state === :sent
+
+    assert is_binary(conn.resp_body)
+  end
 end
