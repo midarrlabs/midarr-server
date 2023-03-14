@@ -24,4 +24,12 @@ defmodule MediaServerWeb.ImagesController do
     |> put_resp_header("content-type", "image/image")
     |> send_resp(200, body)
   end
+
+  def index(conn, %{"series" => id, "type" => "background"}) do
+    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get(MediaServerWeb.Repositories.Series.get_url("mediacover/#{ id }/fanart.jpg"))
+
+    conn
+    |> put_resp_header("content-type", "image/image")
+    |> send_resp(200, body)
+  end
 end
