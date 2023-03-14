@@ -2,7 +2,7 @@
   <div class="absolute w-full">
     <img
       alt={Enum.at(@movies, 0)["title"]}
-      src={MediaServer.MoviesIndex.get_background(Enum.at(@movies, 0))}
+      src={Routes.images_path(@socket, :index, movie: Enum.at(@movies, 0)["id"], type: "background")}
       class="object-cover w-full"
     />
     <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-slate-500 mix-blend-multiply">
@@ -98,10 +98,7 @@
                   event: "delete_continue",
                   return_to: Routes.home_index_path(@socket, :index),
                   item: MediaServer.MoviesIndex.get_movie(item.media_id),
-                  image:
-                    MediaServer.MoviesIndex.get_background(
-                      MediaServer.MoviesIndex.get_movie(item.media_id)
-                    ),
+                  image: Routes.images_path(@socket, :index, movie: item.media_id, type: "background"),
                   width: "w-full md:w-1/2 lg:w-1/4"
                 ) %>
               <% else %>
