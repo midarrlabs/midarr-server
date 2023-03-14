@@ -45,11 +45,8 @@ defmodule MediaServer.Helpers do
     |> some_test("headshot")
   end
   
-  def get_image_file(<<"https://image.tmdb.org/t/p/original/", image_file::binary>>) do
-    image_file
-  end
-
-  def get_image_file(<<"https://artworks.thetvdb.com/banners/posters/", image_file::binary>>) do
-    image_file
+  def get_image_file(url) do
+    Regex.run(~r([^\/]+$), url)
+    |> List.first()
   end
 end
