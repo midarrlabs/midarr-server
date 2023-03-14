@@ -44,7 +44,7 @@
                     <div class="relative w-full">
                       <%= if MediaServerWeb.Repositories.Episodes.get_screenshot(item) do %>
                         <img
-                          src={MediaServerWeb.Repositories.Episodes.get_screenshot(item)}
+                          src={Routes.images_path(@socket, :index, episode: item["id"], type: "screenshot")}
                           alt={item["title"]}
                           class="w-full rounded-sm bg-gray-100 object-cover lg:aspect-[3/2]"
                         />

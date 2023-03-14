@@ -120,10 +120,7 @@
                   event: "delete_continue",
                   return_to: Routes.home_index_path(@socket, :index),
                   item: MediaServerWeb.Repositories.Episodes.get_episode(item.media_id),
-                  image:
-                    MediaServerWeb.Repositories.Episodes.get_background(
-                      MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)
-                    ),
+                  image: Routes.images_path(@socket, :index, episode: item.media_id, type: "screenshot"),
                   width: "w-full md:w-1/2 lg:w-1/4"
                 ) %>
               <% end %>
