@@ -34,8 +34,7 @@
 
               <%= for item <- @playlists.playlist_media do %>
                 <%= MediaServerWeb.Components.PosterComponent.render(%{
-                  img_src:
-                    MediaServer.MoviesIndex.get_poster(MediaServer.MoviesIndex.get_movie(item.media_id)),
+                  img_src: Routes.images_path(@socket, :index, movie: item.media_id, type: "poster"),
                   title: MediaServer.MoviesIndex.get_movie_title(item.media_id),
                   link: Routes.movies_show_path(@socket, :show, item.media_id)
                 }) %>

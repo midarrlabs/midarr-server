@@ -142,7 +142,7 @@
           <%= for item <- @movies do %>
             <%= MediaServerWeb.Components.PosterComponent.render(%{
               title: item["title"],
-              img_src: MediaServer.MoviesIndex.get_poster(item),
+              img_src: Routes.images_path(@socket, :index, movie: item["id"], type: "poster"),
               link: Routes.movies_show_path(@socket, :show, item["id"])
             }) %>
           <% end %>
