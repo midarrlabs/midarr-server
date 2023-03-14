@@ -45,11 +45,11 @@ defmodule MediaServer.Helpers do
     |> some_test("headshot")
   end
   
-  def get_poster_file(<<"https://image.tmdb.org/t/p/original/", poster::binary>>) do
-    poster
+  def get_image_file(<<"https://image.tmdb.org/t/p/original/", image_file::binary>>) do
+    image_file
   end
 
-  def get_poster_file(<<"https://artworks.thetvdb.com/banners/posters/", poster::binary>>) do
-    poster
+  def get_image_file(<<"https://artworks.thetvdb.com/banners/posters/", image_file::binary>>) do
+    image_file
   end
 end

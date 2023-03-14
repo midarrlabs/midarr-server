@@ -88,10 +88,10 @@ defmodule MediaServer.HelpersTest do
   end
 
   test "it should get movie poster file" do
-    assert MediaServer.Helpers.get_poster_file("https://image.tmdb.org/t/p/original/66VPke0YSiyfe97aobbcZ55ts56.jpg") === "66VPke0YSiyfe97aobbcZ55ts56.jpg"
+    assert MediaServer.Helpers.get_image_file("https://image.tmdb.org/t/p/original/66VPke0YSiyfe97aobbcZ55ts56.jpg") === "66VPke0YSiyfe97aobbcZ55ts56.jpg"
   end
 
   test "it should get series poster file" do
-    assert MediaServer.Helpers.get_poster_file("https://artworks.thetvdb.com/banners/posters/170551-1.jpg") === "170551-1.jpg"
+    assert MediaServer.Helpers.get_image_file("https://artworks.thetvdb.com/banners/posters/170551-1.jpg") === "170551-1.jpg"
   end
 end

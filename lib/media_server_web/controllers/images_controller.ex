@@ -5,7 +5,7 @@ defmodule MediaServerWeb.ImagesController do
 
     poster_file = MediaServer.MoviesIndex.get_movie(id)
              |> MediaServer.MoviesIndex.get_poster()
-             |> MediaServer.Helpers.get_poster_file()
+             |> MediaServer.Helpers.get_image_file()
 
     {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get("https://image.tmdb.org/t/p/w342/#{ poster_file }")
 
@@ -18,7 +18,7 @@ defmodule MediaServerWeb.ImagesController do
 
     poster_file = MediaServer.SeriesIndex.get_serie(id)
                   |> MediaServer.SeriesIndex.get_poster()
-                  |> MediaServer.Helpers.get_poster_file()
+                  |> MediaServer.Helpers.get_image_file()
 
     {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get("https://artworks.thetvdb.com/banners/posters/#{ poster_file }")
 
