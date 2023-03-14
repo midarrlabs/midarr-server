@@ -7,7 +7,7 @@ defmodule MediaServerWeb.ImagesController do
              |> MediaServer.MoviesIndex.get_poster()
              |> MediaServer.Helpers.get_poster_file()
 
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get("https://image.tmdb.org/t/p/original/#{ poster_file }")
+    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get("https://image.tmdb.org/t/p/w342/#{ poster_file }")
 
     conn
     |> put_resp_header("content-type", "image/image")
