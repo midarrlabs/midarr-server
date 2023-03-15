@@ -2,7 +2,7 @@
     id="ignore"
     phx-update="ignore"
     src={ @media_stream }
-    poster={MediaServerWeb.Repositories.Episodes.get_background(@episode)}
+    poster={Routes.images_path(@socket, :index, series: @episode["series"]["id"], type: "background")}
     controlsList="nodownload"
     controls
     autoplay>
