@@ -18,7 +18,7 @@ services:
       - RADARR_API_KEY=d031e8c9b9df4b2fab311d1c3b3fa2c5
       - SONARR_BASE_URL=http://sonarr:8989
       - SONARR_API_KEY=1accda4476394bfcaddefe8c4fd77d4a
-    command: bash -c "chmod u+x support/entry-point-local.sh && ./support/entry-point-local.sh"
+    command: bash -c "chmod u+x priv/entry-point-local.sh && ./priv/entry-point-local.sh"
 
   radarr:
     container_name: radarr
