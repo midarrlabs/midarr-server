@@ -35,7 +35,7 @@ users:
 * Simple and easy invite system
 * Integrates with your existing services, [Radarr](https://radarr.video/) and [Sonarr](https://sonarr.tv/)
 
-![Preview](support/screenshots/home-v2.0.0.png)
+![Preview](priv/screenshots/home-v2.0.0.png)
 
 ### What is this?
 
@@ -43,15 +43,15 @@ This is a lightweight (albeit companion) media server to the likes of Radarr and
 Your media is left untouched and unscathed as it is served through a simple (yet familiar) web interface that puts your media front and center for
 **you** and **your** users to enjoy.
 
-While other media solutions look to re-index, re-fetch and re-double handle your media library, **Midarr** simply levarages your pre-existing
-services to delight and enchant **you** and **your** users' media experience.
+While other media solutions look to re-index, re-fetch and re-double handle your media library, **Midarr** simply leverages your pre-existing
+services to delight and enchant **your** media experience.
 
-![Preview](support/screenshots/ecosystem-v2.0.0.jpg)
+![Preview](priv/screenshots/ecosystem-v2.0.0.jpg)
 
 ### How is this lightweight?
 
-* **No media indexing.** All the metadata needed is already on your server. **Midarr** never goes out looking for more, everything we need you already have.
-* **No media transcoding.** Nope, none whatsoever. Your media is served fresh off the metal.
+* **Direct streaming.** Your media is served fresh off the metal (*an experimental transcoder is available*).
+* **Smart caching.** Your metadata is retrieved fresh off the metal, smartly kept in sync with your integrations.
 * **No media editing.** We trust you already have it the way you like it, lets keep it that way.
 
 ### What does this do?
@@ -108,8 +108,8 @@ services:
 
 ### Integrations
 
-* Supports Radarr - `v4.1`
-* Supports Sonarr - `v3.0`
+* Supports Radarr `v4.x`
+* Supports Sonarr `v3.x`
 
 On server startup **Midarr** attempts to auto configure your integrations by:
 
@@ -198,7 +198,7 @@ cd midarr-server && docker compose up -d
 
 ## Preview
 
-![Preview](support/screenshots/login-v1.4.0.png)
-![Preview](support/screenshots/online-v1.6.1.png)
-![Preview](support/screenshots/movie-v2.0.0.png)
-![Preview](support/screenshots/player-v1.15.0.png)
+![Preview](priv/screenshots/login-v1.4.0.png)
+![Preview](priv/screenshots/online-v1.6.1.png)
+![Preview](priv/screenshots/movie-v2.0.0.png)
+![Preview](priv/screenshots/player-v1.15.0.png)

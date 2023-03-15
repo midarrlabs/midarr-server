@@ -157,7 +157,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          <.form :let={f} for={:search} id="search" phx-target={@myself} phx-submit="search">
+          <.form :let={f} for={%{}} as={:search} id="search" phx-target={@myself} phx-submit="search">
             <%= text_input(f, :query,
               placeholder: "Search...",
               class:

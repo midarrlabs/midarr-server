@@ -20,6 +20,7 @@
         background-color: black;
       }
     </style>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/vidstack@0.3.2/dist/cdn/prod.js"></script>
     <script>
       window.userId = <%= assigns[:current_user].id %>;
       window.userEmail = "<%= assigns[:current_user].email %>";
@@ -33,12 +34,13 @@
       window['__onGCastApiAvailable'] = function(isAvailable) {
           if (isAvailable) {
               cast.framework.CastContext.getInstance().setOptions({
-                receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
+                receiverApplicationId: 'B7C82081',
+                autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
               });
 
               cast.framework.CastContext.getInstance().addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function({ castState }) {
                   if (castState === 'CONNECTED') {
-                      const mediaInfo = new chrome.cast.media.MediaInfo('<%= System.get_env("APP_URL", "") <> assigns[:media_stream] %>', 'video/mp4');
+                      const mediaInfo = new chrome.cast.media.MediaInfo('<%= System.get_env("APP_URL", "") <> assigns[:media_stream] %>', '<%= assigns[:mime_type] %>');
                       const request = new chrome.cast.media.LoadRequest(mediaInfo);
 
                       cast.framework.CastContext.getInstance().getCurrentSession().loadMedia(request).then(
