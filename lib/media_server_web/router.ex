@@ -36,7 +36,6 @@ defmodule MediaServerWeb.Router do
 
     live "/series", SeriesLive.Index, :index
     live "/series/:id", SeriesLive.Show, :show
-    live "/series/:id/seasons/:number", SeasonsLive.Show, :show
 
     live_session :watch, root_layout: {MediaServerWeb.WatchView, :watch} do
       live "/movies/:id/segment", SegmentMovieLive.Show, :show
@@ -46,15 +45,18 @@ defmodule MediaServerWeb.Router do
       live "/episodes/:id/:action", WatchEpisodeLive.Show, :show
     end
 
-    live "/search", SearchLive.Index, :index
+    live_session :plain, root_layout: {MediaServerWeb.PlainView, :plain} do
+      live "/playlists", PlaylistLive.Index, :index
+      live "/playlists/:id", PlaylistLive.Show, :show
 
-    live "/continues", ContinuesLive.Index, :index
+      live "/continues", ContinuesLive.Index, :index
 
-    live "/playlists", PlaylistLive.Index, :index
-    live "/playlists/new", PlaylistLive.Index, :new
-    live "/playlists/:id", PlaylistLive.Show, :show
+      live "/search", SearchLive.Index, :index
 
-    live "/settings", SettingsLive.Index, :index
+      live "/settings", SettingsLive.Index, :index
+    end
+
+    get "/images", ImagesController, :index
 
     delete "/logout", UserSessionController, :delete
   end

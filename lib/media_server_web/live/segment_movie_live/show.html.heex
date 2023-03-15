@@ -2,7 +2,7 @@
     id="ignore"
     phx-update="ignore"
     src={ @media_stream }
-    poster={MediaServer.MoviesIndex.get_background(@movie)}
+    poster={Routes.images_path(@socket, :index, movie: @movie["id"], type: "background")}
     controlsList="nodownload"
     controls
     autoplay>

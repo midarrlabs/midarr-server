@@ -1,238 +1,194 @@
-<header class="relative pb-24 bg-slate-800 sm:pb-32">
-  <div
-    class="absolute inset-0 bg-cover bg-fixed"
-    style={"background-image: url(#{MediaServer.MoviesIndex.get_background(@movie)})"}
-  >
-    <div
-      class="absolute inset-0 bg-gradient-to-l from-slate-200 to-neutral-900 mix-blend-multiply"
-      aria-hidden="true"
-    >
-    </div>
-  </div>
-
-  <div class="relative z-10">
-    <.live_component
-      module={MediaServerWeb.Components.NavComponent}
-      id="nav-component"
-      class="text-white hover:text-gray-100"
-    />
-  </div>
-
-  <div class="relative mt-24 max-w-md mx-auto px-4 sm:max-w-xl sm:mt-32 sm:px-6 lg:max-w-6xl lg:px-8 space-y-6">
-    <div class="space-y-2">
-      <h1 class="text-3xl font-extrabold tracking-tight text-white">
-        <%= @movie["title"] %>
-      </h1>
-      <div class="flex space-x-4 text-sm font-semibold text-red-300 tracking-wide uppercase">
-        <h2>
-          <%= @movie["year"] %>
-        </h2>
-        <%= if @movie["certification"] do %>
-          <div>
-            |
-          </div>
-          <h2>
-            <%= @movie["certification"] %>
-          </h2>
-        <% end %>
-        <div>
-          |
-        </div>
-        <h2>
-          <%= @movie["movieFile"]["mediaInfo"]["runTime"] %>
-        </h2>
+<div>
+  <div>
+    <div class="absolute w-full">
+      <img
+        alt={@movie["title"]}
+        src={Routes.images_path(@socket, :index, movie: @movie["id"], type: "background")}
+        class="object-cover w-full"
+      />
+      <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-slate-500 mix-blend-multiply">
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-black mix-blend-multiply">
       </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-y-4 lg:gap-y-12 gap-x-4 lg:grid-cols-6">
-      <%= live_redirect id: "play-#{ @movie["id"] }", to: Routes.watch_movie_show_path(@socket, :show, @movie["id"], "watch"), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
-        <svg
-          class="-ml-0.5 mr-2 h-6 w-6"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-6 h-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"
-          />
-        </svg>
-        Play
-      <% end %>
+    <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+  </div>
 
-      <%= live_redirect to: Routes.segment_movie_show_path(@socket, :show, @movie["id"]), class: "inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500" do %>
-      <svg
-        class="-ml-0.5 mr-2 h-6 w-6"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="w-6 h-6"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"
-        />
-      </svg>
-        Test
-      <% end %>
+  <div class="relative">
+    <main>
+      <div class="sm:px-8 mt-16 sm:mt-32">
+        <div class="mx-auto max-w-7xl lg:px-8">
+          <div class="relative px-4 sm:px-8 lg:px-12">
+            <div class="mx-auto max-w-2xl lg:max-w-5xl">
+              <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
+                <div class="lg:order-first lg:row-span-2">
+                  <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+                    <%= @movie["title"] %>
+                  </h1>
+                  <div class="mt-6 text-base text-zinc-600 dark:text-zinc-200">
+                    <%= @movie["overview"] %>
+                  </div>
+                  <div class="mt-6 flex gap-6">
+                    <div class="flex space-x-2 rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+                      <%= live_redirect id: "play-#{ @movie["id"] }", to: Routes.watch_movie_show_path(@socket, :show, @movie["id"], "watch"), class: "flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400" do %>
+                        <svg
+                          aria-hidden="true"
+                          viewBox="0 0 10 10"
+                          fill="none"
+                          class="h-3 w-3 fill-current"
+                        >
+                          <path d="M8.25 4.567a.5.5 0 0 1 0 .866l-7.5 4.33A.5.5 0 0 1 0 9.33V.67A.5.5 0 0 1 .75.237l7.5 4.33Z">
+                          </path>
+                        </svg>
+                        <span class="ml-3">Watch</span>
+                      <% end %>
+                    </div>
 
-      <button
-        id="add-to-playlists"
-        phx-click={JS.toggle(to: "#playlists")}
-        class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
-      >
-        <svg
-          class="-ml-0.5 mr-2 h-6 w-6"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-6 h-6"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-        </svg>
-        Playlist
-      </button>
+                    <%= if @movie["youTubeTrailerId"] !== "" do %>
+                      <a
+                        href={"https://www.youtube.com/watch?v=#{@movie["youTubeTrailerId"]}"}
+                        target="_blank"
+                        class="dark:text-zinc-200 flex items-center text-sm transition hover:text-red-500 dark:hover:text-red-400"
+                      >
+                        <svg
+                          class="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-1.5A1.125 1.125 0 0118 18.375M20.625 4.5H3.375m17.25 0c.621 0 1.125.504 1.125 1.125M20.625 4.5h-1.5C18.504 4.5 18 5.004 18 5.625m3.75 0v1.5c0 .621-.504 1.125-1.125 1.125M3.375 4.5c-.621 0-1.125.504-1.125 1.125M3.375 4.5h1.5C5.496 4.5 6 5.004 6 5.625m-3.75 0v1.5c0 .621.504 1.125 1.125 1.125m0 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m1.5-3.75C5.496 8.25 6 7.746 6 7.125v-1.5M4.875 8.25C5.496 8.25 6 8.754 6 9.375v1.5m0-5.25v5.25m0-5.25C6 5.004 6.504 4.5 7.125 4.5h9.75c.621 0 1.125.504 1.125 1.125m1.125 2.625h1.5m-1.5 0A1.125 1.125 0 0118 7.125v-1.5m1.125 2.625c-.621 0-1.125.504-1.125 1.125v1.5m2.625-2.625c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125M18 5.625v5.25M7.125 12h9.75m-9.75 0A1.125 1.125 0 016 10.875M7.125 12C6.504 12 6 12.504 6 13.125m0-2.25C6 11.496 5.496 12 4.875 12M18 10.875c0 .621-.504 1.125-1.125 1.125M18 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m-12 5.25v-5.25m0 5.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125m-12 0v-1.5c0-.621-.504-1.125-1.125-1.125M18 18.375v-5.25m0 5.25v-1.5c0-.621.504-1.125 1.125-1.125M18 13.125v1.5c0 .621.504 1.125 1.125 1.125M18 13.125c0-.621.504-1.125 1.125-1.125M6 13.125v1.5c0 .621-.504 1.125-1.125 1.125M6 13.125C6 12.504 5.496 12 4.875 12m-1.5 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M19.125 12h1.5m0 0c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h1.5m14.25 0h1.5"
+                          />
+                        </svg>
+                        <span class="ml-2">Trailer</span>
+                      </a>
+                    <% end %>
 
-      <div
-        id="playlists"
-        class="hidden relative z-10"
-        aria-labelledby="modal-title"
-        role="dialog"
-        aria-modal="true"
-      >
-        <div class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity"></div>
+                    <button
+                      id="add-to-playlists"
+                      phx-click={JS.toggle(to: "#playlists")}
+                      class="dark:text-zinc-200 flex items-center text-sm transition hover:text-red-500 dark:hover:text-red-400"
+                    >
+                      <svg
+                        class="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M12 4.5v15m7.5-7.5h-15"
+                        />
+                      </svg>
+                      <span class="ml-2">Playlist</span>
+                    </button>
 
-        <div class="fixed inset-0 z-10">
-          <div class="flex min-h-full items-center justify-center p-4 text-center">
-            <div
-              phx-click-away={JS.hide(to: "#playlists")}
-              class="h-96 relative transform overflow-auto rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg sm:p-6"
-            >
-              <fieldset>
-                <legend class="text-lg font-medium text-gray-900">Playlists</legend>
+                    <div
+                      id="playlists"
+                      class="hidden relative z-10"
+                      aria-labelledby="modal-title"
+                      role="dialog"
+                      aria-modal="true"
+                    >
+                          <div class="fixed inset-0 bg-zinc-800/40 backdrop-blur-sm dark:bg-black/80 opacity-100"></div>
 
-                <div class="mt-4 border-t border-gray-200">
-                  <.form
-                    :let={f}
-                    id="playlists-form"
-                    for={%{}}
-                    as={:playlists}
-                    phx-change="save"
-                    class="divide-y divide-gray-200"
-                  >
-                    <%= for item <- @current_user.playlists do %>
-                      <div class="relative flex items-start py-4">
-                        <div class="min-w-0 flex-1 text-sm">
-                          <label
-                            for={"playlists-#{item.id}"}
-                            class="select-none font-medium text-gray-700"
+                      <div class="fixed inset-0 z-10">
+                        <div class="flex min-h-full items-center justify-center p-4 text-center">
+                          <div
+                            phx-click-away={JS.hide(to: "#playlists")}
+                            class="h-96 relative transform overflow-auto rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg sm:p-6"
                           >
-                            <%= item.name %>
-                          </label>
-                        </div>
+                            <fieldset>
+                              <legend class="text-lg font-medium text-gray-900">Playlists</legend>
 
-                        <div class="ml-3 flex h-5 items-center">
-                          <%= checkbox(f, "#{item.id}",
-                            id: "playlists-#{item.id}",
-                            checked:
-                              Enum.any?(item.playlist_media, fn x ->
-                                x.media_id == String.to_integer(@id)
-                              end),
-                            class:
-                              "h-4 w-4 rounded border-gray-300 text-slate-600 focus:ring-slate-500"
-                          ) %>
+                              <div class="mt-4 border-t border-gray-200">
+                                <.form
+                                  :let={f}
+                                  id="playlists-form"
+                                  for={:playlists}
+                                  phx-change="save"
+                                  class="divide-y divide-gray-200"
+                                >
+                                  <%= for item <- @current_user.playlists do %>
+                                    <div class="relative flex items-start py-4">
+                                      <div class="min-w-0 flex-1 text-sm">
+                                        <label
+                                          for={"playlists-#{item.id}"}
+                                          class="select-none font-medium text-gray-700"
+                                        >
+                                          <%= item.name %>
+                                        </label>
+                                      </div>
+
+                                      <div class="ml-3 flex h-5 items-center">
+                                        <%= checkbox(f, "#{item.id}",
+                                          id: "playlists-#{item.id}",
+                                          checked:
+                                            Enum.any?(item.playlist_media, fn x ->
+                                              x.media_id == String.to_integer(@id)
+                                            end),
+                                          class:
+                                            "h-4 w-4 rounded border-gray-300 text-slate-600 focus:ring-slate-500"
+                                        ) %>
+                                      </div>
+                                    </div>
+                                  <% end %>
+                                </.form>
+                              </div>
+                            </fieldset>
+                          </div>
                         </div>
                       </div>
-                    <% end %>
-                  </.form>
+                    </div>
+                  </div>
                 </div>
-              </fieldset>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</header>
 
-<div class="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:py-8 lg:px-8 space-y-8">
-  <div class="lg:mt-0 lg:col-span-2 space-y-8">
-    <dl>
-      <div class="space-y-4">
-        <dt class="leading-6 font-medium text-gray-900">
-          Storyline
-        </dt>
-        <dd class="mt-2 text-base text-gray-500">
-          <%= @movie["overview"] %>
-        </dd>
-      </div>
-    </dl>
-
-    <dl>
-      <div class="space-y-4">
-        <dt class="leading-6 font-medium text-gray-900">
-          Media
-        </dt>
-        <dd>
-          <ul role="list" class="divide-y divide-gray-200">
-            <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-6 lg:grid-cols-8 xl:gap-x-8">
-              <%= if @movie["youTubeTrailerId"] !== "" do %>
-                <%= MediaServerWeb.Components.MediaComponent.render(%{
-                  img_src: "https://img.youtube.com/vi/#{@movie["youTubeTrailerId"]}/1.jpg",
-                  title: "Trailer",
-                  link: "https://www.youtube.com/watch?v=#{@movie["youTubeTrailerId"]}"
-                }) %>
-              <% end %>
-
-              <%= for item <- @movie["images"] do %>
-                <%= MediaServerWeb.Components.MediaComponent.render(%{
-                  img_src: item["remoteUrl"],
-                  title: item["coverType"],
-                  link: item["remoteUrl"]
-                }) %>
-              <% end %>
-            </div>
-          </ul>
-        </dd>
-      </div>
-    </dl>
-
-    <%= if assigns[:cast] do %>
-      <dl>
-        <div class="space-y-4">
-          <dt class="leading-6 font-medium text-gray-900">
+      <div class="sm:px-8 mt-24 md:mt-28 space-y-12">
+        <div class="mx-auto lg:px-8">
+          <h2 class="p-4 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
             Cast
-          </dt>
-          <dd class="mt-2 text-base text-gray-500">
-            <ul role="list" class="divide-y divide-gray-200">
-              <div class="mt-3 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-6 lg:grid-cols-8 xl:gap-x-8">
-                <%= for item <- @cast do %>
-                  <%= MediaServerWeb.Components.MediaComponent.render(%{
-                    img_src: MediaServer.MoviesIndex.get_headshot(item),
-                    title: item["personName"],
-                    link: MediaServer.MoviesIndex.get_headshot(item)
-                  }) %>
-                <% end %>
-              </div>
-            </ul>
-          </dd>
+          </h2>
+          <div class="overflow-x-auto flex gap-5 p-4 overflow-hidden sm:gap-6">
+            <%= if assigns[:cast] do %>
+              <%= for item <- @cast do %>
+                <%= MediaServerWeb.Components.PosterComponent.render(%{
+                  img_src: MediaServer.MoviesIndex.get_headshot(item),
+                  title: item["personName"],
+                  link: MediaServer.MoviesIndex.get_headshot(item)
+                }) %>
+              <% end %>
+            <% end %>
+          </div>
         </div>
-      </dl>
-    <% else %>
-      <div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
-        <div class="flex flex-row col-span-2 lg:col-span-6 justify-center mt-56">
-          <%= MediaServerWeb.Components.SpinnerComponent.render(%{}) %>
+
+        <div class="mx-auto lg:px-8">
+          <h2 class="p-4 text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+            Similar
+          </h2>
+          <div class="overflow-x-auto flex gap-5 p-4 overflow-hidden sm:gap-6">
+            <%= for item <- MediaServer.MoviesIndex.get_related(@movie) do %>
+              <%= MediaServerWeb.Components.PosterComponent.render(%{
+                title: item["title"],
+                img_src: Routes.images_path(@socket, :index, movie: item["id"], type: "poster"),
+                link: Routes.movies_show_path(@socket, :show, item["id"])
+              }) %>
+            <% end %>
+          </div>
         </div>
       </div>
-    <% end %>
+    </main>
+
+    <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
   </div>
 </div>
