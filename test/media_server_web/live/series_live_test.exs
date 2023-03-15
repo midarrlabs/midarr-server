@@ -39,10 +39,8 @@ defmodule MediaServerWeb.SeriesLiveTest do
   test "it should render season", %{conn: conn} do
     series = MediaServer.SeriesIndex.get_all() |> List.first()
 
-    {:ok, view, disconnected_html} =
-      live(conn, Routes.seasons_show_path(conn, :show, series["id"], 1))
-
-    assert disconnected_html =~ "loading-spinner"
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.series_show_path(conn, :show, series["id"]))
 
     send(view.pid, {:episodes, Episodes.get_all(series["id"], "1")})
 

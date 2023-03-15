@@ -1,0 +1,35 @@
+<footer class="mt-32">
+  <div class="sm:px-8">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="border-t border-zinc-100 pt-10 pb-16 dark:border-zinc-700/40">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
+              <div class="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                <%= live_redirect("Movies",
+                  to: Routes.movies_index_path(@socket, :index),
+                  class: "transition hover:text-teal-500 dark:hover:text-red-400"
+                ) %>
+                <%= live_redirect("Series",
+                  to: Routes.series_index_path(@socket, :index),
+                  class: "transition hover:text-teal-500 dark:hover:text-red-400"
+                ) %>
+                <%= live_redirect("Playlists",
+                  to: Routes.playlist_index_path(@socket, :index),
+                  class: "transition hover:text-teal-500 dark:hover:text-red-400"
+                ) %>
+                <%= live_redirect("Continues",
+                  to: Routes.continues_index_path(@socket, :index),
+                  class: "transition hover:text-teal-500 dark:hover:text-red-400"
+                ) %>
+              </div>
+              <p class="text-sm text-center text-zinc-400 dark:text-zinc-500">
+                © <!-- -->2023<!-- --> Midarr Labs - v3.0.0-beta.1
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

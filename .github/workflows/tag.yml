@@ -1,9 +1,9 @@
-name: Master
+name: Tag
 
 on:
   push:
     tags:
-      - 'v2.*.*'
+      - 'v3.0.0'
 
 jobs:
   docker:

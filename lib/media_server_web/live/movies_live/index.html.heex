@@ -1,36 +1,220 @@
-<.live_component
-  module={MediaServerWeb.Components.NavComponent}
-  id="nav-component"
-  class="text-slate-600 hover:text-slate-800"
-/>
-
-<div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
-  <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
-    <div class="min-w-0 flex items-center">
-      <h2 class="text-lg font-bold tracking-tight text-slate-600"><%= @page_title %></h2>
+<div>
+  <div class="absolute w-full">
+    <img
+      alt={Enum.at(@movies, 0)["title"]}
+      src={Routes.images_path(@socket, :index, movie: Enum.at(@movies, 0)["id"], type: "background")}
+      class="object-cover w-full"
+    />
+    <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-slate-500 mix-blend-multiply">
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-zinc-900 mix-blend-multiply">
     </div>
   </div>
 
-  <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+  <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+
+  <div class="sm:px-8 mt-16 sm:mt-32">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="relative px-4 sm:px-8 lg:px-12">
+        <div class="mx-auto max-w-2xl lg:max-w-5xl">
+          <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
+            <div class="lg:order-first lg:row-span-2">
+              <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+                <%= Enum.at(@movies, 0)["title"] %>
+              </h1>
+              <div class="mt-6 text-base text-zinc-600 dark:text-zinc-200 line-clamp-2">
+                <%= Enum.at(@movies, 0)["overview"] %>
+              </div>
+              <div class="mt-6 flex gap-6">
+                <div class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+                  <%= live_redirect id: "play-#{ Enum.at(@movies, 0)["id"] }", to: Routes.watch_movie_show_path(@socket, :show, Enum.at(@movies, 0)["id"], "watch"), class: "flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400" do %>
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                      class="h-2.5 w-2.5 fill-current"
+                    >
+                      <path d="M8.25 4.567a.5.5 0 0 1 0 .866l-7.5 4.33A.5.5 0 0 1 0 9.33V.67A.5.5 0 0 1 .75.237l7.5 4.33Z">
+                      </path>
+                    </svg>
+                    <span class="ml-3">Watch</span>
+                  <% end %>
+                </div>
+                <%= if Enum.at(@movies, 0)["youTubeTrailerId"] !== "" do %>
+                  <a
+                    href={"https://www.youtube.com/watch?v=#{Enum.at(@movies, 0)["youTubeTrailerId"]}"}
+                    target="_blank"
+                    class="dark:text-zinc-200 flex items-center text-sm transition hover:text-red-500 dark:hover:text-red-400"
+                  >
+                    <svg
+                      class="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-1.5A1.125 1.125 0 0118 18.375M20.625 4.5H3.375m17.25 0c.621 0 1.125.504 1.125 1.125M20.625 4.5h-1.5C18.504 4.5 18 5.004 18 5.625m3.75 0v1.5c0 .621-.504 1.125-1.125 1.125M3.375 4.5c-.621 0-1.125.504-1.125 1.125M3.375 4.5h1.5C5.496 4.5 6 5.004 6 5.625m-3.75 0v1.5c0 .621.504 1.125 1.125 1.125m0 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m1.5-3.75C5.496 8.25 6 7.746 6 7.125v-1.5M4.875 8.25C5.496 8.25 6 8.754 6 9.375v1.5m0-5.25v5.25m0-5.25C6 5.004 6.504 4.5 7.125 4.5h9.75c.621 0 1.125.504 1.125 1.125m1.125 2.625h1.5m-1.5 0A1.125 1.125 0 0118 7.125v-1.5m1.125 2.625c-.621 0-1.125.504-1.125 1.125v1.5m2.625-2.625c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125M18 5.625v5.25M7.125 12h9.75m-9.75 0A1.125 1.125 0 016 10.875M7.125 12C6.504 12 6 12.504 6 13.125m0-2.25C6 11.496 5.496 12 4.875 12M18 10.875c0 .621-.504 1.125-1.125 1.125M18 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m-12 5.25v-5.25m0 5.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125m-12 0v-1.5c0-.621-.504-1.125-1.125-1.125M18 18.375v-5.25m0 5.25v-1.5c0-.621.504-1.125 1.125-1.125M18 13.125v1.5c0 .621.504 1.125 1.125 1.125M18 13.125c0-.621.504-1.125 1.125-1.125M6 13.125v1.5c0 .621-.504 1.125-1.125 1.125M6 13.125C6 12.504 5.496 12 4.875 12m-1.5 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M19.125 12h1.5m0 0c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h1.5m14.25 0h1.5"
+                      />
+                    </svg>
+                    <span class="ml-2">Trailer</span>
+                  </a>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <MediaServerWeb.Components.PageSectionComponent.render>
+    <:header>
+      <div>
+        <button
+          phx-click={JS.toggle(to: "#filter-dropdown")}
+          phx-click-away={JS.hide(to: "#filter-dropdown")}
+          type="button"
+          class="relative block inline-flex group justify-center text-base font-semibold text-zinc-800 dark:text-zinc-100 dark:hover:text-red-400"
+        >
+          Filters
+          <svg
+            class="self-center -mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 dark:text-zinc-100 group-hover:text-red-400"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+        <div
+          id="filter-dropdown"
+          class="hidden mt-3 z-20 origin-top-right absolute left-4 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-zinc-800 dark:ring-zinc-800"
+        >
+          <div class="overflow-y-auto h-48 divide-y divide-zinc-100 text-sm font-medium text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index) do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                A-Z
+              </h2>
+            <% end %>
+
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, sort_by: "latest") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Latest
+              </h2>
+            <% end %>
+
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "action") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Action
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "adventure") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Adventure
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "animation") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Animation
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "comedy") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Comedy
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "crime") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Crime
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "documentary") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Documentary
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "drama") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Drama
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "family") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Family
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "fantasy") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Fantasy
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "history") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                History
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "horror") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Horror
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "music") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Music
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "mystery") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Mystery
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "romance") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Romance
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "thriller") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Thriller
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "war") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                War
+              </h2>
+            <% end %>
+            <%= live_redirect to: Routes.movies_index_path(@socket, :index, genre: "western") do %>
+              <h2 class="block px-4 py-2 dark:hover:text-red-400">
+                Western
+              </h2>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <%= MediaServerWeb.Components.PaginationComponent.render(%{
+        page_number: @movies.page_number,
+        total_pages: @movies.total_pages,
+        previous_link: @previous_link,
+        next_link: @next_link
+      }) %>
+    </:header>
+
     <%= for item <- @movies do %>
       <%= MediaServerWeb.Components.PosterComponent.render(%{
-        img_src: MediaServer.MoviesIndex.get_poster(item),
         title: item["title"],
+        img_src: Routes.images_path(@socket, :index, movie: item["id"], type: "poster"),
         link: Routes.movies_show_path(@socket, :show, item["id"])
       }) %>
     <% end %>
-  </div>
+  </MediaServerWeb.Components.PageSectionComponent.render>
 
-  <%= MediaServerWeb.Components.PaginationComponent.render(%{
-    page_number: @movies.page_number,
-    total_pages: @movies.total_pages,
-    previous_link:
-      Routes.movies_index_path(@socket, :index,
-        page: MediaServerWeb.Helpers.get_pagination_previous_link(@movies.page_number)
-      ),
-    next_link:
-      Routes.movies_index_path(@socket, :index,
-        page: MediaServerWeb.Helpers.get_pagination_next_link(@movies.page_number)
-      )
-  }) %>
+  <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
 </div>

@@ -7,8 +7,8 @@ services:
       - 4000:4000
     volumes:
       - ./:/app
-      - ./support/movies:/movies
-      - ./support/series:/series
+      - ./priv/movies:/movies
+      - ./priv/series:/series
     environment:
       - APP_URL=http://midarr:4000
       - SETUP_ADMIN_EMAIL=admin@email.com
@@ -18,7 +18,7 @@ services:
       - RADARR_API_KEY=d031e8c9b9df4b2fab311d1c3b3fa2c5
       - SONARR_BASE_URL=http://sonarr:8989
       - SONARR_API_KEY=1accda4476394bfcaddefe8c4fd77d4a
-    command: bash -c "chmod u+x support/entry-point-local.sh && ./support/entry-point-local.sh"
+    command: bash -c "chmod u+x priv/entry-point-local.sh && ./priv/entry-point-local.sh"
 
   radarr:
     container_name: radarr
@@ -26,8 +26,8 @@ services:
     ports:
       - 7878:7878
     volumes:
-      - ./support/radarr/config.xml:/config/config.xml
-      - ./support/movies:/movies
+      - ./priv/radarr/config.xml:/config/config.xml
+      - ./priv/movies:/movies
     environment:
       - PUID=1000
       - PGID=1000
@@ -40,8 +40,8 @@ services:
     ports:
       - 8989:8989
     volumes:
-      - ./support/sonarr/config.xml:/config/config.xml
-      - ./support/series:/series
+      - ./priv/sonarr/config.xml:/config/config.xml
+      - ./priv/series:/series
     environment:
       - PUID=1000
       - PGID=1000

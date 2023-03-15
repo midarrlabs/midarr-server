@@ -44,4 +44,9 @@ defmodule MediaServer.Helpers do
     Map.fetch(media, "images")
     |> some_test("headshot")
   end
+  
+  def get_image_file(url) do
+    Regex.run(~r([^\/]+$), url)
+    |> List.first()
+  end
 end

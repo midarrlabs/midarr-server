@@ -19,7 +19,6 @@
         overflow: hidden;
       }
     </style>
-    <%= if @current_user do %>
       <script>
         window.userId = <%= assigns[:current_user].id %>;
         window.userEmail = "<%= assigns[:current_user].email %>";
@@ -32,15 +31,8 @@
         src={Routes.static_path(@conn, "/assets/app.js")}
       >
       </script>
-    <% end %>
   </head>
-  <body class="bg-zinc-50 dark:bg-black">
-    <%= if @current_user do %>
-      <%= @inner_content %>
-    <% else %>
-      <div class="bg-zinc-900 h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <%= @inner_content %>
-      </div>
-    <% end %>
+  <body class="bg-zinc-900">
+    <%= @inner_content %>
   </body>
 </html>

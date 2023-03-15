@@ -33,9 +33,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
     movie = MediaServer.MoviesIndex.get_movie("1")
     cast = Movies.get_cast(movie["id"])
 
-    {:ok, view, disconnected_html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
-
-    assert disconnected_html =~ "loading-spinner"
+    {:ok, view, _disconnected_html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
     send(view.pid, {:cast, cast})
   end
@@ -89,7 +87,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
     assert Enum.count(MediaServer.PlaylistMedia.all()) === 1
   end
 
-  test "it should play", %{conn: conn} do
+  test "it should watch", %{conn: conn} do
     movie = MediaServer.MoviesIndex.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
 
@@ -97,6 +95,6 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     send(view.pid, {:cast, cast})
 
-    assert view |> element("#play-#{movie["id"]}", "Play") |> render_click()
+    assert view |> element("#play-#{movie["id"]}", "Watch") |> render_click()
   end
 end

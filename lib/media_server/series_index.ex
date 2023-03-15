@@ -26,6 +26,16 @@ defmodule MediaServer.SeriesIndex do
     |> Enum.find(fn item -> item["id"] === String.to_integer(id) end)
   end
 
+  def get_related(series) do
+
+    genre = Enum.take(series["genres"], 1) |> List.first()
+
+    get_all()
+    |> Enum.filter(fn item -> genre in item["genres"] end)
+    |> Enum.take_random(20)
+    |> Enum.reject(fn x -> x["id"] === series["id"] end)
+  end
+
   def get_poster(series) do
     MediaServer.Helpers.get_poster(series)
   end
