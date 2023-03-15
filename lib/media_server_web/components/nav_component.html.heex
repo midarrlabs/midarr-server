@@ -1,4 +1,4 @@
-<header class="pointer-events-none relative z-50 flex flex-col">
+<header class="relative z-50 flex flex-col">
   <div class="top-0 z-10 h-16 pt-6">
     <div class="sm:px-8 w-full">
       <div class="mx-auto max-w-7xl lg:px-8">
@@ -23,6 +23,9 @@
                   <button
                     class="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20"
                     type="button"
+                    phx-click={
+                      JS.toggle(to: "#mobile-menu")
+                    }
                   >
                     Menu<svg
                       viewBox="0 0 8 6"
@@ -97,8 +100,8 @@
                     </li>
                     <li>
                       <button
-                      phx-click={JS.toggle(to: "#profile-dropdown")}
-                      phx-click-away={JS.hide(to: "#profile-dropdown")}
+                        phx-click={JS.toggle(to: "#profile-dropdown")}
+                        phx-click-away={JS.hide(to: "#profile-dropdown")}
                         type="button"
                         class="relative block px-3 py-2 transition hover:text-red-500 dark:hover:text-red-400"
                       >
@@ -110,22 +113,22 @@
                           />
                         </svg>
                       </button>
-                       <div
-                         id="profile-dropdown"
-                         class="hidden origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-zinc-800 dark:ring-zinc-800"
-                       >
-                         <div class="divide-y divide-zinc-100 text-sm font-medium text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
-                           <%= link("Settings",
-                             to: Routes.settings_index_path(@socket, :index),
-                             class: "block px-4 py-2 dark:hover:text-red-400"
-                           ) %>
-                           <%= link("Log out",
-                             to: Routes.user_session_path(@socket, :delete),
-                             method: :delete,
-                             class: "block px-4 py-2 dark:hover:text-red-400"
-                           ) %>
-                         </div>
-                       </div>
+                      <div
+                        id="profile-dropdown"
+                        class="hidden origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-zinc-800 dark:ring-zinc-800"
+                      >
+                        <div class="divide-y divide-zinc-100 text-sm font-medium text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
+                          <%= link("Settings",
+                            to: Routes.settings_index_path(@socket, :index),
+                            class: "block px-4 py-2 dark:hover:text-red-400"
+                          ) %>
+                          <%= link("Log out",
+                            to: Routes.user_session_path(@socket, :delete),
+                            method: :delete,
+                            class: "block px-4 py-2 dark:hover:text-red-400"
+                          ) %>
+                        </div>
+                      </div>
                     </li>
                   </ul>
                 </div>
@@ -137,32 +140,97 @@
     </div>
   </div>
 
-    <div class="hidden relative z-10" id="search-command">
-      <div class="fixed inset-0 bg-black/50"></div>
+  <div class="hidden relative z-10" id="search-command">
+    <div class="fixed inset-0 bg-zinc-800/40 backdrop-blur-sm dark:bg-black/80 opacity-100"></div>
 
-      <div class="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
-        <div class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
-          <div class="relative" phx-click-away={JS.hide(to: "#search-command")}>
-            <svg
-              class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <.form :let={f} for={:search} id="search" phx-target={@myself} phx-submit="search">
-              <%= text_input(f, :query,
-                placeholder: "Search...",
-                class:
-                  "h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
-              ) %>
-            </.form>
-          </div>
+    <div class="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
+      <div class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
+        <div class="relative" phx-click-away={JS.hide(to: "#search-command")}>
+          <svg
+            class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <.form :let={f} for={:search} id="search" phx-target={@myself} phx-submit="search">
+            <%= text_input(f, :query,
+              placeholder: "Search...",
+              class:
+                "h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
+            ) %>
+          </.form>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="hidden relative z-10" id="mobile-menu">
+    <div
+      class="fixed inset-0 bg-zinc-800/40 backdrop-blur-sm dark:bg-black/80 opacity-100"
+    >
+    </div>
+    <div
+      class="fixed inset-x-4 top-8 origin-top rounded-3xl bg-white p-8 ring-1 ring-zinc-900/5 dark:bg-zinc-900 dark:ring-zinc-800 opacity-100 scale-100"
+      phx-click-away={JS.hide(to: "#mobile-menu")}
+    >
+      <div class="flex flex-row-reverse items-center justify-between">
+        <button
+          aria-label="Close menu"
+          class="-m-1 p-1"
+          type="button"
+          phx-click={JS.hide(to: "#mobile-menu")}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            class="h-6 w-6 text-zinc-500 dark:text-zinc-400"
+          >
+            <path
+              d="m17.25 6.75-10.5 10.5M6.75 6.75l10.5 10.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+            </path>
+          </svg>
+        </button>
+        <h2 class="text-sm font-medium text-zinc-600 dark:text-zinc-400">Navigation</h2>
+      </div>
+      <nav class="mt-6">
+        <ul class="-my-2 divide-y divide-zinc-100 text-base text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
+            <li>
+              <%= live_redirect("Movies",
+                to: Routes.movies_index_path(@socket, :index),
+                class: "block py-2"
+              ) %>
+            </li>
+            <li>
+              <%= live_redirect("Series",
+                to: Routes.series_index_path(@socket, :index),
+                class: "block py-2"
+              ) %>
+            </li>
+            <li>
+              <%= live_redirect("Playlists",
+                to: Routes.playlist_index_path(@socket, :index),
+                class: "block py-2"
+              ) %>
+            </li>
+            <li>
+              <%= live_redirect("Continues",
+                to: Routes.continues_index_path(@socket, :index),
+                class: "block py-2"
+              ) %>
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
 </header>
