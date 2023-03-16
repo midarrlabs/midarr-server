@@ -67,9 +67,8 @@ defmodule MediaServerWeb.Repositories.Episodes do
     episode = get_episode(id)
 
     Subtitles.get_subtitle(
-      Subtitles.get_parent_path(episode["episodeFile"]["path"]),
-      Subtitles.get_file_name(episode["episodeFile"]["relativePath"])
+      "#{ get_root_path() }/#{ get_season_path(episode) }/#{ get_folder_path(episode) }", get_file_path(episode)
     )
-    |> Subtitles.handle_subtitle(Subtitles.get_parent_path(episode["episodeFile"]["path"]))
+    |> Subtitles.handle_subtitle("#{ get_root_path() }/#{ get_season_path(episode) }/#{ get_folder_path(episode) }")
   end
 end
