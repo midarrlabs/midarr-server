@@ -4,9 +4,9 @@ sudo groupadd media
 sudo adduser --system --no-create-home --ingroup media radarr
 sudo usermod -a -G media radarr
 
-sudo mv ${GITHUB_WORKSPACE}/priv/movies /movies
-sudo chown -R radarr:media /movies
-sudo chmod 775 /movies
+sudo mv ${GITHUB_WORKSPACE}/priv/movies /some-movies
+sudo chown -R radarr:media /some-movies
+sudo chmod 775 /some-movies
 
 sudo mkdir -p /var/lib/radarr
 sudo mv ${GITHUB_WORKSPACE}/priv/radarr/config.xml /var/lib/radarr
