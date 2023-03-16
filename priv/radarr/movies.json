@@ -63,7 +63,7 @@
     "addOptions": {
       "searchForMovie": false
     },
-    "path": "/movies/Caminandes Llama Drama (2013)"
+    "path": "/some-movies/Caminandes Llama Drama (2013)"
   },
   {
     "title": "Caminandes: Gran Dillama",
@@ -129,7 +129,7 @@
     "addOptions": {
       "searchForMovie": false
     },
-    "path": "/movies/Caminandes Gran Dillama (2013)"
+    "path": "/some-movies/Caminandes Gran Dillama (2013)"
   },
   {
     "title": "Caminandes: Llamigos",
@@ -195,6 +195,6 @@
     "addOptions": {
       "searchForMovie": false
     },
-    "path": "/movies/Caminandes Llamigos (2016)"
+    "path": "/some-movies/Caminandes Llamigos (2016)"
   }
 ]

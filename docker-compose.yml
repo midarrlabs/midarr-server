@@ -27,7 +27,7 @@ services:
       - 7878:7878
     volumes:
       - ./priv/radarr/config.xml:/config/config.xml
-      - ./priv/movies:/movies
+      - ./priv/movies:/some-movies
     environment:
       - PUID=1000
       - PGID=1000
@@ -41,7 +41,7 @@ services:
       - 8989:8989
     volumes:
       - ./priv/sonarr/config.xml:/config/config.xml
-      - ./priv/series:/series
+      - ./priv/series:/some-series
     environment:
       - PUID=1000
       - PGID=1000
