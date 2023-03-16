@@ -10,9 +10,9 @@ sudo groupadd media
 sudo adduser --system --no-create-home --ingroup media sonarr
 sudo usermod -a -G media sonarr
 
-sudo mv ${GITHUB_WORKSPACE}/priv/series /series
-sudo chown -R sonarr:media /series
-sudo chmod 775 /series
+sudo cp -r ${GITHUB_WORKSPACE}/priv/series /some-series
+sudo chown -R sonarr:media /some-series
+sudo chmod 775 /some-series
 
 sudo mkdir -p /var/lib/sonarr
 sudo mv ${GITHUB_WORKSPACE}/priv/sonarr/config.xml /var/lib/sonarr

@@ -80,9 +80,9 @@ services:
 #       Database path
       - /path/to/database:/app/database
 
-#       Media path
-      - /path/to/movies:/radarr/movies/path
-      - /path/to/shows:/sonarr/shows/path
+#       Media paths
+      - /path/to/movies:/movies
+      - /path/to/series:/series
 
     environment:
 #       App config
@@ -127,17 +127,6 @@ environment:
 
   - SONARR_BASE_URL=sonarr:8989
   - SONARR_API_KEY=someApiKey
-```
-
-
-### Media library
-
-For your media locations to resolve, please provide the following **paths** as found in your integrations.
-
-```yaml
-volumes:
-  - /path/to/movies:/radarr/movies/path
-  - /path/to/shows:/sonarr/shows/path
 ```
 
 ### Admin account

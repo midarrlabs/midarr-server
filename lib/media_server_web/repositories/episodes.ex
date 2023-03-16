@@ -16,12 +16,35 @@ defmodule MediaServerWeb.Repositories.Episodes do
     |> Series.handle_response()
   end
 
+  def get_root_path() do
+    "/series"
+  end
+
+  def get_full_path(episode) do
+    Regex.split(~r|/|, Map.get(Map.get(episode, "episodeFile"), "path"))
+  end
+
+  def get_season_path(episode) do
+    get_full_path(episode)
+    |> Enum.at(2)
+  end
+
+  def get_folder_path(episode) do
+    get_full_path(episode)
+    |> Enum.at(3)
+  end
+
+  def get_file_path(episode) do
+    get_full_path(episode)
+    |> Enum.at(4)
+  end
+
   def get_episode_path(id) do
     episode =
       HTTPoison.get("#{Series.get_url("episode/#{id}")}")
       |> Series.handle_response()
 
-    episode["episodeFile"]["path"]
+    "#{ get_root_path() }/#{ get_season_path(episode) }/#{ get_folder_path(episode) }/#{ get_file_path(episode) }"
   end
 
   def replace_each_with_episode_show_response(episodes) do
@@ -44,9 +67,8 @@ defmodule MediaServerWeb.Repositories.Episodes do
     episode = get_episode(id)
 
     Subtitles.get_subtitle(
-      Subtitles.get_parent_path(episode["episodeFile"]["path"]),
-      Subtitles.get_file_name(episode["episodeFile"]["relativePath"])
+      "#{ get_root_path() }/#{ get_season_path(episode) }/#{ get_folder_path(episode) }", get_file_path(episode)
     )
-    |> Subtitles.handle_subtitle(Subtitles.get_parent_path(episode["episodeFile"]["path"]))
+    |> Subtitles.handle_subtitle("#{ get_root_path() }/#{ get_season_path(episode) }/#{ get_folder_path(episode) }")
   end
 end
