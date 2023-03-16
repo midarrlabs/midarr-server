@@ -46,8 +46,8 @@ jobs:
       - run: curl -d "@${GITHUB_WORKSPACE}/priv/sonarr/series.json" -H "Content-Type:application/json" -X POST "http://localhost:8989/api/v3/series/import?apikey=1accda4476394bfcaddefe8c4fd77d4a"
 
       # Setup media
-      - run: cp -r ${GITHUB_WORKSPACE}/priv/movies /movies
-      - run: cp -r ${GITHUB_WORKSPACE}/priv/series /series
+      - run: sudo cp -r ${GITHUB_WORKSPACE}/priv/movies /movies
+      - run: sudo cp -r ${GITHUB_WORKSPACE}/priv/series /series
 
       # Run tests
       - uses: erlef/setup-beam@v1
