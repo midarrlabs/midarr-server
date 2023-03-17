@@ -33,9 +33,9 @@ jobs:
       postgres-test:
         image: postgres
         env:
-          - POSTGRES_USER=my_user
-          - POSTGRES_PASSWORD=my_password
-          - POSTGRES_DB=my_database
+          POSTGRES_USER: my_user
+          POSTGRES_PASSWORD: my_password
+          POSTGRES_DB: my_database
         healthcheck:
           test: "exit 0"
         ports:
