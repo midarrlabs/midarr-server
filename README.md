@@ -69,6 +69,9 @@ with more features planned ahead.
 ### Docker compose
 
 ```yaml
+volumes:
+  database-data:
+
 services:
   
   midarr:
@@ -77,9 +80,6 @@ services:
     ports:
       - 4000:4000
     volumes:
-#       Database path
-      - /path/to/database:/app/database
-
 #       Media paths
       - /path/to/movies:/movies
       - /path/to/series:/series
@@ -89,6 +89,12 @@ services:
       - APP_URL=http://localhost:4000
       - APP_MAILER_FROM=example@email.com
       - SENDGRID_API_KEY=someApiKey
+
+#       Database config
+      - DB_USERNAME=my_user
+      - DB_PASSWORD=my_password
+      - DB_DATABASE=my_database
+      - DB_HOSTNAME=postgresql
 
 #       Admin account
       - SETUP_ADMIN_EMAIL=admin@email.com
@@ -102,6 +108,22 @@ services:
 #       Sonarr integration
       - SONARR_BASE_URL=sonarr:8989
       - SONARR_API_KEY=someApiKey
+
+    depends_on:
+      postgresql:
+        condition: service_healthy
+
+  postgresql:
+    container_name: postgresql
+    image: postgres
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=my_user
+      - POSTGRES_PASSWORD=my_password
+      - POSTGRES_DB=my_database
+    healthcheck:
+      test: "exit 0"
 ```
 
 ## Setup
