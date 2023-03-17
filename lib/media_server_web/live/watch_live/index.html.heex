@@ -6,14 +6,7 @@
   controls
   autoplay
 >
-  <source
-    src={
-      Routes.stream_movie_path(@socket, :show, @movie["id"],
-        token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", @current_user.id)
-      ) <> "#{if assigns[:continue], do: "#t=#{@continue.current_time}"}"
-    }
-    type="video/mp4"
-  />
+  <source src={@media_stream} type={@mime_type} />
 
   <%= if MediaServer.Subtitles.has_subtitle("#{ MediaServer.MoviesIndex.get_root_path() }/#{ MediaServer.MoviesIndex.get_folder_path(@movie) }", MediaServer.MoviesIndex.get_file_path(@movie)) do %>
     <track

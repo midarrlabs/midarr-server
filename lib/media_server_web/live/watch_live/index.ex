@@ -1,25 +1,30 @@
-defmodule MediaServerWeb.WatchMovieLive.Show do
+defmodule MediaServerWeb.WatchLive.Index do
   use MediaServerWeb, :live_view
-
-  alias MediaServer.Repo
-  alias MediaServer.Accounts
 
   @impl true
   def mount(_params, session, socket) do
     {
       :ok,
       socket
-      |> assign(
-        :current_user,
-        Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(:continues)
-      )
+      |> assign(:current_user, MediaServer.Accounts.get_user_by_session_token(session["user_token"]))
+    }
+  end
+
+  def handle_params(%{"movie" => id, "timestamp" => timestamp}, _url, socket) do
+    movie = MediaServer.MoviesIndex.get_movie(id)
+
+    {
+      :noreply,
+      socket
+      |> assign(:page_title, "#{movie["title"]}")
+      |> assign(:movie, movie)
+      |> assign(:media_stream, Routes.stream_movie_path(socket, :show, movie["id"], token: MediaServer.Token.get_token()) <> "#t=#{ timestamp }")
       |> assign(:mime_type, "video/mp4")
     }
   end
 
   @impl true
-  def handle_params(%{"id" => id, "action" => "watch"}, _url, socket) do
+  def handle_params(%{"movie" => id}, _url, socket) do
     movie = MediaServer.MoviesIndex.get_movie(id)
 
     {
@@ -27,45 +32,8 @@ defmodule MediaServerWeb.WatchMovieLive.Show do
       socket
       |> assign(:page_title, "#{movie["title"]}")
       |> assign(:movie, movie)
-      |> assign(
-        :media_stream,
-        Routes.stream_movie_path(socket, :show, movie["id"],
-          token:
-            Phoenix.Token.sign(
-              MediaServerWeb.Endpoint,
-              "user auth",
-              socket.assigns.current_user.id
-            )
-        )
-      )
-    }
-  end
-
-  def handle_params(%{"id" => id, "action" => "continue"}, _url, socket) do
-    movie = MediaServer.MoviesIndex.get_movie(id)
-
-    {
-      :noreply,
-      socket
-      |> assign(:page_title, "#{movie["title"]}")
-      |> assign(:movie, movie)
-      |> assign(
-        :media_stream,
-        Routes.stream_movie_path(socket, :show, movie["id"],
-          token:
-            Phoenix.Token.sign(
-              MediaServerWeb.Endpoint,
-              "user auth",
-              socket.assigns.current_user.id
-            )
-        )
-      )
-      |> assign(
-        :continue,
-        socket.assigns.current_user.continues
-        |> Enum.filter(fn item -> item.media_id == movie["id"] end)
-        |> List.first()
-      )
+      |> assign(:media_stream, Routes.stream_movie_path(socket, :show, movie["id"], token: MediaServer.Token.get_token()))
+      |> assign(:mime_type, "video/mp4")
     }
   end
 

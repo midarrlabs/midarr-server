@@ -38,11 +38,7 @@ defmodule MediaServerWeb.Router do
     live "/series/:id", SeriesLive.Show, :show
 
     live_session :watch, root_layout: {MediaServerWeb.WatchView, :watch} do
-      live "/movies/:id/segment", SegmentMovieLive.Show, :show
-      live "/episodes/:id/segment", SegmentEpisodeLive.Show, :show
-
-      live "/movies/:id/:action", WatchMovieLive.Show, :show
-      live "/episodes/:id/:action", WatchEpisodeLive.Show, :show
+      live "/watch", WatchLive.Index, :index
     end
 
     live_session :plain, root_layout: {MediaServerWeb.PlainView, :plain} do
