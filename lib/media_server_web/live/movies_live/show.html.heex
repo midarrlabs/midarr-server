@@ -31,7 +31,7 @@
                   </div>
                   <div class="mt-6 flex gap-6">
                     <div class="flex space-x-2 rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
-                      <%= live_redirect id: "play-#{ @movie["id"] }", to: Routes.watch_movie_show_path(@socket, :show, @movie["id"], "watch"), class: "flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400" do %>
+                      <%= live_redirect id: "play-#{ @movie["id"] }", to: Routes.watch_index_path(@socket, :index, movie: @movie["id"]), class: "flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400" do %>
                         <svg
                           aria-hidden="true"
                           viewBox="0 0 10 10"

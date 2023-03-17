@@ -41,7 +41,7 @@ defmodule MediaServerWeb.HomeLiveTest do
     movie = MediaServer.MoviesIndex.get_movie("1")
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
+      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
 
     render_hook(view, :video_destroyed, %{
       current_time: 89,
@@ -51,7 +51,7 @@ defmodule MediaServerWeb.HomeLiveTest do
     another_movie = MediaServer.MoviesIndex.get_movie("2")
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_movie_show_path(conn, :show, another_movie["id"], "watch"))
+      live(conn, Routes.watch_index_path(conn, :index, movie: another_movie["id"]))
 
     render_hook(view, :video_destroyed, %{
       current_time: 89,
@@ -61,7 +61,7 @@ defmodule MediaServerWeb.HomeLiveTest do
     episode = MediaServerWeb.Repositories.Episodes.get_episode(1)
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
+      live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))
 
     render_hook(view, :video_destroyed, %{
       current_time: 39,
@@ -71,7 +71,7 @@ defmodule MediaServerWeb.HomeLiveTest do
     another_episode = MediaServerWeb.Repositories.Episodes.get_episode(2)
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, another_episode["id"], "watch"))
+      live(conn, Routes.watch_index_path(conn, :index, episode: another_episode["id"]))
 
     render_hook(view, :video_destroyed, %{
       current_time: 39,
@@ -80,15 +80,12 @@ defmodule MediaServerWeb.HomeLiveTest do
 
     {:ok, _view, disconnected_html} = live(conn, Routes.home_index_path(conn, :index))
 
-    assert disconnected_html =~ Routes.watch_movie_show_path(conn, :show, movie["id"], "continue")
+    assert disconnected_html =~ "/watch?movie=#{ movie["id"] }&amp;timestamp=89"
 
-    assert disconnected_html =~
-             Routes.watch_movie_show_path(conn, :show, another_movie["id"], "continue")
+    assert disconnected_html =~ "/watch?movie=#{ another_movie["id"] }&amp;timestamp=89"
 
-    assert disconnected_html =~
-             Routes.watch_episode_show_path(conn, :show, episode["id"], "continue")
+    assert disconnected_html =~ "/watch?episode=#{ episode["id"] }&amp;timestamp=39"
 
-    assert disconnected_html =~
-             Routes.watch_episode_show_path(conn, :show, another_episode["id"], "continue")
+    assert disconnected_html =~ "/watch?episode=#{ another_episode["id"] }&amp;timestamp=39"
   end
 end

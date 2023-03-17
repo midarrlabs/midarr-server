@@ -42,7 +42,7 @@
                         item.current_time,
                         item.duration
                       ),
-                    link: Routes.watch_movie_show_path(@socket, :show, item.media_id, "continue"),
+                    link: Routes.watch_index_path(@socket, :index, movie: item.media_id, timestamp: item.current_time),
                     event: "delete_continue",
                     return_to: Routes.continues_index_path(@socket, :index),
                     item: MediaServer.MoviesIndex.get_movie(item.media_id),
@@ -66,7 +66,7 @@
                         item.duration
                       ),
                     link:
-                      Routes.watch_episode_show_path(@socket, :show, item.media_id, "continue"),
+                      Routes.watch_index_path(@socket, :index, episode: item.media_id, timestamp: item.current_time),
                     event: "delete_continue",
                     return_to: Routes.continues_index_path(@socket, :index),
                     item: MediaServerWeb.Repositories.Episodes.get_episode(item.media_id),
