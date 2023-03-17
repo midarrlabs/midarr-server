@@ -29,7 +29,7 @@
               <%= for item <- @user_continues do %>
                 <%= if item.media_type_id === MediaServer.MediaTypes.get_movie_id() do %>
                   <%= live_component(MediaServerWeb.Components.ContinueComponent,
-                    id: "continue-movie-#{item.id}",
+                    id: "continue-movie-#{item.media_id}",
                     id_item: item.id,
                     title: MediaServer.MoviesIndex.get_movie_title(item.media_id),
                     minutes_remaining:
@@ -51,7 +51,7 @@
                   ) %>
                 <% else %>
                   <%= live_component(MediaServerWeb.Components.ContinueComponent,
-                    id: "continue-episode-#{item.id}",
+                    id: "continue-episode-#{item.media_id}",
                     id_item: item.id,
                     title:
                       MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["title"],

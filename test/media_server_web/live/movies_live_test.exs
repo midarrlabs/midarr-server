@@ -50,7 +50,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
     send(view.pid, {:cast, cast})
 
     view
-    |> form("#playlists-form", playlists: %{"1" => "true"})
+    |> form("#playlists-form", playlists: %{"#{ playlist.id }" => "true"})
     |> render_change()
 
     playlist_movie = MediaServer.PlaylistMedia.all() |> List.first()
@@ -66,8 +66,8 @@ defmodule MediaServerWeb.MoviesLiveTest do
   test "it should delete from playlist", %{conn: conn, user: user} do
     movie = MediaServer.MoviesIndex.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
-    MediaServer.Playlists.create(%{name: "some playlist", user_id: user.id})
-    MediaServer.Playlists.create(%{name: "another playlist", user_id: user.id})
+    {:ok, some_playlist} = MediaServer.Playlists.create(%{name: "some playlist", user_id: user.id})
+    {:ok, another_playlist} = MediaServer.Playlists.create(%{name: "another playlist", user_id: user.id})
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
@@ -75,13 +75,13 @@ defmodule MediaServerWeb.MoviesLiveTest do
     send(view.pid, {:cast, cast})
 
     view
-    |> form("#playlists-form", playlists: %{"1" => "true", "2" => "true"})
+    |> form("#playlists-form", playlists: %{"#{ some_playlist.id }" => "true", "#{ another_playlist.id }" => "true"})
     |> render_change()
 
     assert Enum.count(MediaServer.PlaylistMedia.all()) === 2
 
     view
-    |> form("#playlists-form", playlists: %{"1" => "false", "2" => "true"})
+    |> form("#playlists-form", playlists: %{"#{ some_playlist.id }" => "false", "#{ another_playlist.id }" => "true"})
     |> render_change()
 
     assert Enum.count(MediaServer.PlaylistMedia.all()) === 1
