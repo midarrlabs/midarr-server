@@ -21,18 +21,6 @@ env:
 
 jobs:
 
-  services:
-    postgres-test:
-      image: postgres
-      env:
-        - POSTGRES_USER=my_user
-        - POSTGRES_PASSWORD=my_password
-        - POSTGRES_DB=my_database
-      healthcheck:
-        test: "exit 0"
-      ports:
-        - 5432:5432
-
   test:
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     runs-on: ubuntu-latest
@@ -40,6 +28,19 @@ jobs:
       matrix:
         otp: [ '24' ]
         elixir: [ '1.14.3' ]
+
+    services:
+      postgres-test:
+        image: postgres
+        env:
+          - POSTGRES_USER=my_user
+          - POSTGRES_PASSWORD=my_password
+          - POSTGRES_DB=my_database
+        healthcheck:
+          test: "exit 0"
+        ports:
+          - 5432:5432
+
     steps:
       - uses: actions/checkout@v2
 
