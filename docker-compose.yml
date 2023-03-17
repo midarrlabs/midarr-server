@@ -11,6 +11,13 @@ services:
       - ./priv/series:/series
     environment:
       - APP_URL=http://midarr:4000
+
+      - DB_HOSTNAME=postgresql
+      - DB_HOSTNAME_TEST=postgresql-test
+      - DB_USERNAME=my_user
+      - DB_PASSWORD=my_password
+      - DB_DATABASE=my_database
+
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
       - SETUP_ADMIN_PASSWORD=passwordpassword
@@ -19,6 +26,28 @@ services:
       - SONARR_BASE_URL=http://sonarr:8989
       - SONARR_API_KEY=1accda4476394bfcaddefe8c4fd77d4a
     command: bash -c "chmod u+x priv/entry-point-local.sh && ./priv/entry-point-local.sh"
+
+  postgresql:
+    container_name: postgresql
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=my_user
+      - POSTGRES_PASSWORD=my_password
+      - POSTGRES_DB=my_database
+    healthcheck:
+      test: "exit 0"
+
+  postgresql-test:
+    container_name: postgresql-test
+    image: postgres
+    environment:
+      - POSTGRES_USER=my_user
+      - POSTGRES_PASSWORD=my_password
+      - POSTGRES_DB=my_database
+    healthcheck:
+      test: "exit 0"
 
   radarr:
     container_name: radarr

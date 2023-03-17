@@ -19,7 +19,7 @@ RUN MIX_ENV=$MIX_ENV
 RUN SECRET_KEY_BASE=$SECRET_KEY_BASE
 
 RUN apt-get update
-RUN apt-get install -y inotify-tools sqlite3 ffmpeg
+RUN apt-get install -y inotify-tools postgresql-client ffmpeg
 
 WORKDIR /app
 

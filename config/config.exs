@@ -58,6 +58,12 @@ config :tailwind,
     cd: Path.expand("../assets", __DIR__)
   ]
 
+config :media_server, MediaServer.Repo,
+  username: System.get_env("DB_USERNAME"),
+  password: System.get_env("DB_PASSWORD"),
+  database: System.get_env("DB_DATABASE"),
+  hostname: System.get_env("DB_HOSTNAME")
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
