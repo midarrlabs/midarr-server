@@ -8,6 +8,10 @@ on:
 env:
   MIX_ENV: test
   APP_URL: http://localhost:4000
+  DB_HOSTNAME_TEST: localhost
+  DB_USERNAME: my_user
+  DB_PASSWORD: my_password
+  DB_DATABASE: my_database
   RADARR_BASE_URL: http://localhost:7878
   RADARR_API_KEY: d031e8c9b9df4b2fab311d1c3b3fa2c5
   SONARR_BASE_URL: http://localhost:8989
@@ -16,6 +20,18 @@ env:
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
+
+  services:
+    postgres-test:
+      image: postgres
+      env:
+        - POSTGRES_USER=my_user
+        - POSTGRES_PASSWORD=my_password
+        - POSTGRES_DB=my_database
+      healthcheck:
+        test: "exit 0"
+      ports:
+        - 5432:5432
 
   test:
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
