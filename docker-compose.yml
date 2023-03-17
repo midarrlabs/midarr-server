@@ -21,10 +21,20 @@ services:
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
       - SETUP_ADMIN_PASSWORD=passwordpassword
+
       - RADARR_BASE_URL=http://radarr:7878
       - RADARR_API_KEY=d031e8c9b9df4b2fab311d1c3b3fa2c5
       - SONARR_BASE_URL=http://sonarr:8989
       - SONARR_API_KEY=1accda4476394bfcaddefe8c4fd77d4a
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      postgresql-test:
+        condition: service_healthy
+      radarr:
+        condition: service_healthy
+      sonarr:
+        condition: service_healthy
     command: bash -c "chmod u+x priv/entry-point-local.sh && ./priv/entry-point-local.sh"
 
   postgresql:
