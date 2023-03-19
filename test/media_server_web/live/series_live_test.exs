@@ -40,11 +40,11 @@ defmodule MediaServerWeb.SeriesLiveTest do
     series = MediaServer.SeriesIndex.get_all() |> List.first()
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.series_show_path(conn, :show, series["id"]))
+      live(conn, Routes.series_show_path(conn, :show, series["id"], season: 1))
 
     send(view.pid, {:episodes, Episodes.get_all(series["id"], "1")})
 
-    assert render(view) =~ "Play"
+    assert render(view) =~ "Watch"
   end
 
   test "it should replace each episode with episode show response", %{conn: _conn} do
