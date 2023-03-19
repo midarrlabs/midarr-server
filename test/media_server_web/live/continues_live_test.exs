@@ -31,6 +31,35 @@ defmodule MediaServerWeb.ContinuesLiveTest do
     assert index_live |> element("#continue-movie-#{movie["id"]}") |> render_click()
   end
 
+  test "it should update", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 39,
+      duration: 100
+    })
+
+    {:ok, _view, disconnected_html} = live(conn, Routes.continues_index_path(conn, :index))
+
+    assert disconnected_html =~ "/watch?movie=#{ movie["id"] }&amp;timestamp=39"
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 49,
+      duration: 100
+    })
+
+    {:ok, _view, disconnected_html} = live(conn, Routes.continues_index_path(conn, :index))
+
+    refute disconnected_html =~ "/watch?movie=#{ movie["id"] }&amp;timestamp=39"
+    assert disconnected_html =~ "/watch?movie=#{ movie["id"] }&amp;timestamp=49"
+  end
+
   test "it has continues", %{conn: conn} do
     movie = MediaServer.MoviesIndex.get_movie("1")
 
