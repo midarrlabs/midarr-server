@@ -29,6 +29,46 @@ defmodule MediaServerWeb.MoviesLiveTest do
     assert disconnected_html =~ "Caminandes:  Llamigos"
   end
 
+  test "it should render genre", %{conn: conn} do
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.movies_index_path(conn, :index, genre: "animation"))
+
+    assert disconnected_html =~ "Caminandes: Llama Drama"
+    assert disconnected_html =~ "Caminandes: Gran Dillama"
+    assert disconnected_html =~ "Caminandes:  Llamigos"
+  end
+
+  test "it should render genre paged", %{conn: conn} do
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.movies_index_path(conn, :index, genre: "animation", page: "1"))
+
+    assert disconnected_html =~ "Caminandes: Llama Drama"
+    assert disconnected_html =~ "Caminandes: Gran Dillama"
+    assert disconnected_html =~ "Caminandes:  Llamigos"
+  end
+
+  test "it should render without genre", %{conn: conn} do
+    {:ok, _view, _disconnected_html} = live(conn, Routes.movies_index_path(conn, :index, genre: "something"))
+  end
+
+  test "it should render latest", %{conn: conn} do
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.movies_index_path(conn, :index, sort_by: "latest"))
+
+    assert disconnected_html =~ "Caminandes: Llama Drama"
+    assert disconnected_html =~ "Caminandes: Gran Dillama"
+    assert disconnected_html =~ "Caminandes:  Llamigos"
+  end
+
+  test "it should render latest paged", %{conn: conn} do
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.movies_index_path(conn, :index, sort_by: "latest", page: "1"))
+
+    assert disconnected_html =~ "Caminandes: Llama Drama"
+    assert disconnected_html =~ "Caminandes: Gran Dillama"
+    assert disconnected_html =~ "Caminandes:  Llamigos"
+  end
+
   test "it should render show", %{conn: conn} do
     movie = MediaServer.MoviesIndex.get_movie("1")
     cast = Movies.get_cast(movie["id"])
