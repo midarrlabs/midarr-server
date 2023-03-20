@@ -40,9 +40,9 @@ defmodule MediaServerWeb.StreamControllerTest do
 
     episode = MediaServerWeb.Repositories.Episodes.get_episode(series["id"])
 
-    conn = get(conn, Routes.stream_path(conn, :index, episode: episode["id"], start: 5, end: 10), token: MediaServer.Token.get_token())
+    conn = get(conn, Routes.stream_path(conn, :index, episode: episode["id"]), token: MediaServer.Token.get_token())
 
-    assert conn.status === 200
+    assert conn.status === 206
   end
 
   test "episode segment", %{conn: conn} do
@@ -50,9 +50,9 @@ defmodule MediaServerWeb.StreamControllerTest do
 
     episode = MediaServerWeb.Repositories.Episodes.get_episode(series["id"])
 
-    conn = get(conn, Routes.stream_path(conn, :index, episode: episode["id"]), token: MediaServer.Token.get_token())
+    conn = get(conn, Routes.stream_path(conn, :index, episode: episode["id"], start: 5, end: 10), token: MediaServer.Token.get_token())
 
-    assert conn.status === 206
+    assert conn.status === 200
   end
 
   test "episode halts with random token", %{conn: conn} do
