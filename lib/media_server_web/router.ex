@@ -60,10 +60,9 @@ defmodule MediaServerWeb.Router do
   scope "/api", MediaServerWeb do
     pipe_through :api
 
-    get "/movies/:id/playlist.m3u8", PlaylistMovieController, :show
-    get "/episodes/:id/playlist.m3u8", PlaylistEpisodeController, :show
-
     get "/stream", StreamController, :index
+
+    get "/hls-playlist.m3u8", HLSPlaylistController, :index
 
     get "/movies/:id/subtitle", SubtitleMovieController, :show
     get "/episodes/:id/subtitle", SubtitleEpisodeController, :show

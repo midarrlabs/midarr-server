@@ -35,7 +35,7 @@ defmodule MediaServerWeb.WatchLive.Index do
       :noreply,
       socket
       |> assign(:page_title, "#{movie["title"]}")
-      |> assign(:media_stream, Routes.playlist_movie_path(socket, :show, movie["id"], token: MediaServer.Token.get_token()))
+      |> assign(:media_stream, Routes.hls_playlist_path(socket, :index, movie: movie["id"], token: MediaServer.Token.get_token()))
       |> assign(:media_poster, Routes.images_path(socket, :index, movie: movie["id"], type: "background"))
       |> assign(:segment, true)
       |> assign(:mime_type, "application/x-mpegURL")
@@ -49,7 +49,7 @@ defmodule MediaServerWeb.WatchLive.Index do
       :noreply,
       socket
       |> assign(:page_title, "#{episode["series"]["title"]}: #{episode["title"]}")
-      |> assign(:media_stream, Routes.playlist_episode_path(socket, :show, episode["id"], token: MediaServer.Token.get_token()))
+      |> assign(:media_stream, Routes.hls_playlist_path(socket, :index, episode: episode["id"], token: MediaServer.Token.get_token()))
       |> assign(:media_poster, Routes.images_path(socket, :index, episode: episode["id"], type: "background"))
       |> assign(:segment, true)
       |> assign(:mime_type, "application/x-mpegURL")

@@ -1,0 +1,61 @@
+defmodule MediaServerWeb.HLSPlaylistControllerTest do
+  use MediaServerWeb.ConnCase
+
+  test "movie", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
+
+    conn = get(conn, Routes.hls_playlist_path(conn, :index, movie: movie["id"]), token: MediaServer.Token.get_token())
+
+    assert conn.status === 200
+  end
+
+  test "movie halts with random token", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
+
+    conn = get(conn, Routes.hls_playlist_path(conn, :index, movie: movie["id"]), token: "someToken")
+
+    assert conn.status === 403
+    assert conn.halted
+  end
+
+  test "movie halts without token", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
+
+    conn = get(conn, Routes.hls_playlist_path(conn, :index, movie: movie["id"]))
+
+    assert conn.status === 403
+    assert conn.halted
+  end
+
+  test "episode", %{conn: conn} do
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
+
+    episode = MediaServerWeb.Repositories.Episodes.get_episode(series["id"])
+
+    conn = get(conn, Routes.hls_playlist_path(conn, :index, episode: episode["id"]), token: MediaServer.Token.get_token())
+
+    assert conn.status === 200
+  end
+
+  test "episode halts with random token", %{conn: conn} do
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
+
+    episode = MediaServerWeb.Repositories.Episodes.get_episode(series["id"])
+
+    conn = get(conn, Routes.hls_playlist_path(conn, :index, episode: episode["id"]), token: "someToken")
+
+    assert conn.status === 403
+    assert conn.halted
+  end
+
+  test "episode halts without token", %{conn: conn} do
+    series = MediaServer.SeriesIndex.get_all() |> List.first()
+
+    episode = MediaServerWeb.Repositories.Episodes.get_episode(series["id"])
+
+    conn = get(conn, Routes.hls_playlist_path(conn, :index, episode: episode["id"]))
+
+    assert conn.status === 403
+    assert conn.halted
+  end
+end
