@@ -45,7 +45,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
     {:ok, _view, disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
 
-    assert disconnected_html =~ Routes.subtitle_movie_path(conn, :show, movie["id"])
+    assert disconnected_html =~ Routes.subtitle_path(conn, :index, movie: movie["id"])
   end
 
   test "it should not subtitle", %{conn: conn} do
@@ -54,6 +54,6 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
     {:ok, _view, disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
 
-    refute disconnected_html =~ Routes.subtitle_movie_path(conn, :show, 2)
+    refute disconnected_html =~ Routes.subtitle_path(conn, :index, movie: 2)
   end
 end

@@ -61,11 +61,8 @@ defmodule MediaServerWeb.Router do
     pipe_through :api
 
     get "/stream", StreamController, :index
-
+    get "/subtitle", SubtitleController, :index
     get "/hls-playlist.m3u8", HLSPlaylistController, :index
-
-    get "/movies/:id/subtitle", SubtitleMovieController, :show
-    get "/episodes/:id/subtitle", SubtitleEpisodeController, :show
 
     post "/webhooks/:id", WebhooksController, :create
   end
