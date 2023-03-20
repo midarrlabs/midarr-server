@@ -7,7 +7,7 @@ defmodule MediaServerWeb.PlaylistMovieController do
     conn
     |> send_resp(200, Exstream.Playlist.build(%Exstream.Playlist{
       duration: movie["movieFile"]["mediaInfo"]["runTime"],
-      url: Routes.stream_movie_path(conn, :show, id, token: Phoenix.Token.sign(MediaServerWeb.Endpoint, "user auth", 1))
+      url: Routes.stream_path(conn, :index, movie: id, token: MediaServer.Token.get_token())
     }))
   end
 end

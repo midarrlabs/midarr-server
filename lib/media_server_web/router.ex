@@ -63,8 +63,7 @@ defmodule MediaServerWeb.Router do
     get "/movies/:id/playlist.m3u8", PlaylistMovieController, :show
     get "/episodes/:id/playlist.m3u8", PlaylistEpisodeController, :show
 
-    get "/movies/:id/stream", StreamMovieController, :show
-    get "/episodes/:id/stream", StreamEpisodeController, :show
+    get "/stream", StreamController, :index
 
     get "/movies/:id/subtitle", SubtitleMovieController, :show
     get "/episodes/:id/subtitle", SubtitleEpisodeController, :show
