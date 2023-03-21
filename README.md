@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-    <em>Your media enjoyed through a minimal lightweight media server</em>
+    <em>Your media enjoyed with a minimal lightweight media server</em>
 </p>
 
 <p align="center">
@@ -35,7 +35,7 @@ users:
 * Simple and easy invite system
 * Integrates with your existing services, [Radarr](https://radarr.video/) and [Sonarr](https://sonarr.tv/)
 
-![Preview](priv/screenshots/home-v2.0.0.png)
+![Preview](priv/screenshots/home-v3.0.0.png)
 
 ### What is this?
 
@@ -209,7 +209,7 @@ cd midarr-server && docker compose up -d
 
 ## Preview
 
-![Preview](priv/screenshots/login-v1.4.0.png)
-![Preview](priv/screenshots/online-v1.6.1.png)
-![Preview](priv/screenshots/movie-v2.0.0.png)
+![Preview](priv/screenshots/login-v3.0.0.png)
+![Preview](priv/screenshots/settings-v3.0.0.png)
+![Preview](priv/screenshots/movie-v3.0.0.png)
 ![Preview](priv/screenshots/player-v1.15.0.png)
