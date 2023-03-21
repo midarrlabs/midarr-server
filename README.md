@@ -210,6 +210,6 @@ cd midarr-server && docker compose up -d
 ## Preview
 
 ![Preview](priv/screenshots/login-v3.0.0.png)
-![Preview](priv/screenshots/settings-v3.0.0.png)
+![Preview](priv/screenshots/series-v3.0.0.png)
 ![Preview](priv/screenshots/movie-v3.0.0.png)
 ![Preview](priv/screenshots/player-v1.15.0.png)
