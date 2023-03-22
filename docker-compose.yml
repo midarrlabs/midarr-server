@@ -7,8 +7,7 @@ services:
       - 4000:4000
     volumes:
       - ./:/app
-      - ./priv/movies:/movies
-      - ./priv/series:/series
+      - ./priv/library:/library
     environment:
       - APP_URL=http://midarr:4000
 
@@ -26,6 +25,11 @@ services:
       - RADARR_API_KEY=d031e8c9b9df4b2fab311d1c3b3fa2c5
       - SONARR_BASE_URL=http://sonarr:8989
       - SONARR_API_KEY=1accda4476394bfcaddefe8c4fd77d4a
+
+#      - RADARR_BASE_URL=http://radarr-demo.home.lan
+#      - RADARR_API_KEY=6c2c2aa13b8e483880dfca563f4c84fe
+#      - SONARR_BASE_URL=http://sonarr-demo.home.lan
+#      - SONARR_API_KEY=bde28b492c9a4e62af4aead8c7ae88c2
     depends_on:
       postgresql:
         condition: service_healthy
@@ -66,7 +70,7 @@ services:
       - 7878:7878
     volumes:
       - ./priv/radarr/config.xml:/config/config.xml
-      - ./priv/movies:/some-movies
+      - ./priv/library:/library
     environment:
       - PUID=1000
       - PGID=1000
@@ -80,7 +84,7 @@ services:
       - 8989:8989
     volumes:
       - ./priv/sonarr/config.xml:/config/config.xml
-      - ./priv/series:/some-series
+      - ./priv/library:/library
     environment:
       - PUID=1000
       - PGID=1000
