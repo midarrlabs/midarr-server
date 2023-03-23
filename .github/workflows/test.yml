@@ -48,9 +48,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: FedericoCarboni/setup-ffmpeg@v2
 
+      # Setup library
+      - run: sudo cp -r ${GITHUB_WORKSPACE}/priv/library /library
+
       # Setup Radarr
-      - run: chmod u+x priv/install-radarr.sh
-      - run: ./priv/install-radarr.sh
+      - run: chmod u+x .github/install-radarr.sh
+      - run: ./.github/install-radarr.sh
       - run: curl --head -X GET --retry 5 --retry-connrefused --retry-delay 5 "http://localhost:7878"
 
       # Seed Radarr
@@ -58,16 +61,13 @@ jobs:
       - run: curl -d "@${GITHUB_WORKSPACE}/priv/radarr/movies.json" -H "Content-Type:application/json" -X POST "http://localhost:7878/api/v3/movie/import?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
 
       # Setup Sonarr
-      - run: chmod u+x priv/install-sonarr.sh
-      - run: ./priv/install-sonarr.sh
+      - run: chmod u+x .github/install-sonarr.sh
+      - run: ./.github/install-sonarr.sh
       - run: curl --head -X GET --retry 5 --retry-connrefused --retry-delay 5 "http://localhost:8989"
 
       # Seed Sonarr
       - run: curl -d "@${GITHUB_WORKSPACE}/priv/sonarr/root-folder.json" -H "Content-Type:application/json" -X POST "http://localhost:8989/api/v3/rootfolder?apikey=1accda4476394bfcaddefe8c4fd77d4a"
       - run: curl -d "@${GITHUB_WORKSPACE}/priv/sonarr/series.json" -H "Content-Type:application/json" -X POST "http://localhost:8989/api/v3/series/import?apikey=1accda4476394bfcaddefe8c4fd77d4a"
-
-      # Setup media
-      - run: sudo cp -r ${GITHUB_WORKSPACE}/priv/library /library
 
       # Run tests
       - uses: erlef/setup-beam@v1
