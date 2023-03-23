@@ -23,7 +23,7 @@ defmodule MediaServerWeb.WatchLive.Index do
       |> assign(:media_stream, Routes.stream_path(socket, :index, movie: movie["id"], token: MediaServer.Token.get_token()) <> "#t=#{ timestamp }")
       |> assign(:media_subtitle, Routes.subtitle_path(socket, :index, movie: movie["id"], token: MediaServer.Token.get_token()))
       |> assign(:media_poster, Routes.images_path(socket, :index, movie: movie["id"], type: "background"))
-      |> assign(:media_has_subtitle, MediaServer.Subtitles.has_subtitle("#{ MediaServer.MoviesIndex.get_root_path() }/#{ MediaServer.MoviesIndex.get_folder_path(movie) }", MediaServer.MoviesIndex.get_file_path(movie)))
+      |> assign(:media_has_subtitle, MediaServer.Subtitles.has_subtitle(movie["folderName"], movie["movieFile"]["relativePath"]))
       |> assign(:mime_type, "video/mp4")
     }
   end
@@ -68,7 +68,7 @@ defmodule MediaServerWeb.WatchLive.Index do
       |> assign(:media_stream, Routes.stream_path(socket, :index, movie: movie["id"], token: MediaServer.Token.get_token()))
       |> assign(:media_subtitle, Routes.subtitle_path(socket, :index, movie: movie["id"], token: MediaServer.Token.get_token()))
       |> assign(:media_poster, Routes.images_path(socket, :index, movie: movie["id"], type: "background"))
-      |> assign(:media_has_subtitle, MediaServer.Subtitles.has_subtitle("#{ MediaServer.MoviesIndex.get_root_path() }/#{ MediaServer.MoviesIndex.get_folder_path(movie) }", MediaServer.MoviesIndex.get_file_path(movie)))
+      |> assign(:media_has_subtitle, MediaServer.Subtitles.has_subtitle(movie["folderName"], movie["movieFile"]["relativePath"]))
       |> assign(:mime_type, "video/mp4")
     }
   end
@@ -85,7 +85,7 @@ defmodule MediaServerWeb.WatchLive.Index do
       |> assign(:media_stream, Routes.stream_path(socket, :index, episode: episode["id"], token: MediaServer.Token.get_token()) <> "#t=#{ timestamp }")
       |> assign(:media_subtitle, Routes.subtitle_path(socket, :index, episode: episode["id"], token: MediaServer.Token.get_token()))
       |> assign(:media_poster, Routes.images_path(socket, :index, episode: episode["id"], type: "background"))
-      |> assign(:media_has_subtitle, MediaServer.Subtitles.has_subtitle("#{ MediaServerWeb.Repositories.Episodes.get_root_path() }/#{ MediaServerWeb.Repositories.Episodes.get_season_path(episode) }/#{ MediaServerWeb.Repositories.Episodes.get_folder_path(episode) }", MediaServerWeb.Repositories.Episodes.get_file_path(episode)))
+      |> assign(:media_has_subtitle, MediaServer.Subtitles.has_subtitle(MediaServer.Subtitles.get_parent_path(episode["episodeFile"]["path"]), MediaServer.Subtitles.get_file_name(episode["episodeFile"]["relativePath"])))
       |> assign(:mime_type, "video/mp4")
     }
   end
@@ -102,7 +102,7 @@ defmodule MediaServerWeb.WatchLive.Index do
       |> assign(:media_stream, Routes.stream_path(socket, :index, episode: episode["id"], token: MediaServer.Token.get_token()))
       |> assign(:media_subtitle, Routes.subtitle_path(socket, :index, episode: episode["id"], token: MediaServer.Token.get_token()))
       |> assign(:media_poster, Routes.images_path(socket, :index, episode: episode["id"], type: "background"))
-      |> assign(:media_has_subtitle, MediaServer.Subtitles.has_subtitle("#{ MediaServerWeb.Repositories.Episodes.get_root_path() }/#{ MediaServerWeb.Repositories.Episodes.get_season_path(episode) }/#{ MediaServerWeb.Repositories.Episodes.get_folder_path(episode) }", MediaServerWeb.Repositories.Episodes.get_file_path(episode)))
+      |> assign(:media_has_subtitle, MediaServer.Subtitles.has_subtitle(MediaServer.Subtitles.get_parent_path(episode["episodeFile"]["path"]), MediaServer.Subtitles.get_file_name(episode["episodeFile"]["relativePath"])))
       |> assign(:mime_type, "video/mp4")
     }
   end
