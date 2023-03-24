@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - '**'
+  pull_request:
+    branches:
+      - '**'
 
 env:
   MIX_ENV: test
