@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 curl -d "@dev/radarr/root-folder.json" -H "Content-Type:application/json" -X POST "http://radarr:7878/api/v3/rootfolder?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
 curl -d "@dev/radarr/movies.json" -H "Content-Type:application/json" -X POST "http://radarr:7878/api/v3/movie/import?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"

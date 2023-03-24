@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import
 

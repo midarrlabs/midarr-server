@@ -32,6 +32,9 @@ RUN \
         ffmpeg \
         inotify-tools \
         postgresql15-client \
+        curl \
+        make \
+        g++ \
     && \
     mix local.hex --force \
     && mix local.rebar --force \

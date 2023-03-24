@@ -34,7 +34,7 @@ services:
         condition: service_healthy
       sonarr:
         condition: service_healthy
-    command: bash -c "chmod u+x entry-local.sh && ./entry-local.sh"
+    command: sh -c "chmod u+x entry-local.sh && ./entry-local.sh"
 
   postgresql:
     container_name: postgresql
