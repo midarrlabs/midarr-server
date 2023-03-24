@@ -7,7 +7,7 @@ RUN npm install
 
 #-------------------------
 
-FROM elixir:1.14.3-otp-24
+FROM elixir:1.14.3-otp-24-alpine
 
 ARG MIX_ENV="dev"
 ARG SECRET_KEY_BASE=""
@@ -18,22 +18,30 @@ ENV SECRET_KEY_BASE="${SECRET_KEY_BASE}"
 RUN MIX_ENV=$MIX_ENV
 RUN SECRET_KEY_BASE=$SECRET_KEY_BASE
 
-RUN apt-get update
-RUN apt-get install -y inotify-tools postgresql-client ffmpeg
-
 WORKDIR /app
 
 COPY . ./
 COPY --from=node /assets/node_modules /app/assets/node_modules/
 
-RUN mix local.hex --force
-RUN mix local.rebar --force
-RUN mix deps.get
-RUN mix deps.compile
-RUN mix assets.deploy
-RUN mix compile
-
-RUN chmod u+x /app/entry.sh
+RUN \
+    apk add --no-cache --virtual=.build-deps \
+        build-base \
+    && \
+    apk add --no-cache \
+        ca-certificates \
+        ffmpeg \
+        inotify-tools \
+        postgresql15-client \
+    && \
+    mix local.hex --force \
+    && mix local.rebar --force \
+    && mix deps.get \
+    && mix deps.compile \
+    && mix assets.deploy \
+    && mix compile \
+    && apk del --purge .build-deps \
+    && rm -rf /tmp/* \
+    && chmod u+x /app/entry.sh
 
 EXPOSE 4000
 
