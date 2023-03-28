@@ -39,6 +39,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
       |> assign(:movies, movies)
       |> assign(:previous_link, previous_link)
       |> assign(:next_link, next_link)
+      |> assign(:genre, genre)
     }
   end
 
@@ -68,6 +69,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
       |> assign(:movies, movies)
       |> assign(:previous_link, previous_link)
       |> assign(:next_link, next_link)
+      |> assign(:genre, genre)
     }
   end
 
@@ -95,6 +97,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
       |> assign(:movies, movies)
       |> assign(:previous_link, previous_link)
       |> assign(:next_link, next_link)
+      |> assign(:genre, "latest")
     }
   end
 
@@ -122,6 +125,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
       |> assign(:movies, movies)
       |> assign(:previous_link, previous_link)
       |> assign(:next_link, next_link)
+      |> assign(:genre, "latest")
     }
   end
 
@@ -146,6 +150,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
       |> assign(:movies, movies)
       |> assign(:previous_link, previous_link)
       |> assign(:next_link, next_link)
+      |> assign(:genre, "A-Z")
     }
   end
 
@@ -170,6 +175,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
       |> assign(:movies, movies)
       |> assign(:previous_link, previous_link)
       |> assign(:next_link, next_link)
+      |> assign(:genre, "A-Z")
     }
   end
 end
