@@ -27,6 +27,38 @@ defmodule MediaServerWeb.SeriesLiveTest do
     assert disconnected_html =~ series["title"]
   end
 
+  test "it should render genre", %{conn: conn} do
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.series_index_path(conn, :index, genre: "drama"))
+
+    assert disconnected_html =~ "Pioneer One"
+  end
+
+  test "it should render genre paged", %{conn: conn} do
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.series_index_path(conn, :index, genre: "drama", page: "1"))
+
+    assert disconnected_html =~ "Pioneer One"
+  end
+
+  test "it should render without genre", %{conn: conn} do
+    {:ok, _view, _disconnected_html} = live(conn, Routes.series_index_path(conn, :index, genre: "something"))
+  end
+
+  test "it should render latest", %{conn: conn} do
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.series_index_path(conn, :index, sort_by: "latest"))
+
+    assert disconnected_html =~ "Pioneer One"
+  end
+
+  test "it should render latest paged", %{conn: conn} do
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.series_index_path(conn, :index, sort_by: "latest", page: "1"))
+
+    assert disconnected_html =~ "Pioneer One"
+  end
+
   test "it should render show", %{conn: conn} do
     series = MediaServer.SeriesIndex.get_all() |> List.first()
 
