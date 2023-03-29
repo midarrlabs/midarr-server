@@ -30,6 +30,7 @@ defmodule MediaServerWeb.SeriesLive.Show do
       socket
       |> assign(:page_title, "#{series["title"]}: Season #{season}")
       |> assign(:serie, series)
+      |> assign(:season, season)
     }
   end
 
@@ -55,6 +56,7 @@ defmodule MediaServerWeb.SeriesLive.Show do
       socket
       |> assign(:page_title, "#{series["title"]}: Season #{season["seasonNumber"]}")
       |> assign(:serie, series)
+      |> assign(:season, "#{ season["seasonNumber"] }")
     }
   end
 
