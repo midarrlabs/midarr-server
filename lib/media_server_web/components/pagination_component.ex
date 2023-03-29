@@ -15,7 +15,7 @@ defmodule MediaServerWeb.Components.PaginationComponent do
                       <ul class="space-x-4 flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
                         <li>
                           <%= if assigns.page_number > 1 do %>
-                            <%= live_redirect to: assigns.previous_link, class: "flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400" do %>
+                            <%= live_redirect id: "pagination-previous", to: assigns.previous_link, class: "flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400" do %>
                               <svg
                                 fill="none"
                                 viewBox="0 0 24 24"
@@ -50,7 +50,7 @@ defmodule MediaServerWeb.Components.PaginationComponent do
                         </li>
                         <li>
                           <%= if assigns.page_number !== assigns.total_pages do %>
-                            <%= live_redirect to: assigns.next_link, class: "flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400" do %>
+                            <%= live_redirect id: "pagination-next", to: assigns.next_link, class: "flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400" do %>
                               <svg
                                 fill="none"
                                 viewBox="0 0 24 24"

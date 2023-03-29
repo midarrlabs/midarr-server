@@ -9,34 +9,34 @@ defmodule MediaServerWeb.PaginationComponentTest do
              total_pages: 10,
              previous_link: "",
              next_link: ""
-           ) =~ "Next"
+           ) =~ "pagination-next"
 
     assert render_component(&MediaServerWeb.Components.PaginationComponent.render/1,
              page_number: 2,
              total_pages: 10,
              previous_link: "",
              next_link: ""
-           ) =~ "Previous"
+           ) =~ "pagination-previous"
 
     refute render_component(&MediaServerWeb.Components.PaginationComponent.render/1,
              page_number: 1,
              total_pages: 10,
              previous_link: "",
              next_link: ""
-           ) =~ "Previous"
+           ) =~ "pagination-previous"
 
     assert render_component(&MediaServerWeb.Components.PaginationComponent.render/1,
              page_number: 2,
              total_pages: 10,
              previous_link: "",
              next_link: ""
-           ) =~ "Next"
+           ) =~ "pagination-next"
 
     refute render_component(&MediaServerWeb.Components.PaginationComponent.render/1,
              page_number: 10,
              total_pages: 10,
              previous_link: "",
              next_link: ""
-           ) =~ "Next"
+           ) =~ "pagination-next"
   end
 end
