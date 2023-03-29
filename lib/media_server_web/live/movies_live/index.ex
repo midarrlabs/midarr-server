@@ -1,8 +1,6 @@
 defmodule MediaServerWeb.MoviesLive.Index do
   use MediaServerWeb, :live_view
 
-  alias Phoenix.LiveView.JS
-
   @impl true
   def mount(_params, _session, socket) do
     {
