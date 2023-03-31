@@ -36,6 +36,24 @@ defmodule MediaServerWeb.WebhooksControllerTest do
     assert conn.status === 201
   end
 
+  test "it should create on delete", %{conn: conn} do
+    conn =
+      post(conn, Routes.webhooks_path(conn, :create, "movie", %{"eventType" => "MovieDelete"}),
+        token: MediaServer.Token.get_token()
+      )
+
+    assert conn.status === 201
+  end
+
+  test "it should create on file delete", %{conn: conn} do
+    conn =
+      post(conn, Routes.webhooks_path(conn, :create, "movie", %{"eventType" => "MovieFileDelete"}),
+        token: MediaServer.Token.get_token()
+      )
+
+    assert conn.status === 201
+  end
+
   test "series should halt", %{conn: conn} do
     conn =
       post(conn, Routes.webhooks_path(conn, :create, "series", %{"someKey" => "someValue"}),
@@ -67,6 +85,24 @@ defmodule MediaServerWeb.WebhooksControllerTest do
   test "series should create", %{conn: conn} do
     conn =
       post(conn, Routes.webhooks_path(conn, :create, "series", %{"eventType" => "Download"}),
+        token: MediaServer.Token.get_token()
+      )
+
+    assert conn.status === 201
+  end
+
+  test "series should create on delete", %{conn: conn} do
+    conn =
+      post(conn, Routes.webhooks_path(conn, :create, "series", %{"eventType" => "SeriesDelete"}),
+        token: MediaServer.Token.get_token()
+      )
+
+    assert conn.status === 201
+  end
+
+  test "series should create on episode file delete", %{conn: conn} do
+    conn =
+      post(conn, Routes.webhooks_path(conn, :create, "series", %{"eventType" => "EpisodeFileDelete"}),
         token: MediaServer.Token.get_token()
       )
 

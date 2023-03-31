@@ -8,7 +8,35 @@ defmodule MediaServerWeb.WebhooksController do
     |> send_resp(201, "Ok")
   end
 
+  def create(conn, %{"id" => "movie", "eventType" => "MovieDelete"}) do
+    MediaServer.MoviesIndex.reset()
+
+    conn
+    |> send_resp(201, "Ok")
+  end
+
+  def create(conn, %{"id" => "movie", "eventType" => "MovieFileDelete"}) do
+    MediaServer.MoviesIndex.reset()
+
+    conn
+    |> send_resp(201, "Ok")
+  end
+
   def create(conn, %{"id" => "series", "eventType" => "Download"}) do
+    MediaServer.SeriesIndex.reset()
+
+    conn
+    |> send_resp(201, "Ok")
+  end
+
+  def create(conn, %{"id" => "series", "eventType" => "SeriesDelete"}) do
+    MediaServer.SeriesIndex.reset()
+
+    conn
+    |> send_resp(201, "Ok")
+  end
+
+  def create(conn, %{"id" => "series", "eventType" => "EpisodeFileDelete"}) do
     MediaServer.SeriesIndex.reset()
 
     conn
