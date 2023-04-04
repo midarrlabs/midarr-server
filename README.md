@@ -234,5 +234,6 @@ Midarr is open-sourced software licensed under the [MIT license](LICENSE).
 
 ![Preview](docs/login-v3.0.0.png)
 ![Preview](docs/movie-v3.0.0.png)
-![Preview](docs/player-v1.15.0.png)
+![Preview](docs/player-movie-v3.0.0.png)
 ![Preview](docs/series-v3.0.0.png)
+![Preview](docs/player-episode-v3.0.0.png)
