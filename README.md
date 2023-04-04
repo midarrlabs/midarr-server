@@ -44,7 +44,7 @@ Your media is left untouched and unscathed as it is served through a simple (yet
 **you** and **your** users to enjoy.
 
 While other media solutions look to re-index, re-fetch and re-double handle your media library, Midarr simply leverages your pre-existing
-services to delight and enchant **your** media experience.
+services to delight and enhance **your** media experience.
 
 ![Preview](docs/ecosystem-v3.0.0.jpg)
 
@@ -83,7 +83,7 @@ services:
       - /path/to/media:/media
     environment:
 #       App config
-      - APP_URL=http://midarr:4000 # Radarr / Sonarr must be able to resolve this
+      - APP_URL=http://midarr:4000 # required for media sync
       - APP_MAILER_FROM=example@email.com
       - SENDGRID_API_KEY=someApiKey
 
@@ -176,18 +176,18 @@ services:
       - /path/to/media:/media
 ```
 
-### Why won't my media update?
+### Why won't my media sync?
 
-On server startup Midarr attempts to auto configure your integrations by:
+To sync your media, on server startup Midarr attempts to auto configure your integrations by:
 
 * **Caching integration responses.** This is for speedy access to your library.
-* **Adding connect endpoints.** This is for keeping your cache in sync.
+* **Adding connect endpoints.** This is for keeping your media in sync.
 
 Ensure your `APP_URL` and integration environment variables are set for auto configuration to complete:
 
 ```yaml
 environment:
-  - APP_URL=http://midarr:4000 # Radarr / Sonarr must be able to resolve this
+  - APP_URL=http://midarr:4000 # required for media sync
     
   - RADARR_BASE_URL=radarr:7878
   - RADARR_API_KEY=someApiKey
