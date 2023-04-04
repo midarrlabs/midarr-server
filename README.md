@@ -43,7 +43,7 @@ This is a lightweight (albeit companion) media server to the likes of Radarr and
 Your media is left untouched and unscathed as it is served through a simple (yet familiar) web interface that puts your media front and center for
 **you** and **your** users to enjoy.
 
-While other media solutions look to re-index, re-fetch and re-double handle your media library, **Midarr** simply leverages your pre-existing
+While other media solutions look to re-index, re-fetch and re-double handle your media library, Midarr simply leverages your pre-existing
 services to delight and enchant **your** media experience.
 
 ![Preview](docs/ecosystem-v3.0.0.jpg)
@@ -178,7 +178,7 @@ services:
 
 ### Why won't my media update?
 
-On server startup **Midarr** attempts to auto configure your integrations by:
+On server startup Midarr attempts to auto configure your integrations by:
 
 * **Caching integration responses.** This is for speedy access to your library.
 * **Adding connect endpoints.** This is for keeping your cache in sync.
@@ -228,7 +228,7 @@ cd midarr-server && docker compose up -d
 
 ## License
 
-**Midarr** is open-sourced software licensed under the [MIT license](LICENSE).
+Midarr is open-sourced software licensed under the [MIT license](LICENSE).
 
 ## Preview
 
