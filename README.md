@@ -46,15 +46,15 @@ Your media is left untouched and unscathed as it is served through a simple (yet
 While other media solutions look to re-index, re-fetch and re-double handle your media library, **Midarr** simply leverages your pre-existing
 services to delight and enchant **your** media experience.
 
-![Preview](docs/ecosystem-v2.0.0.jpg)
+![Preview](docs/ecosystem-v3.0.0.jpg)
 
 ### How is this lightweight?
 
 * **Direct streaming.** Your media is served fresh off the metal (*an experimental transcoder is available*).
 * **Smart caching.** Your metadata is retrieved fresh off the metal, smartly kept in sync with your integrations.
-* **No media editing.** We trust you already have it the way you like it, lets keep it that way.
+* **Integrated experience.** You like the way your media is set up, we keep it that way.
 
-### What does this do?
+### What else does this do?
 
 Your media is served through a slick web interface providing:
 
@@ -80,13 +80,10 @@ services:
     ports:
       - 4000:4000
     volumes:
-#       Media paths
-      - /path/to/movies:/movies
-      - /path/to/series:/series
-
+      - /path/to/media:/media
     environment:
 #       App config
-      - APP_URL=http://localhost:4000
+      - APP_URL=http://midarr:4000 # Radarr / Sonarr must be able to resolve this
       - APP_MAILER_FROM=example@email.com
       - SENDGRID_API_KEY=someApiKey
 
@@ -126,31 +123,6 @@ services:
       test: "exit 0"
 ```
 
-## Setup
-
-### Integrations
-
-* Supports Radarr `v4.x`
-* Supports Sonarr `v3.x`
-
-On server startup **Midarr** attempts to auto configure your integrations by:
-
-* **Caching movie and series responses.** This is for speedy access to your library
-* **Adding webhook / connect endpoints.** This is for keeping your cache in sync
-
-> __Warning__
->
-> Ensure your integration environment variables are set for auto configuration to complete
-
-```yaml
-environment:
-  - RADARR_BASE_URL=radarr:7878
-  - RADARR_API_KEY=someApiKey
-
-  - SONARR_BASE_URL=sonarr:8989
-  - SONARR_API_KEY=someApiKey
-```
-
 ### Admin account
 
 To initialise this, please provide the following **environment variables**. This will allow you to configure your server at the **settings** page.
@@ -161,6 +133,7 @@ environment:
   - SETUP_ADMIN_NAME=admin
   - SETUP_ADMIN_PASSWORD=somepassword # minimum length 12
 ```
+
 
 ## Support
 
@@ -179,6 +152,56 @@ library/video
           └──video.srt
           └──video.mp4
 ```
+
+## FAQ
+
+### Why won't my media play?
+
+Midarr looks to your integrations to resolve your media locations. Midarr **is not** aware of where your media lives!
+A common way to mount a media library is to mount the root directory where both movies and series reside:
+
+```yaml
+services:
+
+  midarr:
+    volumes:
+      - /path/to/media:/media
+
+  radarr:
+    volumes:
+      - /path/to/media:/media
+
+  sonarr:
+    volumes:
+      - /path/to/media:/media
+```
+
+### Why won't my media update?
+
+On server startup **Midarr** attempts to auto configure your integrations by:
+
+* **Caching integration responses.** This is for speedy access to your library.
+* **Adding connect endpoints.** This is for keeping your cache in sync.
+
+Ensure your `APP_URL` and integration environment variables are set for auto configuration to complete:
+
+```yaml
+environment:
+  - APP_URL=http://midarr:4000 # Radarr / Sonarr must be able to resolve this
+    
+  - RADARR_BASE_URL=radarr:7878
+  - RADARR_API_KEY=someApiKey
+
+  - SONARR_BASE_URL=sonarr:8989
+  - SONARR_API_KEY=someApiKey
+```
+
+### What integrations does this support?
+
+We support the following integration versions:
+
+* Radarr `v4.x`
+* Sonarr `v3.x`
 
 ## Contributing
 
@@ -211,5 +234,5 @@ cd midarr-server && docker compose up -d
 
 ![Preview](docs/login-v3.0.0.png)
 ![Preview](docs/movie-v3.0.0.png)
-![Preview](docs/series-v3.0.0.png)
 ![Preview](docs/player-v1.15.0.png)
+![Preview](docs/series-v3.0.0.png)
