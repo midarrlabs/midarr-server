@@ -38,17 +38,17 @@
         <div class="w-full lg:w-1/2 relative block inline-flex justify-start text-base font-semibold text-zinc-800 dark:text-zinc-100 dark:hover:text-red-400">
           <div class="-mb-px flex space-x-8 overflow-x-auto">
             <%= if Enum.count(@serie["seasons"]) === 1 do %>
-              <div class="dark:text-zinc-300 whitespace-nowrap border-transparent">
+              <div class="dark:text-zinc-300 whitespace-nowrap border-transparent py-4">
                 Season 1
               </div>
             <% else %>
               <%= for item <- @serie["seasons"] do %>
                 <%= if item["seasonNumber"] === 0 do %>
-                  <%= live_patch to: Routes.series_show_path(@socket, :show, @serie["id"], season: item["seasonNumber"]), class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2" do %>
+                  <%= live_patch to: Routes.series_show_path(@socket, :show, @serie["id"], season: item["seasonNumber"]), class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
                     Specials
                   <% end %>
                 <% else %>
-                  <%= live_patch to: Routes.series_show_path(@socket, :show, @serie["id"], season: item["seasonNumber"]), class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2" do %>
+                  <%= live_patch to: Routes.series_show_path(@socket, :show, @serie["id"], season: item["seasonNumber"]), class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
                     Season <%= item["seasonNumber"] %>
                   <% end %>
                 <% end %>
