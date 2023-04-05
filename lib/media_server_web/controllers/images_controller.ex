@@ -41,9 +41,9 @@ defmodule MediaServerWeb.ImagesController do
       conn
       |> put_resp_header("content-type", "image/image")
       |> send_resp(200, body)
+    else
+      conn
+      |> send_resp(404, "Not found")
     end
-
-    conn
-    |> send_resp(404, "Not found")
   end
 end
