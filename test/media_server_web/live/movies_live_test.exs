@@ -29,13 +29,51 @@ defmodule MediaServerWeb.MoviesLiveTest do
     assert disconnected_html =~ "Caminandes:  Llamigos"
   end
 
+  test "it should render genre", %{conn: conn} do
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.movies_index_path(conn, :index, genre: "animation"))
+
+    assert disconnected_html =~ "Caminandes: Llama Drama"
+    assert disconnected_html =~ "Caminandes: Gran Dillama"
+    assert disconnected_html =~ "Caminandes:  Llamigos"
+  end
+
+  test "it should render genre paged", %{conn: conn} do
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.movies_index_path(conn, :index, genre: "animation", page: "1"))
+
+    assert disconnected_html =~ "Caminandes: Llama Drama"
+    assert disconnected_html =~ "Caminandes: Gran Dillama"
+    assert disconnected_html =~ "Caminandes:  Llamigos"
+  end
+
+  test "it should render without genre", %{conn: conn} do
+    {:ok, _view, _disconnected_html} = live(conn, Routes.movies_index_path(conn, :index, genre: "something"))
+  end
+
+  test "it should render latest", %{conn: conn} do
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.movies_index_path(conn, :index, sort_by: "latest"))
+
+    assert disconnected_html =~ "Caminandes: Llama Drama"
+    assert disconnected_html =~ "Caminandes: Gran Dillama"
+    assert disconnected_html =~ "Caminandes:  Llamigos"
+  end
+
+  test "it should render latest paged", %{conn: conn} do
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.movies_index_path(conn, :index, sort_by: "latest", page: "1"))
+
+    assert disconnected_html =~ "Caminandes: Llama Drama"
+    assert disconnected_html =~ "Caminandes: Gran Dillama"
+    assert disconnected_html =~ "Caminandes:  Llamigos"
+  end
+
   test "it should render show", %{conn: conn} do
     movie = MediaServer.MoviesIndex.get_movie("1")
     cast = Movies.get_cast(movie["id"])
 
-    {:ok, view, disconnected_html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
-
-    assert disconnected_html =~ "loading-spinner"
+    {:ok, view, _disconnected_html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
     send(view.pid, {:cast, cast})
   end
@@ -52,7 +90,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
     send(view.pid, {:cast, cast})
 
     view
-    |> form("#playlists-form", playlists: %{"1" => "true"})
+    |> form("#playlists-form", playlists: %{"#{ playlist.id }" => "true"})
     |> render_change()
 
     playlist_movie = MediaServer.PlaylistMedia.all() |> List.first()
@@ -68,8 +106,8 @@ defmodule MediaServerWeb.MoviesLiveTest do
   test "it should delete from playlist", %{conn: conn, user: user} do
     movie = MediaServer.MoviesIndex.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
-    MediaServer.Playlists.create(%{name: "some playlist", user_id: user.id})
-    MediaServer.Playlists.create(%{name: "another playlist", user_id: user.id})
+    {:ok, some_playlist} = MediaServer.Playlists.create(%{name: "some playlist", user_id: user.id})
+    {:ok, another_playlist} = MediaServer.Playlists.create(%{name: "another playlist", user_id: user.id})
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
@@ -77,19 +115,19 @@ defmodule MediaServerWeb.MoviesLiveTest do
     send(view.pid, {:cast, cast})
 
     view
-    |> form("#playlists-form", playlists: %{"1" => "true", "2" => "true"})
+    |> form("#playlists-form", playlists: %{"#{ some_playlist.id }" => "true", "#{ another_playlist.id }" => "true"})
     |> render_change()
 
     assert Enum.count(MediaServer.PlaylistMedia.all()) === 2
 
     view
-    |> form("#playlists-form", playlists: %{"1" => "false", "2" => "true"})
+    |> form("#playlists-form", playlists: %{"#{ some_playlist.id }" => "false", "#{ another_playlist.id }" => "true"})
     |> render_change()
 
     assert Enum.count(MediaServer.PlaylistMedia.all()) === 1
   end
 
-  test "it should play", %{conn: conn} do
+  test "it should watch", %{conn: conn} do
     movie = MediaServer.MoviesIndex.get_all() |> List.first()
     cast = Movies.get_cast(movie["id"])
 
@@ -97,6 +135,6 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     send(view.pid, {:cast, cast})
 
-    assert view |> element("#play-#{movie["id"]}", "Play") |> render_click()
+    assert view |> element("#play-#{movie["id"]}", "Watch") |> render_click()
   end
 end

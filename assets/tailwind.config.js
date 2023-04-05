@@ -5,6 +5,6 @@ module.exports = {
     '../lib/*_web/**/*.*ex'
   ],
   plugins: [
-    require('@tailwindcss/forms')
+    require('@tailwindcss/line-clamp')
   ]
 }

@@ -1,0 +1,31 @@
+<%= if assigns[:segment] do %>
+
+<media-player
+    id="ignore"
+    phx-update="ignore"
+    src={@media_stream}
+    poster={@media_poster}
+    controlsList="nodownload"
+    controls
+    autoplay>
+        <media-outlet></media-outlet>
+</media-player>
+
+<% else %>
+
+<video
+  id="video"
+  phx-hook="video"
+  poster={@media_poster}
+  controlsList="nodownload"
+  controls
+  autoplay
+>
+    <source src={@media_stream} type={@mime_type} />
+
+    <%= if @media_has_subtitle do %>
+        <track src={@media_subtitle} kind="captions" label="Captions" srclang="en" />
+    <% end %>
+</video>
+
+<% end %>

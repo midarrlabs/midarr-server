@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-    <em>Your media enjoyed through a minimal lightweight media server</em>
+    <em>Your media enjoyed with a minimal lightweight media server</em>
 </p>
 
 <p align="center">
@@ -35,7 +35,7 @@ users:
 * Simple and easy invite system
 * Integrates with your existing services, [Radarr](https://radarr.video/) and [Sonarr](https://sonarr.tv/)
 
-![Preview](priv/screenshots/home-v2.0.0.png)
+![Preview](docs/home-v3.0.0.png)
 
 ### What is this?
 
@@ -43,18 +43,18 @@ This is a lightweight (albeit companion) media server to the likes of Radarr and
 Your media is left untouched and unscathed as it is served through a simple (yet familiar) web interface that puts your media front and center for
 **you** and **your** users to enjoy.
 
-While other media solutions look to re-index, re-fetch and re-double handle your media library, **Midarr** simply leverages your pre-existing
-services to delight and enchant **your** media experience.
+While other media solutions look to re-index, re-fetch and re-double handle your media library, Midarr simply leverages your pre-existing
+services to delight and enhance **your** media experience.
 
-![Preview](priv/screenshots/ecosystem-v2.0.0.jpg)
+![Preview](docs/ecosystem-v3.0.0.jpg)
 
 ### How is this lightweight?
 
 * **Direct streaming.** Your media is served fresh off the metal (*an experimental transcoder is available*).
 * **Smart caching.** Your metadata is retrieved fresh off the metal, smartly kept in sync with your integrations.
-* **No media editing.** We trust you already have it the way you like it, lets keep it that way.
+* **Integrated experience.** You like the way your media is set up, we keep it that way.
 
-### What does this do?
+### What else does this do?
 
 Your media is served through a slick web interface providing:
 
@@ -69,6 +69,9 @@ with more features planned ahead.
 ### Docker compose
 
 ```yaml
+volumes:
+  database-data:
+
 services:
   
   midarr:
@@ -77,18 +80,18 @@ services:
     ports:
       - 4000:4000
     volumes:
-#       Database path
-      - /path/to/database:/app/database
-
-#       Media path
-      - /path/to/movies:/radarr/movies/path
-      - /path/to/shows:/sonarr/shows/path
-
+      - /path/to/media:/media
     environment:
 #       App config
-      - APP_URL=http://localhost:4000
+      - APP_URL=http://midarr:4000 # required for media sync
       - APP_MAILER_FROM=example@email.com
       - SENDGRID_API_KEY=someApiKey
+
+#       Database config
+      - DB_USERNAME=my_user
+      - DB_PASSWORD=my_password
+      - DB_DATABASE=my_database
+      - DB_HOSTNAME=postgresql
 
 #       Admin account
       - SETUP_ADMIN_EMAIL=admin@email.com
@@ -102,42 +105,22 @@ services:
 #       Sonarr integration
       - SONARR_BASE_URL=sonarr:8989
       - SONARR_API_KEY=someApiKey
-```
 
-## Setup
+    depends_on:
+      postgresql:
+        condition: service_healthy
 
-### Integrations
-
-* Supports Radarr `v4.x`
-* Supports Sonarr `v3.x`
-
-On server startup **Midarr** attempts to auto configure your integrations by:
-
-* **Caching movie and series responses.** This is for speedy access to your library
-* **Adding webhook / connect endpoints.** This is for keeping your cache in sync
-
-> __Warning__
->
-> Ensure your integration environment variables are set for auto configuration to complete
-
-```yaml
-environment:
-  - RADARR_BASE_URL=radarr:7878
-  - RADARR_API_KEY=someApiKey
-
-  - SONARR_BASE_URL=sonarr:8989
-  - SONARR_API_KEY=someApiKey
-```
-
-
-### Media library
-
-For your media locations to resolve, please provide the following **paths** as found in your integrations.
-
-```yaml
-volumes:
-  - /path/to/movies:/radarr/movies/path
-  - /path/to/shows:/sonarr/shows/path
+  postgresql:
+    container_name: postgresql
+    image: postgres
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=my_user
+      - POSTGRES_PASSWORD=my_password
+      - POSTGRES_DB=my_database
+    healthcheck:
+      test: "exit 0"
 ```
 
 ### Admin account
@@ -150,6 +133,7 @@ environment:
   - SETUP_ADMIN_NAME=admin
   - SETUP_ADMIN_PASSWORD=somepassword # minimum length 12
 ```
+
 
 ## Support
 
@@ -168,6 +152,56 @@ library/video
           └──video.srt
           └──video.mp4
 ```
+
+## FAQ
+
+### Why won't my media play?
+
+Midarr looks to your integrations to resolve your media locations. Midarr **is not** aware of where your media lives!
+A common way to mount a media library is to mount the root directory where both movies and series reside:
+
+```yaml
+services:
+
+  midarr:
+    volumes:
+      - /path/to/media:/media
+
+  radarr:
+    volumes:
+      - /path/to/media:/media
+
+  sonarr:
+    volumes:
+      - /path/to/media:/media
+```
+
+### Why won't my media sync?
+
+To sync your media, on server startup Midarr attempts to auto configure your integrations by:
+
+* **Caching integration responses.** This is for speedy access to your library.
+* **Adding connect endpoints.** This is for keeping your media in sync.
+
+Ensure your `APP_URL` and integration environment variables are set for auto configuration to complete:
+
+```yaml
+environment:
+  - APP_URL=http://midarr:4000 # required for media sync
+    
+  - RADARR_BASE_URL=radarr:7878
+  - RADARR_API_KEY=someApiKey
+
+  - SONARR_BASE_URL=sonarr:8989
+  - SONARR_API_KEY=someApiKey
+```
+
+### What integrations does this support?
+
+We support the following integration versions:
+
+* Radarr `v4.x`
+* Sonarr `v3.x`
 
 ## Contributing
 
@@ -194,11 +228,12 @@ cd midarr-server && docker compose up -d
 
 ## License
 
-**Midarr** is open-sourced software licensed under the [MIT license](LICENSE).
+Midarr is open-sourced software licensed under the [MIT license](LICENSE).
 
 ## Preview
 
-![Preview](priv/screenshots/login-v1.4.0.png)
-![Preview](priv/screenshots/online-v1.6.1.png)
-![Preview](priv/screenshots/movie-v2.0.0.png)
-![Preview](priv/screenshots/player-v1.15.0.png)
+![Preview](docs/login-v3.0.0.png)
+![Preview](docs/movie-v3.0.0.png)
+![Preview](docs/player-movie-v3.0.0.png)
+![Preview](docs/series-v3.0.0.png)
+![Preview](docs/player-episode-v3.0.0.png)

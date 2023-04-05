@@ -7,10 +7,6 @@ import Config
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
 if config_env() == :prod do
-  config :media_server, MediaServer.Repo,
-    database: Path.expand("../database/media_server_prod.db", Path.dirname(__ENV__.file)),
-    pool_size: 5
-
   # The secret key base is used to sign/encrypt cookies and other secrets.
   # A default value is used in config/dev.exs and config/test.exs but you
   # want to use a different value for prod and you most likely don't want

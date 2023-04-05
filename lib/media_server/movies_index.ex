@@ -15,10 +15,20 @@ defmodule MediaServer.MoviesIndex do
     Agent.get(__MODULE__, & &1)
   end
 
+  def get_latest() do
+    get_all()
+    |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
+  end
+
   def get_latest(amount) do
     get_all()
     |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
     |> Enum.take(amount)
+  end
+
+  def get_genre(genre) do
+    get_all()
+    |> Enum.filter(fn item -> Enum.member?(item["genres"], genre) end)
   end
 
   def get_movie(id) do
@@ -30,6 +40,16 @@ defmodule MediaServer.MoviesIndex do
         item["id"] === id
       end
     end)
+  end
+
+  def get_related(movie) do
+
+    genre = Enum.take(movie["genres"], 1) |> List.first()
+
+    get_all()
+    |> Enum.filter(fn item -> genre in item["genres"] end)
+    |> Enum.take_random(20)
+    |> Enum.reject(fn x -> x["id"] === movie["id"] end)
   end
 
   def get_movie_path(id) do
