@@ -69,9 +69,10 @@
                   }
                   alt={item["title"]}
                   class="w-full rounded-sm bg-gray-100 object-cover lg:aspect-[3/2]"
+                  loading="lazy"
                 />
               <% else %>
-                <div class="w-full rounded-sm bg-zinc-800/90 object-cover lg:aspect-[3/2]"></div>
+                <div class="w-full rounded-sm bg-zinc-800/90 object-cover aspect-[3/2]"></div>
               <% end %>
             </div>
             <div class="max-w-xl">

@@ -34,10 +34,16 @@ defmodule MediaServerWeb.ImagesController do
   end
 
   def index(conn, %{"episode" => id, "type" => "screenshot"}) do
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = MediaServerWeb.Repositories.Episodes.get_episode(id) |> MediaServerWeb.Repositories.Episodes.get_screenshot() |> HTTPoison.get()
+
+    if MediaServerWeb.Repositories.Episodes.get_episode(id) |> MediaServerWeb.Repositories.Episodes.get_screenshot() do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} = MediaServerWeb.Repositories.Episodes.get_episode(id) |> MediaServerWeb.Repositories.Episodes.get_screenshot() |> HTTPoison.get()
+
+      conn
+      |> put_resp_header("content-type", "image/image")
+      |> send_resp(200, body)
+    end
 
     conn
-    |> put_resp_header("content-type", "image/image")
-    |> send_resp(200, body)
+    |> send_resp(404, "Not found")
   end
 end
