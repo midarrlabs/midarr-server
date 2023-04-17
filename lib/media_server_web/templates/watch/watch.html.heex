@@ -50,7 +50,7 @@
           if (isAvailable) {
               cast.framework.CastContext.getInstance().setOptions({
                 receiverApplicationId: 'B7C82081',
-                autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+                autoJoinPolicy: chrome.cast.AutoJoinPolicy.PAGE_SCOPED
               });
 
               cast.framework.CastContext.getInstance().addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function({ castState }) {
