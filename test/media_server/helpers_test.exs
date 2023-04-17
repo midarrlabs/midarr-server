@@ -86,4 +86,8 @@ defmodule MediaServer.HelpersTest do
   test "it should get empty string without headshot" do
     assert MediaServer.Helpers.get_headshot(@some_media_without_headshot) === ""
   end
+
+  test "it should get image file" do
+    assert MediaServer.Helpers.get_image_file("https://some.remote.url/some-image-file.jpg") === "some-image-file.jpg"
+  end
 end

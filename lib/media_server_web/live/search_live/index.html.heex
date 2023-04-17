@@ -1,15 +1,13 @@
-<.live_component
-  module={MediaServerWeb.Components.NavComponent}
-  id="nav-component"
-  class="text-slate-600 hover:text-slate-800"
-/>
+<div class="dark:bg-zinc-900">
+  <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
 
-<div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
-  <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+  <MediaServerWeb.Components.PageHeaderComponent.render title="Search" />
+
+  <MediaServerWeb.Components.PageSectionComponent.render>
     <%= if assigns[:movies] && assigns[:series] do %>
       <%= for item <- @movies do %>
         <%= MediaServerWeb.Components.PosterComponent.render(%{
-          img_src: MediaServer.MoviesIndex.get_poster(item),
+          img_src: Routes.images_path(@socket, :index, movie: item["id"], type: "poster"),
           title: item["title"],
           link: Routes.movies_show_path(@socket, :show, item["id"])
         }) %>
@@ -17,15 +15,17 @@
 
       <%= for item <- @series do %>
         <%= MediaServerWeb.Components.PosterComponent.render(%{
-          img_src: MediaServer.SeriesIndex.get_poster(item),
+          img_src: Routes.images_path(@socket, :index, series: item["id"], type: "poster"),
           title: item["title"],
           link: Routes.series_show_path(@socket, :show, item["id"])
         }) %>
       <% end %>
     <% else %>
-      <div class="flex flex-row col-span-2 lg:col-span-6 justify-center mt-56">
+      <div class="flex flex-row col-span-2 lg:col-span-6 justify-center">
         <%= MediaServerWeb.Components.SpinnerComponent.render(%{}) %>
       </div>
     <% end %>
-  </div>
+  </MediaServerWeb.Components.PageSectionComponent.render>
+
+  <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
 </div>

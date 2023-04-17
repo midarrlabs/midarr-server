@@ -19,7 +19,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     episode = MediaServerWeb.Repositories.Episodes.get_episode(1)
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
+      live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))
 
     render_hook(view, :video_played)
 
@@ -32,7 +32,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     episode = MediaServerWeb.Repositories.Episodes.get_episode(serie["id"])
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
+      live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))
 
     render_hook(view, :video_destroyed, %{
       current_time: 39,
@@ -42,30 +42,9 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     assert MediaServer.Repo.all(MediaServer.Continues) |> List.first()
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "continue"))
+      live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"], timestamp: 39))
 
     assert render(view) =~ "#t=39"
-  end
-
-  test "it should not continue", %{conn: conn} do
-    serie = MediaServer.SeriesIndex.get_all() |> List.first()
-
-    episode = MediaServerWeb.Repositories.Episodes.get_episode(serie["id"])
-
-    {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
-
-    render_hook(view, :video_destroyed, %{
-      current_time: 90,
-      duration: 100
-    })
-
-    refute MediaServer.Repo.all(MediaServer.Continues) |> List.first()
-
-    {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "continue"))
-
-    refute render(view) =~ "#t=90"
   end
 
   test "it should subtitle", %{conn: conn} do
@@ -74,15 +53,15 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     episode = MediaServerWeb.Repositories.Episodes.get_episode(serie["id"])
 
     {:ok, _view, disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
+      live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))
 
-    assert disconnected_html =~ Routes.subtitle_episode_path(conn, :show, episode["id"])
+    assert disconnected_html =~ Routes.subtitle_path(conn, :index, episode: episode["id"])
   end
 
   test "it should not subtitle", %{conn: conn} do
     {:ok, _view, disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, 3, "watch"))
+      live(conn, Routes.watch_index_path(conn, :index, episode: 3))
 
-    refute disconnected_html =~ Routes.subtitle_episode_path(conn, :show, 3)
+    refute disconnected_html =~ Routes.subtitle_path(conn, :index, episode: 3)
   end
 end

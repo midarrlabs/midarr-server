@@ -1,13 +1,17 @@
 name: Test
 
 on:
-  push:
+  pull_request:
     branches:
       - '**'
 
 env:
   MIX_ENV: test
   APP_URL: http://localhost:4000
+  DB_HOSTNAME_TEST: localhost
+  DB_USERNAME: my_user
+  DB_PASSWORD: my_password
+  DB_DATABASE: my_database
   RADARR_BASE_URL: http://localhost:7878
   RADARR_API_KEY: d031e8c9b9df4b2fab311d1c3b3fa2c5
   SONARR_BASE_URL: http://localhost:8989
@@ -24,28 +28,48 @@ jobs:
       matrix:
         otp: [ '24' ]
         elixir: [ '1.14.3' ]
+
+    services:
+      postgres-test:
+        image: postgres
+        env:
+          POSTGRES_USER: my_user
+          POSTGRES_PASSWORD: my_password
+          POSTGRES_DB: my_database
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     steps:
       - uses: actions/checkout@v2
+      - uses: FedericoCarboni/setup-ffmpeg@v2
+
+      # Setup library
+      - run: sudo cp -r ${GITHUB_WORKSPACE}/dev/library /library
 
       # Setup Radarr
-      - run: chmod u+x priv/install-radarr.sh
-      - run: ./priv/install-radarr.sh
+      - run: chmod u+x .github/install-radarr.sh
+      - run: ./.github/install-radarr.sh
       - run: curl --head -X GET --retry 5 --retry-connrefused --retry-delay 5 "http://localhost:7878"
 
       # Seed Radarr
-      - run: curl -d "@${GITHUB_WORKSPACE}/priv/radarr/root-folder.json" -H "Content-Type:application/json" -X POST "http://localhost:7878/api/v3/rootfolder?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
-      - run: curl -d "@${GITHUB_WORKSPACE}/priv/radarr/movies.json" -H "Content-Type:application/json" -X POST "http://localhost:7878/api/v3/movie/import?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
+      - run: curl -d "@${GITHUB_WORKSPACE}/dev/radarr/root-folder.json" -H "Content-Type:application/json" -X POST "http://localhost:7878/api/v3/rootfolder?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
+      - run: curl -d "@${GITHUB_WORKSPACE}/dev/radarr/movies.json" -H "Content-Type:application/json" -X POST "http://localhost:7878/api/v3/movie/import?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
 
       # Setup Sonarr
-      - run: chmod u+x priv/install-sonarr.sh
-      - run: ./priv/install-sonarr.sh
+      - run: chmod u+x .github/install-sonarr.sh
+      - run: ./.github/install-sonarr.sh
       - run: curl --head -X GET --retry 5 --retry-connrefused --retry-delay 5 "http://localhost:8989"
 
       # Seed Sonarr
-      - run: curl -d "@${GITHUB_WORKSPACE}/priv/sonarr/root-folder.json" -H "Content-Type:application/json" -X POST "http://localhost:8989/api/v3/rootfolder?apikey=1accda4476394bfcaddefe8c4fd77d4a"
-      - run: curl -d "@${GITHUB_WORKSPACE}/priv/sonarr/series.json" -H "Content-Type:application/json" -X POST "http://localhost:8989/api/v3/series/import?apikey=1accda4476394bfcaddefe8c4fd77d4a"
+      - run: curl -d "@${GITHUB_WORKSPACE}/dev/sonarr/root-folder.json" -H "Content-Type:application/json" -X POST "http://localhost:8989/api/v3/rootfolder?apikey=1accda4476394bfcaddefe8c4fd77d4a"
+      - run: curl -d "@${GITHUB_WORKSPACE}/dev/sonarr/series.json" -H "Content-Type:application/json" -X POST "http://localhost:8989/api/v3/series/import?apikey=1accda4476394bfcaddefe8c4fd77d4a"
 
-      # Run test coverage
+      # Run tests
       - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{matrix.otp}}
@@ -54,5 +78,5 @@ jobs:
       - run: mix ecto.migrate
       - run: mix run priv/repo/seeds.exs
       - run: mix test
-      - run: chmod u+x priv/code-coverage.sh
-      - run: ./priv/code-coverage.sh
+      - run: chmod u+x code-coverage.sh
+      - run: ./code-coverage.sh

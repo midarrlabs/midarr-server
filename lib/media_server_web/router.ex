@@ -36,25 +36,23 @@ defmodule MediaServerWeb.Router do
 
     live "/series", SeriesLive.Index, :index
     live "/series/:id", SeriesLive.Show, :show
-    live "/series/:id/seasons/:number", SeasonsLive.Show, :show
 
     live_session :watch, root_layout: {MediaServerWeb.WatchView, :watch} do
-      live "/movies/:id/segment", SegmentMovieLive.Show, :show
-      live "/episodes/:id/segment", SegmentEpisodeLive.Show, :show
-
-      live "/movies/:id/:action", WatchMovieLive.Show, :show
-      live "/episodes/:id/:action", WatchEpisodeLive.Show, :show
+      live "/watch", WatchLive.Index, :index
     end
 
-    live "/search", SearchLive.Index, :index
+    live_session :plain, root_layout: {MediaServerWeb.PlainView, :plain} do
+      live "/playlists", PlaylistLive.Index, :index
+      live "/playlists/:id", PlaylistLive.Show, :show
 
-    live "/continues", ContinuesLive.Index, :index
+      live "/continues", ContinuesLive.Index, :index
 
-    live "/playlists", PlaylistLive.Index, :index
-    live "/playlists/new", PlaylistLive.Index, :new
-    live "/playlists/:id", PlaylistLive.Show, :show
+      live "/search", SearchLive.Index, :index
 
-    live "/settings", SettingsLive.Index, :index
+      live "/settings", SettingsLive.Index, :index
+    end
+
+    get "/images", ImagesController, :index
 
     delete "/logout", UserSessionController, :delete
   end
@@ -62,17 +60,11 @@ defmodule MediaServerWeb.Router do
   scope "/api", MediaServerWeb do
     pipe_through :api
 
-    get "/movies/:id/playlist.m3u8", PlaylistMovieController, :show
-    get "/episodes/:id/playlist.m3u8", PlaylistEpisodeController, :show
+    get "/stream", StreamController, :index
+    get "/subtitle", SubtitleController, :index
+    get "/hls-playlist.m3u8", HLSPlaylistController, :index
 
-    get "/movies/:id/stream", StreamMovieController, :show
-    get "/episodes/:id/stream", StreamEpisodeController, :show
-
-    get "/movies/:id/subtitle", SubtitleMovieController, :show
-    get "/episodes/:id/subtitle", SubtitleEpisodeController, :show
-
-    post "/webhooks/movie", Webhooks.MovieController, :create
-    post "/webhooks/series", Webhooks.SeriesController, :create
+    post "/webhooks/:id", WebhooksController, :create
   end
 
   if Mix.env() == :dev do

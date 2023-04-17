@@ -3,30 +3,95 @@ defmodule MediaServerWeb.Components.PaginationComponent do
 
   def render(assigns) do
     ~H"""
-    <nav class="bg-gray-50 mt-12 py-3 flex items-center justify-between border-t border-gray-200 bottom-0 sticky pb-4">
-      <div class="hidden sm:block">
-        <p class="text-sm text-gray-700">
-          Showing <span class="font-medium"><%= assigns.page_number %></span> of
-          <span class="font-medium"><%= assigns.total_pages %></span> pages
-        </p>
-      </div>
-
-      <div class="flex-1 flex justify-between sm:justify-end">
-        <div>
-          <%= if assigns.page_number > 1 do %>
-            <%= live_redirect to: assigns.previous_link, class: "relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" do %>
-              Previous
-            <% end %>
-          <% end %>
+    <header class="b-16 pb-6 mt-6 z-10 relative flex flex-col bottom-0 sticky">
+        <div class="w-full">
+          <div class="mx-auto">
+            <div class="relative px-4 sm:px-8 lg:px-12">
+              <div class="mx-auto">
+                <div class="relative flex gap-4">
+                  <div class="flex flex-1 justify-end md:justify-center"></div>
+                  <div class="flex justify-end md:flex-1">
+                    <div class="pointer-events-auto">
+                      <ul class="space-x-4 flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+                        <li>
+                          <%= if assigns.page_number > 1 do %>
+                            <%= live_redirect id: "pagination-previous", to: assigns.previous_link, class: "flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400" do %>
+                              <svg
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="w-6 h-6"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+                                />
+                              </svg>
+                            <% end %>
+                          <% else %>
+                            <div class="flex items-center text-sm py-2 transition text-gray-500">
+                              <svg
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="w-6 h-6"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+                                />
+                              </svg>
+                            </div>
+                          <% end %>
+                        </li>
+                        <li>
+                          <%= if assigns.page_number !== assigns.total_pages do %>
+                            <%= live_redirect id: "pagination-next", to: assigns.next_link, class: "flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400" do %>
+                              <svg
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="w-6 h-6"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+                                />
+                              </svg>
+                            <% end %>
+                          <% else %>
+                            <div class="flex items-center text-sm py-2 transition text-gray-500">
+                              <svg
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="w-6 h-6"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+                                />
+                              </svg>
+                            </div>
+                          <% end %>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <%= if assigns.page_number !== assigns.total_pages do %>
-          <%= live_redirect to: assigns.next_link, class: "ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" do %>
-            Next
-          <% end %>
-        <% end %>
-      </div>
-    </nav>
+    </header>
     """
   end
 end

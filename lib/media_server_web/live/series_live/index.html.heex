@@ -1,36 +1,141 @@
-<.live_component
-  module={MediaServerWeb.Components.NavComponent}
-  id="nav-component"
-  class="text-slate-600 hover:text-slate-800"
-/>
-
-<div class="max-w-6xl mx-auto py-6 px-4 sm:py-6 sm:px-6">
-  <div class="flex flex-wrap md:flex-nowrap items-center mb-3 py-1.5 whitespace-nowrap">
-    <div class="min-w-0 flex items-center">
-      <h2 class="text-lg font-bold tracking-tight text-slate-600"><%= @page_title %></h2>
+<div>
+  <div class="absolute w-full">
+    <img
+      alt={Enum.at(@series, 0)["title"]}
+      src={
+        Routes.images_path(@socket, :index, series: Enum.at(@series, 0)["id"], type: "background")
+      }
+      class="object-cover w-full"
+    />
+    <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-slate-500 mix-blend-multiply">
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-zinc-900 mix-blend-multiply">
     </div>
   </div>
 
-  <div class="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
+  <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+
+  <div class="sm:px-8 mt-16 sm:mt-32">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="relative px-4 sm:px-8 lg:px-12">
+        <div class="mx-auto max-w-2xl lg:max-w-5xl">
+          <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
+            <div class="lg:order-first lg:row-span-2">
+              <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+                <%= Enum.at(@series, 0)["title"] %>
+              </h1>
+              <div class="mt-6 text-base text-zinc-600 dark:text-zinc-200 line-clamp-2">
+                <%= Enum.at(@series, 0)["overview"] %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <MediaServerWeb.Components.PageSectionComponent.render>
+    <:header>
+      <div class="w-full lg:w-1/2 relative block inline-flex justify-start text-base font-semibold text-zinc-800 dark:text-zinc-100 dark:hover:text-red-400">
+        <div class="-mb-px flex space-x-8 overflow-x-auto">
+          <%= live_patch to: Routes.series_index_path(@socket, :index), class: "#{ if @genre === "A-Z" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            A-Z
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, sort_by: "latest"), class: "#{ if @genre === "latest" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Latest
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "action"), class: "#{ if @genre === "action" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Action
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "adventure"), class: "#{ if @genre === "adventure" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Adventure
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "animation"), class: "#{ if @genre === "animation" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Animation
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "children"), class: "#{ if @genre === "children" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Children
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "comedy"), class: "#{ if @genre === "comedy" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Comedy
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "crime"), class: "#{ if @genre === "crime" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Crime
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "documentary"), class: "#{ if @genre === "documentary" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Documentary
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "drama"), class: "#{ if @genre === "drama" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Drama
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "family"), class: "#{ if @genre === "family" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Family
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "fantasy"), class: "#{ if @genre === "fantasy" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Fantasy
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "history"), class: "#{ if @genre === "history" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            History
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "horror"), class: "#{ if @genre === "horror" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Horror
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "mystery"), class: "#{ if @genre === "mystery" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Mystery
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "romance"), class: "#{ if @genre === "romance" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Romance
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "sport"), class: "#{ if @genre === "sport" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Sport
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "thriller"), class: "#{ if @genre === "thriller" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Thriller
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "war"), class: "#{ if @genre === "war" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            War
+          <% end %>
+
+          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "western"), class: "#{ if @genre === "western" do "border-red-400 dark:text-zinc-300" else "text-gray-500 dark:hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+            Western
+          <% end %>
+        </div>
+      </div>
+    </:header>
+
     <%= for item <- @series do %>
       <%= MediaServerWeb.Components.PosterComponent.render(%{
-        img_src: MediaServer.SeriesIndex.get_poster(item),
         title: item["title"],
+        img_src: Routes.images_path(@socket, :index, series: item["id"], type: "poster"),
         link: Routes.series_show_path(@socket, :show, item["id"])
       }) %>
     <% end %>
-  </div>
+  </MediaServerWeb.Components.PageSectionComponent.render>
 
   <%= MediaServerWeb.Components.PaginationComponent.render(%{
     page_number: @series.page_number,
     total_pages: @series.total_pages,
-    previous_link:
-      Routes.series_index_path(@socket, :index,
-        page: MediaServerWeb.Helpers.get_pagination_previous_link(@series.page_number)
-      ),
-    next_link:
-      Routes.series_index_path(@socket, :index,
-        page: MediaServerWeb.Helpers.get_pagination_next_link(@series.page_number)
-      )
+    previous_link: @previous_link,
+    next_link: @next_link
   }) %>
+
+  <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
 </div>

@@ -19,7 +19,7 @@ defmodule MediaServerWeb.ContinuesLiveTest do
     movie = MediaServer.MoviesIndex.get_movie("1")
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
+      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
 
     render_hook(view, :video_destroyed, %{
       current_time: 89,
@@ -31,11 +31,69 @@ defmodule MediaServerWeb.ContinuesLiveTest do
     assert index_live |> element("#continue-movie-#{movie["id"]}") |> render_click()
   end
 
+  test "it should update", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 39,
+      duration: 100
+    })
+
+    {:ok, _view, disconnected_html} = live(conn, Routes.continues_index_path(conn, :index))
+
+    assert disconnected_html =~ "/watch?movie=#{ movie["id"] }&amp;timestamp=39"
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 49,
+      duration: 100
+    })
+
+    {:ok, _view, disconnected_html} = live(conn, Routes.continues_index_path(conn, :index))
+
+    refute disconnected_html =~ "/watch?movie=#{ movie["id"] }&amp;timestamp=39"
+    assert disconnected_html =~ "/watch?movie=#{ movie["id"] }&amp;timestamp=49"
+  end
+
+  test "it should delete not update", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 39,
+      duration: 100
+    })
+
+    {:ok, _view, disconnected_html} = live(conn, Routes.continues_index_path(conn, :index))
+
+    assert disconnected_html =~ "/watch?movie=#{ movie["id"] }&amp;timestamp=39"
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 90,
+      duration: 100
+    })
+
+    {:ok, _view, disconnected_html} = live(conn, Routes.continues_index_path(conn, :index))
+
+    refute disconnected_html =~ "/watch?movie=#{ movie["id"] }&amp;timestamp=39"
+    refute disconnected_html =~ "/watch?movie=#{ movie["id"] }&amp;timestamp=90"
+  end
+
   test "it has continues", %{conn: conn} do
     movie = MediaServer.MoviesIndex.get_movie("1")
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_movie_show_path(conn, :show, movie["id"], "watch"))
+      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
 
     render_hook(view, :video_destroyed, %{
       current_time: 89,
@@ -45,7 +103,7 @@ defmodule MediaServerWeb.ContinuesLiveTest do
     another_movie = MediaServer.MoviesIndex.get_movie("2")
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_movie_show_path(conn, :show, another_movie["id"], "watch"))
+      live(conn, Routes.watch_index_path(conn, :index, movie: another_movie["id"]))
 
     render_hook(view, :video_destroyed, %{
       current_time: 89,
@@ -55,7 +113,7 @@ defmodule MediaServerWeb.ContinuesLiveTest do
     episode = MediaServerWeb.Repositories.Episodes.get_episode(1)
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, episode["id"], "watch"))
+      live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))
 
     render_hook(view, :video_destroyed, %{
       current_time: 39,
@@ -65,7 +123,7 @@ defmodule MediaServerWeb.ContinuesLiveTest do
     another_episode = MediaServerWeb.Repositories.Episodes.get_episode(2)
 
     {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_episode_show_path(conn, :show, another_episode["id"], "watch"))
+      live(conn, Routes.watch_index_path(conn, :index, episode: another_episode["id"]))
 
     render_hook(view, :video_destroyed, %{
       current_time: 39,
@@ -74,15 +132,12 @@ defmodule MediaServerWeb.ContinuesLiveTest do
 
     {:ok, _view, disconnected_html} = live(conn, Routes.continues_index_path(conn, :index))
 
-    assert disconnected_html =~ Routes.watch_movie_show_path(conn, :show, movie["id"], "continue")
+    assert disconnected_html =~ "/watch?movie=#{ movie["id"] }&amp;timestamp=89"
 
-    assert disconnected_html =~
-             Routes.watch_movie_show_path(conn, :show, another_movie["id"], "continue")
+    assert disconnected_html =~ "/watch?movie=#{ another_movie["id"] }&amp;timestamp=89"
 
-    assert disconnected_html =~
-             Routes.watch_episode_show_path(conn, :show, episode["id"], "continue")
+    assert disconnected_html =~ "/watch?episode=#{ episode["id"] }&amp;timestamp=39"
 
-    assert disconnected_html =~
-             Routes.watch_episode_show_path(conn, :show, another_episode["id"], "continue")
+    assert disconnected_html =~ "/watch?episode=#{ another_episode["id"] }&amp;timestamp=39"
   end
 end
