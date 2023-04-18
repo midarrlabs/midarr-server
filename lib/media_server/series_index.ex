@@ -47,8 +47,8 @@ defmodule MediaServer.SeriesIndex do
   end
 
     def search(query) do
-        Enum.filter(get_all(), fn m ->
-          String.contains?(m["title"], query)
+        Enum.filter(get_all(), fn item ->
+          String.contains?(String.downcase(item["title"]), String.downcase(query))
         end)
     end
 

@@ -22,6 +22,19 @@ defmodule MediaServerWeb.SearchLiveTest do
     assert assert render(view) =~ Routes.movies_show_path(conn, :show, 1)
   end
 
+    test "it should normalise movie query", %{conn: conn} do
+      {:ok, view, _disconnected_html} =
+        live(conn, Routes.search_index_path(conn, :index, query: "camiNandes"))
+
+      assert assert render(view) =~ "Caminandes:  Llamigos"
+      assert assert render(view) =~ "Caminandes: Gran Dillama"
+      assert assert render(view) =~ "Caminandes: Llama Drama"
+
+      assert assert render(view) =~ Routes.movies_show_path(conn, :show, 3)
+      assert assert render(view) =~ Routes.movies_show_path(conn, :show, 2)
+      assert assert render(view) =~ Routes.movies_show_path(conn, :show, 1)
+    end
+
   test "it should search series", %{conn: conn} do
     {:ok, view, _disconnected_html} =
       live(conn, Routes.search_index_path(conn, :index, query: "Pioneer"))
@@ -29,4 +42,12 @@ defmodule MediaServerWeb.SearchLiveTest do
     assert render(view) =~ "Pioneer One"
     assert render(view) =~ Routes.series_show_path(conn, :show, 1)
   end
+
+    test "it should normalise series query", %{conn: conn} do
+      {:ok, view, _disconnected_html} =
+        live(conn, Routes.search_index_path(conn, :index, query: "pioNeer"))
+
+      assert render(view) =~ "Pioneer One"
+      assert render(view) =~ Routes.series_show_path(conn, :show, 1)
+    end
 end
