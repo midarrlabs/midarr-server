@@ -66,6 +66,12 @@ defmodule MediaServer.MoviesIndex do
     movie["title"]
   end
 
+  def search(query) do
+    Enum.filter(get_all(), fn m ->
+      String.contains?(m["title"], query)
+    end)
+  end
+
   def get_poster(movie) do
     MediaServer.Helpers.get_poster(movie)
   end
