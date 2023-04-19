@@ -21,6 +21,37 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     assert media.action_id === MediaServer.Actions.get_played_id()
   end
 
+  test "it should have watched", %{conn: conn} do
+    episode = MediaServerWeb.Repositories.Episodes.get_episode(1)
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 96,
+      duration: 100
+    })
+
+    media = MediaServer.MediaActions.where(media_id: episode["id"], action_id: MediaServer.Actions.get_watched_id())
+
+    assert media.media_id === episode["id"]
+    assert media.action_id === MediaServer.Actions.get_watched_id()
+  end
+
+  test "it should NOT have watched", %{conn: conn} do
+    episode = MediaServerWeb.Repositories.Episodes.get_episode(1)
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 94,
+      duration: 100
+    })
+
+    assert MediaServer.MediaActions.where(media_id: episode["id"], action_id: MediaServer.Actions.get_watched_id()) === nil
+  end
+
   test "it should continue", %{conn: conn} do
     serie = MediaServer.SeriesIndex.get_all() |> List.first()
 
@@ -30,8 +61,8 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
       live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))
 
     render_hook(view, :video_destroyed, %{
-      current_time: 39,
-      duration: 78
+      current_time: 89,
+      duration: 100
     })
 
     assert MediaServer.Repo.all(MediaServer.Continues) |> List.first()

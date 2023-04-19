@@ -24,6 +24,9 @@ MediaServer.Actions.create(%{
   action: "played"
 })
 
+MediaServer.Actions.create(%{
+  action: "watched"
+})
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
