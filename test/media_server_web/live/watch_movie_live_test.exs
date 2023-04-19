@@ -15,7 +15,10 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
     render_hook(view, :video_played)
 
-    assert Enum.count(MediaServer.MediaActions.all()) === 1
+    media = MediaServer.MediaActions.where(media_id: movie["id"])
+
+    assert media.media_id === movie["id"]
+    assert media.action_id === MediaServer.Actions.get_played_id()
   end
 
   test "it should have watched", %{conn: conn} do
@@ -60,7 +63,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       duration: 100
     })
 
-    assert MediaServer.Repo.all(MediaServer.Continues) |> List.first()
+    refute MediaServer.Continues.where(media_id: movie["id"]) === nil
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"], timestamp: 89))

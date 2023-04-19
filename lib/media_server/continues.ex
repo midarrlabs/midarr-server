@@ -43,6 +43,10 @@ defmodule MediaServer.Continues do
     |> Repo.update()
   end
 
+  def where(attrs) do
+    Repo.get_by(__MODULE__, attrs)
+  end
+
   def update_or_create(attrs) do
     continue =
       Repo.get_by(__MODULE__,
