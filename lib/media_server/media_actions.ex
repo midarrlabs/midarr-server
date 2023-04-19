@@ -40,12 +40,12 @@ defmodule MediaServer.MediaActions do
         media_id: attrs.media_id,
         user_id: attrs.user_id,
         media_type_id: attrs.media_type_id,
-        action_id: MediaServer.Actions.get_watched_id
+        action_id: attrs.action_id
       )
 
     case watched do
       nil ->
-        if attrs.current_time / attrs.duration * 100 > 95 do
+        if attrs.current_time / attrs.duration * 100 > 91 do
           create(attrs)
         else
           nil

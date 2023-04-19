@@ -28,7 +28,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
       live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))
 
     render_hook(view, :video_destroyed, %{
-      current_time: 96,
+      current_time: 92,
       duration: 100
     })
 
@@ -45,7 +45,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
       live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))
 
     render_hook(view, :video_destroyed, %{
-      current_time: 94,
+      current_time: 91,
       duration: 100
     })
 

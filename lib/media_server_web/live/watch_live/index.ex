@@ -129,6 +129,7 @@ defmodule MediaServerWeb.WatchLive.Index do
       current_time: current_time,
       duration: duration,
       user_id: socket.assigns.current_user.id,
+      action_id: MediaServer.Actions.get_watched_id,
       media_type_id: socket.assigns.media_type
     })
 
