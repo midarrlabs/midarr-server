@@ -30,7 +30,7 @@ defmodule MediaServer.MediaActions do
     Repo.all(__MODULE__)
   end
 
-  def get(id) do
-    Repo.get!(__MODULE__, id)
+  def where(query) do
+    Repo.get_by!(__MODULE__, query)
   end
 end

@@ -24,4 +24,8 @@ defmodule MediaServer.Actions do
     |> __MODULE__.changeset(attrs)
     |> Repo.insert()
   end
+
+  def get_played_id() do
+    Repo.get_by!(__MODULE__, action: "played").id
+  end
 end
