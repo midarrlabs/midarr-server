@@ -12,6 +12,7 @@ defmodule MediaServer.MediaTypes do
     media_types
     |> cast(attrs, [:type])
     |> validate_required([:type])
+    |> unique_constraint(:type)
   end
 
   def create(attrs \\ %{}) do
