@@ -1,19 +1,16 @@
 defmodule MediaServerWeb.SearchLive.Index do
   use MediaServerWeb, :live_view
 
-  alias MediaServerWeb.Repositories.Movies
-  alias MediaServerWeb.Repositories.Series
-
   @impl true
   def handle_params(%{"query" => query}, _url, socket) do
     pid = self()
 
     Task.start(fn ->
-      send(pid, {:movies, Movies.search(query)})
+      send(pid, {:movies, MediaServer.MoviesIndex.search(query)})
     end)
 
     Task.start(fn ->
-      send(pid, {:series, Series.search(query)})
+      send(pid, {:series, MediaServer.SeriesIndex.search(query)})
     end)
 
     {

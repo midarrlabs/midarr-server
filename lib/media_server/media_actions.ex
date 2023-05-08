@@ -30,7 +30,26 @@ defmodule MediaServer.MediaActions do
     Repo.all(__MODULE__)
   end
 
-  def get(id) do
-    Repo.get!(__MODULE__, id)
+  def where(attrs) do
+    Repo.get_by(__MODULE__, attrs)
+  end
+
+  def as_watched(attrs) do
+    watched =
+      Repo.get_by(__MODULE__,
+        media_id: attrs.media_id,
+        user_id: attrs.user_id,
+        media_type_id: attrs.media_type_id,
+        action_id: attrs.action_id
+      )
+
+    case watched do
+      nil ->
+        if attrs.current_time / attrs.duration * 100 > 91 do
+          create(attrs)
+        else
+          nil
+        end
+    end
   end
 end

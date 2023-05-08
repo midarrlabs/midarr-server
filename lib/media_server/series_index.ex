@@ -46,6 +46,12 @@ defmodule MediaServer.SeriesIndex do
     |> Enum.reject(fn x -> x["id"] === series["id"] end)
   end
 
+    def search(query) do
+        Enum.filter(get_all(), fn item ->
+          String.contains?(String.downcase(item["title"]), String.downcase(query))
+        end)
+    end
+
   def get_poster(series) do
     MediaServer.Helpers.get_poster(series)
   end

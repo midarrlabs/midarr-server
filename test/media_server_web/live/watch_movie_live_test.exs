@@ -3,10 +3,8 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
   import Phoenix.LiveViewTest
 
-  alias MediaServer.AccountsFixtures
-
   setup %{conn: conn} do
-    %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
+    %{conn: conn |> log_in_user(MediaServer.AccountsFixtures.user_fixture())}
   end
 
   test "it should watch", %{conn: conn} do
@@ -17,7 +15,41 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
     render_hook(view, :video_played)
 
-    assert Enum.count(MediaServer.MediaActions.all()) === 1
+    media = MediaServer.MediaActions.where(media_id: movie["id"])
+
+    assert media.media_id === movie["id"]
+    assert media.action_id === MediaServer.Actions.get_played_id()
+  end
+
+  test "it should have watched", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 92,
+      duration: 100
+    })
+
+    media = MediaServer.MediaActions.where(media_id: movie["id"], action_id: MediaServer.Actions.get_watched_id())
+
+    assert media.media_id === movie["id"]
+    assert media.action_id === MediaServer.Actions.get_watched_id()
+  end
+
+  test "it should NOT have watched", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.get_movie("1")
+
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 91,
+      duration: 100
+    })
+
+    assert MediaServer.MediaActions.where(media_id: movie["id"], action_id: MediaServer.Actions.get_watched_id()) === nil
   end
 
   test "it should continue", %{conn: conn} do
@@ -31,7 +63,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       duration: 100
     })
 
-    assert MediaServer.Repo.all(MediaServer.Continues) |> List.first()
+    refute MediaServer.Continues.where(media_id: movie["id"]) === nil
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"], timestamp: 89))

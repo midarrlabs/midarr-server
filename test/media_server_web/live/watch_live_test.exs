@@ -13,19 +13,19 @@ defmodule MediaServerWeb.WatchLiveTest do
     movie = MediaServer.MoviesIndex.get_movie("1")
 
     {:ok, _view, disconnected_html} =
-      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"], type: "segment"))
+      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
 
-    assert disconnected_html =~ "media-player"
-    assert disconnected_html =~ "media-outlet"
+    refute disconnected_html =~ "media-player"
+    refute disconnected_html =~ "media-outlet"
   end
 
   test "it should segment episode", %{conn: conn} do
     episode = MediaServerWeb.Repositories.Episodes.get_episode(1)
 
     {:ok, _view, disconnected_html} =
-      live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"], type: "segment"))
+      live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))
 
-    assert disconnected_html =~ "media-player"
-    assert disconnected_html =~ "media-outlet"
+    refute disconnected_html =~ "media-player"
+    refute disconnected_html =~ "media-outlet"
   end
 end

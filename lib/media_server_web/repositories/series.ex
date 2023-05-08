@@ -18,14 +18,6 @@ defmodule MediaServerWeb.Repositories.Series do
     |> Enum.sort_by(& &1["title"], :asc)
   end
 
-  def search(query) do
-    HTTPoison.get("#{get_url("series/lookup")}&term=#{URI.encode(query)}")
-    |> handle_response()
-    |> Enum.filter(fn item -> item["seasonFolder"] end)
-    |> Enum.filter(fn item -> item["statistics"]["episodeFileCount"] !== 0 end)
-    |> Enum.sort_by(& &1["title"], :asc)
-  end
-
   def set_notification() do
     HTTPoison.post(
       get_url("notification"),

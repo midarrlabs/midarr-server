@@ -124,16 +124,24 @@ defmodule MediaServerWeb.WatchLive.Index do
       media_type_id: socket.assigns.media_type
     })
 
+    MediaServer.MediaActions.as_watched(%{
+      media_id: socket.assigns.media_id,
+      current_time: current_time,
+      duration: duration,
+      user_id: socket.assigns.current_user.id,
+      action_id: MediaServer.Actions.get_watched_id,
+      media_type_id: socket.assigns.media_type
+    })
+
     {:noreply, socket}
   end
 
   def handle_event("video_played", _params, socket) do
-    action = MediaServer.Actions.all() |> List.first()
 
     MediaServer.MediaActions.create(%{
       media_id: socket.assigns.media_id,
       user_id: socket.assigns.current_user.id,
-      action_id: action.id,
+      action_id: MediaServer.Actions.get_played_id,
       media_type_id: socket.assigns.media_type
     })
 

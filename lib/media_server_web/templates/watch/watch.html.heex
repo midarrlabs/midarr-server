@@ -47,26 +47,54 @@
 
     <script>
       window['__onGCastApiAvailable'] = function(isAvailable) {
+
           if (isAvailable) {
-              cast.framework.CastContext.getInstance().setOptions({
-                receiverApplicationId: 'B7C82081',
-                autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+
+            const context = cast.framework.CastContext.getInstance();
+
+            context.setOptions({
+              receiverApplicationId: 'B7C82081',
+              autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+            });
+
+            // Check if there is an existing session before starting a new one
+            const session = context.getCurrentSession();
+
+            if (session) {
+              console.log('Using existing session:', session);
+              loadMedia(session);
+
+            } else {
+
+              context.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, function(event) {
+                if (event.sessionState === cast.framework.SessionState.SESSION_STARTED) {
+                  console.log('New session started:', event.session);
+                  loadMedia(event.session);
+
+                } else if (event.sessionState === cast.framework.SessionState.SESSION_ENDED ||
+                           event.sessionState === cast.framework.SessionState.SESSION_ERROR) {
+                  console.log('Session ended:', event.session);
+                }
               });
 
-              cast.framework.CastContext.getInstance().addEventListener(cast.framework.CastContextEventType.CAST_STATE_CHANGED, function({ castState }) {
-                  if (castState === 'CONNECTED') {
-                      const mediaInfo = new chrome.cast.media.MediaInfo('<%= System.get_env("APP_URL", "") <> assigns[:media_stream] %>', '<%= assigns[:mime_type] %>');
-                      const request = new chrome.cast.media.LoadRequest(mediaInfo);
-
-                      cast.framework.CastContext.getInstance().getCurrentSession().loadMedia(request).then(
-                        function() {
-                          console.log('Cast media loaded');
-                        },
-                        function(errorCode) {
-                          console.log(errorCode);
-                      });
-                  }
+              context.requestSession().then(function(session) {
+                console.log('New session requested:', session);
+                loadMedia(session);
+              }).catch(function(error) {
+                console.log('Error requesting session:', error);
               });
+            }
+
+            function loadMedia(session) {
+              const mediaInfo = new chrome.cast.media.MediaInfo('<%= System.get_env("APP_URL", "") <> assigns[:media_stream] %>', '<%= assigns[:mime_type] %>');
+              const request = new chrome.cast.media.LoadRequest(mediaInfo);
+
+              session.loadMedia(request).then(function() {
+                console.log('Media loaded');
+              }).catch(function(error) {
+                console.log('Error loading media:', error);
+              });
+            }
           }
       }
     </script>
