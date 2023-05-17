@@ -49,6 +49,7 @@ defmodule MediaServerWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+  plug Pow.Plug.Session, otp_app: :media_server
   plug CORSPlug, origin: "*"
   plug MediaServerWeb.Router
 end

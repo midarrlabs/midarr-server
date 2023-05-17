@@ -64,6 +64,10 @@ config :media_server, MediaServer.Repo,
   database: System.get_env("DB_DATABASE"),
   hostname: System.get_env("DB_HOSTNAME")
 
+config :media_server, :pow,
+  user: MediaServer.Users.User,
+  repo: MediaServer.Repo
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
