@@ -7,8 +7,8 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/midarrlabs/midarr-server/actions/workflows/test.yml">
-        <img src="https://github.com/midarrlabs/midarr-server/actions/workflows/test.yml/badge.svg" alt="Build Status">
+    <a href="https://github.com/midarrlabs/midarr-server/actions/workflows/build.yml">
+        <img src="https://github.com/midarrlabs/midarr-server/actions/workflows/build.yml/badge.svg" alt="Build Status">
     </a>
     <a href="https://codecov.io/gh/midarrlabs/midarr-server">
         <img src="https://codecov.io/gh/midarrlabs/midarr-server/branch/master/graph/badge.svg?token=8PJVJG09RK&style=flat-square" alt="Code Coverage">
