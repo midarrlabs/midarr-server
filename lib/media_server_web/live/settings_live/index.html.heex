@@ -9,10 +9,10 @@
             <div class="mx-auto max-w-2xl lg:max-w-5xl">
               <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
                 <div class="lg:order-first lg:row-span-2">
-                  <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+                  <h1 class="text-4xl font-bold tracking-tight text-zinc-100 sm:text-5xl">
                     Settings
                   </h1>
-                  <div class="mt-6 text-base text-zinc-600 dark:text-zinc-200 line-clamp-2">
+                  <div class="mt-6 text-base text-zinc-200 line-clamp-2">
                     Manage your settings here.
                   </div>
                 </div>
@@ -31,20 +31,20 @@
               <.form :let={f} for={@user_name} id="user-account-form" phx-submit="save">
                 <div class="space-y-6">
                   <div>
-                    <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    <h2 class="text-sm font-semibold text-zinc-100">
                       Account
                     </h2>
-                    <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                    <p class="mt-1 text-sm text-zinc-400">
                       Update the details of your account.
                     </p>
                   </div>
 
                   <div>
-                    <%= label(f, :name, class: "block text-sm font-medium text-zinc-900 dark:text-zinc-100") %>
+                    <%= label(f, :name, class: "block text-sm font-medium text-zinc-100") %>
                     <%= text_input(f, :name,
                       placeholder: "Enter name",
                       class:
-                        "mt-2 w-full flex-auto appearance-none rounded-md border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 dark:border-zinc-700 dark:bg-zinc-700/[0.15] dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-red-400 dark:focus:ring-red-400/10 sm:text-sm"
+                        "mt-2 w-full flex-auto appearance-none rounded-md border px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 border-zinc-700 bg-zinc-700/[0.15] text-zinc-200 placeholder:text-zinc-500 focus:border-red-400 focus:ring-red-400/10 sm:text-sm"
                     ) %>
                     <%= error_tag(f, :name) %>
                   </div>
@@ -52,7 +52,7 @@
                   <div class="flex justify-end">
                     <button
                       type="submit"
-                      class="inline-flex items-center gap-2 justify-center rounded-md py-2 px-3 text-sm outline-offset-2 transition active:transition-none bg-zinc-800 font-semibold text-zinc-100 hover:bg-zinc-700 active:bg-zinc-800 active:text-zinc-100/70 dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:active:bg-zinc-700 dark:active:text-zinc-100/70 ml-4 flex-none"
+                      class="inline-flex items-center gap-2 justify-center rounded-md py-2 px-3 text-sm outline-offset-2 transition active:transition-none bg-zinc-800 font-semibold text-zinc-100 hover:bg-zinc-700 active:bg-zinc-800 active:text-zinc-100/70 bg-zinc-700 hover:bg-zinc-600 active:bg-zinc-700 active:text-zinc-100/70 ml-4 flex-none"
                     >
                       Save
                     </button>
@@ -66,30 +66,30 @@
                 <.form :let={f} for={@user} id="user-form" phx-submit="invite">
                   <div class="space-y-6">
                     <div>
-                      <h2 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                      <h2 class="text-sm font-semibold text-zinc-100">
                         Invite Users
                       </h2>
-                      <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                      <p class="mt-1 text-sm text-zinc-400">
                         Fill in the information below to invite users.
                       </p>
                     </div>
 
                     <div>
-                      <%= label(f, :name, class: "block text-sm font-medium text-zinc-900 dark:text-zinc-100") %>
+                      <%= label(f, :name, class: "block text-sm font-medium text-zinc-100") %>
                       <%= text_input(f, :name,
                         placeholder: "Enter name",
                         class:
-                        "mt-2 w-full flex-auto appearance-none rounded-md border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 dark:border-zinc-700 dark:bg-zinc-700/[0.15] dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-red-400 dark:focus:ring-red-400/10 sm:text-sm"
+                        "mt-2 w-full flex-auto appearance-none rounded-md border px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 border-zinc-700 bg-zinc-700/[0.15] text-zinc-200 placeholder:text-zinc-500 focus:border-red-400 focus:ring-red-400/10 sm:text-sm"
                       ) %>
                       <%= error_tag(f, :name) %>
                     </div>
 
                     <div>
-                      <%= label(f, :email, class: "block text-sm font-medium text-zinc-900 dark:text-zinc-100") %>
+                      <%= label(f, :email, class: "block text-sm font-medium text-zinc-100") %>
                       <%= text_input(f, :email,
                         placeholder: "Enter email",
                         class:
-                        "mt-2 w-full flex-auto appearance-none rounded-md border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 dark:border-zinc-700 dark:bg-zinc-700/[0.15] dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-red-400 dark:focus:ring-red-400/10 sm:text-sm"
+                        "mt-2 w-full flex-auto appearance-none rounded-md border px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 border-zinc-700 bg-zinc-700/[0.15] text-zinc-200 placeholder:text-zinc-500 focus:border-red-400 focus:ring-red-400/10 sm:text-sm"
                       ) %>
                       <%= error_tag(f, :email) %>
                     </div>
@@ -106,7 +106,7 @@
                     <div class="flex justify-end">
                       <button
                         type="submit"
-                      class="inline-flex items-center gap-2 justify-center rounded-md py-2 px-3 text-sm outline-offset-2 transition active:transition-none bg-zinc-800 font-semibold text-zinc-100 hover:bg-zinc-700 active:bg-zinc-800 active:text-zinc-100/70 dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:active:bg-zinc-700 dark:active:text-zinc-100/70 ml-4 flex-none"
+                      class="inline-flex items-center gap-2 justify-center rounded-md py-2 px-3 text-sm outline-offset-2 transition active:transition-none font-semibold text-zinc-100 hover:bg-zinc-700 active:bg-zinc-800 active:text-zinc-100/70 bg-zinc-700 hover:bg-zinc-600 active:bg-zinc-700 active:text-zinc-100/70 ml-4 flex-none"
                       >
                         Invite
                       </button>
@@ -130,8 +130,8 @@
                             </span>
 
                             <div class="ml-3 flex flex-col">
-                              <span class="text-sm font-medium text-zinc-900 dark:text-zinc-100"><%= item.name %></span>
-                              <span class="text-sm text-zinc-600 dark:text-zinc-400"><%= item.email %></span>
+                              <span class="text-sm font-medium text-zinc-100"><%= item.name %></span>
+                              <span class="text-sm text-zinc-400"><%= item.email %></span>
                             </div>
                           </li>
                         <% end %>

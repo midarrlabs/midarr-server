@@ -6,7 +6,7 @@
           <div class="mx-auto max-w-2xl lg:max-w-5xl">
             <div class="relative flex gap-4">
               <div class="flex flex-1">
-                <div class="h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10">
+                <div class="h-10 w-10 rounded-full p-0.5 shadow-lg shadow-zinc-800/5 ring-1 backdrop-blur bg-zinc-800/90 ring-white/10">
                   <%= live_redirect to: Routes.home_index_path(@socket, :index), class: "block origin-left pointer-events-auto", style: "transform: var(--avatar-image-transform);" do %>
                     <svg viewBox="0 0 20 20" fill="#ef4444" class="w-9 h-9">
                       <path
@@ -21,7 +21,7 @@
               <div class="flex flex-1 justify-end md:justify-center">
                 <div class="pointer-events-auto md:hidden">
                   <button
-                    class="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20"
+                    class="group flex items-center rounded-full px-4 py-2 text-sm font-medium shadow-lg shadow-zinc-800/5 ring-1 backdrop-blur bg-zinc-800/90 text-zinc-200 ring-white/10 hover:ring-white/20"
                     type="button"
                     phx-click={
                       JS.toggle(to: "#mobile-menu")
@@ -29,7 +29,7 @@
                   >
                     Menu<svg
                       viewBox="0 0 8 6"
-                      class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400"
+                      class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-400"
                     ><path
                         d="M1.75 1.75 4 4.25l2.25-2.5"
                         fill="none"
@@ -40,33 +40,33 @@
                   </button>
                 </div>
                 <nav class="pointer-events-auto hidden md:block">
-                  <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+                  <ul class="flex rounded-full px-3 text-sm font-medium shadow-lg shadow-zinc-800/5 ring-1 backdrop-blur bg-zinc-800/90 text-zinc-200 ring-white/10">
                     <li>
                       <%= live_redirect("Movies",
                         to: Routes.movies_index_path(@socket, :index),
                         class:
-                          "relative block px-3 py-2 transition hover:text-red-500 dark:hover:text-red-400"
+                          "relative block px-3 py-2 transition hover:text-red-400"
                       ) %>
                     </li>
                     <li>
                       <%= live_redirect("Series",
                         to: Routes.series_index_path(@socket, :index),
                         class:
-                          "relative block px-3 py-2 transition hover:text-red-500 dark:hover:text-red-400"
+                          "relative block px-3 py-2 transition hover:text-red-400"
                       ) %>
                     </li>
                     <li>
                       <%= live_redirect("Playlists",
                         to: Routes.playlist_index_path(@socket, :index),
                         class:
-                          "relative block px-3 py-2 transition hover:text-red-500 dark:hover:text-red-400"
+                          "relative block px-3 py-2 transition hover:text-red-400"
                       ) %>
                     </li>
                     <li>
                       <%= live_redirect("Continues",
                         to: Routes.continues_index_path(@socket, :index),
                         class:
-                          "relative block px-3 py-2 transition hover:text-red-500 dark:hover:text-red-400"
+                          "relative block px-3 py-2 transition hover:text-red-400"
                       ) %>
                     </li>
                   </ul>
@@ -74,14 +74,14 @@
               </div>
               <div class="flex justify-end md:flex-1">
                 <div class="pointer-events-auto">
-                  <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+                  <ul class="flex rounded-full px-3 text-sm font-medium shadow-lg shadow-zinc-800/5 ring-1 backdrop-blur bg-zinc-800/90 text-zinc-200 ring-white/10">
                     <li>
                       <button
                         type="button"
                         phx-click={
                           JS.toggle(to: "#search-command") |> JS.focus(to: "#search_query")
                         }
-                        class="relative block px-3 py-2 transition hover:text-red-500 dark:hover:text-red-400"
+                        class="relative block px-3 py-2 transition hover:text-red-400"
                       >
                         <svg
                           class="h-5 w-5"
@@ -103,7 +103,7 @@
                         phx-click={JS.toggle(to: "#profile-dropdown")}
                         phx-click-away={JS.hide(to: "#profile-dropdown")}
                         type="button"
-                        class="relative block px-3 py-2 transition hover:text-red-500 dark:hover:text-red-400"
+                        class="relative block px-3 py-2 transition hover:text-red-400"
                       >
                         <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                           <path
@@ -115,17 +115,17 @@
                       </button>
                       <div
                         id="profile-dropdown"
-                        class="hidden origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-zinc-800 dark:ring-zinc-800"
+                        class="hidden origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg ring-1 ring-opacity-5 focus:outline-none bg-zinc-800 ring-zinc-800"
                       >
-                        <div class="divide-y divide-zinc-100 text-sm font-medium text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
+                        <div class="divide-y text-sm font-medium divide-zinc-100/5 text-zinc-300">
                           <%= link("Settings",
                             to: Routes.settings_index_path(@socket, :index),
-                            class: "block px-4 py-2 dark:hover:text-red-400"
+                            class: "block px-4 py-2 hover:text-red-400"
                           ) %>
                           <%= link("Log out",
                             to: Routes.user_session_path(@socket, :delete),
                             method: :delete,
-                            class: "block px-4 py-2 dark:hover:text-red-400"
+                            class: "block px-4 py-2 hover:text-red-400"
                           ) %>
                         </div>
                       </div>
@@ -141,7 +141,7 @@
   </div>
 
   <div class="hidden relative z-10" id="search-command">
-    <div class="fixed inset-0 bg-zinc-800/40 backdrop-blur-sm dark:bg-black/80 opacity-100"></div>
+    <div class="fixed inset-0 backdrop-blur-sm bg-black/80 opacity-100"></div>
 
     <div class="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
       <div class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
@@ -171,11 +171,11 @@
 
   <div class="hidden relative z-10" id="mobile-menu">
     <div
-      class="fixed inset-0 bg-zinc-800/40 backdrop-blur-sm dark:bg-black/80 opacity-100"
+      class="fixed inset-0 backdrop-blur-sm bg-black/80 opacity-100"
     >
     </div>
     <div
-      class="fixed inset-x-4 top-8 origin-top rounded-3xl bg-white p-8 ring-1 ring-zinc-900/5 dark:bg-zinc-900 dark:ring-zinc-800 opacity-100 scale-100"
+      class="fixed inset-x-4 top-8 origin-top rounded-3xl p-8 ring-1 bg-zinc-900 ring-zinc-800 opacity-100 scale-100"
       phx-click-away={JS.hide(to: "#mobile-menu")}
     >
       <div class="flex flex-row-reverse items-center justify-between">
@@ -188,7 +188,7 @@
           <svg
             viewBox="0 0 24 24"
             aria-hidden="true"
-            class="h-6 w-6 text-zinc-500 dark:text-zinc-400"
+            class="h-6 w-6 text-zinc-400"
           >
             <path
               d="m17.25 6.75-10.5 10.5M6.75 6.75l10.5 10.5"
@@ -201,10 +201,10 @@
             </path>
           </svg>
         </button>
-        <h2 class="text-sm font-medium text-zinc-600 dark:text-zinc-400">Navigation</h2>
+        <h2 class="text-sm font-medium text-zinc-400">Navigation</h2>
       </div>
       <nav class="mt-6">
-        <ul class="-my-2 divide-y divide-zinc-100 text-base text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300">
+        <ul class="-my-2 divide-y text-base divide-zinc-100/5 text-zinc-300">
             <li>
               <%= live_redirect("Movies",
                 to: Routes.movies_index_path(@socket, :index),

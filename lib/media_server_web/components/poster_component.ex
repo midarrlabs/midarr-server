@@ -13,7 +13,7 @@ defmodule MediaServerWeb.Components.PosterComponent do
             loading="lazy"
           />
         <% else %>
-          <div class="dark:bg-zinc-800/90 h-full w-full"></div>
+          <div class="bg-zinc-800/90 h-full w-full"></div>
           <div class="hidden"><%= assigns.title %></div>
         <% end %>
       <% end %>

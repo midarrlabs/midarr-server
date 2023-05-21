@@ -9,18 +9,18 @@
             <div class="mx-auto max-w-2xl lg:max-w-5xl">
               <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
                 <div class="lg:order-first lg:row-span-2">
-                  <h1 class="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
+                  <h1 class="text-4xl font-bold tracking-tight text-zinc-100 sm:text-5xl">
                     Playlists
                   </h1>
-                  <div class="mt-6 text-base text-zinc-600 dark:text-zinc-200 line-clamp-2">
+                  <div class="mt-6 text-base text-zinc-200 line-clamp-2">
                     Add and manage your playlists here.
                   </div>
                   <div class="mt-6 flex gap-6">
-                    <div class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+                    <div class="flex rounded-full px-3 text-sm font-medium shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur bg-zinc-800/90 text-zinc-200 ring-white/10">
                       <button
                       id="new-playlist"
                       phx-click={JS.toggle(to: "#add-playlist") |> JS.focus(to: "#playlists-form_name")}
-                      class="flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400">
+                      class="flex items-center text-sm py-2 transition hover:text-red-500 hover:text-red-400">
                         <svg
                           fill="none"
                           viewBox="0 0 24 24"
@@ -62,7 +62,7 @@
 </div>
 
 <div id="add-playlist" class="hidden relative z-30">
-  <div class="fixed inset-0 bg-zinc-800/40 backdrop-blur-sm dark:bg-black/80 opacity-100"></div>
+  <div class="fixed inset-0 backdrop-blur-sm bg-black/80 opacity-100"></div>
 
   <div class="fixed inset-0 overflow-y-auto p-4 sm:p-6 md:p-20">
     <div class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
