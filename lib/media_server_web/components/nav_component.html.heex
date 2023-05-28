@@ -63,8 +63,8 @@
                       ) %>
                     </li>
                     <li>
-                      <%= live_redirect("Continues",
-                        to: Routes.continues_index_path(@socket, :index),
+                      <%= live_redirect("History",
+                        to: Routes.history_index_path(@socket, :index),
                         class:
                           "relative block px-3 py-2 transition hover:text-red-400"
                       ) %>
@@ -224,8 +224,8 @@
               ) %>
             </li>
             <li>
-              <%= live_redirect("Continues",
-                to: Routes.continues_index_path(@socket, :index),
+              <%= live_redirect("History",
+                to: Routes.history_index_path(@socket, :index),
                 class: "block py-2"
               ) %>
             </li>

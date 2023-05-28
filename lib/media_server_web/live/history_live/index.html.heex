@@ -1,0 +1,48 @@
+<div>
+  <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+
+  <div class="relative">
+    <main>
+      <div class="sm:px-8 mt-16 sm:mt-32">
+        <div class="mx-auto max-w-7xl lg:px-8">
+          <div class="relative px-4 sm:px-8 lg:px-12">
+            <div class="mx-auto max-w-2xl lg:max-w-5xl">
+              <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
+                <div class="lg:order-first lg:row-span-2">
+                  <h1 class="text-4xl font-bold tracking-tight text-zinc-100 sm:text-5xl">
+                    History
+                  </h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <MediaServerWeb.Components.PageSectionComponent.render>
+
+              <%= for item <- @user_continues do %>
+                <%= if item.media_type_id === MediaServer.MediaTypes.get_movie_id() do %>
+
+                  <%= MediaServerWeb.Components.PosterComponent.render(%{
+                    img_src: Routes.images_path(@socket, :index, movie: item.media_id, type: "poster"),
+                    title: item.id,
+                    link: Routes.movies_show_path(@socket, :show, item.media_id)
+                  }) %>
+
+                <% else %>
+
+                    <%= MediaServerWeb.Components.PosterComponent.render(%{
+                      img_src: Routes.images_path(@socket, :index, episode: item.media_id, type: "screenshot"),
+                      title: item.id,
+                      link: ""
+                    }) %>
+
+                <% end %>
+              <% end %>
+        </MediaServerWeb.Components.PageSectionComponent.render>
+    </main>
+
+    <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
+  </div>
+</div>

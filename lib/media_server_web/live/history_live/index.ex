@@ -1,5 +1,7 @@
-defmodule MediaServerWeb.ContinuesLive.Index do
+defmodule MediaServerWeb.HistoryLive.Index do
   use MediaServerWeb, :live_view
+
+  import Ecto.Query
 
   alias MediaServer.Repo
   alias MediaServer.Accounts
@@ -9,12 +11,12 @@ defmodule MediaServerWeb.ContinuesLive.Index do
     {
       :ok,
       socket
-      |> assign(page_title: "Continues")
+      |> assign(page_title: "History")
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(:continues)
-      )
+        |> Repo.preload(media_actions: from(MediaServer.MediaActions, distinct: [:media_id, :media_type_id], order_by: [desc: :id]))
+         )
     }
   end
 
@@ -23,7 +25,7 @@ defmodule MediaServerWeb.ContinuesLive.Index do
     {
       :noreply,
       socket
-      |> assign(:user_continues, socket.assigns.current_user.continues)
+      |> assign(:user_continues, socket.assigns.current_user.media_actions)
     }
   end
 end

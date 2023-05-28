@@ -12,6 +12,7 @@ defmodule MediaServer.Accounts.User do
 
     has_many :continues, MediaServer.Continues
     has_many :playlists, MediaServer.Playlists
+    has_many :media_actions, MediaServer.MediaActions
 
     timestamps()
   end
