@@ -25,6 +25,20 @@ defmodule MediaServer.MediaActions do
     |> changeset(attrs)
     |> Repo.insert()
   end
+  
+  def insert_or_update(attrs) do
+    case Repo.get_by(__MODULE__, attrs) do
+      nil  -> %__MODULE__{
+                media_id: attrs.media_id,
+                user_id: attrs.user_id,
+                action_id: MediaServer.Actions.get_played_id,
+                media_type_id: attrs.media_type_id
+              }
+      item -> item
+    end
+    |> changeset(attrs)
+    |> Repo.insert_or_update
+  end
 
   def all do
     Repo.all(__MODULE__)
