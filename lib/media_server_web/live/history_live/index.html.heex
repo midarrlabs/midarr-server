@@ -19,28 +19,93 @@
         </div>
       </div>
 
-        <MediaServerWeb.Components.PageSectionComponent.render>
+          <MediaServerWeb.Components.PageSectionAlternativeComponent.render>
+            <:header>
+              <div class="w-full lg:w-1/2 relative block inline-flex justify-start text-base font-semibold text-zinc-100 hover:text-red-400">
+                <div class="-mb-px flex space-x-8 overflow-x-auto">
+                    <div class="text-zinc-300 whitespace-nowrap border-transparent">
+                      All
+                    </div>
+                </div>
+              </div>
+            </:header>
+
 
               <%= for item <- @user_continues do %>
-                <%= if item.media_type_id === MediaServer.MediaTypes.get_movie_id() do %>
 
-                  <%= MediaServerWeb.Components.PosterComponent.render(%{
-                    img_src: Routes.images_path(@socket, :index, movie: item.media_id, type: "poster"),
-                    title: item.id,
-                    link: Routes.movies_show_path(@socket, :show, item.media_id)
-                  }) %>
+                  <%= if item.media_type_id !== MediaServer.MediaTypes.get_movie_id() do %>
 
-                <% else %>
+                    <article class="aspect-auto w-full flex-none overflow-hidden rounded-sm">
+                      <div class="relative w-full">
+                          <%= if MediaServerWeb.Repositories.Episodes.get_screenshot(MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)) do %>
+                            <img
+                              src={Routes.images_path(@socket, :index, episode: item.media_id, type: "screenshot")}
+                              alt=""
+                              class="w-full rounded-sm bg-gray-100 object-cover lg:aspect-[3/2]"
+                              loading="lazy"
+                            />
+                          <% else %>
+                            <div class="w-full rounded-sm bg-zinc-800/90 object-cover aspect-[3/2]"></div>
+                          <% end %>
+                      </div>
+                      <div class="max-w-xl">
+                        <div class="mt-8 flex items-center gap-x-4 text-xs justify-between">
 
-                    <%= MediaServerWeb.Components.PosterComponent.render(%{
-                      img_src: Routes.images_path(@socket, :index, episode: item.media_id, type: "screenshot"),
-                      title: item.id,
-                      link: ""
-                    }) %>
+                          <time class="text-sm text-zinc-400 text-zinc-500">
 
-                <% end %>
+                          </time>
+
+                        </div>
+                        <div class="group relative">
+                          <h3 class="mt-3 text-base font-semibold tracking-tight text-zinc-100">
+                            Episode <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["episodeNumber"] %>: <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["title"] %>
+                          </h3>
+                          <p class="mt-5 text-sm text-zinc-400">
+                            <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["overview"] %>
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+
+                    <% else %>
+
+                    <article class="aspect-auto w-full flex-none overflow-hidden rounded-sm">
+                      <div class="relative w-full">
+                          <%= if MediaServer.MoviesIndex.get_background(MediaServer.MoviesIndex.get_movie(item.media_id)) do %>
+                            <img
+                              src={Routes.images_path(@socket, :index, movie: item.media_id, type: "background")}
+                              alt=""
+                              class="w-full rounded-sm bg-gray-100 object-cover lg:aspect-[3/2]"
+                              loading="lazy"
+                            />
+                          <% else %>
+                            <div class="w-full rounded-sm bg-zinc-800/90 object-cover aspect-[3/2]"></div>
+                          <% end %>
+                      </div>
+                      <div class="max-w-xl">
+                        <div class="mt-8 flex items-center gap-x-4 text-xs justify-between">
+
+                          <time class="text-sm text-zinc-400 text-zinc-500">
+
+                          </time>
+
+                        </div>
+                        <div class="group relative">
+                          <h3 class="mt-3 text-base font-semibold tracking-tight text-zinc-100">
+                            <%= MediaServer.MoviesIndex.get_movie_title(item.media_id) %>
+                          </h3>
+                          <p class="mt-5 text-sm text-zinc-400">
+                            <%= MediaServer.MoviesIndex.get_movie(item.media_id)["overview"] %>
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+
+                  <% end %>
+
               <% end %>
-        </MediaServerWeb.Components.PageSectionComponent.render>
+
+          </MediaServerWeb.Components.PageSectionAlternativeComponent.render>
     </main>
 
     <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />

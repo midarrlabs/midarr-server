@@ -15,7 +15,7 @@ defmodule MediaServerWeb.HistoryLive.Index do
       |> assign(
         :current_user,
         Accounts.get_user_by_session_token(session["user_token"])
-        |> Repo.preload(media_actions: from(MediaServer.MediaActions, order_by: [desc: :id]))
+        |> Repo.preload(media_actions: from(MediaServer.MediaActions, order_by: [desc: :updated_at]))
          )
     }
   end
