@@ -84,7 +84,6 @@ defmodule MediaServerWeb.Router do
 
     get "/stream", StreamController, :index
     get "/subtitle", SubtitleController, :index
-    get "/hls-playlist.m3u8", HLSPlaylistController, :index
 
     post "/webhooks/:id", WebhooksController, :create
   end

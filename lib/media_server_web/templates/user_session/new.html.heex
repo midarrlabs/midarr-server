@@ -7,13 +7,13 @@
       clip-rule="evenodd"
     />
   </svg>
-    <h1 class="mt-6 text-4xl text-center font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-3xl">
+    <h1 class="mt-6 text-4xl text-center font-bold tracking-tight text-zinc-100 sm:text-3xl">
       Sign in to your account
     </h1>
   </div>
 
   <%= if @error_message do %>
-    <div class="text-center text-sm text-zinc-600 dark:text-zinc-400">
+    <div class="text-center text-sm text-zinc-400">
       <p><%= @error_message %></p>
     </div>
   <% end %>
@@ -30,7 +30,7 @@
           type="email"
           autocomplete="email"
           required
-          class="w-full flex-auto appearance-none rounded-md border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 dark:border-zinc-700 dark:bg-zinc-700/[0.15] dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-red-400 dark:focus:ring-red-400/10 sm:text-sm"
+          class="w-full flex-auto appearance-none rounded-md border px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 border-zinc-700 bg-zinc-700/[0.15] text-zinc-200 placeholder:text-zinc-500 focus:border-red-400 focus:ring-red-400/10 sm:text-sm"
           placeholder="Email address"
         />
       </div>
@@ -43,7 +43,7 @@
           type="password"
           autocomplete="current-password"
           required
-          class="w-full flex-auto appearance-none rounded-md border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 dark:border-zinc-700 dark:bg-zinc-700/[0.15] dark:text-zinc-200 dark:placeholder:text-zinc-500 dark:focus:border-red-400 dark:focus:ring-red-400/10 sm:text-sm"
+          class="w-full flex-auto appearance-none rounded-md border px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 border-zinc-700 bg-zinc-700/[0.15] text-zinc-200 placeholder:text-zinc-500 focus:border-red-400 focus:ring-red-400/10 sm:text-sm"
           placeholder="Password"
         />
       </div>
@@ -52,7 +52,7 @@
     <div>
       <button
         type="submit"
-        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white outline-offset-2 transition active:transition-none bg-zinc-800 font-semibold text-zinc-100 hover:bg-zinc-700 active:bg-zinc-800 active:text-zinc-100/70 dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:active:bg-zinc-700 dark:active:text-zinc-100/70 flex-none"
+        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white outline-offset-2 transition active:transition-none bg-zinc-800 font-semibold text-zinc-100 hover:bg-zinc-700 active:bg-zinc-800 active:text-zinc-100/70 bg-zinc-700 hover:bg-zinc-600 active:bg-zinc-700 active:text-zinc-100/70 flex-none"
       >
         Login
       </button>

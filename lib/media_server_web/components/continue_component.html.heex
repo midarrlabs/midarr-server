@@ -9,12 +9,12 @@
   </div>
   <div class="max-w-xl">
     <div class="mt-8 flex items-center gap-x-2 text-xs">
-      <time class="text-sm text-zinc-400 dark:text-zinc-500 flex-grow">
+      <time class="text-sm text-zinc-500 flex-grow">
         <%= @minutes_remaining %> minutes left
       </time>
       <%= if @item["hasFile"] do %>
-        <div class="flex rounded-full bg-white/90 px-3 mr-1 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
-          <%= live_redirect id: "play-#{ @item["id"] }", to: @link, class: "flex items-center text-sm py-2 transition hover:text-red-500 dark:hover:text-red-400" do %>
+        <div class="flex rounded-full px-3 mr-1 text-sm font-medium shadow-lg shadow-zinc-800/5 ring-1 backdrop-blur bg-zinc-800/90 text-zinc-200 ring-white/10">
+          <%= live_redirect id: "play-#{ @item["id"] }", to: @link, class: "flex items-center text-sm py-2 transition hover:text-red-400" do %>
             <svg
               aria-hidden="true"
               viewBox="0 0 10 10"
@@ -34,7 +34,7 @@
           phx-target={@myself}
           phx-value-id={@id_item}
           type="button"
-          class="dark:text-zinc-200 flex items-center text-sm transition hover:text-red-500 dark:hover:text-red-400"
+          class="text-zinc-200 flex items-center text-sm transition hover:text-red-400"
         >
           <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path
@@ -47,7 +47,7 @@
       <% end %>
     </div>
     <div class="group relative">
-      <h3 class=" text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+      <h3 class=" text-base font-semibold tracking-tight text-zinc-100">
         <%= @item["title"] %>
       </h3>
     </div>
