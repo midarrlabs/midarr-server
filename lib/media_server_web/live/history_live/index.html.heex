@@ -33,7 +33,7 @@
 
               <%= for item <- @user_continues do %>
 
-                  <%= if item.media_type_id !== MediaServer.MediaTypes.get_movie_id() do %>
+                  <%= if item.media_type_id !== @movie_id do %>
 
                     <article class="aspect-auto w-full flex-none overflow-hidden rounded-sm">
                       <div class="relative w-full">

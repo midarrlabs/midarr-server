@@ -16,7 +16,7 @@ defmodule MediaServer.MediaActions do
 
   def changeset(media_actions, attrs) do
     media_actions
-    |> cast(attrs, [:media_id, :user_id, :media_type_id, :action_id])
+    |> cast(attrs, [:media_id, :user_id, :media_type_id, :action_id, :updated_at])
     |> validate_required([:media_id, :user_id, :media_type_id, :action_id])
   end
 
@@ -36,7 +36,9 @@ defmodule MediaServer.MediaActions do
               }
       item -> item
     end
-    |> changeset(attrs)
+    |> changeset(Enum.into(attrs, %{
+      updated_at: DateTime.utc_now()
+    }))
     |> Repo.insert_or_update
   end
 
