@@ -341,53 +341,28 @@
           <div class="absolute inset-0 -z-10 mx-0 max-w-none overflow-hidden">
             <div class="absolute left-1/2 top-0 ml-[-38rem] h-[25rem] w-[81.25rem] dark:[mask-image:linear-gradient(white,transparent)]">
               <div class="absolute inset-0 bg-gradient-to-r from-[#36b49f] to-[#DBFF75] opacity-40 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] dark:from-[#36b49f]/30 dark:to-[#DBFF75]/30 dark:opacity-100">
-                <svg
-                  aria-hidden="true"
-                  class="absolute inset-x-0 inset-y-[-50%] h-[200%] w-full skew-y-[-18deg] fill-black/40 stroke-black/50 mix-blend-overlay dark:fill-white/2.5 dark:stroke-white/5"
-                >
-                  <defs>
-                    <pattern
-                      id=":R11d6:"
-                      width="72"
-                      height="56"
-                      patternUnits="userSpaceOnUse"
-                      x="-12"
-                      y="4"
-                    >
-                      <path d="M.5 56V.5H72" fill="none"></path>
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" stroke-width="0" fill="url(#:R11d6:)"></rect>
-                  <svg x="-12" y="4" class="overflow-visible">
-                    <rect stroke-width="0" width="73" height="57" x="288" y="168"></rect>
-                    <rect stroke-width="0" width="73" height="57" x="144" y="56"></rect>
-                    <rect stroke-width="0" width="73" height="57" x="504" y="168"></rect>
-                    <rect stroke-width="0" width="73" height="57" x="720" y="336"></rect>
-                  </svg>
-                </svg>
+
+                <img
+                  alt={Enum.at(@movies, 0)["title"]}
+                  src={Routes.images_path(@socket, :index, movie: Enum.at(@movies, 5)["id"], type: "background")}
+                  class="object-cover w-full mt-0"
+                />
+
               </div>
-              <svg
-                viewBox="0 0 1113 440"
-                aria-hidden="true"
-                class="absolute left-1/2 top-0 ml-[-19rem] w-[69.5625rem] fill-white blur-[26px] dark:hidden"
-              >
-                <path d="M.016 439.5s-9.5-300 434-300S882.516 20 882.516 20V0h230.004v439.5H.016Z">
-                </path>
-              </svg>
             </div>
           </div>
 
-          <h1>API Documentation</h1>
+          <h1>
+            <%= Enum.at(@movies, 4)["title"] %>
+          </h1>
 
-          <p class="lead">
-            Use the Protocol API to access contacts, conversations, group messages, and more and seamlessly integrate your product into the workflows of dozens of devoted Protocol users.
-          </p>
+
           <div class="not-prose mb-16 mt-6 flex gap-3">
             <a
               class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition rounded-full bg-zinc-900 py-1 px-3 text-white hover:bg-zinc-700 dark:bg-emerald-400/10 dark:text-emerald-400 dark:ring-1 dark:ring-inset dark:ring-emerald-400/20 dark:hover:bg-emerald-400/10 dark:hover:text-emerald-300 dark:hover:ring-emerald-300"
               href="/quickstart"
             >
-              Quickstart<svg
+              Read more<svg
                 viewBox="0 0 20 20"
                 fill="none"
                 aria-hidden="true"
@@ -401,20 +376,19 @@
             </a><a
               class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition rounded-full py-1 px-3 text-zinc-700 ring-1 ring-inset ring-zinc-900/10 hover:bg-zinc-900/2.5 hover:text-zinc-900 dark:text-zinc-400 dark:ring-white/10 dark:hover:bg-white/5 dark:hover:text-white"
               href="/sdks"
-            >Explore SDKs</a>
+            >Watch trailer</a>
           </div>
-          <h2 class="scroll-mt-24">Getting started</h2>
+
+          <h2 class="scroll-mt-24">Overview</h2>
           <p class="lead">
-            To get started, create a new application in your <a href="/#">developer settings</a>, then read about how to make requests for the resources you need to access using our HTTP APIs or dedicated client SDKs. When your integration is ready to go live, publish it to our
-            <a href="/#">integrations directory</a>
-            to reach the Protocol community.
+            <%= Enum.at(@movies, 0)["overview"] %>
           </p>
           <div class="not-prose">
             <a
               class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition text-emerald-500 hover:text-emerald-600 dark:text-emerald-400 dark:hover:text-emerald-500"
               href="/sdks"
             >
-              Get your API key<svg
+              Read more<svg
                 viewBox="0 0 20 20"
                 fill="none"
                 aria-hidden="true"
@@ -427,10 +401,11 @@
                 ></path></svg>
             </a>
           </div>
+
           <div class="my-16 xl:max-w-none">
             <h2 id="guides" class="scroll-mt-24">
               <a class="group text-inherit no-underline hover:text-inherit" href="/#guides">
-                Guides
+                Quick links
               </a>
             </h2>
             <div class="not-prose mt-4 grid grid-cols-1 gap-8 border-t border-zinc-900/5 pt-10 dark:border-white/5 sm:grid-cols-2 xl:grid-cols-4">
@@ -537,36 +512,18 @@
           <div class="my-16 xl:max-w-none">
             <h2 id="resources" class="scroll-mt-24">
               <a class="group text-inherit no-underline hover:text-inherit" href="/#resources">
-                Resources
+                Recommended
               </a>
             </h2>
             <div class="not-prose mt-4 grid grid-cols-1 gap-8 border-t border-zinc-900/5 pt-10 dark:border-white/5 sm:grid-cols-2 xl:grid-cols-4">
               <div class="group relative flex rounded-2xl bg-zinc-50 transition-shadow hover:shadow-md hover:shadow-zinc-900/5 dark:bg-white/2.5 dark:hover:shadow-black/5">
                 <div class="pointer-events-none">
                   <div class="absolute inset-0 rounded-2xl transition duration-300 [mask-image:linear-gradient(white,transparent)] group-hover:opacity-50">
-                    <svg
-                      aria-hidden="true"
-                      class="absolute inset-x-0 inset-y-[-30%] h-[160%] w-full skew-y-[-18deg] fill-black/[0.02] stroke-black/5 dark:fill-white/1 dark:stroke-white/2.5"
-                    >
-                      <defs>
-                        <pattern
-                          id=":R56hd6:"
-                          width="72"
-                          height="56"
-                          patternUnits="userSpaceOnUse"
-                          x="50%"
-                          y="16"
-                        >
-                          <path d="M.5 56V.5H72" fill="none"></path>
-                        </pattern>
-                      </defs>
-                      <rect width="100%" height="100%" stroke-width="0" fill="url(#:R56hd6:)">
-                      </rect>
-                      <svg x="50%" y="16" class="overflow-visible">
-                        <rect stroke-width="0" width="73" height="57" x="0" y="56"></rect>
-                        <rect stroke-width="0" width="73" height="57" x="72" y="168"></rect>
-                      </svg>
-                    </svg>
+                    <img
+                      alt={Enum.at(@movies, 1)["title"]}
+                      src={Routes.images_path(@socket, :index, movie: Enum.at(@movies, 7)["id"], type: "poster")}
+                      class="object-cover w-full mt-0"
+                    />
                   </div>
                   <div
                     class="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#D7EDEA] to-[#F4FBDF] opacity-0 transition duration-300 group-hover:opacity-100 dark:from-[#202D2E] dark:to-[#303428]"
@@ -577,31 +534,13 @@
                     class="absolute inset-0 rounded-2xl opacity-0 mix-blend-overlay transition duration-300 group-hover:opacity-100"
                     style="mask-image:radial-gradient(180px at 0px 0px, white, transparent);-webkit-mask-image:radial-gradient(180px at 0px 0px, white, transparent)"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="absolute inset-x-0 inset-y-[-30%] h-[160%] w-full skew-y-[-18deg] fill-black/50 stroke-black/70 dark:fill-white/2.5 dark:stroke-white/10"
-                    >
-                      <defs>
-                        <pattern
-                          id=":R1d6hd6:"
-                          width="72"
-                          height="56"
-                          patternUnits="userSpaceOnUse"
-                          x="50%"
-                          y="16"
-                        >
-                          <path d="M.5 56V.5H72" fill="none"></path>
-                        </pattern>
-                      </defs>
-                      <rect width="100%" height="100%" stroke-width="0" fill="url(#:R1d6hd6:)">
-                      </rect>
-                      <svg x="50%" y="16" class="overflow-visible">
-                        <rect stroke-width="0" width="73" height="57" x="0" y="56"></rect>
-                        <rect stroke-width="0" width="73" height="57" x="72" y="168"></rect>
-                      </svg>
-                    </svg>
+
                   </div>
                 </div>
+
+
+
+
                 <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-zinc-900/7.5 group-hover:ring-zinc-900/10 dark:ring-white/10 dark:group-hover:ring-white/20">
                 </div>
                 <div class="relative rounded-2xl px-4 pb-4 pt-16">
@@ -647,29 +586,13 @@
               <div class="group relative flex rounded-2xl bg-zinc-50 transition-shadow hover:shadow-md hover:shadow-zinc-900/5 dark:bg-white/2.5 dark:hover:shadow-black/5">
                 <div class="pointer-events-none">
                   <div class="absolute inset-0 rounded-2xl transition duration-300 [mask-image:linear-gradient(white,transparent)] group-hover:opacity-50">
-                    <svg
-                      aria-hidden="true"
-                      class="absolute inset-x-0 inset-y-[-30%] h-[160%] w-full skew-y-[-18deg] fill-black/[0.02] stroke-black/5 dark:fill-white/1 dark:stroke-white/2.5"
-                    >
-                      <defs>
-                        <pattern
-                          id=":R5ahd6:"
-                          width="72"
-                          height="56"
-                          patternUnits="userSpaceOnUse"
-                          x="50%"
-                          y="-6"
-                        >
-                          <path d="M.5 56V.5H72" fill="none"></path>
-                        </pattern>
-                      </defs>
-                      <rect width="100%" height="100%" stroke-width="0" fill="url(#:R5ahd6:)">
-                      </rect>
-                      <svg x="50%" y="-6" class="overflow-visible">
-                        <rect stroke-width="0" width="73" height="57" x="-72" y="112"></rect>
-                        <rect stroke-width="0" width="73" height="57" x="72" y="168"></rect>
-                      </svg>
-                    </svg>
+
+                    <img
+                      alt={Enum.at(@movies, 1)["title"]}
+                      src={Routes.images_path(@socket, :index, movie: Enum.at(@movies, 2)["id"], type: "poster")}
+                      class="object-cover w-full mt-0"
+                    />
+
                   </div>
                   <div
                     class="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#D7EDEA] to-[#F4FBDF] opacity-0 transition duration-300 group-hover:opacity-100 dark:from-[#202D2E] dark:to-[#303428]"
@@ -742,29 +665,13 @@
               <div class="group relative flex rounded-2xl bg-zinc-50 transition-shadow hover:shadow-md hover:shadow-zinc-900/5 dark:bg-white/2.5 dark:hover:shadow-black/5">
                 <div class="pointer-events-none">
                   <div class="absolute inset-0 rounded-2xl transition duration-300 [mask-image:linear-gradient(white,transparent)] group-hover:opacity-50">
-                    <svg
-                      aria-hidden="true"
-                      class="absolute inset-x-0 inset-y-[-30%] h-[160%] w-full skew-y-[-18deg] fill-black/[0.02] stroke-black/5 dark:fill-white/1 dark:stroke-white/2.5"
-                    >
-                      <defs>
-                        <pattern
-                          id=":R5ehd6:"
-                          width="72"
-                          height="56"
-                          patternUnits="userSpaceOnUse"
-                          x="50%"
-                          y="32"
-                        >
-                          <path d="M.5 56V.5H72" fill="none"></path>
-                        </pattern>
-                      </defs>
-                      <rect width="100%" height="100%" stroke-width="0" fill="url(#:R5ehd6:)">
-                      </rect>
-                      <svg x="50%" y="32" class="overflow-visible">
-                        <rect stroke-width="0" width="73" height="57" x="0" y="112"></rect>
-                        <rect stroke-width="0" width="73" height="57" x="72" y="224"></rect>
-                      </svg>
-                    </svg>
+
+                    <img
+                      alt={Enum.at(@movies, 1)["title"]}
+                      src={Routes.images_path(@socket, :index, movie: Enum.at(@movies, 1)["id"], type: "poster")}
+                      class="object-cover w-full mt-0"
+                    />
+
                   </div>
                   <div
                     class="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#D7EDEA] to-[#F4FBDF] opacity-0 transition duration-300 group-hover:opacity-100 dark:from-[#202D2E] dark:to-[#303428]"

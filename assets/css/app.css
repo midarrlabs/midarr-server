@@ -1,3 +1,4 @@
+
 *,:after,:before{
       box-sizing:border-box;
       border:0 solid #e5e7eb
@@ -784,7 +785,7 @@
       height:200%
   }
   .h-\[25rem\]{
-      height:25rem
+      height:35rem
   }
   .h-full{
       height:100%
@@ -1116,7 +1117,7 @@
   }
   .bg-emerald-500{
       --tw-bg-opacity:1;
-      background-color:rgb(16 185 129/var(--tw-bg-opacity))
+      background-color: #ef4444
   }
   .bg-rose-50{
       --tw-bg-opacity:1;
