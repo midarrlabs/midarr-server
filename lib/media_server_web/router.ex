@@ -26,6 +26,14 @@ defmodule MediaServerWeb.Router do
     post "/login", UserSessionController, :create
   end
 
+  scope "/auth", MediaServerWeb do
+    pipe_through :browser
+
+    get "/:provider", AuthController, :index
+    get "/:provider/callback", AuthController, :callback
+    delete "/logout", AuthController, :delete
+  end
+
   scope "/", MediaServerWeb do
     pipe_through [:browser, :require_authenticated_user]
 

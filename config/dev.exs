@@ -69,3 +69,8 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :media_server, GitHub,
+       client_id: System.get_env("GITHUB_CLIENT_ID"),
+       client_secret: System.get_env("GITHUB_CLIENT_SECRET"),
+       redirect_uri: System.get_env("GITHUB_REDIRECT_URI")
