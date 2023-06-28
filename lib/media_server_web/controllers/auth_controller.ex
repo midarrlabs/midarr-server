@@ -27,38 +27,31 @@ defmodule MediaServerWeb.AuthController do
     client = get_token!(provider, code)
 
     # Request the user's data with the access token
-    user = get_user!(provider, client)
+    if user = MediaServer.Accounts.get_user_by_email(get_user!(provider, client).email) do
 
-    # Store the user in the session under `:current_user` and redirect to /.
-    # In most cases, we'd probably just store the user's ID that can be used
-    # to fetch from the database. In this case, since this example app has no
-    # database, I'm just storing the user map.
-    #
-    # If you need to make additional resource requests, you may want to store
-    # the access token as well.
+      MediaServerWeb.UserAuth.log_in_user(conn, user)
+    end
+
     conn
-    |> put_session(:current_user, user)
-    |> put_session(:access_token, client.token.access_token)
     |> redirect(to: "/")
   end
 
-  defp authorize_url!("github"), do: GitHub.authorize_url!
+  defp authorize_url!("authentik"), do: Authentik.authorize_url!
   defp authorize_url!(_), do: raise "No matching provider available"
 
-  defp get_token!("github", code), do: GitHub.get_token!(code: code)
+  defp get_token!("authentik", code), do: Authentik.get_token!(code: code)
   defp get_token!(_, _), do: raise "No matching provider available"
 
-  defp get_user!("github", client) do
+  defp get_user!("authentik", client) do
 
     token = Map.get(client, :token) |> Map.get(:access_token) |> Jason.decode! |> Map.get("access_token")
 
-    %{body: user} = OAuth2.Client.get!(client, "/user", [
-      {"user-agent", "midarr"},
+    %{body: user} = OAuth2.Client.get!(client, System.get_env("OAUTH_USER_URL"), [
       {"authorization", "Bearer #{ token }"}
     ])
 
-    decoded_user =  Jason.decode!(user) |> IO.inspect
+    decoded_user =  Jason.decode!(user)
 
-    %{name: decoded_user["name"], avatar: decoded_user["avatar_url"]}
+    %{name: decoded_user["name"], email: decoded_user["email"]}
   end
 end

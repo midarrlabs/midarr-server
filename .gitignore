@@ -44,3 +44,4 @@ npm-debug.log
 /.idea
 /lib/media_server/release.ex
 /rel/overlays/bin/
+.env
