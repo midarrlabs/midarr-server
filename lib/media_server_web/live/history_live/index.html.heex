@@ -56,7 +56,7 @@
                                 </h2>
 
                                 <p class="hidden md:block relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400 line-clamp">
-                                  <%= MediaServer.MoviesIndex.get_movie(item.media_id)["overview"] %>
+                                  <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["overview"] %>
                                 </p>
                               </div>
                             </div>
