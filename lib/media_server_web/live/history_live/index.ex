@@ -26,7 +26,7 @@ defmodule MediaServerWeb.HistoryLive.Index do
       :noreply,
       socket
       |> assign(:movie_id, MediaServer.MediaTypes.get_movie_id())
-      |> assign(:user_continues, socket.assigns.current_user.media_actions)
+      |> assign(:user_media_actions, socket.assigns.current_user.media_actions)
     }
   end
 end
