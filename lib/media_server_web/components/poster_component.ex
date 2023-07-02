@@ -9,7 +9,7 @@ defmodule MediaServerWeb.Components.PosterComponent do
           <img
             alt={assigns.title}
             src={assigns.img_src}
-            class="h-full"
+            class="h-full object-cover"
             loading="lazy"
           />
         <% else %>

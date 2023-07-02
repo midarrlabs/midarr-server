@@ -110,7 +110,7 @@ defmodule MediaServerWeb.WatchLive.Index do
 
   def handle_event("video_played", _params, socket) do
 
-    MediaServer.MediaActions.create(%{
+    MediaServer.MediaActions.insert_or_update(%{
       media_id: socket.assigns.media_id,
       user_id: socket.assigns.current_user.id,
       action_id: MediaServer.Actions.get_played_id,

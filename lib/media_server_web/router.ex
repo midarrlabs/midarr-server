@@ -45,7 +45,7 @@ defmodule MediaServerWeb.Router do
       live "/playlists", PlaylistLive.Index, :index
       live "/playlists/:id", PlaylistLive.Show, :show
 
-      live "/continues", ContinuesLive.Index, :index
+      live "/history", HistoryLive.Index, :index
 
       live "/search", SearchLive.Index, :index
 
