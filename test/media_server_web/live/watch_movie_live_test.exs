@@ -24,37 +24,6 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
     assert Enum.at(media, 0).action_id === MediaServer.Actions.get_played_id()
   end
 
-  test "it should have watched", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.get_movie("1")
-
-    {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
-
-    render_hook(view, :video_destroyed, %{
-      current_time: 92,
-      duration: 100
-    })
-
-    media = MediaServer.MediaActions.where(media_id: movie["id"], action_id: MediaServer.Actions.get_watched_id())
-
-    assert media.media_id === movie["id"]
-    assert media.action_id === MediaServer.Actions.get_watched_id()
-  end
-
-  test "it should NOT have watched", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.get_movie("1")
-
-    {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
-
-    render_hook(view, :video_destroyed, %{
-      current_time: 91,
-      duration: 100
-    })
-
-    assert MediaServer.MediaActions.where(media_id: movie["id"], action_id: MediaServer.Actions.get_watched_id()) === nil
-  end
-
   test "it should continue", %{conn: conn} do
     movie = MediaServer.MoviesIndex.get_movie("1")
 
