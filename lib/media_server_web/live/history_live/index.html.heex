@@ -47,9 +47,11 @@
                 </p>
               </div>
 
-              <div class="absolute flex w-full bg-slate-200 h-1 overflow-hidden rounded-b-lg">
-                <div class="bg-red-500 h-1" style={"width: #{50}%"}></div>
-              </div>
+                <%= if item.continue do %>
+                  <div class="absolute flex w-full bg-slate-200 h-1 overflow-hidden rounded-b-lg">
+                    <div class="bg-red-500 h-1" style={"width: #{ MediaServerWeb.Helpers.percentage_complete_from_seconds(item.continue.current_time, item.continue.duration) }%"}></div>
+                  </div>
+                <% end %>
 
             </div>
 
@@ -106,9 +108,11 @@
                 </p>
               </div>
 
-              <div class="absolute flex w-full bg-slate-200 h-1 overflow-hidden rounded-b-lg">
-                <div class="bg-red-500 h-1" style={"width: #{50}%"}></div>
-              </div>
+                <%= if item.continue do %>
+                  <div class="absolute flex w-full bg-slate-200 h-1 overflow-hidden rounded-b-lg">
+                    <div class="bg-red-500 h-1" style={"width: #{ MediaServerWeb.Helpers.percentage_complete_from_seconds(item.continue.current_time, item.continue.duration) }%"}></div>
+                  </div>
+                <% end %>
 
             </div>
 
