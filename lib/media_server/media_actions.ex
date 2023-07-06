@@ -11,6 +11,8 @@ defmodule MediaServer.MediaActions do
     belongs_to :media_type, MediaServer.MediaTypes
     belongs_to :action, MediaServer.Actions
 
+    has_one :continue, MediaServer.Continues, foreign_key: :media_id, references: :media_id
+
     timestamps()
   end
 
