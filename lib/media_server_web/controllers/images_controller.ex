@@ -15,7 +15,7 @@ defmodule MediaServerWeb.ImagesController do
                       |> MediaServer.MoviesIndex.get_background()
                       |> MediaServer.Helpers.get_image_file()
 
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get("https://image.tmdb.org/t/p/w780/#{ background_file }")
+    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get("https://image.tmdb.org/t/p/w1280/#{ background_file }")
 
     conn
     |> put_resp_header("content-type", "image/image")
