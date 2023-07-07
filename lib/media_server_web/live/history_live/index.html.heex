@@ -48,9 +48,17 @@
 
           <div class="relative flex mt-4 space-x-2">
             <div>
-              <h3 class="text-sm font-medium text-zinc-100">
-                <%= MediaServer.MoviesIndex.get_movie_title(item.media_id) %>
-              </h3>
+              <%= if item.continue do %>
+                <%= live_redirect id: "play-#{ item.media_type_id }-#{ item.media_id }", to: Routes.watch_index_path(@socket, :index, movie: item.media_id, timestamp: item.continue.current_time) do %>
+                  <h3 class="text-sm font-medium text-zinc-100">
+                    <%= MediaServer.MoviesIndex.get_movie_title(item.media_id) %>
+                  </h3>
+                <% end %>
+              <% else %>
+                <h3 class="text-sm font-medium text-zinc-100">
+                  <%= MediaServer.MoviesIndex.get_movie_title(item.media_id) %>
+                </h3>
+              <% end %>
               <p class="mt-1 text-sm text-zinc-400">
                 <%= MediaServer.MoviesIndex.get_movie(item.media_id)["year"] %> • <%= MediaServer.MoviesIndex.get_movie(
                   item.media_id
@@ -105,15 +113,22 @@
 
             <div class="relative flex mt-4 space-x-2">
               <div>
-                <h3 class="text-sm font-medium text-zinc-100">
-                  <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["series"][
-                    "title"
-                  ] %>
-                </h3>
+                <%= if item.continue do %>
+                  <%= live_redirect id: "play-#{ item.media_type_id }-#{ item.media_id }", to: Routes.watch_index_path(@socket, :index, episode: item.media_id, timestamp: item.continue.current_time) do %>
+                    <h3 class="text-sm font-medium text-zinc-100">
+                      <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["title"] %>
+                    </h3>
+                  <% end %>
+                <% else %>
+                  <h3 class="text-sm font-medium text-zinc-100">
+                    <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["title"] %>
+                  </h3>
+                <% end %>
                 <p class="mt-1 text-sm text-zinc-400">
-                  <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["series"][
-                    "year"
-                  ] %>
+                  <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["series"]["title"] %>
+                </p>
+                <p class="mt-1 text-sm text-zinc-400">
+                  <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["series"]["year"] %>
                 </p>
               </div>
             </div>
