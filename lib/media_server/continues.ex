@@ -23,7 +23,7 @@ defmodule MediaServer.Continues do
   end
 
   def insert_or_update(attrs) do
-    case Repo.get_by(__MODULE__, attrs) do
+    case Repo.get_by(__MODULE__, [media_id: attrs.media_id, user_id: attrs.user_id, media_type_id: attrs.media_type_id]) do
       nil  -> %__MODULE__{
                 media_id: attrs.media_id,
                 user_id: attrs.user_id,
