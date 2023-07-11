@@ -2,7 +2,8 @@ defmodule MediaServerWeb.OAuthController do
   use MediaServerWeb, :controller
 
   def index(conn, _params) do
-    redirect conn, external: MediaServerWeb.OAuth.authorize_url!
+    conn
+    |> redirect(external: MediaServerWeb.OAuth.authorize_url!)
   end
 
   def callback(conn, %{"code" => code}) do

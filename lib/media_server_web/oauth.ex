@@ -19,7 +19,7 @@ defmodule MediaServerWeb.OAuth do
     OAuth2.Client.new(config())
   end
 
-  def authorize_url!(params \\ []) do
+  def authorize_url!(_params \\ []) do
     OAuth2.Client.authorize_url!(client())
   end
 
@@ -27,7 +27,7 @@ defmodule MediaServerWeb.OAuth do
     AuthCode.authorize_url(client, params)
   end
 
-  def get_token!(params \\ [], headers \\ []) do
+  def get_token!(params \\ [], _headers \\ []) do
     OAuth2.Client.get_token!(client(), params)
   end
 
