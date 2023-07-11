@@ -1,12 +1,6 @@
 defmodule MediaServerWeb.OauthControllerTest do
   use MediaServerWeb.ConnCase
 
-  import MediaServer.AccountsFixtures
-
-  setup do
-    %{user: user_fixture()}
-  end
-
   test "it should redirect", %{conn: conn} do
     conn = get(conn, Routes.o_auth_path(conn, :index))
     response = html_response(conn, 302)
