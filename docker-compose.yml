@@ -34,7 +34,7 @@ services:
       - OAUTH_TOKEN_URL=http://server-authentik:9000/application/o/token/
       - OAUTH_CLIENT_ID=someClientId
       - OAUTH_CLIENT_SECRET=someClientSecret
-      - OAUTH_REDIRECT_URI=http://localhost:4000/auth/authentik/callback
+      - OAUTH_REDIRECT_URI=http://localhost:4000/auth/callback
       - OAUTH_USER_URL=http://server-authentik:9000/application/o/userinfo/
 
       - RADARR_BASE_URL=http://radarr:7878
@@ -113,11 +113,9 @@ services:
     volumes:
       - database:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: ${PG_PASS:?database password required}
+      POSTGRES_PASSWORD: ${PG_PASS:-password}
       POSTGRES_USER: ${PG_USER:-authentik}
       POSTGRES_DB: ${PG_DB:-authentik}
-    env_file:
-      - .env
 
   redis-authentik:
     image: docker.io/library/redis:alpine
@@ -135,13 +133,12 @@ services:
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2023.5.3}
     command: server
     environment:
+      AUTHENTIK_SECRET_KEY: password
       AUTHENTIK_REDIS__HOST: redis-authentik
       AUTHENTIK_POSTGRESQL__HOST: postgresql-authentik
       AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
       AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
-      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
-    env_file:
-      - .env
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS-password}
     ports:
       - "${COMPOSE_PORT_HTTP:-9000}:9000"
       - "${COMPOSE_PORT_HTTPS:-9443}:9443"
@@ -153,11 +150,12 @@ services:
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2023.5.3}
     command: worker
     environment:
+      AUTHENTIK_SECRET_KEY: password
       AUTHENTIK_REDIS__HOST: redis-authentik
       AUTHENTIK_POSTGRESQL__HOST: postgresql-authentik
       AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
       AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
-      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS-password}
     # `user: root` and the docker socket volume are optional.
     # See more for the docker socket integration here:
     # https://goauthentik.io/docs/outposts/integrations/docker
@@ -167,8 +165,6 @@ services:
     user: root
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    env_file:
-      - .env
     depends_on:
       - postgresql-authentik
       - redis-authentik

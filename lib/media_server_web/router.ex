@@ -29,9 +29,8 @@ defmodule MediaServerWeb.Router do
   scope "/auth", MediaServerWeb do
     pipe_through :browser
 
-    get "/:provider", AuthController, :index
-    get "/:provider/callback", AuthController, :callback
-    delete "/logout", AuthController, :delete
+    get "/", OAuthController, :index
+    get "/callback", OAuthController, :callback
   end
 
   scope "/", MediaServerWeb do

@@ -1,19 +1,16 @@
-defmodule Authentik do
-  @moduledoc """
-  An OAuth2 strategy for Authentik.
-  """
+defmodule MediaServerWeb.OAuth do
   use OAuth2.Strategy
 
   alias OAuth2.Strategy.AuthCode
 
   defp config do
     [
-      strategy: Authentik,
+      strategy: __MODULE__,
+      client_id: System.get_env("OAUTH_CLIENT_ID"),
+      client_secret: System.get_env("OAUTH_CLIENT_SECRET"),
       site: System.get_env("OAUTH_ISSUER_URL"),
       authorize_url: System.get_env("OAUTH_AUTHORIZE_URL"),
       token_url: System.get_env("OAUTH_TOKEN_URL"),
-      client_id: System.get_env("OAUTH_CLIENT_ID"),
-      client_secret: System.get_env("OAUTH_CLIENT_SECRET"),
       redirect_uri: System.get_env("OAUTH_REDIRECT_URI")
     ]
   end
@@ -38,5 +35,17 @@ defmodule Authentik do
     client
     |> put_header("Accept", "application/json")
     |> AuthCode.get_token(params, headers)
+  end
+
+  def get_user!(client) do
+    token = Map.get(client, :token) |> Map.get(:access_token) |> Jason.decode! |> Map.get("access_token")
+
+    %{body: user} = OAuth2.Client.get!(client, System.get_env("OAUTH_USER_URL"), [
+      {"authorization", "Bearer #{ token }"}
+    ])
+
+    decoded_user =  Jason.decode!(user)
+
+    %{name: decoded_user["name"], email: decoded_user["email"]}
   end
 end
