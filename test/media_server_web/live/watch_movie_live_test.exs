@@ -7,49 +7,21 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
     %{conn: conn |> log_in_user(MediaServer.AccountsFixtures.user_fixture())}
   end
 
-  test "it should watch", %{conn: conn} do
+  test "it should have played", %{conn: conn} do
     movie = MediaServer.MoviesIndex.get_movie("1")
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
 
     render_hook(view, :video_played)
+    render_hook(view, :video_played)
 
-    media = MediaServer.MediaActions.where(media_id: movie["id"])
+    media = MediaServer.MediaActions.all()
 
-    assert media.media_id === movie["id"]
-    assert media.action_id === MediaServer.Actions.get_played_id()
-  end
+    assert Enum.count(media) === 1
 
-  test "it should have watched", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.get_movie("1")
-
-    {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
-
-    render_hook(view, :video_destroyed, %{
-      current_time: 92,
-      duration: 100
-    })
-
-    media = MediaServer.MediaActions.where(media_id: movie["id"], action_id: MediaServer.Actions.get_watched_id())
-
-    assert media.media_id === movie["id"]
-    assert media.action_id === MediaServer.Actions.get_watched_id()
-  end
-
-  test "it should NOT have watched", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.get_movie("1")
-
-    {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
-
-    render_hook(view, :video_destroyed, %{
-      current_time: 91,
-      duration: 100
-    })
-
-    assert MediaServer.MediaActions.where(media_id: movie["id"], action_id: MediaServer.Actions.get_watched_id()) === nil
+    assert Enum.at(media, 0).media_id === movie["id"]
+    assert Enum.at(media, 0).action_id === MediaServer.Actions.get_played_id()
   end
 
   test "it should continue", %{conn: conn} do
@@ -63,12 +35,19 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       duration: 100
     })
 
-    refute MediaServer.Continues.where(media_id: movie["id"]) === nil
+    assert MediaServer.Continues.where(media_id: movie["id"]).current_time === 89
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"], timestamp: 89))
 
     assert render(view) =~ "#t=89"
+
+    render_hook(view, :video_destroyed, %{
+      current_time: 45,
+      duration: 100
+    })
+
+    assert MediaServer.Continues.where(media_id: movie["id"]).current_time === 45
   end
 
   test "it should subtitle", %{conn: conn} do

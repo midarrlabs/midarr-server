@@ -35,17 +35,22 @@ defmodule MediaServerWeb.Repositories.Episodes do
      |> Enum.at(0))["url"]
   end
 
-  def handle_screenshot(nil) do
+  def handle_image(nil) do
     nil
   end
 
-  def handle_screenshot(screenshot) do
+  def handle_image(screenshot) do
     screenshot["url"]
   end
 
   def get_screenshot(episode) do
     Enum.find(episode["images"], nil, fn x -> x["coverType"] === "screenshot" end)
-    |> handle_screenshot()
+    |> handle_image()
+  end
+
+  def get_poster(episode) do
+    Enum.find(episode["series"]["images"], nil, fn x -> x["coverType"] === "poster" end)
+    |> handle_image()
   end
 
   def get_subtitle_path_for(id) do

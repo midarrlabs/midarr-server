@@ -36,7 +36,7 @@ defmodule MediaServerWeb.UserSessionControllerTest do
       assert response =~ "Movies"
       assert response =~ "Series"
       assert response =~ "Playlists"
-      assert response =~ "Continues"
+      assert response =~ "History"
     end
 
     test "logs the user in with remember me", %{conn: conn, user: user} do

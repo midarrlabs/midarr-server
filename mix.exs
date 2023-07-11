@@ -4,7 +4,7 @@ defmodule MediaServer.MixProject do
   def project do
     [
       app: :media_server,
-      version: "3.2.0",
+      version: "4.0.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
