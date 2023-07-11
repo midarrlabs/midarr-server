@@ -29,13 +29,13 @@ services:
       - SETUP_ADMIN_NAME=admin
       - SETUP_ADMIN_PASSWORD=passwordpassword
 
-      - OAUTH_ISSUER_URL=http://localhost:9000
-      - OAUTH_AUTHORIZE_URL=http://localhost:9000/application/o/authorize/
-      - OAUTH_TOKEN_URL=http://server-authentik:9000/application/o/token/
       - OAUTH_CLIENT_ID=someClientId
       - OAUTH_CLIENT_SECRET=someClientSecret
-      - OAUTH_REDIRECT_URI=http://localhost:4000/auth/callback
-      - OAUTH_USER_URL=http://server-authentik:9000/application/o/userinfo/
+      - OAUTH_ISSUER_URL=http://localhost:8081
+      - OAUTH_AUTHORIZE_URL=http://localhost:8081/authorize
+      - OAUTH_TOKEN_URL=http://localhost:8081/token
+      - OAUTH_REDIRECT_URI=http://localhost:8081/auth/callback
+      - OAUTH_USER_URL=http://localhost:8081/user
 
       - RADARR_BASE_URL=http://radarr:7878
       - RADARR_API_KEY=d031e8c9b9df4b2fab311d1c3b3fa2c5
@@ -101,70 +101,3 @@ services:
       - PGID=1000
     healthcheck:
       test: "exit 0"
-
-  postgresql-authentik:
-    image: docker.io/library/postgres:12-alpine
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
-      start_period: 20s
-      interval: 30s
-      retries: 5
-      timeout: 5s
-    volumes:
-      - database:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: ${PG_PASS:-password}
-      POSTGRES_USER: ${PG_USER:-authentik}
-      POSTGRES_DB: ${PG_DB:-authentik}
-
-  redis-authentik:
-    image: docker.io/library/redis:alpine
-    command: --save 60 1 --loglevel warning
-    healthcheck:
-      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
-      start_period: 20s
-      interval: 30s
-      retries: 5
-      timeout: 3s
-    volumes:
-      - redis:/data
-
-  server-authentik:
-    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2023.5.3}
-    command: server
-    environment:
-      AUTHENTIK_SECRET_KEY: password
-      AUTHENTIK_REDIS__HOST: redis-authentik
-      AUTHENTIK_POSTGRESQL__HOST: postgresql-authentik
-      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
-      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
-      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS-password}
-    ports:
-      - "${COMPOSE_PORT_HTTP:-9000}:9000"
-      - "${COMPOSE_PORT_HTTPS:-9443}:9443"
-    depends_on:
-      - postgresql-authentik
-      - redis-authentik
-
-  worker:
-    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2023.5.3}
-    command: worker
-    environment:
-      AUTHENTIK_SECRET_KEY: password
-      AUTHENTIK_REDIS__HOST: redis-authentik
-      AUTHENTIK_POSTGRESQL__HOST: postgresql-authentik
-      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
-      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
-      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS-password}
-    # `user: root` and the docker socket volume are optional.
-    # See more for the docker socket integration here:
-    # https://goauthentik.io/docs/outposts/integrations/docker
-    # Removing `user: root` also prevents the worker from fixing the permissions
-    # on the mounted folders, so when removing this make sure the folders have the correct UID/GID
-    # (1000:1000 by default)
-    user: root
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    depends_on:
-      - postgresql-authentik
-      - redis-authentik
