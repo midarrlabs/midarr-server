@@ -456,6 +456,10 @@ defmodule MediaServer.AccountsTest do
       assert user_token.user_id == user.id
       assert user_token.sent_to == user.email
       assert user_token.context == "invitation"
+
+      user = user |> MediaServer.Repo.preload(:api_token)
+
+      assert is_binary(user.api_token.token)
     end
   end
 

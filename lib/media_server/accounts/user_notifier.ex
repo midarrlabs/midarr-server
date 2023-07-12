@@ -40,21 +40,24 @@ defmodule MediaServer.Accounts.UserNotifier do
     """)
   end
 
-  def deliver_invitation_instructions(user, password) do
+  def deliver_invitation_instructions(user, password, api_token) do
     deliver(user.email, "Invitation instructions", """
 
     <p>Hi #{user.name}</p>
 
     <p>An account has been created for you at:</p>
 
-    #{System.get_env("APP_URL", "")}
+    <a href="#{System.get_env("APP_URL", "")}">#{System.get_env("APP_URL", "")}</a>
 
-    <p>You're account details are:</p>
+    <p>Your account details are:</p>
 
     <ul>
       <li>Email: #{user.email}</li>
       <li>Password: #{password}</li>
     </ul>
+
+    Your API token is: <strong>#{ api_token }</strong>
+    <br>You can regenerate tokens on your Settings page.
 
     <p>If you weren't expecting an account with us, please ignore this.</p>
     """)

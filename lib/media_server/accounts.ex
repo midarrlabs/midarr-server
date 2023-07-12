@@ -285,7 +285,11 @@ defmodule MediaServer.Accounts do
   def deliver_user_invitation_instructions(%User{} = user, password) do
     {encoded_token, user_token} = UserToken.build_email_token(user, "invitation")
     Repo.insert!(user_token)
-    UserNotifier.deliver_invitation_instructions(user, password)
+
+    api_token = generate_user_api_token(user)
+
+    UserNotifier.deliver_invitation_instructions(user, password, api_token)
+
     encoded_token
   end
 
