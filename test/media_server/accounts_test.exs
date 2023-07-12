@@ -385,9 +385,7 @@ defmodule MediaServer.AccountsTest do
 
       refute token == anotherToken
 
-      tokens = MediaServer.Accounts.UserToken.all()
-
-      assert Enum.count(tokens) === 1
+      refute Repo.get_by(UserToken, token: :crypto.hash(:sha256, token))
       assert Repo.get_by(UserToken, token: :crypto.hash(:sha256, anotherToken))
     end
   end
