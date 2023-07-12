@@ -1,6 +1,7 @@
 defmodule MediaServer.Accounts.UserToken do
   use Ecto.Schema
   import Ecto.Query
+  import Ecto.Changeset
 
   @hash_algorithm :sha256
   @rand_size 32
@@ -19,6 +20,11 @@ defmodule MediaServer.Accounts.UserToken do
     belongs_to :user, MediaServer.Accounts.User
 
     timestamps(updated_at: false)
+  end
+
+  def changeset(user_token, attrs) do
+    user_token
+    |> cast(attrs, [:token, :context, :user_id])
   end
 
   @doc """
@@ -61,6 +67,35 @@ defmodule MediaServer.Accounts.UserToken do
         select: user
 
     {:ok, query}
+  end
+
+  def build_api_token(user) do
+    token = Ecto.UUID.generate
+    hashed_token = :crypto.hash(@hash_algorithm, token)
+
+    {Base.url_encode64(token, padding: false),
+      %{
+        token: hashed_token,
+        context: "api",
+        user_id: user.id
+      }}
+  end
+
+  def all do
+    MediaServer.Repo.all(__MODULE__)
+  end
+
+  def insert_or_update(attrs) do
+    case MediaServer.Repo.get_by(__MODULE__, [context: attrs.context, user_id: attrs.user_id]) do
+      nil  -> %__MODULE__{
+                token: attrs.token,
+                context: attrs.context,
+                user_id: attrs.user_id
+              }
+      item -> item
+    end
+    |> changeset(attrs)
+    |> MediaServer.Repo.insert_or_update
   end
 
   @doc """

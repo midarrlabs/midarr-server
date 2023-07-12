@@ -246,6 +246,17 @@ defmodule MediaServer.Accounts do
     :ok
   end
 
+  ## API
+
+  @doc """
+  Generates a api token.
+  """
+  def generate_user_api_token(user) do
+    {token, user_token} = UserToken.build_api_token(user)
+    MediaServer.Accounts.UserToken.insert_or_update(user_token)
+    token
+  end
+
   ## Confirmation
 
   @doc """

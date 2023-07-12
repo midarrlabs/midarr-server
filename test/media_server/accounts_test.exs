@@ -358,6 +358,43 @@ defmodule MediaServer.AccountsTest do
     end
   end
 
+  describe "generate_user_api_token/1" do
+    setup do
+      %{user: user_fixture()}
+    end
+
+    test "it should generate token", %{user: user} do
+      token = Accounts.generate_user_api_token(user)
+      {:ok, token} = Base.url_decode64(token, padding: false)
+
+      assert user_token = Repo.get_by(UserToken, token: :crypto.hash(:sha256, token))
+      assert user_token.context == "api"
+
+      # Creating the same token for another user should fail
+      assert_raise Ecto.ConstraintError, fn ->
+        Repo.insert!(%UserToken{
+          token: user_token.token,
+          user_id: user_fixture().id,
+          context: "api"
+        })
+      end
+    end
+
+    test "it should update", %{user: user} do
+      token = Accounts.generate_user_api_token(user)
+      {:ok, decodedToken} = Base.url_decode64(token, padding: false)
+
+      anotherToken = Accounts.generate_user_api_token(user)
+      {:ok, anotherDecodedToken} = Base.url_decode64(anotherToken, padding: false)
+
+      refute decodedToken == anotherDecodedToken
+
+      tokens = MediaServer.Accounts.UserToken.all()
+
+      assert Enum.count(tokens) === 1
+    end
+  end
+
   describe "deliver_user_confirmation_instructions/2" do
     setup do
       %{user: user_fixture()}
