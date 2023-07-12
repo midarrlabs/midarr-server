@@ -365,7 +365,6 @@ defmodule MediaServer.AccountsTest do
 
     test "it should generate token", %{user: user} do
       token = Accounts.generate_user_api_token(user)
-      {:ok, token} = Base.url_decode64(token, padding: false)
 
       assert user_token = Repo.get_by(UserToken, token: :crypto.hash(:sha256, token))
       assert user_token.context == "api"
@@ -382,16 +381,14 @@ defmodule MediaServer.AccountsTest do
 
     test "it should update", %{user: user} do
       token = Accounts.generate_user_api_token(user)
-      {:ok, decodedToken} = Base.url_decode64(token, padding: false)
-
       anotherToken = Accounts.generate_user_api_token(user)
-      {:ok, anotherDecodedToken} = Base.url_decode64(anotherToken, padding: false)
 
-      refute decodedToken == anotherDecodedToken
+      refute token == anotherToken
 
       tokens = MediaServer.Accounts.UserToken.all()
 
       assert Enum.count(tokens) === 1
+      assert Repo.get_by(UserToken, token: :crypto.hash(:sha256, anotherToken))
     end
   end
 

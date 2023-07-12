@@ -73,12 +73,7 @@ defmodule MediaServer.Accounts.UserToken do
     token = Ecto.UUID.generate
     hashed_token = :crypto.hash(@hash_algorithm, token)
 
-    {Base.url_encode64(token, padding: false),
-      %{
-        token: hashed_token,
-        context: "api",
-        user_id: user.id
-      }}
+    {token, %{token: hashed_token, context: "api", user_id: user.id}}
   end
 
   def all do

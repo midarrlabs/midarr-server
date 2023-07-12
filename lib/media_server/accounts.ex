@@ -249,7 +249,7 @@ defmodule MediaServer.Accounts do
   ## API
 
   @doc """
-  Generates a api token.
+  Generates an api token.
   """
   def generate_user_api_token(user) do
     {token, user_token} = UserToken.build_api_token(user)
