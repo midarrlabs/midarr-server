@@ -20,7 +20,7 @@ defmodule MediaServer.Application do
       # {MediaServer.Worker, arg}
       MediaServerWeb.Presence,
 
-      MediaServer.UserCreated,
+      MediaServer.UserRegistered,
 
       MediaServer.Token,
       MediaServer.MoviesIndex,

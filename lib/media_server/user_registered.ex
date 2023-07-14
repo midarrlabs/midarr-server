@@ -1,4 +1,4 @@
-defmodule MediaServer.UserCreated do
+defmodule MediaServer.UserRegistered do
   use GenServer
 
   def start_link(_args) do
@@ -11,7 +11,7 @@ defmodule MediaServer.UserCreated do
     {:ok, state}
   end
 
-  def handle_info({:registered, user}, state) do
+  def handle_info({:registered, _user}, state) do
 
     {:noreply, state}
   end
