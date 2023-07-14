@@ -75,9 +75,13 @@ defmodule MediaServer.Accounts do
 
   """
   def register_user(attrs) do
-    %User{}
-    |> User.registration_changeset(attrs)
-    |> Repo.insert()
+    case %User{} |> User.registration_changeset(attrs) |> Repo.insert() do
+      {:ok, user} ->
+        Phoenix.PubSub.broadcast(MediaServer.PubSub, "user", {:registered, user})
+        {:ok, user}
+
+      {:error, user} -> {:error, user}
+    end
   end
 
   @doc """

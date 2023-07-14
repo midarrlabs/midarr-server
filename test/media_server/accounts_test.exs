@@ -88,6 +88,15 @@ defmodule MediaServer.AccountsTest do
       assert is_nil(user.confirmed_at)
       assert is_nil(user.password)
     end
+
+    test "it should receive registered message on user topic" do
+      Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
+
+      email = unique_user_email()
+      {:ok, _user} = Accounts.register_user(valid_user_attributes(email: email))
+
+      assert_received {:registered, _user}
+    end
   end
 
   describe "change_user_registration/2" do
