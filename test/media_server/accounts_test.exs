@@ -137,7 +137,7 @@ defmodule MediaServer.AccountsTest do
     end
 
     test "does not return user for expired token", %{token: token} do
-      {3, nil} = Repo.update_all(UserToken, set: [inserted_at: ~N[2020-01-01 00:00:00]])
+      {_, nil} = Repo.update_all(UserToken, set: [inserted_at: ~N[2020-01-01 00:00:00]])
       refute Accounts.get_user_by_session_token(token)
     end
   end
