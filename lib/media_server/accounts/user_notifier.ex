@@ -37,7 +37,6 @@ defmodule MediaServer.Accounts.UserNotifier do
     </ul>
 
     Your API token is: <strong>#{ user.api_token.token }</strong>
-    <br>You can regenerate tokens on your Settings page.
 
     <p>If you weren't expecting an account with us, please ignore this.</p>
     """)
