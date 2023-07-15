@@ -91,16 +91,4 @@ defmodule MediaServer.Accounts.UserToken do
   def token_and_context_query(token, context) do
     from MediaServer.Accounts.UserToken, where: [token: ^token, context: ^context]
   end
-
-  @doc """
-  Gets all tokens for the given user for the given contexts.
-  """
-  def user_and_contexts_query(user, :all) do
-    from t in MediaServer.Accounts.UserToken, where: t.user_id == ^user.id
-  end
-
-  def user_and_contexts_query(user, [_ | _] = contexts) do
-    from t in MediaServer.Accounts.UserToken,
-      where: t.user_id == ^user.id and t.context in ^contexts
-  end
 end
