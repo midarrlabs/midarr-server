@@ -1,3 +1,11 @@
+version: "3.4"
+
+volumes:
+  database:
+    driver: local
+  redis:
+    driver: local
+
 services:
 
   midarr:
@@ -20,6 +28,14 @@ services:
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
       - SETUP_ADMIN_PASSWORD=passwordpassword
+
+      - OAUTH_CLIENT_ID=someClientId
+      - OAUTH_CLIENT_SECRET=someClientSecret
+      - OAUTH_ISSUER_URL=http://localhost:8081
+      - OAUTH_AUTHORIZE_URL=http://localhost:8081/authorize
+      - OAUTH_TOKEN_URL=http://localhost:8081/token
+      - OAUTH_REDIRECT_URI=http://localhost:8081/auth/callback
+      - OAUTH_USER_URL=http://localhost:8081/user
 
       - RADARR_BASE_URL=http://radarr:7878
       - RADARR_API_KEY=d031e8c9b9df4b2fab311d1c3b3fa2c5

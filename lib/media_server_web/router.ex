@@ -24,6 +24,9 @@ defmodule MediaServerWeb.Router do
 
     get "/login", UserSessionController, :new
     post "/login", UserSessionController, :create
+
+    get "/auth", OAuthController, :index
+    get "/auth/callback", OAuthController, :callback
   end
 
   scope "/", MediaServerWeb do

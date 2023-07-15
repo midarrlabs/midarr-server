@@ -19,6 +19,7 @@ defmodule MediaServer.Application do
       # Start a worker by calling: MediaServer.Worker.start_link(arg)
       # {MediaServer.Worker, arg}
       MediaServerWeb.Presence,
+      {DynamicSupervisor, name: MediaServer.DynamicSupervisor},
 
       MediaServer.UserRegistered,
 
