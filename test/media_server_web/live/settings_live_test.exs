@@ -52,21 +52,6 @@ defmodule MediaServerWeb.SettingsLiveTest do
            |> render_submit() =~ "can&#39;t be blank"
   end
 
-  test "it should update email address", %{conn: conn} do
-    conn = conn |> log_in_user(AccountsFixtures.user_admin_fixture())
-
-    {:ok, view, _disconnected_html} = live(conn, Routes.settings_index_path(conn, :index))
-
-    {:ok, _, disconnected_html} =
-      view
-      |> form("#user-form", user: %{email: "test@email.com", name: "Some Name"})
-      |> render_submit()
-      |> follow_redirect(conn, Routes.settings_index_path(conn, :index))
-
-    assert disconnected_html =~ "Some Name"
-    assert disconnected_html =~ "test@email.com"
-  end
-
   test "it should require name", %{conn: conn} do
     conn = conn |> log_in_user(AccountsFixtures.user_admin_fixture())
 

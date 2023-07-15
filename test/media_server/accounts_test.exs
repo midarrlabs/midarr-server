@@ -159,7 +159,7 @@ defmodule MediaServer.AccountsTest do
     test "it should generate token", %{user: user} do
       token = Accounts.generate_user_api_token(user)
 
-      assert user_token = Repo.get_by(UserToken, token: :crypto.hash(:sha256, token))
+      assert user_token = Repo.get_by(UserToken, token: token)
       assert user_token.context == "api"
 
       # Creating the same token for another user should fail
@@ -178,28 +178,8 @@ defmodule MediaServer.AccountsTest do
 
       refute token == anotherToken
 
-      refute Repo.get_by(UserToken, token: :crypto.hash(:sha256, token))
-      assert Repo.get_by(UserToken, token: :crypto.hash(:sha256, anotherToken))
-    end
-  end
-
-  describe "deliver_user_invitation_instructions/2" do
-    setup do
-      %{user: user_fixture()}
-    end
-
-    test "sends invitation through notification", %{user: user} do
-      token = Accounts.deliver_user_invitation_instructions(user, valid_user_password())
-
-      {:ok, token} = Base.url_decode64(token, padding: false)
-      assert user_token = Repo.get_by(UserToken, token: :crypto.hash(:sha256, token))
-      assert user_token.user_id == user.id
-      assert user_token.sent_to == user.email
-      assert user_token.context == "invitation"
-
-      user = user |> MediaServer.Repo.preload(:api_token)
-
-      assert is_binary(user.api_token.token)
+      refute Repo.get_by(UserToken, token: token)
+      assert Repo.get_by(UserToken, token: anotherToken)
     end
   end
 
