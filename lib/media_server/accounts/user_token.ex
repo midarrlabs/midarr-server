@@ -63,7 +63,7 @@ defmodule MediaServer.Accounts.UserToken do
   end
 
   def build_api_token(user) do
-    token = Ecto.UUID.generate
+    token = Ecto.UUID.generate |> binary_part(16,16)
 
     {token, %{token: token, context: "api", user_id: user.id}}
   end
