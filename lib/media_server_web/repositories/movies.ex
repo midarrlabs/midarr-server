@@ -10,18 +10,6 @@ defmodule MediaServerWeb.Repositories.Movies do
     end
   end
 
-  def post(url, body) do
-    if String.valid?(System.get_env("RADARR_BASE_URL")) and
-         String.valid?(System.get_env("RADARR_API_KEY")) do
-      HTTPoison.post("#{System.get_env("RADARR_BASE_URL")}/api/v3/#{url}", body, %{
-        "X-Api-Key" => System.get_env("RADARR_API_KEY"),
-        "Content-Type" => "application/json"
-      })
-    else
-      nil
-    end
-  end
-
   def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
     Jason.decode!(body)
   end
