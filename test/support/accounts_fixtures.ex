@@ -30,7 +30,7 @@ defmodule MediaServer.AccountsFixtures do
       |> valid_user_attributes()
       |> MediaServer.Accounts.register_user()
 
-    user
+    user |> MediaServer.Repo.preload(:api_token)
   end
 
   def user_admin_fixture(attrs \\ %{}) do
