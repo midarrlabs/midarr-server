@@ -62,6 +62,14 @@ defmodule MediaServer.Accounts.UserToken do
     {:ok, query}
   end
 
+  def verify_api_token(token) do
+    case MediaServer.Repo.get_by(__MODULE__, [token: token, context: "api"]) do
+      nil -> {:error, :invalid}
+      result -> {:ok, result}
+    end
+
+  end
+
   def build_api_token(user) do
     token = Ecto.UUID.generate |> binary_part(16,16)
 

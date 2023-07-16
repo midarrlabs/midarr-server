@@ -1,10 +1,14 @@
 defmodule MediaServerWeb.StreamControllerTest do
   use MediaServerWeb.ConnCase
 
-  test "movie", %{conn: conn} do
+  setup do
+    %{user: MediaServer.AccountsFixtures.user_fixture()}
+  end
+
+  test "movie", %{conn: conn, user: user} do
     movie = MediaServer.MoviesIndex.get_movie("1")
 
-    conn = get(conn, Routes.stream_path(conn, :index, movie: movie["id"]), token: MediaServer.Token.get_token())
+    conn = get(conn, Routes.stream_path(conn, :index, movie: movie["id"]), token: user.api_token.token)
 
     assert conn.status === 206
   end
@@ -27,12 +31,12 @@ defmodule MediaServerWeb.StreamControllerTest do
     assert conn.halted
   end
 
-  test "episode", %{conn: conn} do
+  test "episode", %{conn: conn, user: user} do
     series = MediaServer.SeriesIndex.get_all() |> List.first()
 
     episode = MediaServerWeb.Repositories.Episodes.get_episode(series["id"])
 
-    conn = get(conn, Routes.stream_path(conn, :index, episode: episode["id"]), token: MediaServer.Token.get_token())
+    conn = get(conn, Routes.stream_path(conn, :index, episode: episode["id"]), token: user.api_token.token)
 
     assert conn.status === 206
   end

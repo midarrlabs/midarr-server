@@ -3,7 +3,7 @@ defmodule MediaServerWeb.VerifyToken do
 
   def init(default), do: default
 
-  def handle_response({:ok, _user_id}, conn) do
+  def handle_response({:ok, _result}, conn) do
     conn
   end
 
@@ -13,14 +13,8 @@ defmodule MediaServerWeb.VerifyToken do
     |> halt
   end
 
-  def handle_response({:error, :expired}, conn) do
-    conn
-    |> resp(403, "Forbidden")
-    |> halt
-  end
-
   def call(%Plug.Conn{params: %{"token" => token}} = conn, _default) do
-    Phoenix.Token.verify(conn, "user auth", token, max_age: :infinity)
+    MediaServer.Accounts.UserToken.verify_api_token(token)
     |> handle_response(conn)
   end
 
