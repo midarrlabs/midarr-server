@@ -19,6 +19,8 @@ defmodule MediaServerWeb.ConnCase do
 
   using do
     quote do
+      use MediaServerWeb, :verified_routes
+
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest

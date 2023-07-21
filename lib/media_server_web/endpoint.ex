@@ -22,8 +22,7 @@ defmodule MediaServerWeb.Endpoint do
     at: "/",
     from: :media_server,
     gzip: false,
-    only_matching:
-      ~w(assets fonts images manifest browserconfig favicon logo android-icon apple-icon ms-icon)
+    only_matching: MediaServerWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

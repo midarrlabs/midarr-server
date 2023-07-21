@@ -17,13 +17,18 @@ defmodule MediaServerWeb do
   and import those modules here.
   """
 
+  def static_paths, do: ~w(assets fonts images manifest browserconfig favicon logo android-icon apple-icon ms-icon)
+
   def controller do
     quote do
       use Phoenix.Controller, namespace: MediaServerWeb
 
       import Plug.Conn
       import MediaServerWeb.Gettext
+
       alias MediaServerWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
     end
   end
 
@@ -89,7 +94,19 @@ defmodule MediaServerWeb do
 
       import MediaServerWeb.ErrorHelpers
       import MediaServerWeb.Gettext
+
       alias MediaServerWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
+    end
+  end
+
+  def verified_routes do
+    quote do
+      use Phoenix.VerifiedRoutes,
+          endpoint: MediaServerWeb.Endpoint,
+          router: MediaServerWeb.Router,
+          statics: MediaServerWeb.static_paths()
     end
   end
 
