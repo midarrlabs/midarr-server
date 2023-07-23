@@ -6,7 +6,7 @@ defmodule MediaServerWeb.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_media_server_key",
+    key: "_media_server_session_key",
     signing_salt: "iVsp22bp"
   ]
 

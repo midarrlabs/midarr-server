@@ -49,7 +49,7 @@ defmodule MediaServerWeb.UserSessionControllerTest do
           }
         })
 
-      assert conn.resp_cookies["_media_server_web_user_remember_me"]
+      assert conn.resp_cookies["_media_server_web_remember_me_cookie"]
       assert redirected_to(conn) == "/"
     end
 

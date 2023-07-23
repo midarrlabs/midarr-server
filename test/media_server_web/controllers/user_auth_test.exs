@@ -5,7 +5,7 @@ defmodule MediaServerWeb.UserAuthTest do
   alias MediaServerWeb.UserAuth
   import MediaServer.AccountsFixtures
 
-  @remember_me_cookie "_media_server_web_user_remember_me"
+  @remember_me_cookie "_media_server_web_remember_me_cookie"
 
   setup %{conn: conn} do
     conn =
