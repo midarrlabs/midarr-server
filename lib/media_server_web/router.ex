@@ -44,16 +44,14 @@ defmodule MediaServerWeb.Router do
       live "/watch", WatchLive.Index, :index
     end
 
-    live_session :plain, root_layout: {MediaServerWeb.PlainView, :plain} do
-      live "/playlists", PlaylistLive.Index, :index
-      live "/playlists/:id", PlaylistLive.Show, :show
+    live "/playlists", PlaylistLive.Index, :index
+    live "/playlists/:id", PlaylistLive.Show, :show
 
-      live "/history", HistoryLive.Index, :index
+    live "/history", HistoryLive.Index, :index
 
-      live "/search", SearchLive.Index, :index
+    live "/search", SearchLive.Index, :index
 
-      live "/settings", SettingsLive.Index, :index
-    end
+    live "/settings", SettingsLive.Index, :index
 
     get "/images", ImagesController, :index
 
