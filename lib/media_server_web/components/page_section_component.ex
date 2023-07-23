@@ -6,7 +6,7 @@ defmodule MediaServerWeb.Components.PageSectionComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="sm:px-8 mt-24 md:mt-28">
+    <div class="sm:px-8 mt-12 md:mt-20">
       <div class="mx-auto lg:px-8">
 
       <div class="flex justify-between px-3 py-4">

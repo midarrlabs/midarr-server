@@ -7,7 +7,7 @@
       }
       class="object-cover w-full"
     />
-    <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-slate-500 mix-blend-multiply">
+    <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-black mix-blend-multiply">
     </div>
     <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-zinc-900 mix-blend-multiply">
     </div>
@@ -24,7 +24,7 @@
               <h1 class="text-4xl font-bold tracking-tight text-zinc-100 sm:text-5xl">
                 <%= Enum.at(@movies, 0)["title"] %>
               </h1>
-              <div class="mt-6 text-base text-zinc-200 line-clamp-2">
+              <div class="mt-6 text-base text-zinc-400 line-clamp-2">
                 <%= Enum.at(@movies, 0)["overview"] %>
               </div>
               <div class="mt-6 flex gap-6">

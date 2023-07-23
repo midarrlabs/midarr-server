@@ -6,7 +6,7 @@
         src={Routes.images_path(@socket, :index, movie: @movie["id"], type: "background")}
         class="object-cover w-full"
       />
-      <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-slate-500 mix-blend-multiply">
+      <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-black mix-blend-multiply">
       </div>
       <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-black mix-blend-multiply">
       </div>
@@ -26,7 +26,7 @@
                   <h1 class="text-4xl font-bold tracking-tight text-zinc-100 sm:text-5xl">
                     <%= @movie["title"] %>
                   </h1>
-                  <div class="mt-6 text-base text-zinc-200">
+                  <div class="mt-6 text-base text-zinc-400">
                     <%= @movie["overview"] %>
                   </div>
                   <div class="mt-6 flex gap-6">
@@ -155,7 +155,7 @@
         </div>
       </div>
 
-      <div class="sm:px-8 mt-24 md:mt-28 space-y-12">
+      <div class="sm:px-8 mt-12 md:mt-20 space-y-12">
         <div class="mx-auto lg:px-8">
           <h2 class="p-4 text-base font-semibold tracking-tight text-zinc-100">
             Cast
