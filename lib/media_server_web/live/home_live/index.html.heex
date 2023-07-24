@@ -7,15 +7,15 @@
       }
       class="object-cover w-full"
     />
-    <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-black mix-blend-multiply">
+    <div class="absolute inset-0 w-3/4 bg-gradient-to-l from-white to-black mix-blend-multiply">
     </div>
-    <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-black mix-blend-multiply">
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-50 to-black mix-blend-multiply">
     </div>
   </div>
 
   <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
 
-  <div class="sm:px-8 mt-16 sm:mt-32">
+  <div class="sm:px-8 my-16 sm:my-32">
     <div class="mx-auto max-w-7xl lg:px-8">
       <div class="relative px-4 sm:px-8 lg:px-12">
         <div class="mx-auto max-w-2xl lg:max-w-5xl">
@@ -45,7 +45,7 @@
                   </span>
                   &#8729;
                   <span>
-                    <%= Enum.at(@movies, 0)["movieFile"]["mediaInfo"]["runTime"] %>
+                    Ends <%= Calendar.strftime(Time.add(Time.utc_now(), Enum.at(@movies, 0)["runtime"], :minute), "%I:%M%P") %>
                   </span>
                 </div>
               </div>
@@ -60,6 +60,7 @@
     <div class="mx-auto max-w-7xl lg:px-8">
       <div class="relative px-4 sm:px-8 lg:px-12">
         <div class="mx-auto max-w-2xl lg:max-w-5xl">
+
           <div class="">
             <h2 class="py-4 text-base font-semibold tracking-tight text-zinc-100">
               Movies fresh in

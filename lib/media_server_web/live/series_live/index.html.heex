@@ -128,14 +128,16 @@
         link: Routes.series_show_path(@socket, :show, item["id"])
       }) %>
     <% end %>
-  </MediaServerWeb.Components.PageSectionComponent.render>
 
-  <%= MediaServerWeb.Components.PaginationComponent.render(%{
-    page_number: @series.page_number,
-    total_pages: @series.total_pages,
-    previous_link: @previous_link,
-    next_link: @next_link
-  }) %>
+    <:footer>
+      <%= MediaServerWeb.Components.PaginationComponent.render(%{
+        page_number: @series.page_number,
+        total_pages: @series.total_pages,
+        previous_link: @previous_link,
+        next_link: @next_link
+      }) %>
+    </:footer>
+  </MediaServerWeb.Components.PageSectionComponent.render>
 
   <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
 </div>

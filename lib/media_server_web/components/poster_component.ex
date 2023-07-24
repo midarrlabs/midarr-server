@@ -3,7 +3,7 @@ defmodule MediaServerWeb.Components.PosterComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="bg-blend-overlay relative aspect-auto w-32 h-54 md:w-48 md:h-72 flex-none overflow-hidden rounded-sm hover:opacity-75">
+    <div class="bg-blend-overlay relative aspect-auto w-32 h-54 md:w-44 md:h-64 flex-none overflow-hidden rounded-sm hover:opacity-75">
       <%= live_redirect to: assigns.link do %>
         <%= if assigns.img_src !== "" do %>
           <img

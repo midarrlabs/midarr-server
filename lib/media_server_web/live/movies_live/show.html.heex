@@ -5,9 +5,9 @@
       src={Routes.images_path(@socket, :index, movie: @movie["id"], type: "background")}
       class="object-cover w-full"
     />
-    <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-black mix-blend-multiply">
+    <div class="absolute inset-0 w-3/4 bg-gradient-to-l from-white to-black mix-blend-multiply">
     </div>
-    <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-black mix-blend-multiply">
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-50 to-black mix-blend-multiply">
     </div>
   </div>
 
@@ -17,18 +17,17 @@
     <div class="mx-auto max-w-7xl lg:px-8">
       <div class="relative px-4 sm:px-8 lg:px-12">
         <div class="mx-auto max-w-2xl lg:max-w-5xl">
-          <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
+          <div class="grid grid-cols-1 gap-y-16">
             <div class="lg:order-first lg:row-span-2">
               <h1 class="text-2xl md:text-4xl font-bold tracking-tight text-zinc-100">
                 <%= @movie["title"] %>
+                <span class="font-normal text-base md:text-2xl text-zinc-400">
+                  <%= @movie["year"] %>
+                </span>
               </h1>
 
               <div class="mt-2 flex gap-6 text-base text-zinc-400 line-clamp-2">
                 <div>
-                  <span>
-                    <%= @movie["year"] %>
-                  </span>
-                  &#8729;
                   <span>
                     <%= @movie["certification"] %>
                   </span>
@@ -44,7 +43,7 @@
                   </span>
                   &#8729;
                   <span>
-                    <%= @movie["movieFile"]["mediaInfo"]["runTime"] %>
+                    Ends <%= Calendar.strftime(Time.add(Time.utc_now(), @movie["runtime"], :minute), "%I:%M%P") %>
                   </span>
                 </div>
               </div>
@@ -114,7 +113,7 @@
             <h2 class="py-4 text-base font-semibold tracking-tight text-zinc-100">
               Synopsis
             </h2>
-            <div class="flex gap-5 py-4 sm:gap-6 text-zinc-400 md:w-3/4">
+            <div class="flex gap-5 py-4 sm:gap-6 text-zinc-400 md:w-2/3">
               <%= @movie["overview"] %>
             </div>
           </div>

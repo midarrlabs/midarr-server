@@ -1,20 +1,27 @@
 defmodule MediaServerWeb.Components.PageSectionComponent do
   use Phoenix.Component
 
-  slot :header
-  slot(:inner_block, required: true)
+  slot :inner_block
+
+  slot :header, required: false
+  slot :footer, required: false
 
   def render(assigns) do
     ~H"""
-    <div class="sm:px-8 mt-12 md:mt-20">
-      <div class="mx-auto lg:px-8">
+    <div class="mt-16 sm:mt-20">
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="relative px-4 sm:px-8 lg:px-12">
+          <div class="mx-auto max-w-2xl lg:max-w-5xl">
+            <div class="flex justify-between py-4">
+              <%= render_slot(@header) %>
+            </div>
 
-      <div class="flex justify-between px-3 py-4">
-        <%= render_slot(@header) %>
-      </div>
+            <div class="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-5 lg:gap-x-8">
+              <%= render_slot(@inner_block) %>
+            </div>
 
-        <div class="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-6 lg:gap-x-8 justify-items-center">
-          <%= render_slot(@inner_block) %>
+            <%= render_slot(@footer) %>
+          </div>
         </div>
       </div>
     </div>
