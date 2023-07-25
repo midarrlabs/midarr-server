@@ -8,15 +8,15 @@ defmodule MediaServerWeb.Components.PageSectionComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="mt-16 sm:mt-20">
       <div class="mx-auto max-w-7xl lg:px-8">
         <div class="relative px-4 sm:px-8 lg:px-12">
           <div class="mx-auto max-w-2xl lg:max-w-5xl">
+
             <div class="flex justify-between py-4">
               <%= render_slot(@header) %>
             </div>
 
-            <div class="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-5 lg:gap-x-8">
+            <div class="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-5 lg:gap-x-8 py-4">
               <%= render_slot(@inner_block) %>
             </div>
 
@@ -24,7 +24,6 @@ defmodule MediaServerWeb.Components.PageSectionComponent do
           </div>
         </div>
       </div>
-    </div>
     """
   end
 end

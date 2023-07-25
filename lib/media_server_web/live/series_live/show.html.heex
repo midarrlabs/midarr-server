@@ -5,26 +5,42 @@
       src={Routes.images_path(@socket, :index, series: @serie["id"], type: "background")}
       class="object-cover w-full"
     />
-    <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-black mix-blend-multiply">
+    <div class="absolute inset-0 w-3/4 bg-gradient-to-l from-white to-black mix-blend-multiply">
     </div>
-    <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-black mix-blend-multiply">
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-50 to-black mix-blend-multiply">
     </div>
   </div>
 
   <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
 
-  <div class="relative">
-    <div class="sm:px-8 mt-16 sm:mt-32">
-      <div class="mx-auto max-w-7xl lg:px-8">
-        <div class="relative px-4 sm:px-8 lg:px-12">
-          <div class="mx-auto max-w-2xl lg:max-w-5xl">
-            <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
-              <div class="lg:order-first lg:row-span-2">
-                <h1 class="text-4xl font-bold tracking-tight text-zinc-100 sm:text-5xl">
-                  <%= @serie["title"] %>
-                </h1>
-                <div class="mt-6 text-base text-zinc-400">
-                  <%= @serie["overview"] %>
+  <div class="sm:px-8 my-16 sm:my-32">
+    <div class="mx-auto max-w-7xl lg:px-8">
+      <div class="relative px-4 sm:px-8 lg:px-12">
+        <div class="mx-auto max-w-2xl lg:max-w-5xl">
+          <div class="grid grid-cols-1 gap-y-16">
+            <div class="lg:order-first lg:row-span-2">
+              <h1 class="text-2xl md:text-4xl font-bold tracking-tight text-zinc-100">
+                <%= @serie["title"] %>
+                <span class="font-normal text-base md:text-2xl text-zinc-400">
+                  <%= @serie["year"] %>
+                </span>
+              </h1>
+
+              <div class="mt-2 flex gap-6 text-base text-zinc-400 line-clamp-2">
+                <div>
+                  <span>
+                    <%= @serie["certification"] %>
+                  </span>
+                  &#8729;
+                  <span>
+                    <%= for {item, counter} <- Enum.with_index(@serie["genres"]) do %>
+                      <%= if (counter + 1) !== Enum.count(@serie["genres"]) do %>
+                        <%= item %>,
+                      <% else %>
+                        <%= item %>
+                      <% end %>
+                    <% end %>
+                  </span>
                 </div>
               </div>
             </div>
@@ -32,33 +48,49 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <MediaServerWeb.Components.PageSectionAlternativeComponent.render>
-      <:header>
-        <div class="w-full lg:w-1/2 relative block inline-flex justify-start text-base font-semibold text-zinc-100 hover:text-red-400">
-          <div class="-mb-px flex space-x-8 overflow-x-auto">
-            <%= if Enum.count(@serie["seasons"]) === 1 do %>
-              <div class="text-zinc-300 whitespace-nowrap border-transparent">
-                Season 1
-              </div>
-            <% else %>
-              <%= for item <- @serie["seasons"] do %>
-                <%= if item["seasonNumber"] === 0 do %>
-                  <%= live_patch to: Routes.series_show_path(@socket, :show, @serie["id"], season: item["seasonNumber"]), class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 text-zinc-300" else "text-gray-500 hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-                    Specials
-                  <% end %>
-                <% else %>
-                  <%= live_patch to: Routes.series_show_path(@socket, :show, @serie["id"], season: item["seasonNumber"]), class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 text-zinc-300" else "text-gray-500 hover:text-zinc-300 hover:border-red-400 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-                    Season <%= item["seasonNumber"] %>
-                  <% end %>
+  <div class="mx-auto max-w-7xl lg:px-8">
+    <div class="relative px-4 sm:px-8 lg:px-12">
+      <div class="mx-auto max-w-2xl lg:max-w-5xl">
+        <div class="">
+          <h2 class="py-4 text-base font-semibold tracking-tight text-zinc-100">
+            Synopsis
+          </h2>
+          <div class="flex gap-5 py-4 sm:gap-6 text-zinc-400 md:w-2/3">
+            <%= @serie["overview"] %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <MediaServerWeb.Components.PageSectionAlternativeComponent.render>
+    <:header>
+      <div class="w-full relative block inline-flex justify-start text-base font-semibold text-zinc-100 hover:text-red-400">
+        <div class="-mb-px flex space-x-8 overflow-x-auto">
+          <%= if Enum.count(@serie["seasons"]) === 1 do %>
+            <div class="text-zinc-300 whitespace-nowrap border-transparent">
+              Season 1
+            </div>
+          <% else %>
+            <%= for item <- @serie["seasons"] do %>
+              <%= if item["seasonNumber"] === 0 do %>
+                <%= live_patch to: Routes.series_show_path(@socket, :show, @serie["id"], season: item["seasonNumber"]), class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+                  Specials
+                <% end %>
+              <% else %>
+                <%= live_patch to: Routes.series_show_path(@socket, :show, @serie["id"], season: item["seasonNumber"]), class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+                  Season <%= item["seasonNumber"] %>
                 <% end %>
               <% end %>
             <% end %>
-          </div>
+          <% end %>
         </div>
-      </:header>
+      </div>
+    </:header>
 
-      <%= if assigns[:episodes] do %>
+    <%= if assigns[:episodes] do %>
         <%= for item <- @episodes do %>
           <article class="aspect-auto w-full flex-none overflow-hidden rounded-sm">
             <div class="relative w-full">
@@ -113,9 +145,8 @@
             </div>
           </article>
         <% end %>
-      <% end %>
-    </MediaServerWeb.Components.PageSectionAlternativeComponent.render>
+    <% end %>
+  </MediaServerWeb.Components.PageSectionAlternativeComponent.render>
 
-    <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
-  </div>
+  <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
 </div>

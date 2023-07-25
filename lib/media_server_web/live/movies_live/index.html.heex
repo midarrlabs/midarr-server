@@ -43,13 +43,6 @@
                       <% end %>
                     <% end %>
                   </span>
-                  &#8729;
-                  <span>
-                    Ends <%= Calendar.strftime(
-                      Time.add(Time.utc_now(), Enum.at(@movies, 0)["runtime"], :minute),
-                      "%I:%M%P"
-                    ) %>
-                  </span>
                 </div>
               </div>
             </div>

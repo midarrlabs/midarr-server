@@ -7,25 +7,44 @@
       }
       class="object-cover w-full"
     />
-    <div class="absolute inset-0 bg-gradient-to-l from-slate-50 to-black mix-blend-multiply">
+    <div class="absolute inset-0 w-3/4 bg-gradient-to-l from-white to-black mix-blend-multiply">
     </div>
-    <div class="absolute inset-0 bg-gradient-to-b from-slate-200 to-zinc-900 mix-blend-multiply">
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-50 to-black mix-blend-multiply">
     </div>
   </div>
 
   <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
 
-  <div class="sm:px-8 mt-16 sm:mt-32">
+
+  <div class="sm:px-8 my-16 sm:my-32">
     <div class="mx-auto max-w-7xl lg:px-8">
       <div class="relative px-4 sm:px-8 lg:px-12">
         <div class="mx-auto max-w-2xl lg:max-w-5xl">
-          <div class="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
+          <div class="grid grid-cols-1 gap-y-16">
             <div class="lg:order-first lg:row-span-2">
-              <h1 class="text-4xl font-bold tracking-tight text-zinc-100 sm:text-5xl">
+              <h1 class="text-2xl md:text-4xl font-bold tracking-tight text-zinc-100">
                 <%= Enum.at(@series, 0)["title"] %>
+                <span class="font-normal text-base md:text-2xl text-zinc-400">
+                  <%= Enum.at(@series, 0)["year"] %>
+                </span>
               </h1>
-              <div class="mt-6 text-base text-zinc-400 line-clamp-2">
-                <%= Enum.at(@series, 0)["overview"] %>
+
+              <div class="mt-2 flex gap-6 text-base text-zinc-400 line-clamp-2">
+                <div>
+                  <span>
+                    <%= Enum.at(@series, 0)["certification"] %>
+                  </span>
+                  &#8729;
+                  <span>
+                    <%= for {item, counter} <- Enum.with_index(Enum.at(@series, 0)["genres"]) do %>
+                      <%= if (counter + 1) !== Enum.count(Enum.at(@series, 0)["genres"]) do %>
+                        <%= item %>,
+                      <% else %>
+                        <%= item %>
+                      <% end %>
+                    <% end %>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
