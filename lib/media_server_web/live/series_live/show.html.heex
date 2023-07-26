@@ -48,16 +48,6 @@
                         <% end %>
                       <% end %>
                     </span>
-                    &#8729;
-                  <% end %>
-
-                  <%= if @serie["runtime"] do %>
-                    <span>
-                      Ends <%= Calendar.strftime(
-                        Time.add(Time.utc_now(), @serie["runtime"], :minute),
-                        "%I:%M%P"
-                      ) %>
-                    </span>
                   <% end %>
                 </div>
               </div>
@@ -110,17 +100,17 @@
 
     <%= if assigns[:episodes] do %>
       <%= for item <- @episodes do %>
-        <article class="aspect-auto w-full flex-none overflow-hidden rounded">
+        <article class="aspect-auto w-full flex-none overflow-hidden">
           <div class="relative w-full">
             <%= if MediaServerWeb.Repositories.Episodes.get_screenshot(item) do %>
               <img
                 src={Routes.images_path(@socket, :index, episode: item["id"], type: "screenshot")}
-                alt={item["title"]}
-                class="w-full rounded-sm bg-gray-100 object-cover lg:aspect-[3/2]"
+                alt=""
+                class="w-full bg-gray-100 object-cover lg:aspect-[3/2]"
                 loading="lazy"
               />
             <% else %>
-              <div class="w-full rounded-sm bg-zinc-800/90 object-cover aspect-[3/2]"></div>
+              <div class="w-full bg-zinc-800/90 object-cover aspect-[3/2]"></div>
             <% end %>
           </div>
           <div class="max-w-xl">
