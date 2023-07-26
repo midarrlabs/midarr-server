@@ -67,7 +67,7 @@
             <h2 class="py-4 text-base font-semibold tracking-tight text-zinc-100">
               Movies fresh in
             </h2>
-            <div class="overflow-x-auto mb-8 flex gap-5 py-4 overflow-hidden sm:gap-6">
+            <div class="overflow-x-auto mb-8 flex gap-x-2 py-4 overflow-hidden">
               <%= for item <- @movies do %>
                 <%= MediaServerWeb.Components.PosterComponent.render(%{
                   title: item["title"],
@@ -82,7 +82,7 @@
             <h2 class="py-4 text-base font-semibold tracking-tight text-zinc-100">
               Series fresh in
             </h2>
-            <div class="overflow-x-auto mb-8 flex gap-5 py-4 overflow-hidden sm:gap-6">
+            <div class="overflow-x-auto mb-8 flex gap-x-2 py-4 overflow-hidden">
               <%= for item <- @series do %>
                 <%= MediaServerWeb.Components.PosterComponent.render(%{
                   title: item["title"],

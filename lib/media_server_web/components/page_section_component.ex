@@ -16,7 +16,7 @@ defmodule MediaServerWeb.Components.PageSectionComponent do
               <%= render_slot(@header) %>
             </div>
 
-            <div class="justify-items-center grid grid-cols-2 gap-x-2 gap-y-10 md:grid-cols-3 lg:grid-cols-5 lg:gap-x-8 py-4">
+            <div role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-5 xl:gap-x-8 py-4">
               <%= render_slot(@inner_block) %>
             </div>
 

@@ -110,7 +110,7 @@
 
     <%= if assigns[:episodes] do %>
       <%= for item <- @episodes do %>
-        <article class="aspect-auto w-full flex-none overflow-hidden rounded-sm">
+        <article class="aspect-auto w-full flex-none overflow-hidden rounded">
           <div class="relative w-full">
             <%= if MediaServerWeb.Repositories.Episodes.get_screenshot(item) do %>
               <img
