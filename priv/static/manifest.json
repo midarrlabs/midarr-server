@@ -1,5 +1,9 @@
 {
  "name": "Midarr",
+ "short_name": "Midarr",
+ "theme_color": "#18181b",
+ "background_color": "#18181b",
+ "display": "standalone",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
