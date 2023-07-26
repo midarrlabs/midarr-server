@@ -26,6 +26,12 @@ defmodule MediaServer.MoviesIndex do
     |> Enum.take(amount)
   end
 
+  def genres() do
+    get_all()
+    |> Enum.flat_map(fn x -> x["genres"] end)
+    |> Enum.uniq
+  end
+
   def get_genre(genre) do
     get_all()
     |> Enum.filter(fn item -> Enum.member?(item["genres"], genre) end)

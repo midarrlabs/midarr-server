@@ -15,7 +15,6 @@
 
   <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
 
-
   <div class="sm:px-8 my-16 sm:my-32">
     <div class="mx-auto max-w-7xl lg:px-8">
       <div class="relative px-4 sm:px-8 lg:px-12">
@@ -24,26 +23,33 @@
             <div class="lg:order-first lg:row-span-2">
               <h1 class="text-2xl md:text-4xl font-bold tracking-tight text-zinc-100">
                 <%= Enum.at(@series, 0)["title"] %>
-                <span class="font-normal text-base md:text-2xl text-zinc-400">
-                  <%= Enum.at(@series, 0)["year"] %>
-                </span>
+                <%= if Enum.at(@series, 0)["year"] do %>
+                  <span class="font-normal text-base md:text-2xl text-zinc-400">
+                    <%= Enum.at(@series, 0)["year"] %>
+                  </span>
+                <% end %>
               </h1>
 
               <div class="mt-2 flex gap-6 text-base text-zinc-400 line-clamp-2">
                 <div>
-                  <span>
-                    <%= Enum.at(@series, 0)["certification"] %>
-                  </span>
-                  &#8729;
-                  <span>
-                    <%= for {item, counter} <- Enum.with_index(Enum.at(@series, 0)["genres"]) do %>
-                      <%= if (counter + 1) !== Enum.count(Enum.at(@series, 0)["genres"]) do %>
-                        <%= item %>,
-                      <% else %>
-                        <%= item %>
+                  <%= if Enum.at(@series, 0)["certification"] do %>
+                    <span>
+                      <%= Enum.at(@series, 0)["certification"] %>
+                    </span>
+                    &#8729;
+                  <% end %>
+
+                  <%= if Enum.at(@series, 0)["genres"] do %>
+                    <span>
+                      <%= for {item, counter} <- Enum.with_index(Enum.at(@series, 0)["genres"]) do %>
+                        <%= if (counter + 1) !== Enum.count(Enum.at(@series, 0)["genres"]) do %>
+                          <%= item %>,
+                        <% else %>
+                          <%= item %>
+                        <% end %>
                       <% end %>
-                    <% end %>
-                  </span>
+                    </span>
+                  <% end %>
                 </div>
               </div>
             </div>
@@ -65,76 +71,10 @@
             Latest
           <% end %>
 
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "action"), class: "#{ if @genre === "action" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Action
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "adventure"), class: "#{ if @genre === "adventure" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Adventure
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "animation"), class: "#{ if @genre === "animation" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Animation
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "children"), class: "#{ if @genre === "children" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Children
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "comedy"), class: "#{ if @genre === "comedy" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Comedy
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "crime"), class: "#{ if @genre === "crime" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Crime
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "documentary"), class: "#{ if @genre === "documentary" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Documentary
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "drama"), class: "#{ if @genre === "drama" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Drama
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "family"), class: "#{ if @genre === "family" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Family
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "fantasy"), class: "#{ if @genre === "fantasy" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Fantasy
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "history"), class: "#{ if @genre === "history" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            History
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "horror"), class: "#{ if @genre === "horror" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Horror
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "mystery"), class: "#{ if @genre === "mystery" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Mystery
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "romance"), class: "#{ if @genre === "romance" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Romance
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "sport"), class: "#{ if @genre === "sport" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Sport
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "thriller"), class: "#{ if @genre === "thriller" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Thriller
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "war"), class: "#{ if @genre === "war" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            War
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, genre: "western"), class: "#{ if @genre === "western" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Western
+          <%= for item <- MediaServer.SeriesIndex.genres do %>
+            <%= live_patch to: Routes.series_index_path(@socket, :index, genre: String.downcase(item)), class: "#{ if @genre === String.downcase(item) do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-300 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
+              <%= item %>
+            <% end %>
           <% end %>
         </div>
       </div>

@@ -21,26 +21,44 @@
             <div class="lg:order-first lg:row-span-2">
               <h1 class="text-2xl md:text-4xl font-bold tracking-tight text-zinc-100">
                 <%= @serie["title"] %>
-                <span class="font-normal text-base md:text-2xl text-zinc-400">
-                  <%= @serie["year"] %>
-                </span>
+
+                <%= if @serie["year"] do %>
+                  <span class="font-normal text-base md:text-2xl text-zinc-400">
+                    <%= @serie["year"] %>
+                  </span>
+                <% end %>
               </h1>
 
               <div class="mt-2 flex gap-6 text-base text-zinc-400 line-clamp-2">
                 <div>
-                  <span>
-                    <%= @serie["certification"] %>
-                  </span>
-                  &#8729;
-                  <span>
-                    <%= for {item, counter} <- Enum.with_index(@serie["genres"]) do %>
-                      <%= if (counter + 1) !== Enum.count(@serie["genres"]) do %>
-                        <%= item %>,
-                      <% else %>
-                        <%= item %>
+                  <%= if @serie["certification"] do %>
+                    <span>
+                      <%= @serie["certification"] %>
+                    </span>
+                    &#8729;
+                  <% end %>
+
+                  <%= if @serie["genres"] do %>
+                    <span>
+                      <%= for {item, counter} <- Enum.with_index(@serie["genres"]) do %>
+                        <%= if (counter + 1) !== Enum.count(@serie["genres"]) do %>
+                          <%= item %>,
+                        <% else %>
+                          <%= item %>
+                        <% end %>
                       <% end %>
-                    <% end %>
-                  </span>
+                    </span>
+                    &#8729;
+                  <% end %>
+
+                  <%= if @serie["runtime"] do %>
+                    <span>
+                      Ends <%= Calendar.strftime(
+                        Time.add(Time.utc_now(), @serie["runtime"], :minute),
+                        "%I:%M%P"
+                      ) %>
+                    </span>
+                  <% end %>
                 </div>
               </div>
             </div>
@@ -91,60 +109,58 @@
     </:header>
 
     <%= if assigns[:episodes] do %>
-        <%= for item <- @episodes do %>
-          <article class="aspect-auto w-full flex-none overflow-hidden rounded-sm">
-            <div class="relative w-full">
-              <%= if MediaServerWeb.Repositories.Episodes.get_screenshot(item) do %>
-                <img
-                  src={
-                    Routes.images_path(@socket, :index, episode: item["id"], type: "screenshot")
-                  }
-                  alt={item["title"]}
-                  class="w-full rounded-sm bg-gray-100 object-cover lg:aspect-[3/2]"
-                  loading="lazy"
-                />
-              <% else %>
-                <div class="w-full rounded-sm bg-zinc-800/90 object-cover aspect-[3/2]"></div>
+      <%= for item <- @episodes do %>
+        <article class="aspect-auto w-full flex-none overflow-hidden rounded-sm">
+          <div class="relative w-full">
+            <%= if MediaServerWeb.Repositories.Episodes.get_screenshot(item) do %>
+              <img
+                src={Routes.images_path(@socket, :index, episode: item["id"], type: "screenshot")}
+                alt={item["title"]}
+                class="w-full rounded-sm bg-gray-100 object-cover lg:aspect-[3/2]"
+                loading="lazy"
+              />
+            <% else %>
+              <div class="w-full rounded-sm bg-zinc-800/90 object-cover aspect-[3/2]"></div>
+            <% end %>
+          </div>
+          <div class="max-w-xl">
+            <div class="mt-8 flex items-center gap-x-4 text-xs justify-between">
+              <time class="text-sm text-zinc-400 text-zinc-500">
+                <%= if Map.get(item, "airDate") !== nil do %>
+                  <%= Calendar.strftime(
+                    Date.from_iso8601!(Map.get(item, "airDate")),
+                    "%B %-d, %Y"
+                  ) %>
+                <% end %>
+              </time>
+              <%= if item["hasFile"] do %>
+                <div class="flex rounded-full px-3 mr-1 text-sm font-medium shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur bg-zinc-800/90 text-zinc-200 ring-white/10">
+                  <%= live_redirect id: "play-#{ item["id"] }", to: Routes.watch_index_path(@socket, :index, episode: item["id"]), class: "flex items-center text-sm py-2 transition hover:text-red-400" do %>
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                      class="h-2.5 w-2.5 fill-current"
+                    >
+                      <path d="M8.25 4.567a.5.5 0 0 1 0 .866l-7.5 4.33A.5.5 0 0 1 0 9.33V.67A.5.5 0 0 1 .75.237l7.5 4.33Z">
+                      </path>
+                    </svg>
+                    <span class="ml-3">Watch</span>
+                  <% end %>
+                </div>
               <% end %>
             </div>
-            <div class="max-w-xl">
-              <div class="mt-8 flex items-center gap-x-4 text-xs justify-between">
-                <time class="text-sm text-zinc-400 text-zinc-500">
-                  <%= if Map.get(item, "airDate") !== nil do %>
-                    <%= Calendar.strftime(
-                      Date.from_iso8601!(Map.get(item, "airDate")),
-                      "%B %-d, %Y"
-                    ) %>
-                  <% end %>
-                </time>
-                <%= if item["hasFile"] do %>
-                  <div class="flex rounded-full px-3 mr-1 text-sm font-medium shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur bg-zinc-800/90 text-zinc-200 ring-white/10">
-                    <%= live_redirect id: "play-#{ item["id"] }", to: Routes.watch_index_path(@socket, :index, episode: item["id"]), class: "flex items-center text-sm py-2 transition hover:text-red-400" do %>
-                      <svg
-                        aria-hidden="true"
-                        viewBox="0 0 10 10"
-                        fill="none"
-                        class="h-2.5 w-2.5 fill-current"
-                      >
-                        <path d="M8.25 4.567a.5.5 0 0 1 0 .866l-7.5 4.33A.5.5 0 0 1 0 9.33V.67A.5.5 0 0 1 .75.237l7.5 4.33Z">
-                        </path>
-                      </svg>
-                      <span class="ml-3">Watch</span>
-                    <% end %>
-                  </div>
-                <% end %>
-              </div>
-              <div class="group relative">
-                <h3 class="mt-3 text-base font-semibold tracking-tight text-zinc-100">
-                  <%= item["episodeNumber"] %>: <%= item["title"] %>
-                </h3>
-                <p class="mt-5 text-sm text-zinc-400">
-                  <%= item["overview"] %>
-                </p>
-              </div>
+            <div class="group relative">
+              <h3 class="mt-3 text-base font-semibold tracking-tight text-zinc-100">
+                <%= item["episodeNumber"] %>: <%= item["title"] %>
+              </h3>
+              <p class="mt-5 text-sm text-zinc-400">
+                <%= item["overview"] %>
+              </p>
             </div>
-          </article>
-        <% end %>
+          </div>
+        </article>
+      <% end %>
     <% end %>
   </MediaServerWeb.Components.PageSectionAlternativeComponent.render>
 
