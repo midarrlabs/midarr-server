@@ -15,7 +15,7 @@ defmodule MediaServerWeb.Components.PageHeaderComponent do
                 <h1 class="text-4xl font-bold tracking-tight text-zinc-100 sm:text-5xl">
                   <%= @title %>
                 </h1>
-                <div class="mt-6 text-base text-zinc-200 line-clamp-2">
+                <div class="mt-6 text-base text-zinc-200">
                   <%= @description %>
                 </div>
               </div>

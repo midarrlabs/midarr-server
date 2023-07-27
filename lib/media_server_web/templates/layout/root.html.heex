@@ -26,14 +26,7 @@
     <meta name="theme-color" content="#18181b">
 
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
-    <style>
-      .line-clamp {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-    </style>
+
     <%= if @current_user do %>
       <script>
         window.userId = <%= assigns[:current_user].id %>;
