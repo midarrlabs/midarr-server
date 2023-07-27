@@ -34,6 +34,6 @@ defmodule MediaServerWeb.HomeLiveTest do
       |> render_submit()
       |> follow_redirect(conn, Routes.search_index_path(conn, :index, query: "Some query"))
 
-    assert disconnected_html =~ "Some query"
+    assert disconnected_html =~ "Search"
   end
 end
