@@ -14,10 +14,6 @@
                   to: Routes.series_index_path(@socket, :index),
                   class: "transition hover:text-red-400"
                 ) %>
-                <%= live_redirect("Playlists",
-                  to: Routes.playlist_index_path(@socket, :index),
-                  class: "transition hover:text-red-400"
-                ) %>
                 <%= live_redirect("History",
                   to: Routes.history_index_path(@socket, :index),
                   class: "transition hover:text-red-400"

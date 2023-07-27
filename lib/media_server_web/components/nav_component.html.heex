@@ -56,13 +56,6 @@
                       ) %>
                     </li>
                     <li>
-                      <%= live_redirect("Playlists",
-                        to: Routes.playlist_index_path(@socket, :index),
-                        class:
-                          "relative block px-3 py-2 transition hover:text-red-400"
-                      ) %>
-                    </li>
-                    <li>
                       <%= live_redirect("History",
                         to: Routes.history_index_path(@socket, :index),
                         class:
@@ -213,12 +206,6 @@
             <li>
               <%= live_redirect("Series",
                 to: Routes.series_index_path(@socket, :index),
-                class: "block py-2"
-              ) %>
-            </li>
-            <li>
-              <%= live_redirect("Playlists",
-                to: Routes.playlist_index_path(@socket, :index),
                 class: "block py-2"
               ) %>
             </li>

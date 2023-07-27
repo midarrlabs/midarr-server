@@ -11,7 +11,6 @@ defmodule MediaServer.Accounts.User do
     field :is_admin, :boolean
 
     has_many :continues, MediaServer.Continues
-    has_many :playlists, MediaServer.Playlists
     has_many :media_actions, MediaServer.MediaActions
 
     has_one :api_token, MediaServer.Accounts.UserToken , where: [context: "api"]
