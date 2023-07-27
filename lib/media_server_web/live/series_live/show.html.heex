@@ -2,7 +2,7 @@
   <div class="absolute w-full">
     <img
       alt={@serie["title"]}
-      src={Routes.images_path(@socket, :index, series: @serie["id"], type: "background")}
+      src={~p"/api/images?series=#{ @serie["id"] }&type=background&token=#{assigns[:current_user].api_token.token}"}
       class="object-cover w-full"
     />
     <div class="absolute inset-0 w-3/4 bg-gradient-to-l from-white to-black mix-blend-multiply">
@@ -104,7 +104,7 @@
           <div class="relative w-full">
             <%= if MediaServerWeb.Repositories.Episodes.get_screenshot(item) do %>
               <img
-                src={Routes.images_path(@socket, :index, episode: item["id"], type: "screenshot")}
+                src={~p"/api/images?episode=#{ item["id"] }&type=screenshot&token=#{assigns[:current_user].api_token.token}"}
                 alt=""
                 class="w-full bg-gray-100 object-cover lg:aspect-[3/2]"
                 loading="lazy"

@@ -50,15 +50,16 @@ defmodule MediaServerWeb.Router do
 
     live "/settings", SettingsLive.Index, :index
 
-    get "/images", ImagesController, :index
-
     delete "/logout", UserSessionController, :delete
   end
 
   scope "/api", MediaServerWeb do
     pipe_through :api
 
+    get "/images", ImagesController, :index
+
     get "/stream", StreamController, :index
+
     get "/subtitle", SubtitleController, :index
 
     post "/webhooks/:id", WebhooksController, :create

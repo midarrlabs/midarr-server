@@ -8,8 +8,8 @@ defmodule MediaServerWeb.HistoryLive.Index do
     {
       :ok,
       socket
-      |> assign(page_title: "History")
       |> assign(:current_user, MediaServer.Accounts.get_user_by_session_token(session["user_token"]))
+      |> assign(page_title: "History")
     }
   end
 

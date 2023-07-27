@@ -2,9 +2,7 @@
   <div class="absolute w-full">
     <img
       alt=""
-      src={
-        Routes.images_path(@socket, :index, movie: Enum.at(@movies, 0)["id"], type: "background")
-      }
+      src={ ~p"/api/images?movie=#{ Enum.at(@movies, 0)["id"] }&type=background&token=#{assigns[:current_user].api_token.token}"}
       class="object-cover w-full"
     />
     <div class="absolute inset-0 w-3/4 bg-gradient-to-l from-white to-black mix-blend-multiply">
@@ -71,7 +69,7 @@
               <%= for item <- @movies do %>
                 <%= MediaServerWeb.Components.PosterComponent.render(%{
                   title: item["title"],
-                  img_src: Routes.images_path(@socket, :index, movie: item["id"], type: "poster"),
+                  img_src: ~p"/api/images?movie=#{ item["id"] }&type=poster&token=#{assigns[:current_user].api_token.token}",
                   link: Routes.movies_show_path(@socket, :show, item["id"])
                 }) %>
               <% end %>
@@ -86,8 +84,7 @@
               <%= for item <- @series do %>
                 <%= MediaServerWeb.Components.PosterComponent.render(%{
                   title: item["title"],
-                  img_src:
-                    Routes.images_path(@socket, :index, series: item["id"], type: "poster"),
+                  img_src: ~p"/api/images?series=#{ item["id"] }&type=poster&token=#{assigns[:current_user].api_token.token}",
                   link: Routes.series_show_path(@socket, :show, item["id"])
                 }) %>
               <% end %>

@@ -11,13 +11,7 @@
                 loading="lazy"
                 class="h-52 w-full object-cover"
                 alt=""
-                src={
-                  Routes.images_path(@socket, :index,
-                    movie: item.media_id,
-                    type: "background",
-                    size: "w780"
-                  )
-                }
+                src={~p"/api/images?movie=#{ item.media_id }&type=background&size=w780&token=#{assigns[:current_user].api_token.token}"}
               />
             </div>
 
@@ -77,12 +71,7 @@
                   loading="lazy"
                   class="h-52 w-full object-cover"
                   alt=""
-                  src={
-                    Routes.images_path(@socket, :index,
-                      episode: item.media_id,
-                      type: "screenshot"
-                    )
-                  }
+                  src={~p"/api/images?episode=#{ item.media_id }&type=screenshot&token=#{assigns[:current_user].api_token.token}"}
                 />
               </div>
 

@@ -1,14 +1,12 @@
 defmodule MediaServerWeb.ImagesControllerTest do
   use MediaServerWeb.ConnCase
 
-  setup %{conn: conn} do
-    user = MediaServer.AccountsFixtures.user_fixture()
-
-    %{conn: conn |> log_in_user(user), user: user}
+  setup do
+    %{user: MediaServer.AccountsFixtures.user_fixture()}
   end
 
-  test "it should get movie poster", %{conn: conn} do
-    conn = get(conn, Routes.images_path(conn, :index), movie: "1", type: "poster")
+  test "it should get movie poster", %{conn: conn, user: user} do
+    conn = get(conn, ~p"/api/images?movie=1&type=poster&token=#{user.api_token.token}")
 
     assert conn.status === 200
     assert conn.state === :sent
@@ -16,8 +14,8 @@ defmodule MediaServerWeb.ImagesControllerTest do
     assert is_binary(conn.resp_body)
   end
 
-  test "it should get movie background", %{conn: conn} do
-    conn = get(conn, Routes.images_path(conn, :index), movie: "1", type: "background")
+  test "it should get movie background", %{conn: conn, user: user} do
+    conn = get(conn, ~p"/api/images?movie=1&type=background&token=#{user.api_token.token}")
 
     assert conn.status === 200
     assert conn.state === :sent
@@ -25,8 +23,8 @@ defmodule MediaServerWeb.ImagesControllerTest do
     assert is_binary(conn.resp_body)
   end
 
-  test "it should get series poster", %{conn: conn} do
-    conn = get(conn, Routes.images_path(conn, :index), series: "1", type: "poster")
+  test "it should get series poster", %{conn: conn, user: user} do
+    conn = get(conn, ~p"/api/images?series=1&type=poster&token=#{user.api_token.token}")
 
     assert conn.status === 200
     assert conn.state === :sent
@@ -34,8 +32,8 @@ defmodule MediaServerWeb.ImagesControllerTest do
     assert is_binary(conn.resp_body)
   end
 
-  test "it should get series background", %{conn: conn} do
-    conn = get(conn, Routes.images_path(conn, :index), series: "1", type: "background")
+  test "it should get series background", %{conn: conn, user: user} do
+    conn = get(conn, ~p"/api/images?series=1&type=background&token=#{user.api_token.token}")
 
     assert conn.status === 200
     assert conn.state === :sent
@@ -43,8 +41,8 @@ defmodule MediaServerWeb.ImagesControllerTest do
     assert is_binary(conn.resp_body)
   end
 
-  test "it should get episode screenshot", %{conn: conn} do
-    conn = get(conn, Routes.images_path(conn, :index), episode: "1", type: "screenshot")
+  test "it should get episode screenshot", %{conn: conn, user: user} do
+    conn = get(conn, ~p"/api/images?episode=1&type=screenshot&token=#{user.api_token.token}")
 
     assert conn.status === 200
     assert conn.state === :sent
