@@ -32,7 +32,7 @@ defmodule MediaServerWeb.StreamControllerTest do
   end
 
   test "episode", %{conn: conn, user: user} do
-    series = MediaServer.SeriesIndex.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.all() |> List.first()
 
     episode = MediaServerWeb.Repositories.Episodes.get_episode(series["id"])
 
@@ -42,7 +42,7 @@ defmodule MediaServerWeb.StreamControllerTest do
   end
 
   test "episode halts with random token", %{conn: conn} do
-    series = MediaServer.SeriesIndex.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.all() |> List.first()
 
     episode = MediaServerWeb.Repositories.Episodes.get_episode(series["id"])
 
@@ -53,7 +53,7 @@ defmodule MediaServerWeb.StreamControllerTest do
   end
 
   test "episode halts without token", %{conn: conn} do
-    series = MediaServer.SeriesIndex.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.all() |> List.first()
 
     episode = MediaServerWeb.Repositories.Episodes.get_episode(series["id"])
 

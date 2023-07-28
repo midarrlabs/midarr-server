@@ -22,7 +22,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   end
 
   test "it should continue", %{conn: conn} do
-    serie = MediaServer.SeriesIndex.get_all() |> List.first()
+    serie = MediaServer.SeriesIndex.all() |> List.first()
 
     episode = MediaServerWeb.Repositories.Episodes.get_episode(serie["id"])
 
@@ -43,7 +43,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   end
 
   test "it should subtitle", %{conn: conn} do
-    serie = MediaServer.SeriesIndex.get_all() |> List.first()
+    serie = MediaServer.SeriesIndex.all() |> List.first()
 
     episode = MediaServerWeb.Repositories.Episodes.get_episode(serie["id"])
 

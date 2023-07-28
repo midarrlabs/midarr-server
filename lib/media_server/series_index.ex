@@ -11,39 +11,38 @@ defmodule MediaServer.SeriesIndex do
     Agent.cast(__MODULE__, fn _state -> Series.get_all() end)
   end
 
-  def get_all() do
+  def all() do
     Agent.get(__MODULE__, & &1)
   end
 
-  def get_latest() do
-    get_all()
+  def latest(state) do
+    state
     |> Enum.sort_by(& &1["added"], :desc)
   end
 
-  def get_latest(amount) do
-    get_all()
-    |> Enum.sort_by(& &1["added"], :desc)
+  def take(state, amount) do
+    state
     |> Enum.take(amount)
   end
 
-  def genres() do
-    get_all()
+  def genres(state) do
+    state
     |> Enum.flat_map(fn x -> x["genres"] end)
     |> Enum.uniq()
   end
 
-  def get_genre(genre) do
-    get_all()
+  def genre(state, genre) do
+    state
     |> Enum.filter(fn item -> Enum.member?(item["genres"], genre) end)
   end
 
-  def get_serie(id) do
-    get_all()
+  def find(state, id) do
+    state
     |> Enum.find(fn item -> item["id"] === String.to_integer(id) end)
   end
 
-  def search(query) do
-    Enum.filter(get_all(), fn item ->
+  def search(state, query) do
+    Enum.filter(state, fn item ->
       String.contains?(String.downcase(item["title"]), String.downcase(query))
     end)
   end

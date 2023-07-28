@@ -13,7 +13,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   test "it should render index", %{conn: conn} do
     {:ok, _view, disconnected_html} = live(conn, Routes.series_index_path(conn, :index))
 
-    series = MediaServer.SeriesIndex.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.all() |> List.first()
 
     assert disconnected_html =~ series["title"]
   end
@@ -22,7 +22,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
     {:ok, _view, disconnected_html} =
       live(conn, Routes.series_index_path(conn, :index, page: "1"))
 
-    series = MediaServer.SeriesIndex.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.all() |> List.first()
 
     assert disconnected_html =~ series["title"]
   end
@@ -60,7 +60,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it should render show", %{conn: conn} do
-    series = MediaServer.SeriesIndex.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.all() |> List.first()
 
     {:ok, _view, disconnected_html} =
       live(conn, Routes.series_show_path(conn, :show, series["id"]))
@@ -69,7 +69,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it should render season", %{conn: conn} do
-    series = MediaServer.SeriesIndex.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.all() |> List.first()
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.series_show_path(conn, :show, series["id"], season: 1))
@@ -80,7 +80,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it should replace each episode with episode show response", %{conn: _conn} do
-    series = MediaServer.SeriesIndex.get_all() |> List.first()
+    series = MediaServer.SeriesIndex.all() |> List.first()
 
     episodes = Episodes.get_all(series["id"], "1")
 

@@ -18,7 +18,7 @@ defmodule MediaServerWeb.SeriesLive.Show do
       send(pid, {:episodes, MediaServerWeb.Repositories.Episodes.get_all(id, season)})
     end)
 
-    series = MediaServer.SeriesIndex.get_serie(id)
+    series = MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.find(id)
 
     {
       :noreply,
@@ -30,7 +30,7 @@ defmodule MediaServerWeb.SeriesLive.Show do
   end
 
   def handle_params(%{"id" => id}, _url, socket) do
-    series = MediaServer.SeriesIndex.get_serie(id)
+    series = MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.find(id)
 
     season =
       series["seasons"]

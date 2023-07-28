@@ -73,7 +73,7 @@
             Latest
           <% end %>
 
-          <%= for item <- MediaServer.SeriesIndex.genres do %>
+          <%= for item <- MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.genres() do %>
             <%= live_patch to: Routes.series_index_path(@socket, :index, genre: String.downcase(item)), class: "#{ if @genre === String.downcase(item) do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-300 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
               <%= item %>
             <% end %>

@@ -18,7 +18,7 @@ defmodule MediaServerWeb.SubtitleControllerTest do
   end
 
   test "episode", %{conn: conn, user: user} do
-    serie = MediaServer.SeriesIndex.get_all() |> List.first()
+    serie = MediaServer.SeriesIndex.all() |> List.first()
 
     episode = MediaServerWeb.Repositories.Episodes.get_episode(serie["id"])
 
