@@ -86,6 +86,11 @@
 
             function loadMedia(session) {
               const mediaInfo = new chrome.cast.media.MediaInfo('<%= System.get_env("APP_URL", "") <> assigns[:media_stream] %>', '<%= assigns[:mime_type] %>');
+
+              mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
+              mediaInfo.metadata.images = [new chrome.cast.Image('<%= System.get_env("APP_URL", "") <> assigns[:media_poster] %>')];
+              mediaInfo.metadata.title = '<%= assigns[:page_title] %>';
+
               const request = new chrome.cast.media.LoadRequest(mediaInfo);
 
               session.loadMedia(request).then(function() {
