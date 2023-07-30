@@ -4,7 +4,7 @@ defmodule MediaServerWeb.StreamController do
   def index(conn, %{"movie" => id}) do
     Exstream.Range.stream(%Exstream.Range{
       conn: conn,
-      path: MediaServer.MoviesIndex.get_movie_path(id)
+      path: MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)["movieFile"]["path"]
     })
   end
 

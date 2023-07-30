@@ -120,9 +120,9 @@
             <%= if assigns[:cast] do %>
               <%= for item <- @cast do %>
                 <%= MediaServerWeb.Components.PosterComponent.render(%{
-                  img_src: MediaServer.MoviesIndex.get_headshot(item),
+                  img_src: MediaServer.Helpers.get_headshot(item),
                   title: item["personName"],
-                  link: MediaServer.MoviesIndex.get_headshot(item)
+                  link: MediaServer.Helpers.get_headshot(item)
                 }) %>
               <% end %>
             <% end %>
@@ -134,7 +134,7 @@
             Similar
           </h2>
             <div class="overflow-x-auto flex gap-x-4 py-4 overflow-hidden">
-            <%= for item <- MediaServer.MoviesIndex.get_related(@movie) do %>
+            <%= for item <- MediaServer.MoviesIndex.related(MediaServer.MoviesIndex.all(), @movie["id"]) do %>
               <%= MediaServerWeb.Components.PosterComponent.render(%{
                 title: item["title"],
                 img_src: ~p"/api/images?movie=#{ item["id"] }&type=poster&token=#{assigns[:current_user].api_token.token}",

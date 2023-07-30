@@ -18,7 +18,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
       send(pid, {:cast, MediaServerWeb.Repositories.Movies.get_cast(id)})
     end)
 
-    movie = MediaServer.MoviesIndex.get_movie(id)
+    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
 
     {
       :noreply,

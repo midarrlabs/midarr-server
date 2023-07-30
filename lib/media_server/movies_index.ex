@@ -11,34 +11,33 @@ defmodule MediaServer.MoviesIndex do
     Agent.cast(__MODULE__, fn _state -> Movies.get_all() end)
   end
 
-  def get_all() do
+  def all() do
     Agent.get(__MODULE__, & &1)
   end
 
-  def get_latest() do
-    get_all()
+  def latest(state) do
+    state
     |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
   end
 
-  def get_latest(amount) do
-    get_all()
-    |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
+  def take(state, amount) do
+    state
     |> Enum.take(amount)
   end
 
-  def genres() do
-    get_all()
+  def genres(state) do
+    state
     |> Enum.flat_map(fn x -> x["genres"] end)
-    |> Enum.uniq
+    |> Enum.uniq()
   end
 
-  def get_genre(genre) do
-    get_all()
+  def genre(state, genre) do
+    state
     |> Enum.filter(fn item -> Enum.member?(item["genres"], genre) end)
   end
 
-  def get_movie(id) do
-    get_all()
+  def find(state, id) do
+    state
     |> Enum.find(fn item ->
       if String.valid?(id) do
         item["id"] === String.to_integer(id)
@@ -48,45 +47,18 @@ defmodule MediaServer.MoviesIndex do
     end)
   end
 
-  def get_related(movie) do
+  def related(state, id) do
+    genre = Enum.take(find(state, id)["genres"], 1) |> List.first()
 
-    genre = Enum.take(movie["genres"], 1) |> List.first()
-
-    get_all()
+    state
     |> Enum.filter(fn item -> genre in item["genres"] end)
     |> Enum.take_random(20)
-    |> Enum.reject(fn x -> x["id"] === movie["id"] end)
+    |> Enum.reject(fn x -> x["id"] === id end)
   end
 
-  def get_movie_path(id) do
-    movie = get_movie(id)
-
-    movie["movieFile"]["path"]
-  end
-
-  def get_movie_title(id) do
-    movie =
-      get_all()
-      |> Enum.find(fn item -> item["id"] === id end)
-
-    movie["title"]
-  end
-
-  def search(query) do
-    Enum.filter(get_all(), fn item ->
+  def search(state, query) do
+    Enum.filter(state, fn item ->
       String.contains?(String.downcase(item["title"]), String.downcase(query))
     end)
-  end
-
-  def get_poster(movie) do
-    MediaServer.Helpers.get_poster(movie)
-  end
-
-  def get_background(movie) do
-    MediaServer.Helpers.get_background(movie)
-  end
-
-  def get_headshot(movie) do
-    MediaServer.Helpers.get_headshot(movie)
   end
 end

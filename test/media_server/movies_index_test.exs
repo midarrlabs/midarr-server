@@ -1,7 +1,7 @@
 defmodule MediaServer.MoviesIndexTest do
   use ExUnit.Case
-  
-  test "it should get movie path" do
-    assert MediaServer.MoviesIndex.get_movie_path("1")  === "/library/movies/Caminandes Llama Drama (2013)/Caminandes.Llama.Drama.1080p.mp4"
+
+  test "it should have started" do
+    {:error, {:already_started, _pid}} = MediaServer.MoviesIndex.start_link([])
   end
 end

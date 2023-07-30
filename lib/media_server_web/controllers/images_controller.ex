@@ -11,8 +11,9 @@ defmodule MediaServerWeb.ImagesController do
 
   def index(conn, %{"movie" => id, "type" => "background", "size" => size}) do
 
-    background_file = MediaServer.MoviesIndex.get_movie(id)
-                      |> MediaServer.MoviesIndex.get_background()
+    background_file = MediaServer.MoviesIndex.all()
+                      |> MediaServer.MoviesIndex.find(id)
+                      |> MediaServer.Helpers.get_background()
                       |> MediaServer.Helpers.get_image_file()
 
     {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get("https://image.tmdb.org/t/p/#{ size }/#{ background_file }")
@@ -24,8 +25,9 @@ defmodule MediaServerWeb.ImagesController do
 
   def index(conn, %{"movie" => id, "type" => "background"}) do
 
-    background_file = MediaServer.MoviesIndex.get_movie(id)
-                      |> MediaServer.MoviesIndex.get_background()
+    background_file = MediaServer.MoviesIndex.all()
+                      |> MediaServer.MoviesIndex.find(id)
+                      |> MediaServer.Helpers.get_background()
                       |> MediaServer.Helpers.get_image_file()
 
     {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get("https://image.tmdb.org/t/p/original/#{ background_file }")

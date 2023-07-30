@@ -70,7 +70,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
   end
 
   test "it should render show", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.get_movie("1")
+    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), "1")
     cast = Movies.get_cast(movie["id"])
 
     {:ok, view, _disconnected_html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
@@ -79,7 +79,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
   end
 
   test "it should watch", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.get_all() |> List.first()
+    movie = MediaServer.MoviesIndex.all() |> List.first()
     cast = Movies.get_cast(movie["id"])
 
     {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))

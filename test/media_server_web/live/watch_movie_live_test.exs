@@ -8,7 +8,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   end
 
   test "it should have played", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.get_movie("1")
+    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), "1")
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
@@ -25,7 +25,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   end
 
   test "it should continue", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.get_movie("1")
+    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), "1")
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
@@ -51,7 +51,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   end
 
   test "it should subtitle", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.get_movie("1")
+    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), "1")
 
     {:ok, _view, disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
@@ -60,7 +60,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   end
 
   test "it should not subtitle", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.get_movie("2")
+    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), "2")
 
     {:ok, _view, disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))

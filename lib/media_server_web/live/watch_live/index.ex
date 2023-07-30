@@ -12,7 +12,7 @@ defmodule MediaServerWeb.WatchLive.Index do
 
   @impl true
   def handle_params(%{"movie" => id, "timestamp" => timestamp}, _url, socket) do
-    movie = MediaServer.MoviesIndex.get_movie(id)
+    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
 
     {
       :noreply,
@@ -30,7 +30,7 @@ defmodule MediaServerWeb.WatchLive.Index do
   end
 
   def handle_params(%{"movie" => id}, _url, socket) do
-    movie = MediaServer.MoviesIndex.get_movie(id)
+    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
 
     {
       :noreply,

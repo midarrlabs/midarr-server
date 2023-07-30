@@ -6,7 +6,7 @@ defmodule MediaServerWeb.StreamControllerTest do
   end
 
   test "movie", %{conn: conn, user: user} do
-    movie = MediaServer.MoviesIndex.get_movie("1")
+    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), "1")
 
     conn = get(conn, Routes.stream_path(conn, :index, movie: movie["id"]), token: user.api_token.token)
 
@@ -14,7 +14,7 @@ defmodule MediaServerWeb.StreamControllerTest do
   end
 
   test "movie halts with random token", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.get_movie("1")
+    movie = MediaServer.MoviesIndex.all() |> MediaServer.MoviesIndex.find("1")
 
     conn = get(conn, Routes.stream_path(conn, :index, movie: movie["id"]), token: "someToken")
 
@@ -23,7 +23,7 @@ defmodule MediaServerWeb.StreamControllerTest do
   end
 
   test "movie halts without token", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.get_movie("1")
+    movie = MediaServer.MoviesIndex.all() |> MediaServer.MoviesIndex.find("1")
 
     conn = get(conn, Routes.stream_path(conn, :index, movie: movie["id"]))
 

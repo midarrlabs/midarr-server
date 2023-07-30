@@ -6,7 +6,7 @@ defmodule MediaServerWeb.SubtitleControllerTest do
   end
 
   test "movie", %{conn: conn, user: user} do
-    movie = MediaServer.MoviesIndex.get_movie("1")
+    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), "1")
 
     conn = get(conn, Routes.subtitle_path(conn, :index, movie: movie["id"]), token: user.api_token.token)
 

@@ -23,7 +23,7 @@
               </div>
               <p class="relative text-sm font-semibold text-white bg-black text-center rounded-lg">
                 <span class="p-2">
-                  <%= MediaServer.MoviesIndex.get_movie(item.media_id)["movieFile"]["mediaInfo"][
+                  <%= MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)["movieFile"]["mediaInfo"][
                     "runTime"
                   ] %>
                 </span>
@@ -46,18 +46,16 @@
               <%= if item.continue do %>
                 <%= live_redirect id: "play-#{ item.media_type_id }-#{ item.media_id }", to: Routes.watch_index_path(@socket, :index, movie: item.media_id, timestamp: item.continue.current_time) do %>
                   <h3 class="text-sm font-medium text-zinc-100">
-                    <%= MediaServer.MoviesIndex.get_movie_title(item.media_id) %>
+                    <%= MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)["title"] %>
                   </h3>
                 <% end %>
               <% else %>
                 <h3 class="text-sm font-medium text-zinc-100">
-                  <%= MediaServer.MoviesIndex.get_movie_title(item.media_id) %>
+                  <%= MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)["title"] %>
                 </h3>
               <% end %>
               <p class="mt-1 text-sm text-zinc-400">
-                <%= MediaServer.MoviesIndex.get_movie(item.media_id)["year"] %> • <%= MediaServer.MoviesIndex.get_movie(
-                  item.media_id
-                )["certification"] %>
+                <%= MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)["year"] %> • <%= MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)["certification"] %>
               </p>
             </div>
           </div>
