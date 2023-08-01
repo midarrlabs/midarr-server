@@ -30,11 +30,6 @@ defmodule MediaServerWeb.Repositories.Episodes do
     end)
   end
 
-  def get_background(episode) do
-    (Enum.filter(episode["series"]["images"], fn x -> x["coverType"] === "fanart" end)
-     |> Enum.at(0))["url"]
-  end
-
   def handle_image(nil) do
     nil
   end
