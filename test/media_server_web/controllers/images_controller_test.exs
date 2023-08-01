@@ -1,6 +1,8 @@
 defmodule MediaServerWeb.ImagesControllerTest do
   use MediaServerWeb.ConnCase
 
+  use Plug.Test
+
   setup do
     %{user: MediaServer.AccountsFixtures.user_fixture()}
   end
@@ -11,6 +13,9 @@ defmodule MediaServerWeb.ImagesControllerTest do
     assert conn.status === 200
     assert conn.state === :sent
 
+    assert get_resp_header(conn, "content-type") == ["image/image"]
+    assert get_resp_header(conn, "cache-control") == ["max-age=604800, public, must-revalidate"]
+
     assert is_binary(conn.resp_body)
   end
 
@@ -19,6 +24,9 @@ defmodule MediaServerWeb.ImagesControllerTest do
 
     assert conn.status === 200
     assert conn.state === :sent
+
+    assert get_resp_header(conn, "content-type") == ["image/image"]
+    assert get_resp_header(conn, "cache-control") == ["max-age=604800, public, must-revalidate"]
 
     assert is_binary(conn.resp_body)
   end
@@ -29,6 +37,9 @@ defmodule MediaServerWeb.ImagesControllerTest do
     assert conn.status === 200
     assert conn.state === :sent
 
+    assert get_resp_header(conn, "content-type") == ["image/image"]
+    assert get_resp_header(conn, "cache-control") == ["max-age=604800, public, must-revalidate"]
+
     assert is_binary(conn.resp_body)
   end
 
@@ -37,6 +48,9 @@ defmodule MediaServerWeb.ImagesControllerTest do
 
     assert conn.status === 200
     assert conn.state === :sent
+
+    assert get_resp_header(conn, "content-type") == ["image/image"]
+    assert get_resp_header(conn, "cache-control") == ["max-age=604800, public, must-revalidate"]
 
     assert is_binary(conn.resp_body)
   end
@@ -47,6 +61,9 @@ defmodule MediaServerWeb.ImagesControllerTest do
     assert conn.status === 200
     assert conn.state === :sent
 
+    assert get_resp_header(conn, "content-type") == ["image/image"]
+    assert get_resp_header(conn, "cache-control") == ["max-age=604800, public, must-revalidate"]
+
     assert is_binary(conn.resp_body)
   end
 
@@ -55,6 +72,9 @@ defmodule MediaServerWeb.ImagesControllerTest do
 
     assert conn.status === 200
     assert conn.state === :sent
+
+    assert get_resp_header(conn, "content-type") == ["image/image"]
+    assert get_resp_header(conn, "cache-control") == ["max-age=604800, public, must-revalidate"]
 
     assert is_binary(conn.resp_body)
   end
@@ -65,6 +85,9 @@ defmodule MediaServerWeb.ImagesControllerTest do
     assert conn.status === 404
     assert conn.state === :sent
 
+    refute get_resp_header(conn, "content-type") == ["image/image"]
+    refute get_resp_header(conn, "cache-control") == ["max-age=604800, public, must-revalidate"]
+
     assert is_binary(conn.resp_body)
   end
 
@@ -74,6 +97,9 @@ defmodule MediaServerWeb.ImagesControllerTest do
     assert conn.status === 200
     assert conn.state === :sent
 
+    assert get_resp_header(conn, "content-type") == ["image/image"]
+    assert get_resp_header(conn, "cache-control") == ["max-age=604800, public, must-revalidate"]
+
     assert is_binary(conn.resp_body)
   end
 
@@ -82,6 +108,9 @@ defmodule MediaServerWeb.ImagesControllerTest do
 
     assert conn.status === 404
     assert conn.state === :sent
+
+    refute get_resp_header(conn, "content-type") == ["image/image"]
+    refute get_resp_header(conn, "cache-control") == ["max-age=604800, public, must-revalidate"]
 
     assert is_binary(conn.resp_body)
   end

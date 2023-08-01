@@ -6,6 +6,7 @@ defmodule MediaServerWeb.ImagesController do
 
     conn
     |> put_resp_header("content-type", "image/image")
+    |> put_resp_header("cache-control", "max-age=604800, public, must-revalidate")
     |> send_resp(200, body)
   end
 
@@ -20,6 +21,7 @@ defmodule MediaServerWeb.ImagesController do
 
     conn
     |> put_resp_header("content-type", "image/image")
+    |> put_resp_header("cache-control", "max-age=604800, public, must-revalidate")
     |> send_resp(200, body)
   end
 
@@ -34,6 +36,7 @@ defmodule MediaServerWeb.ImagesController do
 
     conn
     |> put_resp_header("content-type", "image/image")
+    |> put_resp_header("cache-control", "max-age=604800, public, must-revalidate")
     |> send_resp(200, body)
   end
 
@@ -42,6 +45,7 @@ defmodule MediaServerWeb.ImagesController do
 
     conn
     |> put_resp_header("content-type", "image/image")
+    |> put_resp_header("cache-control", "max-age=604800, public, must-revalidate")
     |> send_resp(200, body)
   end
 
@@ -50,6 +54,7 @@ defmodule MediaServerWeb.ImagesController do
 
     conn
     |> put_resp_header("content-type", "image/image")
+    |> put_resp_header("cache-control", "max-age=604800, public, must-revalidate")
     |> send_resp(200, body)
   end
 
@@ -61,6 +66,7 @@ defmodule MediaServerWeb.ImagesController do
       item -> {:ok, %HTTPoison.Response{status_code: 200, body: body}} = item |> MediaServerWeb.Repositories.Episodes.get_screenshot() |> HTTPoison.get()
         conn
         |> put_resp_header("content-type", "image/image")
+        |> put_resp_header("cache-control", "max-age=604800, public, must-revalidate")
         |> send_resp(200, body)
     end
   end
@@ -73,6 +79,7 @@ defmodule MediaServerWeb.ImagesController do
       item -> {:ok, %HTTPoison.Response{status_code: 200, body: body}} = item |> MediaServerWeb.Repositories.Episodes.get_poster() |> HTTPoison.get()
         conn
         |> put_resp_header("content-type", "image/image")
+        |> put_resp_header("cache-control", "max-age=604800, public, must-revalidate")
         |> send_resp(200, body)
     end
   end
