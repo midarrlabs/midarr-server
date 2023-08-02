@@ -56,6 +56,8 @@ defmodule MediaServerWeb.Router do
   scope "/api", MediaServerWeb do
     pipe_through :api
 
+    get "/movies", MoviesController, :index
+
     get "/images", ImagesController, :index
 
     get "/stream", StreamController, :index
