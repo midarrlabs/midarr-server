@@ -15,13 +15,18 @@ defmodule MediaServerWeb.HistoryLive.Index do
 
   @impl true
   def handle_params(_params, _url, socket) do
-    query = from continue in MediaServer.Continues, where: continue.user_id == ^socket.assigns.current_user.id
-    query2 = from media_actions in MediaServer.MediaActions,
-                  order_by: [desc: :updated_at],
-                  limit: 12,
-                  preload: [continue: ^query]
+    query =
+      from ma in MediaServer.MediaActions,
+           join: continue in MediaServer.Continues, on: ma.media_id == continue.media_id,
+           where: continue.user_id == ^socket.assigns.current_user.id,
+           order_by: [desc: ma.updated_at],
+           limit: 12,
+           preload: [continue: continue]
 
-    current_user = socket.assigns.current_user |> MediaServer.Repo.preload(media_actions: query2)
+    current_user =
+      socket.assigns.current_user
+      |> MediaServer.Repo.preload([media_actions: query])
+
     {
       :noreply,
       socket
