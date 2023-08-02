@@ -10,7 +10,7 @@ defmodule MediaServerWeb.MoviesController do
     })
 
     conn
-    |> send_resp(200, Jason.encode!(movies.entries))
+    |> send_resp(200, Jason.encode!(%{"entries" => Enum.map(movies.entries, fn x -> %{"title" => x["title"]} end)}))
   end
 
   def index(conn, %{"genre" => genre}) do
@@ -22,7 +22,7 @@ defmodule MediaServerWeb.MoviesController do
     })
 
     conn
-    |> send_resp(200, Jason.encode!(movies.entries))
+    |> send_resp(200, Jason.encode!(%{"entries" => Enum.map(movies.entries, fn x -> %{"title" => x["title"]} end)}))
   end
 
   def index(conn, %{"sort_by" => "latest", "page" => page}) do
@@ -32,7 +32,7 @@ defmodule MediaServerWeb.MoviesController do
     })
 
     conn
-    |> send_resp(200, Jason.encode!(movies.entries))
+    |> send_resp(200, Jason.encode!(%{"entries" => Enum.map(movies.entries, fn x -> %{"title" => x["title"]} end)}))
   end
 
   def index(conn, %{"sort_by" => "latest"}) do
@@ -42,7 +42,7 @@ defmodule MediaServerWeb.MoviesController do
     })
 
     conn
-    |> send_resp(200, Jason.encode!(movies.entries))
+    |> send_resp(200, Jason.encode!(%{"entries" => Enum.map(movies.entries, fn x -> %{"title" => x["title"]} end)}))
   end
 
   def index(conn, %{"page" => page}) do
@@ -52,7 +52,7 @@ defmodule MediaServerWeb.MoviesController do
     })
 
     conn
-    |> send_resp(200, Jason.encode!(movies.entries))
+    |> send_resp(200, Jason.encode!(%{"entries" => Enum.map(movies.entries, fn x -> %{"title" => x["title"]} end)}))
   end
 
   def index(conn, _params) do
@@ -62,6 +62,6 @@ defmodule MediaServerWeb.MoviesController do
     })
 
     conn
-    |> send_resp(200, Jason.encode!(movies.entries))
+    |> send_resp(200, Jason.encode!(%{"entries" => Enum.map(movies.entries, fn x -> %{"title" => x["title"]} end)}))
   end
 end
