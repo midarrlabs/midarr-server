@@ -53,7 +53,7 @@ defmodule MediaServer.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:httpoison, "~> 2.0"},
-      {:excoveralls, "~> 0.10", only: :test},
+      {:excoveralls, "~> 0.10", only: :test, runtime: false},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:cors_plug, "~> 3.0"},
       {:scrivener, "~> 2.0"},
