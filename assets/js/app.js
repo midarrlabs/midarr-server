@@ -6,7 +6,7 @@ import topbar from "topbar"
 let socket = new Socket("/socket", {})
 socket.connect()
 
-let channel = socket.channel("room:lobby", { user_id: window.userId, user_name: window.userName, page_title: document.title, current_location: window.location.href })
+let channel = socket.channel("room:lobby", { user_id: window.userId })
 let presence = new Presence(channel)
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
