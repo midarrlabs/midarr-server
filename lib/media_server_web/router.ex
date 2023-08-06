@@ -30,25 +30,28 @@ defmodule MediaServerWeb.Router do
   end
 
   scope "/", MediaServerWeb do
-    pipe_through [:browser, :require_authenticated_user, MediaServerWeb.UserNavigation]
+    pipe_through [:browser, :require_authenticated_user]
 
-    live "/", HomeLive.Index, :index
+    live_session :default, on_mount: [{MediaServerWeb.UserNavigation, :get_request_uri}] do
 
-    live "/movies", MoviesLive.Index, :index
-    live "/movies/:id", MoviesLive.Show, :show
+      live "/", HomeLive.Index, :index
 
-    live "/series", SeriesLive.Index, :index
-    live "/series/:id", SeriesLive.Show, :show
+      live "/movies", MoviesLive.Index, :index
+      live "/movies/:id", MoviesLive.Show, :show
 
-    live_session :watch, root_layout: {MediaServerWeb.WatchView, :watch} do
-      live "/watch", WatchLive.Index, :index
+      live "/series", SeriesLive.Index, :index
+      live "/series/:id", SeriesLive.Show, :show
+
+      live "/history", HistoryLive.Index, :index
+
+      live "/search", SearchLive.Index, :index
+
+      live "/settings", SettingsLive.Index, :index
     end
 
-    live "/history", HistoryLive.Index, :index
-
-    live "/search", SearchLive.Index, :index
-
-    live "/settings", SettingsLive.Index, :index
+    live_session :watch, on_mount: [{MediaServerWeb.UserNavigation, :get_request_uri}] do
+      live "/watch", WatchLive.Index, :index
+    end
 
     delete "/logout", UserSessionController, :delete
   end

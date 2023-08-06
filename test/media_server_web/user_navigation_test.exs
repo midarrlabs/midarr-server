@@ -13,6 +13,6 @@ defmodule MediaServerWeb.UserNavigationTest do
       live(conn, ~p"/movies")
     end)
 
-    assert String.contains?(captured, "Some Name navigated to: #{ conn.request_path }")
+    assert String.contains?(captured, "Some Name: http://www.example.com/movies\nSome Name: http://www.example.com/movies\n")
   end
 end

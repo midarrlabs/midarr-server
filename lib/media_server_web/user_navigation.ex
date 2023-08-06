@@ -1,10 +1,11 @@
 defmodule MediaServerWeb.UserNavigation do
-  def init(opts), do: opts
+  def on_mount(:get_request_uri, _params, _session, socket) do
+    {:cont, Phoenix.LiveView.attach_hook(socket, :get_request_path, :handle_params, &get_request_path/3)}
+  end
 
-  def call(conn, _opts) do
+  defp get_request_path(_params, url, socket) do
+    IO.puts "#{ socket.assigns.current_user.name }: #{ url }"
 
-    IO.puts("#{ conn.assigns[:current_user].name } navigated to: #{ conn.request_path }")
-
-    conn
+    {:cont, socket}
   end
 end
