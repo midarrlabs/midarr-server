@@ -21,9 +21,9 @@ defmodule MediaServerWeb.MoviesController do
         "items" =>
           Enum.map(movies.entries, fn x ->
             %{
+              "id" => x["id"],
               "title" => x["title"],
-              "poster" => MediaServer.Helpers.get_poster(x),
-              "background" => MediaServer.Helpers.get_background(x)
+              "poster" => MediaServer.Helpers.get_poster(x)
             }
           end),
         "prev_page" =>
@@ -54,9 +54,9 @@ defmodule MediaServerWeb.MoviesController do
         "items" =>
           Enum.map(movies.entries, fn x ->
             %{
+              "id" => x["id"],
               "title" => x["title"],
-              "poster" => MediaServer.Helpers.get_poster(x),
-              "background" => MediaServer.Helpers.get_background(x)
+              "poster" => MediaServer.Helpers.get_poster(x)
             }
           end),
         "prev_page" =>
@@ -82,9 +82,9 @@ defmodule MediaServerWeb.MoviesController do
         "items" =>
           Enum.map(movies.entries, fn x ->
             %{
+              "id" => x["id"],
               "title" => x["title"],
-              "poster" => MediaServer.Helpers.get_poster(x),
-              "background" => MediaServer.Helpers.get_background(x)
+              "poster" => MediaServer.Helpers.get_poster(x)
             }
           end),
         "prev_page" =>
@@ -110,9 +110,9 @@ defmodule MediaServerWeb.MoviesController do
         "items" =>
           Enum.map(movies.entries, fn x ->
             %{
+              "id" => x["id"],
               "title" => x["title"],
-              "poster" => MediaServer.Helpers.get_poster(x),
-              "background" => MediaServer.Helpers.get_background(x)
+              "poster" => MediaServer.Helpers.get_poster(x)
             }
           end),
         "prev_page" =>
@@ -138,9 +138,9 @@ defmodule MediaServerWeb.MoviesController do
         "items" =>
           Enum.map(movies.entries, fn x ->
             %{
+              "id" => x["id"],
               "title" => x["title"],
-              "poster" => MediaServer.Helpers.get_poster(x),
-              "background" => MediaServer.Helpers.get_background(x)
+              "poster" => MediaServer.Helpers.get_poster(x)
             }
           end),
         "prev_page" =>
@@ -166,9 +166,9 @@ defmodule MediaServerWeb.MoviesController do
         "items" =>
           Enum.map(movies.entries, fn x ->
             %{
+              "id" => x["id"],
               "title" => x["title"],
-              "poster" => MediaServer.Helpers.get_poster(x),
-              "background" => MediaServer.Helpers.get_background(x)
+              "poster" => MediaServer.Helpers.get_poster(x)
             }
           end),
         "prev_page" =>
