@@ -14,6 +14,7 @@ defmodule MediaServerWeb.MoviesController do
       )
 
     conn
+    |> put_resp_header("content-type", "application/json")
     |> send_resp(
       200,
       Jason.encode!(%{
@@ -21,9 +22,12 @@ defmodule MediaServerWeb.MoviesController do
         "items" =>
           Enum.map(movies.entries, fn x ->
             %{
-              "id" => x["id"],
               "title" => x["title"],
-              "poster" => MediaServer.Helpers.get_poster(x)
+              "overview" => x["overview"],
+              "year" => x["year"],
+              "poster" => ~p"/api/images?movie=#{ x["id"] }&type=poster",
+              "background" => ~p"/api/images?movie=#{ x["id"] }&type=background",
+              "stream" => ~p"/api/stream?movie=#{ x["id"] }"
             }
           end),
         "prev_page" =>
@@ -47,6 +51,7 @@ defmodule MediaServerWeb.MoviesController do
       )
 
     conn
+    |> put_resp_header("content-type", "application/json")
     |> send_resp(
       200,
       Jason.encode!(%{
@@ -54,9 +59,12 @@ defmodule MediaServerWeb.MoviesController do
         "items" =>
           Enum.map(movies.entries, fn x ->
             %{
-              "id" => x["id"],
               "title" => x["title"],
-              "poster" => MediaServer.Helpers.get_poster(x)
+              "overview" => x["overview"],
+              "year" => x["year"],
+              "poster" => ~p"/api/images?movie=#{ x["id"] }&type=poster",
+              "background" => ~p"/api/images?movie=#{ x["id"] }&type=background",
+              "stream" => ~p"/api/stream?movie=#{ x["id"] }"
             }
           end),
         "prev_page" =>
@@ -75,6 +83,7 @@ defmodule MediaServerWeb.MoviesController do
       })
 
     conn
+    |> put_resp_header("content-type", "application/json")
     |> send_resp(
       200,
       Jason.encode!(%{
@@ -82,9 +91,12 @@ defmodule MediaServerWeb.MoviesController do
         "items" =>
           Enum.map(movies.entries, fn x ->
             %{
-              "id" => x["id"],
               "title" => x["title"],
-              "poster" => MediaServer.Helpers.get_poster(x)
+              "overview" => x["overview"],
+              "year" => x["year"],
+              "poster" => ~p"/api/images?movie=#{ x["id"] }&type=poster",
+              "background" => ~p"/api/images?movie=#{ x["id"] }&type=background",
+              "stream" => ~p"/api/stream?movie=#{ x["id"] }"
             }
           end),
         "prev_page" =>
@@ -103,6 +115,7 @@ defmodule MediaServerWeb.MoviesController do
       })
 
     conn
+    |> put_resp_header("content-type", "application/json")
     |> send_resp(
       200,
       Jason.encode!(%{
@@ -110,9 +123,12 @@ defmodule MediaServerWeb.MoviesController do
         "items" =>
           Enum.map(movies.entries, fn x ->
             %{
-              "id" => x["id"],
               "title" => x["title"],
-              "poster" => MediaServer.Helpers.get_poster(x)
+              "overview" => x["overview"],
+              "year" => x["year"],
+              "poster" => ~p"/api/images?movie=#{ x["id"] }&type=poster",
+              "background" => ~p"/api/images?movie=#{ x["id"] }&type=background",
+              "stream" => ~p"/api/stream?movie=#{ x["id"] }"
             }
           end),
         "prev_page" =>
@@ -131,6 +147,7 @@ defmodule MediaServerWeb.MoviesController do
       })
 
     conn
+    |> put_resp_header("content-type", "application/json")
     |> send_resp(
       200,
       Jason.encode!(%{
@@ -138,9 +155,12 @@ defmodule MediaServerWeb.MoviesController do
         "items" =>
           Enum.map(movies.entries, fn x ->
             %{
-              "id" => x["id"],
               "title" => x["title"],
-              "poster" => MediaServer.Helpers.get_poster(x)
+              "overview" => x["overview"],
+              "year" => x["year"],
+              "poster" => ~p"/api/images?movie=#{ x["id"] }&type=poster",
+              "background" => ~p"/api/images?movie=#{ x["id"] }&type=background",
+              "stream" => ~p"/api/stream?movie=#{ x["id"] }"
             }
           end),
         "prev_page" =>
@@ -159,6 +179,7 @@ defmodule MediaServerWeb.MoviesController do
       })
 
     conn
+    |> put_resp_header("content-type", "application/json")
     |> send_resp(
       200,
       Jason.encode!(%{
@@ -166,9 +187,12 @@ defmodule MediaServerWeb.MoviesController do
         "items" =>
           Enum.map(movies.entries, fn x ->
             %{
-              "id" => x["id"],
               "title" => x["title"],
-              "poster" => MediaServer.Helpers.get_poster(x)
+              "overview" => x["overview"],
+              "year" => x["year"],
+              "poster" => ~p"/api/images?movie=#{ x["id"] }&type=poster",
+              "background" => ~p"/api/images?movie=#{ x["id"] }&type=background",
+              "stream" => ~p"/api/stream?movie=#{ x["id"] }"
             }
           end),
         "prev_page" =>
