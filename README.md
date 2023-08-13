@@ -50,9 +50,9 @@ services to delight and enhance **your** media experience.
 
 ### How is this lightweight?
 
-* **Direct streaming.** Your media is served fresh off the metal (*an experimental transcoder is available*).
-* **Smart caching.** Your metadata is retrieved fresh off the metal, smartly kept in sync with your integrations.
-* **Integrated experience.** You like the way your media is set up, we keep it that way.
+* **Direct streaming.** Your media served fresh off the metal.
+* **Smart caching.** Your media smartly kept in sync with your integrations.
+* **Integrated experience.** Your media kept the way you like it.
 
 ### What else does this do?
 
@@ -83,7 +83,7 @@ services:
       - /path/to/media:/media
     environment:
 #       App config
-      - APP_URL=http://midarr:4000 # required for media sync
+      - APP_URL=http://midarr:4000
       - APP_MAILER_FROM=example@email.com
       - SENDGRID_API_KEY=someApiKey
 
@@ -105,6 +105,15 @@ services:
 #       Sonarr integration
       - SONARR_BASE_URL=sonarr:8989
       - SONARR_API_KEY=someApiKey
+
+#       OIDC / OAuth 2.0 integration
+      - OAUTH_CLIENT_ID=someClientId
+      - OAUTH_CLIENT_SECRET=someClientSecret
+      - OAUTH_ISSUER_URL=http://some-provider.url
+      - OAUTH_AUTHORIZE_URL=http://some-provider.url/authorize
+      - OAUTH_TOKEN_URL=http://some-provider.url/token
+      - OAUTH_REDIRECT_URI=http://some-provider.url/auth/callback
+      - OAUTH_USER_URL=http://some-provider.url/user
 
     depends_on:
       postgresql:
@@ -178,23 +187,22 @@ services:
 
 ### Why won't my media sync?
 
-To sync your media, on server startup Midarr attempts to auto configure your integrations by:
+To keep your media in sync, Midarr webhooks are required in your integrations.
+Any updates to your media library via your integrations, a POST request will be made to the following endpoints
+to update your Midarr cache.
 
-* **Caching integration responses.** This is for speedy access to your library.
-* **Adding connect endpoints.** This is for keeping your media in sync.
+Add these webhook urls to Radarr / Sonarr under `Settings -> Connect`:
 
-Ensure your `APP_URL` and integration environment variables are set for auto configuration to complete:
-
-```yaml
-environment:
-  - APP_URL=http://midarr:4000 # required for media sync
-    
-  - RADARR_BASE_URL=radarr:7878
-  - RADARR_API_KEY=someApiKey
-
-  - SONARR_BASE_URL=sonarr:8989
-  - SONARR_API_KEY=someApiKey
+#### Radarr example
 ```
+http://midarr:4000/api/webhooks/movie?token=some-api-token
+```
+
+#### Sonarr example
+```
+http://midarr:4000/api/webhooks/series?token=some-api-token
+```
+
 
 ### What integrations does this support?
 
