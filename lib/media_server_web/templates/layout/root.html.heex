@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full antialiased js-focus-visible">
+<html lang="en" class="h-full antialiased __variable_20951f __variable_b436a8 dark" style="color-scheme: dark;">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -27,6 +27,8 @@
 
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
 
+    <link rel="stylesheet" href="https://syntax.tailwindui.com/_next/static/css/4bf7b6e05b0710cb.css" data-precedence="next">
+
     <%= if @current_user do %>
       <script>
         window.userId = <%= assigns[:current_user].id %>;
@@ -40,7 +42,7 @@
       </script>
     <% end %>
   </head>
-  <body class="bg-zinc-900">
+  <body class="flex min-h-full bg-white dark:bg-slate-900">
     <%= if @current_user do %>
       <%= @inner_content %>
 
