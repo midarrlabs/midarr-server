@@ -42,9 +42,12 @@
       </script>
     <% end %>
   </head>
-  <body class="flex min-h-full bg-white dark:bg-slate-900">
+  <body class="flex min-h-full dark:bg-zinc-900">
     <%= if @current_user do %>
-      <%= @inner_content %>
+
+        <div class="flex w-full flex-col">
+            <%= @inner_content %>
+        </div>
 
       <%= if assigns[:media_stream] do %>
       <script>
