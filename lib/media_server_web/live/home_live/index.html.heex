@@ -42,7 +42,9 @@
       <span class="sr-only md:not-sr-only md:ml-2 md:text-zinc-500 md:dark:text-zinc-400">
         Quick search...
       </span>
-      <kbd class="ml-auto hidden font-medium text-zinc-400 dark:text-zinc-500 md:block"><kbd class="font-sans">⌘</kbd><kbd class="font-sans">K</kbd></kbd>
+      <kbd class="ml-auto hidden font-medium text-zinc-400 dark:text-zinc-500 md:block">
+        <kbd class="font-sans">⌘</kbd><kbd class="font-sans">K</kbd>
+      </kbd>
     </button>
     <div style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none">
     </div>
@@ -63,8 +65,8 @@
 
 <div class="overflow-hidden bg-zinc-900 dark:-mb-32 dark:mt-[-4.75rem] dark:pb-32 dark:pt-[4.75rem]">
   <div
-    class="py-16 sm:px-2 relative lg:px-0 lg:py-20 bg-cover bg-fixed"
-    style={"background-image: url('#{ ~p"/api/images?movie=#{ Enum.at(@movies, 8)["id"] }&type=background&token=#{assigns[:current_user].api_token.token}" }');"}
+    class="py-40 sm:px-2 relative lg:px-0 bg-cover bg-fixed"
+    style={"background-image: url('#{ ~p"/api/images?movie=#{ Enum.at(@movies, 0)["id"] }&type=background&token=#{assigns[:current_user].api_token.token}" }');"}
   >
     <div class="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 lg:max-w-8xl lg:grid-cols-2 lg:px-8 xl:gap-x-16 xl:px-12">
       <div class="absolute inset-0 w-3/4 bg-gradient-to-l from-white to-black mix-blend-multiply">
@@ -76,26 +78,37 @@
       <div class="relative z-10 md:text-center lg:text-left">
         <div class="relative">
           <p class="font-display text-5xl tracking-tight text-white">
-            <%= Enum.at(@movies, 8)["title"] %>
+            <%= Enum.at(@movies, 0)["title"] %>
           </p>
 
           <p class="mt-3 text-2xl tracking-tight text-zinc-400">
-            Cache every single thing your app could ever do ahead of time, so your code never even has to run at all.
+            <div>
+              <%= if Enum.at(@movies, 0)["certification"] do %>
+                <span>
+                  <%= Enum.at(@movies, 0)["certification"] %>
+                </span>
+                &#8729;
+              <% end %>
+
+              <%= if Enum.at(@movies, 0)["genres"] do %>
+                <span>
+                  <%= for {item, counter} <- Enum.with_index(Enum.at(@movies, 0)["genres"]) do %>
+                    <%= if (counter + 1) !== Enum.count(Enum.at(@movies, 0)["genres"]) do %>
+                      <%= item %>,
+                    <% else %>
+                      <%= item %>
+                    <% end %>
+                  <% end %>
+                </span>
+                &#8729;
+              <% end %>
+              <%= if Enum.at(@movies, 0)["runtime"] do %>
+                <span>
+                  <%= Enum.at(@movies, 0)["runtime"] %> mintues
+                </span>
+              <% end %>
+            </div>
           </p>
-          <div class="mt-8 flex gap-4 md:justify-center lg:justify-start">
-            <a
-              class="rounded-full bg-red-300 py-2 px-4 text-sm font-semibold text-zinc-900 hover:bg-red-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-300/50 active:bg-red-500"
-              href="/"
-            >
-              Get started
-            </a>
-            <a
-              class="rounded-full bg-zinc-800 py-2 px-4 text-sm font-medium text-white hover:bg-zinc-700 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 active:text-zinc-400"
-              href="/"
-            >
-              View on GitHub
-            </a>
-          </div>
         </div>
       </div>
     </div>
@@ -112,7 +125,7 @@
         <ul role="list" class="space-y-9">
           <li>
             <h2 class="font-display font-medium text-zinc-900 dark:text-white">
-              Introduction
+              Home
             </h2>
             <ul
               role="list"
@@ -123,7 +136,7 @@
                   class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full font-semibold text-red-500 before:bg-red-500"
                   href="/"
                 >
-                  Getting started
+                  Trending
                 </a>
               </li>
               <li class="relative">
@@ -131,14 +144,14 @@
                   class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
                   href="/docs/installation"
                 >
-                  Installation
+                  Recommended
                 </a>
               </li>
             </ul>
           </li>
           <li>
             <h2 class="font-display font-medium text-zinc-900 dark:text-white">
-              Core concepts
+              Movies
             </h2>
             <ul
               role="list"
@@ -149,7 +162,7 @@
                   class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
                   href="/docs/understanding-caching"
                 >
-                  Understanding caching
+                  Latest
                 </a>
               </li>
               <li class="relative">
@@ -157,38 +170,14 @@
                   class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
                   href="/docs/predicting-user-behavior"
                 >
-                  Predicting user behavior
-                </a>
-              </li>
-              <li class="relative">
-                <a
-                  class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
-                  href="/docs/basics-of-time-travel"
-                >
-                  Basics of time-travel
-                </a>
-              </li>
-              <li class="relative">
-                <a
-                  class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
-                  href="/docs/introduction-to-string-theory"
-                >
-                  Introduction to string theory
-                </a>
-              </li>
-              <li class="relative">
-                <a
-                  class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
-                  href="/docs/the-butterfly-effect"
-                >
-                  The butterfly effect
+                  Coming soon
                 </a>
               </li>
             </ul>
           </li>
           <li>
             <h2 class="font-display font-medium text-zinc-900 dark:text-white">
-              Advanced guides
+              TV Shows
             </h2>
             <ul
               role="list"
@@ -199,7 +188,7 @@
                   class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
                   href="/docs/writing-plugins"
                 >
-                  Writing plugins
+                  Latest
                 </a>
               </li>
               <li class="relative">
@@ -207,115 +196,7 @@
                   class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
                   href="/docs/neuralink-integration"
                 >
-                  Neuralink integration
-                </a>
-              </li>
-              <li class="relative">
-                <a
-                  class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
-                  href="/docs/temporal-paradoxes"
-                >
-                  Temporal paradoxes
-                </a>
-              </li>
-              <li class="relative">
-                <a
-                  class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
-                  href="/docs/testing"
-                >
-                  Testing
-                </a>
-              </li>
-              <li class="relative">
-                <a
-                  class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
-                  href="/docs/compile-time-caching"
-                >
-                  Compile-time caching
-                </a>
-              </li>
-              <li class="relative">
-                <a
-                  class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
-                  href="/docs/predictive-data-generation"
-                >
-                  Predictive data generation
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <h2 class="font-display font-medium text-zinc-900 dark:text-white">
-              API reference
-            </h2>
-            <ul
-              role="list"
-              class="mt-2 space-y-2 border-l-2 border-zinc-100 dark:border-zinc-800 lg:mt-4 lg:space-y-4"
-            >
-              <li class="relative">
-                <a
-                  class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
-                  href="/docs/cacheadvance-predict"
-                >
-                  CacheAdvance.predict()
-                </a>
-              </li>
-              <li class="relative">
-                <a
-                  class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
-                  href="/docs/cacheadvance-flush"
-                >
-                  CacheAdvance.flush()
-                </a>
-              </li>
-              <li class="relative">
-                <a
-                  class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
-                  href="/docs/cacheadvance-revert"
-                >
-                  CacheAdvance.revert()
-                </a>
-              </li>
-              <li class="relative">
-                <a
-                  class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
-                  href="/docs/cacheadvance-regret"
-                >
-                  CacheAdvance.regret()
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <h2 class="font-display font-medium text-zinc-900 dark:text-white">
-              Contributing
-            </h2>
-            <ul
-              role="list"
-              class="mt-2 space-y-2 border-l-2 border-zinc-100 dark:border-zinc-800 lg:mt-4 lg:space-y-4"
-            >
-              <li class="relative">
-                <a
-                  class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
-                  href="/docs/how-to-contribute"
-                >
-                  How to contribute
-                </a>
-              </li>
-              <li class="relative">
-                <a
-                  class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
-                  href="/docs/architecture-guide"
-                >
-                  Architecture guide
-                </a>
-              </li>
-              <li class="relative">
-                <a
-                  class="block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300"
-                  href="/docs/design-principles"
-                >
-                  Design principles
+                  Coming soon
                 </a>
               </li>
             </ul>
@@ -324,18 +205,66 @@
       </nav>
     </div>
   </div>
+
   <div class="min-w-0 max-w-2xl flex-auto px-4 py-16 lg:max-w-none lg:pl-8 lg:pr-0 xl:px-16">
     <article>
       <header class="mb-9 space-y-1">
-        <p class="font-display text-sm font-medium text-red-500">Introduction</p>
+        <p class="font-display text-sm font-medium text-red-500">Home</p>
         <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white">
-          Getting started
+          Trending
         </h1>
       </header>
       <div class="prose prose-zinc max-w-none dark:prose-invert dark:text-zinc-400 prose-headings:scroll-mt-28 prose-headings:font-display prose-headings:font-normal lg:prose-headings:scroll-mt-[8.5rem] prose-lead:text-zinc-500 dark:prose-lead:text-zinc-400 prose-a:font-semibold dark:prose-a:text-red-400 prose-a:no-underline prose-a:shadow-[inset_0_-2px_0_0_var(--tw-prose-background,#fff),inset_0_calc(-1*(var(--tw-prose-underline-size,4px)+2px))_0_0_var(--tw-prose-underline,theme(colors.red.300))] hover:prose-a:[--tw-prose-underline-size:6px] dark:[--tw-prose-background:theme(colors.zinc.900)] dark:prose-a:shadow-[inset_0_calc(-1*var(--tw-prose-underline-size,2px))_0_0_var(--tw-prose-underline,theme(colors.red.800))] dark:hover:prose-a:[--tw-prose-underline-size:6px] prose-pre:rounded-xl prose-pre:bg-zinc-900 prose-pre:shadow-lg dark:prose-pre:bg-zinc-800/60 dark:prose-pre:shadow-none dark:prose-pre:ring-1 dark:prose-pre:ring-zinc-300/10 dark:prose-hr:border-zinc-800">
         <p class="lead">
-          Learn how to get CacheAdvance set up in your project in under thirty minutes or it's free.
+          Movies trending right now.
         </p>
+
+        <div class="justify-items-center grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-4 py-4">
+          <%= for item <- @movies do %>
+            <%= live_redirect to: Routes.movies_show_path(@socket, :show, item["id"]) do %>
+              <div>
+                <div class="relative">
+                  <div class="relative">
+                    <img
+                      loading="lazy"
+                      class="object-cover m-0"
+                      alt=""
+                      src={
+                        ~p"/api/images?movie=#{item["id"]}&type=background&size=w780&token=#{assigns[:current_user].api_token.token}"
+                      }
+                    />
+                  </div>
+
+                  <div class="absolute inset-x-0 top-0 flex h-full items-end justify-end">
+                    <div
+                      aria-hidden="true"
+                      class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"
+                    >
+                    </div>
+                    <div class="relative text-xs font-semibold text-white bg-black text-center rounded-lg mb-2 mr-1">
+                      <span class="p-2">
+                        <%= item["movieFile"]["mediaInfo"]["runTime"] %>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="relative flex space-x-2">
+                  <div class="mt-4">
+                    <p class="text-sm font-medium text-zinc-100 m-0">
+                      <%= item["title"] %>
+                    </p>
+
+                    <p class="mt-1 text-xs text-zinc-400">
+                      <%= "#{item["year"]} • #{item["certification"]}" %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+
         <div class="not-prose my-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div class="group relative rounded-xl border border-zinc-200 dark:border-zinc-800">
             <div class="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.red.50)),var(--quick-links-hover-bg,theme(colors.red.50)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.red.500))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.zinc.800)]">
@@ -950,87 +879,5 @@
         </dd>
       </div>
     </dl>
-  </div>
-  <div class="hidden xl:sticky xl:top-[4.75rem] xl:-mr-6 xl:block xl:h-[calc(100vh-4.75rem)] xl:flex-none xl:overflow-y-auto xl:py-16 xl:pr-6">
-    <nav aria-labelledby="on-this-page-title" class="w-56">
-      <h2
-        id="on-this-page-title"
-        class="font-display text-sm font-medium text-zinc-900 dark:text-white"
-      >
-        On this page
-      </h2>
-      <ol role="list" class="mt-4 space-y-3 text-sm">
-        <li>
-          <h3><a class="text-red-500" href="#quick-start">Quick start</a></h3>
-          <ol role="list" class="mt-2 space-y-3 pl-5 text-zinc-500 dark:text-zinc-400">
-            <li>
-              <a
-                class="hover:text-zinc-600 dark:hover:text-zinc-300"
-                href="#installing-dependencies"
-              >
-                Installing dependencies
-              </a>
-            </li>
-            <li>
-              <a
-                class="hover:text-zinc-600 dark:hover:text-zinc-300"
-                href="#configuring-the-library"
-              >
-                Configuring the library
-              </a>
-            </li>
-          </ol>
-        </li>
-        <li>
-          <h3>
-            <a
-              class="font-normal text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
-              href="#basic-usage"
-            >
-              Basic usage
-            </a>
-          </h3>
-          <ol role="list" class="mt-2 space-y-3 pl-5 text-zinc-500 dark:text-zinc-400">
-            <li>
-              <a class="hover:text-zinc-600 dark:hover:text-zinc-300" href="#your-first-cache">
-                Your first cache
-              </a>
-            </li>
-            <li>
-              <a class="hover:text-zinc-600 dark:hover:text-zinc-300" href="#clearing-the-cache">
-                Clearing the cache
-              </a>
-            </li>
-            <li>
-              <a class="hover:text-zinc-600 dark:hover:text-zinc-300" href="#adding-middleware">
-                Adding middleware
-              </a>
-            </li>
-          </ol>
-        </li>
-        <li>
-          <h3>
-            <a
-              class="font-normal text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
-              href="#getting-help"
-            >
-              Getting help
-            </a>
-          </h3>
-          <ol role="list" class="mt-2 space-y-3 pl-5 text-zinc-500 dark:text-zinc-400">
-            <li>
-              <a class="hover:text-zinc-600 dark:hover:text-zinc-300" href="#submit-an-issue">
-                Submit an issue
-              </a>
-            </li>
-            <li>
-              <a class="hover:text-zinc-600 dark:hover:text-zinc-300" href="#join-the-community">
-                Join the community
-              </a>
-            </li>
-          </ol>
-        </li>
-      </ol>
-    </nav>
   </div>
 </div>
