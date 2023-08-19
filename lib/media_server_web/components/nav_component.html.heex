@@ -1,222 +1,64 @@
-<header class="relative z-20 flex flex-col">
-  <div class="top-0 z-10 h-16 pt-6">
-    <div class="sm:px-8 w-full">
-      <div class="mx-auto max-w-7xl lg:px-8">
-        <div class="relative px-4 sm:px-8 lg:px-12">
-          <div class="mx-auto max-w-2xl lg:max-w-5xl">
-            <div class="relative flex gap-4">
-              <div class="flex flex-1">
-                <div class="h-10 w-10 rounded-full p-0.5 shadow-lg shadow-zinc-800/5 ring-1 backdrop-blur bg-zinc-800/90 ring-white/10">
-                  <%= live_redirect to: Routes.home_index_path(@socket, :index), class: "block origin-left pointer-events-auto", style: "transform: var(--avatar-image-transform);" do %>
-                    <svg viewBox="0 0 20 20" fill="#ef4444" class="w-9 h-9">
-                      <path
-                        fill-rule="evenodd"
-                        d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  <% end %>
-                </div>
-              </div>
-              <div class="flex flex-1 justify-end md:justify-center">
-                <div class="pointer-events-auto md:hidden">
-                  <button
-                    class="group flex items-center rounded-full px-4 py-2 text-sm font-medium shadow-lg shadow-zinc-800/5 ring-1 backdrop-blur bg-zinc-800/90 text-zinc-200 ring-white/10 hover:ring-white/20"
-                    type="button"
-                    phx-click={
-                      JS.toggle(to: "#mobile-menu")
-                    }
-                  >
-                    Menu<svg
-                      viewBox="0 0 8 6"
-                      class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-400"
-                    ><path
-                        d="M1.75 1.75 4 4.25l2.25-2.5"
-                        fill="none"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      ></path></svg>
-                  </button>
-                </div>
-                <nav class="pointer-events-auto hidden md:block">
-                  <ul class="flex rounded-full px-3 text-sm font-medium shadow-lg shadow-zinc-800/5 ring-1 backdrop-blur bg-zinc-800/90 text-zinc-200 ring-white/10">
-                    <li>
-                      <%= live_redirect("Movies",
-                        to: Routes.movies_index_path(@socket, :index),
-                        class:
-                          "relative block px-3 py-2 transition hover:text-red-400"
-                      ) %>
-                    </li>
-                    <li>
-                      <%= live_redirect("Series",
-                        to: Routes.series_index_path(@socket, :index),
-                        class:
-                          "relative block px-3 py-2 transition hover:text-red-400"
-                      ) %>
-                    </li>
-                    <li>
-                      <%= live_redirect("History",
-                        to: Routes.history_index_path(@socket, :index),
-                        class:
-                          "relative block px-3 py-2 transition hover:text-red-400"
-                      ) %>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-              <div class="flex justify-end md:flex-1">
-                <div class="pointer-events-auto">
-                  <ul class="flex rounded-full px-3 text-sm font-medium shadow-lg shadow-zinc-800/5 ring-1 backdrop-blur bg-zinc-800/90 text-zinc-200 ring-white/10">
-                    <li>
-                      <button
-                        type="button"
-                        phx-click={
-                          JS.toggle(to: "#search-command") |> JS.focus(to: "#search_query")
-                        }
-                        class="relative block px-3 py-2 transition hover:text-red-400"
-                      >
-                        <svg
-                          class="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="2"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                          />
-                        </svg>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        phx-click={JS.toggle(to: "#profile-dropdown")}
-                        phx-click-away={JS.hide(to: "#profile-dropdown")}
-                        type="button"
-                        class="relative block px-3 py-2 transition hover:text-red-400"
-                      >
-                        <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-                          <path
-                            fill-rule="evenodd"
-                            d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
-                      </button>
-                      <div
-                        id="profile-dropdown"
-                        class="hidden origin-top-right absolute right-0 mt-2 w-36 rounded-md shadow-lg ring-1 ring-opacity-5 focus:outline-none bg-zinc-800 ring-zinc-800"
-                      >
-                        <div class="divide-y text-sm font-medium divide-zinc-100/5 text-zinc-300">
-                          <%= link("Settings",
-                            to: Routes.settings_index_path(@socket, :index),
-                            class: "block px-4 py-2 hover:text-red-400"
-                          ) %>
-                          <%= link("Log out",
-                            to: Routes.user_session_path(@socket, :delete),
-                            method: :delete,
-                            class: "block px-4 py-2 hover:text-red-400"
-                          ) %>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+<header class="sticky top-0 z-50 flex flex-none flex-wrap items-center justify-between px-4 py-5 shadow-md shadow-zinc-900/5 transition duration-500 dark:shadow-none sm:px-6 lg:px-8 dark:bg-zinc-900/95 dark:backdrop-blur dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/75">
+  <div class="mr-6 flex lg:hidden">
+    <button type="button" class="relative" aria-label="Open navigation">
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke-width="2"
+        stroke-linecap="round"
+        class="h-6 w-6 stroke-zinc-500"
+      >
+        <path d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+    </button>
+    <div style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none">
     </div>
   </div>
-
-  <div class="hidden relative z-10" id="search-command">
-    <div class="fixed inset-0 backdrop-blur-sm bg-black/80 opacity-100"></div>
-
-    <div class="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
-      <div class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
-        <div class="relative" phx-click-away={JS.hide(to: "#search-command")}>
-          <svg
-            class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <.form :let={f} for={%{}} as={:search} id="search" phx-target={@myself} phx-submit="search">
-            <%= text_input(f, :query,
-              placeholder: "Search...",
-              class:
-                "h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
-            ) %>
-          </.form>
-        </div>
-      </div>
+  <div class="relative flex flex-grow basis-0 items-center">
+    <a aria-label="Home page" href="/">
+      <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-auto lg:block">
+        <path
+          fill-rule="evenodd"
+          d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </a>
+  </div>
+  <div class="-my-5 mr-6 sm:mr-8 md:mr-0">
+    <button
+      type="button"
+      class="group flex h-6 w-6 items-center justify-center sm:justify-start md:h-auto md:w-80 md:flex-none md:rounded-lg md:py-2.5 md:pl-4 md:pr-3.5 md:text-sm md:ring-1 md:ring-zinc-200 md:hover:ring-zinc-300 dark:md:bg-zinc-800/75 dark:md:ring-inset dark:md:ring-white/5 dark:md:hover:bg-zinc-700/40 dark:md:hover:ring-zinc-500 lg:w-96"
+    >
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 20 20"
+        class="h-5 w-5 flex-none fill-zinc-400 group-hover:fill-zinc-500 dark:fill-zinc-500 md:group-hover:fill-zinc-400"
+      >
+        <path d="M16.293 17.707a1 1 0 0 0 1.414-1.414l-1.414 1.414ZM9 14a5 5 0 0 1-5-5H2a7 7 0 0 0 7 7v-2ZM4 9a5 5 0 0 1 5-5V2a7 7 0 0 0-7 7h2Zm5-5a5 5 0 0 1 5 5h2a7 7 0 0 0-7-7v2Zm8.707 12.293-3.757-3.757-1.414 1.414 3.757 3.757 1.414-1.414ZM14 9a4.98 4.98 0 0 1-1.464 3.536l1.414 1.414A6.98 6.98 0 0 0 16 9h-2Zm-1.464 3.536A4.98 4.98 0 0 1 9 14v2a6.98 6.98 0 0 0 4.95-2.05l-1.414-1.414Z">
+        </path>
+      </svg>
+      <span class="sr-only md:not-sr-only md:ml-2 md:text-zinc-500 md:dark:text-zinc-400">
+        Quick search...
+      </span>
+      <kbd class="ml-auto hidden font-medium text-zinc-400 dark:text-zinc-500 md:block">
+        <kbd class="font-sans">⌘</kbd><kbd class="font-sans">K</kbd>
+      </kbd>
+    </button>
+    <div style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none">
     </div>
   </div>
-
-  <div class="hidden relative z-10" id="mobile-menu">
-    <div
-      class="fixed inset-0 backdrop-blur-sm bg-black/80 opacity-100"
-    >
-    </div>
-    <div
-      class="fixed inset-x-4 top-8 origin-top rounded-3xl p-8 ring-1 bg-zinc-900 ring-zinc-800 opacity-100 scale-100"
-      phx-click-away={JS.hide(to: "#mobile-menu")}
-    >
-      <div class="flex flex-row-reverse items-center justify-between">
-        <button
-          aria-label="Close menu"
-          class="-m-1 p-1"
-          type="button"
-          phx-click={JS.hide(to: "#mobile-menu")}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            class="h-6 w-6 text-zinc-400"
-          >
-            <path
-              d="m17.25 6.75-10.5 10.5M6.75 6.75l10.5 10.5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-            </path>
-          </svg>
-        </button>
-      </div>
-      <nav class="mt-6">
-        <ul class="-my-2 divide-y text-base divide-zinc-100/5 text-zinc-300">
-            <li>
-              <%= live_redirect("Movies",
-                to: Routes.movies_index_path(@socket, :index),
-                class: "block py-2"
-              ) %>
-            </li>
-            <li>
-              <%= live_redirect("Series",
-                to: Routes.series_index_path(@socket, :index),
-                class: "block py-2"
-              ) %>
-            </li>
-            <li>
-              <%= live_redirect("History",
-                to: Routes.history_index_path(@socket, :index),
-                class: "block py-2"
-              ) %>
-            </li>
-        </ul>
-      </nav>
-    </div>
+  <div class="relative flex basis-0 justify-end gap-6 sm:gap-8 md:flex-grow">
+    <a class="group" aria-label="GitHub" href="https://github.com">
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 16 16"
+        class="h-6 w-6 fill-zinc-400 group-hover:fill-zinc-500 dark:group-hover:fill-zinc-300"
+      >
+        <path d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z">
+        </path>
+      </svg>
+    </a>
   </div>
 </header>

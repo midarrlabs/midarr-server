@@ -16,8 +16,8 @@ defmodule MediaServerWeb.HomeLive.Index do
     {
       :noreply,
       socket
-      |> assign(:movies, MediaServer.MoviesIndex.all() |> MediaServer.MoviesIndex.latest() |> MediaServer.MoviesIndex.take(10))
-      |> assign(:series, MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.latest() |> MediaServer.SeriesIndex.take(10))
+      |> assign(:movies, MediaServer.MoviesIndex.all() |> MediaServer.MoviesIndex.latest() |> MediaServer.MoviesIndex.take(12))
+      |> assign(:series, MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.latest() |> MediaServer.SeriesIndex.take(12))
     }
   end
 end
