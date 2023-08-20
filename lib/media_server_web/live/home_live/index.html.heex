@@ -1,6 +1,6 @@
 <div class="overflow-hidden bg-zinc-900 dark:-mb-32 dark:mt-[-4.75rem] dark:pb-32 dark:pt-[4.75rem]">
   <div
-    class="py-40 sm:px-2 relative lg:px-0 bg-cover bg-fixed"
+    class="py-56 sm:px-2 relative lg:px-0 bg-cover bg-fixed"
     style={"background-image: url('#{ ~p"/api/images?movie=#{ Enum.at(@movies, 0)["id"] }&type=background&token=#{assigns[:current_user].api_token.token}" }');"}
   >
     <div class="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 lg:max-w-8xl lg:grid-cols-2 lg:px-8 xl:gap-x-16 xl:px-12">
@@ -64,15 +64,15 @@
         Movies trending right now.
       </p>
 
-      <div class="justify-items-center grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-4 py-4">
+      <div class="justify-items-center grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-4 py-4">
         <%= for item <- @movies do %>
           <%= MediaServerWeb.Components.CardComponent.render(%{
             title: item["title"],
-            subtitle: item["title"],
+            subtitle: "#{item["year"]} • #{item["certification"]}",
             runtime: item["movieFile"]["mediaInfo"]["runTime"],
             img_src:
               ~p"/api/images?movie=#{item["id"]}&type=background&size=w780&token=#{assigns[:current_user].api_token.token}",
-            link: Routes.movies_show_path(@socket, :show, item["id"]),
+            link: ~p"/movies/#{item["id"]}",
             width: "full"
           }) %>
         <% end %>
@@ -85,44 +85,19 @@
           TV Shows trending right now.
         </p>
 
-        <div class="justify-items-center grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-4 py-4">
+        <div class="justify-items-center grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-4 py-4">
           <%= for item <- @series do %>
-            <%= live_redirect to: ~p"/series/#{item["id"]}" do %>
-              <div>
-                <div class="relative">
-                  <div class="relative">
-                    <img
-                      loading="lazy"
-                      class="object-cover m-0"
-                      alt=""
-                      src={
-                        ~p"/api/images?series=#{item["id"]}&type=background&size=w780&token=#{assigns[:current_user].api_token.token}"
-                      }
-                    />
-                  </div>
 
-                  <div class="absolute inset-x-0 top-0 flex h-full items-end justify-end">
-                    <div
-                      aria-hidden="true"
-                      class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"
-                    >
-                    </div>
-                  </div>
-                </div>
+            <%= MediaServerWeb.Components.CardComponent.render(%{
+              title: item["title"],
+              subtitle: "#{item["year"]} • #{item["certification"]}",
+              runtime: "",
+              img_src:
+                ~p"/api/images?series=#{item["id"]}&type=background&size=w780&token=#{assigns[:current_user].api_token.token}",
+              link: ~p"/series/#{item["id"]}",
+              width: "full"
+            }) %>
 
-                <div class="relative flex space-x-2">
-                  <div class="mt-4">
-                    <p class="text-sm font-medium text-zinc-100 m-0">
-                      <%= item["title"] %>
-                    </p>
-
-                    <p class="mt-1 text-xs text-zinc-400">
-                      <%= "#{item["year"]} • #{item["certification"]}" %>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            <% end %>
           <% end %>
         </div>
       </div>

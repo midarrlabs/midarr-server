@@ -16,11 +16,17 @@ defmodule MediaServerWeb.Components.CardComponent do
               class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"
             >
             </div>
+            <%= if assigns.runtime !== "" do %>
             <div class="relative text-xs font-semibold text-white bg-black text-center rounded-lg mb-2 mr-1">
               <span class="p-2">
                 <%= assigns.runtime %>
               </span>
             </div>
+            <% end %>
+          </div>
+
+          <div class="absolute flex w-full bg-slate-200 h-1 overflow-hidden rounded-b-lg">
+            <div class="bg-red-500 h-1" style={"width: 60%"}></div>
           </div>
         </div>
 

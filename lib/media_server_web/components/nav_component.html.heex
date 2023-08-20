@@ -16,7 +16,7 @@
     </div>
   </div>
   <div class="relative flex flex-grow basis-0 items-center">
-    <a aria-label="Home page" href="/">
+    <%= live_redirect to: ~p"/" do %>
       <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-auto lg:block">
         <path
           fill-rule="evenodd"
@@ -24,7 +24,7 @@
           clip-rule="evenodd"
         />
       </svg>
-    </a>
+    <% end %>
   </div>
   <div class="-my-5 mr-6 sm:mr-8 md:mr-0">
     <button

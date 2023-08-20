@@ -1,130 +1,25 @@
-<div>
-  <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+<MediaServerWeb.Components.PageComponent.render>
+  <article>
+    <header class="mb-9 space-y-1">
+      <p class="font-display text-sm font-medium text-red-500">Home</p>
+      <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white">
+        History
+      </h1>
+    </header>
 
-  <MediaServerWeb.Components.PageSectionAlternativeComponent.render>
-    <%= for item <- @user_media_actions do %>
-      <%= if item.media_type_id === @movie_id do %>
-        <div>
-          <div class="relative">
-            <div class="relative overflow-hidden rounded-t-lg">
-              <img
-                loading="lazy"
-                class="h-52 w-full object-cover"
-                alt=""
-                src={~p"/api/images?movie=#{ item.media_id }&type=background&size=w780&token=#{assigns[:current_user].api_token.token}"}
-              />
-            </div>
-
-            <div class="absolute inset-x-0 top-0 flex h-full items-end justify-end overflow-hidden pb-2 pr-2">
-              <div
-                aria-hidden="true"
-                class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"
-              >
-              </div>
-              <p class="relative text-sm font-semibold text-white bg-black text-center rounded-lg">
-                <span class="p-2">
-                  <%= MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)["movieFile"]["mediaInfo"][
-                    "runTime"
-                  ] %>
-                </span>
-              </p>
-            </div>
-
-            <%= if item.continue do %>
-              <div class="absolute flex w-full bg-slate-200 h-1 overflow-hidden rounded-b-lg">
-                <div
-                  class="bg-red-500 h-1"
-                  style={"width: #{ MediaServerWeb.Helpers.percentage_complete_from_seconds(item.continue.current_time, item.continue.duration) }%"}
-                >
-                </div>
-              </div>
-            <% end %>
-          </div>
-
-          <div class="relative flex mt-4 space-x-2">
-            <div>
-              <%= if item.continue do %>
-                <%= live_redirect id: "play-#{ item.media_type_id }-#{ item.media_id }", to: Routes.watch_index_path(@socket, :index, movie: item.media_id, timestamp: item.continue.current_time) do %>
-                  <h3 class="text-sm font-medium text-zinc-100">
-                    <%= MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)["title"] %>
-                  </h3>
-                <% end %>
-              <% else %>
-                <h3 class="text-sm font-medium text-zinc-100">
-                  <%= MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)["title"] %>
-                </h3>
-              <% end %>
-              <p class="mt-1 text-sm text-zinc-400">
-                <%= MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)["year"] %> • <%= MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)["certification"] %>
-              </p>
-            </div>
-          </div>
-        </div>
-      <% else %>
-        <%= if MediaServerWeb.Repositories.Episodes.get_episode(item.media_id) do %>
-          <div>
-            <div class="relative">
-              <div class="relative overflow-hidden rounded-t-lg">
-                <img
-                  loading="lazy"
-                  class="h-52 w-full object-cover"
-                  alt=""
-                  src={~p"/api/images?episode=#{ item.media_id }&type=screenshot&token=#{assigns[:current_user].api_token.token}"}
-                />
-              </div>
-
-              <div class="absolute inset-x-0 top-0 flex h-full items-end justify-end overflow-hidden pb-2 pr-2">
-                <div
-                  aria-hidden="true"
-                  class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"
-                >
-                </div>
-                <p class="relative text-sm font-semibold text-white bg-black text-center rounded-lg">
-                  <span class="p-2">
-                    <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)[
-                      "episodeFile"
-                    ]["mediaInfo"]["runTime"] %>
-                  </span>
-                </p>
-              </div>
-
-              <%= if item.continue do %>
-                <div class="absolute flex w-full bg-slate-200 h-1 overflow-hidden rounded-b-lg">
-                  <div
-                    class="bg-red-500 h-1"
-                    style={"width: #{ MediaServerWeb.Helpers.percentage_complete_from_seconds(item.continue.current_time, item.continue.duration) }%"}
-                  >
-                  </div>
-                </div>
-              <% end %>
-            </div>
-
-            <div class="relative flex mt-4 space-x-2">
-              <div>
-                <%= if item.continue do %>
-                  <%= live_redirect id: "play-#{ item.media_type_id }-#{ item.media_id }", to: Routes.watch_index_path(@socket, :index, episode: item.media_id, timestamp: item.continue.current_time) do %>
-                    <h3 class="text-sm font-medium text-zinc-100">
-                      <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["title"] %>
-                    </h3>
-                  <% end %>
-                <% else %>
-                  <h3 class="text-sm font-medium text-zinc-100">
-                    <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["title"] %>
-                  </h3>
-                <% end %>
-                <p class="mt-1 text-sm text-zinc-400">
-                  <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["series"]["title"] %>
-                </p>
-                <p class="mt-1 text-sm text-zinc-400">
-                  <%= MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["series"]["year"] %>
-                </p>
-              </div>
-            </div>
-          </div>
+      <div class="justify-items-center grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-8 py-4">
+        <%= for item <- @user_media_actions do %>
+          <%= MediaServerWeb.Components.CardComponent.render(%{
+            title: MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)["title"],
+            subtitle: "subtitle",
+            runtime: MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)["movieFile"]["mediaInfo"]["runTime"],
+            img_src:
+              ~p"/api/images?movie=#{ item.media_id }&type=background&size=w780&token=#{assigns[:current_user].api_token.token}",
+            link: ~p"/movies/#{item.media_id}",
+            width: "full"
+          }) %>
         <% end %>
-      <% end %>
-    <% end %>
-  </MediaServerWeb.Components.PageSectionAlternativeComponent.render>
+      </div>
 
-  <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
-</div>
+  </article>
+</MediaServerWeb.Components.PageComponent.render>

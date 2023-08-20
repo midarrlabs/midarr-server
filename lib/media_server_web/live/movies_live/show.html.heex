@@ -129,7 +129,7 @@
         <%= for item <- MediaServer.MoviesIndex.related(MediaServer.MoviesIndex.all(), @movie["id"]) do %>
           <%= MediaServerWeb.Components.CardComponent.render(%{
             title: item["title"],
-            subtitle: item["title"],
+            subtitle: "#{item["year"]} • #{item["certification"]}",
             runtime: item["movieFile"]["mediaInfo"]["runTime"],
             img_src:
               ~p"/api/images?movie=#{item["id"]}&type=background&size=w780&token=#{assigns[:current_user].api_token.token}",

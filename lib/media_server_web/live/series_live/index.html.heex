@@ -1,105 +1,25 @@
-<div class="bg-black">
-  <div class="absolute w-full">
-    <%= if Enum.at(@series, 0) do %>
-      <img
-        alt=""
-        src={
-          ~p"/api/images?series=#{Enum.at(@series, 0)["id"]}&type=background&token=#{assigns[:current_user].api_token.token}"
-        }
-        class="object-cover w-full"
-      />
-    <% end %>
-    <div class="absolute inset-0 w-3/4 bg-gradient-to-l from-white to-black mix-blend-multiply">
-    </div>
-    <div class="absolute inset-0 bg-gradient-to-b from-slate-50 to-black mix-blend-multiply">
-    </div>
-  </div>
+<MediaServerWeb.Components.PageComponent.render>
+  <article>
+    <header class="mb-9 space-y-1">
+      <p class="font-display text-sm font-medium text-red-500">Libraries</p>
+      <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white">
+        TV Shows
+      </h1>
+    </header>
 
-  <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
-
-  <div class="sm:px-8 my-16 sm:my-32">
-    <div class="mx-auto max-w-7xl lg:px-8">
-      <div class="relative px-4 sm:px-8 lg:px-12">
-        <div class="mx-auto max-w-2xl lg:max-w-5xl">
-          <div class="grid grid-cols-1 gap-y-16">
-            <div class="lg:order-first lg:row-span-2">
-              <h1 class="text-2xl md:text-4xl font-bold tracking-tight text-zinc-100">
-                <%= Enum.at(@series, 0)["title"] %>
-                <%= if Enum.at(@series, 0)["year"] do %>
-                  <span class="font-normal text-base md:text-2xl text-zinc-400">
-                    <%= Enum.at(@series, 0)["year"] %>
-                  </span>
-                <% end %>
-              </h1>
-
-              <div class="mt-2 flex gap-6 text-base text-zinc-400">
-                <div>
-                  <%= if Enum.at(@series, 0)["certification"] do %>
-                    <span>
-                      <%= Enum.at(@series, 0)["certification"] %>
-                    </span>
-                    &#8729;
-                  <% end %>
-
-                  <%= if Enum.at(@series, 0)["genres"] do %>
-                    <span>
-                      <%= for {item, counter} <- Enum.with_index(Enum.at(@series, 0)["genres"]) do %>
-                        <%= if (counter + 1) !== Enum.count(Enum.at(@series, 0)["genres"]) do %>
-                          <%= item %>,
-                        <% else %>
-                          <%= item %>
-                        <% end %>
-                      <% end %>
-                    </span>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="justify-items-center grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-8 py-4">
+        <%= for item <- @series do %>
+          <%= MediaServerWeb.Components.CardComponent.render(%{
+            title: item["title"],
+            subtitle: "#{item["year"]} • #{item["certification"]}",
+            runtime: "",
+            img_src:
+              ~p"/api/images?series=#{item["id"]}&type=background&size=w780&token=#{assigns[:current_user].api_token.token}",
+            link: ~p"/series/#{item["id"]}",
+            width: "full"
+          }) %>
+        <% end %>
       </div>
-    </div>
-  </div>
 
-  <MediaServerWeb.Components.PageSectionComponent.render>
-    <:header>
-      <div class="w-full relative block inline-flex justify-start text-base font-semibold text-zinc-100 hover:text-red-400">
-        <div class="-mb-px flex space-x-8 overflow-x-auto">
-          <%= live_patch to: Routes.series_index_path(@socket, :index), class: "#{ if @genre === "A-Z" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            A-Z
-          <% end %>
-
-          <%= live_patch to: Routes.series_index_path(@socket, :index, sort_by: "latest"), class: "#{ if @genre === "latest" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-100 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Latest
-          <% end %>
-
-          <%= for item <- MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.genres() do %>
-            <%= live_patch to: Routes.series_index_path(@socket, :index, genre: String.downcase(item)), class: "#{ if @genre === String.downcase(item) do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-300 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-              <%= item %>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-    </:header>
-
-    <%= for item <- @series do %>
-      <%= MediaServerWeb.Components.PosterComponent.render(%{
-        title: item["title"],
-        img_src:
-          ~p"/api/images?series=#{item["id"]}&type=poster&token=#{assigns[:current_user].api_token.token}",
-        link: Routes.series_show_path(@socket, :show, item["id"])
-      }) %>
-    <% end %>
-
-    <:footer>
-      <%= MediaServerWeb.Components.PaginationComponent.render(%{
-        page_number: @series.page_number,
-        total_pages: @series.total_pages,
-        previous_link: @previous_link,
-        next_link: @next_link
-      }) %>
-    </:footer>
-  </MediaServerWeb.Components.PageSectionComponent.render>
-
-  <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
-</div>
+  </article>
+</MediaServerWeb.Components.PageComponent.render>
