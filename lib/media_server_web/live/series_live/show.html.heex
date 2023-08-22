@@ -39,7 +39,6 @@
             </div>
           </p>
         </div>
-
       </div>
     </div>
   </div>
@@ -48,7 +47,7 @@
 <MediaServerWeb.Components.PageComponent.render>
   <article>
     <header class="mb-9 space-y-1">
-      <p class="font-display text-sm font-medium text-red-500">Movie</p>
+      <p class="font-display text-sm font-medium text-red-500">TV Show</p>
       <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white">
         <%= @serie["title"] %>
       </h1>
@@ -63,6 +62,50 @@
         <%= @serie["overview"] %>
       </p>
 
+      <div class="w-full relative block inline-flex justify-start text-base font-semibold">
+        <div class="-mb-px flex space-x-8 overflow-x-auto">
+          <%= if Enum.count(@serie["seasons"]) === 1 do %>
+            <p class="lead">
+              Season 1
+            </p>
+          <% else %>
+            <%= for item <- @serie["seasons"] do %>
+              <%= if item["seasonNumber"] === 0 do %>
+                <%= live_patch to: ~p"/series/#{ @serie["id"] }?season=#{ item["seasonNumber"] }", class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 text-white" else "text-zinc-600 hover:text-white border-transparent" end } whitespace-nowrap border-b-2" do %>
+                  <p class="lead mt-0" style="font-weight: initial;">
+                    Specials
+                  </p>
+                <% end %>
+              <% else %>
+                <%= live_patch to: ~p"/series/#{ @serie["id"] }?season=#{ item["seasonNumber"] }", class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 text-white" else "text-zinc-600 hover:text-white border-transparent" end } whitespace-nowrap border-b-2" do %>
+                  <p class="lead mt-0" style="font-weight: initial;">
+                    Season <%= item["seasonNumber"] %>
+                  </p>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <%= if assigns[:episodes] do %>
+        <div class="grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-2 py-4">
+          <%= for {item, counter} <- Enum.with_index(@episodes) do %>
+            <.live_component
+              module={MediaServerWeb.Components.ContentComponent}
+              id={"episode-content-#{ counter }"}
+              title={"#{ item["episodeNumber"] }: #{ item["title"] }"}
+              subtitle="Subtitle"
+              runtime={item["episodeFile"]["mediaInfo"]["runTime"]}
+              img_src={
+                ~p"/api/images?episode=#{item["id"]}&type=screenshot&token=#{assigns[:current_user].api_token.token}"
+              }
+              link={~p"/watch?episode=#{item["id"]}"}
+              width="full"
+            />
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </article>
 </MediaServerWeb.Components.PageComponent.render>

@@ -126,17 +126,18 @@
       </p>
 
       <div class="overflow-x-auto flex gap-x-4 overflow-hidden">
-        <%= for item <- MediaServer.MoviesIndex.related(MediaServer.MoviesIndex.all(), @movie["id"]) do %>
-          <%= MediaServerWeb.Components.CardComponent.render(%{
-            title: item["title"],
-            subtitle: "#{item["year"]} • #{item["certification"]}",
-            runtime: item["movieFile"]["mediaInfo"]["runTime"],
-            img_src:
-              ~p"/api/images?movie=#{item["id"]}&type=background&size=w780&token=#{assigns[:current_user].api_token.token}",
-            link: Routes.movies_show_path(@socket, :show, item["id"]),
-            width: "80"
-          }) %>
-        <% end %>
+          <%= for {item, counter} <- Enum.with_index(MediaServer.MoviesIndex.related(MediaServer.MoviesIndex.all(), @movie["id"])) do %>
+              <.live_component
+                  module={MediaServerWeb.Components.ContentComponent}
+                  id={"content-component-#{ counter }"}
+                  title={item["title"]}
+                  subtitle={"#{item["year"]} • #{item["certification"]}"}
+                  runtime={item["movieFile"]["mediaInfo"]["runTime"]}
+                  img_src={~p"/api/images?movie=#{item["id"]}&type=background&size=w780&token=#{assigns[:current_user].api_token.token}"}
+                  link={~p"/movies/#{item["id"]}"}
+                  width="80"
+              />
+          <% end %>
       </div>
 
       <hr style="border-color: #27272a;" />
