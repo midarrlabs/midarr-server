@@ -1,23 +1,9 @@
 defmodule MediaServerWeb.Components.PosterComponent do
-  use Phoenix.Component
+  use MediaServerWeb, :live_component
 
-  def render(assigns) do
-    ~H"""
-    <div class="bg-blend-overlay relative aspect-auto w-36 h-52 md:w-44 md:h-64 flex-none overflow-hidden hover:opacity-75">
-      <%= live_redirect to: assigns.link do %>
-        <%= if assigns.img_src !== "" do %>
-          <img
-            alt={assigns.title}
-            src={assigns.img_src}
-            class="h-full object-cover mt-0"
-            loading="lazy"
-          />
-        <% else %>
-          <div class="bg-zinc-800/90 h-full w-full"></div>
-          <div class="hidden"><%= assigns.title %></div>
-        <% end %>
-      <% end %>
-    </div>
-    """
+  @impl true
+  def preload(list_of_assigns) do
+
+    list_of_assigns
   end
 end

@@ -1,0 +1,15 @@
+<div class="bg-blend-overlay aspect-auto relative w-full h-full flex-none overflow-hidden hover:opacity-75 rounded-md">
+  <%= live_redirect to: assigns.link do %>
+    <%= if assigns.img_src !== "" do %>
+      <img
+        alt={assigns.title}
+        src={assigns.img_src}
+        class="h-full object-cover"
+        loading="lazy"
+      />
+    <% else %>
+      <div class="bg-zinc-800/90 h-full w-full"></div>
+      <div class="hidden"><%= assigns.title %></div>
+    <% end %>
+  <% end %>
+</div>

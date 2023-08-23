@@ -1,7 +1,7 @@
 <div>
     <%= live_redirect to: @link do %>
         <div class={"relative w-#{ @width }"}>
-            <img loading="lazy" class="object-cover m-0 w-full" alt={@title} src={@img_src} />
+            <img loading="lazy" class="object-cover m-0 w-full rounded-t-md" alt={@title} src={@img_src} />
 
           <div class="absolute inset-x-0 top-0 flex h-full items-end justify-end">
             <div
@@ -27,10 +27,6 @@
           <div class="mt-4">
             <p class="text-sm font-medium text-zinc-100 m-0">
               <%= @title %>
-            </p>
-
-            <p class="mt-1 text-xs text-zinc-400">
-              <%= @subtitle %>
             </p>
           </div>
         </div>

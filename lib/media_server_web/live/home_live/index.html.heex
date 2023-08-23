@@ -1,6 +1,6 @@
 <div class="overflow-hidden bg-zinc-900 dark:-mb-32 dark:mt-[-4.75rem] dark:pb-32 dark:pt-[4.75rem]">
   <div
-    class="py-56 sm:px-2 relative lg:px-0 bg-cover bg-fixed"
+    class="py-40 sm:px-2 relative lg:px-0 bg-cover bg-fixed"
     style={"background-image: url('#{ ~p"/api/images?movie=#{ Enum.at(@movies, 0)["id"] }&type=background&token=#{assigns[:current_user].api_token.token}" }');"}
   >
     <div class="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 lg:max-w-8xl lg:grid-cols-2 lg:px-8 xl:gap-x-16 xl:px-12">
@@ -53,56 +53,52 @@
 <MediaServerWeb.Components.PageComponent.render>
   <article>
     <header class="mb-9 space-y-1">
-      <p class="font-display text-sm font-medium text-red-500">Home</p>
-      <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white">
-        Trending
+      <p class="font-display text-sm font-medium text-red-500">Main</p>
+      <h1 class="font-display text-3xl tracking-tight text-white">
+        Home
       </h1>
     </header>
 
-    <div class="prose prose-zinc max-w-none dark:prose-invert dark:text-zinc-400 prose-headings:scroll-mt-28 prose-headings:font-display prose-headings:font-normal lg:prose-headings:scroll-mt-[8.5rem] prose-lead:text-zinc-500 dark:prose-lead:text-zinc-400 prose-a:font-semibold dark:prose-a:text-red-400 prose-a:no-underline prose-a:shadow-[inset_0_-2px_0_0_var(--tw-prose-background,#fff),inset_0_calc(-1*(var(--tw-prose-underline-size,4px)+2px))_0_0_var(--tw-prose-underline,theme(colors.red.300))] hover:prose-a:[--tw-prose-underline-size:6px] dark:[--tw-prose-background:theme(colors.zinc.900)] dark:prose-a:shadow-[inset_0_calc(-1*var(--tw-prose-underline-size,2px))_0_0_var(--tw-prose-underline,theme(colors.red.800))] dark:hover:prose-a:[--tw-prose-underline-size:6px] prose-pre:rounded-xl prose-pre:bg-zinc-900 prose-pre:shadow-lg dark:prose-pre:bg-zinc-800/60 dark:prose-pre:shadow-none dark:prose-pre:ring-1 dark:prose-pre:ring-zinc-300/10 dark:prose-hr:border-zinc-800">
-      <p class="lead">
-        Movies trending right now.
-      </p>
+    <div>
+      <h2 class="font-display text-xl tracking-tight text-gray-400 mb-6">
+        Movies trending right now
+      </h2>
 
-      <div class="justify-items-center grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-4 py-4">
-
+      <div class="justify-items-center grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 xl:gap-x-8">
         <%= for {item, counter} <- Enum.with_index(@movies) do %>
             <.live_component
-                module={MediaServerWeb.Components.ContentComponent}
+                module={MediaServerWeb.Components.PosterComponent}
                 id={"movies-content-#{ counter }"}
                 title={item["title"]}
                 subtitle={"#{item["year"]} • #{item["certification"]}"}
                 runtime={item["movieFile"]["mediaInfo"]["runTime"]}
-                img_src={~p"/api/images?movie=#{item["id"]}&type=background&size=w780&token=#{assigns[:current_user].api_token.token}"}
+                img_src={~p"/api/images?movie=#{item["id"]}&type=poster&size=w780&token=#{assigns[:current_user].api_token.token}"}
                 link={~p"/movies/#{item["id"]}"}
                 width={"full"}
             />
         <% end %>
-
       </div>
 
-      <hr style="border-color: #27272a;" />
+      <hr class="my-12" style="border-color: #27272a;" />
 
-      <div class="prose prose-zinc max-w-none dark:prose-invert dark:text-zinc-400 prose-headings:scroll-mt-28 prose-headings:font-display prose-headings:font-normal lg:prose-headings:scroll-mt-[8.5rem] prose-lead:text-zinc-500 dark:prose-lead:text-zinc-400 prose-a:font-semibold dark:prose-a:text-red-400 prose-a:no-underline prose-a:shadow-[inset_0_-2px_0_0_var(--tw-prose-background,#fff),inset_0_calc(-1*(var(--tw-prose-underline-size,4px)+2px))_0_0_var(--tw-prose-underline,theme(colors.red.300))] hover:prose-a:[--tw-prose-underline-size:6px] dark:[--tw-prose-background:theme(colors.zinc.900)] dark:prose-a:shadow-[inset_0_calc(-1*var(--tw-prose-underline-size,2px))_0_0_var(--tw-prose-underline,theme(colors.red.800))] dark:hover:prose-a:[--tw-prose-underline-size:6px] prose-pre:rounded-xl prose-pre:bg-zinc-900 prose-pre:shadow-lg dark:prose-pre:bg-zinc-800/60 dark:prose-pre:shadow-none dark:prose-pre:ring-1 dark:prose-pre:ring-zinc-300/10 dark:prose-hr:border-zinc-800">
-        <p class="lead">
-          TV Shows trending right now.
-        </p>
+      <h2 class="font-display text-xl tracking-tight text-gray-400 my-6">
+        TV Shows trending right now
+      </h2>
 
-        <div class="justify-items-center grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-4 py-4">
+      <div class="justify-items-center grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 xl:gap-x-8">
           <%= for {item, counter} <- Enum.with_index(@series) do %>
             <.live_component
-                module={MediaServerWeb.Components.ContentComponent}
+                module={MediaServerWeb.Components.PosterComponent}
                 id={"series-content-#{ counter }"}
                 title={item["title"]}
                 subtitle={"#{item["year"]} • #{item["certification"]}"}
                 runtime={""}
-                img_src={~p"/api/images?series=#{item["id"]}&type=background&size=w780&token=#{assigns[:current_user].api_token.token}"}
+                img_src={~p"/api/images?series=#{item["id"]}&type=poster&size=w780&token=#{assigns[:current_user].api_token.token}"}
                 link={~p"/series/#{item["id"]}"}
                 width={"full"}
             />
           <% end %>
         </div>
-      </div>
     </div>
   </article>
 

@@ -1,6 +1,6 @@
 <div class="overflow-hidden bg-zinc-900 dark:-mb-32 dark:mt-[-4.75rem] dark:pb-32 dark:pt-[4.75rem]">
   <div
-    class="py-56 sm:px-2 relative lg:px-0 bg-cover bg-fixed"
+    class="py-40 sm:px-2 relative lg:px-0 bg-cover bg-fixed"
     style={"background-image: url('#{ ~p"/api/images?series=#{ @serie["id"] }&type=background&token=#{assigns[:current_user].api_token.token}" }');"}
   >
     <div class="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 lg:max-w-8xl lg:grid-cols-2 lg:px-8 xl:gap-x-16 xl:px-12">
@@ -53,32 +53,33 @@
       </h1>
     </header>
 
-    <div class="prose prose-zinc max-w-none dark:prose-invert dark:text-zinc-400 prose-headings:scroll-mt-28 prose-headings:font-display prose-headings:font-normal lg:prose-headings:scroll-mt-[8.5rem] prose-lead:text-zinc-500 dark:prose-lead:text-zinc-400 prose-a:font-semibold dark:prose-a:text-red-400 prose-a:no-underline prose-a:shadow-[inset_0_-2px_0_0_var(--tw-prose-background,#fff),inset_0_calc(-1*(var(--tw-prose-underline-size,4px)+2px))_0_0_var(--tw-prose-underline,theme(colors.red.300))] hover:prose-a:[--tw-prose-underline-size:6px] dark:[--tw-prose-background:theme(colors.zinc.900)] dark:prose-a:shadow-[inset_0_calc(-1*var(--tw-prose-underline-size,2px))_0_0_var(--tw-prose-underline,theme(colors.red.800))] dark:hover:prose-a:[--tw-prose-underline-size:6px] prose-pre:rounded-xl prose-pre:bg-zinc-900 prose-pre:shadow-lg dark:prose-pre:bg-zinc-800/60 dark:prose-pre:shadow-none dark:prose-pre:ring-1 dark:prose-pre:ring-zinc-300/10 dark:prose-hr:border-zinc-800">
-      <p class="lead">
+    <div>
+      <h2 class="font-display text-xl tracking-tight text-gray-400 mb-6">
         Synopsis
-      </p>
+      </h2>
 
       <p>
         <%= @serie["overview"] %>
       </p>
 
-      <div class="w-full relative block inline-flex justify-start text-base font-semibold">
+      <div class="w-full relative block inline-flex justify-start font-display text-xl tracking-tight text-gray-400 my-6">
+
         <div class="-mb-px flex space-x-8 overflow-x-auto">
           <%= if Enum.count(@serie["seasons"]) === 1 do %>
-            <p class="lead">
+            <p>
               Season 1
             </p>
           <% else %>
             <%= for item <- @serie["seasons"] do %>
               <%= if item["seasonNumber"] === 0 do %>
-                <%= live_patch to: ~p"/series/#{ @serie["id"] }?season=#{ item["seasonNumber"] }", class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 text-white" else "text-zinc-600 hover:text-white border-transparent" end } whitespace-nowrap border-b-2" do %>
-                  <p class="lead mt-0" style="font-weight: initial;">
+                <%= live_patch to: ~p"/series/#{ @serie["id"] }?season=#{ item["seasonNumber"] }", class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 text-gray-400" else "text-zinc-600 hover:text-gray-400 border-transparent" end } whitespace-nowrap border-b-2" do %>
+                  <p class="mb-4" style="font-weight: initial;">
                     Specials
                   </p>
                 <% end %>
               <% else %>
-                <%= live_patch to: ~p"/series/#{ @serie["id"] }?season=#{ item["seasonNumber"] }", class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 text-white" else "text-zinc-600 hover:text-white border-transparent" end } whitespace-nowrap border-b-2" do %>
-                  <p class="lead mt-0" style="font-weight: initial;">
+                <%= live_patch to: ~p"/series/#{ @serie["id"] }?season=#{ item["seasonNumber"] }", class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 text-gray-400" else "text-zinc-600 hover:text-gray-400 border-transparent" end } whitespace-nowrap border-b-2" do %>
+                  <p class="mb-4" style="font-weight: initial;">
                     Season <%= item["seasonNumber"] %>
                   </p>
                 <% end %>
@@ -89,13 +90,12 @@
       </div>
 
       <%= if assigns[:episodes] do %>
-        <div class="grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-2 py-4">
+        <div class="grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-8 py-4">
           <%= for {item, counter} <- Enum.with_index(@episodes) do %>
             <.live_component
               module={MediaServerWeb.Components.ContentComponent}
               id={"episode-content-#{ counter }"}
               title={"#{ item["episodeNumber"] }: #{ item["title"] }"}
-              subtitle="Subtitle"
               runtime={item["episodeFile"]["mediaInfo"]["runTime"]}
               img_src={
                 ~p"/api/images?episode=#{item["id"]}&type=screenshot&token=#{assigns[:current_user].api_token.token}"
