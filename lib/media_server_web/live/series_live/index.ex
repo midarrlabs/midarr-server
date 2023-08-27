@@ -88,6 +88,24 @@ defmodule MediaServerWeb.SeriesLive.Index do
     }
   end
 
+  def handle_params(%{"filter_by" => "upcoming"}, _url, socket) do
+
+    series = Scrivener.paginate(MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.upcoming(), %{
+      "page" => "1",
+      "page_size" => "50"
+    })
+
+    {
+      :noreply,
+      socket
+      |> assign(:page_title, "Series - Upcoming")
+      |> assign(:series, series)
+      |> assign(:previous_link, ~p"/series?sort_by=upcoming&page=#{ MediaServerWeb.Helpers.get_pagination_previous_link(series.page_number) }")
+      |> assign(:next_link, ~p"/series?sort_by=upcoming&page=#{ MediaServerWeb.Helpers.get_pagination_next_link(series.page_number) }")
+      |> assign(:genre, "upcoming")
+    }
+  end
+
   def handle_params(%{"page" => page}, _url, socket) do
 
     series = Scrivener.paginate(MediaServer.SeriesIndex.all(), %{

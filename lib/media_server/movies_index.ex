@@ -20,6 +20,11 @@ defmodule MediaServer.MoviesIndex do
     |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
   end
 
+  def upcoming(state) do
+    state
+    |> Enum.filter(fn item -> item["monitored"] end)
+  end
+
   def take(state, amount) do
     state
     |> Enum.take(amount)
@@ -52,7 +57,7 @@ defmodule MediaServer.MoviesIndex do
 
     state
     |> Enum.filter(fn item -> genre in item["genres"] end)
-    |> Enum.take_random(20)
+    |> Enum.take_random(10)
     |> Enum.reject(fn x -> x["id"] === id end)
   end
 

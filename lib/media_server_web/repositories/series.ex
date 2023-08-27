@@ -14,7 +14,6 @@ defmodule MediaServerWeb.Repositories.Series do
   def get_all() do
     HTTPoison.get(get_url("series"))
     |> handle_response()
-    |> Enum.filter(fn item -> item["statistics"]["episodeFileCount"] !== 0 end)
     |> Enum.sort_by(& &1["title"], :asc)
   end
 end

@@ -88,6 +88,24 @@ defmodule MediaServerWeb.MoviesLive.Index do
     }
   end
 
+  def handle_params(%{"filter_by" => "upcoming"}, _url, socket) do
+
+    movies = Scrivener.paginate(MediaServer.MoviesIndex.all() |> MediaServer.MoviesIndex.upcoming(), %{
+      "page" => "1",
+      "page_size" => "50"
+    })
+
+    {
+      :noreply,
+      socket
+      |> assign(:page_title, "Movies - Upcoming")
+      |> assign(:movies, movies)
+      |> assign(:previous_link, ~p"/movies?sort_by=upcoming&page=#{ MediaServerWeb.Helpers.get_pagination_previous_link(movies.page_number) }")
+      |> assign(:next_link, ~p"/movies?sort_by=upcoming&page=#{ MediaServerWeb.Helpers.get_pagination_next_link(movies.page_number) }")
+      |> assign(:genre, "upcoming")
+    }
+  end
+
   def handle_params(%{"page" => page}, _url, socket) do
 
     movies = Scrivener.paginate(MediaServer.MoviesIndex.all(), %{

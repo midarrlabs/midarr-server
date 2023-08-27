@@ -1,4 +1,4 @@
-defmodule MediaServerWeb.Components.PosterComponent do
+defmodule MediaServerWeb.Components.ContentComponent do
   use MediaServerWeb, :live_component
 
   @impl true

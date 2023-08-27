@@ -1,105 +1,34 @@
-<div class="bg-black">
-  <div class="absolute w-full">
-    <%= if Enum.at(@movies, 0) do %>
-      <img
-        alt=""
-        src={
-          ~p"/api/images?movie=#{Enum.at(@movies, 0)["id"]}&type=background&token=#{assigns[:current_user].api_token.token}"
-        }
-        class="object-cover w-full"
-      />
-    <% end %>
-    <div class="absolute inset-0 w-3/4 bg-gradient-to-l from-white to-black mix-blend-multiply">
+<MediaServerWeb.Components.PageComponent.render>
+  <article>
+    <header class="mb-9 space-y-1">
+      <p class="font-display text-sm font-medium text-red-500">Movies</p>
+      <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white capitalize">
+        <%= @genre %>
+      </h1>
+    </header>
+
+    <div class="justify-items-center grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 xl:gap-x-8">
+      <%= for {item, counter} <- Enum.with_index(@movies) do %>
+        <.live_component
+          module={MediaServerWeb.Components.PosterComponent}
+          id={"movies-content-#{ counter }"}
+          title={item["title"]}
+          subtitle={"#{item["year"]} • #{item["certification"]}"}
+          runtime={item["movieFile"]["mediaInfo"]["runTime"]}
+          img_src={
+            ~p"/api/images?movie=#{item["id"]}&type=poster&size=w780&token=#{assigns[:current_user].api_token.token}"
+          }
+          link={~p"/movies/#{item["id"]}"}
+          width="full"
+        />
+      <% end %>
     </div>
-    <div class="absolute inset-0 bg-gradient-to-b from-slate-50 to-black mix-blend-multiply">
-    </div>
-  </div>
+  </article>
 
-  <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
-
-  <div class="sm:px-8 my-16 sm:my-32">
-    <div class="mx-auto max-w-7xl lg:px-8">
-      <div class="relative px-4 sm:px-8 lg:px-12">
-        <div class="mx-auto max-w-2xl lg:max-w-5xl">
-          <div class="grid grid-cols-1 gap-y-16">
-            <div class="lg:order-first lg:row-span-2">
-              <h1 class="text-2xl md:text-4xl font-bold tracking-tight text-zinc-100">
-                <%= Enum.at(@movies, 0)["title"] %>
-                <%= if Enum.at(@movies, 0)["year"] do %>
-                  <span class="font-normal text-base md:text-2xl text-zinc-400">
-                    <%= Enum.at(@movies, 0)["year"] %>
-                  </span>
-                <% end %>
-              </h1>
-
-              <div class="mt-2 flex gap-6 text-base text-zinc-400">
-                <div>
-                  <%= if Enum.at(@movies, 0)["certification"] do %>
-                    <span>
-                      <%= Enum.at(@movies, 0)["certification"] %>
-                    </span>
-                    &#8729;
-                  <% end %>
-
-                  <%= if Enum.at(@movies, 0)["genres"] do %>
-                    <span>
-                      <%= for {item, counter} <- Enum.with_index(Enum.at(@movies, 0)["genres"]) do %>
-                        <%= if (counter + 1) !== Enum.count(Enum.at(@movies, 0)["genres"]) do %>
-                          <%= item %>,
-                        <% else %>
-                          <%= item %>
-                        <% end %>
-                      <% end %>
-                    </span>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <MediaServerWeb.Components.PageSectionComponent.render>
-    <:header>
-      <div class="w-full relative block inline-flex justify-start text-base font-semibold text-zinc-100 hover:text-red-400">
-        <div class="flex space-x-8 overflow-x-auto">
-          <%= live_patch to: Routes.movies_index_path(@socket, :index), class: "#{ if @genre === "A-Z" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-300 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            A-Z
-          <% end %>
-
-          <%= live_patch to: Routes.movies_index_path(@socket, :index, sort_by: "latest"), class: "#{ if @genre === "latest" do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-300 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-            Latest
-          <% end %>
-
-          <%= for item <- MediaServer.MoviesIndex.genres(MediaServer.MoviesIndex.all()) do %>
-            <%= live_patch to: Routes.movies_index_path(@socket, :index, genre: String.downcase(item)), class: "#{ if @genre === String.downcase(item) do "border-red-400 text-zinc-100" else "text-zinc-600 hover:text-zinc-300 border-transparent" end } whitespace-nowrap border-b-2 py-4" do %>
-              <%= item %>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-    </:header>
-
-    <%= for item <- @movies do %>
-      <%= MediaServerWeb.Components.PosterComponent.render(%{
-        title: item["title"],
-        img_src:
-          ~p"/api/images?movie=#{item["id"]}&type=poster&token=#{assigns[:current_user].api_token.token}",
-        link: Routes.movies_show_path(@socket, :show, item["id"])
-      }) %>
-    <% end %>
-
-    <:footer>
-      <%= MediaServerWeb.Components.PaginationComponent.render(%{
-        page_number: @movies.page_number,
-        total_pages: @movies.total_pages,
-        previous_link: @previous_link,
-        next_link: @next_link
-      }) %>
-    </:footer>
-  </MediaServerWeb.Components.PageSectionComponent.render>
-
-  <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
-</div>
+  <%= MediaServerWeb.Components.PaginationComponent.render(%{
+    page_number: @movies.page_number,
+    total_pages: @movies.total_pages,
+    previous_link: @previous_link,
+    next_link: @next_link
+  }) %>
+</MediaServerWeb.Components.PageComponent.render>

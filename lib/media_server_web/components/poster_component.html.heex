@@ -1,0 +1,15 @@
+<div class="bg-blend-overlay aspect-auto relative w-full h-full flex-none overflow-hidden hover:opacity-75 rounded-md">
+      <%= live_redirect to: @link, class: "group" do %>
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200">
+          <img
+            src={@img_src}
+            alt=""
+            class="h-full w-full object-cover object-center group-hover:opacity-75"
+            loading="lazy"
+            >
+        </div>
+        <p class="mt-4 text-sm line-clamp">
+            <%= @title %>
+        </p>
+      <% end %>
+</div>

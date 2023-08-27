@@ -1,9 +1,14 @@
-<div class="bg-zinc-900">
-  <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+<MediaServerWeb.Components.PageComponent.render>
+  <article>
+    <header class="mb-9 space-y-1">
+      <p class="font-display text-sm font-medium text-red-500">Search</p>
+      <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white">
+        Results
+      </h1>
+    </header>
 
-  <MediaServerWeb.Components.PageHeaderComponent.render title="Search" />
+      <div class="justify-items-center grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 xl:gap-x-8">
 
-  <MediaServerWeb.Components.PageSectionComponent.render>
     <%= if assigns[:movies] && assigns[:series] do %>
       <%= for item <- @movies do %>
         <%= MediaServerWeb.Components.PosterComponent.render(%{
@@ -25,7 +30,7 @@
         <%= MediaServerWeb.Components.SpinnerComponent.render(%{}) %>
       </div>
     <% end %>
-  </MediaServerWeb.Components.PageSectionComponent.render>
+      </div>
 
-  <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
-</div>
+  </article>
+</MediaServerWeb.Components.PageComponent.render>
