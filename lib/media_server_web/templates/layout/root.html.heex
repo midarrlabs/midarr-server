@@ -27,7 +27,16 @@
 
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
 
-    <link rel="stylesheet" href="https://syntax.tailwindui.com/_next/static/css/4bf7b6e05b0710cb.css" data-precedence="next">
+    <link rel="stylesheet" href="https://syntax.tailwindui.com/_next/static/css/4bf7b6e05b0710cb.css">
+
+    <style>
+      .line-clamp {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    </style>
 
     <%= if @current_user do %>
       <script>

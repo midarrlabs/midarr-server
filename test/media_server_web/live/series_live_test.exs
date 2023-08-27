@@ -76,7 +76,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
 
     send(view.pid, {:episodes, Episodes.get_all(series["id"], "1")})
 
-    assert render(view) =~ "Watch"
+    assert render(view) =~ "The Man From Mars"
   end
 
   test "it should replace each episode with episode show response", %{conn: _conn} do
