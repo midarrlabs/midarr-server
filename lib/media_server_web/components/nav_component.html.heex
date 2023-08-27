@@ -1,7 +1,7 @@
 <div class="sticky top-0 z-50">
   <header class="flex flex-none flex-wrap items-center justify-between px-4 py-5 shadow-md shadow-zinc-900/5 transition duration-500 dark:shadow-none sm:px-6 lg:px-8 dark:bg-zinc-900/95 dark:backdrop-blur dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/75">
     <div class="mr-6 flex lg:hidden">
-      <button type="button" class="relative" aria-label="Open navigation">
+      <button phx-click={JS.toggle(to: "#mobile-menu")} type="button" class="relative" aria-label="Open navigation">
         <svg
           aria-hidden="true"
           viewBox="0 0 24 24"
@@ -56,7 +56,14 @@
       <div class="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]">
         <div class="mx-auto transform-gpu overflow-hidden rounded-xl shadow-xl bg-zinc-800 ring-zinc-200 sm:max-w-xl">
           <div phx-click-away={JS.hide(to: "#search-command")}>
-            <.form :let={f} for={%{}} as={:search} id="search" phx-target={@myself} phx-submit="search">
+            <.form
+              :let={f}
+              for={%{}}
+              as={:search}
+              id="search"
+              phx-target={@myself}
+              phx-submit="search"
+            >
               <div class="group relative flex h-12">
                 <svg
                   viewBox="0 0 20 20"
@@ -65,11 +72,112 @@
                   <path d="M16.293 17.707a1 1 0 0 0 1.414-1.414l-1.414 1.414ZM9 14a5 5 0 0 1-5-5H2a7 7 0 0 0 7 7v-2ZM4 9a5 5 0 0 1 5-5V2a7 7 0 0 0-7 7h2Zm5-5a5 5 0 0 1 5 5h2a7 7 0 0 0-7-7v2Zm8.707 12.293-3.757-3.757-1.414 1.414 3.757 3.757 1.414-1.414ZM14 9a4.98 4.98 0 0 1-1.464 3.536l1.414 1.414A6.98 6.98 0 0 0 16 9h-2Zm-1.464 3.536A4.98 4.98 0 0 1 9 14v2a6.98 6.98 0 0 0 4.95-2.05l-1.414-1.414Z">
                   </path>
                 </svg>
-                <%= text_input(f, :query, placeholder: "Quick search...", class: "flex-auto appearance-none bg-transparent pl-12 text-slate-900 outline-none placeholder:text-zinc-400 focus:w-full focus:flex-none dark:text-white sm:text-sm pr-4") %>
+                <%= text_input(f, :query,
+                  placeholder: "Quick search...",
+                  class:
+                    "flex-auto appearance-none bg-transparent pl-12 text-slate-900 outline-none placeholder:text-zinc-400 focus:w-full focus:flex-none dark:text-white sm:text-sm pr-4"
+                ) %>
               </div>
             </.form>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="hidden">
+    <div class="fixed inset-0 z-50 flex items-start overflow-y-auto bg-zinc-900/50 pr-10 backdrop-blur lg:hidden">
+      <div class="min-h-full w-full max-w-xs px-4 pb-12 pt-5 dark:bg-zinc-900 sm:px-6">
+        <div phx-click-away={JS.hide(to: "#mobile-menu")} class="flex items-center">
+          <button type="button" aria-label="Close navigation" tabindex="0">
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="2"
+              stroke-linecap="round"
+              class="h-6 w-6 stroke-slate-500"
+            >
+              <path d="M5 5l14 14M19 5l-14 14"></path>
+            </svg>
+          </button>
+
+                <%= live_redirect to: ~p"/", class: "ml-6" do %>
+                  <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-9">
+                    <path
+                      fill-rule="evenodd"
+                      d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                <% end %>
+        </div>
+
+              <nav class="text-base lg:text-sm">
+                <ul role="list" class="space-y-9">
+                  <li>
+                    <h2 class="font-display font-medium text-white">
+                      Main
+                    </h2>
+                    <ul
+                      role="list"
+                      class="mt-2 space-y-2 border-l-2 border-zinc-100 dark:border-zinc-800 lg:mt-4 lg:space-y-4"
+                    >
+                      <li class="relative">
+                      <%= live_redirect to: ~p"/", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
+                          Home
+                      <% end %>
+                      </li>
+                      <li class="relative">
+                        <%= live_redirect to: ~p"/history", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
+                            History
+                        <% end %>
+                      </li>
+                    </ul>
+                  </li>
+                    <li>
+                      <h2 class="font-display font-medium text-zinc-900 dark:text-white">
+                        Movies
+                      </h2>
+                      <ul
+                        role="list"
+                        class="mt-2 space-y-2 border-l-2 border-zinc-100 dark:border-zinc-800 lg:mt-4 lg:space-y-4"
+                      >
+                        <li class="relative">
+                            <%= live_redirect to: ~p"/movies", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
+                                A-Z
+                            <% end %>
+                        </li>
+                        <li class="relative">
+                            <%= live_redirect to: ~p"/movies?filter_by=upcoming", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
+                                Upcoming
+                            <% end %>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <h2 class="font-display font-medium text-zinc-900 dark:text-white">
+                        TV Shows
+                      </h2>
+                      <ul
+                        role="list"
+                        class="mt-2 space-y-2 border-l-2 border-zinc-100 dark:border-zinc-800 lg:mt-4 lg:space-y-4"
+                      >
+                        <li class="relative">
+                            <%= live_redirect to: ~p"/series", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
+                                A-Z
+                            <% end %>
+                        </li>
+                        <li class="relative">
+                            <%= live_redirect to: ~p"/series?filter_by=upcoming", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
+                                Upcoming
+                            <% end %>
+                        </li>
+                      </ul>
+                    </li>
+                </ul>
+              </nav>
+
       </div>
     </div>
   </div>
