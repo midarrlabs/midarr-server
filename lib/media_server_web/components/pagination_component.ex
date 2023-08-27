@@ -3,87 +3,41 @@ defmodule MediaServerWeb.Components.PaginationComponent do
 
   def render(assigns) do
     ~H"""
-    <header class="b-16 pb-6 mt-6 z-10 relative flex flex-col bottom-0 sticky">
-      <div class="relative flex gap-4">
-        <div class="flex flex-1 justify-end md:justify-center"></div>
-        <div class="flex justify-end md:flex-1">
-          <div class="pointer-events-auto">
-            <ul class="space-x-4 flex rounded-full px-3 text-sm font-medium shadow-lg shadow-zinc-800/5 ring-1 backdrop-blur bg-zinc-800/90 text-zinc-200 ring-white/10">
-              <li>
-                <%= if assigns.page_number > 1 do %>
-                  <%= live_redirect id: "pagination-previous", to: assigns.previous_link, class: "flex items-center text-sm py-2 transition hover:text-red-400" do %>
-                    <svg
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-6 h-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
-                      />
-                    </svg>
-                  <% end %>
-                <% else %>
-                  <div class="flex items-center text-sm py-2 transition text-gray-500">
-                    <svg
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-6 h-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
-                      />
-                    </svg>
-                  </div>
-                <% end %>
-              </li>
-              <li>
-                <%= if assigns.page_number !== assigns.total_pages do %>
-                  <%= live_redirect id: "pagination-next", to: assigns.next_link, class: "flex items-center text-sm py-2 transition hover:text-red-400" do %>
-                    <svg
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-6 h-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
-                      />
-                    </svg>
-                  <% end %>
-                <% else %>
-                  <div class="flex items-center text-sm py-2 transition text-gray-500">
-                    <svg
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-6 h-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
-                      />
-                    </svg>
-                  </div>
-                <% end %>
-              </li>
-            </ul>
-          </div>
+    <dl class="mt-12 flex border-t border-slate-200 pt-6 dark:border-slate-800">
+      <%= if assigns.page_number > 1 do %>
+        <div>
+          <dt class="font-display text-sm font-medium text-slate-900 dark:text-white">Previous</dt>
+          <dd class="mt-1">
+            <%= live_redirect id: "pagination-previous", to: assigns.previous_link, class: "flex items-center gap-x-1 text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300 flex-row-reverse" do %>
+              Page <%= @page_number - 1 %>
+              <svg
+                viewBox="0 0 16 16"
+                aria-hidden="true"
+                class="h-4 w-4 flex-none fill-current -scale-x-100"
+              >
+                <path d="m9.182 13.423-1.17-1.16 3.505-3.505H3V7.065h8.517l-3.506-3.5L9.181 2.4l5.512 5.511-5.511 5.512Z">
+                </path>
+              </svg>
+            <% end %>
+          </dd>
         </div>
-      </div>
-    </header>
+      <% end %>
+
+      <%= if assigns.page_number !== assigns.total_pages do %>
+        <div class="ml-auto text-right">
+          <dt class="font-display text-sm font-medium text-slate-900 dark:text-white">Next</dt>
+          <dd class="mt-1">
+            <%= live_redirect id: "pagination-next", to: assigns.next_link, class: "flex items-center gap-x-1 text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300" do %>
+              Page <%= @page_number + 1 %>
+              <svg viewBox="0 0 16 16" aria-hidden="true" class="h-4 w-4 flex-none fill-current">
+                <path d="m9.182 13.423-1.17-1.16 3.505-3.505H3V7.065h8.517l-3.506-3.5L9.181 2.4l5.512 5.511-5.511 5.512Z">
+                </path>
+              </svg>
+            <% end %>
+          </dd>
+        </div>
+      <% end %>
+    </dl>
     """
   end
 end
