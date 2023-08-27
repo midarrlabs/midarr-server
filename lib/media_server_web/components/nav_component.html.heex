@@ -1,9 +1,13 @@
 <div class="sticky top-0 z-50">
   <header class="flex flex-none flex-wrap items-center justify-between px-4 py-5 shadow-md shadow-zinc-900/5 transition duration-500 dark:shadow-none sm:px-6 lg:px-8 dark:bg-zinc-900/95 dark:backdrop-blur dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/75">
     <div class="mr-6 flex lg:hidden">
-      <button phx-click={JS.toggle(to: "#mobile-menu")} type="button" class="relative" aria-label="Open navigation">
+      <button
+        phx-click={JS.toggle(to: "#mobile-menu")}
+        type="button"
+        class="relative"
+        aria-label="Open navigation"
+      >
         <svg
-          aria-hidden="true"
           viewBox="0 0 24 24"
           fill="none"
           stroke-width="2"
@@ -102,82 +106,81 @@
             </svg>
           </button>
 
-                <%= live_redirect to: ~p"/", class: "ml-6" do %>
-                  <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-9">
-                    <path
-                      fill-rule="evenodd"
-                      d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                <% end %>
+          <%= live_redirect to: ~p"/", class: "ml-6" do %>
+            <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-9">
+              <path
+                fill-rule="evenodd"
+                d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          <% end %>
         </div>
 
-              <nav class="text-base lg:text-sm">
-                <ul role="list" class="space-y-9">
-                  <li>
-                    <h2 class="font-display font-medium text-white">
-                      Main
-                    </h2>
-                    <ul
-                      role="list"
-                      class="mt-2 space-y-2 border-l-2 border-zinc-100 dark:border-zinc-800 lg:mt-4 lg:space-y-4"
-                    >
-                      <li class="relative">
-                      <%= live_redirect to: ~p"/", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
-                          Home
-                      <% end %>
-                      </li>
-                      <li class="relative">
-                        <%= live_redirect to: ~p"/history", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
-                            History
-                        <% end %>
-                      </li>
-                    </ul>
-                  </li>
-                    <li>
-                      <h2 class="font-display font-medium text-zinc-900 dark:text-white">
-                        Movies
-                      </h2>
-                      <ul
-                        role="list"
-                        class="mt-2 space-y-2 border-l-2 border-zinc-100 dark:border-zinc-800 lg:mt-4 lg:space-y-4"
-                      >
-                        <li class="relative">
-                            <%= live_redirect to: ~p"/movies", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
-                                A-Z
-                            <% end %>
-                        </li>
-                        <li class="relative">
-                            <%= live_redirect to: ~p"/movies?filter_by=upcoming", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
-                                Upcoming
-                            <% end %>
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <h2 class="font-display font-medium text-zinc-900 dark:text-white">
-                        TV Shows
-                      </h2>
-                      <ul
-                        role="list"
-                        class="mt-2 space-y-2 border-l-2 border-zinc-100 dark:border-zinc-800 lg:mt-4 lg:space-y-4"
-                      >
-                        <li class="relative">
-                            <%= live_redirect to: ~p"/series", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
-                                A-Z
-                            <% end %>
-                        </li>
-                        <li class="relative">
-                            <%= live_redirect to: ~p"/series?filter_by=upcoming", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
-                                Upcoming
-                            <% end %>
-                        </li>
-                      </ul>
-                    </li>
-                </ul>
-              </nav>
-
+        <nav class="text-base lg:text-sm">
+          <ul role="list" class="space-y-9">
+            <li>
+              <h2 class="font-display font-medium text-white">
+                Main
+              </h2>
+              <ul
+                role="list"
+                class="mt-2 space-y-2 border-l-2 border-zinc-100 dark:border-zinc-800 lg:mt-4 lg:space-y-4"
+              >
+                <li class="relative">
+                  <%= live_redirect to: ~p"/", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
+                    Home
+                  <% end %>
+                </li>
+                <li class="relative">
+                  <%= live_redirect to: ~p"/history", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
+                    History
+                  <% end %>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <h2 class="font-display font-medium text-zinc-900 dark:text-white">
+                Movies
+              </h2>
+              <ul
+                role="list"
+                class="mt-2 space-y-2 border-l-2 border-zinc-100 dark:border-zinc-800 lg:mt-4 lg:space-y-4"
+              >
+                <li class="relative">
+                  <%= live_redirect to: ~p"/movies", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
+                    A-Z
+                  <% end %>
+                </li>
+                <li class="relative">
+                  <%= live_redirect to: ~p"/movies?filter_by=upcoming", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
+                    Upcoming
+                  <% end %>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <h2 class="font-display font-medium text-zinc-900 dark:text-white">
+                TV Shows
+              </h2>
+              <ul
+                role="list"
+                class="mt-2 space-y-2 border-l-2 border-zinc-100 dark:border-zinc-800 lg:mt-4 lg:space-y-4"
+              >
+                <li class="relative">
+                  <%= live_redirect to: ~p"/series", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
+                    A-Z
+                  <% end %>
+                </li>
+                <li class="relative">
+                  <%= live_redirect to: ~p"/series?filter_by=upcoming", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
+                    Upcoming
+                  <% end %>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>

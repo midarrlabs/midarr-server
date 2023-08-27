@@ -59,4 +59,11 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
     refute disconnected_html =~ Routes.subtitle_path(conn, :index, episode: 3)
   end
+
+  test "it should not have navigation", %{conn: conn} do
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.watch_index_path(conn, :index, episode: 3))
+
+    refute disconnected_html =~ "mobile-menu"
+  end
 end

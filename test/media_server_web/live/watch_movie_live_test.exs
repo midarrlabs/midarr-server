@@ -67,4 +67,13 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
     refute disconnected_html =~ Routes.subtitle_path(conn, :index, movie: 2)
   end
+
+  test "it should not have navigation", %{conn: conn} do
+    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), "2")
+
+    {:ok, _view, disconnected_html} =
+      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
+
+    refute disconnected_html =~ "mobile-menu"
+  end
 end
