@@ -1,18 +1,17 @@
 defmodule MediaServerWeb.UserNavigationTest do
   use MediaServerWeb.ConnCase
 
-  import ExUnit.CaptureIO
   import Phoenix.LiveViewTest
 
   setup %{conn: conn} do
     %{conn: conn |> log_in_user(MediaServer.AccountsFixtures.user_fixture())}
   end
 
-  test "it should log", %{conn: conn} do
-    captured = capture_io(fn ->
-      live(conn, ~p"/movies")
-    end)
+  test "it should broadcast", %{conn: conn} do
+    Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
 
-    assert String.contains?(captured, "Some Name: http://www.example.com/movies\nSome Name: http://www.example.com/movies\n")
+    {:ok, _view, _disconnected_html} = live(conn, ~p"/movies")
+
+    assert_received {:navigated, _}
   end
 end

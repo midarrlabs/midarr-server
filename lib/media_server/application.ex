@@ -20,9 +20,7 @@ defmodule MediaServer.Application do
       # {MediaServer.Worker, arg}
       MediaServerWeb.Presence,
       {DynamicSupervisor, name: MediaServer.DynamicSupervisor},
-
-      MediaServer.UserRegistered,
-
+      MediaServer.UserActions,
       MediaServer.MoviesIndex,
       MediaServer.SeriesIndex
     ]

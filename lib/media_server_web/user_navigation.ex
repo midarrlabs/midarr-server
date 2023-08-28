@@ -4,7 +4,7 @@ defmodule MediaServerWeb.UserNavigation do
   end
 
   defp get_request_path(_params, url, socket) do
-    IO.puts "#{ socket.assigns.current_user.name }: #{ url }"
+    Phoenix.PubSub.broadcast(MediaServer.PubSub, "user", {:navigated, "#{ socket.assigns.current_user.name }: #{ url }"})
 
     {:cont, socket}
   end
