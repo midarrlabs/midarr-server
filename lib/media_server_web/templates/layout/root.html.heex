@@ -27,33 +27,11 @@
 
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
 
-    <link rel="stylesheet" href="https://syntax.tailwindui.com/_next/static/css/4bf7b6e05b0710cb.css">
-
-    <style>
-      video {
-        height: 100vh;
-        width: 100%;
-        background-color: black;
-      }
-
-      .line-clamp {
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-    </style>
-
     <%= if @current_user do %>
       <script>
         window.userId = <%= assigns[:current_user].id %>;
       </script>
-      <script
-        defer
-        phx-track-static
-        type="text/javascript"
-        src={Routes.static_path(@conn, "/assets/app.js")}
-      >
+      <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}>
       </script>
     <% end %>
   </head>
