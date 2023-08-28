@@ -2,7 +2,7 @@
 
 <div class="overflow-hidden bg-zinc-900 dark:-mb-32 dark:mt-[-4.75rem] dark:pb-32 dark:pt-[4.75rem]">
   <div
-    class="py-40 sm:px-2 relative lg:px-0 bg-cover bg-fixed"
+    class="py-44 sm:px-2 relative lg:px-0 bg-cover bg-fixed"
     style={"background-image: url('#{ ~p"/api/images?series=#{ @serie["id"] }&type=background&token=#{assigns[:current_user].api_token.token}" }');"}
   >
     <div class="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 lg:max-w-8xl lg:grid-cols-2 lg:px-8 xl:gap-x-16 xl:px-12">
@@ -15,7 +15,7 @@
             <%= @serie["title"] %>
           </p>
 
-          <p class="mt-3 text-2xl tracking-tight text-zinc-400">
+          <div class="mt-3 text-base tracking-tight text-zinc-400">
             <div>
               <%= if @serie["certification"] do %>
                 <span>
@@ -36,7 +36,7 @@
                 </span>
               <% end %>
             </div>
-          </p>
+          </div>
         </div>
       </div>
     </div>
@@ -53,11 +53,7 @@
     </header>
 
     <div>
-      <h2 class="font-display text-xl tracking-tight text-gray-400 mb-6">
-        Synopsis
-      </h2>
-
-      <p>
+      <p class="text-zinc-400">
         <%= @serie["overview"] %>
       </p>
 
@@ -71,13 +67,13 @@
           <% else %>
             <%= for item <- @serie["seasons"] do %>
               <%= if item["seasonNumber"] === 0 do %>
-                <%= live_patch to: ~p"/series/#{ @serie["id"] }?season=#{ item["seasonNumber"] }", class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 text-gray-400" else "text-zinc-600 hover:text-gray-400 border-transparent" end } whitespace-nowrap border-b-2" do %>
+                <%= live_patch to: ~p"/series/#{ @serie["id"] }?season=#{ item["seasonNumber"] }", class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 text-white" else "text-zinc-600 hover:text-white border-transparent" end } whitespace-nowrap border-b-2" do %>
                   <p class="mb-4" style="font-weight: initial;">
                     Specials
                   </p>
                 <% end %>
               <% else %>
-                <%= live_patch to: ~p"/series/#{ @serie["id"] }?season=#{ item["seasonNumber"] }", class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 text-gray-400" else "text-zinc-600 hover:text-gray-400 border-transparent" end } whitespace-nowrap border-b-2" do %>
+                <%= live_patch to: ~p"/series/#{ @serie["id"] }?season=#{ item["seasonNumber"] }", class: "#{ if @season === "#{ item["seasonNumber"] }" do "border-red-400 text-white" else "text-zinc-600 hover:text-white border-transparent" end } whitespace-nowrap border-b-2" do %>
                   <p class="mb-4" style="font-weight: initial;">
                     Season <%= item["seasonNumber"] %>
                   </p>

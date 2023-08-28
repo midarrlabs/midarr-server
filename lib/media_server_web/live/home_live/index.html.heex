@@ -2,7 +2,7 @@
 
 <div class="overflow-hidden bg-zinc-900 dark:-mb-32 dark:mt-[-4.75rem] dark:pb-32 dark:pt-[4.75rem]">
   <div
-    class="py-40 sm:px-2 relative lg:px-0 bg-cover bg-fixed"
+    class="py-44 sm:px-2 relative lg:px-0 bg-cover bg-fixed"
     style={"background-image: url('#{ ~p"/api/images?movie=#{ Enum.at(@movies, 0)["id"] }&type=background&token=#{assigns[:current_user].api_token.token}" }');"}
   >
     <div class="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 lg:max-w-8xl lg:grid-cols-2 lg:px-8 xl:gap-x-16 xl:px-12">
@@ -15,7 +15,7 @@
             <%= Enum.at(@movies, 0)["title"] %>
           </p>
 
-          <p class="mt-3 text-2xl tracking-tight text-zinc-400">
+          <div class="mt-3 text-base tracking-tight text-zinc-400">
             <div>
               <%= if Enum.at(@movies, 0)["certification"] do %>
                 <span>
@@ -42,7 +42,7 @@
                 </span>
               <% end %>
             </div>
-          </p>
+          </div>
         </div>
       </div>
     </div>
