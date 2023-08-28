@@ -15,7 +15,7 @@
             <%= @movie["title"] %>
           </p>
 
-          <p class="mt-3 text-2xl tracking-tight text-red-400">
+          <div class="mt-3 text-lg tracking-tight text-zinc-400">
             <div>
               <%= if @movie["certification"] do %>
                 <span>
@@ -46,7 +46,7 @@
                 </span>
               <% end %>
             </div>
-          </p>
+          </div>
         </div>
 
           <div class="mt-4 flex gap-4">
@@ -91,23 +91,19 @@
 
 <MediaServerWeb.Components.PageComponent.render>
   <article>
-    <header class="mb-9 space-y-1">
+    <header class="mb-6 space-y-1">
       <p class="font-display text-sm font-medium text-red-500">Movie</p>
-      <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white">
+      <h1 class="font-display text-3xl tracking-tight text-white">
         <%= @movie["title"] %>
       </h1>
     </header>
 
     <div>
-      <h2 class="font-display text-xl tracking-tight text-gray-400 mb-6">
-        Synopsis
-      </h2>
-
-      <p>
+      <p class="text-zinc-400">
         <%= @movie["overview"] %>
       </p>
 
-      <h2 class="font-display text-xl tracking-tight text-gray-400 my-6">
+      <h2 class="font-display text-xl tracking-tight text-white my-6">
         Cast
       </h2>
 
@@ -128,7 +124,7 @@
         <% end %>
       </div>
 
-      <h2 class="font-display text-xl tracking-tight text-gray-400 my-6">
+      <h2 class="font-display text-xl tracking-tight text-white my-6">
         Similar
       </h2>
 

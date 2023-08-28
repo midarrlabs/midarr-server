@@ -6,7 +6,6 @@ defmodule MediaServerWeb.Components.PaginationComponent do
     <dl class="mt-12 flex border-t border-slate-200 pt-6 dark:border-slate-800">
       <%= if assigns.page_number > 1 do %>
         <div>
-          <dt class="font-display text-sm font-medium text-slate-900 dark:text-white">Previous</dt>
           <dd class="mt-1">
             <%= live_redirect id: "pagination-previous", to: assigns.previous_link, class: "flex items-center gap-x-1 text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300 flex-row-reverse" do %>
               Page <%= @page_number - 1 %>
@@ -25,7 +24,6 @@ defmodule MediaServerWeb.Components.PaginationComponent do
 
       <%= if assigns.page_number !== assigns.total_pages do %>
         <div class="ml-auto text-right">
-          <dt class="font-display text-sm font-medium text-slate-900 dark:text-white">Next</dt>
           <dd class="mt-1">
             <%= live_redirect id: "pagination-next", to: assigns.next_link, class: "flex items-center gap-x-1 text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300" do %>
               Page <%= @page_number + 1 %>

@@ -1,7 +1,7 @@
 <div>
     <%= live_redirect to: @link do %>
         <div class={"relative w-#{ @width }"}>
-            <img loading="lazy" class="object-cover m-0 w-full rounded-t-md" alt={@title} src={@img_src} />
+          <img loading="lazy" class="w-full bg-zinc-800/90 object-cover aspect-[3/2] rounded-t-md" alt={@title} src={@img_src} />
 
           <div class="absolute inset-x-0 top-0 flex h-full items-end justify-end">
             <div
