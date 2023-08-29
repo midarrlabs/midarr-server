@@ -9,7 +9,25 @@
       </h1>
     </header>
 
-        <div class="grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-8 py-4">
+      <div class="w-full relative block inline-flex justify-start font-display text-xl tracking-tight text-gray-400 my-6">
+
+        <div class="-mb-px flex space-x-8 overflow-x-auto">
+
+          <%= live_patch to: ~p"/history?filter-by=movies", class: "border-red-400 text-white whitespace-nowrap border-b-2" do %>
+              <p class="mb-4" style="font-weight: initial;">
+                Movies
+              </p>
+          <% end %>
+
+          <%= live_patch to: ~p"/history?filter-by=episodes", class: "text-zinc-600 hover:text-white border-transparent whitespace-nowrap border-b-2" do %>
+              <p class="mb-4" style="font-weight: initial;">
+                Episodes
+              </p>
+          <% end %>
+        </div>
+      </div>
+
+       <div class="grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-8 py-4">
         <%= for item <- @user_media_actions do %>
           <%= MediaServerWeb.Components.ContentComponent.render(%{
             title: MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)["title"],
