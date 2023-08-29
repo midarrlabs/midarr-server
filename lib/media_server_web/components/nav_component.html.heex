@@ -91,16 +91,16 @@
 
   <div id="mobile-menu" class="hidden">
     <div class="fixed inset-0 z-50 flex items-start overflow-y-auto bg-zinc-900/50 pr-10 backdrop-blur lg:hidden">
-      <div class="min-h-full w-full max-w-xs px-4 pb-12 pt-5 dark:bg-zinc-900 sm:px-6">
-        <div phx-click-away={JS.hide(to: "#mobile-menu")} class="flex items-center">
-          <button type="button" aria-label="Close navigation" tabindex="0">
+      <div phx-click-away={JS.hide(to: "#mobile-menu")} class="min-h-full w-full max-w-xs px-4 pb-12 pt-5 dark:bg-zinc-900 sm:px-6">
+        <div class="flex items-center">
+          <button phx-click={JS.toggle(to: "#mobile-menu")} type="button" aria-label="Close navigation" tabindex="0">
             <svg
               aria-hidden="true"
               viewBox="0 0 24 24"
               fill="none"
               stroke-width="2"
               stroke-linecap="round"
-              class="h-6 w-6 stroke-slate-500"
+              class="h-6 w-6 stroke-zinc-500"
             >
               <path d="M5 5l14 14M19 5l-14 14"></path>
             </svg>
@@ -135,6 +135,11 @@
                 <li class="relative">
                   <%= live_redirect to: ~p"/history", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
                     History
+                  <% end %>
+                </li>
+                <li class="relative">
+                  <%= live_redirect to: ~p"/settings", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
+                    Settings
                   <% end %>
                 </li>
               </ul>

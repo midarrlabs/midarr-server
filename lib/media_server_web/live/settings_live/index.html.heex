@@ -3,118 +3,116 @@
 <MediaServerWeb.Components.PageComponent.render>
   <article>
     <header class="mb-9 space-y-1">
-      <p class="font-display text-sm font-medium text-red-500">Personal</p>
+      <p class="font-display text-sm font-medium text-red-500">Main</p>
       <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white">
         Settings
       </h1>
     </header>
 
     <div>
-            <.form :let={f} for={@user_name} id="user-account-form" phx-submit="save">
-              <div class="space-y-6">
+      <.form :let={f} for={@user_name} id="user-account-form" phx-submit="save">
+        <div class="space-y-6">
+          <div>
+            <%= label(f, :name, class: "block text-sm font-medium text-zinc-100") %>
+            <%= text_input(f, :name,
+              placeholder: "Enter name",
+              class:
+                "mt-2 w-full flex-auto appearance-none rounded-md border px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 border-zinc-700 bg-zinc-700/[0.15] text-zinc-200 placeholder:text-zinc-500 focus:border-red-400 focus:ring-red-400/10 sm:text-sm"
+            ) %>
+            <%= error_tag(f, :name) %>
+          </div>
 
-                <div>
-                  <%= label(f, :name, class: "block text-sm font-medium text-zinc-100") %>
-                  <%= text_input(f, :name,
-                    placeholder: "Enter name",
-                    class:
-                      "mt-2 w-full flex-auto appearance-none rounded-md border px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 border-zinc-700 bg-zinc-700/[0.15] text-zinc-200 placeholder:text-zinc-500 focus:border-red-400 focus:ring-red-400/10 sm:text-sm"
-                  ) %>
-                  <%= error_tag(f, :name) %>
-                </div>
+          <div class="flex justify-end">
+            <button
+              type="submit"
+              class="inline-flex items-center gap-2 justify-center rounded-md py-2 px-3 text-sm outline-offset-2 transition active:transition-none bg-zinc-800 font-semibold text-zinc-100 hover:bg-zinc-700 active:bg-zinc-800 active:text-zinc-100/70 bg-zinc-700 hover:bg-zinc-600 active:bg-zinc-700 active:text-zinc-100/70 ml-4 flex-none"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </.form>
 
-                <div class="flex justify-end">
-                  <button
-                    type="submit"
-                    class="inline-flex items-center gap-2 justify-center rounded-md py-2 px-3 text-sm outline-offset-2 transition active:transition-none bg-zinc-800 font-semibold text-zinc-100 hover:bg-zinc-700 active:bg-zinc-800 active:text-zinc-100/70 bg-zinc-700 hover:bg-zinc-600 active:bg-zinc-700 active:text-zinc-100/70 ml-4 flex-none"
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
-            </.form>
+      <%= if @current_user.is_admin do %>
+        <.form :let={f} for={@user} id="user-form" phx-submit="invite">
+          <div class="space-y-6">
+            <div>
+              <h2 class="text-sm font-semibold text-zinc-100">
+                Invite Users
+              </h2>
+              <p class="mt-1 text-sm text-zinc-400">
+                Fill in the information below to invite users.
+              </p>
+            </div>
 
-            <%= if @current_user.is_admin do %>
-              <.form :let={f} for={@user} id="user-form" phx-submit="invite">
-                <div class="space-y-6">
-                  <div>
-                    <h2 class="text-sm font-semibold text-zinc-100">
-                      Invite Users
-                    </h2>
-                    <p class="mt-1 text-sm text-zinc-400">
-                      Fill in the information below to invite users.
-                    </p>
-                  </div>
+            <div>
+              <%= label(f, :name, class: "block text-sm font-medium text-zinc-100") %>
+              <%= text_input(f, :name,
+                placeholder: "Enter name",
+                class:
+                  "mt-2 w-full flex-auto appearance-none rounded-md border px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 border-zinc-700 bg-zinc-700/[0.15] text-zinc-200 placeholder:text-zinc-500 focus:border-red-400 focus:ring-red-400/10 sm:text-sm"
+              ) %>
+              <%= error_tag(f, :name) %>
+            </div>
 
-                  <div>
-                    <%= label(f, :name, class: "block text-sm font-medium text-zinc-100") %>
-                    <%= text_input(f, :name,
-                      placeholder: "Enter name",
-                      class:
-                        "mt-2 w-full flex-auto appearance-none rounded-md border px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 border-zinc-700 bg-zinc-700/[0.15] text-zinc-200 placeholder:text-zinc-500 focus:border-red-400 focus:ring-red-400/10 sm:text-sm"
-                    ) %>
-                    <%= error_tag(f, :name) %>
-                  </div>
+            <div>
+              <%= label(f, :email, class: "block text-sm font-medium text-zinc-100") %>
+              <%= text_input(f, :email,
+                placeholder: "Enter email",
+                class:
+                  "mt-2 w-full flex-auto appearance-none rounded-md border px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 border-zinc-700 bg-zinc-700/[0.15] text-zinc-200 placeholder:text-zinc-500 focus:border-red-400 focus:ring-red-400/10 sm:text-sm"
+              ) %>
+              <%= error_tag(f, :email) %>
+            </div>
 
-                  <div>
-                    <%= label(f, :email, class: "block text-sm font-medium text-zinc-100") %>
-                    <%= text_input(f, :email,
-                      placeholder: "Enter email",
-                      class:
-                        "mt-2 w-full flex-auto appearance-none rounded-md border px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-red-500 focus:outline-none focus:ring-4 focus:ring-red-500/10 border-zinc-700 bg-zinc-700/[0.15] text-zinc-200 placeholder:text-zinc-500 focus:border-red-400 focus:ring-red-400/10 sm:text-sm"
-                    ) %>
-                    <%= error_tag(f, :email) %>
-                  </div>
+            <div>
+              <%= text_input(f, :password,
+                type: "hidden",
+                value: Enum.take_random(?a..?z, 12),
+                class:
+                  "hidden mt-1 block w-full shadow-sm focus:ring-slate-500 focus:border-slate-500 sm:text-sm border-gray-300 rounded-md"
+              ) %>
+            </div>
 
-                  <div>
-                    <%= text_input(f, :password,
-                      type: "hidden",
-                      value: Enum.take_random(?a..?z, 12),
-                      class:
-                        "hidden mt-1 block w-full shadow-sm focus:ring-slate-500 focus:border-slate-500 sm:text-sm border-gray-300 rounded-md"
-                    ) %>
-                  </div>
+            <div class="flex justify-end">
+              <button
+                type="submit"
+                class="inline-flex items-center gap-2 justify-center rounded-md py-2 px-3 text-sm outline-offset-2 transition active:transition-none font-semibold text-zinc-100 hover:bg-zinc-700 active:bg-zinc-800 active:text-zinc-100/70 bg-zinc-700 hover:bg-zinc-600 active:bg-zinc-700 active:text-zinc-100/70 ml-4 flex-none"
+              >
+                Invite
+              </button>
+            </div>
 
-                  <div class="flex justify-end">
-                    <button
-                      type="submit"
-                      class="inline-flex items-center gap-2 justify-center rounded-md py-2 px-3 text-sm outline-offset-2 transition active:transition-none font-semibold text-zinc-100 hover:bg-zinc-700 active:bg-zinc-800 active:text-zinc-100/70 bg-zinc-700 hover:bg-zinc-600 active:bg-zinc-700 active:text-zinc-100/70 ml-4 flex-none"
-                    >
-                      Invite
-                    </button>
-                  </div>
+            <div>
+              <ul id="users" phx-update="ignore" role="list" class="divide-y divide-gray-200">
+                <%= for item <- @users do %>
+                  <li class="py-4 flex">
+                    <span class="flex-shrink-0 inline-block relative">
+                      <span class="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
+                        <svg
+                          class="h-full w-full text-gray-300"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                      </span>
+                      <span id={"user-id-#{item.id}"}></span>
+                    </span>
 
-                  <div>
-                    <ul id="users" phx-update="ignore" role="list" class="divide-y divide-gray-200">
-                      <%= for item <- @users do %>
-                        <li class="py-4 flex">
-                          <span class="flex-shrink-0 inline-block relative">
-                            <span class="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
-                              <svg
-                                class="h-full w-full text-gray-300"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                              </svg>
-                            </span>
-                            <span id={"user-id-#{item.id}"}></span>
-                          </span>
-
-                          <div class="ml-3 flex flex-col">
-                            <span class="text-sm font-medium text-zinc-100">
-                              <%= item.name %>
-                            </span>
-                            <span class="text-sm text-zinc-400"><%= item.email %></span>
-                          </div>
-                        </li>
-                      <% end %>
-                    </ul>
-                  </div>
-                </div>
-              </.form>
-            <% end %>
+                    <div class="ml-3 flex flex-col">
+                      <span class="text-sm font-medium text-zinc-100">
+                        <%= item.name %>
+                      </span>
+                      <span class="text-sm text-zinc-400"><%= item.email %></span>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </.form>
+      <% end %>
     </div>
-
   </article>
 </MediaServerWeb.Components.PageComponent.render>
