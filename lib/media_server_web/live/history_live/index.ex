@@ -13,7 +13,7 @@ defmodule MediaServerWeb.HistoryLive.Index do
   end
 
   @impl true
-  def handle_params(%{"filter-by" => "episodes"}, _url, socket) do
+  def handle_params(%{"filter_by" => "episodes"}, _url, socket) do
     query =
       from ma in MediaServer.MediaActions,
            left_join: continue in MediaServer.Continues,
@@ -29,6 +29,7 @@ defmodule MediaServerWeb.HistoryLive.Index do
       :noreply,
       socket
       |> assign(page_title: "History - Episodes")
+      |> assign(media_type: "episodes")
       |> assign(:user_media_actions, current_user.media_actions)
     }
   end
@@ -49,6 +50,7 @@ defmodule MediaServerWeb.HistoryLive.Index do
       :noreply,
       socket
       |> assign(page_title: "History - Movies")
+      |> assign(media_type: "movies")
       |> assign(:user_media_actions, current_user.media_actions)
     }
   end
