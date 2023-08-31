@@ -20,7 +20,7 @@ defmodule MediaServerWeb.HistoryLive.Index do
            on: ma.media_id == continue.media_id and ma.media_type_id == continue.media_type_id and continue.user_id == ^socket.assigns.current_user.id,
            where: ma.media_type_id == ^MediaServer.MediaTypes.get_episode_id(),
            order_by: [desc: ma.updated_at],
-           limit: 12,
+           limit: 10,
            preload: [continue: continue]
 
     current_user = socket.assigns.current_user |> MediaServer.Repo.preload([media_actions: query])
@@ -41,7 +41,7 @@ defmodule MediaServerWeb.HistoryLive.Index do
            on: ma.media_id == continue.media_id and ma.media_type_id == continue.media_type_id and continue.user_id == ^socket.assigns.current_user.id,
            where: ma.media_type_id == ^MediaServer.MediaTypes.get_movie_id(),
            order_by: [desc: ma.updated_at],
-           limit: 12,
+           limit: 10,
            preload: [continue: continue]
 
     current_user = socket.assigns.current_user |> MediaServer.Repo.preload([media_actions: query])
