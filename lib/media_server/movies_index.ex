@@ -20,6 +20,11 @@ defmodule MediaServer.MoviesIndex do
     |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
   end
 
+  def available(state) do
+    state
+    |> Enum.filter(fn item -> item["hasFile"] end)
+  end
+
   def upcoming(state) do
     state
     |> Enum.filter(fn item -> item["monitored"] end)

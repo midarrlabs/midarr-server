@@ -20,6 +20,11 @@ defmodule MediaServer.SeriesIndex do
     |> Enum.sort_by(& &1["added"], :desc)
   end
 
+  def available(state) do
+    state
+    |> Enum.filter(fn item -> item["statistics"]["episodeFileCount"] !== 0 end)
+  end
+
   def upcoming(state) do
     state
     |> Enum.filter(fn item -> item["monitored"] end)
