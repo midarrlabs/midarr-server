@@ -49,7 +49,7 @@ defmodule MediaServer.MoviesIndex do
   def find(state, id) do
     state
     |> Enum.find(fn item ->
-      if String.valid?(id) do
+      if !is_integer(id) do
         item["id"] === String.to_integer(id)
       else
         item["id"] === id
