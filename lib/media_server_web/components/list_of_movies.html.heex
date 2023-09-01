@@ -1,5 +1,5 @@
 <div class="justify-items-center grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 xl:gap-x-8">
-  <%= for {item, counter} <- Enum.with_index(@items) do %>
+  <%= for item <- @items do %>
     <div>
       <%= live_redirect to: item.link do %>
         <div class="relative">

@@ -63,20 +63,12 @@
         Latest Movies
       </h2>
 
-      <div class="justify-items-center grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 xl:gap-x-8">
-        <%= for {item, counter} <- Enum.with_index(@movies) do %>
-            <.live_component
-                module={MediaServerWeb.Components.PosterComponent}
-                id={"movies-content-#{ counter }"}
-                title={item["title"]}
-                subtitle={"#{item["year"]} • #{item["certification"]}"}
-                runtime={item["movieFile"]["mediaInfo"]["runTime"]}
-                img_src={~p"/api/images?movie=#{item["id"]}&type=poster&size=w780&token=#{assigns[:current_user].api_token.token}"}
-                link={~p"/movies/#{item["id"]}"}
-                width={"full"}
-            />
-        <% end %>
-      </div>
+      <.live_component
+        module={MediaServerWeb.Components.ListOfMovies}
+        id="movies"
+        items={Enum.map(@movies, &%{id: &1["id"], title: &1["title"]})}
+        token={assigns[:current_user].api_token.token}
+      />
 
       <hr class="my-12" style="border-color: #27272a;" />
 
@@ -84,20 +76,12 @@
         Latest TV Series
       </h2>
 
-      <div class="justify-items-center grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 xl:gap-x-8">
-          <%= for {item, counter} <- Enum.with_index(@series) do %>
-            <.live_component
-                module={MediaServerWeb.Components.PosterComponent}
-                id={"series-content-#{ counter }"}
-                title={item["title"]}
-                subtitle={"#{item["year"]} • #{item["certification"]}"}
-                runtime={""}
-                img_src={~p"/api/images?series=#{item["id"]}&type=poster&size=w780&token=#{assigns[:current_user].api_token.token}"}
-                link={~p"/series/#{item["id"]}"}
-                width={"full"}
-            />
-          <% end %>
-        </div>
+      <.live_component
+        module={MediaServerWeb.Components.ListOfSeries}
+        id="series"
+        items={Enum.map(@series, &%{id: &1["id"], title: &1["title"]})}
+        token={assigns[:current_user].api_token.token}
+      />
     </div>
   </article>
 </MediaServerWeb.Components.PageComponent.render>

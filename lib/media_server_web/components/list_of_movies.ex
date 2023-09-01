@@ -2,7 +2,7 @@ defmodule MediaServerWeb.Components.ListOfMovies do
   use MediaServerWeb, :live_component
 
   @impl true
-  def preload(list_of_assigns = [%{id: id, items: items, token: token}]) do
+  def preload([%{id: id, items: items, token: token}]) do
 
     [%{id: id, items: Enum.map(items, fn item ->
       %{

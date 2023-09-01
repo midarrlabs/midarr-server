@@ -9,30 +9,20 @@
       </h1>
     </header>
 
-      <div class="justify-items-center grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 xl:gap-x-8">
-
     <%= if assigns[:movies] && assigns[:series] do %>
-      <%= for item <- @movies do %>
-        <%= MediaServerWeb.Components.PosterComponent.render(%{
-          img_src: ~p"/api/images?movie=#{ item["id"] }&type=poster&token=#{assigns[:current_user].api_token.token}",
-          title: item["title"],
-          link: Routes.movies_show_path(@socket, :show, item["id"])
-        }) %>
-      <% end %>
+      <.live_component
+        module={MediaServerWeb.Components.ListOfMovies}
+        id="movies"
+        items={Enum.map(@movies, &%{id: &1["id"], title: &1["title"]})}
+        token={assigns[:current_user].api_token.token}
+      />
 
-      <%= for item <- @series do %>
-        <%= MediaServerWeb.Components.PosterComponent.render(%{
-          img_src: ~p"/api/images?series=#{ item["id"] }&type=poster&token=#{assigns[:current_user].api_token.token}",
-          title: item["title"],
-          link: Routes.series_show_path(@socket, :show, item["id"])
-        }) %>
-      <% end %>
-    <% else %>
-      <div class="flex flex-row col-span-2 lg:col-span-6 justify-center">
-        <%= MediaServerWeb.Components.SpinnerComponent.render(%{}) %>
-      </div>
+      <.live_component
+        module={MediaServerWeb.Components.ListOfSeries}
+        id="series"
+        items={Enum.map(@series, &%{id: &1["id"], title: &1["title"]})}
+        token={assigns[:current_user].api_token.token}
+      />
     <% end %>
-      </div>
-
   </article>
 </MediaServerWeb.Components.PageComponent.render>

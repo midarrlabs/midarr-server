@@ -26,22 +26,21 @@
     </div>
 
     <%= if @media_type == "movies" do %>
-      <div class="justify-items-center grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 xl:gap-x-8">
-        <%= for item <- @user_media_actions do %>
-          <%= MediaServerWeb.Components.PosterComponent.render(%{
-            title:
-              MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)["title"],
-            runtime:
-              MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), item.media_id)[
-                "movieFile"
-              ]["mediaInfo"]["runTime"],
-            img_src:
-              ~p"/api/images?movie=#{item.media_id}&type=poster&token=#{assigns[:current_user].api_token.token}",
-            link: ~p"/movies/#{item.media_id}",
-            width: "full"
-          }) %>
-        <% end %>
-      </div>
+      <.live_component
+        module={MediaServerWeb.Components.ListOfMovies}
+        id="movies"
+        items={
+          Enum.map(
+            @user_media_actions,
+            &%{
+              id: &1.media_id,
+              title:
+                MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), &1.media_id)["title"]
+            }
+          )
+        }
+        token={assigns[:current_user].api_token.token}
+      />
     <% else %>
       <div class="grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-8 py-4">
         <%= for item <- @user_media_actions do %>
