@@ -29,7 +29,6 @@ RUN \
     && \
     apk add --no-cache \
         ca-certificates \
-        ffmpeg \
         inotify-tools \
         postgresql15-client \
         curl \
