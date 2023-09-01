@@ -19,6 +19,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
     end)
 
     movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
+    similar = MediaServer.MoviesIndex.related(MediaServer.MoviesIndex.all(), movie["id"])
 
     {
       :noreply,
@@ -26,6 +27,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
       |> assign(:id, id)
       |> assign(:page_title, movie["title"])
       |> assign(:movie, movie)
+      |> assign(:similar, similar)
     }
   end
 

@@ -37,12 +37,9 @@ defmodule MediaServerWeb.HistoryLive.Index do
   def handle_params(_params, _url, socket) do
     query =
       from ma in MediaServer.MediaActions,
-           left_join: continue in MediaServer.Continues,
-           on: ma.media_id == continue.media_id and ma.media_type_id == continue.media_type_id and continue.user_id == ^socket.assigns.current_user.id,
-           where: ma.media_type_id == ^MediaServer.MediaTypes.get_movie_id(),
+           where: ma.media_type_id == ^MediaServer.MediaTypes.get_movie_id() and ma.user_id == ^socket.assigns.current_user.id,
            order_by: [desc: ma.updated_at],
-           limit: 10,
-           preload: [continue: continue]
+           limit: 10
 
     current_user = socket.assigns.current_user |> MediaServer.Repo.preload([media_actions: query])
 

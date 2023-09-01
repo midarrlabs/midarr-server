@@ -9,7 +9,18 @@
             class="w-full bg-zinc-800/90 object-cover aspect-auto rounded-md hover:opacity-75"
             loading="lazy"
           />
+
+          <%= if item.continue do %>
+            <div class="absolute flex w-full bg-slate-200 -mt-1 h-1 overflow-hidden rounded-b-lg">
+              <div
+                class="bg-red-500 h-1"
+                style={"width: #{ MediaServerWeb.Helpers.percentage_complete_from_seconds(item.continue.current_time, item.continue.duration) }%"}
+              >
+              </div>
+            </div>
+          <% end %>
         </div>
+
         <p class="mt-4 text-sm line-clamp text-zinc-400">
           <%= item.title %>
         </p>

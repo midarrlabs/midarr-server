@@ -9,12 +9,14 @@
       </h1>
     </header>
 
-    <.live_component
-      module={MediaServerWeb.Components.ListOfMovies}
-      id="movies"
-      items={Enum.map(@movies, &%{id: &1["id"], title: &1["title"]})}
-      token={assigns[:current_user].api_token.token}
-    />
+      <.live_component
+        module={MediaServerWeb.Components.ListOfMovies}
+        id="movies"
+        ids={Enum.map(@movies, & &1["id"])}
+        items={Enum.map(@movies, &%{id: &1["id"], title: &1["title"]})}
+        token={assigns[:current_user].api_token.token}
+        user_id={assigns[:current_user].id}
+      />
   </article>
 
   <%= MediaServerWeb.Components.PaginationComponent.render(%{
