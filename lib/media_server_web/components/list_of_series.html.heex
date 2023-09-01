@@ -1,0 +1,19 @@
+<div class="justify-items-center grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 xl:gap-x-8">
+  <%= for {item, counter} <- Enum.with_index(@items) do %>
+    <div>
+      <%= live_redirect to: item.link do %>
+        <div class="relative">
+          <img
+            src={item.img_src}
+            alt={"#{ item.title }"}
+            class="w-full bg-zinc-800/90 object-cover aspect-auto rounded-md hover:opacity-75"
+            loading="lazy"
+          />
+        </div>
+        <p class="mt-4 text-sm line-clamp text-zinc-400">
+          <%= item.title %>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+</div>
