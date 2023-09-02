@@ -21,7 +21,7 @@ services:
 
       - SETUP_ADMIN_EMAIL=admin@email.com
       - SETUP_ADMIN_NAME=admin
-      - SETUP_ADMIN_PASSWORD=passwordpassword
+      - SETUP_ADMIN_PASSWORD=somepassword
 
       - OAUTH_CLIENT_ID=someClientId
       - OAUTH_CLIENT_SECRET=someClientSecret
