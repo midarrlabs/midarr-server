@@ -1,6 +1,6 @@
 <div class="justify-items-center grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 xl:gap-x-8">
   <%= for item <- @items do %>
-    <%= live_redirect to: item.link do %>
+    <.link navigate={item.link}>
       <div class="relative hover:opacity-75">
         <img
           src={item.img_src}
@@ -35,6 +35,6 @@
       <p class="mt-4 text-sm line-clamp text-zinc-400">
         <%= item.title %>
       </p>
-    <% end %>
+    </.link>
   <% end %>
 </div>
