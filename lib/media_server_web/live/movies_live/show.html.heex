@@ -130,7 +130,7 @@
         module={MediaServerWeb.Components.ListOfMovies}
         id="movies"
         ids={Enum.map(@similar, & &1["id"])}
-        items={Enum.map(@similar, &%{id: &1["id"], title: &1["title"]})}
+        items={Enum.map(@similar, &%{id: &1["id"], title: &1["title"], runtime: &1["movieFile"]["mediaInfo"]["runTime"] })}
         token={assigns[:current_user].api_token.token}
         user_id={assigns[:current_user].id}
       />

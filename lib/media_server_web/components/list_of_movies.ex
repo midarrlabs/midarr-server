@@ -20,6 +20,7 @@ defmodule MediaServerWeb.Components.ListOfMovies do
         %{
           id: item.id,
           title: item.title,
+          runtime: item.runtime,
           link: ~p"/movies/#{item.id}",
           img_src: ~p"/api/images?movie=#{item.id}&type=poster&size=w780&token=#{token}",
           continue: Enum.find_value(result, nil, fn continue -> if continue.media_id == item.id, do: %{
