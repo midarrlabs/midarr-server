@@ -92,11 +92,11 @@
               id={"episode-content-#{ counter }"}
               title={"#{ item["episodeNumber"] }: #{ item["title"] }"}
               runtime={item["episodeFile"]["mediaInfo"]["runTime"]}
+              has_file={item["hasFile"]}
               img_src={
                 ~p"/api/images?episode=#{item["id"]}&type=screenshot&token=#{assigns[:current_user].api_token.token}"
               }
               link={~p"/watch?episode=#{item["id"]}"}
-              width="full"
             />
           <% end %>
         </div>
