@@ -27,11 +27,13 @@
               <div class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50 rounded-b-md">
               </div>
 
-              <div class="relative text-xs font-semibold text-white bg-black text-center rounded-md mb-2.5 mr-1">
-                <span class="p-2">
-                  1:05:00
-                </span>
-              </div>
+              <%= if !is_nil(Enum.at(@movies, 0)["movieFile"]["mediaInfo"]["runTime"]) do %>
+                <div class="relative text-xs font-semibold text-white bg-black text-center rounded-md mb-2.5 mr-1">
+                  <span class="p-2">
+                    <%= Enum.at(@movies, 0)["movieFile"]["mediaInfo"]["runTime"] %>
+                  </span>
+                </div>
+              <% end %>
             </div>
           </div>
 
