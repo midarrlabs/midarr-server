@@ -33,9 +33,10 @@ defmodule MediaServerWeb.UserSessionControllerTest do
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
       response = html_response(conn, 200)
-      assert response =~ "Movies"
-      assert response =~ "TV Shows"
-      assert response =~ "History"
+      assert response =~ "/movies"
+      assert response =~ "/series"
+      assert response =~ "/history"
+      assert response =~ "/settings"
     end
 
     test "logs the user in with remember me", %{conn: conn, user: user} do
