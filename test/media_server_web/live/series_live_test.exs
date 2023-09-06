@@ -42,7 +42,8 @@ defmodule MediaServerWeb.SeriesLiveTest do
   end
 
   test "it should render without genre", %{conn: conn} do
-    {:ok, _view, _disconnected_html} = live(conn, Routes.series_index_path(conn, :index, genre: "something"))
+    {:ok, _view, _disconnected_html} =
+      live(conn, Routes.series_index_path(conn, :index, genre: "something"))
   end
 
   test "it should render latest", %{conn: conn} do

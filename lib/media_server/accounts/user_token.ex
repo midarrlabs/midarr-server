@@ -39,7 +39,7 @@ defmodule MediaServer.Accounts.UserToken do
   session they deem invalid.
   """
   def build_session_token(user) do
-    token = Ecto.UUID.generate
+    token = Ecto.UUID.generate()
 
     {token, %MediaServer.Accounts.UserToken{token: token, context: "session", user_id: user.id}}
   end
@@ -63,15 +63,14 @@ defmodule MediaServer.Accounts.UserToken do
   end
 
   def verify_api_token(token) do
-    case MediaServer.Repo.get_by(__MODULE__, [token: token, context: "api"]) do
+    case MediaServer.Repo.get_by(__MODULE__, token: token, context: "api") do
       nil -> {:error, :invalid}
       result -> {:ok, result}
     end
-
   end
 
   def build_api_token(user) do
-    token = Ecto.UUID.generate |> binary_part(16,16)
+    token = Ecto.UUID.generate() |> binary_part(16, 16)
 
     {token, %{token: token, context: "api", user_id: user.id}}
   end
@@ -81,16 +80,19 @@ defmodule MediaServer.Accounts.UserToken do
   end
 
   def insert_or_update(attrs) do
-    case MediaServer.Repo.get_by(__MODULE__, [context: attrs.context, user_id: attrs.user_id]) do
-      nil  -> %__MODULE__{
-                token: attrs.token,
-                context: attrs.context,
-                user_id: attrs.user_id
-              }
-      item -> item
+    case MediaServer.Repo.get_by(__MODULE__, context: attrs.context, user_id: attrs.user_id) do
+      nil ->
+        %__MODULE__{
+          token: attrs.token,
+          context: attrs.context,
+          user_id: attrs.user_id
+        }
+
+      item ->
+        item
     end
     |> changeset(attrs)
-    |> MediaServer.Repo.insert_or_update
+    |> MediaServer.Repo.insert_or_update()
   end
 
   @doc """

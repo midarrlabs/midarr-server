@@ -30,7 +30,20 @@
         module={MediaServerWeb.Components.ListOfMovies}
         id="movies"
         ids={Enum.map(@user_media_actions, & &1.media_id)}
-        items={Enum.map(@user_media_actions, &%{id: &1.media_id, title: MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), &1.media_id)["title"], runtime: MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), &1.media_id)["movieFile"]["mediaInfo"]["runTime"] })}
+        items={
+          Enum.map(
+            @user_media_actions,
+            &%{
+              id: &1.media_id,
+              title:
+                MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), &1.media_id)["title"],
+              runtime:
+                MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), &1.media_id)[
+                  "movieFile"
+                ]["mediaInfo"]["runTime"]
+            }
+          )
+        }
         token={assigns[:current_user].api_token.token}
         user_id={assigns[:current_user].id}
       />
@@ -39,7 +52,10 @@
         <%= for item <- @user_media_actions do %>
           <%= MediaServerWeb.Components.ContentComponent.render(%{
             title: MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["title"],
-            runtime: MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["episodeFile"]["mediaInfo"]["runTime"],
+            runtime:
+              MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["episodeFile"][
+                "mediaInfo"
+              ]["runTime"],
             has_file: MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["hasFile"],
             img_src:
               ~p"/api/images?episode=#{item.media_id}&type=screenshot&token=#{assigns[:current_user].api_token.token}",

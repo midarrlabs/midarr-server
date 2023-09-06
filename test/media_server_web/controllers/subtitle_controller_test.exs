@@ -8,7 +8,10 @@ defmodule MediaServerWeb.SubtitleControllerTest do
   test "movie", %{conn: conn, user: user} do
     movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), "1")
 
-    conn = get(conn, Routes.subtitle_path(conn, :index, movie: movie["id"]), token: user.api_token.token)
+    conn =
+      get(conn, Routes.subtitle_path(conn, :index, movie: movie["id"]),
+        token: user.api_token.token
+      )
 
     assert conn.status === 200
     assert conn.state === :sent
@@ -22,7 +25,10 @@ defmodule MediaServerWeb.SubtitleControllerTest do
 
     episode = MediaServerWeb.Repositories.Episodes.get_episode(serie["id"])
 
-    conn = get(conn, Routes.subtitle_path(conn, :index, episode: episode["id"]), token: user.api_token.token)
+    conn =
+      get(conn, Routes.subtitle_path(conn, :index, episode: episode["id"]),
+        token: user.api_token.token
+      )
 
     assert conn.status === 200
     assert conn.state === :sent

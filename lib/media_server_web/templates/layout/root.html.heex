@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full antialiased __variable_20951f __variable_b436a8 dark" style="color-scheme: dark;">
+<html
+  lang="en"
+  class="h-full antialiased __variable_20951f __variable_b436a8 dark"
+  style="color-scheme: dark;"
+>
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -7,23 +11,23 @@
     <%= csrf_meta_tag() %>
     <%= live_title_tag(assigns[:page_title]) %>
 
-    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-    <meta name="theme-color" content="#18181b">
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+    <meta name="theme-color" content="#18181b" />
 
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
 
@@ -31,80 +35,83 @@
       <script>
         window.userId = <%= assigns[:current_user].id %>;
       </script>
-      <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}>
+      <script
+        defer
+        phx-track-static
+        type="text/javascript"
+        src={Routes.static_path(@conn, "/assets/app.js")}
+      >
       </script>
     <% end %>
   </head>
   <body class="dark:bg-zinc-900">
     <%= if @current_user do %>
-
-        <div class="flex w-full flex-col">
-            <%= @inner_content %>
-        </div>
+      <div class="flex w-full flex-col">
+        <%= @inner_content %>
+      </div>
 
       <%= if assigns[:media_stream] do %>
-      <script>
-        window['__onGCastApiAvailable'] = function(isAvailable) {
+        <script>
+          window['__onGCastApiAvailable'] = function(isAvailable) {
 
-            if (isAvailable) {
+              if (isAvailable) {
 
-              const context = cast.framework.CastContext.getInstance();
+                const context = cast.framework.CastContext.getInstance();
 
-              context.setOptions({
-                receiverApplicationId: 'B7C82081',
-                autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
-              });
-
-              // Check if there is an existing session before starting a new one
-              const session = context.getCurrentSession();
-
-              if (session) {
-                console.log('Using existing session:', session);
-                loadMedia(session);
-
-              } else {
-
-                context.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, function(event) {
-                  if (event.sessionState === cast.framework.SessionState.SESSION_STARTED) {
-                    console.log('New session started:', event.session);
-                    loadMedia(event.session);
-
-                  } else if (event.sessionState === cast.framework.SessionState.SESSION_ENDED ||
-                             event.sessionState === cast.framework.SessionState.SESSION_ERROR) {
-                    console.log('Session ended:', event.session);
-                  }
+                context.setOptions({
+                  receiverApplicationId: 'B7C82081',
+                  autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
                 });
 
-                context.requestSession().then(function(session) {
-                  console.log('New session requested:', session);
+                // Check if there is an existing session before starting a new one
+                const session = context.getCurrentSession();
+
+                if (session) {
+                  console.log('Using existing session:', session);
                   loadMedia(session);
-                }).catch(function(error) {
-                  console.log('Error requesting session:', error);
-                });
+
+                } else {
+
+                  context.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, function(event) {
+                    if (event.sessionState === cast.framework.SessionState.SESSION_STARTED) {
+                      console.log('New session started:', event.session);
+                      loadMedia(event.session);
+
+                    } else if (event.sessionState === cast.framework.SessionState.SESSION_ENDED ||
+                               event.sessionState === cast.framework.SessionState.SESSION_ERROR) {
+                      console.log('Session ended:', event.session);
+                    }
+                  });
+
+                  context.requestSession().then(function(session) {
+                    console.log('New session requested:', session);
+                    loadMedia(session);
+                  }).catch(function(error) {
+                    console.log('Error requesting session:', error);
+                  });
+                }
+
+                function loadMedia(session) {
+                  const mediaInfo = new chrome.cast.media.MediaInfo('<%= System.get_env("APP_URL", "") <> assigns[:media_stream] %>', '<%= assigns[:mime_type] %>');
+
+                  mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
+                  mediaInfo.metadata.images = [new chrome.cast.Image('<%= System.get_env("APP_URL", "") <> assigns[:media_poster] %>')];
+                  mediaInfo.metadata.title = '<%= assigns[:page_title] %>';
+
+                  const request = new chrome.cast.media.LoadRequest(mediaInfo);
+
+                  session.loadMedia(request).then(function() {
+                    console.log('Media loaded');
+                  }).catch(function(error) {
+                    console.log('Error loading media:', error);
+                  });
+                }
               }
-
-              function loadMedia(session) {
-                const mediaInfo = new chrome.cast.media.MediaInfo('<%= System.get_env("APP_URL", "") <> assigns[:media_stream] %>', '<%= assigns[:mime_type] %>');
-
-                mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
-                mediaInfo.metadata.images = [new chrome.cast.Image('<%= System.get_env("APP_URL", "") <> assigns[:media_poster] %>')];
-                mediaInfo.metadata.title = '<%= assigns[:page_title] %>';
-
-                const request = new chrome.cast.media.LoadRequest(mediaInfo);
-
-                session.loadMedia(request).then(function() {
-                  console.log('Media loaded');
-                }).catch(function(error) {
-                  console.log('Error loading media:', error);
-                });
-              }
-            }
-        }
-      </script>
-      <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1">
-      </script>
+          }
+        </script>
+        <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1">
+        </script>
       <% end %>
-
     <% else %>
       <div class="bg-zinc-900 h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <%= @inner_content %>

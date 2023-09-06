@@ -13,7 +13,7 @@ defmodule MediaServer.Accounts.User do
     has_many :continues, MediaServer.Continues
     has_many :media_actions, MediaServer.MediaActions
 
-    has_one :api_token, MediaServer.Accounts.UserToken , where: [context: "api"]
+    has_one :api_token, MediaServer.Accounts.UserToken, where: [context: "api"]
 
     timestamps()
   end

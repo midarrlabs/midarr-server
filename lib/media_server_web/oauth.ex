@@ -38,13 +38,18 @@ defmodule MediaServerWeb.OAuth do
   end
 
   def get_user!(client) do
-    token = Map.get(client, :token) |> Map.get(:access_token) |> Jason.decode! |> Map.get("access_token")
+    token =
+      Map.get(client, :token)
+      |> Map.get(:access_token)
+      |> Jason.decode!()
+      |> Map.get("access_token")
 
-    %{body: user} = OAuth2.Client.get!(client, System.get_env("OAUTH_USER_URL"), [
-      {"authorization", "Bearer #{ token }"}
-    ])
+    %{body: user} =
+      OAuth2.Client.get!(client, System.get_env("OAUTH_USER_URL"), [
+        {"authorization", "Bearer #{token}"}
+      ])
 
-    decoded_user =  Jason.decode!(user)
+    decoded_user = Jason.decode!(user)
 
     %{name: decoded_user["name"], email: decoded_user["email"]}
   end

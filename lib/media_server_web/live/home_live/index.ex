@@ -6,7 +6,10 @@ defmodule MediaServerWeb.HomeLive.Index do
     {
       :ok,
       socket
-      |> assign(:current_user, MediaServer.Accounts.get_user_by_session_token(session["user_token"]))
+      |> assign(
+        :current_user,
+        MediaServer.Accounts.get_user_by_session_token(session["user_token"])
+      )
       |> assign(page_title: "Home")
     }
   end
@@ -16,8 +19,20 @@ defmodule MediaServerWeb.HomeLive.Index do
     {
       :noreply,
       socket
-      |> assign(:movies, MediaServer.MoviesIndex.all() |> MediaServer.MoviesIndex.available() |> MediaServer.MoviesIndex.latest() |> MediaServer.MoviesIndex.take(10))
-      |> assign(:series, MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.available() |> MediaServer.SeriesIndex.latest() |> MediaServer.SeriesIndex.take(10))
+      |> assign(
+        :movies,
+        MediaServer.MoviesIndex.all()
+        |> MediaServer.MoviesIndex.available()
+        |> MediaServer.MoviesIndex.latest()
+        |> MediaServer.MoviesIndex.take(10)
+      )
+      |> assign(
+        :series,
+        MediaServer.SeriesIndex.all()
+        |> MediaServer.SeriesIndex.available()
+        |> MediaServer.SeriesIndex.latest()
+        |> MediaServer.SeriesIndex.take(10)
+      )
     }
   end
 end

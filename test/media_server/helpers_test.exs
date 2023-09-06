@@ -88,6 +88,7 @@ defmodule MediaServer.HelpersTest do
   end
 
   test "it should get image file" do
-    assert MediaServer.Helpers.get_image_file("https://some.remote.url/some-image-file.jpg") === "some-image-file.jpg"
+    assert MediaServer.Helpers.get_image_file("https://some.remote.url/some-image-file.jpg") ===
+             "some-image-file.jpg"
   end
 end

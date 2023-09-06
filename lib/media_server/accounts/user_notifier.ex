@@ -36,7 +36,7 @@ defmodule MediaServer.Accounts.UserNotifier do
       <li>Password: #{password}</li>
     </ul>
 
-    Your API token is: <strong>#{ user.api_token.token }</strong>
+    Your API token is: <strong>#{user.api_token.token}</strong>
 
     <p>If you weren't expecting an account with us, please ignore this.</p>
     """)

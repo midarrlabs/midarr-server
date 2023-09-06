@@ -1,5 +1,4 @@
 defmodule MediaServer.Accounts do
-
   import Ecto.Query, warn: false
   alias MediaServer.Repo
 
@@ -20,14 +19,14 @@ defmodule MediaServer.Accounts do
   def register_user(attrs) do
     case %User{} |> User.registration_changeset(attrs) |> Repo.insert() do
       {:ok, user} ->
-
         MediaServer.Accounts.generate_user_api_token(user)
 
         Phoenix.PubSub.broadcast(MediaServer.PubSub, "user", {:registered, user})
 
         {:ok, user}
 
-      {:error, error} -> {:error, error}
+      {:error, error} ->
+        {:error, error}
     end
   end
 

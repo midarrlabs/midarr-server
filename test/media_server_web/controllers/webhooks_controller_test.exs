@@ -7,7 +7,9 @@ defmodule MediaServerWeb.WebhooksControllerTest do
 
   test "it should halt", %{conn: conn} do
     conn =
-      post(conn, Routes.webhooks_path(conn, :create, "movie", %{"someKey" => "someValue"}), token: "someToken")
+      post(conn, Routes.webhooks_path(conn, :create, "movie", %{"someKey" => "someValue"}),
+        token: "someToken"
+      )
 
     assert conn.status === 403
     assert conn.halted
@@ -51,7 +53,9 @@ defmodule MediaServerWeb.WebhooksControllerTest do
 
   test "it should create on file delete", %{conn: conn, user: user} do
     conn =
-      post(conn, Routes.webhooks_path(conn, :create, "movie", %{"eventType" => "MovieFileDelete"}),
+      post(
+        conn,
+        Routes.webhooks_path(conn, :create, "movie", %{"eventType" => "MovieFileDelete"}),
         token: user.api_token.token
       )
 
@@ -106,7 +110,9 @@ defmodule MediaServerWeb.WebhooksControllerTest do
 
   test "series should create on episode file delete", %{conn: conn, user: user} do
     conn =
-      post(conn, Routes.webhooks_path(conn, :create, "series", %{"eventType" => "EpisodeFileDelete"}),
+      post(
+        conn,
+        Routes.webhooks_path(conn, :create, "series", %{"eventType" => "EpisodeFileDelete"}),
         token: user.api_token.token
       )
 

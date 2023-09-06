@@ -17,7 +17,9 @@ defmodule MediaServerWeb do
   and import those modules here.
   """
 
-  def static_paths, do: ~w(assets fonts images manifest browserconfig favicon logo android-icon apple-icon ms-icon)
+  def static_paths,
+    do:
+      ~w(assets fonts images manifest browserconfig favicon logo android-icon apple-icon ms-icon)
 
   def controller do
     quote do
@@ -104,9 +106,9 @@ defmodule MediaServerWeb do
   def verified_routes do
     quote do
       use Phoenix.VerifiedRoutes,
-          endpoint: MediaServerWeb.Endpoint,
-          router: MediaServerWeb.Router,
-          statics: MediaServerWeb.static_paths()
+        endpoint: MediaServerWeb.Endpoint,
+        router: MediaServerWeb.Router,
+        statics: MediaServerWeb.static_paths()
     end
   end
 

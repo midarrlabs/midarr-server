@@ -6,7 +6,10 @@ defmodule MediaServerWeb.MoviesLive.Show do
     {
       :ok,
       socket
-      |> assign(:current_user, MediaServer.Accounts.get_user_by_session_token(session["user_token"]))
+      |> assign(
+        :current_user,
+        MediaServer.Accounts.get_user_by_session_token(session["user_token"])
+      )
     }
   end
 

@@ -14,7 +14,6 @@ defmodule MediaServer.UserActions do
   end
 
   def handle_info({:registered, _user}, state) do
-
     {:noreply, state}
   end
 

@@ -32,7 +32,8 @@ defmodule MediaServerWeb.ImagesControllerTest do
   end
 
   test "it should get movie background with size", %{conn: conn, user: user} do
-    conn = get(conn, ~p"/api/images?movie=1&type=background&size=w780&token=#{user.api_token.token}")
+    conn =
+      get(conn, ~p"/api/images?movie=1&type=background&size=w780&token=#{user.api_token.token}")
 
     assert conn.status === 200
     assert conn.state === :sent

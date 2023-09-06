@@ -48,7 +48,8 @@ defmodule MediaServerWeb.MoviesLiveTest do
   end
 
   test "it should render without genre", %{conn: conn} do
-    {:ok, _view, _disconnected_html} = live(conn, Routes.movies_index_path(conn, :index, genre: "something"))
+    {:ok, _view, _disconnected_html} =
+      live(conn, Routes.movies_index_path(conn, :index, genre: "something"))
   end
 
   test "it should render latest", %{conn: conn} do
@@ -73,7 +74,8 @@ defmodule MediaServerWeb.MoviesLiveTest do
     movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), "1")
     cast = Movies.get_cast(movie["id"])
 
-    {:ok, view, _disconnected_html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+    {:ok, view, _disconnected_html} =
+      live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
 
     send(view.pid, {:cast, cast})
   end

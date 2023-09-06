@@ -11,6 +11,11 @@ defmodule MediaServerWeb.SubtitleController do
 
   def index(conn, %{"episode" => id}) do
     conn
-    |> send_resp(200, Extitles.format(Extitles.parse(MediaServerWeb.Repositories.Episodes.get_subtitle_path_for(id))))
+    |> send_resp(
+      200,
+      Extitles.format(
+        Extitles.parse(MediaServerWeb.Repositories.Episodes.get_subtitle_path_for(id))
+      )
+    )
   end
 end

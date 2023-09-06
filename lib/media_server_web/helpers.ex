@@ -1,5 +1,4 @@
 defmodule MediaServerWeb.Helpers do
-
   def minutes_remaining_from_seconds(duration, current_time) do
     ceil((duration - current_time) / 60)
   end

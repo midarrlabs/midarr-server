@@ -6,9 +6,9 @@
   controls
   autoplay
 >
-    <source src={@media_stream} type={@mime_type} />
+  <source src={@media_stream} type={@mime_type} />
 
-    <%= if @media_has_subtitle do %>
-        <track src={@media_subtitle} kind="captions" label="Captions" srclang="en" />
-    <% end %>
+  <%= if @media_has_subtitle do %>
+    <track src={@media_subtitle} kind="captions" label="Captions" srclang="en" />
+  <% end %>
 </video>
