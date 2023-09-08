@@ -6,15 +6,21 @@
       <.live_component
         module={MediaServerWeb.Components.SideBarComponent}
         id="side-bar-component"
+        request_path={@request_path}
       />
 
       <div class="lg:pl-[19.5rem]">
         <div class="max-w-3xl mx-auto relative z-20 pt-10 xl:max-w-none">
           <%= @inner_content %>
+
+            <.live_component module={MediaServerWeb.Components.FooterComponent} id="footer-component" />
         </div>
       </div>
     </div>
   </div>
+
 <% else %>
+
   <%= @inner_content %>
 <% end %>
+

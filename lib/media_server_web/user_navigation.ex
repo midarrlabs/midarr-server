@@ -1,16 +1,20 @@
 defmodule MediaServerWeb.UserNavigation do
-  def on_mount(:get_request_uri, _params, _session, socket) do
+  import Phoenix.LiveView
+  import Phoenix.Component
+
+  def on_mount(:default, _params, _session, socket) do
     {:cont,
-     Phoenix.LiveView.attach_hook(socket, :get_request_path, :handle_params, &get_request_path/3)}
+      socket
+      |> attach_hook(:handle, :handle_params, &handle/3)}
   end
 
-  defp get_request_path(_params, url, socket) do
+  defp handle(_params, request_path, socket) do
     Phoenix.PubSub.broadcast(
       MediaServer.PubSub,
       "user",
-      {:navigated, "#{socket.assigns.current_user.name}: #{url}"}
+      {:navigated, "#{socket.assigns.current_user.name}: #{request_path}"}
     )
 
-    {:cont, socket}
+    {:cont, socket |> assign(request_path: request_path)}
   end
 end

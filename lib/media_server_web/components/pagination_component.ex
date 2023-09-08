@@ -3,7 +3,7 @@ defmodule MediaServerWeb.Components.PaginationComponent do
 
   def render(assigns) do
     ~H"""
-    <dl class="mt-12 flex border-t border-zinc-800 pt-6">
+    <dl class="mt-12 flex">
       <%= if assigns.page_number > 1 do %>
         <div>
           <dd class="mt-1">
