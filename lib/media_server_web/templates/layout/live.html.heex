@@ -1,13 +1,20 @@
-<.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+<%= if !assigns[:media_stream] do %>
+  <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
 
-<div class="overflow-hidden">
-  <div class="max-w-8xl mx-auto px-4 sm:px-6 md:px-8">
-    <.live_component module={MediaServerWeb.Components.SideBarComponent} id="side-bar-component" />
+  <div class="overflow-hidden">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 md:px-8">
+      <.live_component
+        module={MediaServerWeb.Components.SideBarComponent}
+        id="side-bar-component"
+      />
 
-    <div class="lg:pl-[19.5rem]">
-      <div class="max-w-3xl mx-auto relative z-20 pt-10 xl:max-w-none">
-        <%= @inner_content %>
+      <div class="lg:pl-[19.5rem]">
+        <div class="max-w-3xl mx-auto relative z-20 pt-10 xl:max-w-none">
+          <%= @inner_content %>
+        </div>
       </div>
     </div>
   </div>
-</div>
+<% else %>
+  <%= @inner_content %>
+<% end %>
