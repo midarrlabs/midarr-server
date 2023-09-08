@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html
   lang="en"
-  class="h-full antialiased __variable_20951f __variable_b436a8 dark"
+  class="h-full antialiased dark"
   style="color-scheme: dark;"
 >
   <head>
@@ -44,74 +44,9 @@
       </script>
     <% end %>
   </head>
-  <body class="dark:bg-zinc-900">
+  <body class="bg-zinc-900">
     <%= if @current_user do %>
-      <div class="flex w-full flex-col">
         <%= @inner_content %>
-      </div>
-
-      <%= if assigns[:media_stream] do %>
-        <script>
-          window['__onGCastApiAvailable'] = function(isAvailable) {
-
-              if (isAvailable) {
-
-                const context = cast.framework.CastContext.getInstance();
-
-                context.setOptions({
-                  receiverApplicationId: 'B7C82081',
-                  autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
-                });
-
-                // Check if there is an existing session before starting a new one
-                const session = context.getCurrentSession();
-
-                if (session) {
-                  console.log('Using existing session:', session);
-                  loadMedia(session);
-
-                } else {
-
-                  context.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, function(event) {
-                    if (event.sessionState === cast.framework.SessionState.SESSION_STARTED) {
-                      console.log('New session started:', event.session);
-                      loadMedia(event.session);
-
-                    } else if (event.sessionState === cast.framework.SessionState.SESSION_ENDED ||
-                               event.sessionState === cast.framework.SessionState.SESSION_ERROR) {
-                      console.log('Session ended:', event.session);
-                    }
-                  });
-
-                  context.requestSession().then(function(session) {
-                    console.log('New session requested:', session);
-                    loadMedia(session);
-                  }).catch(function(error) {
-                    console.log('Error requesting session:', error);
-                  });
-                }
-
-                function loadMedia(session) {
-                  const mediaInfo = new chrome.cast.media.MediaInfo('<%= System.get_env("APP_URL", "") <> assigns[:media_stream] %>', '<%= assigns[:mime_type] %>');
-
-                  mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
-                  mediaInfo.metadata.images = [new chrome.cast.Image('<%= System.get_env("APP_URL", "") <> assigns[:media_poster] %>')];
-                  mediaInfo.metadata.title = '<%= assigns[:page_title] %>';
-
-                  const request = new chrome.cast.media.LoadRequest(mediaInfo);
-
-                  session.loadMedia(request).then(function() {
-                    console.log('Media loaded');
-                  }).catch(function(error) {
-                    console.log('Error loading media:', error);
-                  });
-                }
-              }
-          }
-        </script>
-        <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1">
-        </script>
-      <% end %>
     <% else %>
       <div class="bg-zinc-900 h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <%= @inner_content %>

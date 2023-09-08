@@ -1,109 +1,55 @@
-<.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+<div class="space-y-8">
+<div
+  class="bg-zinc-900 pt-64 pb-56 sm:px-2 relative lg:px-0 bg-cover bg-center"
+  style={"background-image: url('#{ ~p"/api/images?movie=#{ Enum.at(@movies, 0)["id"] }&type=background&token=#{assigns[:current_user].api_token.token}" }');"}
+>
+  <div class="absolute inset-0 w-1/2 bg-gradient-to-l from-white to-black mix-blend-multiply">
+  </div>
 
-<div class="bg-zinc-900 dark:-mb-32 dark:mt-[-4.75rem] dark:pb-32 dark:pt-[4.75rem]">
-  <div
-    class="pt-20 sm:px-2 relative lg:px-0 bg-cover bg-fixed bg-center"
-    style={"background-image: url('#{ ~p"/api/images?movie=#{ Enum.at(@movies, 0)["id"] }&type=background&token=#{assigns[:current_user].api_token.token}" }');"}
-  >
-    <div class="absolute inset-0 w-3/4 bg-gradient-to-l from-white to-black mix-blend-multiply">
-    </div>
+  <div class="absolute inset-0 bg-gradient-to-b from-white to-black mix-blend-multiply"></div>
 
-    <div class="absolute inset-0 bg-gradient-to-b from-white to-black mix-blend-multiply"></div>
-
-    <div class="min-w-0 max-w-2xl flex-auto px-4 py-16 lg:max-w-none lg:pl-8 lg:pr-0 xl:px-16">
-      <div class="relative">
-        <div style="text-align: -webkit-center;" class="md:flex">
-          <div class="relative w-44">
-            <img
-              src={
-                ~p"/api/images?movie=#{Enum.at(@movies, 0)["id"]}&type=poster&token=#{assigns[:current_user].api_token.token}"
-              }
-              alt=""
-              class="w-full bg-zinc-800/90 object-cover aspect-auto rounded-md"
-              loading="lazy"
-            />
-
-            <div class="absolute inset-x-0 top-0 flex h-full items-end justify-end">
-              <div class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50 rounded-b-md">
-              </div>
-
-              <%= if !is_nil(Enum.at(@movies, 0)["movieFile"]["mediaInfo"]["runTime"]) do %>
-                <div class="relative text-xs font-semibold text-white bg-black text-center rounded-md mb-2.5 mr-1">
-                  <span class="p-2">
-                    <%= Enum.at(@movies, 0)["movieFile"]["mediaInfo"]["runTime"] %>
-                  </span>
-                </div>
-              <% end %>
-            </div>
-          </div>
-
-          <div class="relative place-self-end ml-4 text-center md:text-left">
-            <p class="font-display text-3xl tracking-tight text-white">
-              <%= Enum.at(@movies, 0)["title"] %>
-            </p>
-
-            <div class="mt-2 text-base tracking-tight text-zinc-400">
-              <div>
-                <%= if Enum.at(@movies, 0)["certification"] do %>
-                  <span>
-                    <%= Enum.at(@movies, 0)["certification"] %>
-                  </span>
-                  &#8729;
-                <% end %>
-
-                <%= if Enum.at(@movies, 0)["genres"] do %>
-                  <span>
-                    <%= for {item, counter} <- Enum.with_index(Enum.at(@movies, 0)["genres"]) do %>
-                      <%= if (counter + 1) !== Enum.count(Enum.at(@movies, 0)["genres"]) do %>
-                        <%= item %>,
-                      <% else %>
-                        <%= item %>
-                      <% end %>
-                    <% end %>
-                  </span>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="absolute min-w-0 max-w-2xl flex-auto px-4 py-16 lg:max-w-none lg:pl-8 lg:pr-0 xl:px-16">
+    <div class="relative">
+      <div class="relative place-self-end ml-4 text-center md:text-left">
+        <p class="font-display text-3xl tracking-tight text-white">
+          <%= Enum.at(@movies, 0)["title"] %>
+        </p>
       </div>
     </div>
   </div>
 </div>
 
-<MediaServerWeb.Components.PageComponent.render>
-  <article>
-    <div>
-      <h2 class="font-display text-xl tracking-tight text-zinc-400 mb-6">
-        Latest Movies
-      </h2>
+<article class="space-y-8">
+    <h2 class="font-display text-xl tracking-tight text-zinc-400 mb-6">
+      Latest Movies
+    </h2>
 
-      <.live_component
-        module={MediaServerWeb.Components.ListOfMovies}
-        id="movies"
-        ids={Enum.map(@movies, & &1["id"])}
-        items={
-          Enum.map(
-            @movies,
-            &%{id: &1["id"], title: &1["title"], runtime: &1["movieFile"]["mediaInfo"]["runTime"]}
-          )
-        }
-        token={assigns[:current_user].api_token.token}
-        user_id={assigns[:current_user].id}
-      />
+    <.live_component
+      module={MediaServerWeb.Components.ListOfMovies}
+      id="movies"
+      ids={Enum.map(@movies, & &1["id"])}
+      items={
+        Enum.map(
+          @movies,
+          &%{id: &1["id"], title: &1["title"], runtime: &1["movieFile"]["mediaInfo"]["runTime"]}
+        )
+      }
+      token={assigns[:current_user].api_token.token}
+      user_id={assigns[:current_user].id}
+    />
 
-      <hr class="my-12" style="border-color: #27272a;" />
+    <hr class="my-12" style="border-color: #27272a;" />
 
-      <h2 class="font-display text-xl tracking-tight text-zinc-400 mb-6">
-        Latest TV Series
-      </h2>
+    <h2 class="font-display text-xl tracking-tight text-zinc-400 mb-6">
+      Latest TV Series
+    </h2>
 
-      <.live_component
-        module={MediaServerWeb.Components.ListOfSeries}
-        id="series"
-        items={Enum.map(@series, &%{id: &1["id"], title: &1["title"]})}
-        token={assigns[:current_user].api_token.token}
-      />
-    </div>
-  </article>
-</MediaServerWeb.Components.PageComponent.render>
+    <.live_component
+      module={MediaServerWeb.Components.ListOfSeries}
+      id="series"
+      items={Enum.map(@series, &%{id: &1["id"], title: &1["title"]})}
+      token={assigns[:current_user].api_token.token}
+    />
+</article>
+
+</div>
