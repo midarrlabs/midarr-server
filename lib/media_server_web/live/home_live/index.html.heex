@@ -1,25 +1,25 @@
 <div class="space-y-8">
-<div
-  class="bg-zinc-900 pt-64 pb-56 sm:px-2 relative lg:px-0 bg-cover bg-center"
-  style={"background-image: url('#{ ~p"/api/images?movie=#{ Enum.at(@movies, 0)["id"] }&type=background&token=#{assigns[:current_user].api_token.token}" }');"}
->
-  <div class="absolute inset-0 w-1/2 bg-gradient-to-l from-white to-black mix-blend-multiply">
-  </div>
+  <div
+    class="bg-zinc-900 pt-64 pb-56 sm:px-2 relative lg:px-0 bg-cover bg-center"
+    style={"background-image: url('#{ ~p"/api/images?movie=#{ Enum.at(@movies, 0)["id"] }&type=background&token=#{assigns[:current_user].api_token.token}" }');"}
+  >
+    <div class="absolute inset-0 w-1/2 bg-gradient-to-l from-white to-black mix-blend-multiply">
+    </div>
 
-  <div class="absolute inset-0 bg-gradient-to-b from-white to-black mix-blend-multiply"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-white to-black mix-blend-multiply"></div>
 
-  <div class="absolute min-w-0 max-w-2xl flex-auto px-4 py-16 lg:max-w-none lg:pl-8 lg:pr-0 xl:px-16">
-    <div class="relative">
-      <div class="relative place-self-end ml-4 text-center md:text-left">
-        <p class="font-display text-3xl tracking-tight text-white">
-          <%= Enum.at(@movies, 0)["title"] %>
-        </p>
+    <div class="absolute min-w-0 max-w-2xl flex-auto px-4 py-16 lg:max-w-none lg:pl-8 lg:pr-0 xl:px-16">
+      <div class="relative">
+        <div class="relative place-self-end ml-4 text-center md:text-left">
+          <p class="font-display text-3xl tracking-tight text-white">
+            <%= Enum.at(@movies, 0)["title"] %>
+          </p>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<article class="space-y-8">
+  <article class="space-y-8">
     <h2 class="font-display text-xl tracking-tight text-zinc-400 mb-6">
       Latest Movies
     </h2>
@@ -50,6 +50,5 @@
       items={Enum.map(@series, &%{id: &1["id"], title: &1["title"]})}
       token={assigns[:current_user].api_token.token}
     />
-</article>
-
+  </article>
 </div>

@@ -1,33 +1,29 @@
-<.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" />
+<article>
+  <header class="mb-9 space-y-1">
+    <p class="font-display text-sm font-medium text-red-500">Movies</p>
+    <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white capitalize">
+      <%= @genre %>
+    </h1>
+  </header>
 
-<MediaServerWeb.Components.PageComponent.render>
-  <article>
-    <header class="mb-9 space-y-1">
-      <p class="font-display text-sm font-medium text-red-500">Movies</p>
-      <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white capitalize">
-        <%= @genre %>
-      </h1>
-    </header>
+  <.live_component
+    module={MediaServerWeb.Components.ListOfMovies}
+    id="movies"
+    ids={Enum.map(@movies, & &1["id"])}
+    items={
+      Enum.map(
+        @movies,
+        &%{id: &1["id"], title: &1["title"], runtime: &1["movieFile"]["mediaInfo"]["runTime"]}
+      )
+    }
+    token={assigns[:current_user].api_token.token}
+    user_id={assigns[:current_user].id}
+  />
+</article>
 
-    <.live_component
-      module={MediaServerWeb.Components.ListOfMovies}
-      id="movies"
-      ids={Enum.map(@movies, & &1["id"])}
-      items={
-        Enum.map(
-          @movies,
-          &%{id: &1["id"], title: &1["title"], runtime: &1["movieFile"]["mediaInfo"]["runTime"]}
-        )
-      }
-      token={assigns[:current_user].api_token.token}
-      user_id={assigns[:current_user].id}
-    />
-  </article>
-
-  <%= MediaServerWeb.Components.PaginationComponent.render(%{
-    page_number: @movies.page_number,
-    total_pages: @movies.total_pages,
-    previous_link: @previous_link,
-    next_link: @next_link
-  }) %>
-</MediaServerWeb.Components.PageComponent.render>
+<%= MediaServerWeb.Components.PaginationComponent.render(%{
+  page_number: @movies.page_number,
+  total_pages: @movies.total_pages,
+  previous_link: @previous_link,
+  next_link: @next_link
+}) %>
