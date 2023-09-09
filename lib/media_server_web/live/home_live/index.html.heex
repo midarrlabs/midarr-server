@@ -104,4 +104,36 @@
       user_id={assigns[:current_user].id}
     />
   </div>
+
+  <div class="my-16 xl:max-w-none">
+    <h2 class="scroll-mt-24" id="resources">
+      <a class="group text-inherit no-underline hover:text-inherit" href="#resources">
+        Latest TV series
+      </a>
+    </h2>
+
+    <.live_component
+      module={MediaServerWeb.Components.ListOfSeries}
+      id="latest-series"
+      ids={Enum.map(@series, & &1["id"])}
+      token={assigns[:current_user].api_token.token}
+      user_id={assigns[:current_user].id}
+    />
+  </div>
+
+  <div class="my-16 xl:max-w-none">
+    <h2 class="scroll-mt-24" id="resources">
+      <a class="group text-inherit no-underline hover:text-inherit" href="#resources">
+        Upcoming TV series
+      </a>
+    </h2>
+
+    <.live_component
+      module={MediaServerWeb.Components.ListOfSeries}
+      id="upcoming-series"
+      ids={Enum.map(@upcoming_series, & &1["id"])}
+      token={assigns[:current_user].api_token.token}
+      user_id={assigns[:current_user].id}
+    />
+  </div>
 </div>

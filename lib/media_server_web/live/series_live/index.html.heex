@@ -1,22 +1,19 @@
-<article>
-  <header class="mb-9 space-y-1">
-    <p class="font-display text-sm font-medium text-red-500">TV Series</p>
-    <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white capitalize">
-      <%= @genre %>
-    </h1>
-  </header>
+<div class="flex-auto prose dark:prose-invert">
+  <h1>TV Series</h1>
+  <div class="my-16 xl:max-w-none">
+    <.live_component
+      module={MediaServerWeb.Components.ListOfSeries}
+      id="series"
+      ids={Enum.map(@series, & &1["id"])}
+      token={assigns[:current_user].api_token.token}
+      user_id={assigns[:current_user].id}
+    />
 
-  <.live_component
-    module={MediaServerWeb.Components.ListOfSeries}
-    id="series"
-    items={Enum.map(@series, &%{id: &1["id"], title: &1["title"]})}
-    token={assigns[:current_user].api_token.token}
-  />
-</article>
-
-<%= MediaServerWeb.Components.PaginationComponent.render(%{
-  page_number: @series.page_number,
-  total_pages: @series.total_pages,
-  previous_link: @previous_link,
-  next_link: @next_link
-}) %>
+    <%= MediaServerWeb.Components.PaginationComponent.render(%{
+      page_number: @series.page_number,
+      total_pages: @series.total_pages,
+      previous_link: @previous_link,
+      next_link: @next_link
+    }) %>
+  </div>
+</div>

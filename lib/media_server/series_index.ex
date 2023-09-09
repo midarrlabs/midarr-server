@@ -48,7 +48,13 @@ defmodule MediaServer.SeriesIndex do
 
   def find(state, id) do
     state
-    |> Enum.find(fn item -> item["id"] === String.to_integer(id) end)
+    |> Enum.find(fn item ->
+      if !is_integer(id) do
+        item["id"] === String.to_integer(id)
+      else
+        item["id"] === id
+      end
+    end)
   end
 
   def search(state, query) do

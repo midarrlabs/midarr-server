@@ -37,7 +37,13 @@ defmodule MediaServerWeb.HomeLive.Index do
         MediaServer.SeriesIndex.all()
         |> MediaServer.SeriesIndex.available()
         |> MediaServer.SeriesIndex.latest()
-        |> MediaServer.SeriesIndex.take(10)
+        |> MediaServer.SeriesIndex.take(6)
+      )
+      |> assign(
+        :upcoming_series,
+        MediaServer.SeriesIndex.all()
+        |> MediaServer.SeriesIndex.upcoming()
+        |> MediaServer.SeriesIndex.take(6)
       )
     }
   end
