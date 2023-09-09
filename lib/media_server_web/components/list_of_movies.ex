@@ -12,8 +12,7 @@ defmodule MediaServerWeb.Components.ListOfMovies do
     query =
       from continue in MediaServer.Continues,
         where: continue.user_id == ^user_id and continue.media_id in ^ids,
-        order_by: [desc: continue.updated_at],
-        limit: 10
+        order_by: [desc: continue.updated_at]
 
     result = MediaServer.Repo.all(query)
 

@@ -1,15 +1,16 @@
 <div>
-  <%= live_redirect to: @link do %>
-    <div class="relative">
+  <.link navigate={@link}>
+    <div class="relative overflow-visible bg-zinc-900 w-40 hover:opacity-60">
       <img
         src={@img_src}
-        alt={"#{ @title }"}
-        class="w-full bg-zinc-800/90 object-cover aspect-auto rounded-md hover:opacity-75"
+        alt={@title}
+        class="h-full w-full object-cover object-center"
         loading="lazy"
       />
     </div>
+
     <p class="mt-4 text-sm line-clamp text-zinc-400">
       <%= @title %>
     </p>
-  <% end %>
+  </.link>
 </div>

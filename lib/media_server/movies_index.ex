@@ -62,7 +62,7 @@ defmodule MediaServer.MoviesIndex do
 
     state
     |> Enum.filter(fn item -> genre in item["genres"] end)
-    |> Enum.take_random(10)
+    |> Enum.take_random(6)
     |> Enum.reject(fn x -> x["id"] === id end)
   end
 

@@ -1,80 +1,74 @@
-<div
-  class="bg-zinc-900 pt-64 pb-56 sm:px-2 relative lg:px-0 bg-cover bg-center"
-  style={"background-image: url('#{ ~p"/api/images?movie=#{ @movie["id"] }&type=background&token=#{assigns[:current_user].api_token.token}" }');"}
->
-  <div class="absolute inset-0 w-1/2 bg-gradient-to-l from-white to-black mix-blend-multiply">
-  </div>
-
-  <div class="absolute inset-0 bg-gradient-to-b from-white to-black mix-blend-multiply"></div>
-
-  <div class="absolute min-w-0 max-w-2xl flex-auto px-4 py-16 lg:max-w-none lg:pl-8 lg:pr-0 xl:px-16">
-    <div class="relative">
-      <div class="relative place-self-end ml-4 text-center md:text-left">
-        <p class="font-display text-3xl tracking-tight text-white">
-          <%= @movie["title"] %>
-        </p>
+<div class="flex-auto prose dark:prose-invert">
+  <div class="absolute inset-0 -z-10 mx-0 max-w-none overflow-hidden">
+    <div class="absolute left-1/2 top-0 ml-[-38rem] h-[25rem] w-[81.25rem] dark:[mask-image:linear-gradient(white,transparent)]">
+      <div class="absolute inset-0 bg-gradient-to-r  opacity-40 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] dark:from-black dark:to-white dark:opacity-100">
+        <img
+          src={
+            ~p"/api/images?movie=#{@movie["id"]}&type=background&token=#{assigns[:current_user].api_token.token}"
+          }
+          class="absolute inset-x-0 inset-y-[-25%] w-full fill-black/40 stroke-black/50 mix-blend-overlay dark:fill-white/2.5 dark:stroke-white/5"
+        />
       </div>
-
-      <div class="mt-4 flex gap-4 justify-center md:justify-start">
-        <%= if @movie["hasFile"] do %>
-          <%= live_redirect id: "play-#{ @movie["id"] }", to: Routes.watch_index_path(@socket, :index, movie: @movie["id"]), class: "group relative flex flex-shrink-0 items-center justify-center rounded-md bg-zinc-800 hover:bg-slate-900 focus:outline-none focus:ring-slate-700 h-10 w-20 focus:ring-2 focus:ring-offset-2" do %>
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 36 36"
-              class="fill-white group-active:fill-white/80 h-5 w-5"
-              stroke="white"
-            >
-              <path d="M33.75 16.701C34.75 17.2783 34.75 18.7217 33.75 19.299L11.25 32.2894C10.25 32.8668 9 32.1451 9 30.9904L9 5.00962C9 3.85491 10.25 3.13323 11.25 3.71058L33.75 16.701Z">
-              </path>
-            </svg>
-            <span class="hidden">Watch</span>
-          <% end %>
-        <% end %>
-
-        <%= if @movie["youTubeTrailerId"] !== "" do %>
-          <a
-            href={"https://www.youtube.com/watch?v=#{@movie["youTubeTrailerId"]}"}
-            target="_blank"
-            class="group relative flex flex-shrink-0 items-center justify-center rounded-md bg-zinc-800 hover:bg-slate-900 focus:outline-none focus:ring-slate-700 h-10 w-20 focus:ring-2 focus:ring-offset-2"
-          >
-            <div class="absolute -inset-3 md:hidden"></div>
-            <svg class="h-5 w-5" viewBox="0 0 24 24" stroke-width="1.5" stroke="white">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-1.5A1.125 1.125 0 0118 18.375M20.625 4.5H3.375m17.25 0c.621 0 1.125.504 1.125 1.125M20.625 4.5h-1.5C18.504 4.5 18 5.004 18 5.625m3.75 0v1.5c0 .621-.504 1.125-1.125 1.125M3.375 4.5c-.621 0-1.125.504-1.125 1.125M3.375 4.5h1.5C5.496 4.5 6 5.004 6 5.625m-3.75 0v1.5c0 .621.504 1.125 1.125 1.125m0 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m1.5-3.75C5.496 8.25 6 7.746 6 7.125v-1.5M4.875 8.25C5.496 8.25 6 8.754 6 9.375v1.5m0-5.25v5.25m0-5.25C6 5.004 6.504 4.5 7.125 4.5h9.75c.621 0 1.125.504 1.125 1.125m1.125 2.625h1.5m-1.5 0A1.125 1.125 0 0118 7.125v-1.5m1.125 2.625c-.621 0-1.125.504-1.125 1.125v1.5m2.625-2.625c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125M18 5.625v5.25M7.125 12h9.75m-9.75 0A1.125 1.125 0 016 10.875M7.125 12C6.504 12 6 12.504 6 13.125m0-2.25C6 11.496 5.496 12 4.875 12M18 10.875c0 .621-.504 1.125-1.125 1.125M18 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m-12 5.25v-5.25m0 5.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125m-12 0v-1.5c0-.621-.504-1.125-1.125-1.125M18 18.375v-5.25m0 5.25v-1.5c0-.621.504-1.125 1.125-1.125M18 13.125v1.5c0 .621.504 1.125 1.125 1.125M18 13.125c0-.621.504-1.125 1.125-1.125M6 13.125v1.5c0 .621-.504 1.125-1.125 1.125M6 13.125C6 12.504 5.496 12 4.875 12m-1.5 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M19.125 12h1.5m0 0c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h1.5m14.25 0h1.5"
-              />
-            </svg>
-          </a>
-        <% end %>
-      </div>
+      <svg
+        viewBox="0 0 1113 440"
+        class="absolute left-1/2 top-0 ml-[-19rem] w-[69.5625rem] fill-white blur-[26px] dark:hidden"
+      >
+        <path d="M.016 439.5s-9.5-300 434-300S882.516 20 882.516 20V0h230.004v439.5H.016Z"></path>
+      </svg>
     </div>
   </div>
-</div>
 
-<article>
-  <header class="mb-6 space-y-1">
-    <p class="font-display text-sm font-medium text-red-500">Movie</p>
-    <p class="font-display text-3xl tracking-tight text-white">
-      <%= @movie["title"] %>
-    </p>
-  </header>
+  <h1><%= @movie["title"] %></h1>
 
-  <div>
-    <p class="text-zinc-400">
-      <%= @movie["overview"] %>
-    </p>
+  <div class="not-prose mb-16 mt-6 flex gap-3">
+    <a
+      class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition rounded-full bg-zinc-900 py-1 px-3 text-white hover:bg-zinc-700 dark:bg-red-400/10 dark:text-red-400 dark:ring-1 dark:ring-inset dark:ring-red-400/20 dark:hover:bg-red-400/10 dark:hover:text-red-300 dark:hover:ring-red-300"
+      href="/quickstart"
+    >
+      <svg
+        fill="none"
+        viewBox="0 0 20 20"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="h-4 w-4"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"
+        />
+      </svg>
+      <span class="ml-2">
+        Watch Now
+      </span>
+    </a>
+    <a
+      class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition rounded-full py-1 px-3 text-zinc-700 ring-1 ring-inset ring-zinc-900/10 hover:bg-zinc-900/2.5 hover:text-zinc-900 dark:text-zinc-400 dark:ring-white/10 dark:hover:bg-white/5 dark:hover:text-white"
+      href="/sdks"
+    >
+      See Trailer
+    </a>
+  </div>
 
-    <p class="font-display text-xl tracking-tight text-white my-6">
-      Cast
-    </p>
+  <h2 class="scroll-mt-24" id="getting-started">Overview</h2>
 
-    <div class="justify-items-center grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 xl:gap-x-8">
+  <p class="lead">
+    <%= @movie["overview"] %>
+  </p>
+
+  <div class="my-16 xl:max-w-none">
+    <h2 class="scroll-mt-24" id="guides">
+      <a class="group text-inherit no-underline hover:text-inherit" href="#guides">
+        Cast
+      </a>
+    </h2>
+
+    <div class="not-prose mt-4 grid grid-cols-2 gap-x-4 gap-y-6 border-t border-zinc-900/5 pt-10 dark:border-white/5 md:grid-cols-4 xl:grid-cols-6">
       <%= if assigns[:cast] do %>
-        <%= for {item, counter} <- Enum.take(Enum.with_index(@cast), 5) do %>
+        <%= for {item, counter} <- Enum.take(Enum.with_index(@cast), 6) do %>
           <.live_component
             module={MediaServerWeb.Components.PosterComponent}
-            id={"cast-content-#{ counter }"}
+            id={"cast-#{ counter }"}
             title={item["personName"]}
             subtitle=""
             runtime=""
@@ -85,23 +79,21 @@
         <% end %>
       <% end %>
     </div>
+  </div>
 
-    <p class="font-display text-xl tracking-tight text-white my-6">
-      Similar
-    </p>
+  <div class="my-16 xl:max-w-none">
+    <h2 class="scroll-mt-24" id="resources">
+      <a class="group text-inherit no-underline hover:text-inherit" href="#resources">
+        You may also like
+      </a>
+    </h2>
 
     <.live_component
       module={MediaServerWeb.Components.ListOfMovies}
       id="movies"
       ids={Enum.map(@similar, & &1["id"])}
-      items={
-        Enum.map(
-          @similar,
-          &%{id: &1["id"], title: &1["title"], runtime: &1["movieFile"]["mediaInfo"]["runTime"]}
-        )
-      }
       token={assigns[:current_user].api_token.token}
       user_id={assigns[:current_user].id}
     />
   </div>
-</article>
+</div>
