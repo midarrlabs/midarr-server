@@ -4,7 +4,11 @@ defmodule MediaServerWeb.Components.ListOfMovies do
   import Ecto.Query
 
   @impl true
-  def preload([%{id: id, ids: ids, items: items, token: token, user_id: user_id}]) do
+  def preload(list_of_assigns) do
+    ids = Enum.flat_map(list_of_assigns, fn assign -> assign.ids end)
+    token = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :token) end).token
+    user_id = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :user_id) end).user_id
+
     query =
       from continue in MediaServer.Continues,
         where: continue.user_id == ^user_id and continue.media_id in ^ids,
@@ -13,20 +17,22 @@ defmodule MediaServerWeb.Components.ListOfMovies do
 
     result = MediaServer.Repo.all(query)
 
-    [
+    Enum.map(list_of_assigns, fn assign ->
       %{
-        id: id,
+        id: assign.id,
         items:
-          Enum.map(items, fn item ->
+          Enum.map(assign.ids, fn id ->
+            movie = MediaServer.MoviesIndex.all() |> MediaServer.MoviesIndex.find(id)
+
             %{
-              id: item.id,
-              title: item.title,
-              runtime: item.runtime,
-              link: ~p"/movies/#{item.id}",
-              img_src: ~p"/api/images?movie=#{item.id}&type=poster&size=w780&token=#{token}",
+              id: movie["id"],
+              title: movie["title"],
+              runtime: movie["movieFile"]["mediaInfo"]["runTime"],
+              link: ~p"/movies/#{movie["id"]}",
+              img_src: ~p"/api/images?movie=#{movie["id"]}&type=poster&token=#{token}",
               continue:
                 Enum.find_value(result, nil, fn continue ->
-                  if continue.media_id == item.id,
+                  if continue.media_id == movie["id"],
                     do: %{
                       current_time: continue.current_time,
                       duration: continue.duration
@@ -35,6 +41,6 @@ defmodule MediaServerWeb.Components.ListOfMovies do
             }
           end)
       }
-    ]
+    end)
   end
 end

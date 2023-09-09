@@ -3,39 +3,35 @@ defmodule MediaServerWeb.Components.PaginationComponent do
 
   def render(assigns) do
     ~H"""
-    <dl class="mt-12 flex">
-      <%= if assigns.page_number > 1 do %>
-        <div>
-          <dd class="mt-1">
-            <%= live_redirect id: "pagination-previous", to: assigns.previous_link, class: "flex items-center gap-x-1 text-base font-semibold text-zinc-500 hover:text-white flex-row-reverse" do %>
-              Page <%= @page_number - 1 %>
-              <svg
-                viewBox="0 0 16 16"
-                aria-hidden="true"
-                class="h-4 w-4 flex-none fill-current -scale-x-100"
+          <div class="flex">
+            <div class="ml-auto flex flex-col items-end gap-3">
+              <a
+                class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition rounded-full bg-zinc-100 py-1 px-3 text-zinc-900 hover:bg-zinc-200 dark:bg-zinc-800/40 dark:text-zinc-400 dark:ring-1 dark:ring-inset dark:ring-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
+                aria-label="Next: Quickstart"
+                href="/quickstart"
               >
-                <path d="m9.182 13.423-1.17-1.16 3.505-3.505H3V7.065h8.517l-3.506-3.5L9.181 2.4l5.512 5.511-5.511 5.512Z">
-                </path>
-              </svg>
-            <% end %>
-          </dd>
-        </div>
-      <% end %>
-
-      <%= if assigns.page_number !== assigns.total_pages do %>
-        <div class="ml-auto text-right">
-          <dd class="mt-1">
-            <%= live_redirect id: "pagination-next", to: assigns.next_link, class: "flex items-center gap-x-1 text-base font-semibold text-zinc-500 hover:text-white" do %>
-              Page <%= @page_number + 1 %>
-              <svg viewBox="0 0 16 16" aria-hidden="true" class="h-4 w-4 flex-none fill-current">
-                <path d="m9.182 13.423-1.17-1.16 3.505-3.505H3V7.065h8.517l-3.506-3.5L9.181 2.4l5.512 5.511-5.511 5.512Z">
-                </path>
-              </svg>
-            <% end %>
-          </dd>
-        </div>
-      <% end %>
-    </dl>
+                Next<svg
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  aria-hidden="true"
+                  class="mt-0.5 h-5 w-5 -mr-1"
+                ><path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m11.5 6.5 3 3.5m0 0-3 3.5m3-3.5h-9"
+                  ></path></svg>
+              </a>
+              <a
+                tabindex="-1"
+                aria-hidden="true"
+                class="text-base font-semibold text-zinc-900 transition hover:text-zinc-600 dark:text-white dark:hover:text-zinc-300"
+                href="/quickstart"
+              >
+                Quickstart
+              </a>
+            </div>
+          </div>
     """
   end
 end

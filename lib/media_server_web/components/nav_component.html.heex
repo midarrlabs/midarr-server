@@ -1,169 +1,154 @@
-<div class="sticky top-0 z-50">
-  <header class="flex flex-none flex-wrap items-center justify-between px-4 py-5 shadow-md shadow-zinc-900/5 transition duration-500 dark:shadow-none sm:px-6 lg:px-8 dark:bg-zinc-900/95 dark:backdrop-blur dark:[@supports(backdrop-filter:blur(0))]:bg-zinc-900/75">
-    <div class="mr-6 flex lg:hidden">
-      <button
-        phx-click={JS.toggle(to: "#mobile-menu")}
-        type="button"
-        class="relative"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke-width="2"
-          stroke-linecap="round"
-          class="h-6 w-6 stroke-zinc-500"
-        >
-          <path d="M4 7h16M4 12h16M4 17h16"></path>
-        </svg>
-      </button>
-    </div>
-    <div class="relative flex flex-grow basis-0 items-center">
-      <.link navigate="/">
-        <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-auto lg:block">
-          <path
-            fill-rule="evenodd"
-            d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z"
-            clip-rule="evenodd"
-          />
-        </svg>
-      </.link>
-    </div>
-    <div class="-my-5 mr-6 sm:mr-8 md:mr-0">
-      <button
-        type="button"
-        phx-click={JS.toggle(to: "#search-command") |> JS.focus(to: "#search_query")}
-        class="group flex h-6 w-6 items-center justify-center sm:justify-start md:h-auto md:w-80 md:flex-none md:rounded-lg md:py-2.5 md:pl-4 md:pr-3.5 md:text-sm md:ring-1 md:ring-zinc-200 md:hover:ring-zinc-300 dark:md:bg-zinc-800/75 dark:md:ring-inset dark:md:ring-white/5 dark:md:hover:bg-zinc-700/40 dark:md:hover:ring-zinc-500 lg:w-96"
-      >
-        <svg
-          viewBox="0 0 20 20"
-          class="h-5 w-5 flex-none fill-zinc-400 group-hover:fill-zinc-500 dark:fill-zinc-500 md:group-hover:fill-zinc-400"
-        >
-          <path d="M16.293 17.707a1 1 0 0 0 1.414-1.414l-1.414 1.414ZM9 14a5 5 0 0 1-5-5H2a7 7 0 0 0 7 7v-2ZM4 9a5 5 0 0 1 5-5V2a7 7 0 0 0-7 7h2Zm5-5a5 5 0 0 1 5 5h2a7 7 0 0 0-7-7v2Zm8.707 12.293-3.757-3.757-1.414 1.414 3.757 3.757 1.414-1.414ZM14 9a4.98 4.98 0 0 1-1.464 3.536l1.414 1.414A6.98 6.98 0 0 0 16 9h-2Zm-1.464 3.536A4.98 4.98 0 0 1 9 14v2a6.98 6.98 0 0 0 4.95-2.05l-1.414-1.414Z">
-          </path>
-        </svg>
-        <span class="sr-only md:not-sr-only md:ml-2 text-zinc-400">
-          Quick search...
-        </span>
-      </button>
-      <div style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none">
-      </div>
-    </div>
-    <div class="relative flex basis-0 justify-end gap-6 sm:gap-8 md:flex-grow"></div>
-  </header>
-
-  <div id="search-command" class="hidden">
-    <div class="fixed inset-0">
-      <div class="fixed inset-0 bg-zinc-900/50 backdrop-blur"></div>
-      <div class="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]">
-        <div class="mx-auto transform-gpu overflow-hidden rounded-xl shadow-xl bg-zinc-800 ring-zinc-200 sm:max-w-xl">
-          <div phx-click-away={JS.hide(to: "#search-command")}>
-            <.form
-              :let={f}
-              for={%{}}
-              as={:search}
-              id="search"
-              phx-target={@myself}
-              phx-submit="search"
-            >
-              <div class="group relative flex h-12">
+      <header class="contents lg:pointer-events-none lg:fixed lg:inset-0 lg:z-40 lg:flex">
+        <div class="contents lg:pointer-events-auto lg:block lg:w-72 lg:overflow-y-auto lg:border-r lg:border-zinc-900/10 lg:px-6 lg:pb-8 lg:pt-4 lg:dark:border-white/10 xl:w-80">
+          <div class="hidden lg:flex">
+            <.link navigate="/" class="flex items-center space-x-2">
+              <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-auto lg:block">
+                <path
+                  fill-rule="evenodd"
+                  d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <span class="text-xl font-semibold">Midarr</span>
+            </.link>
+          </div>
+          <div
+            class="fixed inset-x-0 top-0 z-50 flex h-14 items-center justify-between gap-12 px-4 transition sm:px-6 lg:left-72 lg:z-30 lg:px-8 xl:left-80 backdrop-blur-sm dark:backdrop-blur lg:left-72 xl:left-80 bg-white/[var(--bg-opacity-light)] dark:bg-zinc-900/[var(--bg-opacity-dark)]"
+            style="--bg-opacity-light: 0.5; --bg-opacity-dark: 0.2;"
+          >
+            <div class="absolute inset-x-0 top-full h-px transition bg-zinc-900/7.5 dark:bg-white/7.5">
+            </div>
+            <div class="hidden lg:block lg:max-w-md lg:flex-auto">
+              <button
+                type="button"
+                class="hidden h-8 w-full items-center gap-2 rounded-full bg-white pl-2 pr-3 text-sm text-zinc-500 ring-1 ring-zinc-900/10 transition hover:ring-zinc-900/20 ui-not-focus-visible:outline-none dark:bg-white/5 dark:text-zinc-400 dark:ring-inset dark:ring-white/10 dark:hover:ring-white/20 lg:flex"
+              >
                 <svg
                   viewBox="0 0 20 20"
-                  class="pointer-events-none absolute left-4 top-0 h-full w-5 fill-zinc-400 dark:fill-zinc-500"
+                  fill="none"
+                  class="h-5 w-5 stroke-current"
+                ><path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12.01 12a4.25 4.25 0 1 0-6.02-6 4.25 4.25 0 0 0 6.02 6Zm0 0 3.24 3.25"
+                  ></path></svg>Quick search...<kbd class="ml-auto text-2xs text-zinc-400 dark:text-zinc-500"><kbd class="font-sans">⌘</kbd><kbd class="font-sans">K</kbd></kbd>
+              </button>
+            </div>
+            <div class="flex items-center gap-2 lg:hidden">
+              <button
+                type="button"
+                class="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 dark:hover:bg-white/5"
+                aria-label="Toggle navigation"
+              >
+                <svg
+                  viewBox="0 0 10 9"
+                  fill="none"
+                  stroke-linecap="round"
+                  aria-hidden="true"
+                  class="w-2.5 stroke-zinc-900 dark:stroke-white"
                 >
-                  <path d="M16.293 17.707a1 1 0 0 0 1.414-1.414l-1.414 1.414ZM9 14a5 5 0 0 1-5-5H2a7 7 0 0 0 7 7v-2ZM4 9a5 5 0 0 1 5-5V2a7 7 0 0 0-7 7h2Zm5-5a5 5 0 0 1 5 5h2a7 7 0 0 0-7-7v2Zm8.707 12.293-3.757-3.757-1.414 1.414 3.757 3.757 1.414-1.414ZM14 9a4.98 4.98 0 0 1-1.464 3.536l1.414 1.414A6.98 6.98 0 0 0 16 9h-2Zm-1.464 3.536A4.98 4.98 0 0 1 9 14v2a6.98 6.98 0 0 0 4.95-2.05l-1.414-1.414Z">
-                  </path>
+                  <path d="M.5 1h9M.5 8h9M.5 4.5h9"></path>
                 </svg>
-                <%= text_input(f, :query,
-                  placeholder: "Quick search...",
-                  class:
-                    "flex-auto appearance-none bg-transparent pl-12 text-slate-900 outline-none placeholder:text-zinc-400 focus:w-full focus:flex-none dark:text-white sm:text-sm pr-4"
-                ) %>
+              </button>
+
+              <.link navigate="/" class="flex items-center space-x-2">
+                <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-auto lg:block">
+                  <path
+                    fill-rule="evenodd"
+                    d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span class="text-xl font-semibold">Midarr</span>
+              </.link>
+            </div>
+            <div class="flex items-center gap-5">
+
+              <div class="flex gap-4">
+                <div class="contents lg:hidden">
+                  <button
+                    type="button"
+                    class="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 ui-not-focus-visible:outline-none dark:hover:bg-white/5 lg:hidden"
+                    aria-label="Find something..."
+                  >
+                    <svg
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      aria-hidden="true"
+                      class="h-5 w-5 stroke-zinc-900 dark:stroke-white"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12.01 12a4.25 4.25 0 1 0-6.02-6 4.25 4.25 0 0 0 6.02 6Zm0 0 3.24 3.25"
+                      >
+                      </path>
+                    </svg>
+                  </button>
+                </div>
+                <.link href="/settings" class="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 dark:hover:bg-white/5">
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                    class="h-5 w-5 stroke-white block"
+                    stroke="currentColor"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+
+                </.link>
               </div>
-            </.form>
+
+            </div>
           </div>
+          
+          <nav class="hidden lg:mt-10 lg:block">
+            <ul role="list">
+
+              <li class="relative mt-6 md:mt-0">
+                <h2 class="text-xs font-semibold text-zinc-900 dark:text-white">Navigation</h2>
+                <div class="relative mt-3 pl-2">
+                  <div
+                    class="absolute inset-x-0 top-0 bg-zinc-800/2.5 will-change-transform dark:bg-white/2.5"
+                    style="height: 32px; top: 0px; opacity: 1; border-radius: 2.95203% / 25%; transform: none; transform-origin: 50% 50% 0px;"
+                  >
+                  </div>
+                  <div class="absolute inset-y-0 left-2 w-px bg-zinc-900/10 dark:bg-white/5">
+                  </div>
+                  <div class="absolute left-2 h-6 w-px bg-red-500" style="top:4px;opacity:1">
+                  </div>
+                  <ul role="list" class="border-l border-transparent">
+                    <li class="relative">
+                      <.link
+                        class="flex justify-between gap-2 py-1 pr-3 text-sm transition pl-4 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                        navigate="/movies"
+                      >
+                        <span class="truncate">Movies</span>
+                      </.link>
+                    </li>
+                    <li class="relative">
+                      <.link
+                        class="flex justify-between gap-2 py-1 pr-3 text-sm transition pl-4 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                        navigate="/series"
+                      >
+                        <span class="truncate">TV Series</span>
+                      </.link>
+                    </li>
+                    <li class="relative">
+                      <.link
+                        class="flex justify-between gap-2 py-1 pr-3 text-sm transition pl-4 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                        navigate="/history"
+                      >
+                        <span class="truncate">History</span>
+                      </.link>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </nav>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="mobile-menu" class="hidden">
-    <div class="fixed inset-0 z-50 flex items-start overflow-y-auto bg-zinc-900/50 pr-10 backdrop-blur lg:hidden">
-      <div
-        phx-click-away={JS.hide(to: "#mobile-menu")}
-        class="min-h-full w-full max-w-xs px-4 pb-12 pt-5 dark:bg-zinc-900 sm:px-6"
-      >
-        <div class="flex items-center">
-          <button
-            phx-click={JS.toggle(to: "#mobile-menu")}
-            type="button"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke-width="2"
-              stroke-linecap="round"
-              class="h-6 w-6 stroke-zinc-500"
-            >
-              <path d="M5 5l14 14M19 5l-14 14"></path>
-            </svg>
-          </button>
-
-          <%= live_redirect to: ~p"/", class: "ml-6" do %>
-            <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-9">
-              <path
-                fill-rule="evenodd"
-                d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          <% end %>
-        </div>
-
-        <nav class="text-base lg:text-sm mt-5 px-1">
-          <ul role="list" class="space-y-9">
-            <li>
-              <h2 class="font-display font-medium text-zinc-900 dark:text-white">
-                Movies
-              </h2>
-              <ul
-                role="list"
-                class="mt-2 space-y-2 border-l-2 border-zinc-100 dark:border-zinc-800 lg:mt-4 lg:space-y-4"
-              >
-                <li class="relative">
-                  <%= live_redirect to: ~p"/movies", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
-                    A-Z
-                  <% end %>
-                </li>
-                <li class="relative">
-                  <%= live_redirect to: ~p"/movies?filter_by=upcoming", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
-                    Upcoming
-                  <% end %>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <h2 class="font-display font-medium text-zinc-900 dark:text-white">
-                TV Shows
-              </h2>
-              <ul
-                role="list"
-                class="mt-2 space-y-2 border-l-2 border-zinc-100 dark:border-zinc-800 lg:mt-4 lg:space-y-4"
-              >
-                <li class="relative">
-                  <%= live_redirect to: ~p"/series", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
-                    A-Z
-                  <% end %>
-                </li>
-                <li class="relative">
-                  <%= live_redirect to: ~p"/series?filter_by=upcoming", class: "block w-full pl-3.5 before:pointer-events-none before:absolute before:-left-1 before:top-1/2 before:h-1.5 before:w-1.5 before:-tranzinc-y-1/2 before:rounded-full text-zinc-500 before:hidden before:bg-zinc-300 hover:text-zinc-600 hover:before:block dark:text-zinc-400 dark:before:bg-zinc-700 dark:hover:text-zinc-300" do %>
-                    Upcoming
-                  <% end %>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </div>
-</div>
+      </header>

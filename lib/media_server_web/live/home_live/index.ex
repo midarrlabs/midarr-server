@@ -24,7 +24,13 @@ defmodule MediaServerWeb.HomeLive.Index do
         MediaServer.MoviesIndex.all()
         |> MediaServer.MoviesIndex.available()
         |> MediaServer.MoviesIndex.latest()
-        |> MediaServer.MoviesIndex.take(10)
+        |> MediaServer.MoviesIndex.take(6)
+      )
+      |> assign(
+       :upcoming_movies,
+       MediaServer.MoviesIndex.all()
+       |> MediaServer.MoviesIndex.upcoming()
+       |> MediaServer.MoviesIndex.take(6)
       )
       |> assign(
         :series,
