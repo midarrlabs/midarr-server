@@ -1,7 +1,11 @@
 <%= if !assigns[:media_stream] do %>
   <div class="w-full">
     <div class="h-full lg:ml-72 xl:ml-80">
-      <.live_component module={MediaServerWeb.Components.NavComponent} id="nav-component" request_path={@request_path} />
+      <.live_component
+        module={MediaServerWeb.Components.NavComponent}
+        id="nav-component"
+        request_path={@request_path}
+      />
 
       <div class="relative flex h-full flex-col px-4 pt-14 sm:px-6 lg:px-8">
         <main class="flex-auto">

@@ -4,8 +4,8 @@ defmodule MediaServerWeb.UserNavigation do
 
   def on_mount(:default, _params, _session, socket) do
     {:cont,
-      socket
-      |> attach_hook(:handle, :handle_params, &handle/3)}
+     socket
+     |> attach_hook(:handle, :handle_params, &handle/3)}
   end
 
   defp handle(_params, request_path, socket) do
