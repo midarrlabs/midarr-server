@@ -57,13 +57,11 @@
   </p>
 
   <div class="my-16 xl:max-w-none">
-    <h2 class="scroll-mt-24" id="guides">
-      <a class="group text-inherit no-underline hover:text-inherit" href="#guides">
+    <h2>
         Cast
-      </a>
     </h2>
 
-    <div class="not-prose mt-4 grid grid-cols-2 gap-x-4 gap-y-6 border-t border-zinc-900/5 pt-10 dark:border-white/5 md:grid-cols-4 xl:grid-cols-6">
+    <div class="not-prose mt-4 grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-4 xl:grid-cols-6">
       <%= if assigns[:cast] do %>
         <%= for {item, counter} <- Enum.take(Enum.with_index(@cast), 6) do %>
           <.live_component
@@ -82,10 +80,8 @@
   </div>
 
   <div class="my-16 xl:max-w-none">
-    <h2 class="scroll-mt-24" id="resources">
-      <a class="group text-inherit no-underline hover:text-inherit" href="#resources">
+    <h2>
         You may also like
-      </a>
     </h2>
 
     <.live_component

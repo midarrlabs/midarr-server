@@ -1,7 +1,7 @@
-<div class="not-prose mt-4 grid grid-cols-2 gap-x-4 gap-y-6 border-t border-zinc-900/5 pt-10 dark:border-white/5 md:grid-cols-4 xl:grid-cols-6">
+<div class="not-prose mt-4 grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-4 xl:grid-cols-6">
   <%= for item <- @items do %>
-    <.link navigate={item.link}>
-      <div class="relative overflow-visible bg-zinc-900 w-40 hover:opacity-60">
+    <.link navigate={item.link} class="bg-zinc-900 w-40 hover:opacity-60">
+      <div class="relative overflow-visible">
         <img
           src={item.img_src}
           alt={item.title}

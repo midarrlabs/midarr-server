@@ -1,29 +1,19 @@
 <div class="flex-auto prose dark:prose-invert">
-  <header class="mb-9 space-y-1">
-    <p class="font-display text-sm font-medium text-red-500">Movies</p>
-    <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white capitalize">
-      <%= @genre %>
-    </h1>
-  </header>
+  <h1>Movies</h1>
+  <div class="my-16 xl:max-w-none">
+    <.live_component
+      module={MediaServerWeb.Components.ListOfMovies}
+      id="latest-movies"
+      ids={Enum.map(@movies, & &1["id"])}
+      token={assigns[:current_user].api_token.token}
+      user_id={assigns[:current_user].id}
+    />
 
-  <.live_component
-    module={MediaServerWeb.Components.ListOfMovies}
-    id="movies"
-    ids={Enum.map(@movies, & &1["id"])}
-    items={
-      Enum.map(
-        @movies,
-        &%{id: &1["id"], title: &1["title"], runtime: &1["movieFile"]["mediaInfo"]["runTime"]}
-      )
-    }
-    token={assigns[:current_user].api_token.token}
-    user_id={assigns[:current_user].id}
-  />
+    <%= MediaServerWeb.Components.PaginationComponent.render(%{
+      page_number: @movies.page_number,
+      total_pages: @movies.total_pages,
+      previous_link: @previous_link,
+      next_link: @next_link
+    }) %>
+  </div>
 </div>
-
-<%= MediaServerWeb.Components.PaginationComponent.render(%{
-  page_number: @movies.page_number,
-  total_pages: @movies.total_pages,
-  previous_link: @previous_link,
-  next_link: @next_link
-}) %>
