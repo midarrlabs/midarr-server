@@ -10,7 +10,7 @@ defmodule MediaServerWeb.SeriesLive.Index do
         :current_user,
         MediaServer.Accounts.get_user_by_session_token(session["user_token"])
       )
-      |> assign(:page_title, "Series")
+      |> assign(:page_title, "TV Series")
     }
   end
 
@@ -30,7 +30,7 @@ defmodule MediaServerWeb.SeriesLive.Index do
     {
       :noreply,
       socket
-      |> assign(:page_title, "Series - #{capitalized_genre}")
+      |> assign(:page_title, "TV Series - #{capitalized_genre}")
       |> assign(:series, series)
       |> assign(
         :previous_link,
@@ -59,7 +59,7 @@ defmodule MediaServerWeb.SeriesLive.Index do
     {
       :noreply,
       socket
-      |> assign(:page_title, "Series - #{capitalized_genre}")
+      |> assign(:page_title, "TV Series - #{capitalized_genre}")
       |> assign(:series, series)
       |> assign(
         :previous_link,
@@ -83,7 +83,7 @@ defmodule MediaServerWeb.SeriesLive.Index do
     {
       :noreply,
       socket
-      |> assign(:page_title, "Series - Latest")
+      |> assign(:page_title, "TV Series - Latest")
       |> assign(:series, series)
       |> assign(
         :previous_link,
@@ -107,7 +107,7 @@ defmodule MediaServerWeb.SeriesLive.Index do
     {
       :noreply,
       socket
-      |> assign(:page_title, "Series - Latest")
+      |> assign(:page_title, "TV Series - Latest")
       |> assign(:series, series)
       |> assign(
         :previous_link,
@@ -131,7 +131,7 @@ defmodule MediaServerWeb.SeriesLive.Index do
     {
       :noreply,
       socket
-      |> assign(:page_title, "Series - Upcoming")
+      |> assign(:page_title, "TV Series - Upcoming")
       |> assign(:series, series)
       |> assign(
         :previous_link,
