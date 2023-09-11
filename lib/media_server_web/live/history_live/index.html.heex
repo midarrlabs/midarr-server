@@ -1,63 +1,13 @@
-<article>
-  <header class="mb-9 space-y-1">
-    <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white">
-      History
-    </h1>
-  </header>
+<div class="flex-auto prose dark:prose-invert">
+  <h1>History</h1>
 
-  <div class="w-full relative block inline-flex justify-start font-display text-xl tracking-tight text-gray-400 my-6">
-    <div class="-mb-px flex space-x-8 overflow-x-auto">
-      <%= live_patch to: ~p"/history?filter_by=movies", class: "#{ if @media_type === "movies" do "border-red-400 text-white" else "text-zinc-600 hover:text-white border-transparent" end } whitespace-nowrap border-b-2" do %>
-        <p class="mb-4" style="font-weight: initial;">
-          Movies
-        </p>
-      <% end %>
-
-      <%= live_patch to: ~p"/history?filter_by=episodes", class: "#{ if @media_type === "episodes" do "border-red-400 text-white" else "text-zinc-600 hover:text-white border-transparent" end } whitespace-nowrap border-b-2" do %>
-        <p class="mb-4" style="font-weight: initial;">
-          Episodes
-        </p>
-      <% end %>
+    <div class="my-16 xl:max-w-none">
+        <.live_component
+          module={MediaServerWeb.Components.ListOfMovies}
+          id="movies"
+          ids={Enum.map(@user_media_actions, & &1.media_id)}
+          token={assigns[:current_user].api_token.token}
+          user_id={assigns[:current_user].id}
+        />
     </div>
-  </div>
-
-  <%= if @media_type == "movies" do %>
-    <.live_component
-      module={MediaServerWeb.Components.ListOfMovies}
-      id="movies"
-      ids={Enum.map(@user_media_actions, & &1.media_id)}
-      items={
-        Enum.map(
-          @user_media_actions,
-          &%{
-            id: &1.media_id,
-            title:
-              MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), &1.media_id)["title"],
-            runtime:
-              MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), &1.media_id)[
-                "movieFile"
-              ]["mediaInfo"]["runTime"]
-          }
-        )
-      }
-      token={assigns[:current_user].api_token.token}
-      user_id={assigns[:current_user].id}
-    />
-  <% else %>
-    <div class="grid grid-cols-2 xs:grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-8 py-4">
-      <%= for item <- @user_media_actions do %>
-        <%= MediaServerWeb.Components.ContentComponent.render(%{
-          title: MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["title"],
-          runtime:
-            MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["episodeFile"][
-              "mediaInfo"
-            ]["runTime"],
-          has_file: MediaServerWeb.Repositories.Episodes.get_episode(item.media_id)["hasFile"],
-          img_src:
-            ~p"/api/images?episode=#{item.media_id}&type=screenshot&token=#{assigns[:current_user].api_token.token}",
-          link: ~p"/watch?episode=#{item.media_id}"
-        }) %>
-      <% end %>
-    </div>
-  <% end %>
-</article>
+</div>
