@@ -1,31 +1,23 @@
-<article>
-  <header class="mb-9 space-y-1">
-    <p class="font-display text-sm font-medium text-red-500">Search</p>
-    <h1 class="font-display text-3xl tracking-tight text-zinc-900 dark:text-white">
-      Results
-    </h1>
-  </header>
+<div class="flex-auto prose dark:prose-invert">
+  <h1>Search</h1>
 
-  <%= if assigns[:movies] && assigns[:series] do %>
-    <.live_component
-      module={MediaServerWeb.Components.ListOfMovies}
-      id="movies"
-      ids={Enum.map(@movies, & &1["id"])}
-      items={
-        Enum.map(
-          @movies,
-          &%{id: &1["id"], title: &1["title"], runtime: &1["movieFile"]["mediaInfo"]["runTime"]}
-        )
-      }
-      token={assigns[:current_user].api_token.token}
-      user_id={assigns[:current_user].id}
-    />
+    <div class="my-16 xl:max-w-none">
+          <%= if assigns[:movies] && assigns[:series] do %>
+            <.live_component
+              module={MediaServerWeb.Components.ListOfMovies}
+              id="movies"
+              ids={Enum.map(@movies, & &1["id"])}
+              token={assigns[:current_user].api_token.token}
+              user_id={assigns[:current_user].id}
+            />
 
-    <.live_component
-      module={MediaServerWeb.Components.ListOfSeries}
-      id="series"
-      items={Enum.map(@series, &%{id: &1["id"], title: &1["title"]})}
-      token={assigns[:current_user].api_token.token}
-    />
-  <% end %>
-</article>
+            <.live_component
+              module={MediaServerWeb.Components.ListOfSeries}
+              id="series"
+              ids={Enum.map(@series, & &1["id"])}
+              token={assigns[:current_user].api_token.token}
+              user_id={assigns[:current_user].id}
+            />
+          <% end %>
+    </div>
+</div>
