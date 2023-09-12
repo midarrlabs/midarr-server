@@ -21,7 +21,9 @@ defmodule MediaServerWeb.Components.PaginationComponent do
             id="pagination-previous"
             class="text-base font-semibold text-zinc-900 transition hover:text-zinc-600 dark:text-white dark:hover:text-zinc-300"
             navigate={@previous_link}
-          >Page <%= @page_number - 1 %></.link>
+          >
+            Page <%= @page_number - 1 %>
+          </.link>
         </div>
       <% end %>
 
@@ -42,7 +44,9 @@ defmodule MediaServerWeb.Components.PaginationComponent do
             id="pagination-next"
             class="text-base font-semibold text-zinc-900 transition hover:text-zinc-600 dark:text-white dark:hover:text-zinc-300"
             navigate={@next_link}
-          >Page <%= @page_number + 1 %></.link>
+          >
+            Page <%= @page_number + 1 %>
+          </.link>
         </div>
       <% end %>
     </div>

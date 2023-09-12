@@ -37,7 +37,7 @@ defmodule MediaServerWeb.HomeLive.Index do
         MediaServer.MoviesIndex.all()
         |> Enum.take_random(1)
         |> List.first()
-         )
+      )
       |> assign(
         :series,
         MediaServer.SeriesIndex.all()

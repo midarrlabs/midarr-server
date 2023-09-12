@@ -1,4 +1,3 @@
-
 <header class="contents lg:pointer-events-none lg:fixed lg:inset-0 lg:z-50 lg:flex">
   <div class="contents lg:pointer-events-auto lg:block lg:w-72 lg:overflow-y-auto lg:border-r lg:border-zinc-900/10 lg:px-6 lg:pb-8 lg:pt-4 lg:dark:border-white/10 xl:w-80">
     <div class="hidden lg:flex">
@@ -99,7 +98,6 @@
         <li class="relative mt-6 md:mt-0">
           <h2 class="text-xs font-semibold text-zinc-900 dark:text-white">Navigation</h2>
           <div class="relative mt-3 pl-2">
-
             <ul role="list" class="border-l border-transparent">
               <li class="relative">
                 <.link
@@ -132,44 +130,43 @@
     </nav>
   </div>
 
-          <div id="search-command" class="hidden fixed inset-0 z-50" role="dialog">
-            <div class="fixed inset-0 bg-zinc-400/25 backdrop-blur-sm dark:bg-black/40 opacity-100">
-            </div>
-            <div class="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]">
-              <div class="mx-auto transform-gpu overflow-hidden rounded-lg bg-zinc-50 shadow-xl ring-1 ring-zinc-900/7.5 dark:bg-zinc-900 dark:ring-zinc-800 sm:max-w-xl opacity-100 scale-100">
-                <div role="combobox" phx-click-away={JS.hide(to: "#search-command")}>
-                  <.form
-                    :let={f}
-                    for={%{}}
-                    as={:search}
-                    id="search"
-                    phx-target={@myself}
-                    phx-submit="search"
-                  >
-                    <div class="group relative flex h-12">
-                      <svg
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        class="pointer-events-none absolute left-3 top-0 h-full w-5 stroke-zinc-500"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M12.01 12a4.25 4.25 0 1 0-6.02-6 4.25 4.25 0 0 0 6.02 6Zm0 0 3.24 3.25"
-                        >
-                        </path>
-                      </svg>
-                      <%= text_input(f, :query,
-                        placeholder: "Quick search...",
-                        class:
-                          "flex-auto appearance-none bg-transparent pl-10 text-zinc-900 outline-none placeholder:text-zinc-500 focus:w-full focus:flex-none dark:text-white sm:text-sm [&amp;::-webkit-search-cancel-button]:hidden [&amp;::-webkit-search-decoration]:hidden [&amp;::-webkit-search-results-button]:hidden [&amp;::-webkit-search-results-decoration]:hidden pr-4"
-                      ) %>
-                      <div class="border-t border-zinc-200 bg-white empty:hidden dark:border-zinc-100/5 dark:bg-white/2.5">
-                      </div>
-                    </div>
-                  </.form>
-                </div>
+  <div id="search-command" class="hidden fixed inset-0 z-50" role="dialog">
+    <div class="fixed inset-0 bg-zinc-400/25 backdrop-blur-sm dark:bg-black/40 opacity-100"></div>
+    <div class="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]">
+      <div class="mx-auto transform-gpu overflow-hidden rounded-lg bg-zinc-50 shadow-xl ring-1 ring-zinc-900/7.5 dark:bg-zinc-900 dark:ring-zinc-800 sm:max-w-xl opacity-100 scale-100">
+        <div role="combobox" phx-click-away={JS.hide(to: "#search-command")}>
+          <.form
+            :let={f}
+            for={%{}}
+            as={:search}
+            id="search"
+            phx-target={@myself}
+            phx-submit="search"
+          >
+            <div class="group relative flex h-12">
+              <svg
+                viewBox="0 0 20 20"
+                fill="none"
+                class="pointer-events-none absolute left-3 top-0 h-full w-5 stroke-zinc-500"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12.01 12a4.25 4.25 0 1 0-6.02-6 4.25 4.25 0 0 0 6.02 6Zm0 0 3.24 3.25"
+                >
+                </path>
+              </svg>
+              <%= text_input(f, :query,
+                placeholder: "Quick search...",
+                class:
+                  "flex-auto appearance-none bg-transparent pl-10 text-zinc-900 outline-none placeholder:text-zinc-500 focus:w-full focus:flex-none dark:text-white sm:text-sm [&amp;::-webkit-search-cancel-button]:hidden [&amp;::-webkit-search-decoration]:hidden [&amp;::-webkit-search-results-button]:hidden [&amp;::-webkit-search-results-decoration]:hidden pr-4"
+              ) %>
+              <div class="border-t border-zinc-200 bg-white empty:hidden dark:border-zinc-100/5 dark:bg-white/2.5">
               </div>
             </div>
-          </div>
+          </.form>
+        </div>
+      </div>
+    </div>
+  </div>
 </header>

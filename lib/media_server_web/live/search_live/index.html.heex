@@ -1,23 +1,23 @@
 <div class="flex-auto prose dark:prose-invert">
   <h1>Search</h1>
 
-    <div class="my-16 xl:max-w-none">
-          <%= if assigns[:movies] && assigns[:series] do %>
-            <.live_component
-              module={MediaServerWeb.Components.ListOfMovies}
-              id="movies"
-              ids={Enum.map(@movies, & &1["id"])}
-              token={assigns[:current_user].api_token.token}
-              user_id={assigns[:current_user].id}
-            />
+  <div class="my-16 xl:max-w-none">
+    <%= if assigns[:movies] && assigns[:series] do %>
+      <.live_component
+        module={MediaServerWeb.Components.ListOfMovies}
+        id="movies"
+        ids={Enum.map(@movies, & &1["id"])}
+        token={assigns[:current_user].api_token.token}
+        user_id={assigns[:current_user].id}
+      />
 
-            <.live_component
-              module={MediaServerWeb.Components.ListOfSeries}
-              id="series"
-              ids={Enum.map(@series, & &1["id"])}
-              token={assigns[:current_user].api_token.token}
-              user_id={assigns[:current_user].id}
-            />
-          <% end %>
-    </div>
+      <.live_component
+        module={MediaServerWeb.Components.ListOfSeries}
+        id="series"
+        ids={Enum.map(@series, & &1["id"])}
+        token={assigns[:current_user].api_token.token}
+        user_id={assigns[:current_user].id}
+      />
+    <% end %>
+  </div>
 </div>
