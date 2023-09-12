@@ -211,16 +211,11 @@ embed,
 iframe,
 img,
 object,
-svg,
-video {
+svg {
   display: block;
   vertical-align: middle;
 }
-img,
-video {
-  max-width: 100%;
-  height: auto;
-}
+img
 [hidden] {
   display: none;
 }
@@ -536,7 +531,7 @@ video {
   margin-top: 2.5rem;
   margin-bottom: 0.5rem;
 }
-.prose :where(img, video, figure):not(:where([class~="not-prose"] *)) {
+.prose :where(img, figure):not(:where([class~="not-prose"] *)) {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
