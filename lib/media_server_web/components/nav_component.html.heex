@@ -1,4 +1,5 @@
-<header class="contents lg:pointer-events-none lg:fixed lg:inset-0 lg:z-40 lg:flex">
+
+<header class="contents lg:pointer-events-none lg:fixed lg:inset-0 lg:z-50 lg:flex">
   <div class="contents lg:pointer-events-auto lg:block lg:w-72 lg:overflow-y-auto lg:border-r lg:border-zinc-900/10 lg:px-6 lg:pb-8 lg:pt-4 lg:dark:border-white/10 xl:w-80">
     <div class="hidden lg:flex">
       <.link navigate="/" class="flex items-center space-x-2">
@@ -13,7 +14,7 @@
       </.link>
     </div>
     <div
-      class="fixed inset-x-0 top-0 z-50 flex h-14 items-center justify-between gap-12 px-4 transition sm:px-6 lg:left-72 lg:z-30 lg:px-8 xl:left-80 backdrop-blur-sm dark:backdrop-blur lg:left-72 xl:left-80 bg-white/[var(--bg-opacity-light)] dark:bg-zinc-900/[var(--bg-opacity-dark)]"
+      class="fixed inset-x-0 top-0 z-50 flex h-14 items-center justify-between gap-12 px-4 transition sm:px-6 lg:left-72 lg:px-8 xl:left-80 backdrop-blur-sm dark:backdrop-blur lg:left-72 xl:left-80 bg-white/[var(--bg-opacity-light)] dark:bg-zinc-900/[var(--bg-opacity-dark)]"
       style="--bg-opacity-light: 0.5; --bg-opacity-dark: 0.2;"
     >
       <div class="absolute inset-x-0 top-full h-px transition bg-zinc-900/7.5 dark:bg-white/7.5">
@@ -21,32 +22,17 @@
       <div class="hidden lg:block lg:max-w-md lg:flex-auto">
         <button
           type="button"
+          phx-click={JS.toggle(to: "#search-command") |> JS.focus(to: "#search_query")}
           class="hidden h-8 w-full items-center gap-2 rounded-full bg-white pl-2 pr-3 text-sm text-zinc-500 ring-1 ring-zinc-900/10 transition hover:ring-zinc-900/20 ui-not-focus-visible:outline-none dark:bg-white/5 dark:text-zinc-400 dark:ring-inset dark:ring-white/10 dark:hover:ring-white/20 lg:flex"
         >
           <svg viewBox="0 0 20 20" fill="none" class="h-5 w-5 stroke-current"><path
               stroke-linecap="round"
               stroke-linejoin="round"
               d="M12.01 12a4.25 4.25 0 1 0-6.02-6 4.25 4.25 0 0 0 6.02 6Zm0 0 3.24 3.25"
-            ></path></svg>Quick search...<kbd class="ml-auto text-2xs text-zinc-400 dark:text-zinc-500"><kbd class="font-sans">⌘</kbd><kbd class="font-sans">K</kbd></kbd>
+            ></path></svg>Quick search...
         </button>
       </div>
       <div class="flex items-center gap-2 lg:hidden">
-        <button
-          type="button"
-          class="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 dark:hover:bg-white/5"
-          aria-label="Toggle navigation"
-        >
-          <svg
-            viewBox="0 0 10 9"
-            fill="none"
-            stroke-linecap="round"
-            aria-hidden="true"
-            class="w-2.5 stroke-zinc-900 dark:stroke-white"
-          >
-            <path d="M.5 1h9M.5 8h9M.5 4.5h9"></path>
-          </svg>
-        </button>
-
         <.link navigate="/" class="flex items-center space-x-2">
           <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-auto lg:block">
             <path
@@ -63,6 +49,7 @@
           <div class="contents lg:hidden">
             <button
               type="button"
+              phx-click={JS.toggle(to: "#search-command") |> JS.focus(to: "#search_query")}
               class="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 ui-not-focus-visible:outline-none dark:hover:bg-white/5 lg:hidden"
               aria-label="Quick search..."
             >
@@ -144,4 +131,45 @@
       </ul>
     </nav>
   </div>
+
+          <div id="search-command" class="hidden fixed inset-0 z-50" role="dialog">
+            <div class="fixed inset-0 bg-zinc-400/25 backdrop-blur-sm dark:bg-black/40 opacity-100">
+            </div>
+            <div class="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]">
+              <div class="mx-auto transform-gpu overflow-hidden rounded-lg bg-zinc-50 shadow-xl ring-1 ring-zinc-900/7.5 dark:bg-zinc-900 dark:ring-zinc-800 sm:max-w-xl opacity-100 scale-100">
+                <div role="combobox" phx-click-away={JS.hide(to: "#search-command")}>
+                  <.form
+                    :let={f}
+                    for={%{}}
+                    as={:search}
+                    id="search"
+                    phx-target={@myself}
+                    phx-submit="search"
+                  >
+                    <div class="group relative flex h-12">
+                      <svg
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        class="pointer-events-none absolute left-3 top-0 h-full w-5 stroke-zinc-500"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M12.01 12a4.25 4.25 0 1 0-6.02-6 4.25 4.25 0 0 0 6.02 6Zm0 0 3.24 3.25"
+                        >
+                        </path>
+                      </svg>
+                      <%= text_input(f, :query,
+                        placeholder: "Quick search...",
+                        class:
+                          "flex-auto appearance-none bg-transparent pl-10 text-zinc-900 outline-none placeholder:text-zinc-500 focus:w-full focus:flex-none dark:text-white sm:text-sm [&amp;::-webkit-search-cancel-button]:hidden [&amp;::-webkit-search-decoration]:hidden [&amp;::-webkit-search-results-button]:hidden [&amp;::-webkit-search-results-decoration]:hidden pr-4"
+                      ) %>
+                      <div class="border-t border-zinc-200 bg-white empty:hidden dark:border-zinc-100/5 dark:bg-white/2.5">
+                      </div>
+                    </div>
+                  </.form>
+                </div>
+              </div>
+            </div>
+          </div>
 </header>
