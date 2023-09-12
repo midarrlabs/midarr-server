@@ -33,6 +33,12 @@ defmodule MediaServerWeb.HomeLive.Index do
         |> MediaServer.MoviesIndex.take(6)
       )
       |> assign(
+        :random_movie,
+        MediaServer.MoviesIndex.all()
+        |> Enum.take_random(1)
+        |> List.first()
+         )
+      |> assign(
         :series,
         MediaServer.SeriesIndex.all()
         |> MediaServer.SeriesIndex.available()

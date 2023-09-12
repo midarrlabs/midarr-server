@@ -1,7 +1,52 @@
-<div>
-  <header class="contents lg:pointer-events-none lg:fixed lg:inset-0 lg:z-40 lg:flex">
-    <div class="contents lg:pointer-events-auto lg:block lg:w-72 lg:overflow-y-auto lg:border-r lg:border-zinc-900/10 lg:px-6 lg:pb-8 lg:pt-4 lg:dark:border-white/10 xl:w-80">
-      <div class="hidden lg:flex">
+<header class="contents lg:pointer-events-none lg:fixed lg:inset-0 lg:z-40 lg:flex">
+  <div class="contents lg:pointer-events-auto lg:block lg:w-72 lg:overflow-y-auto lg:border-r lg:border-zinc-900/10 lg:px-6 lg:pb-8 lg:pt-4 lg:dark:border-white/10 xl:w-80">
+    <div class="hidden lg:flex">
+      <.link navigate="/" class="flex items-center space-x-2">
+        <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-auto lg:block">
+          <path
+            fill-rule="evenodd"
+            d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <span class="text-xl font-semibold">Midarr</span>
+      </.link>
+    </div>
+    <div
+      class="fixed inset-x-0 top-0 z-50 flex h-14 items-center justify-between gap-12 px-4 transition sm:px-6 lg:left-72 lg:z-30 lg:px-8 xl:left-80 backdrop-blur-sm dark:backdrop-blur lg:left-72 xl:left-80 bg-white/[var(--bg-opacity-light)] dark:bg-zinc-900/[var(--bg-opacity-dark)]"
+      style="--bg-opacity-light: 0.5; --bg-opacity-dark: 0.2;"
+    >
+      <div class="absolute inset-x-0 top-full h-px transition bg-zinc-900/7.5 dark:bg-white/7.5">
+      </div>
+      <div class="hidden lg:block lg:max-w-md lg:flex-auto">
+        <button
+          type="button"
+          class="hidden h-8 w-full items-center gap-2 rounded-full bg-white pl-2 pr-3 text-sm text-zinc-500 ring-1 ring-zinc-900/10 transition hover:ring-zinc-900/20 ui-not-focus-visible:outline-none dark:bg-white/5 dark:text-zinc-400 dark:ring-inset dark:ring-white/10 dark:hover:ring-white/20 lg:flex"
+        >
+          <svg viewBox="0 0 20 20" fill="none" class="h-5 w-5 stroke-current"><path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12.01 12a4.25 4.25 0 1 0-6.02-6 4.25 4.25 0 0 0 6.02 6Zm0 0 3.24 3.25"
+            ></path></svg>Quick search...<kbd class="ml-auto text-2xs text-zinc-400 dark:text-zinc-500"><kbd class="font-sans">⌘</kbd><kbd class="font-sans">K</kbd></kbd>
+        </button>
+      </div>
+      <div class="flex items-center gap-2 lg:hidden">
+        <button
+          type="button"
+          class="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 dark:hover:bg-white/5"
+          aria-label="Toggle navigation"
+        >
+          <svg
+            viewBox="0 0 10 9"
+            fill="none"
+            stroke-linecap="round"
+            aria-hidden="true"
+            class="w-2.5 stroke-zinc-900 dark:stroke-white"
+          >
+            <path d="M.5 1h9M.5 8h9M.5 4.5h9"></path>
+          </svg>
+        </button>
+
         <.link navigate="/" class="flex items-center space-x-2">
           <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-auto lg:block">
             <path
@@ -13,59 +58,13 @@
           <span class="text-xl font-semibold">Midarr</span>
         </.link>
       </div>
-      <div
-        class="fixed inset-x-0 top-0 z-50 flex h-14 items-center justify-between gap-12 px-4 transition sm:px-6 lg:left-72 lg:z-30 lg:px-8 xl:left-80 backdrop-blur-sm dark:backdrop-blur lg:left-72 xl:left-80 bg-white/[var(--bg-opacity-light)] dark:bg-zinc-900/[var(--bg-opacity-dark)]"
-        style="--bg-opacity-light: 0.5; --bg-opacity-dark: 0.2;"
-      >
-        <div class="absolute inset-x-0 top-full h-px transition bg-zinc-900/7.5 dark:bg-white/7.5">
-        </div>
-        <div class="hidden lg:block lg:max-w-md lg:flex-auto">
-          <button
-            phx-click={JS.toggle(to: "#search-command") |> JS.focus(to: "#search_query")}
-            type="button"
-            class="hidden h-8 w-full items-center gap-2 rounded-full bg-white pl-2 pr-3 text-sm text-zinc-500 ring-1 ring-zinc-900/10 transition hover:ring-zinc-900/20 ui-not-focus-visible:outline-none dark:bg-white/5 dark:text-zinc-400 dark:ring-inset dark:ring-white/10 dark:hover:ring-white/20 lg:flex"
-          >
-            <svg viewBox="0 0 20 20" fill="none" class="h-5 w-5 stroke-current"><path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12.01 12a4.25 4.25 0 1 0-6.02-6 4.25 4.25 0 0 0 6.02 6Zm0 0 3.24 3.25"
-              ></path></svg>Quick search...
-          </button>
-        </div>
-        <div class="flex items-center gap-2 lg:hidden">
-          <button
-            phx-click={JS.toggle(to: "#mobile-menu")}
-            type="button"
-            class="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 dark:hover:bg-white/5"
-            aria-label="Toggle navigation"
-          >
-            <svg
-              viewBox="0 0 10 9"
-              fill="none"
-              stroke-linecap="round"
-              class="w-2.5 stroke-zinc-900 dark:stroke-white"
-            >
-              <path d="M.5 1h9M.5 8h9M.5 4.5h9"></path>
-            </svg>
-          </button>
-
-          <.link navigate="/" class="flex items-center space-x-2">
-            <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-auto lg:block">
-              <path
-                fill-rule="evenodd"
-                d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span class="text-xl font-semibold">Midarr</span>
-          </.link>
-        </div>
-        <div class="flex items-center gap-5">
-          <div class="flex gap-4 lg:hidden">
+      <div class="flex items-center gap-5">
+        <div class="flex gap-4">
+          <div class="contents lg:hidden">
             <button
-              phx-click={JS.toggle(to: "#search-command") |> JS.focus(to: "#search_query")}
               type="button"
-              class="block md:hidden flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 dark:hover:bg-white/5"
+              class="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 ui-not-focus-visible:outline-none dark:hover:bg-white/5 lg:hidden"
+              aria-label="Quick search..."
             >
               <svg
                 viewBox="0 0 20 20"
@@ -81,135 +80,68 @@
               </svg>
             </button>
           </div>
-          <div class="flex gap-4">
-            <.link
-              href="/settings"
-              class="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 dark:hover:bg-white/5"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
-                class="h-5 w-5 stroke-white block"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-            </.link>
-          </div>
-        </div>
-      </div>
-
-      <nav class="mt-6 hidden lg:block">
-        <ul role="list">
-          <li>
-            <.link
-              class="block py-1 text-sm text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-              navigate="/movies"
-            >
-              Movies
-            </.link>
-          </li>
-          <li>
-            <.link
-              class="block py-1 text-sm text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-              navigate="/series"
-            >
-              TV Series
-            </.link>
-          </li>
-          <li>
-            <.link
-              class="block py-1 text-sm text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-              navigate="/history"
-            >
-              History
-            </.link>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <div id="search-command" class="fixed inset-0 z-50 hidden">
-    <div class="fixed inset-0 bg-zinc-400/25 backdrop-blur-sm dark:bg-black/40 opacity-100"></div>
-    <div class="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]">
-      <div class="mx-auto transform-gpu overflow-hidden rounded-lg bg-zinc-50 shadow-xl ring-1 ring-zinc-900/7.5 dark:bg-zinc-900 dark:ring-zinc-800 sm:max-w-xl opacity-100 scale-100">
-        <div role="combobox" phx-click-away={JS.hide(to: "#search-command")}>
-          <.form
-            :let={f}
-            for={%{}}
-            as={:search}
-            id="search"
-            phx-target={@myself}
-            phx-submit="search"
+          <.link
+            href="/settings"
+            class="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 dark:hover:bg-white/5"
           >
-            <div class="group relative flex h-12">
-              <svg
-                viewBox="0 0 20 20"
-                fill="none"
-                class="pointer-events-none absolute left-3 top-0 h-full w-5 stroke-zinc-500"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12.01 12a4.25 4.25 0 1 0-6.02-6 4.25 4.25 0 0 0 6.02 6Zm0 0 3.24 3.25"
-                >
-                </path>
-              </svg>
-              <%= text_input(f, :query,
-                placeholder: "Quick search...",
-                class:
-                  "flex-auto appearance-none bg-transparent pl-10 text-zinc-900 outline-none placeholder:text-zinc-500 focus:w-full focus:flex-none dark:text-white sm:text-sm [&amp;::-webkit-search-cancel-button]:hidden [&amp;::-webkit-search-decoration]:hidden [&amp;::-webkit-search-results-button]:hidden [&amp;::-webkit-search-results-decoration]:hidden pr-4"
-              ) %>
-              <div class="border-t border-zinc-200 bg-white empty:hidden dark:border-zinc-100/5 dark:bg-white/2.5">
-              </div>
-            </div>
-          </.form>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+              class="h-5 w-5 stroke-white block"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+          </.link>
         </div>
       </div>
     </div>
-  </div>
 
-  <div id="mobile-menu" class="hidden fixed z-50">
-    <div class="fixed bottom-0 left-0 top-14 w-full overflow-y-auto bg-white px-4 pb-4 pt-6 shadow-lg shadow-zinc-900/10 ring-1 ring-zinc-900/7.5 dark:bg-zinc-900 dark:ring-zinc-800 min-[416px]:max-w-sm sm:px-6 sm:pb-10 translate-x-0">
-      <nav phx-click-away={JS.hide(to: "#mobile-menu")}>
-        <ul role="list">
-          <li>
-            <.link
-              class="block py-1 text-sm text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-              navigate="/movies"
-            >
-              Movies
-            </.link>
-          </li>
-          <li>
-            <.link
-              class="block py-1 text-sm text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-              navigate="/series"
-            >
-              TV Series
-            </.link>
-          </li>
-          <li>
-            <.link
-              class="block py-1 text-sm text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-              navigate="/history"
-            >
-              History
-            </.link>
-          </li>
-        </ul>
-      </nav>
-    </div>
+    <nav class="hidden lg:mt-10 lg:block">
+      <ul role="list">
+        <li class="relative mt-6 md:mt-0">
+          <h2 class="text-xs font-semibold text-zinc-900 dark:text-white">Navigation</h2>
+          <div class="relative mt-3 pl-2">
+
+            <ul role="list" class="border-l border-transparent">
+              <li class="relative">
+                <.link
+                  class="flex justify-between gap-2 py-1 pr-3 text-sm transition pl-4 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  navigate="/movies"
+                >
+                  <span class="truncate">Movies</span>
+                </.link>
+              </li>
+              <li class="relative">
+                <.link
+                  class="flex justify-between gap-2 py-1 pr-3 text-sm transition pl-4 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  navigate="/series"
+                >
+                  <span class="truncate">TV Series</span>
+                </.link>
+              </li>
+              <li class="relative">
+                <.link
+                  class="flex justify-between gap-2 py-1 pr-3 text-sm transition pl-4 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  navigate="/history"
+                >
+                  <span class="truncate">History</span>
+                </.link>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </nav>
   </div>
-</div>
+</header>

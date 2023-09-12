@@ -3,9 +3,7 @@ defmodule MediaServerWeb.Components.ListOfSeries do
 
   @impl true
   def preload(list_of_assigns) do
-    ids = Enum.flat_map(list_of_assigns, fn assign -> assign.ids end)
     token = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :token) end).token
-    user_id = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :user_id) end).user_id
 
     Enum.map(list_of_assigns, fn assign ->
       %{
