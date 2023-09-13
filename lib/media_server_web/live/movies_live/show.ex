@@ -1,6 +1,8 @@
 defmodule MediaServerWeb.MoviesLive.Show do
   use MediaServerWeb, :live_view
 
+  import Ecto.Query
+
   @impl true
   def mount(_params, session, socket) do
     {
@@ -24,6 +26,12 @@ defmodule MediaServerWeb.MoviesLive.Show do
     movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
     similar = MediaServer.MoviesIndex.related(MediaServer.MoviesIndex.all(), movie["id"])
 
+    query =
+      from continue in MediaServer.Continues,
+           where: continue.user_id == ^socket.assigns.current_user.id and continue.media_id == ^id
+
+    result = MediaServer.Repo.one(query)
+
     {
       :noreply,
       socket
@@ -31,6 +39,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
       |> assign(:page_title, movie["title"])
       |> assign(:movie, movie)
       |> assign(:similar, similar)
+      |> assign(:continue, result)
     }
   end
 
