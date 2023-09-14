@@ -17,12 +17,6 @@ defmodule MediaServerWeb.SeriesLive.Show do
 
   @impl true
   def handle_params(%{"id" => id, "season" => season}, _url, socket) do
-    pid = self()
-
-    Task.start(fn ->
-      send(pid, {:episodes, MediaServerWeb.Repositories.Episodes.get_all(id, season)})
-    end)
-
     series = MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.find(id)
 
     {
@@ -42,30 +36,12 @@ defmodule MediaServerWeb.SeriesLive.Show do
       |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] > 0 end)
       |> List.first()
 
-    pid = self()
-
-    Task.start(fn ->
-      send(
-        pid,
-        {:episodes, MediaServerWeb.Repositories.Episodes.get_all(id, "#{season["seasonNumber"]}")}
-      )
-    end)
-
     {
       :noreply,
       socket
       |> assign(:page_title, "#{series["title"]}: Season #{season["seasonNumber"]}")
       |> assign(:serie, series)
       |> assign(:season, "#{season["seasonNumber"]}")
-    }
-  end
-
-  @impl true
-  def handle_info({:episodes, episodes}, socket) do
-    {
-      :noreply,
-      socket
-      |> assign(:episodes, episodes)
     }
   end
 end
