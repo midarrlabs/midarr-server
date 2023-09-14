@@ -17,8 +17,7 @@ defmodule MediaServerWeb.Components.ListOfEpisodes do
 
     query =
       from continue in MediaServer.Continues,
-        where: continue.user_id == ^user_id and continue.media_id in ^episode_ids,
-        order_by: [desc: continue.updated_at]
+        where: continue.media_type_id == ^MediaServer.MediaTypes.get_episode_id() and continue.user_id == ^user_id and continue.media_id in ^episode_ids
 
     result = MediaServer.Repo.all(query)
 
