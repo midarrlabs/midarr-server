@@ -28,7 +28,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
 
     query =
       from continue in MediaServer.Continues,
-           where: continue.user_id == ^socket.assigns.current_user.id and continue.media_id == ^id
+        where: continue.user_id == ^socket.assigns.current_user.id and continue.media_id == ^id
 
     result = MediaServer.Repo.one(query)
 

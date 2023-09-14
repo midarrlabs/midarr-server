@@ -17,8 +17,8 @@ defmodule MediaServerWeb.Components.ListOfEpisodes do
 
     query =
       from continue in MediaServer.Continues,
-           where: continue.user_id == ^user_id and continue.media_id in ^episode_ids,
-           order_by: [desc: continue.updated_at]
+        where: continue.user_id == ^user_id and continue.media_id in ^episode_ids,
+        order_by: [desc: continue.updated_at]
 
     result = MediaServer.Repo.all(query)
 
@@ -35,10 +35,10 @@ defmodule MediaServerWeb.Components.ListOfEpisodes do
               continue:
                 Enum.find_value(result, nil, fn continue ->
                   if continue.media_id == episode["id"],
-                     do: %{
-                       current_time: continue.current_time,
-                       duration: continue.duration
-                     }
+                    do: %{
+                      current_time: continue.current_time,
+                      duration: continue.duration
+                    }
                 end)
             }
           end)

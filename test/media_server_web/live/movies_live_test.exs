@@ -95,17 +95,17 @@ defmodule MediaServerWeb.MoviesLiveTest do
     movie = MediaServer.MoviesIndex.all() |> List.first()
     cast = Movies.get_cast(movie["id"])
 
-    {:ok, view, _html} = live(conn, ~p"/watch?movie=#{ movie["id"] }")
+    {:ok, view, _html} = live(conn, ~p"/watch?movie=#{movie["id"]}")
 
     render_hook(view, :video_destroyed, %{
       current_time: 89,
       duration: 100
     })
 
-    {:ok, view, _html} = live(conn, ~p"/movies/#{ movie["id"] }")
+    {:ok, view, _html} = live(conn, ~p"/movies/#{movie["id"]}")
 
     send(view.pid, {:cast, cast})
 
-    assert render(view) =~ "/watch?movie=#{ movie["id"] }&amp;timestamp=89"
+    assert render(view) =~ "/watch?movie=#{movie["id"]}&amp;timestamp=89"
   end
 end
