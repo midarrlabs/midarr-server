@@ -30,8 +30,7 @@ defmodule MediaServerWeb.HistoryLive.Index do
     {
       :noreply,
       socket
-      |> assign(page_title: "History - Movies")
-      |> assign(media_type: "movies")
+      |> assign(page_title: "History")
       |> assign(:user_media_actions, current_user.media_actions)
     }
   end
