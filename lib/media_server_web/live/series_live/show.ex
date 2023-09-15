@@ -31,17 +31,12 @@ defmodule MediaServerWeb.SeriesLive.Show do
   def handle_params(%{"id" => id}, _url, socket) do
     series = MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.find(id)
 
-    season =
-      series["seasons"]
-      |> Enum.filter(fn x -> x["statistics"]["episodeFileCount"] > 0 end)
-      |> List.first()
-
     {
       :noreply,
       socket
-      |> assign(:page_title, "#{series["title"]}: Season #{season["seasonNumber"]}")
+      |> assign(:page_title, "#{series["title"]}: Season 1")
       |> assign(:serie, series)
-      |> assign(:season, "#{season["seasonNumber"]}")
+      |> assign(:season, "1")
     }
   end
 end
