@@ -1,5 +1,48 @@
 <div class="flex-auto prose dark:prose-invert">
-  <h1>Movies</h1>
+  <div class="xl:max-w-none">
+    <div class="flex items-baseline justify-between">
+      <h1>Movies</h1>
+
+      <div class="flex items-center">
+        <div class="relative inline-block text-left">
+          <div>
+            <button
+              type="button"
+              phx-click={JS.toggle(to: "#genres-menu")}
+              class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition rounded-full bg-zinc-100 py-1 px-3 text-zinc-900 hover:bg-zinc-200 dark:bg-zinc-800/40 dark:text-zinc-400 dark:ring-1 dark:ring-inset dark:ring-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
+            >
+              Genres
+              <svg
+                class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-zinc-500 group-hover:text-white"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div
+            id="genres-menu"
+            class="hidden absolute overflow-auto max-h-56 right-0 z-10 mt-2 w-40 origin-top-right rounded-md dark:text-zinc-400 shadow-xl ring-1 ring-zinc-900/7.5 dark:bg-zinc-900 dark:ring-zinc-800 sm:max-w-xl opacity-100 scale-100"
+          >
+            <div class="py-1" phx-click-away={JS.hide(to: "#genres-menu")}>
+              <%= for item <- MediaServer.MoviesIndex.genres(MediaServer.MoviesIndex.all()) do %>
+                  <.link patch={~p"/movies?genre=#{ String.downcase(item) }"} class="block px-4 py-2 text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">
+                    <%= item %>
+                  </.link>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="my-16 xl:max-w-none">
     <.live_component
       module={MediaServerWeb.Components.ListOfMovies}
