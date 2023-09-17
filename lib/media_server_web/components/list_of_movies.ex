@@ -11,7 +11,9 @@ defmodule MediaServerWeb.Components.ListOfMovies do
 
     query =
       from continue in MediaServer.Continues,
-        where: continue.media_type_id == ^MediaServer.MediaTypes.get_movie_id() and continue.user_id == ^user_id and continue.media_id in ^ids
+        where:
+          continue.media_type_id == ^MediaServer.MediaTypes.get_movie_id() and
+            continue.user_id == ^user_id and continue.media_id in ^ids
 
     result = MediaServer.Repo.all(query)
 
