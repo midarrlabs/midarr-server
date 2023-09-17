@@ -84,8 +84,6 @@ services:
     environment:
 #       App config
       - APP_URL=http://midarr:4000
-      - APP_MAILER_FROM=example@email.com
-      - SENDGRID_API_KEY=someApiKey
 
 #       Database config
       - DB_USERNAME=my_user
@@ -105,15 +103,6 @@ services:
 #       Sonarr integration
       - SONARR_BASE_URL=sonarr:8989
       - SONARR_API_KEY=someApiKey
-
-#       OIDC / OAuth 2.0 integration
-      - OAUTH_CLIENT_ID=someClientId
-      - OAUTH_CLIENT_SECRET=someClientSecret
-      - OAUTH_ISSUER_URL=http://some-provider.url
-      - OAUTH_AUTHORIZE_URL=http://some-provider.url/authorize
-      - OAUTH_TOKEN_URL=http://some-provider.url/token
-      - OAUTH_REDIRECT_URI=http://some-provider.url/auth/callback
-      - OAUTH_USER_URL=http://some-provider.url/user
 
     depends_on:
       postgresql:
@@ -141,6 +130,31 @@ environment:
   - SETUP_ADMIN_EMAIL=admin@email.com
   - SETUP_ADMIN_NAME=admin
   - SETUP_ADMIN_PASSWORD=somepassword # minimum length 12
+```
+
+### Invite system
+
+To send invitations, please provide the following **environment variables**. Access the **settings** page to invite users to your server.
+
+```yaml
+environment:
+  - APP_MAILER_FROM=example@email.com
+  - SENDGRID_API_KEY=someApiKey
+```
+
+### OIDC / OAuth 2.0
+
+To use your own identity provider like [Authentik](https://goauthentik.io/), please provide the following **environment variables**. Go to `/auth` to initiate the auth flow.
+
+```yaml
+environment:
+  - OAUTH_CLIENT_ID=someClientId
+  - OAUTH_CLIENT_SECRET=someClientSecret
+  - OAUTH_ISSUER_URL=http://some-provider.url
+  - OAUTH_AUTHORIZE_URL=http://some-provider.url/authorize
+  - OAUTH_TOKEN_URL=http://some-provider.url/token
+  - OAUTH_REDIRECT_URI=http://some-provider.url/auth/callback
+  - OAUTH_USER_URL=http://some-provider.url/user
 ```
 
 
