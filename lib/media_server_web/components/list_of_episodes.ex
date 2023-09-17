@@ -30,6 +30,7 @@ defmodule MediaServerWeb.Components.ListOfEpisodes do
               id: episode["id"],
               title: episode["title"],
               overview: episode["overview"],
+              has_file: episode["hasFile"],
               img_src: ~p"/api/images?episode=#{episode["id"]}&type=screenshot&token=#{token}",
               continue:
                 Enum.find_value(result, nil, fn continue ->
