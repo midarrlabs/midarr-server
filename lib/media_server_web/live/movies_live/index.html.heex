@@ -30,7 +30,7 @@
           <div>
             <button
               type="button"
-              phx-click={JS.toggle(to: "#genres-menu")}
+              phx-click={JS.toggle(to: "#sort-menu")}
               class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition rounded-full bg-zinc-100 py-1 px-3 text-zinc-900 hover:bg-zinc-200 dark:bg-zinc-800/40 dark:text-zinc-400 dark:ring-1 dark:ring-inset dark:ring-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
             >
               Sort
@@ -49,10 +49,10 @@
           </div>
 
           <div
-            id="genres-menu"
+            id="sort-menu"
             class="hidden absolute overflow-auto max-h-56 right-0 z-10 mt-2 w-40 origin-top-right rounded-md dark:text-zinc-400 shadow-xl ring-1 ring-zinc-900/7.5 dark:bg-zinc-900 dark:ring-zinc-800 sm:max-w-xl opacity-100 scale-100"
           >
-            <div class="py-1" phx-click-away={JS.hide(to: "#genres-menu")}>
+            <div class="py-1" phx-click-away={JS.hide(to: "#sort-menu")}>
               <.link
                 patch={~p"/movies"}
                 class="block px-4 py-2 text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
