@@ -42,7 +42,6 @@ defmodule MediaServerWeb.MoviesLive.Index do
         :next_link,
         ~p"/movies?genre=#{genre}&page=#{MediaServerWeb.Helpers.get_pagination_next_link(movies.page_number)}"
       )
-      |> assign(:genre, genre)
     }
   end
 
@@ -71,7 +70,6 @@ defmodule MediaServerWeb.MoviesLive.Index do
         :next_link,
         ~p"/movies?genre=#{genre}&page=#{MediaServerWeb.Helpers.get_pagination_next_link(movies.page_number)}"
       )
-      |> assign(:genre, genre)
     }
   end
 
@@ -95,7 +93,6 @@ defmodule MediaServerWeb.MoviesLive.Index do
         :next_link,
         ~p"/movies?sort_by=latest&page=#{MediaServerWeb.Helpers.get_pagination_next_link(movies.page_number)}"
       )
-      |> assign(:genre, "latest")
     }
   end
 
@@ -119,7 +116,6 @@ defmodule MediaServerWeb.MoviesLive.Index do
         :next_link,
         ~p"/movies?sort_by=latest&page=#{MediaServerWeb.Helpers.get_pagination_next_link(movies.page_number)}"
       )
-      |> assign(:genre, "latest")
     }
   end
 
@@ -143,7 +139,6 @@ defmodule MediaServerWeb.MoviesLive.Index do
         :next_link,
         ~p"/movies?sort_by=upcoming&page=#{MediaServerWeb.Helpers.get_pagination_next_link(movies.page_number)}"
       )
-      |> assign(:genre, "upcoming")
     }
   end
 
@@ -157,6 +152,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
     {
       :noreply,
       socket
+      |> assign(:page_title, "Movies")
       |> assign(:movies, movies)
       |> assign(
         :previous_link,
@@ -166,7 +162,6 @@ defmodule MediaServerWeb.MoviesLive.Index do
         :next_link,
         ~p"/movies?page=#{MediaServerWeb.Helpers.get_pagination_next_link(movies.page_number)}"
       )
-      |> assign(:genre, "A-Z")
     }
   end
 
@@ -180,6 +175,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
     {
       :noreply,
       socket
+      |> assign(:page_title, "Movies")
       |> assign(:movies, movies)
       |> assign(
         :previous_link,
@@ -189,7 +185,6 @@ defmodule MediaServerWeb.MoviesLive.Index do
         :next_link,
         ~p"/movies?page=#{MediaServerWeb.Helpers.get_pagination_next_link(movies.page_number)}"
       )
-      |> assign(:genre, "A-Z")
     }
   end
 end
