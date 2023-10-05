@@ -20,6 +20,16 @@ defmodule MediaServerWeb.UserFollowTest do
 
     view |> element("#follow", "Follow") |> render_click()
 
-    assert_received {:followed, "3"}
+    assert_received {:followed, %{"media_id" => "3", "media_type" => "movie", "user_id" => _user_id}}
+
+    # Not ideal but wait for the message to be processed (async)
+    :timer.sleep(1000)
+
+    media = MediaServer.MediaActions.all()
+
+    assert Enum.count(media) === 1
+
+    assert Enum.at(media, 0).media_id === movie["id"]
+    assert Enum.at(media, 0).action_id === MediaServer.Actions.get_followed_id()
   end
 end

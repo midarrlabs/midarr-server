@@ -28,4 +28,8 @@ defmodule MediaServer.Actions do
   def get_played_id() do
     Repo.get_by!(__MODULE__, action: "played").id
   end
+
+  def get_followed_id() do
+    Repo.get_by!(__MODULE__, action: "followed").id
+  end
 end

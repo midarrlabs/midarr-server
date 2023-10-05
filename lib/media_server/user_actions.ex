@@ -23,7 +23,14 @@ defmodule MediaServer.UserActions do
     {:noreply, state}
   end
 
-  def handle_info({:followed, _media}, state) do
+  def handle_info({:followed, media}, state) do
+    MediaServer.MediaActions.insert_or_update(%{
+      media_id: media["media_id"],
+      user_id: media["user_id"],
+      action_id: MediaServer.Actions.get_followed_id(),
+      media_type_id: MediaServer.MediaTypes.get_type_id(media["media_type"])
+    })
+
     {:noreply, state}
   end
 end
