@@ -1,4 +1,4 @@
-defmodule MediaServerWeb.UserSubscribeTest do
+defmodule MediaServerWeb.UserFollowTest do
   use MediaServerWeb.ConnCase
 
   import Phoenix.LiveViewTest
@@ -18,8 +18,8 @@ defmodule MediaServerWeb.UserSubscribeTest do
 
     {:ok, view, _html} = live(conn, ~p"/movies/#{movie["id"]}")
 
-    view |> element("#subscribe", "Subscribe") |> render_click()
+    view |> element("#follow", "Follow") |> render_click()
 
-    assert_received {:subscribed, _media}
+    assert_received {:followed, "3"}
   end
 end

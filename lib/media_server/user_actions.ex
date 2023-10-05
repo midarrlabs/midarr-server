@@ -23,7 +23,7 @@ defmodule MediaServer.UserActions do
     {:noreply, state}
   end
 
-  def handle_info({:subscribed, _media}, state) do
+  def handle_info({:followed, _media}, state) do
     {:noreply, state}
   end
 end

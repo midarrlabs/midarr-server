@@ -29,7 +29,11 @@
         </svg>
       </button>
 
-      <.live_component module={MediaServerWeb.Components.SubscribeComponent} id="subscribeComponent" />
+      <.live_component
+        module={MediaServerWeb.Components.FollowComponent}
+        id="followComponent"
+        media_id={@movie["id"]}
+        />
     </div>
   </header>
 
