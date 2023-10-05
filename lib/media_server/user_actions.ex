@@ -22,4 +22,8 @@ defmodule MediaServer.UserActions do
 
     {:noreply, state}
   end
+
+  def handle_info({:subscribed, _media}, state) do
+    {:noreply, state}
+  end
 end
