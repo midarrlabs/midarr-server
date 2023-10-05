@@ -35,6 +35,7 @@
         media_id={@movie["id"]}
         media_type="movie"
         user_id={@current_user.id}
+        return_to={~p"/movies/#{@movie["id"]}"}
         />
     </div>
   </header>

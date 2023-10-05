@@ -1,12 +1,12 @@
 <button
   id="follow"
   type="button"
-  phx-click="follow"
+  phx-click={@event}
   phx-target={@myself}
   phx-value-media_id={@media_id}
   phx-value-media_type={@media_type}
   phx-value-user_id={@user_id}
   class="inline-flex items-center gap-2 justify-center rounded-lg py-2 px-3 text-sm outline-offset-2 transition active:transition-none bg-zinc-800 font-semibold text-zinc-100 hover:bg-zinc-700 active:bg-zinc-800"
 >
-  Follow
+  <%= @state %>
 </button>
