@@ -46,7 +46,7 @@ defmodule MediaServerWeb.Components.FollowComponent do
     {
       :noreply,
       socket
-      |> push_redirect(to: socket.assigns.return_to)
+      |> push_navigate(to: socket.assigns.return_to)
     }
   end
 
@@ -56,7 +56,19 @@ defmodule MediaServerWeb.Components.FollowComponent do
     {
       :noreply,
       socket
-      |> push_redirect(to: socket.assigns.return_to)
+      |> push_navigate(to: socket.assigns.return_to)
     }
+  end
+
+  def handle_event("grant_push_notifications", params, socket) do
+    Phoenix.PubSub.broadcast(MediaServer.PubSub, "user", {:granted_push_notifications, params})
+
+    {:noreply, socket}
+  end
+
+  def handle_event("deny_push_notifications", params, socket) do
+    Phoenix.PubSub.broadcast(MediaServer.PubSub, "user", {:denied_push_notifications, params})
+
+    {:noreply, socket}
   end
 end

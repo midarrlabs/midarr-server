@@ -11,18 +11,20 @@ defmodule MediaServerWeb.UserFollowTest do
     %{conn: conn |> log_in_user(user), user: user}
   end
 
-  test "it should follow movie", %{conn: conn} do
+  test "it should follow movie", %{conn: conn, user: user} do
     Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
 
     movie = MediaServer.MoviesIndex.all() |> List.first()
 
     {:ok, view, _html} = live(conn, ~p"/movies/#{movie["id"]}")
 
-    view |> element("#follow", "Follow") |> render_click()
+    view
+    |> element("#follow", "Follow")
+    |> render_hook(:follow, %{media_id: movie["id"], media_type: "movie", user_id: user.id})
 
-    assert_received {:followed, %{"media_id" => "3", "media_type" => "movie", "user_id" => _user_id}}
+    assert_received {:followed, %{"media_id" => 3, "media_type" => "movie", "user_id" => _user_id}}
 
-    # Not ideal but wait for the message to be processed (async)
+    # Not ideal but wait for processed message (async)
     :timer.sleep(1000)
 
     media = MediaServer.MediaActions.all()
@@ -47,11 +49,13 @@ defmodule MediaServerWeb.UserFollowTest do
 
     {:ok, view, _html} = live(conn, ~p"/movies/#{movie["id"]}")
 
-    view |> element("#follow", "Following") |> render_click()
+    view
+    |> element("#follow", "Following")
+    |> render_hook(:unfollow, %{media_id: movie["id"], media_type: "movie", user_id: user.id})
 
-    assert_received {:unfollowed, %{"media_id" => "3", "media_type" => "movie", "user_id" => _user_id}}
+    assert_received {:unfollowed, %{"media_id" => 3, "media_type" => "movie", "user_id" => _user_id}}
 
-    # Not ideal but wait for the message to be processed (async)
+    # Not ideal but wait for processed message (async)
     :timer.sleep(1000)
 
     media = MediaServer.MediaActions.all()

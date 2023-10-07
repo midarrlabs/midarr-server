@@ -49,6 +49,46 @@ channel.join()
 let liveSocket = new LiveSocket("/live", Socket, {
     params: { _csrf_token: csrfToken },
     hooks: {
+        follow: {
+            mounted() {
+                this.el.addEventListener("click", event => {
+
+                    this.pushEventTo("#follow", this.el.dataset.event, {
+                        media_id: this.el.dataset.media_id,
+                        media_type: this.el.dataset.media_type,
+                        user_id: this.el.dataset.user_id
+                    })
+
+                    if (Notification.permission !== "granted") {
+
+                      navigator.serviceWorker.ready
+                            .then(registration => {
+
+                                registration.pushManager.subscribe({
+                                    userVisibleOnly: true,
+                                    applicationServerKey: window.applicationServerKey
+                                })
+                                .then(pushSubscription => {
+                                    this.pushEventTo("#follow", "grant_push_notifications", {
+                                        media_id: this.el.dataset.media_id,
+                                        media_type: this.el.dataset.media_type,
+                                        user_id: this.el.dataset.user_id,
+                                        push_subscription: JSON.stringify(pushSubscription)
+                                    })
+                                })
+                                .catch(error => {
+                                    this.pushEventTo("#follow", "deny_push_notifications", {
+                                        media_id: this.el.dataset.media_id,
+                                        media_type: this.el.dataset.media_type,
+                                        user_id: this.el.dataset.user_id,
+                                        message: "Push manager subscribe failed - permission denied"
+                                    })
+                                })
+                        })
+                    }
+                })
+            }
+        },
         video: {
             mounted() {
                 window.addEventListener("beforeunload", event => {
