@@ -53,12 +53,6 @@ let liveSocket = new LiveSocket("/live", Socket, {
             mounted() {
                 this.el.addEventListener("click", event => {
 
-                    this.pushEventTo("#follow", this.el.dataset.event, {
-                        media_id: this.el.dataset.media_id,
-                        media_type: this.el.dataset.media_type,
-                        user_id: this.el.dataset.user_id
-                    })
-
                     if (Notification.permission !== "granted") {
 
                       navigator.serviceWorker.ready
@@ -86,6 +80,12 @@ let liveSocket = new LiveSocket("/live", Socket, {
                                 })
                         })
                     }
+
+                    this.pushEventTo("#follow", this.el.dataset.event, {
+                        media_id: this.el.dataset.media_id,
+                        media_type: this.el.dataset.media_type,
+                        user_id: this.el.dataset.user_id
+                    })
                 })
             }
         },
