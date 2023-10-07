@@ -20,7 +20,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="/app.webmanifest" />
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
     <meta name="theme-color" content="#18181b" />
@@ -30,6 +30,7 @@
     <%= if @current_user do %>
       <script>
         window.userId = <%= assigns[:current_user].id %>;
+        window.applicationServerKey = "<%= System.get_env("VAPID_PUBLIC_KEY") %>";
       </script>
       <script
         defer

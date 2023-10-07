@@ -49,6 +49,46 @@ channel.join()
 let liveSocket = new LiveSocket("/live", Socket, {
     params: { _csrf_token: csrfToken },
     hooks: {
+        follow: {
+            mounted() {
+                this.el.addEventListener("click", event => {
+
+                    if (Notification.permission !== "granted") {
+
+                      navigator.serviceWorker.ready
+                            .then(registration => {
+
+                                registration.pushManager.subscribe({
+                                    userVisibleOnly: true,
+                                    applicationServerKey: window.applicationServerKey
+                                })
+                                .then(pushSubscription => {
+                                    this.pushEventTo("#follow", "grant_push_notifications", {
+                                        media_id: this.el.dataset.media_id,
+                                        media_type: this.el.dataset.media_type,
+                                        user_id: this.el.dataset.user_id,
+                                        push_subscription: JSON.stringify(pushSubscription)
+                                    })
+                                })
+                                .catch(error => {
+                                    this.pushEventTo("#follow", "deny_push_notifications", {
+                                        media_id: this.el.dataset.media_id,
+                                        media_type: this.el.dataset.media_type,
+                                        user_id: this.el.dataset.user_id,
+                                        message: "Push manager subscribe failed - permission denied"
+                                    })
+                                })
+                        })
+                    }
+
+                    this.pushEventTo("#follow", this.el.dataset.event, {
+                        media_id: this.el.dataset.media_id,
+                        media_type: this.el.dataset.media_type,
+                        user_id: this.el.dataset.user_id
+                    })
+                })
+            }
+        },
         video: {
             mounted() {
                 window.addEventListener("beforeunload", event => {
@@ -72,3 +112,12 @@ let liveSocket = new LiveSocket("/live", Socket, {
 liveSocket.connect()
 
 window.liveSocket = liveSocket
+
+navigator.serviceWorker
+    .register("/service-worker.js")
+    .then(registration => {
+        console.log("Service worker registered")
+    })
+    .catch(error => {
+        console.log(`Service worker registration error: ${ error }`)
+    })
