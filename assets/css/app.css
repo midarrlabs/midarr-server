@@ -63,11 +63,6 @@ video {
   }
 }
 
-.prose :where(p):not(:where([class~="not-prose"] *)) {
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
 .prose :where([class~="lead"]):not(:where([class~="not-prose"] *)) {
   font-size: 1rem;
   line-height: 1.75rem;
