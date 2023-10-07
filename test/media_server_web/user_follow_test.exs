@@ -62,4 +62,32 @@ defmodule MediaServerWeb.UserFollowTest do
 
     assert Enum.count(media) === 0
   end
+
+  test "it should grant push notifications", %{conn: conn, user: user} do
+    Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
+
+    movie = MediaServer.MoviesIndex.all() |> List.first()
+
+    {:ok, view, _html} = live(conn, ~p"/movies/#{movie["id"]}")
+
+    view
+    |> element("#follow", "Follow")
+    |> render_hook(:grant_push_notifications, %{media_id: movie["id"], media_type: "movie", user_id: user.id, push_subscription: "some subscription"})
+
+    assert_received {:granted_push_notifications, %{"media_id" => 3, "media_type" => "movie", "user_id" => _user_id, "push_subscription" => "some subscription"}}
+  end
+
+  test "it should deny push notifications", %{conn: conn, user: user} do
+    Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
+
+    movie = MediaServer.MoviesIndex.all() |> List.first()
+
+    {:ok, view, _html} = live(conn, ~p"/movies/#{movie["id"]}")
+
+    view
+    |> element("#follow", "Follow")
+    |> render_hook(:deny_push_notifications, %{media_id: movie["id"], media_type: "movie", user_id: user.id, message: "some message"})
+
+    assert_received {:denied_push_notifications, %{"media_id" => 3, "media_type" => "movie", "user_id" => _user_id, "message" => "some message"}}
+  end
 end
