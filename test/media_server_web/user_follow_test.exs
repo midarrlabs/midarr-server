@@ -75,6 +75,13 @@ defmodule MediaServerWeb.UserFollowTest do
     |> render_hook(:grant_push_notifications, %{media_id: movie["id"], media_type: "movie", user_id: user.id, push_subscription: "some subscription"})
 
     assert_received {:granted_push_notifications, %{"media_id" => 3, "media_type" => "movie", "user_id" => _user_id, "push_subscription" => "some subscription"}}
+
+    # Not ideal but wait for processed message (async)
+    :timer.sleep(1000)
+
+    push_subscriptions = MediaServer.PushSubscriptions.all()
+
+    assert Enum.at(push_subscriptions, 0).push_subscription === "some subscription"
   end
 
   test "it should deny push notifications", %{conn: conn, user: user} do
@@ -89,5 +96,12 @@ defmodule MediaServerWeb.UserFollowTest do
     |> render_hook(:deny_push_notifications, %{media_id: movie["id"], media_type: "movie", user_id: user.id, message: "some message"})
 
     assert_received {:denied_push_notifications, %{"media_id" => 3, "media_type" => "movie", "user_id" => _user_id, "message" => "some message"}}
+
+    # Not ideal but wait for processed message (async)
+    :timer.sleep(1000)
+
+    push_subscriptions = MediaServer.PushSubscriptions.all()
+
+    assert Enum.at(push_subscriptions, 0).push_subscription === "some message"
   end
 end

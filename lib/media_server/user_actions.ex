@@ -56,7 +56,11 @@ defmodule MediaServer.UserActions do
   end
 
   def handle_info({:granted_push_notifications, params}, state) do
-    Logger.info(params["push_subscription"])
+
+    MediaServer.PushSubscriptions.create(%{
+      user_id: params["user_id"],
+      push_subscription: params["push_subscription"]
+    })
 
     Logger.info("user_id:#{ params["user_id"] }:granted_push_notifications:media_type_id:#{ params["media_type_id"] }:media_id:#{ params["media_id"] }")
 
@@ -64,6 +68,12 @@ defmodule MediaServer.UserActions do
   end
 
   def handle_info({:denied_push_notifications, params}, state) do
+
+    MediaServer.PushSubscriptions.create(%{
+      user_id: params["user_id"],
+      push_subscription: params["message"]
+    })
+
     Logger.info("user_id:#{ params["user_id"] }:denied_push_notifications:media_type_id:#{ params["media_type_id"] }:media_id:#{ params["media_id"] }")
 
     {:noreply, state}
