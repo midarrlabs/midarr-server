@@ -19,7 +19,7 @@ defmodule MediaServerWeb do
 
   def static_paths,
     do:
-      ~w(assets fonts images manifest browserconfig favicon logo android-icon apple-icon ms-icon)
+      ~w(assets fonts images app.webmanifest service-worker browserconfig favicon logo android-icon apple-icon ms-icon)
 
   def controller do
     quote do
