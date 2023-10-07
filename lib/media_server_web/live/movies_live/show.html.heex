@@ -19,15 +19,16 @@
       </div>
     </div>
     <div class="flex gap-x-4 items-center">
-      <button
-        type="button"
+      <.link
+        id={"play-#{ @movie["id"] }"}
+        navigate={"/watch?movie=#{@movie["id"]}#{ if !is_nil(@continue) do "&timestamp=#{@continue.current_time}" end }"}
         class="group relative flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-zinc-800 hover:bg-zinc-700 focus:outline-none focus:ring focus:ring-slate-700 focus:ring-offset-4"
       >
         <svg viewBox="0 0 36 36" class="h-8 w-8 fill-white group-active:fill-white/80">
           <path d="M33.75 16.701C34.75 17.2783 34.75 18.7217 33.75 19.299L11.25 32.2894C10.25 32.8668 9 32.1451 9 30.9904L9 5.00962C9 3.85491 10.25 3.13323 11.25 3.71058L33.75 16.701Z">
           </path>
         </svg>
-      </button>
+      </.link>
 
       <.live_component
         module={MediaServerWeb.Components.FollowComponent}
