@@ -3,7 +3,7 @@ defmodule MediaServer.Repo.Migrations.CreatePushSubscriptions do
 
   def change do
     create table(:push_subscriptions) do
-      add :push_subscription, :string, null: false
+      add :push_subscription, :text, null: false
 
       add :user_id, references(:users, on_delete: :nothing), null: false
 
