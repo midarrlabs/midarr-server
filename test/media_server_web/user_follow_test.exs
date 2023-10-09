@@ -63,6 +63,58 @@ defmodule MediaServerWeb.UserFollowTest do
     assert Enum.count(media) === 0
   end
 
+  test "it should follow series", %{conn: conn, user: user} do
+    Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
+
+    series = MediaServer.SeriesIndex.all() |> List.first()
+
+    {:ok, view, _html} = live(conn, ~p"/series/#{series["id"]}")
+
+    view
+    |> element("#follow", "Follow")
+    |> render_hook(:follow, %{media_id: series["id"], media_type: "series", user_id: user.id})
+
+    assert_received {:followed, %{"media_id" => 1, "media_type" => "series", "user_id" => _user_id}}
+
+    # Not ideal but wait for processed message (async)
+    :timer.sleep(1000)
+
+    media = MediaServer.MediaActions.all()
+
+    assert Enum.count(media) === 1
+
+    assert Enum.at(media, 0).media_id === series["id"]
+    assert Enum.at(media, 0).action_id === MediaServer.Actions.get_followed_id()
+  end
+
+  test "it should unfollow series", %{conn: conn, user: user} do
+    Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
+
+    series = MediaServer.SeriesIndex.all() |> List.first()
+
+    MediaServer.MediaActions.create(%{
+      media_id: series["id"],
+      user_id: user.id,
+      action_id: MediaServer.Actions.get_followed_id(),
+      media_type_id: MediaServer.MediaTypes.get_type_id("series")
+    })
+
+    {:ok, view, _html} = live(conn, ~p"/series/#{series["id"]}")
+
+    view
+    |> element("#follow", "Following")
+    |> render_hook(:unfollow, %{media_id: series["id"], media_type: "series", user_id: user.id})
+
+    assert_received {:unfollowed, %{"media_id" => 1, "media_type" => "series", "user_id" => _user_id}}
+
+    # Not ideal but wait for processed message (async)
+    :timer.sleep(1000)
+
+    media = MediaServer.MediaActions.all()
+
+    assert Enum.count(media) === 0
+  end
+
   test "it should grant push notifications", %{conn: conn, user: user} do
     Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
 
