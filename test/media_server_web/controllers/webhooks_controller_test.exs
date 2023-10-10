@@ -5,59 +5,39 @@ defmodule MediaServerWeb.WebhooksControllerTest do
     %{user: MediaServer.AccountsFixtures.user_fixture()}
   end
 
-  test "it should halt", %{conn: conn} do
-    conn =
-      post(conn, Routes.webhooks_path(conn, :create, "movie", %{"someKey" => "someValue"}),
-        token: "someToken"
-      )
+  test "movie should halt", %{conn: conn} do
+    conn = post(conn, ~p"/api/webhooks/movie?token=someToken", %{"someKey" => "someValue"})
 
     assert conn.status === 403
     assert conn.halted
   end
 
-  test "it should fall through", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.webhooks_path(conn, :create, "movie", %{"someKey" => "someValue"}),
-        token: user.api_token.token
-      )
+  test "movie should fall through", %{conn: conn, user: user} do
+    conn = post(conn, ~p"/api/webhooks/movie?token=#{user.api_token.token}", %{"someKey" => "someValue"})
 
     assert conn.status === 200
   end
 
-  test "it should fall through again", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.webhooks_path(conn, :create, "movie", %{"eventType" => "someValue"}),
-        token: user.api_token.token
-      )
+  test "movie should fall through again", %{conn: conn, user: user} do
+    conn = post(conn, ~p"/api/webhooks/movie?token=#{user.api_token.token}", %{"eventType" => "someValue"})
 
     assert conn.status === 200
   end
 
-  test "it should create", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.webhooks_path(conn, :create, "movie", %{"eventType" => "Download"}),
-        token: user.api_token.token
-      )
+  test "movie should create", %{conn: conn, user: user} do
+    conn = post(conn, ~p"/api/webhooks/movie?token=#{user.api_token.token}", %{"eventType" => "Download"})
 
     assert conn.status === 201
   end
 
-  test "it should create on delete", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.webhooks_path(conn, :create, "movie", %{"eventType" => "MovieDelete"}),
-        token: user.api_token.token
-      )
+  test "it should movie on delete", %{conn: conn, user: user} do
+    conn = post(conn, ~p"/api/webhooks/movie?token=#{user.api_token.token}", %{"eventType" => "MovieDelete"})
 
     assert conn.status === 201
   end
 
-  test "it should create on file delete", %{conn: conn, user: user} do
-    conn =
-      post(
-        conn,
-        Routes.webhooks_path(conn, :create, "movie", %{"eventType" => "MovieFileDelete"}),
-        token: user.api_token.token
-      )
+  test "it should movie on file delete", %{conn: conn, user: user} do
+    conn = post(conn, ~p"/api/webhooks/movie?token=#{user.api_token.token}", %{"eventType" => "MovieFileDelete"})
 
     assert conn.status === 201
   end
