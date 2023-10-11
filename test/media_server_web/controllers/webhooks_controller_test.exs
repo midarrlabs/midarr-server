@@ -24,8 +24,12 @@ defmodule MediaServerWeb.WebhooksControllerTest do
     assert conn.status === 200
   end
 
-  test "movie should create", %{conn: conn, user: user} do
+  test "it should add movie", %{conn: conn, user: user} do
+    Phoenix.PubSub.subscribe(MediaServer.PubSub, "movie")
+
     conn = post(conn, ~p"/api/webhooks/movie?token=#{user.api_token.token}", %{"eventType" => "Download"})
+
+    assert_received {:added}
 
     assert conn.status === 201
   end

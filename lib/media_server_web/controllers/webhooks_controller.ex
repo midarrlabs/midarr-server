@@ -2,7 +2,7 @@ defmodule MediaServerWeb.WebhooksController do
   use MediaServerWeb, :controller
 
   def create(conn, %{"id" => "movie", "eventType" => "Download"}) do
-    MediaServer.MoviesIndex.reset()
+    Phoenix.PubSub.broadcast(MediaServer.PubSub, "movie", {:added})
 
     conn
     |> send_resp(201, "Ok")
