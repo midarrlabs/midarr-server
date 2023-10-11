@@ -61,4 +61,14 @@ defmodule MediaServerWeb.SettingsLiveTest do
            |> form("#user-form", user: %{email: "test@email.com", name: ""})
            |> render_submit() =~ "can&#39;t be blank"
   end
+
+  test "it should show api token", %{conn: conn} do
+    user = AccountsFixtures.user_fixture()
+
+    conn = conn |> log_in_user(user)
+
+    {:ok, _view, html} = live(conn, Routes.settings_index_path(conn, :index))
+
+    assert html =~ user.api_token.token
+  end
 end
