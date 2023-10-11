@@ -34,8 +34,12 @@ defmodule MediaServerWeb.WebhooksControllerTest do
     assert conn.status === 201
   end
 
-  test "it should movie on delete", %{conn: conn, user: user} do
+  test "it should delete movie", %{conn: conn, user: user} do
+    Phoenix.PubSub.subscribe(MediaServer.PubSub, "movie")
+
     conn = post(conn, ~p"/api/webhooks/movie?token=#{user.api_token.token}", %{"eventType" => "MovieDelete"})
+
+    assert_received {:deleted}
 
     assert conn.status === 201
   end

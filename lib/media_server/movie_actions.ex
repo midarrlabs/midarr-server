@@ -18,4 +18,10 @@ defmodule MediaServer.MovieActions do
 
     {:noreply, state}
   end
+
+  def handle_info({:deleted}, state) do
+    MediaServer.MoviesIndex.reset()
+
+    {:noreply, state}
+  end
 end
