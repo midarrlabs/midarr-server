@@ -16,7 +16,7 @@ defmodule MediaServerWeb.WebhooksController do
   end
 
   def create(conn, %{"id" => "movie", "eventType" => "MovieFileDelete"}) do
-    MediaServer.MoviesIndex.reset()
+    Phoenix.PubSub.broadcast(MediaServer.PubSub, "movie", {:deleted_file})
 
     conn
     |> send_resp(201, "Ok")
