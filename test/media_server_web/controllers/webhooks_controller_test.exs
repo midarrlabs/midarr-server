@@ -55,58 +55,50 @@ defmodule MediaServerWeb.WebhooksControllerTest do
   end
 
   test "series should halt", %{conn: conn} do
-    conn =
-      post(conn, Routes.webhooks_path(conn, :create, "series", %{"someKey" => "someValue"}),
-        token: "someToken"
-      )
+    conn = post(conn, ~p"/api/webhooks/series?token=someToken", %{"someKey" => "someValue"})
 
     assert conn.status === 403
     assert conn.halted
   end
 
   test "series should fall through", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.webhooks_path(conn, :create, "series", %{"someKey" => "someValue"}),
-        token: user.api_token.token
-      )
+    conn = post(conn, ~p"/api/webhooks/series?token=#{user.api_token.token}", %{"someKey" => "someValue"})
 
     assert conn.status === 200
   end
 
   test "series should fall through again", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.webhooks_path(conn, :create, "series", %{"eventType" => "someValue"}),
-        token: user.api_token.token
-      )
+    conn = post(conn, ~p"/api/webhooks/series?token=#{user.api_token.token}", %{"eventType" => "someValue"})
 
     assert conn.status === 200
   end
 
-  test "series should create", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.webhooks_path(conn, :create, "series", %{"eventType" => "Download"}),
-        token: user.api_token.token
-      )
+  test "it should add series", %{conn: conn, user: user} do
+    Phoenix.PubSub.subscribe(MediaServer.PubSub, "series")
+
+    conn = post(conn, ~p"/api/webhooks/series?token=#{user.api_token.token}", %{"eventType" => "Download"})
+
+    assert_received {:added}
 
     assert conn.status === 201
   end
 
-  test "series should create on delete", %{conn: conn, user: user} do
-    conn =
-      post(conn, Routes.webhooks_path(conn, :create, "series", %{"eventType" => "SeriesDelete"}),
-        token: user.api_token.token
-      )
+  test "it should delete series", %{conn: conn, user: user} do
+    Phoenix.PubSub.subscribe(MediaServer.PubSub, "series")
+
+    conn = post(conn, ~p"/api/webhooks/series?token=#{user.api_token.token}", %{"eventType" => "SeriesDelete"})
+
+    assert_received {:deleted}
 
     assert conn.status === 201
   end
 
   test "series should create on episode file delete", %{conn: conn, user: user} do
-    conn =
-      post(
-        conn,
-        Routes.webhooks_path(conn, :create, "series", %{"eventType" => "EpisodeFileDelete"}),
-        token: user.api_token.token
-      )
+    Phoenix.PubSub.subscribe(MediaServer.PubSub, "series")
+
+    conn = post(conn, ~p"/api/webhooks/series?token=#{user.api_token.token}", %{"eventType" => "EpisodeFileDelete"})
+
+    assert_received {:deleted_episode_file}
 
     assert conn.status === 201
   end

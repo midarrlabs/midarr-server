@@ -23,21 +23,21 @@ defmodule MediaServerWeb.WebhooksController do
   end
 
   def create(conn, %{"id" => "series", "eventType" => "Download"}) do
-    MediaServer.SeriesIndex.reset()
+    Phoenix.PubSub.broadcast(MediaServer.PubSub, "series", {:added})
 
     conn
     |> send_resp(201, "Ok")
   end
 
   def create(conn, %{"id" => "series", "eventType" => "SeriesDelete"}) do
-    MediaServer.SeriesIndex.reset()
+    Phoenix.PubSub.broadcast(MediaServer.PubSub, "series", {:deleted})
 
     conn
     |> send_resp(201, "Ok")
   end
 
   def create(conn, %{"id" => "series", "eventType" => "EpisodeFileDelete"}) do
-    MediaServer.SeriesIndex.reset()
+    Phoenix.PubSub.broadcast(MediaServer.PubSub, "series", {:deleted_episode_file})
 
     conn
     |> send_resp(201, "Ok")
