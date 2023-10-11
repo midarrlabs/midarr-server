@@ -56,4 +56,9 @@ defmodule MediaServer.MediaActions do
   def where(attrs) do
     Repo.get_by(__MODULE__, attrs)
   end
+
+  def delete(attrs) do
+    Repo.get_by(__MODULE__, attrs)
+    |> Repo.delete
+  end
 end

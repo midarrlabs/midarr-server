@@ -1,62 +1,49 @@
 <div class="flex-auto prose dark:prose-invert">
   <div class="absolute inset-0 -z-10 mx-0 max-w-none overflow-hidden">
-    <div class="absolute left-1/2 top-0 ml-[-38rem] h-[25rem] w-[81.25rem] dark:[mask-image:linear-gradient(white,transparent)]">
+    <div class="absolute left-1/2 top-0 ml-[-18rem] h-[30rem] w-[60rem] dark:[mask-image:linear-gradient(white,transparent)]">
       <div class="absolute inset-0 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)]">
         <img
           src={
             ~p"/api/images?movie=#{@movie["id"]}&type=background&token=#{assigns[:current_user].api_token.token}"
           }
-          class="absolute inset-x-0 inset-y-[-10%] w-full fill-black/40 stroke-black/50 mix-blend-overlay dark:fill-white/2.5 dark:stroke-white/5"
+          class="absolute inset-x-0 inset-y-0 w-full"
         />
       </div>
-      <svg
-        viewBox="0 0 1113 440"
-        class="absolute left-1/2 top-0 ml-[-19rem] w-[69.5625rem] fill-white blur-[26px] dark:hidden"
-      >
-        <path d="M.016 439.5s-9.5-300 434-300S882.516 20 882.516 20V0h230.004v439.5H.016Z"></path>
-      </svg>
     </div>
   </div>
 
-  <h1><%= @movie["title"] %></h1>
+  <header class="flex flex-col gap-y-2">
+    <div class="flex items-center gap-6">
+      <div class="flex flex-col">
+        <h1 class="text-4xl font-bold text-slate-900"><%= @movie["title"] %></h1>
+      </div>
+    </div>
+    <div class="flex gap-x-4 items-center">
+      <%= if @movie["hasFile"] do %>
+          <.link
+            id={"play-#{ @movie["id"] }"}
+            navigate={"/watch?movie=#{@movie["id"]}#{ if !is_nil(@continue) do "&timestamp=#{@continue.current_time}" end }"}
+            class="group relative flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-zinc-800 hover:bg-zinc-700 focus:outline-none focus:ring focus:ring-slate-700 focus:ring-offset-4"
+          >
+            <svg viewBox="0 0 36 36" class="h-8 w-8 fill-white group-active:fill-white/80">
+              <path d="M33.75 16.701C34.75 17.2783 34.75 18.7217 33.75 19.299L11.25 32.2894C10.25 32.8668 9 32.1451 9 30.9904L9 5.00962C9 3.85491 10.25 3.13323 11.25 3.71058L33.75 16.701Z">
+              </path>
+            </svg>
+          </.link>
+      <% end %>
 
-  <div class="not-prose mb-16 mt-6 flex gap-3">
-    <%= if @movie["hasFile"] do %>
-      <.link
-        id={"play-#{ @movie["id"] }"}
-        class="inline-flex gap-0.5 justify-center items-center overflow-hidden text-sm font-medium transition rounded-full bg-zinc-900 py-1 px-3 text-white hover:bg-zinc-700 dark:bg-red-400/10 dark:text-red-400 dark:ring-1 dark:ring-inset dark:ring-red-400/20 dark:hover:bg-red-400/10 dark:hover:text-red-300 dark:hover:ring-red-300"
-        navigate={"/watch?movie=#{@movie["id"]}#{ if !is_nil(@continue) do "&timestamp=#{@continue.current_time}" end }"}
-      >
-        <svg
-          fill="none"
-          viewBox="0 0 20 20"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="h-4 w-4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"
-          />
-        </svg>
-        <span class="ml-2">
-          Watch Now
-        </span>
-      </.link>
-    <% end %>
-    <%= if @movie["youTubeTrailerId"] !== "" do %>
-      <a
-        class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition rounded-full py-1 px-3 text-zinc-700 ring-1 ring-inset ring-zinc-900/10 hover:bg-zinc-900/2.5 hover:text-zinc-900 dark:text-zinc-400 dark:ring-white/10 dark:hover:bg-white/5 dark:hover:text-white"
-        href={"https://www.youtube.com/watch?v=#{@movie["youTubeTrailerId"]}"}
-        target="_blank"
-      >
-        See Trailer
-      </a>
-    <% end %>
-  </div>
+      <.live_component
+        module={MediaServerWeb.Components.FollowComponent}
+        id="followComponent"
+        media_id={@movie["id"]}
+        media_type="movie"
+        user_id={@current_user.id}
+        return_to={~p"/movies/#{@movie["id"]}"}
+        />
+    </div>
+  </header>
 
-  <h2 class="scroll-mt-24">Overview</h2>
+  <h2>Overview</h2>
 
   <p class="lead">
     <%= @movie["overview"] %>

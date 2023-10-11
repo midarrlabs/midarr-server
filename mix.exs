@@ -4,7 +4,7 @@ defmodule MediaServer.MixProject do
   def project do
     [
       app: :media_server,
-      version: "4.1.2",
+      version: "4.2.0",
       elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -55,11 +55,11 @@ defmodule MediaServer.MixProject do
       {:httpoison, "~> 2.0"},
       {:excoveralls, "~> 0.10", only: :test, runtime: false},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
-      {:cors_plug, "~> 3.0"},
       {:scrivener, "~> 2.0"},
       {:extitles, "~> 0.1.0"},
       {:exstream, "~> 0.20.0"},
-      {:oauth2, "~> 2.0"}
+      {:oauth2, "~> 2.0"},
+      {:web_push_elixir, "~> 0.2.0"}
     ]
   end
 

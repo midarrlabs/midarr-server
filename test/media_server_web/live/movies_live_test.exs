@@ -88,7 +88,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     send(view.pid, {:cast, cast})
 
-    assert view |> element("#play-#{movie["id"]}", "Watch") |> render_click()
+    assert view |> element("#play-#{movie["id"]}") |> render_click()
   end
 
   test "it should have timestamp", %{conn: conn} do

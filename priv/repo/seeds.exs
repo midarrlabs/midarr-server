@@ -17,11 +17,19 @@ MediaServer.MediaTypes.create(%{
 })
 
 MediaServer.MediaTypes.create(%{
+  type: "series"
+})
+
+MediaServer.MediaTypes.create(%{
   type: "episode"
 })
 
 MediaServer.Actions.create(%{
   action: "played"
+})
+
+MediaServer.Actions.create(%{
+  action: "followed"
 })
 
 #
