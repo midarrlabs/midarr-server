@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp: [ '25' ]
+        otp: [ '24' ]
         elixir: [ '1.15' ]
 
     services:
