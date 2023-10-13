@@ -23,4 +23,9 @@ defmodule MediaServer.MockServer do
     conn
     |> Plug.Conn.send_resp(201, "ok")
   end
+
+  post "/some-push-service-with-error" do
+    conn
+    |> Plug.Conn.send_resp(401, "unauthorized")
+  end
 end
