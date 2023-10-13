@@ -18,4 +18,9 @@ defmodule MediaServer.MockServer do
     conn
     |> Plug.Conn.send_resp(200, Jason.encode!(%{name: "someName", email: "someEmail"}))
   end
+
+  post "/some-push-service" do
+    conn
+    |> Plug.Conn.send_resp(201, "ok")
+  end
 end

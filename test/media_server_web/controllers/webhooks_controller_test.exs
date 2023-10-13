@@ -1,6 +1,8 @@
 defmodule MediaServerWeb.WebhooksControllerTest do
   use MediaServerWeb.ConnCase
 
+  @subscription "#{'{"endpoint":"http://localhost:8081/some-push-service","keys":{"p256dh":"BNcRdreALRFXTkOOUHK1EtK2wtaz5Ry4YfYCA_0QTpQtUbVlUls0VJXg7A8u-Ts1XbjhazAkj7I99e8QcYP7DkM=","auth":"tBHItJI5svbpez7KI4CCXg=="}}'}"
+
   setup do
     %{user: MediaServer.AccountsFixtures.user_fixture()}
   end
@@ -25,31 +27,32 @@ defmodule MediaServerWeb.WebhooksControllerTest do
   end
 
   test "it should add movie", %{conn: conn, user: user} do
-    Phoenix.PubSub.subscribe(MediaServer.PubSub, "movie")
 
-    conn = post(conn, ~p"/api/webhooks/movie?token=#{user.api_token.token}", %{"eventType" => "Download"})
+    {:ok, _struct} = MediaServer.MediaActions.create(%{
+      media_id: 3,
+      user_id: user.id,
+      action_id: MediaServer.Actions.get_followed_id(),
+      media_type_id: MediaServer.MediaTypes.get_type_id("movie")
+    })
 
-    assert_received {:added}
+    {:ok, _struct} = MediaServer.PushSubscriptions.create(%{
+      user_id: user.id,
+      push_subscription: @subscription
+    })
+
+    conn = post(conn, ~p"/api/webhooks/movie?token=#{user.api_token.token}", %{"eventType" => "Download", "movie" => %{"id" => 3, "title" => "Some Movie"}})
 
     assert conn.status === 201
   end
 
   test "it should delete movie", %{conn: conn, user: user} do
-    Phoenix.PubSub.subscribe(MediaServer.PubSub, "movie")
-
     conn = post(conn, ~p"/api/webhooks/movie?token=#{user.api_token.token}", %{"eventType" => "MovieDelete"})
-
-    assert_received {:deleted}
 
     assert conn.status === 201
   end
 
   test "it should delete movie file", %{conn: conn, user: user} do
-    Phoenix.PubSub.subscribe(MediaServer.PubSub, "movie")
-
     conn = post(conn, ~p"/api/webhooks/movie?token=#{user.api_token.token}", %{"eventType" => "MovieFileDelete"})
-
-    assert_received {:deleted_file}
 
     assert conn.status === 201
   end
