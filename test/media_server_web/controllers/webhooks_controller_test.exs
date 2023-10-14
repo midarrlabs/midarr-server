@@ -1,8 +1,8 @@
 defmodule MediaServerWeb.WebhooksControllerTest do
   use MediaServerWeb.ConnCase
 
-  @subscription "#{'{"endpoint":"http://localhost:8081/some-push-service","keys":{"p256dh":"BNcRdreALRFXTkOOUHK1EtK2wtaz5Ry4YfYCA_0QTpQtUbVlUls0VJXg7A8u-Ts1XbjhazAkj7I99e8QcYP7DkM=","auth":"tBHItJI5svbpez7KI4CCXg=="}}'}"
-  @subscription_with_error "#{'{"endpoint":"http://localhost:8081/some-push-service-with-error","keys":{"p256dh":"BNcRdreALRFXTkOOUHK1EtK2wtaz5Ry4YfYCA_0QTpQtUbVlUls0VJXg7A8u-Ts1XbjhazAkj7I99e8QcYP7DkM=","auth":"tBHItJI5svbpez7KI4CCXg=="}}'}"
+  @subscription %{"endpoint" => "http://localhost:8081/some-push-service","keys" => %{"p256dh" => "BNcRdreALRFXTkOOUHK1EtK2wtaz5Ry4YfYCA_0QTpQtUbVlUls0VJXg7A8u-Ts1XbjhazAkj7I99e8QcYP7DkM=","auth" => "tBHItJI5svbpez7KI4CCXg=="}}
+  @subscription_with_error %{"endpoint" => "http://localhost:8081/some-push-service-with-error","keys" => %{"p256dh" => "BNcRdreALRFXTkOOUHK1EtK2wtaz5Ry4YfYCA_0QTpQtUbVlUls0VJXg7A8u-Ts1XbjhazAkj7I99e8QcYP7DkM=","auth" => "tBHItJI5svbpez7KI4CCXg=="}}
 
   setup do
     %{user: MediaServer.AccountsFixtures.user_fixture()}
@@ -38,12 +38,12 @@ defmodule MediaServerWeb.WebhooksControllerTest do
 
     {:ok, _struct} = MediaServer.PushSubscriptions.create(%{
       user_id: user.id,
-      push_subscription: @subscription
+      push_subscription: Jason.encode!(@subscription)
     })
 
     {:ok, _struct} = MediaServer.PushSubscriptions.create(%{
       user_id: user.id,
-      push_subscription: @subscription_with_error
+      push_subscription: Jason.encode!(@subscription_with_error)
     })
 
     conn = post(conn, ~p"/api/webhooks/movie?token=#{user.api_token.token}", %{"eventType" => "Download", "movie" => %{"id" => 3, "title" => "Some Movie"}})
