@@ -30,16 +30,8 @@ defmodule MediaServerWeb.WebhooksController do
     |> send_resp(201, "Ok")
   end
 
-  def create(conn, %{"id" => "series", "eventType" => "Download", "series" => %{"id" => id, "title" => title}}) do
-    MediaServer.SeriesIndex.reset()
-
-    followers = MediaServer.MediaActions.series(id) |> MediaServer.MediaActions.followers()
-
-    Enum.each(followers, fn media_action ->
-      Enum.each(media_action.user.push_subscriptions, fn push_subscription ->
-        WebPushElixir.send_notification(push_subscription.push_subscription, "#{ title } is now available")
-      end)
-    end)
+  def create(conn, %{"id" => "series", "eventType" => "Download"} = params) do
+    Phoenix.PubSub.broadcast(MediaServer.PubSub, "series", {:added, params})
 
     conn
     |> send_resp(201, "Ok")
