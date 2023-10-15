@@ -204,7 +204,7 @@ services:
 To keep your media in sync, webhook urls are required in your integrations. Midarr accepts a
 POST request from your integrations with your unique API Token (found on the Midarr Settings page).
 
-Add your webhook urls to `Radarr / Sonarr -> Settings -> Connect`:
+Add these webhook urls to Radarr / Sonarr under `Settings -> Connect -> Webhook`:
 
 #### Radarr example
 ```
