@@ -22,8 +22,9 @@ defmodule MediaServer.Application do
       {DynamicSupervisor, name: MediaServer.DynamicSupervisor},
       MediaServer.MoviesIndex,
       MediaServer.SeriesIndex,
-      MediaServer.UserActions,
-      MediaServer.SeriesActions
+      MediaServer.MovieActions,
+      MediaServer.SeriesActions,
+      MediaServer.UserActions
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

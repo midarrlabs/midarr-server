@@ -1,37 +1,22 @@
 defmodule MediaServerWeb.WebhooksController do
   use MediaServerWeb, :controller
 
-  def create(conn, %{
-        "id" => "movie",
-        "eventType" => "Download",
-        "movie" => %{"id" => id, "title" => title}
-      }) do
-    MediaServer.MoviesIndex.reset()
-
-    followers = MediaServer.MediaActions.movie(id) |> MediaServer.MediaActions.followers()
-
-    Enum.each(followers, fn media_action ->
-      Enum.each(media_action.user.push_subscriptions, fn push_subscription ->
-        WebPushElixir.send_notification(
-          push_subscription.push_subscription,
-          "#{title} is now available"
-        )
-      end)
-    end)
+  def create(conn, %{"id" => "movie", "eventType" => "Download"} = params) do
+    Phoenix.PubSub.broadcast(MediaServer.PubSub, "movie", {:added, params})
 
     conn
     |> send_resp(201, "Ok")
   end
 
   def create(conn, %{"id" => "movie", "eventType" => "MovieDelete"}) do
-    MediaServer.MoviesIndex.reset()
+    Phoenix.PubSub.broadcast(MediaServer.PubSub, "movie", {:deleted})
 
     conn
     |> send_resp(201, "Ok")
   end
 
   def create(conn, %{"id" => "movie", "eventType" => "MovieFileDelete"}) do
-    MediaServer.MoviesIndex.reset()
+    Phoenix.PubSub.broadcast(MediaServer.PubSub, "movie", {:deleted_file})
 
     conn
     |> send_resp(201, "Ok")
