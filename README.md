@@ -201,11 +201,10 @@ services:
 
 ### Why won't my media sync?
 
-To keep your media in sync, Midarr webhooks are required in your integrations.
-Any updates to your media library via your integrations, a POST request will be made to the following endpoints
-to update your Midarr cache.
+To keep your media in sync, webhook urls are required in your integrations. Midarr accepts a
+POST request from your integrations with your unique API Token (found on the Midarr Settings page).
 
-Add these webhook urls to Radarr / Sonarr under `Settings -> Connect -> Webhook`:
+Add your webhook urls to `Radarr / Sonarr -> Settings -> Connect`:
 
 #### Radarr example
 ```
