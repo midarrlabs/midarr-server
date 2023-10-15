@@ -34,6 +34,6 @@ defmodule MediaServer.PushSubscriptions do
 
   def delete(attrs) do
     Repo.get_by(__MODULE__, attrs)
-    |> Repo.delete
+    |> Repo.delete()
   end
 end

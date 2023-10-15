@@ -30,6 +30,10 @@ env:
   SONARR_BASE_URL: http://localhost:8989
   SONARR_API_KEY: 1accda4476394bfcaddefe8c4fd77d4a
 
+  VAPID_PUBLIC_KEY: BDntLA3k5K1tsrFOXXAuS_9Ey30jxy-R2CAosC2DOQnTs8LpQGxpTEx3AcPXinVYFFpJI6tT_RJC8pHgUsdbhOk
+  VAPID_PRIVATE_KEY: RVPPDBVNmJtSLoZ28jE1SumpG4HyhhCPfcix3bvxbLw
+  VAPID_SUBJECT: mailto:admin@email.com
+
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -40,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp: [ '25' ]
+        otp: [ '24' ]
         elixir: [ '1.15' ]
 
     services:

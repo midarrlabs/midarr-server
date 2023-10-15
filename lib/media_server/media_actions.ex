@@ -1,6 +1,7 @@
 defmodule MediaServer.MediaActions do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
 
   alias MediaServer.Repo
 
@@ -59,6 +60,25 @@ defmodule MediaServer.MediaActions do
 
   def delete(attrs) do
     Repo.get_by(__MODULE__, attrs)
-    |> Repo.delete
+    |> Repo.delete()
+  end
+
+  def movie(id) do
+    from this in __MODULE__,
+      where: this.media_type_id == ^MediaServer.MediaTypes.get_movie_id() and this.media_id == ^id
+  end
+
+  def series(id) do
+    from this in __MODULE__,
+      where:
+        this.media_type_id == ^MediaServer.MediaTypes.get_series_id() and this.media_id == ^id
+  end
+
+  def followers(query) do
+    MediaServer.Repo.all(
+      from this in query,
+        where: this.action_id == ^MediaServer.Actions.get_followed_id(),
+        preload: [user: [:push_subscriptions]]
+    )
   end
 end

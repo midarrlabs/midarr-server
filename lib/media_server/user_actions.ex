@@ -24,7 +24,6 @@ defmodule MediaServer.UserActions do
   end
 
   def handle_info({:followed, params}, state) do
-
     media_type_id = MediaServer.MediaTypes.get_type_id(params["media_type"])
 
     MediaServer.MediaActions.create(%{
@@ -34,13 +33,14 @@ defmodule MediaServer.UserActions do
       media_type_id: media_type_id
     })
 
-    Logger.info("user_id:#{ params["user_id"] }:followed:media_type_id:#{ media_type_id }:media_id:#{ params["media_id"] }")
+    Logger.info(
+      "user_id:#{params["user_id"]}:followed:media_type_id:#{media_type_id}:media_id:#{params["media_id"]}"
+    )
 
     {:noreply, state}
   end
 
   def handle_info({:unfollowed, params}, state) do
-
     media_type_id = MediaServer.MediaTypes.get_type_id(params["media_type"])
 
     MediaServer.MediaActions.delete(%{
@@ -50,31 +50,35 @@ defmodule MediaServer.UserActions do
       media_type_id: media_type_id
     })
 
-    Logger.info("user_id:#{ params["user_id"] }:unfollowed:media_type_id:#{ media_type_id }:media_id:#{ params["media_id"] }")
+    Logger.info(
+      "user_id:#{params["user_id"]}:unfollowed:media_type_id:#{media_type_id}:media_id:#{params["media_id"]}"
+    )
 
     {:noreply, state}
   end
 
   def handle_info({:granted_push_notifications, params}, state) do
-
     MediaServer.PushSubscriptions.create(%{
       user_id: params["user_id"],
       push_subscription: params["push_subscription"]
     })
 
-    Logger.info("user_id:#{ params["user_id"] }:granted_push_notifications:media_type_id:#{ params["media_type_id"] }:media_id:#{ params["media_id"] }")
+    Logger.info(
+      "user_id:#{params["user_id"]}:granted_push_notifications:media_type_id:#{params["media_type_id"]}:media_id:#{params["media_id"]}"
+    )
 
     {:noreply, state}
   end
 
   def handle_info({:denied_push_notifications, params}, state) do
-
     MediaServer.PushSubscriptions.create(%{
       user_id: params["user_id"],
       push_subscription: params["message"]
     })
 
-    Logger.info("user_id:#{ params["user_id"] }:denied_push_notifications:media_type_id:#{ params["media_type_id"] }:media_id:#{ params["media_id"] }")
+    Logger.info(
+      "user_id:#{params["user_id"]}:denied_push_notifications:media_type_id:#{params["media_type_id"]}:media_id:#{params["media_id"]}"
+    )
 
     {:noreply, state}
   end

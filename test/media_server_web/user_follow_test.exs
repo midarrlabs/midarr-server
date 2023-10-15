@@ -22,7 +22,8 @@ defmodule MediaServerWeb.UserFollowTest do
     |> element("#follow", "Follow")
     |> render_hook(:follow, %{media_id: movie["id"], media_type: "movie", user_id: user.id})
 
-    assert_received {:followed, %{"media_id" => 3, "media_type" => "movie", "user_id" => _user_id}}
+    assert_received {:followed,
+                     %{"media_id" => 3, "media_type" => "movie", "user_id" => _user_id}}
 
     # Not ideal but wait for processed message (async)
     :timer.sleep(1000)
@@ -53,7 +54,8 @@ defmodule MediaServerWeb.UserFollowTest do
     |> element("#follow", "Following")
     |> render_hook(:unfollow, %{media_id: movie["id"], media_type: "movie", user_id: user.id})
 
-    assert_received {:unfollowed, %{"media_id" => 3, "media_type" => "movie", "user_id" => _user_id}}
+    assert_received {:unfollowed,
+                     %{"media_id" => 3, "media_type" => "movie", "user_id" => _user_id}}
 
     # Not ideal but wait for processed message (async)
     :timer.sleep(1000)
@@ -74,7 +76,8 @@ defmodule MediaServerWeb.UserFollowTest do
     |> element("#follow", "Follow")
     |> render_hook(:follow, %{media_id: series["id"], media_type: "series", user_id: user.id})
 
-    assert_received {:followed, %{"media_id" => 1, "media_type" => "series", "user_id" => _user_id}}
+    assert_received {:followed,
+                     %{"media_id" => 1, "media_type" => "series", "user_id" => _user_id}}
 
     # Not ideal but wait for processed message (async)
     :timer.sleep(1000)
@@ -105,7 +108,8 @@ defmodule MediaServerWeb.UserFollowTest do
     |> element("#follow", "Following")
     |> render_hook(:unfollow, %{media_id: series["id"], media_type: "series", user_id: user.id})
 
-    assert_received {:unfollowed, %{"media_id" => 1, "media_type" => "series", "user_id" => _user_id}}
+    assert_received {:unfollowed,
+                     %{"media_id" => 1, "media_type" => "series", "user_id" => _user_id}}
 
     # Not ideal but wait for processed message (async)
     :timer.sleep(1000)
@@ -124,9 +128,20 @@ defmodule MediaServerWeb.UserFollowTest do
 
     view
     |> element("#follow", "Follow")
-    |> render_hook(:grant_push_notifications, %{media_id: movie["id"], media_type: "movie", user_id: user.id, push_subscription: "some subscription"})
+    |> render_hook(:grant_push_notifications, %{
+      media_id: movie["id"],
+      media_type: "movie",
+      user_id: user.id,
+      push_subscription: "some subscription"
+    })
 
-    assert_received {:granted_push_notifications, %{"media_id" => 3, "media_type" => "movie", "user_id" => _user_id, "push_subscription" => "some subscription"}}
+    assert_received {:granted_push_notifications,
+                     %{
+                       "media_id" => 3,
+                       "media_type" => "movie",
+                       "user_id" => _user_id,
+                       "push_subscription" => "some subscription"
+                     }}
 
     # Not ideal but wait for processed message (async)
     :timer.sleep(1000)
@@ -145,9 +160,20 @@ defmodule MediaServerWeb.UserFollowTest do
 
     view
     |> element("#follow", "Follow")
-    |> render_hook(:deny_push_notifications, %{media_id: movie["id"], media_type: "movie", user_id: user.id, message: "some message"})
+    |> render_hook(:deny_push_notifications, %{
+      media_id: movie["id"],
+      media_type: "movie",
+      user_id: user.id,
+      message: "some message"
+    })
 
-    assert_received {:denied_push_notifications, %{"media_id" => 3, "media_type" => "movie", "user_id" => _user_id, "message" => "some message"}}
+    assert_received {:denied_push_notifications,
+                     %{
+                       "media_id" => 3,
+                       "media_type" => "movie",
+                       "user_id" => _user_id,
+                       "message" => "some message"
+                     }}
 
     # Not ideal but wait for processed message (async)
     :timer.sleep(1000)
