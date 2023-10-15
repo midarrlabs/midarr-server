@@ -83,11 +83,25 @@ defmodule MediaServerWeb.WebhooksControllerTest do
   end
 
   test "it should add series", %{conn: conn, user: user} do
-    Phoenix.PubSub.subscribe(MediaServer.PubSub, "series")
 
-    conn = post(conn, ~p"/api/webhooks/series?token=#{user.api_token.token}", %{"eventType" => "Download"})
+    {:ok, _struct} = MediaServer.MediaActions.create(%{
+      media_id: 1,
+      user_id: user.id,
+      action_id: MediaServer.Actions.get_followed_id(),
+      media_type_id: MediaServer.MediaTypes.get_type_id("series")
+    })
 
-    assert_received {:added}
+    {:ok, _struct} = MediaServer.PushSubscriptions.create(%{
+      user_id: user.id,
+      push_subscription: Jason.encode!(@subscription)
+    })
+
+    {:ok, _struct} = MediaServer.PushSubscriptions.create(%{
+      user_id: user.id,
+      push_subscription: Jason.encode!(@subscription_with_error)
+    })
+
+    conn = post(conn, ~p"/api/webhooks/series?token=#{user.api_token.token}", %{"eventType" => "Download", "series" => %{"id" => 1, "title" => "Some Series"}})
 
     assert conn.status === 201
   end

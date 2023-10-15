@@ -25,6 +25,10 @@ defmodule MediaServer.MediaTypes do
     Repo.get_by!(__MODULE__, type: "movie").id
   end
 
+  def get_series_id() do
+    Repo.get_by!(__MODULE__, type: "series").id
+  end
+
   def get_episode_id() do
     Repo.get_by!(__MODULE__, type: "episode").id
   end
