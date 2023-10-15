@@ -1,14 +1,21 @@
 defmodule MediaServerWeb.WebhooksController do
   use MediaServerWeb, :controller
 
-  def create(conn, %{"id" => "movie", "eventType" => "Download", "movie" => %{"id" => id, "title" => title}}) do
+  def create(conn, %{
+        "id" => "movie",
+        "eventType" => "Download",
+        "movie" => %{"id" => id, "title" => title}
+      }) do
     MediaServer.MoviesIndex.reset()
 
     followers = MediaServer.MediaActions.movie(id) |> MediaServer.MediaActions.followers()
 
     Enum.each(followers, fn media_action ->
       Enum.each(media_action.user.push_subscriptions, fn push_subscription ->
-        WebPushElixir.send_notification(push_subscription.push_subscription, "#{ title } is now available")
+        WebPushElixir.send_notification(
+          push_subscription.push_subscription,
+          "#{title} is now available"
+        )
       end)
     end)
 

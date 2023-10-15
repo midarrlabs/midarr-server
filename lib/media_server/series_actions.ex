@@ -16,11 +16,14 @@ defmodule MediaServer.SeriesActions do
 
     followers = MediaServer.MediaActions.series(id) |> MediaServer.MediaActions.followers()
 
-      Enum.each(followers, fn media_action ->
-        Enum.each(media_action.user.push_subscriptions, fn push_subscription ->
-          WebPushElixir.send_notification(push_subscription.push_subscription, "#{ title } is now available")
-        end)
+    Enum.each(followers, fn media_action ->
+      Enum.each(media_action.user.push_subscriptions, fn push_subscription ->
+        WebPushElixir.send_notification(
+          push_subscription.push_subscription,
+          "#{title} is now available"
+        )
       end)
+    end)
   end
 
   def handle_info({:deleted}) do
