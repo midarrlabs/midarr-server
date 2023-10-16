@@ -151,27 +151,19 @@ defmodule MediaServerWeb.WebhooksControllerTest do
   end
 
   test "it should delete series", %{conn: conn, user: user} do
-    Phoenix.PubSub.subscribe(MediaServer.PubSub, "series")
-
     conn =
       post(conn, ~p"/api/webhooks/series?token=#{user.api_token.token}", %{
         "eventType" => "SeriesDelete"
       })
 
-    assert_received {:deleted}
-
     assert conn.status === 201
   end
 
   test "series should create on episode file delete", %{conn: conn, user: user} do
-    Phoenix.PubSub.subscribe(MediaServer.PubSub, "series")
-
     conn =
       post(conn, ~p"/api/webhooks/series?token=#{user.api_token.token}", %{
         "eventType" => "EpisodeFileDelete"
       })
-
-    assert_received {:deleted_episode_file}
 
     assert conn.status === 201
   end

@@ -1,16 +1,6 @@
 defmodule MediaServer.SeriesActions do
   use Task
 
-  require Logger
-
-  def start_link(arg) do
-    Task.start_link(__MODULE__, :run, [arg])
-  end
-
-  def run(_arg) do
-    Phoenix.PubSub.subscribe(MediaServer.PubSub, "series")
-  end
-
   def handle_info({:added, %{"series" => %{"id" => id, "title" => title}}}) do
     MediaServer.SeriesIndex.reset()
 

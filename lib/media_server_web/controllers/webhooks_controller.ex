@@ -2,42 +2,42 @@ defmodule MediaServerWeb.WebhooksController do
   use MediaServerWeb, :controller
 
   def create(conn, %{"id" => "movie", "eventType" => "Download"} = params) do
-    Phoenix.PubSub.broadcast(MediaServer.PubSub, "movie", {:added, params})
+    MediaServer.MovieActions.handle_info({:added, params})
 
     conn
     |> send_resp(201, "Ok")
   end
 
   def create(conn, %{"id" => "movie", "eventType" => "MovieDelete"}) do
-    Phoenix.PubSub.broadcast(MediaServer.PubSub, "movie", {:deleted})
+    MediaServer.MovieActions.handle_info({:deleted})
 
     conn
     |> send_resp(201, "Ok")
   end
 
   def create(conn, %{"id" => "movie", "eventType" => "MovieFileDelete"}) do
-    Phoenix.PubSub.broadcast(MediaServer.PubSub, "movie", {:deleted_file})
+    MediaServer.MovieActions.handle_info({:deleted_file})
 
     conn
     |> send_resp(201, "Ok")
   end
 
   def create(conn, %{"id" => "series", "eventType" => "Download"} = params) do
-    Phoenix.PubSub.broadcast(MediaServer.PubSub, "series", {:added, params})
+    MediaServer.SeriesActions.handle_info({:added, params})
 
     conn
     |> send_resp(201, "Ok")
   end
 
   def create(conn, %{"id" => "series", "eventType" => "SeriesDelete"}) do
-    Phoenix.PubSub.broadcast(MediaServer.PubSub, "series", {:deleted})
+    MediaServer.SeriesActions.handle_info({:deleted})
 
     conn
     |> send_resp(201, "Ok")
   end
 
   def create(conn, %{"id" => "series", "eventType" => "EpisodeFileDelete"}) do
-    Phoenix.PubSub.broadcast(MediaServer.PubSub, "series", {:deleted_episode_file})
+    MediaServer.SeriesActions.handle_info({:deleted_episode_file})
 
     conn
     |> send_resp(201, "Ok")
