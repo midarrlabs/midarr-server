@@ -9,11 +9,7 @@ defmodule MediaServerWeb.UserNavigation do
   end
 
   defp handle(_params, request_path, socket) do
-    Phoenix.PubSub.broadcast(
-      MediaServer.PubSub,
-      "user",
-      {:navigated, "#{socket.assigns.current_user.name}: #{request_path}"}
-    )
+    MediaServer.UserActions.handle_info({:navigated, "#{socket.assigns.current_user.name}: #{request_path}"})
 
     {:cont, socket |> assign(request_path: request_path)}
   end
