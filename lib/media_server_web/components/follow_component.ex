@@ -46,7 +46,7 @@ defmodule MediaServerWeb.Components.FollowComponent do
 
   @impl true
   def handle_event("follow", params, socket) do
-    Phoenix.PubSub.broadcast(MediaServer.PubSub, "user", {:followed, params})
+    MediaServer.UserActions.handle_info({:followed, params})
 
     {
       :noreply,
@@ -56,7 +56,7 @@ defmodule MediaServerWeb.Components.FollowComponent do
   end
 
   def handle_event("unfollow", params, socket) do
-    Phoenix.PubSub.broadcast(MediaServer.PubSub, "user", {:unfollowed, params})
+    MediaServer.UserActions.handle_info({:unfollowed, params})
 
     {
       :noreply,
@@ -66,13 +66,13 @@ defmodule MediaServerWeb.Components.FollowComponent do
   end
 
   def handle_event("grant_push_notifications", params, socket) do
-    Phoenix.PubSub.broadcast(MediaServer.PubSub, "user", {:granted_push_notifications, params})
+    MediaServer.UserActions.handle_info({:granted_push_notifications, params})
 
     {:noreply, socket}
   end
 
   def handle_event("deny_push_notifications", params, socket) do
-    Phoenix.PubSub.broadcast(MediaServer.PubSub, "user", {:denied_push_notifications, params})
+    MediaServer.UserActions.handle_info({:denied_push_notifications, params})
 
     {:noreply, socket}
   end

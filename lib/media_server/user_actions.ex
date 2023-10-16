@@ -1,29 +1,16 @@
 defmodule MediaServer.UserActions do
-  use GenServer
+  use Task
 
   require Logger
 
-  def start_link(_args) do
-    GenServer.start_link(__MODULE__, %{})
+  def handle_info({:registered, _params}) do
   end
 
-  def init(state) do
-    Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
-
-    {:ok, state}
-  end
-
-  def handle_info({:registered, _params}, state) do
-    {:noreply, state}
-  end
-
-  def handle_info({:navigated, params}, state) do
+  def handle_info({:navigated, params}) do
     Logger.info(params)
-
-    {:noreply, state}
   end
 
-  def handle_info({:followed, params}, state) do
+  def handle_info({:followed, params}) do
     media_type_id = MediaServer.MediaTypes.get_type_id(params["media_type"])
 
     MediaServer.MediaActions.create(%{
@@ -36,11 +23,9 @@ defmodule MediaServer.UserActions do
     Logger.info(
       "user_id:#{params["user_id"]}:followed:media_type_id:#{media_type_id}:media_id:#{params["media_id"]}"
     )
-
-    {:noreply, state}
   end
 
-  def handle_info({:unfollowed, params}, state) do
+  def handle_info({:unfollowed, params}) do
     media_type_id = MediaServer.MediaTypes.get_type_id(params["media_type"])
 
     MediaServer.MediaActions.delete(%{
@@ -53,11 +38,9 @@ defmodule MediaServer.UserActions do
     Logger.info(
       "user_id:#{params["user_id"]}:unfollowed:media_type_id:#{media_type_id}:media_id:#{params["media_id"]}"
     )
-
-    {:noreply, state}
   end
 
-  def handle_info({:granted_push_notifications, params}, state) do
+  def handle_info({:granted_push_notifications, params}) do
     MediaServer.PushSubscriptions.create(%{
       user_id: params["user_id"],
       push_subscription: params["push_subscription"]
@@ -66,11 +49,9 @@ defmodule MediaServer.UserActions do
     Logger.info(
       "user_id:#{params["user_id"]}:granted_push_notifications:media_type_id:#{params["media_type_id"]}:media_id:#{params["media_id"]}"
     )
-
-    {:noreply, state}
   end
 
-  def handle_info({:denied_push_notifications, params}, state) do
+  def handle_info({:denied_push_notifications, params}) do
     MediaServer.PushSubscriptions.create(%{
       user_id: params["user_id"],
       push_subscription: params["message"]
@@ -79,7 +60,5 @@ defmodule MediaServer.UserActions do
     Logger.info(
       "user_id:#{params["user_id"]}:denied_push_notifications:media_type_id:#{params["media_type_id"]}:media_id:#{params["media_id"]}"
     )
-
-    {:noreply, state}
   end
 end

@@ -23,8 +23,7 @@ defmodule MediaServer.Application do
       MediaServer.MoviesIndex,
       MediaServer.SeriesIndex,
       MediaServer.MovieActions,
-      MediaServer.SeriesActions,
-      MediaServer.UserActions
+      MediaServer.SeriesActions
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

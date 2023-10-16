@@ -12,8 +12,6 @@ defmodule MediaServerWeb.UserFollowTest do
   end
 
   test "it should follow movie", %{conn: conn, user: user} do
-    Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
-
     movie = MediaServer.MoviesIndex.all() |> List.first()
 
     {:ok, view, _html} = live(conn, ~p"/movies/#{movie["id"]}")
@@ -21,12 +19,6 @@ defmodule MediaServerWeb.UserFollowTest do
     view
     |> element("#follow", "Follow")
     |> render_hook(:follow, %{media_id: movie["id"], media_type: "movie", user_id: user.id})
-
-    assert_received {:followed,
-                     %{"media_id" => 3, "media_type" => "movie", "user_id" => _user_id}}
-
-    # Not ideal but wait for processed message (async)
-    :timer.sleep(1000)
 
     media = MediaServer.MediaActions.all()
 
@@ -37,8 +29,6 @@ defmodule MediaServerWeb.UserFollowTest do
   end
 
   test "it should unfollow movie", %{conn: conn, user: user} do
-    Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
-
     movie = MediaServer.MoviesIndex.all() |> List.first()
 
     MediaServer.MediaActions.create(%{
@@ -54,20 +44,12 @@ defmodule MediaServerWeb.UserFollowTest do
     |> element("#follow", "Following")
     |> render_hook(:unfollow, %{media_id: movie["id"], media_type: "movie", user_id: user.id})
 
-    assert_received {:unfollowed,
-                     %{"media_id" => 3, "media_type" => "movie", "user_id" => _user_id}}
-
-    # Not ideal but wait for processed message (async)
-    :timer.sleep(1000)
-
     media = MediaServer.MediaActions.all()
 
     assert Enum.count(media) === 0
   end
 
   test "it should follow series", %{conn: conn, user: user} do
-    Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
-
     series = MediaServer.SeriesIndex.all() |> List.first()
 
     {:ok, view, _html} = live(conn, ~p"/series/#{series["id"]}")
@@ -75,12 +57,6 @@ defmodule MediaServerWeb.UserFollowTest do
     view
     |> element("#follow", "Follow")
     |> render_hook(:follow, %{media_id: series["id"], media_type: "series", user_id: user.id})
-
-    assert_received {:followed,
-                     %{"media_id" => 1, "media_type" => "series", "user_id" => _user_id}}
-
-    # Not ideal but wait for processed message (async)
-    :timer.sleep(1000)
 
     media = MediaServer.MediaActions.all()
 
@@ -91,8 +67,6 @@ defmodule MediaServerWeb.UserFollowTest do
   end
 
   test "it should unfollow series", %{conn: conn, user: user} do
-    Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
-
     series = MediaServer.SeriesIndex.all() |> List.first()
 
     MediaServer.MediaActions.create(%{
@@ -108,20 +82,12 @@ defmodule MediaServerWeb.UserFollowTest do
     |> element("#follow", "Following")
     |> render_hook(:unfollow, %{media_id: series["id"], media_type: "series", user_id: user.id})
 
-    assert_received {:unfollowed,
-                     %{"media_id" => 1, "media_type" => "series", "user_id" => _user_id}}
-
-    # Not ideal but wait for processed message (async)
-    :timer.sleep(1000)
-
     media = MediaServer.MediaActions.all()
 
     assert Enum.count(media) === 0
   end
 
   test "it should grant push notifications", %{conn: conn, user: user} do
-    Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
-
     movie = MediaServer.MoviesIndex.all() |> List.first()
 
     {:ok, view, _html} = live(conn, ~p"/movies/#{movie["id"]}")
@@ -135,25 +101,12 @@ defmodule MediaServerWeb.UserFollowTest do
       push_subscription: "some subscription"
     })
 
-    assert_received {:granted_push_notifications,
-                     %{
-                       "media_id" => 3,
-                       "media_type" => "movie",
-                       "user_id" => _user_id,
-                       "push_subscription" => "some subscription"
-                     }}
-
-    # Not ideal but wait for processed message (async)
-    :timer.sleep(1000)
-
     push_subscriptions = MediaServer.PushSubscriptions.all()
 
     assert Enum.at(push_subscriptions, 0).push_subscription === "some subscription"
   end
 
   test "it should deny push notifications", %{conn: conn, user: user} do
-    Phoenix.PubSub.subscribe(MediaServer.PubSub, "user")
-
     movie = MediaServer.MoviesIndex.all() |> List.first()
 
     {:ok, view, _html} = live(conn, ~p"/movies/#{movie["id"]}")
@@ -166,17 +119,6 @@ defmodule MediaServerWeb.UserFollowTest do
       user_id: user.id,
       message: "some message"
     })
-
-    assert_received {:denied_push_notifications,
-                     %{
-                       "media_id" => 3,
-                       "media_type" => "movie",
-                       "user_id" => _user_id,
-                       "message" => "some message"
-                     }}
-
-    # Not ideal but wait for processed message (async)
-    :timer.sleep(1000)
 
     push_subscriptions = MediaServer.PushSubscriptions.all()
 
