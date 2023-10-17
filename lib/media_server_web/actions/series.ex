@@ -1,6 +1,4 @@
-defmodule MediaServer.SeriesActions do
-  use Task
-
+defmodule MediaServerWeb.Actions.Series do
   def handle_info({:added, %{"series" => %{"id" => id, "title" => title}}}) do
     MediaServer.SeriesIndex.reset()
 

@@ -9,7 +9,7 @@ defmodule MediaServerWeb.UserNavigation do
   end
 
   defp handle(_params, request_path, socket) do
-    MediaServer.UserActions.handle_info({:navigated, "#{socket.assigns.current_user.name}: #{request_path}"})
+    MediaServerWeb.Actions.User.handle_info({:navigated, "#{socket.assigns.current_user.name}: #{request_path}"})
 
     {:cont, socket |> assign(request_path: request_path)}
   end

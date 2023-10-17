@@ -1,6 +1,4 @@
-defmodule MediaServer.UserActions do
-  use Task
-
+defmodule MediaServerWeb.Actions.User do
   require Logger
 
   def handle_info({:registered, _params}) do

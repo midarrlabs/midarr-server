@@ -1,6 +1,4 @@
-defmodule MediaServer.MovieActions do
-  use Task
-
+defmodule MediaServerWeb.Actions.Movie do
   def handle_info({:added, %{"movie" => %{"id" => id, "title" => title}}}) do
     MediaServer.MoviesIndex.reset()
 
