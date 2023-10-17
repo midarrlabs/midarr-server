@@ -1,8 +1,12 @@
 defmodule MediaServerWeb.WebhooksController do
   use MediaServerWeb, :controller
 
+  require Logger
+
   def create(conn, %{"id" => "movie", "eventType" => "Download"} = params) do
     MediaServerWeb.Actions.Movie.handle_info({:added, params})
+
+    Logger.info(params)
 
     conn
     |> send_resp(201, "Ok")
@@ -25,6 +29,8 @@ defmodule MediaServerWeb.WebhooksController do
   def create(conn, %{"id" => "series", "eventType" => "Download"} = params) do
     MediaServerWeb.Actions.Series.handle_info({:added, params})
 
+    Logger.info(params)
+
     conn
     |> send_resp(201, "Ok")
   end
@@ -43,7 +49,9 @@ defmodule MediaServerWeb.WebhooksController do
     |> send_resp(201, "Ok")
   end
 
-  def create(conn, _payload) do
+  def create(conn, params) do
+    Logger.info(params)
+
     conn
     |> send_resp(200, "Ok")
   end
