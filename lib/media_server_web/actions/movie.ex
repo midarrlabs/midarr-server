@@ -8,7 +8,7 @@ defmodule MediaServerWeb.Actions.Movie do
       Enum.each(media_action.user.push_subscriptions, fn push_subscription ->
         WebPushElixir.send_notification(
           push_subscription.push_subscription,
-          "#{title} is now available"
+          "#{title} available"
         )
       end)
     end)
