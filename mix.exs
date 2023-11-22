@@ -59,7 +59,7 @@ defmodule MediaServer.MixProject do
       {:extitles, "~> 0.1.0"},
       {:exstream, "~> 0.20.0"},
       {:oauth2, "~> 2.0"},
-      {:web_push_elixir, "~> 0.2.0"}
+      {:web_push_elixir, "~> 0.4.0"}
     ]
   end
 
