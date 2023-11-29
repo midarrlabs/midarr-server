@@ -64,7 +64,7 @@ config :media_server, MediaServer.Repo,
   database: System.get_env("DB_DATABASE"),
   hostname: System.get_env("DB_HOSTNAME")
 
-config :web_push_elixir,
+config :media_server, :web_push_elixir,
   vapid_public_key: System.get_env("VAPID_PUBLIC_KEY"),
   vapid_private_key: System.get_env("VAPID_PRIVATE_KEY"),
   vapid_subject: System.get_env("VAPID_SUBJECT")
