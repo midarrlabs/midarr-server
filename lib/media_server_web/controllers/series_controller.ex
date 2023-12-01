@@ -66,4 +66,24 @@ defmodule MediaServerWeb.SeriesController do
       })
     )
   end
+
+  def show(conn, %{"id" => id}) do
+    series = MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.find(id)
+
+    conn
+    |> put_resp_header("content-type", "application/json")
+    |> send_resp(
+         200,
+         Jason.encode!(%{
+           "id" => series["id"],
+           "title" => series["title"],
+           "overview" => series["overview"],
+           "year" => series["year"],
+           "seasonCount" => series["statistics"]["seasonCount"],
+           "poster" => ~p"/api/images?series=#{series["id"]}&type=poster",
+           "background" => ~p"/api/images?series=#{series["id"]}&type=background",
+           "stream" => ~p"/api/stream?series=#{series["id"]}"
+         })
+       )
+  end
 end

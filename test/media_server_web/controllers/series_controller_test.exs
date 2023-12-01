@@ -31,4 +31,12 @@ defmodule MediaServerWeb.SeriesControllerTest do
     assert conn.resp_body ===
              "{\"items\":[],\"next_page\":\"/api/series?page=3\",\"prev_page\":\"/api/series?page=1\",\"total\":1}"
   end
+
+  test "it should have id", %{conn: conn, user: user} do
+    conn = get(conn, ~p"/api/series/1?token=#{user.api_token.token}")
+
+    assert conn.status === 200
+
+    assert conn.resp_body === "{\"background\":\"/api/images?series=1&type=background\",\"id\":1,\"overview\":\"An object in the sky spreads radiation over North America. Fearing terrorism, U.S. Homeland Security agents are dispatched to investigate and contain the damage. What they discover will have implications for the entire world.\",\"poster\":\"/api/images?series=1&type=poster\",\"seasonCount\":1,\"stream\":\"/api/stream?series=1\",\"title\":\"Pioneer One\",\"year\":2010}"
+  end
 end
