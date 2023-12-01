@@ -17,10 +17,10 @@ defmodule MediaServerWeb.SeriesController do
         "items" =>
           Enum.map(series.entries, fn x ->
             %{
+              "id" => x["id"],
               "title" => x["title"],
               "overview" => x["overview"],
               "year" => x["year"],
-              "seasonCount" => x["statistics"]["seasonCount"],
               "poster" => ~p"/api/images?series=#{x["id"]}&type=poster",
               "background" => ~p"/api/images?series=#{x["id"]}&type=background",
               "stream" => ~p"/api/stream?series=#{x["id"]}"
@@ -50,10 +50,10 @@ defmodule MediaServerWeb.SeriesController do
         "items" =>
           Enum.map(series.entries, fn x ->
             %{
+              "id" => x["id"],
               "title" => x["title"],
               "overview" => x["overview"],
               "year" => x["year"],
-              "seasonCount" => x["statistics"]["seasonCount"],
               "poster" => ~p"/api/images?series=#{x["id"]}&type=poster",
               "background" => ~p"/api/images?series=#{x["id"]}&type=background",
               "stream" => ~p"/api/stream?series=#{x["id"]}"
