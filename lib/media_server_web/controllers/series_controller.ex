@@ -22,8 +22,7 @@ defmodule MediaServerWeb.SeriesController do
               "overview" => x["overview"],
               "year" => x["year"],
               "poster" => ~p"/api/images?series=#{x["id"]}&type=poster",
-              "background" => ~p"/api/images?series=#{x["id"]}&type=background",
-              "stream" => ~p"/api/stream?series=#{x["id"]}"
+              "background" => ~p"/api/images?series=#{x["id"]}&type=background"
             }
           end),
         "prev_page" =>
@@ -55,8 +54,7 @@ defmodule MediaServerWeb.SeriesController do
               "overview" => x["overview"],
               "year" => x["year"],
               "poster" => ~p"/api/images?series=#{x["id"]}&type=poster",
-              "background" => ~p"/api/images?series=#{x["id"]}&type=background",
-              "stream" => ~p"/api/stream?series=#{x["id"]}"
+              "background" => ~p"/api/images?series=#{x["id"]}&type=background"
             }
           end),
         "prev_page" =>
@@ -82,6 +80,7 @@ defmodule MediaServerWeb.SeriesController do
                "title" => episode["title"],
                "overview" => episode["overview"],
                "screenshot" => ~p"/api/images?episode=#{episode["id"]}&type=screenshot",
+               "stream" => ~p"/api/stream?episode=#{episode["id"]}"
              }
          end))
        )
@@ -101,8 +100,7 @@ defmodule MediaServerWeb.SeriesController do
            "year" => series["year"],
            "seasonCount" => series["statistics"]["seasonCount"],
            "poster" => ~p"/api/images?series=#{series["id"]}&type=poster",
-           "background" => ~p"/api/images?series=#{series["id"]}&type=background",
-           "stream" => ~p"/api/stream?series=#{series["id"]}"
+           "background" => ~p"/api/images?series=#{series["id"]}&type=background"
          })
        )
   end
