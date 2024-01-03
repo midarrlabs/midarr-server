@@ -5,8 +5,9 @@ defmodule MediaServerWeb.Actions.Movie do
     MediaServer.MoviesIndex.reset()
 
     case Application.get_env(:media_server, :web_push_elixir) do
-      {:ok, _value} ->
-
+      nil ->
+        Logger.info("Config required to send notifications")
+      _ ->
         followers = MediaServer.MediaActions.movie(id) |> MediaServer.MediaActions.followers()
 
         Enum.each(followers, fn media_action ->
@@ -17,10 +18,6 @@ defmodule MediaServerWeb.Actions.Movie do
             )
           end)
         end)
-      [vapid_public_key: nil, vapid_private_key: nil, vapid_subject: nil] ->
-        Logger.info("Config required to send notifications")
-      _ ->
-        Logger.info("Config required to send notifications")
     end
   end
 
