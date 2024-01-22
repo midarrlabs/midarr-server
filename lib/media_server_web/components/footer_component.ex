@@ -6,9 +6,9 @@ defmodule MediaServerWeb.Components.FooterComponent do
     <footer class="mx-auto w-full max-w-2xl space-y-10 pb-24 lg:pb-16 lg:max-w-5xl">
       <div class="flex flex-col items-center justify-between gap-5 border-t border-zinc-900/5 pt-8 dark:border-white/5 sm:flex-row">
         <div class="flex text-xs text-zinc-600 dark:text-zinc-400">
-          <p>Copyright © 2023 Midarr Labs</p>
+          <p>Copyright © 2024 Midarr Labs</p>
           <p class="ml-4 pl-4 border-l border-white/10">
-            v4.2.0-beta.8
+            v4.2.0
           </p>
         </div>
         <div class="flex gap-4">
