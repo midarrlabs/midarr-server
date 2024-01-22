@@ -35,7 +35,7 @@ users:
 * Simple and easy invite system
 * Integrates with your existing services, [Radarr](https://radarr.video/) and [Sonarr](https://sonarr.tv/)
 
-![Preview](docs/home-v4.1.0.png)
+![Preview](docs/home-v4.2.0.png)
 
 ### What is this?
 
@@ -254,6 +254,6 @@ Midarr is open-sourced software licensed under the [MIT license](LICENSE).
 ## Preview
 
 ![Preview](docs/login-v3.0.0.png)
-![Preview](docs/movie-v4.1.0.png)
-![Preview](docs/series-v4.1.0.png)
+![Preview](docs/movie-v4.2.0.png)
+![Preview](docs/series-v4.2.0.png)
 ![Preview](docs/player-v3.0.0.png)
