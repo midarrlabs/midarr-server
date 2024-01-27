@@ -41,6 +41,8 @@ defmodule MediaServerWeb.Router do
       live "/series", SeriesLive.Index, :index
       live "/series/:id", SeriesLive.Show, :show
 
+      live "/people/:id", PeopleLive.Show, :show
+
       live "/history", HistoryLive.Index, :index
 
       live "/search", SearchLive.Index, :index

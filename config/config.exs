@@ -69,6 +69,9 @@ config :web_push_elixir,
   vapid_private_key: System.get_env("VAPID_PRIVATE_KEY"),
   vapid_subject: System.get_env("VAPID_SUBJECT")
 
+config :oapi_tmdb,
+  api_key: System.get_env("TMDB_API_KEY")
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
