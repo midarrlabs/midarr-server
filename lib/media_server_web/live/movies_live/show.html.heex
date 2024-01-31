@@ -64,7 +64,7 @@
             subtitle=""
             runtime=""
             img_src={~p"/api/images?url=#{MediaServer.Helpers.get_headshot(item)}&type=proxy&token=#{@current_user.api_token.token}"}
-            link=""
+            link={~p"/people/#{item["personTmdbId"]}"}
             width="80"
           />
         <% end %>

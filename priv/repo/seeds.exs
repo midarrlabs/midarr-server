@@ -24,6 +24,10 @@ MediaServer.MediaTypes.create(%{
   type: "episode"
 })
 
+MediaServer.MediaTypes.create(%{
+  type: "person"
+})
+
 MediaServer.Actions.create(%{
   action: "played"
 })

@@ -1,0 +1,40 @@
+<%= if assigns[:person] do %>
+
+<div class="flex-auto prose dark:prose-invert">
+
+    <div class="relative overflow-visible bg-zinc-900 w-40 mb-6">
+      <img
+        src={"https://image.tmdb.org/t/p/original/#{ @person["profile_path"] }"}
+        alt=""
+        class="h-full w-full object-cover object-center"
+        loading="lazy"
+      />
+    </div>
+
+    <header class="flex flex-col gap-y-2">
+      <div class="flex items-center gap-6">
+        <div class="flex flex-col">
+          <h1 class="text-4xl font-bold text-slate-900"><%= @person["name"] %></h1>
+        </div>
+      </div>
+      <div class="flex gap-x-4 items-center">
+        <.live_component
+          module={MediaServerWeb.Components.FollowComponent}
+          id="followComponent"
+          media_id={@person["id"]}
+          media_type="person"
+          user_id={@current_user.id}
+          return_to={~p"/people/#{@person["id"]}"}
+        />
+      </div>
+    </header>
+
+  <h2>Overview</h2>
+
+  <p class="lead">
+    <%= @person["biography"] %>
+  </p>
+
+</div>
+
+<% end %>
