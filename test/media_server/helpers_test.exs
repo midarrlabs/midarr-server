@@ -13,7 +13,7 @@ defmodule MediaServer.HelpersTest do
       },
       %{
         "coverType" => "headshot",
-        "url" => "https://some.remote.url/some-headshot"
+        "remoteUrl" => "https://some.remote.url/some-headshot"
       }
     ]
   }
