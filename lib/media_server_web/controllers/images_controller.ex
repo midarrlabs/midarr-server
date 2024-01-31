@@ -43,6 +43,17 @@ defmodule MediaServerWeb.ImagesController do
     |> send_resp(200, body)
   end
 
+  def index(conn, %{"url" => url, "type" => "proxy"}) do
+
+    {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
+      HTTPoison.get(url)
+
+    conn
+    |> put_resp_header("content-type", "image/image")
+    |> put_resp_header("cache-control", "max-age=604800, public, must-revalidate")
+    |> send_resp(200, body)
+  end
+
   def index(conn, %{"series" => id, "type" => "poster"}) do
     {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
       HTTPoison.get(MediaServerWeb.Repositories.Series.get_url("mediacover/#{id}/poster-500.jpg"))

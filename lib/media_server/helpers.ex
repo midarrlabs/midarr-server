@@ -18,7 +18,7 @@ defmodule MediaServer.Helpers do
 
   def some_test({:ok, value}, "headshot") do
     Enum.find(value, fn item -> item["coverType"] === "headshot" end)
-    |> another_test("url")
+    |> another_test("remoteUrl")
   end
 
   def some_test({:ok, value}, type) do
