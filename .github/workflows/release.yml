@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v4.2.0'
+      - 'v5.0.0'
 
 jobs:
   docker:
