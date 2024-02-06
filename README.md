@@ -221,7 +221,7 @@ http://midarr:4000/api/webhooks/series?token=some-api-token
 
 We support the following integration versions:
 
-* Radarr `v4.x`
+* Radarr `v5.x`
 * Sonarr `v3.x`
 
 ## Contributing
