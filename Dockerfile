@@ -34,6 +34,7 @@ RUN \
         curl \
         make \
         g++ \
+        ffmpeg \
     && \
     mix local.hex --force \
     && mix local.rebar --force \
