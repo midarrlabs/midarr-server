@@ -57,10 +57,11 @@ defmodule MediaServer.MixProject do
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:scrivener, "~> 2.0"},
       {:extitles, "~> 0.1.0"},
-      {:exstream, "~> 0.20.0"},
+      {:exstream, "~> 0.21.0"},
       {:oauth2, "~> 2.0"},
       {:web_push_elixir, "~> 0.4.0"},
-      {:oapi_tmdb, "~> 0.3.0"}
+      {:oapi_tmdb, "~> 0.3.0"},
+      {:hls_playlist, "~> 0.1.2"}
     ]
   end
 
