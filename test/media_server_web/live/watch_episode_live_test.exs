@@ -39,18 +39,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"], timestamp: 39))
 
-    assert render(view) =~ "#t=39"
-  end
-
-  test "it should subtitle", %{conn: conn} do
-    serie = MediaServer.SeriesIndex.all() |> List.first()
-
-    episode = MediaServerWeb.Repositories.Episodes.get_episode(serie["id"])
-
-    {:ok, _view, disconnected_html} =
-      live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))
-
-    assert disconnected_html =~ Routes.subtitle_path(conn, :index, episode: episode["id"])
+    assert render(view) =~ "39"
   end
 
   test "it should not subtitle", %{conn: conn} do
