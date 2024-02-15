@@ -24,6 +24,12 @@ COPY . ./
 COPY --from=node /assets/node_modules /app/assets/node_modules/
 
 RUN \
+    echo "@latest https://dl-cdn.alpinelinux.org/alpine/latest-stable/community" >> /etc/apk/repositories \
+    &&  echo "https://dl-cdn.alpinelinux.org/alpine/v3.12/community" >> /etc/apk/repositories \
+    && echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
+    && apk update
+
+RUN \
     apk add --no-cache --virtual=.build-deps \
         build-base \
     && \
@@ -34,7 +40,9 @@ RUN \
         curl \
         make \
         g++ \
-        "ffmpeg=5.1.4-r0" \
+        libdav1d \
+        spirv-tools \
+        "ffmpeg@latest=6.1.1-r0" \
     && \
     mix local.hex --force \
     && mix local.rebar --force \
