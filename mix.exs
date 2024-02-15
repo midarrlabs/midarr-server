@@ -60,7 +60,7 @@ defmodule MediaServer.MixProject do
       {:oauth2, "~> 2.0"},
       {:web_push_elixir, "~> 0.4.0"},
       {:oapi_tmdb, "~> 0.3.0"},
-      {:hls_playlist, "~> 0.2.0"},
+      {:hls_playlist, "~> 0.2.1"},
       {:exile, "~> 0.9.1"}
     ]
   end
