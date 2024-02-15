@@ -28,8 +28,6 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
 
     <%= if @current_user do %>
-      <script src="https://cdn.jsdelivr.net/npm/vidstack@^1.0.0/cdn/vidstack.js" type="module"></script>
-
       <script>
         window.userId = <%= assigns[:current_user].id %>;
         window.applicationServerKey = "<%= System.get_env("VAPID_PUBLIC_KEY") %>";
@@ -41,6 +39,11 @@
         src={Routes.static_path(@conn, "/assets/app.js")}
       >
       </script>
+
+      <script
+        src="https://cdn.jsdelivr.net/npm/vidstack@^1.0.0/cdn/with-layouts/vidstack.js"
+        type="module"
+      ></script>
     <% end %>
   </head>
   <body class="bg-zinc-900">

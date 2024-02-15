@@ -33,7 +33,36 @@ defmodule MediaServerWeb.StreamController do
     end)
   end
 
-  def index(conn, %{"episode" => _id}) do
-    conn
+  def index(conn, %{"episode" => id, "segment" => segment}) do
+
+    episode_path = MediaServerWeb.Repositories.Episodes.get_episode_path(id)
+
+    playlist = :ets.lookup(:playlists_table, "episode-#{ id }")
+               |> List.first()
+               |> elem(1)
+               |> String.split
+
+    {segment_duration, offset_duration} = HlsPlaylist.get_segment_offset(playlist, String.to_integer(segment))
+
+    conn = conn |> send_chunked(200)
+
+    Exile.stream!([
+      "ffmpeg",
+      "-ss", "#{ offset_duration }",
+      "-copyts",
+      "-t", "#{ segment_duration }",
+      "-i", episode_path,
+      "-c", "copy",
+      "-f", "mpegts",
+      "pipe:"
+    ])
+    |> Enum.reduce_while(conn, fn (chunk, conn) ->
+      case Plug.Conn.chunk(conn, chunk) do
+        {:ok, conn} ->
+          {:cont, conn}
+        {:error, :closed} ->
+          {:halt, conn}
+      end
+    end)
   end
 end
