@@ -17,9 +17,12 @@ defmodule MediaServerWeb.StreamController do
       "ffmpeg",
       "-ss", "#{ offset_duration }",
       "-copyts",
+      "-avoid_negative_ts", "disabled",
       "-t", "#{ segment_duration }",
       "-i", movie["movieFile"]["path"],
-      "-c", "copy",
+      "-c:v", "libx264",
+      "-c:a", "aac",
+      "-ac", "2",
       "-f", "mpegts",
       "pipe:"
     ])
@@ -50,9 +53,12 @@ defmodule MediaServerWeb.StreamController do
       "ffmpeg",
       "-ss", "#{ offset_duration }",
       "-copyts",
+      "-avoid_negative_ts", "disabled",
       "-t", "#{ segment_duration }",
       "-i", episode_path,
-      "-c", "copy",
+      "-c:v", "libx264",
+      "-c:a", "aac",
+      "-ac", "2",
       "-f", "mpegts",
       "pipe:"
     ])
