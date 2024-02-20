@@ -25,6 +25,7 @@ COPY --from=node /assets/node_modules /app/assets/node_modules/
 
 RUN \
     echo "@latest https://dl-cdn.alpinelinux.org/alpine/latest-stable/community" >> /etc/apk/repositories \
+    &&  echo "https://dl-cdn.alpinelinux.org/alpine/v3.11/main" >> /etc/apk/repositories \
     &&  echo "https://dl-cdn.alpinelinux.org/alpine/v3.12/community" >> /etc/apk/repositories \
     && echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
     && apk update
