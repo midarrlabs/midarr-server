@@ -15,14 +15,15 @@ defmodule MediaServerWeb.StreamController do
 
     Exile.stream!([
       "ffmpeg",
+      "-vaapi_device", "/dev/dri/renderD128",
       "-ss", "#{ offset_duration }",
       "-copyts",
       "-avoid_negative_ts", "disabled",
       "-t", "#{ segment_duration }",
       "-i", movie["movieFile"]["path"],
-      "-c:v", "libx264",
-      "-c:a", "aac",
-      "-ac", "2",
+      "-vf", "format=nv12,hwupload",
+      "-c:v", "h264_vaapi",
+      "-c:a", "copy",
       "-f", "mpegts",
       "pipe:"
     ])
@@ -51,14 +52,15 @@ defmodule MediaServerWeb.StreamController do
 
     Exile.stream!([
       "ffmpeg",
+      "-vaapi_device", "/dev/dri/renderD128",
       "-ss", "#{ offset_duration }",
       "-copyts",
       "-avoid_negative_ts", "disabled",
       "-t", "#{ segment_duration }",
       "-i", episode_path,
-      "-c:v", "libx264",
-      "-c:a", "aac",
-      "-ac", "2",
+      "-vf", "format=nv12,hwupload",
+      "-c:v", "h264_vaapi",
+      "-c:a", "copy",
       "-f", "mpegts",
       "pipe:"
     ])
