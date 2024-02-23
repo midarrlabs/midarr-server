@@ -28,6 +28,7 @@ RUN \
     &&  echo "https://dl-cdn.alpinelinux.org/alpine/v3.11/main" >> /etc/apk/repositories \
     &&  echo "https://dl-cdn.alpinelinux.org/alpine/v3.12/community" >> /etc/apk/repositories \
     && echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
+    && echo "@edge-community https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk update
 
 RUN \
@@ -41,6 +42,7 @@ RUN \
         curl \
         make \
         g++ \
+        "shaderc@edge-community=2023.7-r0" \
         mesa-va-gallium \
         mesa-gl \
         mesa-dev \
