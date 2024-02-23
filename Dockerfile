@@ -41,7 +41,9 @@ RUN \
         curl \
         make \
         g++ \
-        libva-intel-driver \
+        mesa-va-gallium \
+        mesa-gl \
+        mesa-dev \
         libdav1d \
         spirv-tools \
         "ffmpeg@latest=6.1.1-r0" \
