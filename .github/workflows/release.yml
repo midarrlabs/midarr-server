@@ -29,7 +29,7 @@ jobs:
       - name: Build tag
         uses: docker/build-push-action@v4
         with:
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
           tags: ghcr.io/midarrlabs/midarr-server:${{ env.RELEASE_VERSION }}
           build-args: |
@@ -39,7 +39,7 @@ jobs:
       - name: Build latest
         uses: docker/build-push-action@v4
         with:
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
           tags: ghcr.io/midarrlabs/midarr-server:latest
           build-args: |
