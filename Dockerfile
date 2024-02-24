@@ -28,6 +28,7 @@ RUN \
     &&  echo "https://dl-cdn.alpinelinux.org/alpine/v3.11/main" >> /etc/apk/repositories \
     &&  echo "https://dl-cdn.alpinelinux.org/alpine/v3.12/community" >> /etc/apk/repositories \
     && echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
+    && echo "@edge-community https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk update
 
 RUN \
@@ -41,7 +42,7 @@ RUN \
         curl \
         make \
         g++ \
-        libva-intel-driver \
+        "libva-intel-driver@edge-community=2.4.1-r0" \
         libdav1d \
         spirv-tools \
         "ffmpeg@latest=6.1.1-r0" \
