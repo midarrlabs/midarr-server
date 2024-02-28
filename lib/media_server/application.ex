@@ -21,7 +21,8 @@ defmodule MediaServer.Application do
       MediaServerWeb.Presence,
       {DynamicSupervisor, name: MediaServer.DynamicSupervisor},
       MediaServer.MoviesIndex,
-      MediaServer.SeriesIndex
+      MediaServer.SeriesIndex,
+      MediaServer.PlaylistIndex,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

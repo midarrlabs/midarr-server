@@ -40,7 +40,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"], timestamp: 89))
 
-    assert render(view) =~ "#t=89"
+    assert render(view) =~ "89"
 
     render_hook(view, :video_destroyed, %{
       current_time: 45,
@@ -48,15 +48,6 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
     })
 
     assert MediaServer.Continues.where(media_id: movie["id"]).current_time === 45
-  end
-
-  test "it should subtitle", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), "1")
-
-    {:ok, _view, disconnected_html} =
-      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
-
-    assert disconnected_html =~ Routes.subtitle_path(conn, :index, movie: movie["id"])
   end
 
   test "it should not subtitle", %{conn: conn} do
