@@ -43,6 +43,7 @@ RUN \
         make \
         g++ \
         "libva-intel-driver@edge-community=2.4.1-r0" \
+        "shaderc@edge-community=2023.7-r0" \
         libdav1d \
         spirv-tools \
         "ffmpeg@latest=6.1.1-r0" \
