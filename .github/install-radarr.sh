@@ -13,7 +13,7 @@ sudo chown -R radarr:media /var/lib/radarr
 sudo chmod 775 /var/lib/radarr
 
 sudo apt install curl sqlite3
-wget --content-disposition "https://github.com/Radarr/Radarr/releases/download/v4.1.0.6175/Radarr.master.4.1.0.6175.linux-core-x64.tar.gz"
+wget --content-disposition "https://github.com/Radarr/Radarr/releases/download/v5.2.6.8376/Radarr.master.5.2.6.8376.linux-core-x64.tar.gz"
 tar -xvzf Radarr*.linux*.tar.gz
 sudo mv Radarr /opt
 sudo chown radarr:media -R /opt/Radarr
