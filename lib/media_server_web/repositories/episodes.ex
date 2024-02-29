@@ -3,31 +3,20 @@ defmodule MediaServerWeb.Repositories.Episodes do
   alias MediaServer.Subtitles
 
   def get_all(series_id, season_number) do
-    HTTPoison.get("#{Series.get_url("episode")}&seriesId=#{series_id}")
-    |> Series.handle_response()
+    Series.get("episode?seriesId=#{series_id}&includeImages=true")
     |> Enum.filter(fn episode ->
       episode["seasonNumber"] === String.to_integer(season_number)
     end)
-    |> replace_each_with_episode_show_response()
   end
 
   def get_episode(id) do
-    HTTPoison.get("#{Series.get_url("episode/#{id}")}")
-    |> Series.handle_response()
+    Series.get("episode/#{id}")
   end
 
   def get_episode_path(id) do
-    episode =
-      HTTPoison.get("#{Series.get_url("episode/#{id}")}")
-      |> Series.handle_response()
+    episode = Series.get("episode/#{id}")
 
     episode["episodeFile"]["path"]
-  end
-
-  def replace_each_with_episode_show_response(episodes) do
-    Enum.map(episodes, fn episode ->
-      get_episode(episode["id"])
-    end)
   end
 
   def handle_image(nil) do
@@ -35,7 +24,7 @@ defmodule MediaServerWeb.Repositories.Episodes do
   end
 
   def handle_image(screenshot) do
-    screenshot["url"]
+    screenshot["remoteUrl"]
   end
 
   def get_screenshot(episode) do
