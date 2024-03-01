@@ -7,7 +7,12 @@ defmodule MediaServerWeb.Repositories.Series do
   end
 
   def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
-    Jason.decode!(body)
+    case Jason.decode(body) do
+      {:ok, decoded} ->
+        decoded
+      _ ->
+        body
+    end
   end
 
   def handle_response(_) do

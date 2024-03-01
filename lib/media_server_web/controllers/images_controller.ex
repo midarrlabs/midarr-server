@@ -55,8 +55,7 @@ defmodule MediaServerWeb.ImagesController do
   end
 
   def index(conn, %{"series" => id, "type" => "poster"}) do
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-      HTTPoison.get(MediaServerWeb.Repositories.Series.get_url("mediacover/#{id}/poster-500.jpg"))
+    body = MediaServerWeb.Repositories.Series.get("mediacover/#{id}/poster.jpg")
 
     conn
     |> put_resp_header("content-type", "image/image")
@@ -65,8 +64,7 @@ defmodule MediaServerWeb.ImagesController do
   end
 
   def index(conn, %{"series" => id, "type" => "background"}) do
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-      HTTPoison.get(MediaServerWeb.Repositories.Series.get_url("mediacover/#{id}/fanart.jpg"))
+    body = MediaServerWeb.Repositories.Series.get("mediacover/#{id}/fanart.jpg")
 
     conn
     |> put_resp_header("content-type", "image/image")
