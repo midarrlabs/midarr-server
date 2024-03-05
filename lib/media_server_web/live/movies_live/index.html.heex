@@ -78,7 +78,7 @@
     <.live_component
       module={MediaServerWeb.Components.ListOfMovies}
       id="latest-movies"
-      ids={Enum.map(@movies, & &1["id"])}
+      ids={Enum.map(@movies, & &1.id)}
       token={assigns[:current_user].api_token.token}
       user_id={assigns[:current_user].id}
     />

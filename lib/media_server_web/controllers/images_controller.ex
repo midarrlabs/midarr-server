@@ -13,8 +13,7 @@ defmodule MediaServerWeb.ImagesController do
 
   def index(conn, %{"movie" => id, "type" => "background", "size" => size}) do
     background_file =
-      MediaServer.MoviesIndex.all()
-      |> MediaServer.MoviesIndex.find(id)
+      MediaServer.MoviesIndex.find(id)
       |> MediaServer.Helpers.get_background()
       |> MediaServer.Helpers.get_image_file()
 
@@ -29,8 +28,7 @@ defmodule MediaServerWeb.ImagesController do
 
   def index(conn, %{"movie" => id, "type" => "background"}) do
     background_file =
-      MediaServer.MoviesIndex.all()
-      |> MediaServer.MoviesIndex.find(id)
+      MediaServer.MoviesIndex.find(id)
       |> MediaServer.Helpers.get_background()
       |> MediaServer.Helpers.get_image_file()
 

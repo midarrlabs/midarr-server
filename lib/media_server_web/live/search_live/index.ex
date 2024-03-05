@@ -19,7 +19,7 @@ defmodule MediaServerWeb.SearchLive.Index do
     pid = self()
 
     Task.start(fn ->
-      send(pid, {:movies, MediaServer.MoviesIndex.search(MediaServer.MoviesIndex.all(), query)})
+      send(pid, {:movies, MediaServer.MoviesIndex.search(query)})
     end)
 
     Task.start(fn ->

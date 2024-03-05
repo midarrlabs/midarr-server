@@ -2,9 +2,9 @@ defmodule MediaServerWeb.StreamController do
   use MediaServerWeb, :controller
 
   def index(conn, %{"movie" => id, "segment" => segment}) do
-    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
+    movie = MediaServer.MoviesIndex.find(id)
 
-    playlist = :ets.lookup(:playlists_table, "movie-#{ movie["id"] }")
+    playlist = :ets.lookup(:playlists_table, "movie-#{ movie.id }")
                |> List.first()
                |> elem(1)
                |> String.split
@@ -20,7 +20,7 @@ defmodule MediaServerWeb.StreamController do
       "-copyts",
       "-avoid_negative_ts", "disabled",
       "-t", "#{ segment_duration }",
-      "-i", movie["movieFile"]["path"],
+      "-i", movie.path,
       "-vf", "format=nv12,hwupload",
       "-c:v", "h264_vaapi",
       "-c:a", "copy",
@@ -60,7 +60,8 @@ defmodule MediaServerWeb.StreamController do
       "-i", episode_path,
       "-vf", "format=nv12,hwupload",
       "-c:v", "h264_vaapi",
-      "-c:a", "copy",
+      "-c:a", "aac",
+      "-ac", "2",
       "-f", "mpegts",
       "pipe:"
     ])

@@ -1,33 +1,21 @@
 defmodule MediaServer.MoviesIndex do
-  use Agent
-
-  alias MediaServerWeb.Repositories.Movies
-
-  def start_link(_opts) do
-    Agent.start_link(fn -> Movies.get_all() end, name: __MODULE__)
-  end
-
-  def reset() do
-    Agent.cast(__MODULE__, fn _state -> Movies.get_all() end)
-  end
-
   def all() do
-    Agent.get(__MODULE__, & &1)
+    GenStage.call(MediaServer.MovieConsumer, {:all})
   end
 
   def latest(state) do
     state
-    |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
+    |> Enum.sort_by(& &1.date_added, :desc)
   end
 
   def available(state) do
     state
-    |> Enum.filter(fn item -> item["hasFile"] end)
+    |> Enum.filter(fn item -> item.has_file end)
   end
 
   def upcoming(state) do
     state
-    |> Enum.filter(fn item -> item["monitored"] end)
+    |> Enum.filter(fn item -> item.monitored end)
   end
 
   def take(state, amount) do
@@ -37,38 +25,37 @@ defmodule MediaServer.MoviesIndex do
 
   def genres(state) do
     state
-    |> Enum.flat_map(fn x -> x["genres"] end)
+    |> Enum.flat_map(fn x -> x.genres end)
     |> Enum.uniq()
   end
 
   def genre(state, genre) do
     state
-    |> Enum.filter(fn item -> Enum.member?(item["genres"], genre) end)
+    |> Enum.filter(fn item -> Enum.member?(item.genres, genre) end)
   end
 
-  def find(state, id) do
-    state
+  def find(id) do
+    GenStage.call(MediaServer.MovieConsumer, {:all})
     |> Enum.find(fn item ->
       if !is_integer(id) do
-        item["id"] === String.to_integer(id)
+        item.id === String.to_integer(id)
       else
-        item["id"] === id
+        item.id === id
       end
     end)
   end
 
-  def related(state, id) do
-    genre = Enum.take(find(state, id)["genres"], 1) |> List.first()
+  def related(id) do
+    genre = Enum.take(find(id).genres, 1) |> List.first()
 
-    state
-    |> Enum.filter(fn item -> genre in item["genres"] end)
+    GenStage.call(MediaServer.MovieConsumer, {:all})
+    |> Enum.filter(fn item -> genre in item.genres end)
     |> Enum.take_random(6)
-    |> Enum.reject(fn x -> x["id"] === id end)
+    |> Enum.reject(fn x -> x.id == id end)
   end
 
-  def search(state, query) do
-    Enum.filter(state, fn item ->
-      String.contains?(String.downcase(item["title"]), String.downcase(query))
-    end)
+  def search(query) do
+    GenStage.call(MediaServer.MovieConsumer, {:all})
+    |> Enum.filter(fn item -> String.contains?(String.downcase(item.title), String.downcase(query)) end)
   end
 end

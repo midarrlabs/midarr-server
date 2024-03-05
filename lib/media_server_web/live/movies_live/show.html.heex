@@ -4,7 +4,7 @@
       <div class="absolute inset-0 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)]">
         <img
           src={
-            ~p"/api/images?movie=#{@movie["id"]}&type=background&token=#{assigns[:current_user].api_token.token}"
+            ~p"/api/images?movie=#{@movie.id}&type=background&token=#{assigns[:current_user].api_token.token}"
           }
           class="absolute inset-x-0 inset-y-0 w-full"
         />
@@ -15,14 +15,14 @@
   <header class="flex flex-col gap-y-2">
     <div class="flex items-center gap-6">
       <div class="flex flex-col">
-        <h1 class="text-4xl font-bold text-slate-900"><%= @movie["title"] %></h1>
+        <h1 class="text-4xl font-bold text-slate-900"><%= @movie.title %></h1>
       </div>
     </div>
     <div class="flex gap-x-4 items-center">
-      <%= if @movie["hasFile"] do %>
+      <%= if @movie.has_file do %>
         <.link
-          id={"play-#{ @movie["id"] }"}
-          navigate={"/watch?movie=#{@movie["id"]}#{ if !is_nil(@continue) do "&timestamp=#{@continue.current_time}" end }"}
+          id={"play-#{ @movie.id }"}
+          navigate={"/watch?movie=#{@movie.id}#{ if !is_nil(@continue) do "&timestamp=#{@continue.current_time}" end }"}
           class="group relative flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-zinc-800 hover:bg-zinc-700 focus:outline-none focus:ring focus:ring-slate-700 focus:ring-offset-4"
         >
           <svg viewBox="0 0 36 36" class="h-8 w-8 fill-white group-active:fill-white/80">
@@ -35,10 +35,10 @@
       <.live_component
         module={MediaServerWeb.Components.FollowComponent}
         id="followComponent"
-        media_id={@movie["id"]}
+        media_id={@movie.id}
         media_type="movie"
         user_id={@current_user.id}
-        return_to={~p"/movies/#{@movie["id"]}"}
+        return_to={~p"/movies/#{@movie.id}"}
       />
     </div>
   </header>
@@ -46,7 +46,7 @@
   <h2>Overview</h2>
 
   <p class="lead">
-    <%= @movie["overview"] %>
+    <%= @movie.overview %>
   </p>
 
   <div class="my-16 xl:max-w-none">
@@ -80,7 +80,7 @@
     <.live_component
       module={MediaServerWeb.Components.ListOfMovies}
       id="movies"
-      ids={Enum.map(@similar, & &1["id"])}
+      ids={Enum.map(@similar, & &1.id)}
       token={assigns[:current_user].api_token.token}
       user_id={assigns[:current_user].id}
     />

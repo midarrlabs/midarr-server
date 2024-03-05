@@ -36,7 +36,7 @@ defmodule MediaServer.Helpers do
   end
 
   def get_background(media) do
-    Map.fetch(media, "images")
+    Map.fetch(media, :images)
     |> some_test("fanart")
   end
 

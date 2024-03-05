@@ -22,17 +22,17 @@ defmodule MediaServerWeb.Components.ListOfMovies do
         id: assign.id,
         items:
           Enum.map(assign.ids, fn id ->
-            movie = MediaServer.MoviesIndex.all() |> MediaServer.MoviesIndex.find(id)
+            movie = MediaServer.MoviesIndex.find(id)
 
             %{
-              id: movie["id"],
-              title: movie["title"],
-              runtime: movie["movieFile"]["mediaInfo"]["runTime"],
-              link: ~p"/movies/#{movie["id"]}",
-              img_src: ~p"/api/images?movie=#{movie["id"]}&type=poster&token=#{token}",
+              id: movie.id,
+              title: movie.title,
+              runtime: movie.run_time,
+              link: ~p"/movies/#{movie.id}",
+              img_src: ~p"/api/images?movie=#{movie.id}&type=poster&token=#{token}",
               continue:
                 Enum.find_value(result, nil, fn continue ->
-                  if continue.media_id == movie["id"],
+                  if continue.media_id == movie.id,
                     do: %{
                       current_time: continue.current_time,
                       duration: continue.duration

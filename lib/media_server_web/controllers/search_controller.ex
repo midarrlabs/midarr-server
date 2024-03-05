@@ -4,7 +4,7 @@ defmodule MediaServerWeb.SearchController do
   def index(conn, %{"query" => query}) do
     movies =
       Scrivener.paginate(
-        MediaServer.MoviesIndex.search(MediaServer.MoviesIndex.all(), query),
+        MediaServer.MoviesIndex.search(query),
         %{
           "page" => "1",
           "page_size" => "50"

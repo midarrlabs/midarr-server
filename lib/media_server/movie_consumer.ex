@@ -12,10 +12,15 @@ defmodule MediaServer.MovieConsumer do
       id: event["id"],
       title: event["title"],
       overview: event["overview"],
-      runtime: event["movieFile"]["mediaInfo"]["runTime"],
+      run_time: event["movieFile"]["mediaInfo"]["runTime"],
       genres: event["genres"],
-      hasFile: event["hasFile"],
+      has_file: event["hasFile"],
       images: event["images"],
+      folder_name: event["folderName"],
+      relative_path: event["movieFile"]["relativePath"],
+      path: event["movieFile"]["path"],
+      date_added: event["movieFile"]["dateAdded"],
+      monitored: event["monitored"],
     } end)
 
     {:noreply, [], new_state |> Enum.reverse()}

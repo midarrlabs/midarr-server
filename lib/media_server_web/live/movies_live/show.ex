@@ -23,8 +23,8 @@ defmodule MediaServerWeb.MoviesLive.Show do
       send(pid, {:cast, MediaServerWeb.Repositories.Movies.get_cast(id)})
     end)
 
-    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
-    similar = MediaServer.MoviesIndex.related(MediaServer.MoviesIndex.all(), movie["id"])
+    movie = MediaServer.MoviesIndex.find(id)
+    similar = MediaServer.MoviesIndex.related(id)
 
     query =
       from continue in MediaServer.Continues,
@@ -36,7 +36,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
       :noreply,
       socket
       |> assign(:id, id)
-      |> assign(:page_title, movie["title"])
+      |> assign(:page_title, movie.title)
       |> assign(:movie, movie)
       |> assign(:similar, similar)
       |> assign(:continue, result)

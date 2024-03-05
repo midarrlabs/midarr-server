@@ -15,13 +15,13 @@ defmodule MediaServerWeb.WatchLive.Index do
 
   @impl true
   def handle_params(%{"movie" => id, "timestamp" => timestamp}, _url, socket) do
-    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
+    movie = MediaServer.MoviesIndex.find(id)
 
     {
       :noreply,
       socket
-      |> assign(:page_title, "#{movie["title"]}")
-      |> assign(:media_id, movie["id"])
+      |> assign(:page_title, "#{movie.title}")
+      |> assign(:media_id, movie.id)
       |> assign(:media_type, MediaServer.MediaTypes.get_movie_id())
       |> assign(
         :media_current_time,
@@ -29,23 +29,23 @@ defmodule MediaServerWeb.WatchLive.Index do
       )
       |> assign(
           :media_playlist,
-          ~p"/api/playlist.m3u8?movie=#{movie["id"]}&token=#{socket.assigns.current_user.api_token.token}"
+          ~p"/api/playlist.m3u8?movie=#{movie.id}&token=#{socket.assigns.current_user.api_token.token}"
       )
       |> assign(
         :media_background,
-        ~p"/api/images?movie=#{movie["id"]}&type=background&token=#{socket.assigns.current_user.api_token.token}"
+        ~p"/api/images?movie=#{movie.id}&type=background&token=#{socket.assigns.current_user.api_token.token}"
       )
     }
   end
 
   def handle_params(%{"movie" => id}, _url, socket) do
-    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
+    movie = MediaServer.MoviesIndex.find(id)
 
     {
       :noreply,
       socket
-      |> assign(:page_title, "#{movie["title"]}")
-      |> assign(:media_id, movie["id"])
+      |> assign(:page_title, "#{movie.title}")
+      |> assign(:media_id, movie.id)
       |> assign(:media_type, MediaServer.MediaTypes.get_movie_id())
       |> assign(
          :media_current_time,
@@ -53,11 +53,11 @@ defmodule MediaServerWeb.WatchLive.Index do
          )
       |> assign(
         :media_playlist,
-        ~p"/api/playlist.m3u8?movie=#{movie["id"]}&token=#{socket.assigns.current_user.api_token.token}"
+        ~p"/api/playlist.m3u8?movie=#{movie.id}&token=#{socket.assigns.current_user.api_token.token}"
       )
       |> assign(
         :media_background,
-        ~p"/api/images?movie=#{movie["id"]}&type=background&token=#{socket.assigns.current_user.api_token.token}"
+        ~p"/api/images?movie=#{movie.id}&type=background&token=#{socket.assigns.current_user.api_token.token}"
       )
     }
   end
