@@ -20,10 +20,10 @@ defmodule MediaServer.Application do
       # {MediaServer.Worker, arg}
       MediaServerWeb.Presence,
       {DynamicSupervisor, name: MediaServer.DynamicSupervisor},
+      {MediaServer.MediaProducer, %{name: :media_producer, state: MediaServerWeb.Repositories.Movies.get_all()}},
+      {MediaServer.MovieConsumer, %{subscriptions: [:media_producer]}}
       MediaServer.SeriesIndex,
-      MediaServer.PlaylistIndex,
-      MediaServer.MediaProducer,
-      MediaServer.MovieConsumer
+      MediaServer.PlaylistIndex
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

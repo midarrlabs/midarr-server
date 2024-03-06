@@ -1,13 +1,11 @@
 defmodule MediaServer.MediaProducer do
   use GenStage
 
-  alias MediaServerWeb.Repositories.Movies
-
-  def start_link(_opts) do
-    GenStage.start_link(__MODULE__, [], name: __MODULE__)
+  def start_link(opts) do
+    GenStage.start_link(__MODULE__, opts, name: opts.name)
   end
 
-  def init(_opts), do: {:producer, Movies.get_all()}
+  def init(opts), do: {:producer, opts.state}
 
   def handle_demand(demand, state) do
     {batch, remaining_state} =

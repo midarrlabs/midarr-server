@@ -1,11 +1,11 @@
 defmodule MediaServer.MovieConsumer do
   use GenStage
 
-  def start_link(_opts) do
-    GenStage.start_link(__MODULE__, [], name: __MODULE__)
+  def start_link(opts) do
+    GenStage.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
-  def init(_opts), do: {:consumer, [], subscribe_to: [MediaServer.MediaProducer]}
+  def init(opts), do: {:consumer, [], subscribe_to: opts.subscriptions}
 
   def handle_events(events, _from, state) do
     new_state = state ++ Enum.map(events, fn event -> %{
