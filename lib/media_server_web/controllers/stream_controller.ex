@@ -19,7 +19,8 @@ defmodule MediaServerWeb.StreamController do
       "-i", movie["movieFile"]["path"],
       "-vf", "format=nv12,hwupload",
       "-c:v", "h264_vaapi",
-      "-c:a", "copy",
+      "-c:a", "aac",
+      "-ac", "2",
       "-f", "mpegts",
       "pipe:"
     ])
@@ -52,7 +53,8 @@ defmodule MediaServerWeb.StreamController do
       "-i", episode_path,
       "-vf", "format=nv12,hwupload",
       "-c:v", "h264_vaapi",
-      "-c:a", "copy",
+      "-c:a", "aac",
+      "-ac", "2",
       "-f", "mpegts",
       "pipe:"
     ])
