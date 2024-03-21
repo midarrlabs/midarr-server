@@ -1,10 +1,18 @@
 defmodule MediaServerWeb.Repositories.Series do
-  def get_url(url) do
-    "#{System.get_env("SONARR_BASE_URL")}/api/v3/#{url}?apikey=#{System.get_env("SONARR_API_KEY")}"
+  def get(url) do
+    HTTPoison.get("#{System.get_env("SONARR_BASE_URL")}/api/v3/#{url}", %{
+      "X-Api-Key" => System.get_env("SONARR_API_KEY")
+    })
+    |> handle_response()
   end
 
   def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
-    Jason.decode!(body)
+    case Jason.decode(body) do
+      {:ok, decoded} ->
+        decoded
+      _ ->
+        body
+    end
   end
 
   def handle_response(_) do
@@ -12,8 +20,7 @@ defmodule MediaServerWeb.Repositories.Series do
   end
 
   def get_all() do
-    HTTPoison.get(get_url("series"))
-    |> handle_response()
+    get("series")
     |> Enum.sort_by(& &1["title"], :asc)
   end
 end
