@@ -1,171 +1,66 @@
-<header class="contents lg:pointer-events-none lg:fixed lg:inset-0 lg:z-50 lg:flex">
-  <div class="contents lg:pointer-events-auto lg:block lg:w-72 lg:overflow-y-auto lg:border-r lg:border-zinc-900/10 lg:px-6 lg:pb-8 lg:pt-4 lg:dark:border-white/10 xl:w-80">
-    <div class="hidden lg:flex">
+<header class="sticky top-0 z-50 flex items-center bg-zinc-900 px-4 py-5 shadow-md shadow-slate-900/5 transition duration-500 sm:px-6 lg:px-8 shadow-none">
+  <div class="relative flex basis-0 grow items-center">
+    <div class="flex items-center gap-x-8">
       <.link navigate="/" class="flex items-center space-x-2">
-        <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-auto lg:block">
+        <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-auto block">
           <path
             fill-rule="evenodd"
             d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z"
             clip-rule="evenodd"
           />
         </svg>
-        <span class="text-xl font-semibold">Midarr</span>
+        <span class="hidden md:block text-xl font-bold">Midarr</span>
       </.link>
-    </div>
-    <div
-      class="fixed inset-x-0 top-0 z-50 flex h-14 items-center justify-between gap-12 px-4 transition sm:px-6 lg:left-72 lg:px-8 xl:left-80 backdrop-blur lg:left-72 xl:left-80 bg-zinc-900/75"
-      style="--bg-opacity-light: 0.5; --bg-opacity-dark: 0.2;"
-    >
-      <div class="absolute inset-x-0 top-full h-px transition bg-zinc-900/7.5 dark:bg-white/7.5">
-      </div>
-      <div class="hidden lg:block lg:max-w-md lg:flex-auto">
-        <button
-          type="button"
-          phx-click={JS.toggle(to: "#search-command") |> JS.focus(to: "#search_query")}
-          class="hidden h-8 w-full items-center gap-2 rounded-lg bg-white pl-2 pr-3 text-sm text-zinc-500 ring-1 ring-zinc-900/10 transition hover:ring-zinc-900/20 ui-not-focus-visible:outline-none dark:bg-white/5 dark:text-zinc-400 dark:ring-inset dark:ring-white/10 dark:hover:ring-white/20 lg:flex"
+      <div class="flex gap-x-6">
+        <.link
+          class="flex justify-between gap-2 py-1 pr-3 transition text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+          navigate="/movies"
         >
-          <svg viewBox="0 0 20 20" fill="none" class="h-5 w-5 stroke-current"><path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12.01 12a4.25 4.25 0 1 0-6.02-6 4.25 4.25 0 0 0 6.02 6Zm0 0 3.24 3.25"
-            ></path></svg>Quick search...
-        </button>
-      </div>
-      <div class="flex items-center gap-2 lg:hidden">
-        <.link navigate="/" class="flex items-center space-x-2">
-          <svg viewBox="0 0 20 20" fill="#ef4444" class="h-9 w-auto lg:block">
-            <path
-              fill-rule="evenodd"
-              d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <span class="text-xl font-semibold">Midarr</span>
+          <span class="truncate">Movies</span>
+        </.link>
+        <.link
+          class="flex justify-between gap-2 py-1 pr-3 transition text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+          navigate="/series"
+        >
+          <span class="truncate">Series</span>
         </.link>
       </div>
-      <div class="flex items-center gap-5">
-        <div class="flex gap-4">
-          <div class="contents lg:hidden">
-            <button
-              type="button"
-              phx-click={JS.toggle(to: "#search-command") |> JS.focus(to: "#search_query")}
-              class="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 ui-not-focus-visible:outline-none dark:hover:bg-white/5 lg:hidden"
-              aria-label="Quick search..."
-            >
-              <svg
-                viewBox="0 0 20 20"
-                fill="none"
-                class="h-5 w-5 stroke-zinc-900 dark:stroke-white"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12.01 12a4.25 4.25 0 1 0-6.02-6 4.25 4.25 0 0 0 6.02 6Zm0 0 3.24 3.25"
-                >
-                </path>
-              </svg>
-            </button>
-          </div>
-          <.link
-            href="/settings"
-            class="flex h-6 w-6 items-center justify-center rounded-md transition hover:bg-zinc-900/5 dark:hover:bg-white/5"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              aria-hidden="true"
-              class="h-5 w-5 stroke-white block"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-          </.link>
-        </div>
-      </div>
     </div>
-
-    <nav class="hidden lg:mt-10 lg:block">
-      <ul role="list">
-        <li class="relative mt-6 md:mt-0">
-          <div class="relative mt-3 pl-2">
-            <ul role="list" class="border-l border-transparent">
-              <li class="relative">
-                <.link
-                  class="flex justify-between gap-2 py-1 pr-3 transition text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-                  navigate="/movies"
-                >
-                  <span class="truncate">Movies</span>
-                </.link>
-              </li>
-              <li class="relative">
-                <.link
-                  class="flex justify-between gap-2 py-1 pr-3 transition text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-                  navigate="/series"
-                >
-                  <span class="truncate">Series</span>
-                </.link>
-              </li>
-              <li class="relative">
-                <.link
-                  class="flex justify-between gap-2 py-1 pr-3 transition text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-                  navigate="/history"
-                >
-                  <span class="truncate">History</span>
-                </.link>
-              </li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-    </nav>
   </div>
 
-  <div id="search-command" class="hidden fixed inset-0 z-50" role="dialog">
-    <div class="fixed inset-0 bg-zinc-400/25 backdrop-blur-sm dark:bg-black/40 opacity-100"></div>
-    <div class="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]">
-      <div class="mx-auto transform-gpu overflow-hidden rounded-lg bg-zinc-50 shadow-xl ring-1 ring-zinc-900/7.5 dark:bg-zinc-900 dark:ring-zinc-800 sm:max-w-xl opacity-100 scale-100">
-        <div role="combobox" phx-click-away={JS.hide(to: "#search-command")}>
-          <.form
-            :let={f}
-            for={%{}}
-            as={:search}
-            id="search"
-            phx-target={@myself}
-            phx-submit="search"
-          >
-            <div class="group relative flex h-12">
-              <svg
-                viewBox="0 0 20 20"
-                fill="none"
-                class="pointer-events-none absolute left-3 top-0 h-full w-5 stroke-zinc-500"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12.01 12a4.25 4.25 0 1 0-6.02-6 4.25 4.25 0 0 0 6.02 6Zm0 0 3.24 3.25"
-                >
-                </path>
-              </svg>
-              <%= text_input(f, :query,
-                placeholder: "Quick search...",
-                class:
-                  "flex-auto appearance-none bg-transparent pl-10 text-zinc-900 outline-none placeholder:text-zinc-500 focus:w-full focus:flex-none dark:text-white sm:text-sm pr-4"
-              ) %>
-              <div class="border-t border-zinc-200 bg-white empty:hidden dark:border-zinc-100/5 dark:bg-white/2.5">
-              </div>
-            </div>
-          </.form>
-        </div>
-      </div>
-    </div>
+  <.form
+    :let={f}
+    for={%{}}
+    as={:search}
+    id="search"
+    phx-target={@myself}
+    phx-submit="search"
+    class="group flex h-6 w-6 items-center justify-center h-auto w-auto flex-none rounded-lg py-2.5 pl-4 pr-3.5 text-sm ring-1 ring-zinc-200 hover:ring-zinc-300 lg:w-96 dark:bg-zinc-700/40 dark:ring-inset dark:ring-white/5 dark:hover:bg-zinc-800/40 dark:hover:ring-zinc-600"
+  >
+    <svg
+      viewBox="0 0 20 20"
+      class="h-5 w-5 flex-none fill-zinc-400 group-hover:fill-zinc-500 md:group-hover:fill-zinc-400 dark:fill-zinc-400"
+    >
+      <path d="M16.293 17.707a1 1 0 0 0 1.414-1.414l-1.414 1.414ZM9 14a5 5 0 0 1-5-5H2a7 7 0 0 0 7 7v-2ZM4 9a5 5 0 0 1 5-5V2a7 7 0 0 0-7 7h2Zm5-5a5 5 0 0 1 5 5h2a7 7 0 0 0-7-7v2Zm8.707 12.293-3.757-3.757-1.414 1.414 3.757 3.757 1.414-1.414ZM14 9a4.98 4.98 0 0 1-1.464 3.536l1.414 1.414A6.98 6.98 0 0 0 16 9h-2Zm-1.464 3.536A4.98 4.98 0 0 1 9 14v2a6.98 6.98 0 0 0 4.95-2.05l-1.414-1.414Z">
+      </path>
+    </svg>
+    <%= text_input(f, :query,
+      placeholder: "Quick search",
+      class:
+        "w-full flex-auto appearance-none bg-transparent ml-2 text-zinc-400 outline-none placeholder:text-zinc-400 focus:w-full focus:flex-none pr-4"
+    ) %>
+  </.form>
+
+  <div class="relative flex grow basis-0 gap-6 sm:gap-8 justify-end">
+    <a class="group" aria-label="GitHub" href="https://github.com">
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 16 16"
+        class="h-6 w-6 fill-slate-400 group-hover:fill-slate-500 dark:group-hover:fill-slate-300"
+      >
+        <path d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z">
+        </path>
+      </svg>
+    </a>
   </div>
 </header>
