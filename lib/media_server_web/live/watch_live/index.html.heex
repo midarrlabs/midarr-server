@@ -1,4 +1,4 @@
-<media-player
+<video
   id="video"
   phx-update="ignore"
   phx-hook="video"
@@ -7,8 +7,6 @@
   autoplay
   controls
   controlslist="nodownload"
-  plays-inline
-  current-time={@media_current_time}
+  data-timestamp={@media_timestamp}
 >
-  <media-provider></media-provider>
-</media-player>
+</video>
