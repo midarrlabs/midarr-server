@@ -24,7 +24,7 @@ defmodule MediaServerWeb.Repositories.Episodes do
   end
 
   def handle_image(screenshot) do
-    screenshot["remoteUrl"]
+    screenshot["url"]
   end
 
   def get_screenshot(episode) do
