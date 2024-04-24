@@ -10,6 +10,7 @@ defmodule MediaServerWeb.WatchLive.Index do
         :current_user,
         MediaServer.Accounts.get_user_by_session_token(session["user_token"])
       )
+      |> assign(:media_timestamp, nil)
     }
   end
 
@@ -24,7 +25,7 @@ defmodule MediaServerWeb.WatchLive.Index do
       |> assign(:media_id, movie["id"])
       |> assign(:media_type, MediaServer.MediaTypes.get_movie_id())
       |> assign(
-        :media_current_time,
+        :media_timestamp,
         timestamp
       )
       |> assign(
@@ -48,10 +49,6 @@ defmodule MediaServerWeb.WatchLive.Index do
       |> assign(:media_id, movie["id"])
       |> assign(:media_type, MediaServer.MediaTypes.get_movie_id())
       |> assign(
-         :media_current_time,
-         0
-         )
-      |> assign(
         :media_playlist,
         ~p"/api/playlist.m3u8?movie=#{movie["id"]}&token=#{socket.assigns.current_user.api_token.token}"
       )
@@ -72,7 +69,7 @@ defmodule MediaServerWeb.WatchLive.Index do
       |> assign(:media_id, episode["id"])
       |> assign(:media_type, MediaServer.MediaTypes.get_episode_id())
       |> assign(
-           :media_current_time,
+           :media_timestamp,
            timestamp
          )
       |> assign(
@@ -95,10 +92,6 @@ defmodule MediaServerWeb.WatchLive.Index do
       |> assign(:page_title, "#{episode["series"]["title"]}: #{episode["title"]}")
       |> assign(:media_id, episode["id"])
       |> assign(:media_type, MediaServer.MediaTypes.get_episode_id())
-      |> assign(
-           :media_current_time,
-           0
-         )
       |> assign(
            :media_playlist,
            ~p"/api/playlist.m3u8?episode=#{episode["id"]}&token=#{socket.assigns.current_user.api_token.token}"

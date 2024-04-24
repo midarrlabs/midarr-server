@@ -4,12 +4,8 @@ defmodule MediaServerWeb.StreamController do
   def index(conn, %{"movie" => id, "segment" => segment}) do
     movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
 
-    playlist = :ets.lookup(:playlists_table, "movie-#{ movie["id"] }")
-               |> List.first()
-               |> elem(1)
-               |> String.split
-
-    {segment_duration, offset_duration} = HlsPlaylist.get_segment_offset(playlist, String.to_integer(segment))
+    {segment_duration, offset_duration} = HlsPlaylist.Segments.generate(HlsPlaylist.get_duration(movie["movieFile"]["path"]))
+    |> HlsPlaylist.get_segment_offset(String.to_integer(segment))
 
     conn = conn |> send_chunked(200)
 
@@ -23,7 +19,8 @@ defmodule MediaServerWeb.StreamController do
       "-i", movie["movieFile"]["path"],
       "-vf", "format=nv12,hwupload",
       "-c:v", "h264_vaapi",
-      "-c:a", "copy",
+      "-c:a", "aac",
+      "-ac", "2",
       "-f", "mpegts",
       "pipe:"
     ])
@@ -41,12 +38,8 @@ defmodule MediaServerWeb.StreamController do
 
     episode_path = MediaServerWeb.Repositories.Episodes.get_episode_path(id)
 
-    playlist = :ets.lookup(:playlists_table, "episode-#{ id }")
-               |> List.first()
-               |> elem(1)
-               |> String.split
-
-    {segment_duration, offset_duration} = HlsPlaylist.get_segment_offset(playlist, String.to_integer(segment))
+    {segment_duration, offset_duration} = HlsPlaylist.Segments.generate(HlsPlaylist.get_duration(episode_path))
+    |> HlsPlaylist.get_segment_offset(String.to_integer(segment))
 
     conn = conn |> send_chunked(200)
 
@@ -60,7 +53,8 @@ defmodule MediaServerWeb.StreamController do
       "-i", episode_path,
       "-vf", "format=nv12,hwupload",
       "-c:v", "h264_vaapi",
-      "-c:a", "copy",
+      "-c:a", "aac",
+      "-ac", "2",
       "-f", "mpegts",
       "pipe:"
     ])

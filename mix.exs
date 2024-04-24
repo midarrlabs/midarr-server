@@ -47,7 +47,7 @@ defmodule MediaServer.MixProject do
       {:esbuild, "~> 0.2", runtime: Mix.env() == :dev},
       {:swoosh, "~> 1.3"},
       {:telemetry, "~> 1.0", override: true},
-      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
@@ -60,7 +60,7 @@ defmodule MediaServer.MixProject do
       {:oauth2, "~> 2.0"},
       {:web_push_elixir, "~> 0.4.0"},
       {:oapi_tmdb, "~> 0.3.0"},
-      {:hls_playlist, "~> 0.2.1"},
+      {:hls_playlist, "~> 0.3.0"},
       {:exile, "~> 0.9.1"}
     ]
   end
