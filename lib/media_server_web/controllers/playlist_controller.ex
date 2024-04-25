@@ -5,7 +5,7 @@ defmodule MediaServerWeb.PlaylistController do
     movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
 
     playlist = HlsPlaylist.Segments.generate(HlsPlaylist.get_duration(movie["movieFile"]["path"]))
-    |> HlsPlaylist.get_playlist("/api/stream?movie=#{ movie["id"] }&token=#{ token }")
+    |> HlsPlaylist.get_playlist("#{System.get_env("APP_URL", "")}/api/stream?movie=#{ movie["id"] }&token=#{ token }")
 
     conn
     |> send_resp(200, playlist)
@@ -15,7 +15,7 @@ defmodule MediaServerWeb.PlaylistController do
     episode_path = MediaServerWeb.Repositories.Episodes.get_episode_path(id)
 
     playlist = HlsPlaylist.Segments.generate(HlsPlaylist.get_duration(episode_path))
-    |> HlsPlaylist.get_playlist("/api/stream?episode=#{ id }&token=#{ token }")
+    |> HlsPlaylist.get_playlist("#{System.get_env("APP_URL", "")}/api/stream?episode=#{ id }&token=#{ token }")
 
     conn
     |> send_resp(200, playlist)
