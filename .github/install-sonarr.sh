@@ -19,7 +19,7 @@ sudo chown -R sonarr:media /var/lib/sonarr
 sudo chmod 775 /var/lib/sonarr
 
 sudo apt install curl sqlite3
-wget --content-disposition "https://download.sonarr.tv/v3/main/3.0.9.1549/Sonarr.main.3.0.9.1549.linux.tar.gz"
+wget --content-disposition "https://download.sonarr.tv/v4/main/4.0.0.748/Sonarr.main.4.0.0.748.linux-x64.tar.gz"
 tar -xvzf Sonarr*.linux*.tar.gz
 sudo mv Sonarr /opt
 sudo chown sonarr:media -R /opt/Sonarr
