@@ -61,7 +61,8 @@ defmodule MediaServer.MixProject do
       {:web_push_elixir, "~> 0.4.0"},
       {:oapi_tmdb, "~> 0.3.0"},
       {:hls_playlist, "~> 0.3.0"},
-      {:exile, "~> 0.9.1"}
+      {:exile, "~> 0.9.1"},
+      {:corsica, "~> 2.0"}
     ]
   end
 
