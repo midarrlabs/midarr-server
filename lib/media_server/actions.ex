@@ -19,12 +19,6 @@ defmodule MediaServer.Actions do
     Repo.all(__MODULE__)
   end
 
-  def create(attrs \\ %{}) do
-    %__MODULE__{}
-    |> __MODULE__.changeset(attrs)
-    |> Repo.insert()
-  end
-
   def get_played_id() do
     Repo.get_by!(__MODULE__, action: "played").id
   end

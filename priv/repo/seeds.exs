@@ -12,29 +12,21 @@ MediaServer.Accounts.register_user(%{
   is_admin: true
 })
 
-MediaServer.MediaTypes.create(%{
-  type: "movie"
-})
+media_types = [
+  %{type: "movie"},
+  %{type: "series"},
+  %{type: "episode"},
+  %{type: "person"}
+]
 
-MediaServer.MediaTypes.create(%{
-  type: "series"
-})
+MediaServer.Repo.insert_all(MediaServer.MediaTypes, media_types, on_conflict: :nothing)
 
-MediaServer.MediaTypes.create(%{
-  type: "episode"
-})
+actions = [
+  %{action: "played"},
+  %{action: "followed"}
+]
 
-MediaServer.MediaTypes.create(%{
-  type: "person"
-})
-
-MediaServer.Actions.create(%{
-  action: "played"
-})
-
-MediaServer.Actions.create(%{
-  action: "followed"
-})
+MediaServer.Repo.insert_all(MediaServer.Actions, actions, on_conflict: :nothing)
 
 #
 # We recommend using the bang functions (`insert!`, `update!`
