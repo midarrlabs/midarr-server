@@ -1,14 +1,12 @@
-defmodule MediaServer.Repo.Migrations.CreateMediaContinues do
+defmodule MediaServer.Repo.Migrations.CreateMediaActionsTable do
   use Ecto.Migration
 
   def change do
-    create table(:media_continues) do
+    create table(:media_actions) do
       add :media_id, :integer, null: false
 
-      add :current_time, :integer, null: false
-      add :duration, :integer, null: false
-
       add :user_id, references(:users, on_delete: :nothing), null: false
+      add :action_id, references(:actions, on_delete: :nothing), null: false
 
       timestamps()
     end

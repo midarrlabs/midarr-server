@@ -5,7 +5,7 @@ defmodule MediaServer.Actions do
   alias MediaServer.Repo
 
   schema "actions" do
-    field :action, :string
+    field :label, :string
   end
 
   def changeset(action, attrs) do

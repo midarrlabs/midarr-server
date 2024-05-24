@@ -4,8 +4,8 @@ defmodule MediaServer.MediaTypes do
 
   alias MediaServer.Repo
 
-  schema "media_types" do
-    field :type, :string
+  schema "types" do
+    field :label, :string
   end
 
   def changeset(media_types, attrs) do

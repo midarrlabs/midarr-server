@@ -1,4 +1,4 @@
-defmodule MediaServer.Repo.Migrations.CreatePushSubscriptions do
+defmodule MediaServer.Repo.Migrations.CreatePushSubscriptionsTable do
   use Ecto.Migration
 
   def change do

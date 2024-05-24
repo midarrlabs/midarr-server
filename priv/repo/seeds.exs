@@ -12,18 +12,18 @@ MediaServer.Accounts.register_user(%{
   is_admin: true
 })
 
-media_types = [
-  %{type: "movie"},
-  %{type: "series"},
-  %{type: "episode"},
-  %{type: "person"}
+types = [
+  %{label: "movie"},
+  %{label: "series"},
+  %{label: "episode"},
+  %{label: "person"}
 ]
 
-MediaServer.Repo.insert_all(MediaServer.MediaTypes, media_types, on_conflict: :nothing)
+MediaServer.Repo.insert_all(MediaServer.MediaTypes, types, on_conflict: :nothing)
 
 actions = [
-  %{action: "played"},
-  %{action: "followed"}
+  %{label: "played"},
+  %{label: "followed"}
 ]
 
 MediaServer.Repo.insert_all(MediaServer.Actions, actions, on_conflict: :nothing)

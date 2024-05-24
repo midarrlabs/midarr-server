@@ -3,7 +3,7 @@ defmodule MediaServer.Repo.Migrations.CreateMediaTable do
 
   def change do
     create table(:media) do
-      add :media_type_id, references(:media_types, on_delete: :nothing), null: false
+      add :type_id, references(:types, on_delete: :nothing), null: false
 
       timestamps()
     end
