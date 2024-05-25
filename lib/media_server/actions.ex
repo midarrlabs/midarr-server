@@ -10,9 +10,9 @@ defmodule MediaServer.Actions do
 
   def changeset(action, attrs) do
     action
-    |> cast(attrs, [:action])
-    |> validate_required([:action])
-    |> unique_constraint(:action)
+    |> cast(attrs, [:label])
+    |> validate_required([:label])
+    |> unique_constraint(:label)
   end
 
   def all do
@@ -20,10 +20,10 @@ defmodule MediaServer.Actions do
   end
 
   def get_played_id() do
-    Repo.get_by!(__MODULE__, action: "played").id
+    Repo.get_by!(__MODULE__, label: "played").id
   end
 
   def get_followed_id() do
-    Repo.get_by!(__MODULE__, action: "followed").id
+    Repo.get_by!(__MODULE__, label: "followed").id
   end
 end
