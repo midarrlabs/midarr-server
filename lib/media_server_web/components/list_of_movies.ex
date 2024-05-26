@@ -10,9 +10,9 @@ defmodule MediaServerWeb.Components.ListOfMovies do
     user_id = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :user_id) end).user_id
 
     query =
-      from continue in MediaServer.Continues,
+      from continue in MediaServer.MediaContinues,
         where:
-          continue.media_type_id == ^MediaServer.MediaTypes.get_movie_id() and
+          continue.media_type_id == ^MediaServer.Types.get_movie_id() and
             continue.user_id == ^user_id and continue.media_id in ^ids
 
     result = MediaServer.Repo.all(query)

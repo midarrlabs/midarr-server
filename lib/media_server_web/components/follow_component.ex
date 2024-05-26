@@ -12,7 +12,7 @@ defmodule MediaServerWeb.Components.FollowComponent do
 
     user_id = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :user_id) end).user_id
 
-    media_type_id = MediaServer.MediaTypes.get_type_id(media_type)
+    media_type_id = MediaServer.Types.get_type_id(media_type)
 
     query =
       from media_actions in MediaServer.MediaActions,

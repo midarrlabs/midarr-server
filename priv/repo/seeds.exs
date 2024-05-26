@@ -19,7 +19,7 @@ types = [
   %{label: "person"}
 ]
 
-MediaServer.Repo.insert_all(MediaServer.MediaTypes, types, on_conflict: :nothing)
+MediaServer.Repo.insert_all(MediaServer.Types, types, on_conflict: :nothing)
 
 actions = [
   %{label: "played"},

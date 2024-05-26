@@ -10,7 +10,7 @@ defmodule MediaServer.Accounts.User do
     field :confirmed_at, :naive_datetime
     field :is_admin, :boolean
 
-    has_many :continues, MediaServer.Continues
+    has_many :continues, MediaServer.MediaContinues
     has_many :media_actions, MediaServer.MediaActions
     has_many :push_subscriptions, MediaServer.PushSubscriptions
 

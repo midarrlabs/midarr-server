@@ -27,7 +27,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
     similar = MediaServer.MoviesIndex.related(MediaServer.MoviesIndex.all(), movie["id"])
 
     query =
-      from continue in MediaServer.Continues,
+      from continue in MediaServer.MediaContinues,
         where: continue.user_id == ^socket.assigns.current_user.id and continue.media_id == ^id
 
     result = MediaServer.Repo.one(query)

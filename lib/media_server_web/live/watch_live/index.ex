@@ -23,7 +23,6 @@ defmodule MediaServerWeb.WatchLive.Index do
       socket
       |> assign(:page_title, "#{movie["title"]}")
       |> assign(:media_id, movie["id"])
-      |> assign(:media_type, MediaServer.MediaTypes.get_movie_id())
       |> assign(
         :media_timestamp,
         timestamp
@@ -47,7 +46,6 @@ defmodule MediaServerWeb.WatchLive.Index do
       socket
       |> assign(:page_title, "#{movie["title"]}")
       |> assign(:media_id, movie["id"])
-      |> assign(:media_type, MediaServer.MediaTypes.get_movie_id())
       |> assign(
         :media_playlist,
         ~p"/api/playlist.m3u8?movie=#{movie["id"]}&token=#{socket.assigns.current_user.api_token.token}"
@@ -67,7 +65,6 @@ defmodule MediaServerWeb.WatchLive.Index do
       socket
       |> assign(:page_title, "#{episode["series"]["title"]}: #{episode["title"]}")
       |> assign(:media_id, episode["id"])
-      |> assign(:media_type, MediaServer.MediaTypes.get_episode_id())
       |> assign(
            :media_timestamp,
            timestamp
@@ -91,7 +88,6 @@ defmodule MediaServerWeb.WatchLive.Index do
       socket
       |> assign(:page_title, "#{episode["series"]["title"]}: #{episode["title"]}")
       |> assign(:media_id, episode["id"])
-      |> assign(:media_type, MediaServer.MediaTypes.get_episode_id())
       |> assign(
            :media_playlist,
            ~p"/api/playlist.m3u8?episode=#{episode["id"]}&token=#{socket.assigns.current_user.api_token.token}"
@@ -112,13 +108,12 @@ defmodule MediaServerWeb.WatchLive.Index do
         },
         socket
       ) do
-    MediaServer.Continues.insert_or_update(%{
+    MediaServer.MediaContinues.insert_or_update(%{
       media_id: socket.assigns.media_id,
       current_time: current_time,
       duration: duration,
-      user_id: socket.assigns.current_user.id,
-      media_type_id: socket.assigns.media_type
-    })
+      user_id: socket.assigns.current_user.id
+      })
 
     {:noreply, socket}
   end
@@ -127,9 +122,8 @@ defmodule MediaServerWeb.WatchLive.Index do
     MediaServer.MediaActions.insert_or_update(%{
       media_id: socket.assigns.media_id,
       user_id: socket.assigns.current_user.id,
-      action_id: MediaServer.Actions.get_played_id(),
-      media_type_id: socket.assigns.media_type
-    })
+      action_id: MediaServer.Actions.get_played_id()
+      })
 
     {:noreply, socket}
   end

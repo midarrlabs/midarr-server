@@ -9,18 +9,15 @@ defmodule MediaServer.MediaActions do
     field :media_id, :integer
 
     belongs_to :user, MediaServer.Accounts.User
-    belongs_to :media_type, MediaServer.MediaTypes
     belongs_to :action, MediaServer.Actions
-
-    has_one :continue, MediaServer.Continues, foreign_key: :media_id, references: :media_id
 
     timestamps()
   end
 
   def changeset(media_actions, attrs) do
     media_actions
-    |> cast(attrs, [:media_id, :user_id, :media_type_id, :action_id, :updated_at])
-    |> validate_required([:media_id, :user_id, :media_type_id, :action_id])
+    |> cast(attrs, [:media_id, :user_id, :action_id, :updated_at])
+    |> validate_required([:media_id, :user_id, :action_id])
   end
 
   def create(attrs \\ %{}) do
@@ -35,8 +32,7 @@ defmodule MediaServer.MediaActions do
         %__MODULE__{
           media_id: attrs.media_id,
           user_id: attrs.user_id,
-          action_id: attrs.action_id,
-          media_type_id: attrs.media_type_id
+          action_id: attrs.action_id
         }
 
       item ->
@@ -65,13 +61,12 @@ defmodule MediaServer.MediaActions do
 
   def movie(id) do
     from this in __MODULE__,
-      where: this.media_type_id == ^MediaServer.MediaTypes.get_movie_id() and this.media_id == ^id
+      where: this.media_id == ^id
   end
 
   def series(id) do
     from this in __MODULE__,
-      where:
-        this.media_type_id == ^MediaServer.MediaTypes.get_series_id() and this.media_id == ^id
+      where: this.media_id == ^id
   end
 
   def followers(query) do

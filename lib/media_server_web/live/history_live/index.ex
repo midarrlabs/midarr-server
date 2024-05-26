@@ -20,7 +20,7 @@ defmodule MediaServerWeb.HistoryLive.Index do
     query =
       from ma in MediaServer.MediaActions,
         where:
-          ma.media_type_id == ^MediaServer.MediaTypes.get_movie_id() and
+          ma.media_type_id == ^MediaServer.Types.get_movie_id() and
             ma.user_id == ^socket.assigns.current_user.id,
         order_by: [desc: ma.updated_at],
         limit: 10
