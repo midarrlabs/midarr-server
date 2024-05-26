@@ -52,9 +52,8 @@ defmodule MediaServerWeb.WebhooksControllerTest do
       MediaServer.MediaActions.create(%{
         media_id: 3,
         user_id: user.id,
-        action_id: MediaServer.Actions.get_followed_id(),
-        media_type_id: MediaServer.MediaTypes.get_type_id("movie")
-      })
+        action_id: MediaServer.Actions.get_followed_id()
+        })
 
     {:ok, _struct} =
       MediaServer.PushSubscriptions.create(%{
@@ -125,9 +124,8 @@ defmodule MediaServerWeb.WebhooksControllerTest do
       MediaServer.MediaActions.create(%{
         media_id: 1,
         user_id: user.id,
-        action_id: MediaServer.Actions.get_followed_id(),
-        media_type_id: MediaServer.MediaTypes.get_type_id("series")
-      })
+        action_id: MediaServer.Actions.get_followed_id()
+        })
 
     {:ok, _struct} =
       MediaServer.PushSubscriptions.create(%{

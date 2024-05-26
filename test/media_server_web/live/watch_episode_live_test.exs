@@ -34,7 +34,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
       duration: 100
     })
 
-    refute MediaServer.Continues.where(media_id: episode["id"]) === episode["id"]
+    refute MediaServer.MediaContinues.where(media_id: episode["id"]) === episode["id"]
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"], timestamp: 39))

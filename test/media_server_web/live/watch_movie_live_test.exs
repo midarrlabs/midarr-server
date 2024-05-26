@@ -35,7 +35,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       duration: 100
     })
 
-    assert MediaServer.Continues.where(media_id: movie["id"]).current_time === 89
+    assert MediaServer.MediaContinues.where(media_id: movie["id"]).current_time === 89
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"], timestamp: 89))
@@ -47,7 +47,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       duration: 100
     })
 
-    assert MediaServer.Continues.where(media_id: movie["id"]).current_time === 45
+    assert MediaServer.MediaContinues.where(media_id: movie["id"]).current_time === 45
   end
 
   test "it should not subtitle", %{conn: conn} do

@@ -4,7 +4,7 @@ defmodule MediaServer.MediaContinues do
 
   alias MediaServer.Repo
 
-  schema "continues" do
+  schema "media_continues" do
     field :media_id, :integer
 
     field :current_time, :integer

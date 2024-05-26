@@ -34,15 +34,14 @@ defmodule MediaServerWeb.UserFollowTest do
     MediaServer.MediaActions.create(%{
       media_id: movie["id"],
       user_id: user.id,
-      action_id: MediaServer.Actions.get_followed_id(),
-      media_type_id: MediaServer.MediaTypes.get_type_id("movie")
-    })
+      action_id: MediaServer.Actions.get_followed_id()
+      })
 
     {:ok, view, _html} = live(conn, ~p"/movies/#{movie["id"]}")
 
     view
     |> element("#follow", "Following")
-    |> render_hook(:unfollow, %{media_id: movie["id"], media_type: "movie", user_id: user.id})
+    |> render_hook(:unfollow, %{media_id: movie["id"], user_id: user.id})
 
     media = MediaServer.MediaActions.all()
 
@@ -56,7 +55,7 @@ defmodule MediaServerWeb.UserFollowTest do
 
     view
     |> element("#follow", "Follow")
-    |> render_hook(:follow, %{media_id: series["id"], media_type: "series", user_id: user.id})
+    |> render_hook(:follow, %{media_id: series["id"], user_id: user.id})
 
     media = MediaServer.MediaActions.all()
 
@@ -72,15 +71,14 @@ defmodule MediaServerWeb.UserFollowTest do
     MediaServer.MediaActions.create(%{
       media_id: series["id"],
       user_id: user.id,
-      action_id: MediaServer.Actions.get_followed_id(),
-      media_type_id: MediaServer.MediaTypes.get_type_id("series")
-    })
+      action_id: MediaServer.Actions.get_followed_id()
+      })
 
     {:ok, view, _html} = live(conn, ~p"/series/#{series["id"]}")
 
     view
     |> element("#follow", "Following")
-    |> render_hook(:unfollow, %{media_id: series["id"], media_type: "series", user_id: user.id})
+    |> render_hook(:unfollow, %{media_id: series["id"], user_id: user.id})
 
     media = MediaServer.MediaActions.all()
 
@@ -96,7 +94,6 @@ defmodule MediaServerWeb.UserFollowTest do
     |> element("#follow", "Follow")
     |> render_hook(:grant_push_notifications, %{
       media_id: movie["id"],
-      media_type: "movie",
       user_id: user.id,
       push_subscription: "some subscription"
     })
@@ -115,7 +112,6 @@ defmodule MediaServerWeb.UserFollowTest do
     |> element("#follow", "Follow")
     |> render_hook(:deny_push_notifications, %{
       media_id: movie["id"],
-      media_type: "movie",
       user_id: user.id,
       message: "some message"
     })
