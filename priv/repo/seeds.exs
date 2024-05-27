@@ -28,6 +28,7 @@ actions = [
 
 MediaServer.Repo.insert_all(MediaServer.Actions, actions, on_conflict: :nothing)
 
+MediaServer.ItemInserter.perform(%Oban.Job{args: %{"items" => MediaServer.MoviesIndex.for_db()}})
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.

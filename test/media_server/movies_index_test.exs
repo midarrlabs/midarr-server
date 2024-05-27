@@ -14,13 +14,13 @@ defmodule MediaServer.MoviesIndexTest do
 
       assert :ok = MediaServer.ItemInserter.perform(%Oban.Job{args: %{"items" => items}})
 
-      assert MediaServer.Repo.all(MediaServer.Media) |> length() == 2
+      assert MediaServer.Repo.all(MediaServer.Media) |> length() == 5
 
-      assert MediaServer.Repo.get(MediaServer.Media, 1).type_id == 1
-      assert MediaServer.Repo.get(MediaServer.Media, 1).external_id == 1234
+      assert MediaServer.Repo.get(MediaServer.Media, 4).type_id == 1
+      assert MediaServer.Repo.get(MediaServer.Media, 4).external_id == 1234
 
-      assert MediaServer.Repo.get(MediaServer.Media, 2).type_id == 2
-      assert MediaServer.Repo.get(MediaServer.Media, 2).external_id == 5678
+      assert MediaServer.Repo.get(MediaServer.Media, 5).type_id == 2
+      assert MediaServer.Repo.get(MediaServer.Media, 5).external_id == 5678
     end
   end
 end

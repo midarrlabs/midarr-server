@@ -9,5 +9,7 @@ defmodule MediaServer.Repo.Migrations.CreateMediaTable do
 
       timestamps()
     end
+
+    create unique_index(:media, [:type_id, :external_id])
   end
 end

@@ -14,6 +14,8 @@ defmodule MediaServer.ItemInserter do
       %MediaServer.Media{
         type_id: item["type_id"],
         external_id: item["external_id"]
-        })
+        },
+        on_conflict: :nothing,
+        conflict_target: [:type_id, :external_id])
   end
 end
