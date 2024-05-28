@@ -19,9 +19,9 @@ defmodule MediaServer.Media do
   def insert_record(attrs) do
     changeset = changeset(%__MODULE__{}, attrs)
 
-    case MediaServer.Repo.insert(changeset) do
+    case MediaServer.Repo.insert(changeset, on_conflict: :nothing, conflict_target: [:type_id, :external_id]) do
       {:ok, record} ->
-        Phoenix.PubSub.broadcast(MediaServer.PubSub, "media", {:record_inserted, record})
+        MediaServer.AudioInserter.perform(%Oban.Job{args: %{"record" => record}})
         {:ok, record}
 
       {:error, changeset} ->

@@ -6,8 +6,7 @@ defmodule MediaServer.MediaActions do
   alias MediaServer.Repo
 
   schema "media_actions" do
-    field :media_id, :integer
-
+    belongs_to :media, MediaServer.Media
     belongs_to :user, MediaServer.Accounts.User
     belongs_to :action, MediaServer.Actions
 

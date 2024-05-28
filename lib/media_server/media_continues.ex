@@ -5,12 +5,11 @@ defmodule MediaServer.MediaContinues do
   alias MediaServer.Repo
 
   schema "media_continues" do
-    field :media_id, :integer
+    belongs_to :media, MediaServer.Media
+    belongs_to :user, MediaServer.Accounts.User
 
     field :current_time, :integer
     field :duration, :integer
-
-    belongs_to :user, MediaServer.Accounts.User
 
     timestamps()
   end
