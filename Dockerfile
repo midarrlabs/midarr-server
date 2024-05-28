@@ -15,20 +15,14 @@ ARG SECRET_KEY_BASE=""
 ENV MIX_ENV="${MIX_ENV}"
 ENV SECRET_KEY_BASE="${SECRET_KEY_BASE}"
 
-RUN MIX_ENV=$MIX_ENV
-RUN SECRET_KEY_BASE=$SECRET_KEY_BASE
-
 WORKDIR /app
 
 COPY . ./
 COPY --from=node /assets/node_modules /app/assets/node_modules/
 
 RUN \
-    echo "@latest https://dl-cdn.alpinelinux.org/alpine/latest-stable/community" >> /etc/apk/repositories \
-    &&  echo "https://dl-cdn.alpinelinux.org/alpine/v3.11/main" >> /etc/apk/repositories \
-    &&  echo "https://dl-cdn.alpinelinux.org/alpine/v3.12/community" >> /etc/apk/repositories \
-    && echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
-    && echo "@edge-community https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
+    echo "https://dl-cdn.alpinelinux.org/alpine/v3.18/main" > /etc/apk/repositories \
+    && echo "https://dl-cdn.alpinelinux.org/alpine/v3.18/community" >> /etc/apk/repositories \
     && apk update
 
 RUN \
@@ -42,11 +36,11 @@ RUN \
         curl \
         make \
         g++ \
-        "libva-intel-driver@edge-community=2.4.1-r0" \
-        "shaderc@edge-community=2023.7-r0" \
+        libva-intel-driver \
+        shaderc \
         libdav1d \
         spirv-tools \
-        "ffmpeg@latest=6.1.1-r0" \
+        ffmpeg \
     && \
     mix local.hex --force \
     && mix local.rebar --force \
