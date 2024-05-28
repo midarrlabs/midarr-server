@@ -15,4 +15,17 @@ defmodule MediaServer.Media do
     |> cast(attrs, [:type_id, :external_id])
     |> validate_required([:type_id, :external_id])
   end
+
+  def insert_record(attrs) do
+    changeset = changeset(%__MODULE__{}, attrs)
+
+    case MediaServer.Repo.insert(changeset) do
+      {:ok, record} ->
+        Phoenix.PubSub.broadcast(MediaServer.PubSub, "media", {:record_inserted, record})
+        {:ok, record}
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
+  end
 end
