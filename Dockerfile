@@ -41,6 +41,7 @@ RUN \
         libdav1d \
         spirv-tools \
         ffmpeg \
+        git \
     && \
     mix local.hex --force \
     && mix local.rebar --force \
