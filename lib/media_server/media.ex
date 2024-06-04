@@ -21,7 +21,6 @@ defmodule MediaServer.Media do
 
     case MediaServer.Repo.insert(changeset, on_conflict: :nothing, conflict_target: [:type_id, :external_id]) do
       {:ok, record} ->
-        MediaServer.AudioInserter.perform(%Oban.Job{args: %{"record" => record}})
         {:ok, record}
 
       {:error, changeset} ->
