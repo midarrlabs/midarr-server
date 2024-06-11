@@ -31,6 +31,9 @@ MediaServer.Repo.insert_all(MediaServer.Actions, actions, on_conflict: :nothing)
 MediaServer.ItemInserter.new(%{"items" => MediaServer.MoviesIndex.for_db()})
 |> Oban.insert()
 
+MediaServer.AddSeries.new(%{"items" => MediaServer.SeriesIndex.for_db()})
+|> Oban.insert()
+
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
