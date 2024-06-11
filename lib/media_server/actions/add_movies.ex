@@ -1,4 +1,4 @@
-defmodule MediaServer.ItemInserter do
+defmodule MediaServer.AddMovies do
   use Oban.Worker, queue: :default, max_attempts: 3
 
   @impl true
@@ -6,8 +6,7 @@ defmodule MediaServer.ItemInserter do
   def perform(%Oban.Job{args: %{"items" => items}}) do
     items
     |> Enum.each(fn item ->
-      MediaServer.Media.insert_record(%{
-        type_id: item["type_id"],
+      MediaServer.Movies.insert(%{
         external_id: item["external_id"]
       })
     end)
