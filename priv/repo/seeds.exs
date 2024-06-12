@@ -21,13 +21,6 @@ types = [
 
 MediaServer.Repo.insert_all(MediaServer.Types, types, on_conflict: :nothing)
 
-actions = [
-  %{label: "played"},
-  %{label: "followed"}
-]
-
-MediaServer.Repo.insert_all(MediaServer.Actions, actions, on_conflict: :nothing)
-
 MediaServer.AddMovies.new(%{"items" => MediaServer.MoviesIndex.for_db()})
 |> Oban.insert()
 

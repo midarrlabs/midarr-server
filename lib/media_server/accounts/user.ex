@@ -11,9 +11,6 @@ defmodule MediaServer.Accounts.User do
     field :is_admin, :boolean
 
     has_many :continues, MediaServer.MediaContinues
-    has_many :media_actions, MediaServer.MediaActions
-    has_many :push_subscriptions, MediaServer.PushSubscriptions
-
     has_one :api_token, MediaServer.Accounts.UserToken, where: [context: "api"]
 
     timestamps()

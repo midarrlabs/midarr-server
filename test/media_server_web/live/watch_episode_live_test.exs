@@ -7,20 +7,6 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
     %{conn: conn |> log_in_user(MediaServer.AccountsFixtures.user_fixture())}
   end
 
-  test "it should watch", %{conn: conn} do
-    episode = MediaServerWeb.Repositories.Episodes.get_episode(1)
-
-    {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))
-
-    render_hook(view, :video_played)
-
-    media = MediaServer.MediaActions.where(media_id: episode["id"])
-
-    assert media.media_id === episode["id"]
-    assert media.action_id === MediaServer.Actions.get_played_id()
-  end
-
   test "it should continue", %{conn: conn} do
     serie = MediaServer.SeriesIndex.all() |> List.first()
 
