@@ -79,7 +79,10 @@ jobs:
       - run: curl -d "@${GITHUB_WORKSPACE}/dev/radarr/movies.json" -H "Content-Type:application/json" -X POST "http://localhost:7878/api/v3/movie/import?apiKey=d031e8c9b9df4b2fab311d1c3b3fa2c5"
 
       # Setup Sonarr
-      - run: curl -o- https://raw.githubusercontent.com/Sonarr/Sonarr/develop/distribution/debian/install.sh | sudo bash
+      - run: |
+          curl -o install-sonarr.sh https://raw.githubusercontent.com/Sonarr/Sonarr/develop/distribution/debian/install.sh
+          sed -i '/\/dev\/tty/d' install-sonarr.sh
+          sudo bash install-sonarr.sh
       - run: curl --head -X GET --retry 5 --retry-connrefused --retry-delay 5 "http://localhost:8989"
 
       # Seed Sonarr
