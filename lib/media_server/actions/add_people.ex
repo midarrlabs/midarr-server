@@ -7,7 +7,7 @@ defmodule MediaServer.AddPeople do
     items
     |> Enum.each(fn item ->
       MediaServer.People.insert(%{
-        external_id: item["external_id"]
+        tmdb_id: item["tmdb_id"]
       })
     end)
 
