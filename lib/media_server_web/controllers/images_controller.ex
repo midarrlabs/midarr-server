@@ -2,8 +2,13 @@ defmodule MediaServerWeb.ImagesController do
   use MediaServerWeb, :controller
 
   def index(conn, %{"movie" => id, "type" => "poster"}) do
-    {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-      MediaServerWeb.Repositories.Movies.get("mediacover/#{id}/poster-500.jpg")
+    poster =
+      MediaServer.MoviesIndex.all()
+      |> MediaServer.MoviesIndex.find(id)
+      |> MediaServer.Helpers.get_poster()
+      |> MediaServer.Helpers.get_image_file()
+
+    {:ok, %HTTPoison.Response{status_code: 200, body: body}} = HTTPoison.get("https://image.tmdb.org/t/p/w500/#{poster}")
 
     conn
     |> put_resp_header("content-type", "image/image")
