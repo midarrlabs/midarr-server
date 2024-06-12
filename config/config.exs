@@ -64,13 +64,13 @@ config :media_server, MediaServer.Repo,
   database: System.get_env("DB_DATABASE"),
   hostname: System.get_env("DB_HOSTNAME")
 
-config :web_push_elixir,
-  vapid_public_key: System.get_env("VAPID_PUBLIC_KEY"),
-  vapid_private_key: System.get_env("VAPID_PRIVATE_KEY"),
-  vapid_subject: System.get_env("VAPID_SUBJECT")
-
 config :oapi_tmdb,
   api_key: System.get_env("TMDB_API_KEY")
+
+config :media_server, Oban,
+  engine: Oban.Engines.Basic,
+  queues: [default: 10],
+  repo: MediaServer.Repo
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

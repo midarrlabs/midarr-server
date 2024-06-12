@@ -17,7 +17,7 @@ defmodule MediaServer.Accounts do
   def get_user!(id), do: Repo.get!(User, id)
 
   def register_user(attrs) do
-    case %User{} |> User.registration_changeset(attrs) |> Repo.insert() do
+    case %User{} |> User.registration_changeset(attrs) |> Repo.insert(on_conflict: :nothing) do
       {:ok, user} ->
         MediaServer.Accounts.generate_user_api_token(user)
 

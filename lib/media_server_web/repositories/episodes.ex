@@ -9,6 +9,10 @@ defmodule MediaServerWeb.Repositories.Episodes do
     end)
   end
 
+  def get_all(series_id) do
+    Series.get("episode?seriesId=#{series_id}")
+  end
+
   def get_episode(id) do
     Series.get("episode/#{id}")
   end
