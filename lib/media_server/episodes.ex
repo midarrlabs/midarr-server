@@ -3,9 +3,10 @@ defmodule MediaServer.Episodes do
   import Ecto.Changeset
 
   schema "episodes" do
-    belongs_to :series, MediaServer.Series, foreign_key: :series_id
-
     field :external_id, :integer
+
+    belongs_to :series, MediaServer.Series, foreign_key: :series_id
+    has_one :continue, MediaServer.EpisodeContinues, foreign_key: :episodes_id
 
     timestamps()
   end
