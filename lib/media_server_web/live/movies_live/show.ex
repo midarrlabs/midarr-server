@@ -26,9 +26,14 @@ defmodule MediaServerWeb.MoviesLive.Show do
     movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
     similar = MediaServer.MoviesIndex.related(MediaServer.MoviesIndex.all(), movie["id"])
 
+    continue_query =
+      from mc in MediaServer.MovieContinues,
+        where: mc.user_id == ^socket.assigns.current_user.id
+
     query =
-      from continue in MediaServer.MediaContinues,
-        where: continue.user_id == ^socket.assigns.current_user.id and continue.media_id == ^id
+      from m in MediaServer.Movies,
+        where: m.external_id == ^id,
+        preload: [continue: ^continue_query]
 
     result = MediaServer.Repo.one(query)
 
@@ -39,7 +44,7 @@ defmodule MediaServerWeb.MoviesLive.Show do
       |> assign(:page_title, movie["title"])
       |> assign(:movie, movie)
       |> assign(:similar, similar)
-      |> assign(:continue, result)
+      |> assign(:continue, result.continue)
     }
   end
 

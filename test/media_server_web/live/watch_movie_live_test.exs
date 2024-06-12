@@ -2,6 +2,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   use MediaServerWeb.ConnCase
 
   import Phoenix.LiveViewTest
+  import Ecto.Query
 
   setup %{conn: conn} do
     %{conn: conn |> log_in_user(MediaServer.AccountsFixtures.user_fixture())}
@@ -35,7 +36,13 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       duration: 100
     })
 
-    assert MediaServer.MediaContinues.where(media_id: movie["id"]).current_time === 89
+    query =
+      from m in MediaServer.Movies,
+        where: m.external_id == ^movie["id"]
+
+    result = MediaServer.Repo.one(query)
+
+    assert MediaServer.MovieContinues.where(movie_id: result.id).current_time === 89
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"], timestamp: 89))
@@ -47,7 +54,13 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
       duration: 100
     })
 
-    assert MediaServer.MediaContinues.where(media_id: movie["id"]).current_time === 45
+    query =
+      from m in MediaServer.Movies,
+        where: m.external_id == ^movie["id"]
+
+    result = MediaServer.Repo.one(query)
+
+    assert MediaServer.MovieContinues.where(movie_id: result.id).current_time === 45
   end
 
   test "it should not subtitle", %{conn: conn} do

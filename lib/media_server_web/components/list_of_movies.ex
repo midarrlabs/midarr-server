@@ -10,8 +10,9 @@ defmodule MediaServerWeb.Components.ListOfMovies do
     user_id = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :user_id) end).user_id
 
     query =
-      from continue in MediaServer.MediaContinues,
-        where: continue.user_id == ^user_id and continue.media_id in ^ids
+      from continue in MediaServer.MovieContinues,
+        where: continue.user_id == ^user_id and continue.movie_id in ^ids,
+        preload: [:movie]
 
     result = MediaServer.Repo.all(query)
 
@@ -30,7 +31,7 @@ defmodule MediaServerWeb.Components.ListOfMovies do
               img_src: ~p"/api/images?movie=#{movie["id"]}&type=poster&token=#{token}",
               continue:
                 Enum.find_value(result, nil, fn continue ->
-                  if continue.media_id == movie["id"],
+                  if continue.movie.external_id == movie["id"],
                     do: %{
                       current_time: continue.current_time,
                       duration: continue.duration

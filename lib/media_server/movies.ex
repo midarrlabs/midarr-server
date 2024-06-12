@@ -5,6 +5,8 @@ defmodule MediaServer.Movies do
   schema "movies" do
     field :external_id, :integer
 
+    has_one :continue, MediaServer.MovieContinues, foreign_key: :movie_id
+
     timestamps()
   end
 
