@@ -10,7 +10,6 @@ defmodule MediaServer.Accounts.User do
     field :confirmed_at, :naive_datetime
     field :is_admin, :boolean
 
-    has_many :continues, MediaServer.MediaContinues
     has_one :api_token, MediaServer.Accounts.UserToken, where: [context: "api"]
 
     timestamps()

@@ -11,7 +11,7 @@ defmodule MediaServerWeb.Components.ListOfMovies do
 
     query =
       from continue in MediaServer.MovieContinues,
-        where: continue.user_id == ^user_id and continue.movie_id in ^ids,
+        where: continue.user_id == ^user_id and continue.movies_id in ^ids,
         preload: [:movie]
 
     result = MediaServer.Repo.all(query)

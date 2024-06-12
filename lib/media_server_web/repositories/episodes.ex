@@ -9,9 +9,9 @@ defmodule MediaServerWeb.Repositories.Episodes do
     end)
   end
 
-  def for_db(series_id) do
+  def for_db(series_id, db_id) do
     Series.get("episode?seriesId=#{series_id}")
-    |> Enum.map(fn x ->  %{"type_id" => 3, "external_id" => x["id"]} end)
+    |> Enum.map(fn x ->  %{"series_id" => db_id, "external_id" => x["id"]} end)
   end
 
   def get_episode(id) do

@@ -12,15 +12,6 @@ MediaServer.Accounts.register_user(%{
   is_admin: true
 })
 
-types = [
-  %{label: "movie"},
-  %{label: "series"},
-  %{label: "episode"},
-  %{label: "person"}
-]
-
-MediaServer.Repo.insert_all(MediaServer.Types, types, on_conflict: :nothing)
-
 MediaServer.AddMovies.new(%{"items" => MediaServer.MoviesIndex.for_db()})
 |> Oban.insert()
 

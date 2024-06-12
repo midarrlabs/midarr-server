@@ -68,6 +68,7 @@ defmodule MediaServerWeb.WatchLive.Index do
       :noreply,
       socket
       |> assign(:page_title, "#{episode["series"]["title"]}: #{episode["title"]}")
+      |> assign(:media_type, "episode")
       |> assign(:media_id, episode["id"])
       |> assign(
            :media_timestamp,
@@ -91,6 +92,7 @@ defmodule MediaServerWeb.WatchLive.Index do
       :noreply,
       socket
       |> assign(:page_title, "#{episode["series"]["title"]}: #{episode["title"]}")
+      |> assign(:media_type, "episode")
       |> assign(:media_id, episode["id"])
       |> assign(
            :media_playlist,
@@ -104,16 +106,16 @@ defmodule MediaServerWeb.WatchLive.Index do
   end
 
   @impl true
-  def handle_event("video_destroyed", %{"current_time" => current_time, "duration" => duration}, %{assigns: %{media_type: "movie", media_id: movie_id, current_user: %{id: user_id}}} = socket) do
+  def handle_event("video_destroyed", %{"current_time" => current_time, "duration" => duration}, %{assigns: %{media_type: "movie", media_id: movies_id, current_user: %{id: user_id}}} = socket) do
 
     query =
-      from m in MediaServer.Movies,
-        where: m.external_id == ^movie_id
+      from movie in MediaServer.Movies,
+        where: movie.external_id == ^movies_id
 
     result = MediaServer.Repo.one(query)
 
     MediaServer.MovieContinues.insert_or_update(%{
-      movie_id: result.id,
+      movies_id: result.id,
       current_time: current_time,
       duration: duration,
       user_id: user_id
@@ -122,9 +124,16 @@ defmodule MediaServerWeb.WatchLive.Index do
     {:noreply, socket}
   end
 
-  def handle_event("video_destroyed", %{"current_time" => current_time, "duration" => duration}, %{assigns: %{media_id: media_id, current_user: %{id: user_id}}} = socket) do
-    MediaServer.MediaContinues.insert_or_update(%{
-      media_id: media_id,
+  def handle_event("video_destroyed", %{"current_time" => current_time, "duration" => duration}, %{assigns: %{media_type: "episode", media_id: episode_id, current_user: %{id: user_id}}} = socket) do
+
+    query =
+      from episode in MediaServer.Episodes,
+        where: episode.external_id == ^episode_id
+
+    result = MediaServer.Repo.one(query)
+
+    MediaServer.EpisodeContinues.insert_or_update(%{
+      episodes_id: result.id,
       current_time: current_time,
       duration: duration,
       user_id: user_id

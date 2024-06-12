@@ -6,8 +6,8 @@ defmodule MediaServer.AddEpisode do
   def perform(%Oban.Job{args: %{"items" => items}}) do
     items
     |> Enum.each(fn item ->
-      MediaServer.Media.insert_episode(%{
-        type_id: item["type_id"],
+      MediaServer.Episodes.insert(%{
+        series_id: item["series_id"],
         external_id: item["external_id"]
       })
     end)

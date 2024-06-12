@@ -1,11 +1,11 @@
-defmodule MediaServer.MediaContinues do
+defmodule MediaServer.EpisodeContinues do
   use Ecto.Schema
   import Ecto.Changeset
 
   alias MediaServer.Repo
 
-  schema "media_continues" do
-    belongs_to :media, MediaServer.Media
+  schema "episode_continues" do
+    belongs_to :episode, MediaServer.Episodes, foreign_key: :episodes_id
     belongs_to :user, MediaServer.Accounts.User
 
     field :current_time, :integer
@@ -16,18 +16,15 @@ defmodule MediaServer.MediaContinues do
 
   def changeset(continue, attrs) do
     continue
-    |> cast(attrs, [:media_id, :current_time, :duration, :user_id])
-    |> validate_required([:media_id, :current_time, :duration, :user_id])
+    |> cast(attrs, [:episodes_id, :current_time, :duration, :user_id])
+    |> validate_required([:episodes_id, :current_time, :duration, :user_id])
   end
 
   def insert_or_update(attrs) do
-    case Repo.get_by(__MODULE__,
-           media_id: attrs.media_id,
-           user_id: attrs.user_id
-         ) do
+    case Repo.get_by(__MODULE__, episodes_id: attrs.episodes_id, user_id: attrs.user_id) do
       nil ->
         %__MODULE__{
-          media_id: attrs.media_id,
+          episodes_id: attrs.episodes_id,
           user_id: attrs.user_id
         }
 

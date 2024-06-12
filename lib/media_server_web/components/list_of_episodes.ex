@@ -16,9 +16,9 @@ defmodule MediaServerWeb.Components.ListOfEpisodes do
     episode_ids = Enum.flat_map(episodes, fn episode -> [episode["id"]] end)
 
     query =
-      from continue in MediaServer.MediaContinues,
-        where:
-            continue.user_id == ^user_id and continue.media_id in ^episode_ids
+      from continue in MediaServer.EpisodeContinues,
+        where: continue.user_id == ^user_id and continue.episodes_id in ^episode_ids,
+        preload: [:episode]
 
     result = MediaServer.Repo.all(query)
 
@@ -35,7 +35,7 @@ defmodule MediaServerWeb.Components.ListOfEpisodes do
               img_src: ~p"/api/images?episode=#{episode["id"]}&type=screenshot&token=#{token}",
               continue:
                 Enum.find_value(result, nil, fn continue ->
-                  if continue.media_id == episode["id"],
+                  if continue.episode.external_id == episode["id"],
                     do: %{
                       current_time: continue.current_time,
                       duration: continue.duration

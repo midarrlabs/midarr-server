@@ -17,7 +17,7 @@ defmodule MediaServer.SeriesIndex do
 
   def for_db() do
     Agent.get(__MODULE__, & &1)
-    |> Enum.map(fn x ->  %{"type_id" => 2, "external_id" => x["id"]} end)
+    |> Enum.map(fn x ->  %{"external_id" => x["id"]} end)
   end
 
   def latest(state) do
