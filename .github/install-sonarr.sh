@@ -31,16 +31,18 @@ sudo chown -R sonarr:media /opt/Sonarr
 cat << EOF | sudo tee /etc/systemd/system/sonarr.service > /dev/null
 [Unit]
 Description=Sonarr Daemon
-After=syslog.target network.target
+After=network.target
+
 [Service]
 User=sonarr
 Group=media
+UMask=002
 Type=simple
-
-ExecStart=/usr/bin/mono --debug /opt/Sonarr/Sonarr.exe -nobrowser -data=/var/lib/sonarr
+ExecStart=/opt/Sonarr/Sonarr -nobrowser -data=/var/lib/sonarr
 TimeoutStopSec=20
 KillMode=process
 Restart=on-failure
+
 [Install]
 WantedBy=multi-user.target
 EOF
