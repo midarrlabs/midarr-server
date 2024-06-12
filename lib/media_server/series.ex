@@ -20,7 +20,8 @@ defmodule MediaServer.Series do
     case MediaServer.Repo.insert(changeset, on_conflict: :nothing, conflict_target: [:external_id]) do
       {:ok, record} ->
 
-        MediaServer.AddEpisode.new(%{"items" => MediaServerWeb.Repositories.Episodes.for_db(record.external_id, record.id)})
+        MediaServer.AddEpisode.new(%{"items" => MediaServerWeb.Repositories.Episodes.get_all(record.external_id)
+        |> Enum.map(fn x ->  %{"series_id" => record.id, "external_id" => x["id"]} end)})
         |> Oban.insert()
 
         {:ok, record}

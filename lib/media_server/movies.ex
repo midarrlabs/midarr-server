@@ -21,6 +21,11 @@ defmodule MediaServer.Movies do
 
     case MediaServer.Repo.insert(changeset, on_conflict: :nothing, conflict_target: [:external_id]) do
       {:ok, record} ->
+
+        MediaServer.AddPeople.new(%{"items" => MediaServerWeb.Repositories.Movies.get_cast(record.external_id)
+          |> Enum.map(fn x ->  %{"tmdb_id" => x["personTmdbId"]} end)}
+          )|> Oban.insert()
+
         {:ok, record}
 
       {:error, changeset} ->
