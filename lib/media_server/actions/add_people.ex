@@ -9,6 +9,7 @@ defmodule MediaServer.AddPeople do
       MediaServer.People.insert(%{
         tmdb_id: item["tmdb_id"],
         name: item["name"],
+        image: item["image"]
       })
     end)
 
