@@ -1,45 +1,32 @@
 defmodule MediaServerWeb.Components.ListOfMovies do
   use MediaServerWeb, :live_component
 
-  import Ecto.Query
-
   @impl true
   def preload(list_of_assigns) do
-    ids = Enum.flat_map(list_of_assigns, fn assign -> assign.ids end)
+    id = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :id) end).id
+    query = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :query) end).query
     token = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :token) end).token
-    user_id = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :user_id) end).user_id
 
-    query =
-      from continue in MediaServer.MovieContinues,
-        where: continue.user_id == ^user_id and continue.movies_id in ^ids,
-        preload: [:movie]
+    latest_entries = MediaServer.Repo.all(query)
 
-    result = MediaServer.Repo.all(query)
-
-    Enum.map(list_of_assigns, fn assign ->
+    [
       %{
-        id: assign.id,
+        id: id,
         items:
-          Enum.map(assign.ids, fn id ->
-            movie = MediaServer.MoviesIndex.all() |> MediaServer.MoviesIndex.find(id)
+          Enum.map(latest_entries, fn entry ->
+            movie =
+              MediaServer.MoviesIndex.all() |> MediaServer.MoviesIndex.find(entry.external_id)
 
             %{
-              id: movie["id"],
+              id: entry.external_id,
               title: movie["title"],
               runtime: movie["movieFile"]["mediaInfo"]["runTime"],
-              link: ~p"/movies/#{movie["id"]}",
-              img_src: ~p"/api/images?movie=#{movie["id"]}&type=poster&token=#{token}",
-              continue:
-                Enum.find_value(result, nil, fn continue ->
-                  if continue.movie.external_id == movie["id"],
-                    do: %{
-                      current_time: continue.current_time,
-                      duration: continue.duration
-                    }
-                end)
+              link: ~p"/movies/#{entry.external_id}",
+              img_src: ~p"/api/images?movie=#{entry.external_id}&type=background&size=w780&token=#{token}",
+              continue: nil
             }
           end)
       }
-    end)
+    ]
   end
 end
