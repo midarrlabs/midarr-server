@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full antialiased dark" style="color-scheme: dark;">
+<html lang="en" class="text-zinc-950 antialiased lg:bg-zinc-100 dark:bg-zinc-900 dark:text-white dark:lg:bg-zinc-950">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -25,12 +25,12 @@
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
     <meta name="theme-color" content="#18181b" />
 
-    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
+    <link rel="stylesheet" href="https://catalyst-demo.tailwindui.com/_next/static/css/f2f3d5fed2500312.css">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
     <%= if @current_user do %>
       <script>
         window.userId = <%= assigns[:current_user].id %>;
-        window.applicationServerKey = "<%= System.get_env("VAPID_PUBLIC_KEY") %>";
       </script>
       <script
         defer
@@ -41,13 +41,7 @@
       </script>
     <% end %>
   </head>
-  <body class="bg-zinc-900">
-    <%= if @current_user do %>
-      <%= @inner_content %>
-    <% else %>
-      <div class="bg-zinc-900 h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <%= @inner_content %>
-      </div>
-    <% end %>
+  <body>
+    <%= @inner_content %>
   </body>
 </html>
