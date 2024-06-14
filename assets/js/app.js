@@ -107,8 +107,6 @@ let liveSocket = new LiveSocket("/live", Socket, {
 
                     delete event["returnValue"]
                 })
-
-                this.pushEvent("video_played")
             },
             destroyed() {
                 window.removeEventListener("beforeunload")

@@ -15,6 +15,7 @@ defmodule MediaServerWeb.Router do
   end
 
   pipeline :api do
+    plug Corsica, origins: "*"
     plug :accepts, ["json"]
     plug MediaServerWeb.VerifyToken
   end

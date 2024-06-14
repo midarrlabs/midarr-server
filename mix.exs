@@ -58,10 +58,11 @@ defmodule MediaServer.MixProject do
       {:scrivener, "~> 2.0"},
       {:extitles, "~> 0.1.0"},
       {:oauth2, "~> 2.0"},
-      {:web_push_elixir, "~> 0.4.0"},
       {:oapi_tmdb, "~> 0.3.0"},
       {:hls_playlist, "~> 0.3.0"},
-      {:exile, "~> 0.9.1"}
+      {:exile, "~> 0.9.1"},
+      {:corsica, "~> 2.0"},
+      {:oban, "~> 2.17"}
     ]
   end
 

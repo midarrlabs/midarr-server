@@ -12,29 +12,11 @@ MediaServer.Accounts.register_user(%{
   is_admin: true
 })
 
-MediaServer.MediaTypes.create(%{
-  type: "movie"
-})
+MediaServer.AddMovies.new(%{"items" => MediaServer.MoviesIndex.for_db()})
+|> Oban.insert()
 
-MediaServer.MediaTypes.create(%{
-  type: "series"
-})
-
-MediaServer.MediaTypes.create(%{
-  type: "episode"
-})
-
-MediaServer.MediaTypes.create(%{
-  type: "person"
-})
-
-MediaServer.Actions.create(%{
-  action: "played"
-})
-
-MediaServer.Actions.create(%{
-  action: "followed"
-})
+MediaServer.AddSeries.new(%{"items" => MediaServer.SeriesIndex.for_db()})
+|> Oban.insert()
 
 #
 # We recommend using the bang functions (`insert!`, `update!`

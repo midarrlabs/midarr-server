@@ -2,23 +2,10 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   use MediaServerWeb.ConnCase
 
   import Phoenix.LiveViewTest
+  import Ecto.Query
 
   setup %{conn: conn} do
     %{conn: conn |> log_in_user(MediaServer.AccountsFixtures.user_fixture())}
-  end
-
-  test "it should watch", %{conn: conn} do
-    episode = MediaServerWeb.Repositories.Episodes.get_episode(1)
-
-    {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))
-
-    render_hook(view, :video_played)
-
-    media = MediaServer.MediaActions.where(media_id: episode["id"])
-
-    assert media.media_id === episode["id"]
-    assert media.action_id === MediaServer.Actions.get_played_id()
   end
 
   test "it should continue", %{conn: conn} do
@@ -34,7 +21,13 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
       duration: 100
     })
 
-    refute MediaServer.Continues.where(media_id: episode["id"]) === episode["id"]
+    query =
+      from m in MediaServer.Episodes,
+        where: m.external_id == ^episode["id"]
+
+    result = MediaServer.Repo.one(query)
+
+    refute MediaServer.EpisodeContinues.where(episodes_id: result.id) === episode["id"]
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"], timestamp: 39))

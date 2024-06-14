@@ -20,6 +20,7 @@ defmodule MediaServer.Application do
       # {MediaServer.Worker, arg}
       MediaServerWeb.Presence,
       {DynamicSupervisor, name: MediaServer.DynamicSupervisor},
+      {Oban, Application.fetch_env!(:media_server, Oban)},
       MediaServer.MoviesIndex,
       MediaServer.SeriesIndex
     ]

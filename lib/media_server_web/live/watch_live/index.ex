@@ -1,6 +1,8 @@
 defmodule MediaServerWeb.WatchLive.Index do
   use MediaServerWeb, :live_view
 
+  import Ecto.Query
+
   @impl true
   def mount(_params, session, socket) do
     {
@@ -22,8 +24,8 @@ defmodule MediaServerWeb.WatchLive.Index do
       :noreply,
       socket
       |> assign(:page_title, "#{movie["title"]}")
+      |> assign(:media_type, "movie")
       |> assign(:media_id, movie["id"])
-      |> assign(:media_type, MediaServer.MediaTypes.get_movie_id())
       |> assign(
         :media_timestamp,
         timestamp
@@ -46,8 +48,8 @@ defmodule MediaServerWeb.WatchLive.Index do
       :noreply,
       socket
       |> assign(:page_title, "#{movie["title"]}")
+      |> assign(:media_type, "movie")
       |> assign(:media_id, movie["id"])
-      |> assign(:media_type, MediaServer.MediaTypes.get_movie_id())
       |> assign(
         :media_playlist,
         ~p"/api/playlist.m3u8?movie=#{movie["id"]}&token=#{socket.assigns.current_user.api_token.token}"
@@ -66,8 +68,8 @@ defmodule MediaServerWeb.WatchLive.Index do
       :noreply,
       socket
       |> assign(:page_title, "#{episode["series"]["title"]}: #{episode["title"]}")
+      |> assign(:media_type, "episode")
       |> assign(:media_id, episode["id"])
-      |> assign(:media_type, MediaServer.MediaTypes.get_episode_id())
       |> assign(
            :media_timestamp,
            timestamp
@@ -90,8 +92,8 @@ defmodule MediaServerWeb.WatchLive.Index do
       :noreply,
       socket
       |> assign(:page_title, "#{episode["series"]["title"]}: #{episode["title"]}")
+      |> assign(:media_type, "episode")
       |> assign(:media_id, episode["id"])
-      |> assign(:media_type, MediaServer.MediaTypes.get_episode_id())
       |> assign(
            :media_playlist,
            ~p"/api/playlist.m3u8?episode=#{episode["id"]}&token=#{socket.assigns.current_user.api_token.token}"
@@ -104,32 +106,38 @@ defmodule MediaServerWeb.WatchLive.Index do
   end
 
   @impl true
-  def handle_event(
-        "video_destroyed",
-        %{
-          "current_time" => current_time,
-          "duration" => duration
-        },
-        socket
-      ) do
-    MediaServer.Continues.insert_or_update(%{
-      media_id: socket.assigns.media_id,
+  def handle_event("video_destroyed", %{"current_time" => current_time, "duration" => duration}, %{assigns: %{media_type: "movie", media_id: movies_id, current_user: %{id: user_id}}} = socket) do
+
+    query =
+      from movie in MediaServer.Movies,
+        where: movie.external_id == ^movies_id
+
+    result = MediaServer.Repo.one(query)
+
+    MediaServer.MovieContinues.insert_or_update(%{
+      movies_id: result.id,
       current_time: current_time,
       duration: duration,
-      user_id: socket.assigns.current_user.id,
-      media_type_id: socket.assigns.media_type
-    })
+      user_id: user_id
+      })
 
     {:noreply, socket}
   end
 
-  def handle_event("video_played", _params, socket) do
-    MediaServer.MediaActions.insert_or_update(%{
-      media_id: socket.assigns.media_id,
-      user_id: socket.assigns.current_user.id,
-      action_id: MediaServer.Actions.get_played_id(),
-      media_type_id: socket.assigns.media_type
-    })
+  def handle_event("video_destroyed", %{"current_time" => current_time, "duration" => duration}, %{assigns: %{media_type: "episode", media_id: episode_id, current_user: %{id: user_id}}} = socket) do
+
+    query =
+      from episode in MediaServer.Episodes,
+        where: episode.external_id == ^episode_id
+
+    result = MediaServer.Repo.one(query)
+
+    MediaServer.EpisodeContinues.insert_or_update(%{
+      episodes_id: result.id,
+      current_time: current_time,
+      duration: duration,
+      user_id: user_id
+      })
 
     {:noreply, socket}
   end
