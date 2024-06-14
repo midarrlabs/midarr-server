@@ -7,7 +7,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
   def mount(_params, session, socket) do
     query =
       from m in MediaServer.Movies,
-        order_by: [desc: m.inserted_at],
+        order_by: [asc: m.id],
         limit: 25
 
     {

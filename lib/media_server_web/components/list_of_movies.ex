@@ -7,23 +7,21 @@ defmodule MediaServerWeb.Components.ListOfMovies do
     query = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :query) end).query
     token = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :token) end).token
 
-    latest_entries = MediaServer.Repo.all(query)
+    entries = MediaServer.Repo.all(query)
 
     [
       %{
         id: id,
         items:
-          Enum.map(latest_entries, fn entry ->
+          Enum.map(entries, fn entry ->
             movie =
               MediaServer.MoviesIndex.all() |> MediaServer.MoviesIndex.find(entry.external_id)
 
             %{
               id: entry.external_id,
-              title: movie["title"],
-              runtime: movie["movieFile"]["mediaInfo"]["runTime"],
+              movie: movie,
               link: ~p"/movies/#{entry.external_id}",
               img_src: ~p"/api/images?movie=#{entry.external_id}&type=background&size=w780&token=#{token}",
-              continue: nil
             }
           end)
       }

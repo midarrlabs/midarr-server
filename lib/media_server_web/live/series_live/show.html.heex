@@ -1,95 +1,455 @@
-<div class="flex-auto prose dark:prose-invert">
-  <div class="absolute inset-0 -z-10 mx-0 max-w-none overflow-hidden">
-    <div class="absolute left-1/2 top-0 ml-[-18rem] h-[30rem] w-[60rem] dark:[mask-image:linear-gradient(white,transparent)]">
-      <div class="absolute inset-0 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)]">
-        <img
-          src={
-            ~p"/api/images?series=#{@serie["id"]}&type=background&token=#{assigns[:current_user].api_token.token}"
-          }
-          class="absolute inset-x-0 inset-y-0 w-full"
-        />
-      </div>
-    </div>
+<div class="mx-auto max-w-6xl">
+  <div class="max-lg:hidden">
+    <.link
+      class="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
+      navigate="/series"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 16 16"
+        fill="currentColor"
+        aria-hidden="true"
+        data-slot="icon"
+        class="size-4 fill-zinc-400 dark:fill-zinc-500"
+      ><path
+          fill-rule="evenodd"
+          d="M9.78 4.22a.75.75 0 0 1 0 1.06L7.06 8l2.72 2.72a.75.75 0 1 1-1.06 1.06L5.47 8.53a.75.75 0 0 1 0-1.06l3.25-3.25a.75.75 0 0 1 1.06 0Z"
+          clip-rule="evenodd"
+        ></path></svg>TV Shows
+    </.link>
   </div>
-
-  <header class="flex flex-col gap-y-2">
-    <div class="flex items-center gap-6">
-      <div class="flex flex-col">
-        <h1 class="text-4xl font-bold text-slate-900"><%= @serie["title"] %></h1>
+  <div class="mt-4 flex flex-wrap items-end justify-between gap-4">
+    <div class="flex flex-wrap items-center gap-6">
+      <div class="w-32 shrink-0">
+        <img class="aspect-[3/2] rounded-lg shadow" src={~p"/api/images?series=#{@serie["id"]}&type=background&token=#{assigns[:current_user].api_token.token}"} alt="" />
       </div>
-    </div>
-  </header>
-
-  <h2>Overview</h2>
-
-  <p class="lead">
-    <%= @serie["overview"] %>
-  </p>
-
-  <div class="xl:max-w-none">
-    <div class="flex items-baseline justify-between">
-      <h2 class="scroll-mt-24">
-        Episodes
-      </h2>
-
-      <div class="flex items-center">
-        <div class="relative inline-block text-left">
-          <div>
-            <button
-              type="button"
-              phx-click={JS.toggle(to: "#seasons-menu")}
-              class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition rounded-full bg-zinc-100 py-1 px-3 text-zinc-900 hover:bg-zinc-200 dark:bg-zinc-800/40 dark:text-zinc-400 dark:ring-1 dark:ring-inset dark:ring-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
-            >
-              Seasons
-              <svg
-                class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-zinc-500 group-hover:text-white"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </button>
-          </div>
-
-          <div
-            id="seasons-menu"
-            class="hidden absolute overflow-auto max-h-56 right-0 z-10 mt-2 w-40 origin-top-right rounded-md dark:text-zinc-400 shadow-xl ring-1 ring-zinc-900/7.5 dark:bg-zinc-900 dark:ring-zinc-800 sm:max-w-xl opacity-100 scale-100"
-          >
-            <div class="py-1" phx-click-away={JS.hide(to: "#seasons-menu")}>
-              <%= for item <- @serie["seasons"] do %>
-                <%= if item["seasonNumber"] === 0 do %>
-                  <.link
-                    patch={~p"/series/#{@serie["id"]}?season=#{item["seasonNumber"]}"}
-                    class="block px-4 py-2 text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-                  >
-                    Specials
-                  </.link>
-                <% else %>
-                  <.link
-                    patch={~p"/series/#{@serie["id"]}?season=#{item["seasonNumber"]}"}
-                    class="block px-4 py-2 text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-                  >
-                    Season <%= item["seasonNumber"] %>
-                  </.link>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
+      <div>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <h1 class="text-2xl/8 font-semibold text-zinc-950 sm:text-xl/8 dark:text-white">
+            <%= @serie["title"] %>
+          </h1>
+          <span class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-yellow-400/20 text-yellow-700 group-data-[hover]:bg-yellow-400/30 dark:bg-yellow-400/10 dark:text-yellow-300 dark:group-data-[hover]:bg-yellow-400/15">
+            TV Show
+          </span>
+        </div>
+        <div class="mt-2 text-sm/6 text-zinc-500">
+          May 20, 2024 at 10 PM <span aria-hidden="true">·</span> Harmony Theater, Winnipeg, MB
         </div>
       </div>
     </div>
-
-    <.live_component
-      module={MediaServerWeb.Components.ListOfEpisodes}
-      id="episodes"
-      series_id={@serie["id"]}
-      season={@season}
-      token={assigns[:current_user].api_token.token}
-      user_id={assigns[:current_user].id}
-    />
+    <div class="flex gap-4">
+      <button
+        class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;>[data-slot=icon]]:-mx-0.5 [&amp;>[data-slot=icon]]:my-0.5 [&amp;>[data-slot=icon]]:size-5 [&amp;>[data-slot=icon]]:shrink-0 [&amp;>[data-slot=icon]]:text-[--btn-icon] [&amp;>[data-slot=icon]]:sm:my-1 [&amp;>[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-zinc-950/10 text-zinc-950 data-[active]:bg-zinc-950/[2.5%] data-[hover]:bg-zinc-950/[2.5%] dark:border-white/15 dark:text-white dark:[--btn-bg:transparent] dark:data-[active]:bg-white/5 dark:data-[hover]:bg-white/5 [--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)] cursor-default"
+        type="button"
+      >
+        <span
+          class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+          aria-hidden="true"
+        ></span>Trailer
+      </button><button
+        class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;>[data-slot=icon]]:-mx-0.5 [&amp;>[data-slot=icon]]:my-0.5 [&amp;>[data-slot=icon]]:size-5 [&amp;>[data-slot=icon]]:shrink-0 [&amp;>[data-slot=icon]]:text-[--btn-icon] [&amp;>[data-slot=icon]]:sm:my-1 [&amp;>[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-transparent bg-[--btn-border] dark:bg-[--btn-bg] before:absolute before:inset-0 before:-z-10 before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-[--btn-bg] before:shadow dark:before:hidden dark:border-white/5 after:absolute after:inset-0 after:-z-10 after:rounded-[calc(theme(borderRadius.lg)-1px)] after:shadow-[shadow:inset_0_1px_theme(colors.white/15%)] after:data-[active]:bg-[--btn-hover-overlay] after:data-[hover]:bg-[--btn-hover-overlay] dark:after:-inset-px dark:after:rounded-lg before:data-[disabled]:shadow-none after:data-[disabled]:shadow-none text-white [--btn-bg:theme(colors.zinc.900)] [--btn-border:theme(colors.zinc.950/90%)] [--btn-hover-overlay:theme(colors.white/10%)] dark:text-white dark:[--btn-bg:theme(colors.zinc.600)] dark:[--btn-hover-overlay:theme(colors.white/5%)] [--btn-icon:theme(colors.zinc.400)] data-[active]:[--btn-icon:theme(colors.zinc.300)] data-[hover]:[--btn-icon:theme(colors.zinc.300)] cursor-default"
+        type="button"
+      ><span
+        class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+        aria-hidden="true"
+      ></span>Play</button>
+    </div>
+  </div>
+  <div class="mt-8 grid gap-8 sm:grid-cols-3">
+    <div>
+      <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10" />
+      <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Total revenue</div>
+      <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">$102,552</div>
+      <div class="mt-3 text-sm/6 sm:text-xs/6">
+        <span class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-[hover]:bg-lime-400/30 dark:bg-lime-400/10 dark:text-lime-300 dark:group-data-[hover]:bg-lime-400/15">
+          +3.2%
+        </span> <span class="text-zinc-500">from last week</span>
+      </div>
+    </div>
+    <div>
+      <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10" />
+      <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Tickets sold</div>
+      <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">350/500</div>
+      <div class="mt-3 text-sm/6 sm:text-xs/6">
+        <span class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-[hover]:bg-lime-400/30 dark:bg-lime-400/10 dark:text-lime-300 dark:group-data-[hover]:bg-lime-400/15">
+          +8.1%
+        </span> <span class="text-zinc-500">from last week</span>
+      </div>
+    </div>
+    <div>
+      <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10" />
+      <div class="mt-6 text-lg/6 font-medium sm:text-sm/6">Pageviews</div>
+      <div class="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">24,300</div>
+      <div class="mt-3 text-sm/6 sm:text-xs/6">
+        <span class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-pink-400/15 text-pink-700 group-data-[hover]:bg-pink-400/25 dark:bg-pink-400/10 dark:text-pink-400 dark:group-data-[hover]:bg-pink-400/20">
+          -0.75%
+        </span> <span class="text-zinc-500">from last week</span>
+      </div>
+    </div>
+  </div>
+  <h2 class="mt-12 text-base/7 font-semibold text-zinc-950 sm:text-sm/6 dark:text-white">
+    Recent orders
+  </h2>
+  <div class="flow-root">
+    <div class="mt-4 [--gutter:theme(spacing.6)] lg:[--gutter:theme(spacing.10)] -mx-[--gutter] overflow-x-auto whitespace-nowrap">
+      <div class="inline-block min-w-full align-middle sm:px-[--gutter]">
+        <table class="min-w-full text-left text-sm/6 text-zinc-950 dark:text-white">
+          <thead class="text-zinc-500 dark:text-zinc-400">
+            <tr class="">
+              <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                Order number
+              </th>
+              <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                Purchase date
+              </th>
+              <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                Customer
+              </th>
+              <th class="text-right border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                Amount
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="has-[[data-row-link][data-focus]]:outline has-[[data-row-link][data-focus]]:outline-2 has-[[data-row-link][data-focus]]:-outline-offset-2 has-[[data-row-link][data-focus]]:outline-blue-500 dark:focus-within:bg-white/[2.5%] hover:bg-zinc-950/[2.5%] dark:hover:bg-white/[2.5%]">
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3000"
+                  tabindex="0"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3000"
+                ></a>3000
+              </td>
+              <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3000"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3000"
+                ></a>May 9, 2024
+              </td>
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3000"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3000"
+                ></a>Leslie Alexander
+              </td>
+              <td class="text-right relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3000"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3000"
+                ></a>US$80.00
+              </td>
+            </tr>
+            <tr class="has-[[data-row-link][data-focus]]:outline has-[[data-row-link][data-focus]]:outline-2 has-[[data-row-link][data-focus]]:-outline-offset-2 has-[[data-row-link][data-focus]]:outline-blue-500 dark:focus-within:bg-white/[2.5%] hover:bg-zinc-950/[2.5%] dark:hover:bg-white/[2.5%]">
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3003"
+                  tabindex="0"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3003"
+                ></a>3003
+              </td>
+              <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3003"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3003"
+                ></a>Apr 23, 2024
+              </td>
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3003"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3003"
+                ></a>Lindsay Walton
+              </td>
+              <td class="text-right relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3003"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3003"
+                ></a>US$80.00
+              </td>
+            </tr>
+            <tr class="has-[[data-row-link][data-focus]]:outline has-[[data-row-link][data-focus]]:outline-2 has-[[data-row-link][data-focus]]:-outline-offset-2 has-[[data-row-link][data-focus]]:outline-blue-500 dark:focus-within:bg-white/[2.5%] hover:bg-zinc-950/[2.5%] dark:hover:bg-white/[2.5%]">
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3007"
+                  tabindex="0"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3007"
+                ></a>3007
+              </td>
+              <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3007"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3007"
+                ></a>Apr 6, 2024
+              </td>
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3007"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3007"
+                ></a>Leonard Krasner
+              </td>
+              <td class="text-right relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3007"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3007"
+                ></a>US$80.00
+              </td>
+            </tr>
+            <tr class="has-[[data-row-link][data-focus]]:outline has-[[data-row-link][data-focus]]:outline-2 has-[[data-row-link][data-focus]]:-outline-offset-2 has-[[data-row-link][data-focus]]:outline-blue-500 dark:focus-within:bg-white/[2.5%] hover:bg-zinc-950/[2.5%] dark:hover:bg-white/[2.5%]">
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3008"
+                  tabindex="0"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3008"
+                ></a>3008
+              </td>
+              <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3008"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3008"
+                ></a>Apr 3, 2024
+              </td>
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3008"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3008"
+                ></a>Floyd Miles
+              </td>
+              <td class="text-right relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3008"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3008"
+                ></a>US$80.00
+              </td>
+            </tr>
+            <tr class="has-[[data-row-link][data-focus]]:outline has-[[data-row-link][data-focus]]:outline-2 has-[[data-row-link][data-focus]]:-outline-offset-2 has-[[data-row-link][data-focus]]:outline-blue-500 dark:focus-within:bg-white/[2.5%] hover:bg-zinc-950/[2.5%] dark:hover:bg-white/[2.5%]">
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3011"
+                  tabindex="0"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3011"
+                ></a>3011
+              </td>
+              <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3011"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3011"
+                ></a>Mar 21, 2024
+              </td>
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3011"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3011"
+                ></a>Emma Dorsey
+              </td>
+              <td class="text-right relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3011"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3011"
+                ></a>US$80.00
+              </td>
+            </tr>
+            <tr class="has-[[data-row-link][data-focus]]:outline has-[[data-row-link][data-focus]]:outline-2 has-[[data-row-link][data-focus]]:-outline-offset-2 has-[[data-row-link][data-focus]]:outline-blue-500 dark:focus-within:bg-white/[2.5%] hover:bg-zinc-950/[2.5%] dark:hover:bg-white/[2.5%]">
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3016"
+                  tabindex="0"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3016"
+                ></a>3016
+              </td>
+              <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3016"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3016"
+                ></a>Feb 28, 2024
+              </td>
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3016"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3016"
+                ></a>Jeffrey Webb
+              </td>
+              <td class="text-right relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3016"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3016"
+                ></a>US$80.00
+              </td>
+            </tr>
+            <tr class="has-[[data-row-link][data-focus]]:outline has-[[data-row-link][data-focus]]:outline-2 has-[[data-row-link][data-focus]]:-outline-offset-2 has-[[data-row-link][data-focus]]:outline-blue-500 dark:focus-within:bg-white/[2.5%] hover:bg-zinc-950/[2.5%] dark:hover:bg-white/[2.5%]">
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3017"
+                  tabindex="0"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3017"
+                ></a>3017
+              </td>
+              <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3017"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3017"
+                ></a>Feb 23, 2024
+              </td>
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3017"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3017"
+                ></a>Kathryn Murphy
+              </td>
+              <td class="text-right relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3017"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3017"
+                ></a>US$80.00
+              </td>
+            </tr>
+            <tr class="has-[[data-row-link][data-focus]]:outline has-[[data-row-link][data-focus]]:outline-2 has-[[data-row-link][data-focus]]:-outline-offset-2 has-[[data-row-link][data-focus]]:outline-blue-500 dark:focus-within:bg-white/[2.5%] hover:bg-zinc-950/[2.5%] dark:hover:bg-white/[2.5%]">
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3021"
+                  tabindex="0"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3021"
+                ></a>3021
+              </td>
+              <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3021"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3021"
+                ></a>Feb 5, 2024
+              </td>
+              <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3021"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3021"
+                ></a>Blake Reid
+              </td>
+              <td class="text-right relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                <a
+                  data-row-link="true"
+                  aria-label="Order #3021"
+                  tabindex="-1"
+                  class="absolute inset-0 focus:outline-none"
+                  data-headlessui-state=""
+                  href="/orders/3021"
+                ></a>US$80.00
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>

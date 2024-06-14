@@ -1,8 +1,6 @@
 defmodule MediaServerWeb.SeriesLive.Show do
   use MediaServerWeb, :live_view
 
-  alias Phoenix.LiveView.JS
-
   @impl true
   def mount(_params, session, socket) do
     {
