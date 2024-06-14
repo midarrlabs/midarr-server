@@ -72,6 +72,8 @@ config :media_server, Oban,
   queues: [default: 10],
   repo: MediaServer.Repo
 
+  config :flop, repo: MediaServer.Repo
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

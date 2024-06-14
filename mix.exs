@@ -62,7 +62,8 @@ defmodule MediaServer.MixProject do
       {:hls_playlist, "~> 0.3.0"},
       {:exile, "~> 0.9.1"},
       {:corsica, "~> 2.0"},
-      {:oban, "~> 2.17"}
+      {:oban, "~> 2.17"},
+      {:flop, "~> 0.25.0"}
     ]
   end
 
