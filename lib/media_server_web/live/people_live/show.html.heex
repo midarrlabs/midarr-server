@@ -1,40 +1,23 @@
 <%= if assigns[:person] do %>
-
-<div class="flex-auto prose dark:prose-invert">
-
-    <div class="relative overflow-visible bg-zinc-900 w-40 mb-6">
-      <img
-        src={"https://image.tmdb.org/t/p/original/#{ @person["profile_path"] }"}
-        alt=""
-        class="h-full w-full object-cover object-center"
-        loading="lazy"
-      />
+  <div class="mx-auto max-w-6xl">
+    <div class="max-lg:hidden">
+      <.link
+        class="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
+        navigate="/people"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          aria-hidden="true"
+          data-slot="icon"
+          class="size-4 fill-zinc-400 dark:fill-zinc-500"
+        ><path
+            fill-rule="evenodd"
+            d="M9.78 4.22a.75.75 0 0 1 0 1.06L7.06 8l2.72 2.72a.75.75 0 1 1-1.06 1.06L5.47 8.53a.75.75 0 0 1 0-1.06l3.25-3.25a.75.75 0 0 1 1.06 0Z"
+            clip-rule="evenodd"
+          ></path></svg>People
+      </.link>
     </div>
-
-    <header class="flex flex-col gap-y-2">
-      <div class="flex items-center gap-6">
-        <div class="flex flex-col">
-          <h1 class="text-4xl font-bold text-slate-900"><%= @person["name"] %></h1>
-        </div>
-      </div>
-      <div class="flex gap-x-4 items-center">
-        <.live_component
-          module={MediaServerWeb.Components.FollowComponent}
-          id="followComponent"
-          media_id={@person["id"]}
-          media_type="person"
-          user_id={@current_user.id}
-          return_to={~p"/people/#{@person["id"]}"}
-        />
-      </div>
-    </header>
-
-  <h2>Overview</h2>
-
-  <p class="lead">
-    <%= @person["biography"] %>
-  </p>
-
-</div>
-
+  </div>
 <% end %>
