@@ -4,16 +4,14 @@ defmodule MediaServerWeb.Components.ListPeople do
   @impl true
   def preload(list_of_assigns) do
     id = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :id) end).id
-    query = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :query) end).query
+    data = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :data) end).data
     token = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :token) end).token
-
-    entries = MediaServer.Repo.all(query)
 
     [
       %{
         id: id,
         items:
-          Enum.map(entries, fn entry ->
+          Enum.map(data, fn entry ->
             %{
               id: entry.tmdb_id,
               title: entry.name,

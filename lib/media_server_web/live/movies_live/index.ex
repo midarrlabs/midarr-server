@@ -1,15 +1,8 @@
 defmodule MediaServerWeb.MoviesLive.Index do
   use MediaServerWeb, :live_view
 
-  import Ecto.Query
-
   @impl true
   def mount(_params, session, socket) do
-    query =
-      from m in MediaServer.Movies,
-        order_by: [asc: m.id],
-        limit: 25
-
     {
       :ok,
       socket
@@ -18,7 +11,6 @@ defmodule MediaServerWeb.MoviesLive.Index do
         MediaServer.Accounts.get_user_by_session_token(session["user_token"])
       )
       |> assign(:page_title, "Movies")
-      |> assign(query: query)
     }
   end
 
@@ -149,48 +141,26 @@ defmodule MediaServerWeb.MoviesLive.Index do
   end
 
   def handle_params(%{"page" => page}, _url, socket) do
-    movies =
-      Scrivener.paginate(MediaServer.MoviesIndex.all(), %{
-        "page" => page,
-        "page_size" => "50"
-      })
+    {:ok, {movies, meta}} = Flop.validate_and_run(MediaServer.Movies, %{page: page, page_size: 25}, for: MediaServer.Movies)
 
     {
       :noreply,
       socket
       |> assign(:page_title, "Movies")
       |> assign(:movies, movies)
-      |> assign(
-        :previous_link,
-        ~p"/movies?page=#{MediaServerWeb.Helpers.get_pagination_previous_link(movies.page_number)}"
-      )
-      |> assign(
-        :next_link,
-        ~p"/movies?page=#{MediaServerWeb.Helpers.get_pagination_next_link(movies.page_number)}"
-      )
+      |> assign(:meta, meta)
     }
   end
 
   def handle_params(_params, _url, socket) do
-    movies =
-      Scrivener.paginate(MediaServer.MoviesIndex.all(), %{
-        "page" => "1",
-        "page_size" => "50"
-      })
+    {:ok, {movies, meta}} = Flop.validate_and_run(MediaServer.Movies, %{page: 1, page_size: 25}, for: MediaServer.Movies)
 
     {
       :noreply,
       socket
       |> assign(:page_title, "Movies")
       |> assign(:movies, movies)
-      |> assign(
-        :previous_link,
-        ~p"/movies?page=#{MediaServerWeb.Helpers.get_pagination_previous_link(movies.page_number)}"
-      )
-      |> assign(
-        :next_link,
-        ~p"/movies?page=#{MediaServerWeb.Helpers.get_pagination_next_link(movies.page_number)}"
-      )
+      |> assign(:meta, meta)
     }
   end
 end

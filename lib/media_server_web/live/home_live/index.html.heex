@@ -68,7 +68,7 @@
   <.live_component
     module={MediaServerWeb.Components.ListOfMovies}
     id="latest-movies"
-    query={@query}
+    movies={@data}
     token={assigns[:current_user].api_token.token}
   />
 </div>

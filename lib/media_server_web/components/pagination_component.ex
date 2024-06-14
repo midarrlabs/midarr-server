@@ -3,52 +3,56 @@ defmodule MediaServerWeb.Components.PaginationComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="flex pt-10">
-      <%= if assigns.page_number > 1 do %>
-        <div class="flex flex-col items-start gap-3">
-          <.link
-            class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition rounded-full bg-zinc-100 py-1 px-3 text-zinc-900 hover:bg-zinc-200 dark:bg-zinc-800/40 dark:text-zinc-400 dark:ring-1 dark:ring-inset dark:ring-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
-            navigate={@previous_link}
+    <div class="w-full mt-8">
+      <nav aria-label="Page navigation" class="flex gap-x-2">
+        <span class="grow basis-0">
+          <button
+            aria-label="Previous page"
+            class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;>[data-slot=icon]]:-mx-0.5 [&amp;>[data-slot=icon]]:my-0.5 [&amp;>[data-slot=icon]]:size-5 [&amp;>[data-slot=icon]]:shrink-0 [&amp;>[data-slot=icon]]:text-[--btn-icon] [&amp;>[data-slot=icon]]:sm:my-1 [&amp;>[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-transparent text-zinc-950 data-[active]:bg-zinc-950/5 data-[hover]:bg-zinc-950/5 dark:text-white dark:data-[active]:bg-white/10 dark:data-[hover]:bg-white/10 [--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:[--btn-icon:theme(colors.zinc.500)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)] cursor-default"
+            type="button"
+            disabled=""
+            data-headlessui-state="disabled"
+            data-disabled=""
           >
-            <svg viewBox="0 0 20 20" fill="none" class="mt-0.5 h-5 w-5 -ml-1 rotate-180"><path
-                stroke="currentColor"
+            <span
+              class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+              aria-hidden="true"
+            >
+            </span><svg
+              class="stroke-current"
+              data-slot="icon"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+            ><path
+                d="M2.75 8H13.25M2.75 8L5.25 5.5M2.75 8L5.25 10.5"
+                stroke-width="1.5"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="m11.5 6.5 3 3.5m0 0-3 3.5m3-3.5h-9"
               ></path></svg>Previous
-          </.link>
-          <.link
-            id="pagination-previous"
-            class="text-base font-semibold text-zinc-900 transition hover:text-zinc-600 dark:text-white dark:hover:text-zinc-300"
-            navigate={@previous_link}
-          >
-            Page <%= @page_number - 1 %>
-          </.link>
-        </div>
-      <% end %>
-
-      <%= if assigns.page_number !== assigns.total_pages do %>
-        <div class="ml-auto flex flex-col items-end gap-3">
-          <.link
-            class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition rounded-full bg-zinc-100 py-1 px-3 text-zinc-900 hover:bg-zinc-200 dark:bg-zinc-800/40 dark:text-zinc-400 dark:ring-1 dark:ring-inset dark:ring-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
-            navigate={@next_link}
-          >
-            Next<svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="mt-0.5 h-5 w-5 -mr-1"><path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="m11.5 6.5 3 3.5m0 0-3 3.5m3-3.5h-9"
-              ></path></svg>
-          </.link>
-          <.link
-            id="pagination-next"
-            class="text-base font-semibold text-zinc-900 transition hover:text-zinc-600 dark:text-white dark:hover:text-zinc-300"
-            navigate={@next_link}
-          >
-            Page <%= @page_number + 1 %>
-          </.link>
-        </div>
-      <% end %>
+          </button>
+        </span>
+        <span class="flex grow basis-0 justify-end"><.link
+          aria-label="Next page"
+          class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;>[data-slot=icon]]:-mx-0.5 [&amp;>[data-slot=icon]]:my-0.5 [&amp;>[data-slot=icon]]:size-5 [&amp;>[data-slot=icon]]:shrink-0 [&amp;>[data-slot=icon]]:text-[--btn-icon] [&amp;>[data-slot=icon]]:sm:my-1 [&amp;>[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-transparent text-zinc-950 data-[active]:bg-zinc-950/5 data-[hover]:bg-zinc-950/5 dark:text-white dark:data-[active]:bg-white/10 dark:data-[hover]:bg-white/10 [--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:[--btn-icon:theme(colors.zinc.500)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)]"
+          data-headlessui-state=""
+          navigate={"?page=#{ @meta.next_page }"}
+        ><span
+          class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+          aria-hidden="true"
+        ></span>Next<svg
+          class="stroke-current"
+          data-slot="icon"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        ><path
+            d="M13.25 8L2.75 8M13.25 8L10.75 10.5M13.25 8L10.75 5.5"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path></svg></.link></span>
+      </nav>
     </div>
     """
   end

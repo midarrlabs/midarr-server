@@ -2,6 +2,12 @@ defmodule MediaServer.People do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {
+    Flop.Schema,
+    filterable: [],
+    sortable: [:name]
+  }
+
   schema "people" do
     field :tmdb_id, :integer
     field :name, :string

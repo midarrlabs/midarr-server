@@ -2,6 +2,12 @@ defmodule MediaServer.Movies do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {
+    Flop.Schema,
+    filterable: [],
+    sortable: [:id]
+  }
+
   schema "movies" do
     field :external_id, :integer
 
