@@ -4,6 +4,8 @@ defmodule MediaServer.Repo.Migrations.CreatePeopleTable do
   def change do
     create table(:people) do
       add :tmdb_id, :integer, null: false
+      add :name, :string
+      add :image, :string
 
       timestamps()
     end

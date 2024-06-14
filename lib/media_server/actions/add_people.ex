@@ -7,7 +7,9 @@ defmodule MediaServer.AddPeople do
     items
     |> Enum.each(fn item ->
       MediaServer.People.insert(%{
-        tmdb_id: item["tmdb_id"]
+        tmdb_id: item["tmdb_id"],
+        name: item["name"],
+        image: item["image"]
       })
     end)
 
