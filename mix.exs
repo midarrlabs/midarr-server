@@ -59,7 +59,7 @@ defmodule MediaServer.MixProject do
       {:extitles, "~> 0.1.0"},
       {:oauth2, "~> 2.0"},
       {:oapi_tmdb, "~> 0.3.0"},
-      {:hls_playlist, "~> 0.3.0"},
+      {:hls_playlist, "~> 0.5.1"},
       {:exile, "~> 0.9.1"},
       {:corsica, "~> 2.0"},
       {:oban, "~> 2.17"}
