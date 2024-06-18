@@ -7,20 +7,22 @@
       Jump back in
     </h2>
   </div>
-  <div class="mt-4 grid gap-8 sm:grid-cols-3 xl:grid-cols-4">
-    <%= for _item <- [1,2,3,4] do %>
-      <article class="relative isolate flex flex-col justify-end overflow-hidden max-w-sm mx-auto">
-        <img
-          src="/api/images?movie=699&type=background&size=w780&token=1a-b253-3dceebec"
-          alt=""
-          class="aspect-[3/2] rounded-lg shadow"
-        />
-        <h3 class="mt-3 text-base/6 font-semibold">Paris</h3>
-        <div class="gap-y-1 overflow-hidden text-xs/6 text-zinc-500">City of love</div>
-      </article>
+  <div>
+  <ul role="list" class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-3">
+    <%= for _item <- [1,2,3,4,5,6] do %>
+      <li class="col-span-1 flex rounded-md shadow-sm">
+        <div class="flex w-16 flex-shrink-0 items-center justify-center rounded-l-md bg-lime-600 text-sm font-medium text-white">PL</div>
+        <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r border-t border-zinc-950/10 dark:border-white/10">
+          <div class="flex-1 truncate px-4 py-2 text-sm">
+            <div class="text-base/6 font-semibold">Placeholder</div>
+            <p class="text-xs/6 text-zinc-500">Placeholder</p>
+          </div>
+        </div>
+      </li>
     <% end %>
-  </div>
-  <h2 class="mt-14 text-base/7 font-semibold text-zinc-950 sm:text-sm/6 dark:text-white">
+  </ul>
+</div>
+  <h2 class="mt-8 text-base/7 font-semibold text-zinc-950 sm:text-sm/6 dark:text-white">
     Recent additions
   </h2>
 
