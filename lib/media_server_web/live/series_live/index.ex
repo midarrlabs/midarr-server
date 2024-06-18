@@ -1,15 +1,8 @@
 defmodule MediaServerWeb.SeriesLive.Index do
   use MediaServerWeb, :live_view
 
-  import Ecto.Query
-
   @impl true
   def mount(_params, session, socket) do
-    query =
-      from m in MediaServer.Series,
-        order_by: [desc: m.inserted_at],
-        limit: 25
-
     {
       :ok,
       socket
@@ -18,7 +11,6 @@ defmodule MediaServerWeb.SeriesLive.Index do
         MediaServer.Accounts.get_user_by_session_token(session["user_token"])
       )
       |> assign(:page_title, "Series")
-      |> assign(query: query)
     }
   end
 
