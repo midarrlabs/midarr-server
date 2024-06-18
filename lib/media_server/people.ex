@@ -5,7 +5,7 @@ defmodule MediaServer.People do
   @derive {
     Flop.Schema,
     filterable: [],
-    sortable: [:name]
+    sortable: [:id]
   }
 
   schema "people" do

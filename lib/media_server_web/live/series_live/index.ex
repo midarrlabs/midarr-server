@@ -149,48 +149,26 @@ defmodule MediaServerWeb.SeriesLive.Index do
   end
 
   def handle_params(%{"page" => page}, _url, socket) do
-    series =
-      Scrivener.paginate(MediaServer.SeriesIndex.all(), %{
-        "page" => page,
-        "page_size" => "50"
-      })
+    {:ok, {series, meta}} = Flop.validate_and_run(MediaServer.Series, %{page: page, page_size: 25}, for: MediaServer.Series)
 
     {
       :noreply,
       socket
-      |> assign(:page_title, "Series")
+      |> assign(:page_title, "series")
       |> assign(:series, series)
-      |> assign(
-        :previous_link,
-        ~p"/series?page=#{MediaServerWeb.Helpers.get_pagination_previous_link(series.page_number)}"
-      )
-      |> assign(
-        :next_link,
-        ~p"/series?page=#{MediaServerWeb.Helpers.get_pagination_next_link(series.page_number)}"
-      )
+      |> assign(:meta, meta)
     }
   end
 
   def handle_params(_params, _url, socket) do
-    series =
-      Scrivener.paginate(MediaServer.SeriesIndex.all(), %{
-        "page" => "1",
-        "page_size" => "50"
-      })
+    {:ok, {series, meta}} = Flop.validate_and_run(MediaServer.Series, %{page: 1, page_size: 25}, for: MediaServer.Series)
 
     {
       :noreply,
       socket
       |> assign(:page_title, "Series")
       |> assign(:series, series)
-      |> assign(
-        :previous_link,
-        ~p"/series?page=#{MediaServerWeb.Helpers.get_pagination_previous_link(series.page_number)}"
-      )
-      |> assign(
-        :next_link,
-        ~p"/series?page=#{MediaServerWeb.Helpers.get_pagination_next_link(series.page_number)}"
-      )
+      |> assign(:meta, meta)
     }
   end
 end
