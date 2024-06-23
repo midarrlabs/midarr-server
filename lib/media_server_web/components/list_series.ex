@@ -19,7 +19,7 @@ defmodule MediaServerWeb.Components.ListSeries do
                 id: serie.external_id,
                 series: item,
                 link: ~p"/series/#{serie.external_id}",
-                img_src: ~p"/api/images?series=#{serie.external_id}&type=background&size=w780&token=#{token}",
+                img_src: ~p"/api/images?series=#{serie.external_id}&type=poster&token=#{token}",
               }
             end)
         }

@@ -19,7 +19,7 @@ defmodule MediaServerWeb.Components.ListOfMovies do
               id: movie.external_id,
               movie: item,
               link: ~p"/movies/#{movie.external_id}",
-              img_src: ~p"/api/images?movie=#{movie.external_id}&type=background&size=w780&token=#{token}",
+              img_src: ~p"/api/images?movie=#{movie.external_id}&type=poster&token=#{token}",
             }
           end)
       }

@@ -1,32 +1,15 @@
-<ul class="mt-4">
+<ul role="list" class="mt-10 grid grid-cols-2 md:grid-cols-7 gap-x-4 gap-y-8">
   <%= for item <- @items do %>
-    <li>
-      <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10" />
-      <div class="flex items-center justify-between">
-        <div class="flex gap-6 py-6">
-          <div class="w-32 shrink-0">
-            <.link navigate={item.link}>
-              <img class="aspect-[3/2] rounded-lg shadow" src={item.img_src} alt="" />
-            </.link>
-          </div>
-          <div class="space-y-1.5">
-            <div class="text-base/6 font-semibold">
-              <.link navigate={item.link}>
-                <%= item.series["title"] %>
-              </.link>
-            </div>
-            <div class="text-xs/6 text-zinc-500">
-              <%= item.series["year"] %> <span aria-hidden="true">·</span> <%= item.series["studio"] %> <span aria-hidden="true">·</span> <%= item.series["runtime"] %> minutes
-            </div>
-            <div class="text-xs/6 text-zinc-600">0 minutes watched</div>
-          </div>
+    <.link navigate={item.link}>
+      <li class="relative">
+        <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+          <img
+            src={item.img_src}
+            alt=""
+            class="pointer-events-none object-cover group-hover:opacity-75"
+          />
         </div>
-        <div class="flex items-center gap-4">
-          <span class="max-sm:hidden inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-yellow-400/20 text-yellow-700 group-data-[hover]:bg-yellow-400/30 dark:bg-yellow-400/10 dark:text-yellow-300 dark:group-data-[hover]:bg-yellow-400/15">
-            Series
-          </span>
-        </div>
-      </div>
-    </li>
+      </li>
+    </.link>
   <% end %>
 </ul>

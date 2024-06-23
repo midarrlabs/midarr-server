@@ -10,7 +10,7 @@ defmodule MediaServerWeb.SeriesLive.Index do
         :current_user,
         MediaServer.Accounts.get_user_by_session_token(session["user_token"])
       )
-      |> assign(:page_title, "Series")
+      |> assign(:page_title, "TV Shows")
     }
   end
 
@@ -146,7 +146,6 @@ defmodule MediaServerWeb.SeriesLive.Index do
     {
       :noreply,
       socket
-      |> assign(:page_title, "series")
       |> assign(:series, series)
       |> assign(:meta, meta)
     }
@@ -158,7 +157,6 @@ defmodule MediaServerWeb.SeriesLive.Index do
     {
       :noreply,
       socket
-      |> assign(:page_title, "Series")
       |> assign(:series, series)
       |> assign(:meta, meta)
     }

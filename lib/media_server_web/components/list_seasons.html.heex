@@ -1,0 +1,34 @@
+<ul class="mt-4">
+  <%= for item <- @items do %>
+    <li>
+      <hr role="presentation" class="w-full border-t border-zinc-950/10 dark:border-white/10" />
+      <div class="flex items-center justify-between">
+        <div class="flex gap-6 py-6">
+          <div class="w-32 shrink-0">
+            <.link navigate={item.link}>
+              <div class="relative w-full" style="padding-top: 115%;">
+                <img
+                  class="absolute inset-0 w-full h-full rounded-lg shadow object-cover"
+                  src={item.img_src}
+                  alt=""
+                />
+              </div>
+            </.link>
+          </div>
+          <div class="space-y-1.5">
+            <div class="text-base/6 font-semibold">
+              <.link navigate={item.link}>
+                <%= item.title %>
+              </.link>
+            </div>
+            <div class="text-xs/6 text-zinc-500">
+              May 20, 2024 at 10 PM <span aria-hidden="true">·</span>
+              Harmony Theater, Winnipeg, MB
+            </div>
+            <div class="text-xs/6 text-zinc-600">350/500 tickets sold</div>
+          </div>
+        </div>
+      </div>
+    </li>
+  <% end %>
+</ul>
