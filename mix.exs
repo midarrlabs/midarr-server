@@ -54,7 +54,7 @@ defmodule MediaServer.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:httpoison, "~> 2.0"},
       {:excoveralls, "~> 0.10", only: :test, runtime: false},
-      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:scrivener, "~> 2.0"},
       {:extitles, "~> 0.1.0"},
       {:oauth2, "~> 2.0"},
