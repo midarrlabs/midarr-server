@@ -1,8 +1,6 @@
 defmodule MediaServerWeb.Components.NavComponent do
   use MediaServerWeb, :live_component
 
-  alias Phoenix.LiveView.JS
-
   @impl true
   def handle_event("search", %{"search" => %{"query" => query}}, socket) do
     {

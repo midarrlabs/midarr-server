@@ -1,42 +1,56 @@
 <div class="mx-auto max-w-6xl">
-  <div class="mt-4 flex flex-wrap items-end justify-between gap-4">
-    <div class="flex flex-wrap items-center gap-6">
-      <div class="w-32 shrink-0">
-        <img
-          class="aspect-[3/2] rounded-lg shadow"
-          src={
-            ~p"/api/images?series=#{@serie["id"]}&type=background&token=#{assigns[:current_user].api_token.token}"
-          }
-          alt=""
-        />
-      </div>
-      <div>
-        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <h1 class="text-2xl/8 font-semibold text-zinc-950 sm:text-xl/8 dark:text-white">
-            <%= @serie["title"] %>
-          </h1>
-          <span class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-yellow-400/20 text-yellow-700 group-data-[hover]:bg-yellow-400/30 dark:bg-yellow-400/10 dark:text-yellow-300 dark:group-data-[hover]:bg-yellow-400/15">
-            TV Show
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div class="max-sm:w-full sm:flex-1">
+      <h1 class="text-2xl/8 font-semibold text-zinc-950 sm:text-xl/8 dark:text-white">
+        Series Title
+      </h1>
+      <div class="mt-4 flex max-w-xl gap-4">
+        <div>
+          <span
+            data-slot="control"
+            class="group relative block w-full before:absolute before:inset-px before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-white before:shadow dark:before:hidden after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-inset after:ring-transparent after:has-[[data-focus]]:ring-2 after:has-[[data-focus]]:ring-blue-500 has-[[data-disabled]]:opacity-50 before:has-[[data-disabled]]:bg-zinc-950/5 before:has-[[data-disabled]]:shadow-none"
+          >
+            <select
+              name="sort_by"
+              class="relative block w-full appearance-none rounded-lg py-[calc(theme(spacing[2.5])-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] pl-[calc(theme(spacing[3.5])-1px)] pr-[calc(theme(spacing.10)-1px)] sm:pl-[calc(theme(spacing.3)-1px)] sm:pr-[calc(theme(spacing.9)-1px)] [&_optgroup]:font-semibold text-base/6 text-zinc-950 placeholder:text-zinc-500 sm:text-sm/6 dark:text-white dark:*:text-white border border-zinc-950/10 data-[hover]:border-zinc-950/20 dark:border-white/10 dark:data-[hover]:border-white/20 bg-transparent dark:bg-white/5 dark:*:bg-zinc-800 focus:outline-none data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:dark:border-red-600 data-[invalid]:data-[hover]:dark:border-red-600 data-[disabled]:border-zinc-950/20 data-[disabled]:opacity-100 dark:data-[hover]:data-[disabled]:border-white/15 data-[disabled]:dark:border-white/15 data-[disabled]:dark:bg-white/[2.5%]"
+            >
+              <option value="name">Season 1</option>
+              <option value="date">Season 2</option>
+              <option value="status">Season 3</option>
+            </select>
+            <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+              <svg
+                class="size-5 stroke-zinc-500 group-has-[[data-disabled]]:stroke-zinc-600 sm:size-4 dark:stroke-zinc-400 forced-colors:stroke-[CanvasText]"
+                viewBox="0 0 16 16"
+                aria-hidden="true"
+                fill="none"
+              >
+                <path
+                  d="M5.75 10.75L8 13L10.25 10.75"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                </path>
+                <path
+                  d="M10.25 5.25L8 3L5.75 5.25"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                </path>
+              </svg>
+            </span>
           </span>
-        </div>
-        <div class="mt-2 text-sm/6 text-zinc-500">
-          May 20, 2024 at 10 PM <span aria-hidden="true">·</span> Harmony Theater, Winnipeg, MB
         </div>
       </div>
     </div>
   </div>
 
-  <h2 class="mt-12 mb-6 text-base/7 font-semibold text-zinc-950 sm:text-sm/6 dark:text-white">
-    Seasons
-  </h2>
-
-  <div class="grid grid-cols-6 gap-4">
-    <%= for _item <- 1..30 do %>
-      <img
-        alt="gallery"
-        class="block h-full w-full rounded-lg object-cover object-center"
-        src="/api/images?series=13&type=poster&token=1a-b253-3dceebec"
-      />
-    <% end %>
-  </div>
+  <.live_component
+    module={MediaServerWeb.Components.ListEpisodes}
+    id="episodes"
+    episodes={@episodes}
+    token={assigns[:current_user].api_token.token}
+  />
 </div>
