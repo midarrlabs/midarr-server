@@ -15,7 +15,7 @@ MediaServer.Accounts.register_user(%{
 MediaServer.AddMovies.new(%{"items" => MediaServer.MoviesIndex.for_db()})
 |> Oban.insert()
 
-MediaServer.AddSeries.new(%{"items" => MediaServer.SeriesIndex.for_db()})
+MediaServer.AddSeries.new(%{"items" => MediaServerWeb.Repositories.Series.get_all()})
 |> Oban.insert()
 
 #

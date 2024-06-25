@@ -21,6 +21,5 @@ defmodule MediaServerWeb.Repositories.Series do
 
   def get_all() do
     get("series?includeSeasonImages=true")
-    |> Enum.sort_by(& &1["title"], :asc)
   end
 end

@@ -3,23 +3,17 @@ defmodule MediaServerWeb.Components.ListSeries do
 
     @impl true
     def preload(list_of_assigns) do
-      id = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :id) end).id
       series = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :series) end).series
       token = Enum.find(list_of_assigns, fn assign -> Map.get(assign, :token) end).token
 
       [
         %{
-          id: id,
+          id: "series",
           items:
             Enum.map(series, fn serie ->
-              item =
-                MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.find(serie.external_id)
-
               %{
-                id: serie.external_id,
-                series: item,
-                link: ~p"/series/#{serie.external_id}",
-                img_src: ~p"/api/images?series=#{serie.external_id}&type=poster&token=#{token}",
+                link: ~p"/series/#{serie.id}",
+                img_src: "/api/images?url=#{serie.poster}&type=proxy&token=#{token}"
               }
             end)
         }

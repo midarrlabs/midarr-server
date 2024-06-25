@@ -40,7 +40,7 @@ defmodule MediaServerWeb.SeriesLive.Show do
       from episode in MediaServer.Episodes,
         join: series in MediaServer.Series,
         on: episode.series_id == series.id,
-        where: series.external_id == ^id and episode.season == 1,
+        where: series.id == ^id and episode.season == 1,
         preload: [series: series]
 
     {:ok, {data, _meta}} = Flop.validate_and_run(query, %{order_by: [:number]}, for: MediaServer.Episodes)
