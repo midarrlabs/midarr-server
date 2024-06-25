@@ -5,13 +5,13 @@
       <div class="flex items-center justify-between">
         <div class="flex gap-6 py-6">
           <div class="w-52 shrink-0">
-            <a aria-hidden="true" data-headlessui-state="" href="/events/1000">
+            <.link navigate={item.link}>
               <img class="aspect-[3/2] rounded-lg shadow" src={item.img_src} alt="" />
-            </a>
+            </.link>
           </div>
           <div class="space-y-1.5">
             <div class="text-base/6 font-semibold text-white">
-              <a data-headlessui-state="" href="/events/1000"><%= item.title %></a>
+              <.link navigate={item.link}><%= item.title %></.link>
             </div>
             <div class="text-xs/6 text-zinc-500">
               <%= item.overview %>

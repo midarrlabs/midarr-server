@@ -14,6 +14,7 @@ defmodule MediaServerWeb.Components.ListEpisodes do
             %{
               title: episode.title,
               overview: episode.overview,
+              link: ~p"/watch?episode=#{episode.sonarr_id}",
               img_src: "/api/images?url=#{episode.screenshot}&type=proxy&token=#{token}"
             }
           end)

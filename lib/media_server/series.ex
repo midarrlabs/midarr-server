@@ -5,7 +5,7 @@ defmodule MediaServer.Series do
   @derive {
     Flop.Schema,
     filterable: [],
-    sortable: [:id]
+    sortable: [:id, :title]
   }
 
   schema "series" do
@@ -16,6 +16,8 @@ defmodule MediaServer.Series do
     field :overview, :string
     field :poster, :string
     field :background, :string
+
+    has_many :episodes, MediaServer.Episodes
 
     timestamps()
   end

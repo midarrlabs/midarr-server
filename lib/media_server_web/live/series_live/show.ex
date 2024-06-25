@@ -17,39 +17,53 @@ defmodule MediaServerWeb.SeriesLive.Show do
 
   @impl true
   def handle_params(%{"id" => id, "season" => season}, _url, socket) do
-    series = MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.find(id)
-
     query =
-      from episode in MediaServer.Episodes,
-        where: episode.series_id == ^series["id"]
+      from series in MediaServer.Series,
+        where: series.id == ^id,
+        join: episode in assoc(series, :episodes),
+        where: episode.season == ^season,
+        order_by: episode.number,
+        preload: [episodes: episode]
 
-    episodes = MediaServer.Repo.one(query)
+    series = MediaServer.Repo.all(query) |> List.first()
 
     {
       :noreply,
       socket
-      |> assign(:page_title, "#{series["title"]}: Season #{season}")
+      |> assign(:page_title, series.title)
       |> assign(:series, series)
-      |> assign(:season, season)
-      |> assign(:episodes, episodes)
+      |> assign(:episodes, series.episodes)
+      |> assign(:selected_season, season)
     }
   end
 
   def handle_params(%{"id" => id}, _url, socket) do
     query =
-      from episode in MediaServer.Episodes,
-        join: series in MediaServer.Series,
-        on: episode.series_id == series.id,
-        where: series.id == ^id and episode.season == 1,
-        preload: [series: series]
+      from series in MediaServer.Series,
+        where: series.id == ^id,
+        join: episode in assoc(series, :episodes),
+        where: episode.season == 1,
+        order_by: episode.number,
+        preload: [episodes: episode]
 
-    {:ok, {data, _meta}} = Flop.validate_and_run(query, %{order_by: [:number]}, for: MediaServer.Episodes)
+    series = MediaServer.Repo.all(query) |> List.first()
 
     {
       :noreply,
       socket
-      |> assign(:page_title, "Series")
-      |> assign(:episodes, data)
+      |> assign(:page_title, series.title)
+      |> assign(:series, series)
+      |> assign(:episodes, series.episodes)
+      |> assign(:selected_season, "1")
+    }
+  end
+
+  @impl true
+  def handle_event("season", %{"season" => season}, socket) do
+    {
+      :noreply,
+      socket
+      |> push_navigate(to: ~p"/series/#{socket.assigns.series.id}?season=#{season}")
     }
   end
 end
