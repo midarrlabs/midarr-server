@@ -16,23 +16,23 @@ defmodule MediaServerWeb.PeopleLive.Index do
 
   @impl true
   def handle_params(%{"page" => page}, _url, socket) do
-    {:ok, {data, meta}} = Flop.validate_and_run(MediaServer.People, %{page: page, page_size: 25}, for: MediaServer.People)
+    {:ok, {people, meta}} = Flop.validate_and_run(MediaServer.People, %{page: page, page_size: 25}, for: MediaServer.People)
 
     {
       :noreply,
       socket
-      |> assign(:data, data)
+      |> assign(:people, people)
       |> assign(:meta, meta)
     }
   end
 
   def handle_params(_params, _url, socket) do
-    {:ok, {data, meta}} = Flop.validate_and_run(MediaServer.People, %{page: 1, page_size: 25}, for: MediaServer.People)
+    {:ok, {people, meta}} = Flop.validate_and_run(MediaServer.People, %{page: 1, page_size: 25}, for: MediaServer.People)
 
     {
       :noreply,
       socket
-      |> assign(:data, data)
+      |> assign(:people, people)
       |> assign(:meta, meta)
     }
   end

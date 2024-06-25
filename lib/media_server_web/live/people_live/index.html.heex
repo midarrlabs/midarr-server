@@ -79,13 +79,13 @@
       </div>
     </div>
   </div>
-
-  <.live_component
-    module={MediaServerWeb.Components.ListPeople}
-    id="people"
-    data={@data}
-    token={assigns[:current_user].api_token.token}
-  />
+  
+  <%= MediaServerWeb.Components.ListComponent.render(%{
+    id: "people",
+    items: @people,
+    image: :image,
+    token: @current_user.api_token.token
+  }) %>
 
   <%= MediaServerWeb.Components.PaginationComponent.render(%{
     meta: @meta
