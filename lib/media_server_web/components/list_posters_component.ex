@@ -1,4 +1,4 @@
-defmodule MediaServerWeb.Components.ListComponent do
+defmodule MediaServerWeb.Components.ListPostersComponent do
   use Phoenix.Component
 
   def render(assigns) do

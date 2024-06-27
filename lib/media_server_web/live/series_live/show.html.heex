@@ -49,10 +49,10 @@
     </div>
   </div>
 
-  <.live_component
-    module={MediaServerWeb.Components.ListEpisodes}
-    id="episodes"
-    episodes={@episodes}
-    token={assigns[:current_user].api_token.token}
-  />
+  <%= MediaServerWeb.Components.ListScreenshotsComponent.render(%{
+    id: "episodes",
+    items: @episodes,
+    image: :screenshot,
+    token: @current_user.api_token.token
+  }) %>
 </div>
