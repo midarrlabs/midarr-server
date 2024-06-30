@@ -5,7 +5,7 @@
         <img
           class="rounded-lg shadow"
           src={
-            ~p"/api/images?movie=#{@movie["id"]}&type=poster&token=#{assigns[:current_user].api_token.token}"
+            ~p"/api/images?url=#{@movie.poster}&type=proxy&token=#{@current_user.api_token.token}"
           }
           alt=""
         />
@@ -13,15 +13,15 @@
       <div>
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
           <h1 class="text-2xl/8 font-semibold text-zinc-950 sm:text-xl/8 dark:text-white">
-            <%= @movie["title"] %>
+            <%= @movie.title %>
           </h1>
           <span class="inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-yellow-400/20 text-yellow-700 group-data-[hover]:bg-yellow-400/30 dark:bg-yellow-400/10 dark:text-yellow-300 dark:group-data-[hover]:bg-yellow-400/15">
             Movie
           </span>
         </div>
         <div class="mt-2 text-sm/6 text-zinc-500">
-          <%= @movie["year"] %> <span aria-hidden="true">·</span> <%= @movie["studio"] %>
-          <span aria-hidden="true">·</span> <%= @movie["runtime"] %> minutes
+          Year <span aria-hidden="true">·</span> Studio
+          <span aria-hidden="true">·</span> 100 minutes
         </div>
       </div>
     </div>
@@ -89,19 +89,19 @@
         Studio
       </dt>
       <dd class="pb-3 pt-1 text-zinc-950 sm:border-t sm:border-zinc-950/5 sm:py-3 dark:text-white dark:sm:border-white/5 sm:[&:nth-child(2)]:border-none">
-        <%= @movie["studio"] %>
+        Studio
       </dd>
       <dt class="col-start-1 border-t border-zinc-950/5 pt-3 text-zinc-500 first:border-none sm:border-t sm:border-zinc-950/5 sm:py-3 dark:border-white/5 dark:text-zinc-400 sm:dark:border-white/5">
         Rating
       </dt>
       <dd class="pb-3 pt-1 text-zinc-950 sm:border-t sm:border-zinc-950/5 sm:py-3 dark:text-white dark:sm:border-white/5 sm:[&:nth-child(2)]:border-none">
-        <%= @movie["certification"] %>
+        Rating
       </dd>
       <dt class="col-start-1 border-t border-zinc-950/5 pt-3 text-zinc-500 first:border-none sm:border-t sm:border-zinc-950/5 sm:py-3 dark:border-white/5 dark:text-zinc-400 sm:dark:border-white/5">
         Overview
       </dt>
       <dd class="pb-3 pt-1 text-zinc-950 sm:border-t sm:border-zinc-950/5 sm:py-3 dark:text-white dark:sm:border-white/5 sm:[&:nth-child(2)]:border-none">
-        <%= @movie["overview"] %>
+        <%= @movie.overview %>
       </dd>
     </dl>
   </div>

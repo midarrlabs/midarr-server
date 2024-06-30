@@ -141,7 +141,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
   end
 
   def handle_params(%{"page" => page}, _url, socket) do
-    {:ok, {movies, meta}} = Flop.validate_and_run(MediaServer.Movies, %{page: page, page_size: 25}, for: MediaServer.Movies)
+    {:ok, {movies, meta}} = Flop.validate_and_run(MediaServer.Movies, %{order_by: [:title], page: page, page_size: 25}, for: MediaServer.Movies)
 
     {
       :noreply,
@@ -153,7 +153,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
   end
 
   def handle_params(_params, _url, socket) do
-    {:ok, {movies, meta}} = Flop.validate_and_run(MediaServer.Movies, %{page: 1, page_size: 25}, for: MediaServer.Movies)
+    {:ok, {movies, meta}} = Flop.validate_and_run(MediaServer.Movies, %{order_by: [:title], page: 1, page_size: 25}, for: MediaServer.Movies)
 
     {
       :noreply,

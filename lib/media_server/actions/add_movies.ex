@@ -7,7 +7,12 @@ defmodule MediaServer.AddMovies do
     items
     |> Enum.each(fn item ->
       MediaServer.Movies.insert(%{
-        external_id: item["external_id"]
+        radarr_id: item["radarr_id"],
+        tmdb_id: item["tmdb_id"],
+        title: item["title"],
+        overview: item["overview"],
+        poster: item["poster"],
+        background: item["background"]
       })
     end)
 

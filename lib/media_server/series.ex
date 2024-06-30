@@ -36,13 +36,13 @@ defmodule MediaServer.Series do
 
         MediaServer.AddEpisode.new(%{"items" => MediaServerWeb.Repositories.Episodes.get_all(record.sonarr_id)
         |> Enum.map(fn item ->  %{
-            "series_id" => record.id,
-            "sonarr_id" => item["id"],
-            "season" => item["seasonNumber"],
-            "number" => item["episodeNumber"],
-            "title" => item["title"],
-            "overview" => item["overview"],
-            "screenshot" => MediaServerWeb.Repositories.Episodes.get_screenshot(item),
+            series_id: record.id,
+            sonarr_id: item["id"],
+            season: item["seasonNumber"],
+            number: item["episodeNumber"],
+            title: item["title"],
+            overview: item["overview"],
+            screenshot: MediaServerWeb.Repositories.Episodes.get_screenshot(item),
           }
         end)})
         |> Oban.insert()
