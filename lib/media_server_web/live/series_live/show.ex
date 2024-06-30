@@ -20,12 +20,12 @@ defmodule MediaServerWeb.SeriesLive.Show do
     query =
       from series in MediaServer.Series,
         where: series.id == ^id,
-        join: episode in assoc(series, :episodes),
-        where: episode.season == ^season,
+        left_join: episode in assoc(series, :episodes),
+        on: episode.season == ^season,
         order_by: episode.number,
         preload: [episodes: episode]
 
-    series = MediaServer.Repo.all(query) |> List.first()
+    series = MediaServer.Repo.one(query)
 
     {
       :noreply,
@@ -41,12 +41,12 @@ defmodule MediaServerWeb.SeriesLive.Show do
     query =
       from series in MediaServer.Series,
         where: series.id == ^id,
-        join: episode in assoc(series, :episodes),
-        where: episode.season == 1,
+        left_join: episode in assoc(series, :episodes),
+        on: episode.season == 1,
         order_by: episode.number,
         preload: [episodes: episode]
 
-    series = MediaServer.Repo.all(query) |> List.first()
+    series = MediaServer.Repo.one(query)
 
     {
       :noreply,
