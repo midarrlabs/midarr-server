@@ -4,7 +4,7 @@ defmodule MediaServer.Movies do
 
   @derive {
     Flop.Schema,
-    filterable: [],
+    filterable: [:title],
     sortable: [:id, :title]
   }
 

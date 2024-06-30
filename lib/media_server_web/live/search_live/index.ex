@@ -1,8 +1,6 @@
 defmodule MediaServerWeb.SearchLive.Index do
   use MediaServerWeb, :live_view
 
-  import Ecto.Query
-
   @impl true
   def mount(_params, session, socket) do
     {
@@ -21,11 +19,11 @@ defmodule MediaServerWeb.SearchLive.Index do
     pid = self()
 
     Task.start(fn ->
-      send(pid, {:movies, MediaServer.MoviesIndex.search(MediaServer.MoviesIndex.all(), query)})
+      send(pid, {:movies, Flop.validate_and_run(MediaServer.Movies, %{filters:  [%{field: :title, op: :ilike, value: query}]}, for: MediaServer.Movies)})
     end)
 
     Task.start(fn ->
-      send(pid, {:series, MediaServer.SeriesIndex.search(MediaServer.SeriesIndex.all(), query)})
+      send(pid, {:series, Flop.validate_and_run(MediaServer.Series, %{filters: [%{field: :title, op: :ilike, value: query}]}, for: MediaServer.Series)})
     end)
 
     {
@@ -46,36 +44,30 @@ defmodule MediaServerWeb.SearchLive.Index do
     {
       :noreply,
       socket
-      |> push_redirect(to: Routes.search_index_path(socket, :index, query: query))
+      |> push_redirect(to: ~p"/search?query=#{query}")
     }
   end
 
   @impl true
   def handle_info({:movies, movies}, socket) do
 
-    ids = Enum.map(movies, fn x -> x["id"] end)
-
-    query = from(item in MediaServer.Movies, where: item.external_id in ^ids)
-    results = MediaServer.Repo.all(query)
+    {:ok, {data, _meta}} = movies
 
     {
       :noreply,
       socket
-      |> assign(:movies, results)
+      |> assign(:movies, data)
     }
   end
 
   def handle_info({:series, series}, socket) do
 
-    ids = Enum.map(series, fn x -> x["id"] end)
-
-    query = from(item in MediaServer.Series, where: item.external_id in ^ids)
-    results = MediaServer.Repo.all(query)
+    {:ok, {data, _meta}} = series
 
     {
       :noreply,
       socket
-      |> assign(:series, results)
+      |> assign(:series, data)
     }
   end
 end

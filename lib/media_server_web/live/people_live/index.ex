@@ -15,6 +15,17 @@ defmodule MediaServerWeb.PeopleLive.Index do
   end
 
   @impl true
+  def handle_params(%{"query" => query}, _url, socket) do
+    {:ok, {data, meta}} = Flop.validate_and_run(MediaServer.People, %{filters:  [%{field: :name, op: :ilike, value: query}]}, for: MediaServer.People)
+
+    {
+      :noreply,
+      socket
+      |> assign(:people, data)
+      |> assign(:meta, meta)
+    }
+  end
+
   def handle_params(%{"page" => page}, _url, socket) do
     {:ok, {people, meta}} = Flop.validate_and_run(MediaServer.People, %{page: page, page_size: 25}, for: MediaServer.People)
 
@@ -34,6 +45,15 @@ defmodule MediaServerWeb.PeopleLive.Index do
       socket
       |> assign(:people, people)
       |> assign(:meta, meta)
+    }
+  end
+
+  @impl true
+  def handle_event("search", %{"query" => query}, socket) do
+    {
+      :noreply,
+      socket
+      |> push_redirect(to: ~p"/people?query=#{query}")
     }
   end
 end

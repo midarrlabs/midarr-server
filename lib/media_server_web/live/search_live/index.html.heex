@@ -39,6 +39,7 @@
                   id="headlessui-input-:r0:"
                   data-headlessui-state=""
                   name="query"
+                  minlength="2"
                 />
               </.form>
             </span>
@@ -49,18 +50,18 @@
   </div>
 
   <%= if assigns[:movies] && assigns[:series] do %>
-    <.live_component
-      module={MediaServerWeb.Components.ListOfMovies}
-      id="movies"
-      movies={@movies}
-      token={assigns[:current_user].api_token.token}
-    />
+    <%= MediaServerWeb.Components.ListPostersComponent.render(%{
+      id: "movies",
+      items: @movies,
+      image: :poster,
+      token: @current_user.api_token.token
+    }) %>
 
-    <.live_component
-      module={MediaServerWeb.Components.ListSeries}
-      id="series"
-      series={@series}
-      token={assigns[:current_user].api_token.token}
-  />
+    <%= MediaServerWeb.Components.ListPostersComponent.render(%{
+      id: "series",
+      items: @series,
+      image: :poster,
+      token: @current_user.api_token.token
+    }) %>
   <% end %>
 </div>
