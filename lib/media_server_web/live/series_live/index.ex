@@ -141,7 +141,7 @@ defmodule MediaServerWeb.SeriesLive.Index do
   end
 
   def handle_params(%{"page" => page}, _url, socket) do
-    {:ok, {series, meta}} = Flop.validate_and_run(MediaServer.Series, %{page: page, page_size: 25}, for: MediaServer.Series)
+    {:ok, {series, meta}} = Flop.validate_and_run(MediaServer.Series, %{order_by: [:title], page: page, page_size: 25}, for: MediaServer.Series)
 
     {
       :noreply,
