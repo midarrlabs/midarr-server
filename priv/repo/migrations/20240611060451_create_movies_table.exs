@@ -4,7 +4,7 @@ defmodule MediaServer.Repo.Migrations.CreateMoviesTable do
   def change do
     create table(:movies) do
       add :radarr_id, :integer, null: false
-      add :tmdb_id, :integer, null: false
+      add :tmdb_id, :integer
       add :title, :string
       add :overview, :text
       add :poster, :string

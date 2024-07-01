@@ -24,7 +24,7 @@ defmodule MediaServer.Movies do
   def changeset(movies, attrs) do
     movies
     |> cast(attrs, [:radarr_id, :tmdb_id, :title, :overview, :poster, :background])
-    |> validate_required([:radarr_id, :tmdb_id])
+    |> validate_required([:radarr_id])
   end
 
   def insert(attrs) do

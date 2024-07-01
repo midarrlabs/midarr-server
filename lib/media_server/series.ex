@@ -25,7 +25,7 @@ defmodule MediaServer.Series do
   def changeset(attrs) do
     %__MODULE__{}
     |> cast(attrs, [:sonarr_id, :tmdb_id, :seasons, :title, :overview, :poster, :background])
-    |> validate_required([:sonarr_id, :tmdb_id])
+    |> validate_required([:sonarr_id])
   end
 
   def insert(attrs) do
