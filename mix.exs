@@ -54,7 +54,7 @@ defmodule MediaServer.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:httpoison, "~> 2.0"},
       {:excoveralls, "~> 0.10", only: :test, runtime: false},
-      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:scrivener, "~> 2.0"},
       {:extitles, "~> 0.1.0"},
       {:oauth2, "~> 2.0"},
@@ -62,7 +62,8 @@ defmodule MediaServer.MixProject do
       {:hls_playlist, "~> 0.3.0"},
       {:exile, "~> 0.9.1"},
       {:corsica, "~> 2.0"},
-      {:oban, "~> 2.17"}
+      {:oban, "~> 2.17"},
+      {:flop, "~> 0.25.0"}
     ]
   end
 

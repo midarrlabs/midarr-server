@@ -8,7 +8,12 @@ defmodule MediaServer.AddEpisode do
     |> Enum.each(fn item ->
       MediaServer.Episodes.insert(%{
         series_id: item["series_id"],
-        external_id: item["external_id"]
+        sonarr_id: item["sonarr_id"],
+        season: item["season"],
+        number: item["number"],
+        title: item["title"],
+        overview: item["overview"],
+        screenshot: item["screenshot"],
       })
     end)
 

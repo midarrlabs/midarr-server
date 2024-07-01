@@ -1,6 +1,8 @@
 defmodule MediaServerWeb.PeopleLive.Show do
   use MediaServerWeb, :live_view
 
+  import Ecto.Query
+
   @impl true
   def mount(_params, session, socket) do
     {
@@ -15,16 +17,24 @@ defmodule MediaServerWeb.PeopleLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _url, socket) do
+
+    query =
+      from person in MediaServer.People,
+        where: person.id == ^id
+
+    item = MediaServer.Repo.all(query) |> List.first()
+
     pid = self()
 
     Task.start(fn ->
-      send(pid, {:person, OapiTmdb.Operations.person_details(id)})
+      send(pid, {:person, OapiTmdb.Operations.person_details(item.tmdb_id)})
     end)
 
     {
       :noreply,
       socket
-      |> assign(:id, id)
+      |> assign(:page_title, item.name)
+      |> assign(:item, item)
     }
   end
 
@@ -33,7 +43,6 @@ defmodule MediaServerWeb.PeopleLive.Show do
     {
       :noreply,
       socket
-      |> assign(:page_title, person["name"])
       |> assign(:person, person)
     }
   end

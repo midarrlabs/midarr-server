@@ -3,14 +3,11 @@ defmodule MediaServerWeb.Repositories.Episodes do
   alias MediaServer.Subtitles
 
   def get_all(series_id, season_number) do
-    Series.get("episode?seriesId=#{series_id}&includeImages=true")
-    |> Enum.filter(fn episode ->
-      episode["seasonNumber"] === String.to_integer(season_number)
-    end)
+    Series.get("episode?seriesId=#{series_id}&seasonNumber=#{season_number}&includeImages=true")
   end
 
   def get_all(series_id) do
-    Series.get("episode?seriesId=#{series_id}")
+    Series.get("episode?seriesId=#{series_id}&includeImages=true")
   end
 
   def get_episode(id) do

@@ -17,43 +17,18 @@ defmodule MediaServerWeb.MoviesLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _url, socket) do
-    pid = self()
-
-    Task.start(fn ->
-      send(pid, {:cast, MediaServerWeb.Repositories.Movies.get_cast(id)})
-    end)
-
-    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
-    similar = MediaServer.MoviesIndex.related(MediaServer.MoviesIndex.all(), movie["id"])
-
-    continue_query =
-      from mc in MediaServer.MovieContinues,
-        where: mc.user_id == ^socket.assigns.current_user.id
-
     query =
-      from m in MediaServer.Movies,
-        where: m.external_id == ^id,
-        preload: [continue: ^continue_query]
+      from movies in MediaServer.Movies,
+        where: movies.id == ^id
 
-    result = MediaServer.Repo.one(query)
+    movie = MediaServer.Repo.all(query) |> List.first()
 
     {
       :noreply,
       socket
       |> assign(:id, id)
-      |> assign(:page_title, movie["title"])
+      |> assign(:page_title, movie.title)
       |> assign(:movie, movie)
-      |> assign(:similar, similar)
-      |> assign(:continue, result.continue)
-    }
-  end
-
-  @impl true
-  def handle_info({:cast, cast}, socket) do
-    {
-      :noreply,
-      socket
-      |> assign(:cast, cast)
     }
   end
 end

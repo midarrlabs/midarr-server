@@ -23,7 +23,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
 
     query =
       from m in MediaServer.Episodes,
-        where: m.external_id == ^episode["id"]
+        where: m.sonarr_id == ^episode["id"]
 
     result = MediaServer.Repo.one(query)
 

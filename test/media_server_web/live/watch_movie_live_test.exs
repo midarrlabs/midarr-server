@@ -21,7 +21,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
     query =
       from m in MediaServer.Movies,
-        where: m.external_id == ^movie["id"]
+        where: m.radarr_id == ^movie["id"]
 
     result = MediaServer.Repo.one(query)
 
@@ -39,7 +39,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
     query =
       from m in MediaServer.Movies,
-        where: m.external_id == ^movie["id"]
+        where: m.radarr_id == ^movie["id"]
 
     result = MediaServer.Repo.one(query)
 

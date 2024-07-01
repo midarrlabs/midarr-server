@@ -1,4 +1,4 @@
-defmodule MediaServerWeb.MoviesLive.Index do
+defmodule MediaServerWeb.PeopleLive.Index do
   use MediaServerWeb, :live_view
 
   @impl true
@@ -10,40 +10,40 @@ defmodule MediaServerWeb.MoviesLive.Index do
         :current_user,
         MediaServer.Accounts.get_user_by_session_token(session["user_token"])
       )
-      |> assign(:page_title, "Movies")
+      |> assign(:page_title, "People")
     }
   end
 
   @impl true
   def handle_params(%{"query" => query}, _url, socket) do
-    {:ok, {data, meta}} = Flop.validate_and_run(MediaServer.Movies, %{filters:  [%{field: :title, op: :ilike, value: query}]}, for: MediaServer.Movies)
+    {:ok, {data, meta}} = Flop.validate_and_run(MediaServer.People, %{filters:  [%{field: :name, op: :ilike, value: query}]}, for: MediaServer.People)
 
     {
       :noreply,
       socket
-      |> assign(:movies, data)
+      |> assign(:people, data)
       |> assign(:meta, meta)
     }
   end
 
   def handle_params(%{"page" => page}, _url, socket) do
-    {:ok, {movies, meta}} = Flop.validate_and_run(MediaServer.Movies, %{order_by: [:title], page: page, page_size: 25}, for: MediaServer.Movies)
+    {:ok, {people, meta}} = Flop.validate_and_run(MediaServer.People, %{page: page, page_size: 25}, for: MediaServer.People)
 
     {
       :noreply,
       socket
-      |> assign(:movies, movies)
+      |> assign(:people, people)
       |> assign(:meta, meta)
     }
   end
 
   def handle_params(_params, _url, socket) do
-    {:ok, {movies, meta}} = Flop.validate_and_run(MediaServer.Movies, %{order_by: [:title], page: 1, page_size: 25}, for: MediaServer.Movies)
+    {:ok, {people, meta}} = Flop.validate_and_run(MediaServer.People, %{page: 1, page_size: 25}, for: MediaServer.People)
 
     {
       :noreply,
       socket
-      |> assign(:movies, movies)
+      |> assign(:people, people)
       |> assign(:meta, meta)
     }
   end
@@ -53,7 +53,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
     {
       :noreply,
       socket
-      |> push_redirect(to: ~p"/movies?query=#{query}")
+      |> push_redirect(to: ~p"/people?query=#{query}")
     }
   end
 end

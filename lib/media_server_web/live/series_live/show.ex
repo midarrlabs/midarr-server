@@ -1,7 +1,7 @@
 defmodule MediaServerWeb.SeriesLive.Show do
   use MediaServerWeb, :live_view
 
-  alias Phoenix.LiveView.JS
+  import Ecto.Query
 
   @impl true
   def mount(_params, session, socket) do
@@ -17,26 +17,53 @@ defmodule MediaServerWeb.SeriesLive.Show do
 
   @impl true
   def handle_params(%{"id" => id, "season" => season}, _url, socket) do
-    series = MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.find(id)
+    query =
+      from series in MediaServer.Series,
+        where: series.id == ^id,
+        left_join: episode in assoc(series, :episodes),
+        on: episode.season == ^season,
+        order_by: episode.number,
+        preload: [episodes: episode]
+
+    series = MediaServer.Repo.one(query)
 
     {
       :noreply,
       socket
-      |> assign(:page_title, "#{series["title"]}: Season #{season}")
-      |> assign(:serie, series)
-      |> assign(:season, season)
+      |> assign(:page_title, series.title)
+      |> assign(:series, series)
+      |> assign(:episodes, series.episodes)
+      |> assign(:selected_season, season)
     }
   end
 
   def handle_params(%{"id" => id}, _url, socket) do
-    series = MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.find(id)
+    query =
+      from series in MediaServer.Series,
+        where: series.id == ^id,
+        left_join: episode in assoc(series, :episodes),
+        on: episode.season == 1,
+        order_by: episode.number,
+        preload: [episodes: episode]
+
+    series = MediaServer.Repo.one(query)
 
     {
       :noreply,
       socket
-      |> assign(:page_title, "#{series["title"]}: Season 1")
-      |> assign(:serie, series)
-      |> assign(:season, "1")
+      |> assign(:page_title, series.title)
+      |> assign(:series, series)
+      |> assign(:episodes, series.episodes)
+      |> assign(:selected_season, "1")
+    }
+  end
+
+  @impl true
+  def handle_event("season", %{"season" => season}, socket) do
+    {
+      :noreply,
+      socket
+      |> push_navigate(to: ~p"/series/#{socket.assigns.series.id}?season=#{season}")
     }
   end
 end

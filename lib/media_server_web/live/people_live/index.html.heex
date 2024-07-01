@@ -1,7 +1,7 @@
 <div class="mx-auto max-w-6xl">
   <div class="flex flex-wrap items-end justify-between gap-4">
     <div class="max-sm:w-full sm:flex-1">
-      <h1 class="text-2xl/8 font-semibold text-zinc-950 sm:text-xl/8 dark:text-white">Movies</h1>
+      <h1 class="text-2xl/8 font-semibold text-zinc-950 sm:text-xl/8 dark:text-white">People</h1>
       <div class="mt-4 flex max-w-xl gap-4">
         <div class="flex-1">
           <span
@@ -28,7 +28,7 @@
             >
               <.form :let={_f} for={%{}} as={:search} id="search" phx-submit="search">
                 <input
-                  placeholder="Search movies..."
+                  placeholder="Search people..."
                   class="relative block w-full appearance-none rounded-lg px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing[3])-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] text-base/6 text-zinc-950 placeholder:text-zinc-500 sm:text-sm/6 dark:text-white border border-zinc-950/10 data-[hover]:border-zinc-950/20 dark:border-white/10 dark:data-[hover]:border-white/20 bg-transparent dark:bg-white/5 focus:outline-none data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:dark:border-red-500 data-[invalid]:data-[hover]:dark:border-red-500 data-[disabled]:border-zinc-950/20 dark:data-[hover]:data-[disabled]:border-white/15 data-[disabled]:dark:border-white/15 data-[disabled]:dark:bg-white/[2.5%] dark:[color-scheme:dark]"
                   id="headlessui-input-:r0:"
                   data-headlessui-state=""
@@ -82,11 +82,11 @@
       </div>
     </div>
   </div>
-
+  
   <%= MediaServerWeb.Components.ListPostersComponent.render(%{
-    id: "movies",
-    items: @movies,
-    image: :poster,
+    id: "people",
+    items: @people,
+    image: :image,
     token: @current_user.api_token.token
   }) %>
 

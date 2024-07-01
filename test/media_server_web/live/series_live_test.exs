@@ -80,22 +80,6 @@ defmodule MediaServerWeb.SeriesLiveTest do
     assert render(view) =~ "The Man From Mars"
   end
 
-  test "it should have timestamp", %{conn: conn} do
-    series = MediaServer.SeriesIndex.all() |> List.first()
-    episode = MediaServerWeb.Repositories.Episodes.get_episode(series["id"])
-
-    {:ok, view, _html} = live(conn, ~p"/watch?episode=#{episode["id"]}")
-
-    render_hook(view, :video_destroyed, %{
-      current_time: 89,
-      duration: 100
-    })
-
-    {:ok, view, _html} = live(conn, ~p"/series/#{series["id"]}")
-
-    assert render(view) =~ "/watch?episode=#{episode["id"]}&amp;timestamp=89"
-  end
-
   test "it should replace each episode with episode show response", %{conn: _conn} do
     series = MediaServer.SeriesIndex.all() |> List.first()
 

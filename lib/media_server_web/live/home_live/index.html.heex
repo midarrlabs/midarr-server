@@ -1,103 +1,15 @@
-<div class="flex-auto prose dark:prose-invert">
-  <div class="absolute inset-0 -z-10 mx-0 max-w-none overflow-hidden">
-    <div class="absolute left-1/2 top-0 ml-[-18rem] h-[30rem] w-[60rem] dark:[mask-image:linear-gradient(white,transparent)]">
-      <div class="absolute inset-0 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)]">
-        <img
-          src={
-            ~p"/api/images?movie=#{@random_movie["id"]}&type=background&token=#{assigns[:current_user].api_token.token}"
-          }
-          class="absolute inset-x-0 inset-y-0 w-full"
-        />
-      </div>
-    </div>
-  </div>
+<div class="mx-auto max-w-6xl">
+  <h1 class="text-2xl/8 font-semibold text-zinc-950 sm:text-xl/8 dark:text-white">
+    Welcome back, <%= @current_user.name %>
+  </h1>
+  <h2 class="mt-8 text-base/7 font-semibold text-zinc-950 sm:text-sm/6 dark:text-white">
+    Recent additions
+  </h2>
 
-  <header class="flex flex-col gap-y-2">
-    <div class="flex items-center gap-6">
-      <div class="flex flex-col">
-        <h1 class="text-4xl font-bold text-slate-900"><%= @random_movie["title"] %></h1>
-      </div>
-    </div>
-  </header>
-
-  <h2>Overview</h2>
-
-  <p class="lead">
-    <%= @random_movie["overview"] %>
-  </p>
-
-  <div class="mt-2">
-    <.link
-      class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-500"
-      navigate={~p"/movies/#{@random_movie["id"]}"}
-    >
-      More details<svg
-        viewBox="0 0 20 20"
-        fill="none"
-        aria-hidden="true"
-        class="mt-0.5 h-5 w-5 relative top-px -mr-1"
-      ><path
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="m11.5 6.5 3 3.5m0 0-3 3.5m3-3.5h-9"
-        ></path></svg>
-    </.link>
-  </div>
-
-  <div class="my-16 xl:max-w-none">
-    <h2 class="scroll-mt-24">
-      Latest movies
-    </h2>
-
-    <.live_component
-      module={MediaServerWeb.Components.ListOfMovies}
-      id="latest-movies"
-      ids={Enum.map(@movies, & &1["id"])}
-      token={assigns[:current_user].api_token.token}
-      user_id={assigns[:current_user].id}
-    />
-  </div>
-
-  <div class="my-16 xl:max-w-none">
-    <h2 class="scroll-mt-24">
-      Upcoming movies
-    </h2>
-
-    <.live_component
-      module={MediaServerWeb.Components.ListOfMovies}
-      id="upcoming-movies"
-      ids={Enum.map(@upcoming_movies, & &1["id"])}
-      token={assigns[:current_user].api_token.token}
-      user_id={assigns[:current_user].id}
-    />
-  </div>
-
-  <div class="my-16 xl:max-w-none">
-    <h2 class="scroll-mt-24">
-      Latest Series
-    </h2>
-
-    <.live_component
-      module={MediaServerWeb.Components.ListOfSeries}
-      id="latest-series"
-      ids={Enum.map(@series, & &1["id"])}
-      token={assigns[:current_user].api_token.token}
-      user_id={assigns[:current_user].id}
-    />
-  </div>
-
-  <div class="my-16 xl:max-w-none">
-    <h2 class="scroll-mt-24">
-      Upcoming Series
-    </h2>
-
-    <.live_component
-      module={MediaServerWeb.Components.ListOfSeries}
-      id="upcoming-series"
-      ids={Enum.map(@upcoming_series, & &1["id"])}
-      token={assigns[:current_user].api_token.token}
-      user_id={assigns[:current_user].id}
-    />
-  </div>
+  <%= MediaServerWeb.Components.ListPostersComponent.render(%{
+    id: "movies",
+    items: @data,
+    image: :poster,
+    token: @current_user.api_token.token
+  }) %>
 </div>

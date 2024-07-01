@@ -48,7 +48,7 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :tailwind,
-  version: "3.1.8",
+  version: "3.2.4",
   default: [
     args: ~w(
           --config=tailwind.config.js
@@ -71,6 +71,8 @@ config :media_server, Oban,
   engine: Oban.Engines.Basic,
   queues: [default: 10],
   repo: MediaServer.Repo
+
+  config :flop, repo: MediaServer.Repo
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

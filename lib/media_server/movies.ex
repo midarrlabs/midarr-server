@@ -2,8 +2,19 @@ defmodule MediaServer.Movies do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {
+    Flop.Schema,
+    filterable: [:title],
+    sortable: [:id, :title]
+  }
+
   schema "movies" do
-    field :external_id, :integer
+    field :radarr_id, :integer
+    field :tmdb_id, :integer
+    field :title, :string
+    field :overview, :string
+    field :poster, :string
+    field :background, :string
 
     has_one :continue, MediaServer.MovieContinues, foreign_key: :movies_id
 
@@ -12,18 +23,22 @@ defmodule MediaServer.Movies do
 
   def changeset(movies, attrs) do
     movies
-    |> cast(attrs, [:external_id])
-    |> validate_required([:external_id])
+    |> cast(attrs, [:radarr_id, :tmdb_id, :title, :overview, :poster, :background])
+    |> validate_required([:radarr_id])
   end
 
   def insert(attrs) do
     changeset = changeset(%__MODULE__{}, attrs)
 
-    case MediaServer.Repo.insert(changeset, on_conflict: :nothing, conflict_target: [:external_id]) do
+    case MediaServer.Repo.insert(changeset, on_conflict: :nothing, conflict_target: [:radarr_id]) do
       {:ok, record} ->
 
-        MediaServer.AddPeople.new(%{"items" => MediaServerWeb.Repositories.Movies.get_cast(record.external_id)
-          |> Enum.map(fn x ->  %{"tmdb_id" => x["personTmdbId"], "name" => x["personName"], "image" => MediaServer.Helpers.get_headshot(x)} end)}
+        MediaServer.AddPeople.new(%{"items" => MediaServerWeb.Repositories.Movies.get_cast(record.radarr_id)
+          |> Enum.map(fn item ->  %{
+            tmdb_id: item["personTmdbId"],
+            name: item["personName"],
+            image: MediaServer.Helpers.get_headshot(item)}
+          end)}
           )|> Oban.insert()
 
         {:ok, record}

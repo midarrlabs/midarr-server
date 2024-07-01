@@ -15,11 +15,6 @@ defmodule MediaServer.SeriesIndex do
     Agent.get(__MODULE__, & &1)
   end
 
-  def for_db() do
-    Agent.get(__MODULE__, & &1)
-    |> Enum.map(fn x ->  %{"external_id" => x["id"]} end)
-  end
-
   def latest(state) do
     state
     |> Enum.sort_by(& &1["added"], :desc)

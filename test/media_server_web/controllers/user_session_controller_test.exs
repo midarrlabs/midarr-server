@@ -35,8 +35,6 @@ defmodule MediaServerWeb.UserSessionControllerTest do
       response = html_response(conn, 200)
       assert response =~ "/movies"
       assert response =~ "/series"
-      assert response =~ "/history"
-      assert response =~ "/settings"
     end
 
     test "logs the user in with remember me", %{conn: conn, user: user} do

@@ -1,95 +1,58 @@
-<div class="flex-auto prose dark:prose-invert">
-  <div class="absolute inset-0 -z-10 mx-0 max-w-none overflow-hidden">
-    <div class="absolute left-1/2 top-0 ml-[-18rem] h-[30rem] w-[60rem] dark:[mask-image:linear-gradient(white,transparent)]">
-      <div class="absolute inset-0 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)]">
-        <img
-          src={
-            ~p"/api/images?series=#{@serie["id"]}&type=background&token=#{assigns[:current_user].api_token.token}"
-          }
-          class="absolute inset-x-0 inset-y-0 w-full"
-        />
-      </div>
-    </div>
-  </div>
-
-  <header class="flex flex-col gap-y-2">
-    <div class="flex items-center gap-6">
-      <div class="flex flex-col">
-        <h1 class="text-4xl font-bold text-slate-900"><%= @serie["title"] %></h1>
-      </div>
-    </div>
-  </header>
-
-  <h2>Overview</h2>
-
-  <p class="lead">
-    <%= @serie["overview"] %>
-  </p>
-
-  <div class="xl:max-w-none">
-    <div class="flex items-baseline justify-between">
-      <h2 class="scroll-mt-24">
-        Episodes
-      </h2>
-
-      <div class="flex items-center">
-        <div class="relative inline-block text-left">
-          <div>
-            <button
-              type="button"
-              phx-click={JS.toggle(to: "#seasons-menu")}
-              class="inline-flex gap-0.5 justify-center overflow-hidden text-sm font-medium transition rounded-full bg-zinc-100 py-1 px-3 text-zinc-900 hover:bg-zinc-200 dark:bg-zinc-800/40 dark:text-zinc-400 dark:ring-1 dark:ring-inset dark:ring-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
-            >
-              Seasons
+<div class="mx-auto max-w-6xl">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div class="max-sm:w-full sm:flex-1">
+      <h1 class="text-2xl/8 font-semibold text-zinc-950 sm:text-xl/8 dark:text-white">
+        <%= @page_title %>
+      </h1>
+      <div class="mt-4 flex max-w-xl gap-4">
+        <div>
+          <span
+            data-slot="control"
+            class="group relative block w-full before:absolute before:inset-px before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-white before:shadow dark:before:hidden after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-inset after:ring-transparent after:has-[[data-focus]]:ring-2 after:has-[[data-focus]]:ring-blue-500 has-[[data-disabled]]:opacity-50 before:has-[[data-disabled]]:bg-zinc-950/5 before:has-[[data-disabled]]:shadow-none"
+          >
+            <form phx-change="season">
+              <select
+                name="season"
+                class="relative block w-full appearance-none rounded-lg py-[calc(theme(spacing[2.5])-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] pl-[calc(theme(spacing[3.5])-1px)] pr-[calc(theme(spacing.10)-1px)] sm:pl-[calc(theme(spacing.3)-1px)] sm:pr-[calc(theme(spacing.9)-1px)] [&_optgroup]:font-semibold text-base/6 text-zinc-950 placeholder:text-zinc-500 sm:text-sm/6 dark:text-white dark:*:text-white border border-zinc-950/10 data-[hover]:border-zinc-950/20 dark:border-white/10 dark:data-[hover]:border-white/20 bg-transparent dark:bg-white/5 dark:*:bg-zinc-800 focus:outline-none data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:dark:border-red-600 data-[invalid]:data-[hover]:dark:border-red-600 data-[disabled]:border-zinc-950/20 data-[disabled]:opacity-100 dark:data-[hover]:data-[disabled]:border-white/15 data-[disabled]:dark:border-white/15 data-[disabled]:dark:bg-white/[2.5%]"
+              >
+                  <%= for season <- 0..@series.seasons do %>
+                    <option value={season} selected={if @selected_season == "#{season}", do: true}>Season <%= season %></option>
+                  <% end %>
+              </select>
+            </form>
+            <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <svg
-                class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-zinc-500 group-hover:text-white"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+                class="size-5 stroke-zinc-500 group-has-[[data-disabled]]:stroke-zinc-600 sm:size-4 dark:stroke-zinc-400 forced-colors:stroke-[CanvasText]"
+                viewBox="0 0 16 16"
+                aria-hidden="true"
+                fill="none"
               >
                 <path
-                  fill-rule="evenodd"
-                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                  clip-rule="evenodd"
-                />
+                  d="M5.75 10.75L8 13L10.25 10.75"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                </path>
+                <path
+                  d="M10.25 5.25L8 3L5.75 5.25"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                </path>
               </svg>
-            </button>
-          </div>
-
-          <div
-            id="seasons-menu"
-            class="hidden absolute overflow-auto max-h-56 right-0 z-10 mt-2 w-40 origin-top-right rounded-md dark:text-zinc-400 shadow-xl ring-1 ring-zinc-900/7.5 dark:bg-zinc-900 dark:ring-zinc-800 sm:max-w-xl opacity-100 scale-100"
-          >
-            <div class="py-1" phx-click-away={JS.hide(to: "#seasons-menu")}>
-              <%= for item <- @serie["seasons"] do %>
-                <%= if item["seasonNumber"] === 0 do %>
-                  <.link
-                    patch={~p"/series/#{@serie["id"]}?season=#{item["seasonNumber"]}"}
-                    class="block px-4 py-2 text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-                  >
-                    Specials
-                  </.link>
-                <% else %>
-                  <.link
-                    patch={~p"/series/#{@serie["id"]}?season=#{item["seasonNumber"]}"}
-                    class="block px-4 py-2 text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
-                  >
-                    Season <%= item["seasonNumber"] %>
-                  </.link>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
+            </span>
+          </span>
         </div>
       </div>
     </div>
-
-    <.live_component
-      module={MediaServerWeb.Components.ListOfEpisodes}
-      id="episodes"
-      series_id={@serie["id"]}
-      season={@season}
-      token={assigns[:current_user].api_token.token}
-      user_id={assigns[:current_user].id}
-    />
   </div>
+
+  <%= MediaServerWeb.Components.ListScreenshotsComponent.render(%{
+    id: "episodes",
+    items: @episodes,
+    image: :screenshot,
+    token: @current_user.api_token.token
+  }) %>
 </div>

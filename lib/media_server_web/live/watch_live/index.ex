@@ -110,7 +110,7 @@ defmodule MediaServerWeb.WatchLive.Index do
 
     query =
       from movie in MediaServer.Movies,
-        where: movie.external_id == ^movies_id
+        where: movie.radarr_id == ^movies_id
 
     result = MediaServer.Repo.one(query)
 
@@ -128,7 +128,7 @@ defmodule MediaServerWeb.WatchLive.Index do
 
     query =
       from episode in MediaServer.Episodes,
-        where: episode.external_id == ^episode_id
+        where: episode.sonarr_id == ^episode_id
 
     result = MediaServer.Repo.one(query)
 

@@ -12,10 +12,29 @@ MediaServer.Accounts.register_user(%{
   is_admin: true
 })
 
-MediaServer.AddMovies.new(%{"items" => MediaServer.MoviesIndex.for_db()})
+MediaServer.AddMovies.new(%{"items" => MediaServerWeb.Repositories.Movies.get_all()
+  |> Enum.map(fn item -> %{
+    radarr_id: item["id"],
+    tmdb_id: item["tmdbId"],
+    title: item["title"],
+    overview: item["overview"],
+    poster: MediaServer.Helpers.get_poster(item),
+    background: MediaServer.Helpers.get_background(item),
+  } end)
+})
 |> Oban.insert()
 
-MediaServer.AddSeries.new(%{"items" => MediaServer.SeriesIndex.for_db()})
+MediaServer.AddSeries.new(%{"items" => MediaServerWeb.Repositories.Series.get_all()
+  |> Enum.map(fn item -> %{
+    sonarr_id: item["id"],
+    tmdb_id: item["tmdbId"],
+    seasons: item["statistics"]["seasonCount"],
+    title: item["title"],
+    overview: item["overview"],
+    poster: MediaServer.Helpers.get_poster(item),
+    background: MediaServer.Helpers.get_background(item),
+  } end)
+})
 |> Oban.insert()
 
 #

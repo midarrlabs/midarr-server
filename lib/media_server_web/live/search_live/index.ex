@@ -19,13 +19,20 @@ defmodule MediaServerWeb.SearchLive.Index do
     pid = self()
 
     Task.start(fn ->
-      send(pid, {:movies, MediaServer.MoviesIndex.search(MediaServer.MoviesIndex.all(), query)})
+      send(pid, {:movies, Flop.validate_and_run(MediaServer.Movies, %{filters:  [%{field: :title, op: :ilike, value: query}]}, for: MediaServer.Movies)})
     end)
 
     Task.start(fn ->
-      send(pid, {:series, MediaServer.SeriesIndex.search(MediaServer.SeriesIndex.all(), query)})
+      send(pid, {:series, Flop.validate_and_run(MediaServer.Series, %{filters: [%{field: :title, op: :ilike, value: query}]}, for: MediaServer.Series)})
     end)
 
+    {
+      :noreply,
+      socket
+    }
+  end
+
+  def handle_params(_params, _url, socket) do
     {
       :noreply,
       socket
@@ -33,19 +40,34 @@ defmodule MediaServerWeb.SearchLive.Index do
   end
 
   @impl true
-  def handle_info({:movies, movies}, socket) do
+  def handle_event("search", %{"query" => query}, socket) do
     {
       :noreply,
       socket
-      |> assign(:movies, movies)
+      |> push_redirect(to: ~p"/search?query=#{query}")
+    }
+  end
+
+  @impl true
+  def handle_info({:movies, movies}, socket) do
+
+    {:ok, {data, _meta}} = movies
+
+    {
+      :noreply,
+      socket
+      |> assign(:movies, data)
     }
   end
 
   def handle_info({:series, series}, socket) do
+
+    {:ok, {data, _meta}} = series
+
     {
       :noreply,
       socket
-      |> assign(:series, series)
+      |> assign(:series, data)
     }
   end
 end
