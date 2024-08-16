@@ -21,6 +21,7 @@ defmodule MediaServerWeb.SeriesController do
               "title" => x["title"],
               "overview" => x["overview"],
               "year" => x["year"],
+              "seasonCount" => x["statistics"]["seasonCount"],
               "poster" => ~p"/api/images?series=#{x["id"]}&type=poster",
               "background" => ~p"/api/images?series=#{x["id"]}&type=background"
             }
@@ -53,6 +54,7 @@ defmodule MediaServerWeb.SeriesController do
               "title" => x["title"],
               "overview" => x["overview"],
               "year" => x["year"],
+              "seasonCount" => x["statistics"]["seasonCount"],
               "poster" => ~p"/api/images?series=#{x["id"]}&type=poster",
               "background" => ~p"/api/images?series=#{x["id"]}&type=background"
             }
