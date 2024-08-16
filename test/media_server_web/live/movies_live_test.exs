@@ -17,7 +17,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     assert disconnected_html =~ "Caminandes: Llama Drama"
     assert disconnected_html =~ "Caminandes: Gran Dillama"
-    assert disconnected_html =~ "Caminandes:  Llamigos"
+    assert disconnected_html =~ "Caminandes: Llamigos"
   end
 
   test "it should render index paged", %{conn: conn} do
@@ -26,7 +26,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     assert disconnected_html =~ "Caminandes: Llama Drama"
     assert disconnected_html =~ "Caminandes: Gran Dillama"
-    assert disconnected_html =~ "Caminandes:  Llamigos"
+    assert disconnected_html =~ "Caminandes: Llamigos"
   end
 
   test "it should render genre", %{conn: conn} do
@@ -35,7 +35,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     assert disconnected_html =~ "Caminandes: Llama Drama"
     assert disconnected_html =~ "Caminandes: Gran Dillama"
-    assert disconnected_html =~ "Caminandes:  Llamigos"
+    assert disconnected_html =~ "Caminandes: Llamigos"
   end
 
   test "it should render genre paged", %{conn: conn} do
@@ -44,7 +44,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     assert disconnected_html =~ "Caminandes: Llama Drama"
     assert disconnected_html =~ "Caminandes: Gran Dillama"
-    assert disconnected_html =~ "Caminandes:  Llamigos"
+    assert disconnected_html =~ "Caminandes: Llamigos"
   end
 
   test "it should render without genre", %{conn: conn} do
@@ -58,7 +58,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     assert disconnected_html =~ "Caminandes: Llama Drama"
     assert disconnected_html =~ "Caminandes: Gran Dillama"
-    assert disconnected_html =~ "Caminandes:  Llamigos"
+    assert disconnected_html =~ "Caminandes: Llamigos"
   end
 
   test "it should render latest paged", %{conn: conn} do
@@ -67,7 +67,7 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
     assert disconnected_html =~ "Caminandes: Llama Drama"
     assert disconnected_html =~ "Caminandes: Gran Dillama"
-    assert disconnected_html =~ "Caminandes:  Llamigos"
+    assert disconnected_html =~ "Caminandes: Llamigos"
   end
 
   test "it should render show", %{conn: conn} do

@@ -13,7 +13,7 @@ defmodule MediaServerWeb.SearchLiveTest do
     {:ok, view, _disconnected_html} =
       live(conn, Routes.search_index_path(conn, :index, query: "Caminandes"))
 
-    assert render(view) =~ "Caminandes:  Llamigos"
+    assert render(view) =~ "Caminandes: Llamigos"
     assert render(view) =~ "Caminandes: Gran Dillama"
     assert render(view) =~ "Caminandes: Llama Drama"
 
@@ -26,7 +26,7 @@ defmodule MediaServerWeb.SearchLiveTest do
     {:ok, view, _disconnected_html} =
       live(conn, Routes.search_index_path(conn, :index, query: "camiNandes"))
 
-    assert render(view) =~ "Caminandes:  Llamigos"
+    assert render(view) =~ "Caminandes: Llamigos"
     assert render(view) =~ "Caminandes: Gran Dillama"
     assert render(view) =~ "Caminandes: Llama Drama"
 

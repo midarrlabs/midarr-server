@@ -16,7 +16,7 @@ defmodule MediaServerWeb.HomeLiveTest do
 
     assert disconnected_html =~ "Caminandes: Llama Drama"
     assert disconnected_html =~ "Caminandes: Gran Dillama"
-    refute disconnected_html =~ "Caminandes: Llamigos"
+    assert disconnected_html =~ "Caminandes: Llamigos"
   end
 
   test "it has latest series", %{conn: conn} do
