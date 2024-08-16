@@ -8,7 +8,7 @@ defmodule MediaServerWeb.Components.FooterComponent do
         <div class="flex text-xs text-zinc-600 dark:text-zinc-400">
           <p>Copyright © 2024 Midarr Labs</p>
           <p class="ml-4 pl-4 border-l border-white/10">
-            v4.2.0
+            v4.3.0
           </p>
         </div>
         <div class="flex gap-4">
