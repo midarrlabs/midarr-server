@@ -28,16 +28,16 @@ defmodule MediaServer.Movies do
   end
 
   def insert(attrs) do
-    record = MediaServer.Repo.get_by(__MODULE__, radarr_id: attrs["radarr_id"])
+    record = MediaServer.Repo.get_by(__MODULE__, radarr_id: attrs.radarr_id)
 
     record = case record do
       nil -> %__MODULE__{
-        radarr_id: attrs["radarr_id"],
-        tmdb_id: attrs["tmdb_id"],
-        title: attrs["title"],
-        overview: attrs["overview"],
-        poster: attrs["poster"],
-        background: attrs["background"]
+        radarr_id: attrs.radarr_id,
+        tmdb_id: attrs.tmdb_id,
+        title: attrs.title,
+        overview: attrs.overview,
+        poster: attrs.poster,
+        background: attrs.background
       }
       _existing_record -> record
     end
