@@ -28,23 +28,22 @@ defmodule MediaServer.Movies do
   end
 
   def insert(attrs) do
-    changeset = changeset(%__MODULE__{}, attrs)
+    record = MediaServer.Repo.get_by(__MODULE__, radarr_id: attrs["radarr_id"])
 
-    case MediaServer.Repo.insert(changeset, on_conflict: :nothing, conflict_target: [:radarr_id]) do
-      {:ok, record} ->
-
-        MediaServer.AddPeople.new(%{"items" => MediaServerWeb.Repositories.Movies.get_cast(record.radarr_id)
-          |> Enum.map(fn item ->  %{
-            tmdb_id: item["personTmdbId"],
-            name: item["personName"],
-            image: MediaServer.Helpers.get_headshot(item)}
-          end)}
-          )|> Oban.insert()
-
-        {:ok, record}
-
-      {:error, changeset} ->
-        {:error, changeset}
+    record = case record do
+      nil -> %__MODULE__{
+        radarr_id: attrs["radarr_id"],
+        tmdb_id: attrs["tmdb_id"],
+        title: attrs["title"],
+        overview: attrs["overview"],
+        poster: attrs["poster"],
+        background: attrs["background"]
+      }
+      _existing_record -> record
     end
+
+    record
+    |> changeset(attrs)
+    |> MediaServer.Repo.insert_or_update()
   end
 end
