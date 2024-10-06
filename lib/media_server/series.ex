@@ -22,35 +22,30 @@ defmodule MediaServer.Series do
     timestamps()
   end
 
-  def changeset(attrs) do
-    %__MODULE__{}
+  def changeset(record = %__MODULE__{}, attrs) do
+    record
     |> cast(attrs, [:sonarr_id, :tmdb_id, :seasons, :title, :overview, :poster, :background])
     |> validate_required([:sonarr_id])
   end
 
   def insert(attrs) do
-    changeset = changeset(attrs)
+    record = MediaServer.Repo.get_by(__MODULE__, sonarr_id: attrs.sonarr_id)
 
-    case MediaServer.Repo.insert(changeset, on_conflict: :nothing, conflict_target: [:sonarr_id]) do
-      {:ok, record} ->
-
-        MediaServer.AddEpisode.new(%{"items" => MediaServerWeb.Repositories.Episodes.get_all(record.sonarr_id)
-        |> Enum.map(fn item ->  %{
-            series_id: record.id,
-            sonarr_id: item["id"],
-            season: item["seasonNumber"],
-            number: item["episodeNumber"],
-            title: item["title"],
-            overview: item["overview"],
-            screenshot: MediaServerWeb.Repositories.Episodes.get_screenshot(item),
-          }
-        end)})
-        |> Oban.insert()
-
-        {:ok, record}
-
-      {:error, changeset} ->
-        {:error, changeset}
+    record = case record do
+      nil -> %__MODULE__{
+        sonarr_id: attrs.sonarr_id,
+        tmdb_id: attrs.tmdb_id,
+        seasons: attrs.seasons,
+        title: attrs.title,
+        overview: attrs.overview,
+        poster: attrs.poster,
+        background: attrs.background
+      }
+      _existing_record -> record
     end
+
+    record
+    |> changeset(attrs)
+    |> MediaServer.Repo.insert_or_update()
   end
 end
