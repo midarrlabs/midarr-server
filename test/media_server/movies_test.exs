@@ -1,4 +1,4 @@
-defmodule MediaServer.MovieTest do
+defmodule MediaServer.MoviesTest do
   use MediaServer.DataCase
 
   setup do
