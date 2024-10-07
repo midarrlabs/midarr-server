@@ -16,21 +16,26 @@ defmodule MediaServer.People do
     timestamps()
   end
 
-  def changeset(people, attrs) do
-    people
+  def changeset(record, attrs) do
+    record
     |> cast(attrs, [:tmdb_id, :name, :image])
     |> validate_required([:tmdb_id, :name, :image])
   end
 
   def insert(attrs) do
-    changeset = changeset(%__MODULE__{}, attrs)
+    record = MediaServer.Repo.get_by(__MODULE__, tmdb_id: attrs.tmdb_id)
 
-    case MediaServer.Repo.insert(changeset, on_conflict: [set: [name: Ecto.Changeset.get_field(changeset, :name), image: Ecto.Changeset.get_field(changeset, :image)]], conflict_target: [:tmdb_id]) do
-      {:ok, record} ->
-        {:ok, record}
-
-      {:error, changeset} ->
-        {:error, changeset}
+    record = case record do
+      nil -> %__MODULE__{
+        tmdb_id: attrs.tmdb_id,
+        name: attrs.name,
+        image: attrs.image
+      }
+      _existing_record -> record
     end
+
+    record
+    |> changeset(attrs)
+    |> MediaServer.Repo.insert_or_update()
   end
 end
