@@ -11,7 +11,7 @@ services:
       - ./:/app
       - ./dev/library:/library
     environment:
-      - APP_URL=http://midarr:4000
+      - APP_URL=http://localhost:4000
 
       - DB_HOSTNAME=postgresql
       - DB_HOSTNAME_TEST=postgresql-test
@@ -88,7 +88,7 @@ services:
 
   sonarr:
     container_name: sonarr
-    image: linuxserver/sonarr:version-3.0.9.1549
+    image: linuxserver/sonarr:4.0.4
     ports:
       - 8989:8989
     volumes:
