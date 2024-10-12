@@ -6,7 +6,8 @@ defmodule MediaServer.AddMovies do
   def perform(%Oban.Job{args: %{"items" => items}}) do
     items
     |> Enum.each(fn item ->
-      MediaServer.Movies.insert(%{
+
+      record = MediaServer.Movies.insert(%{
         radarr_id: item["radarr_id"],
         tmdb_id: item["tmdb_id"],
         title: item["title"],
@@ -14,6 +15,16 @@ defmodule MediaServer.AddMovies do
         poster: item["poster"],
         background: item["background"]
       })
+
+      MediaServer.AddPeople.new(%{"items" => MediaServerWeb.Repositories.Movies.get_cast(record.radarr_id)
+      |> Enum.map(fn item ->  %{
+          tmdb_id: item["personTmdbId"],
+          name: item["personName"],
+          image: MediaServer.Helpers.get_headshot(item)
+        }
+      end)
+      })
+      |> Oban.insert()
     end)
 
     :ok
