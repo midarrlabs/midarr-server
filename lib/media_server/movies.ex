@@ -44,6 +44,6 @@ defmodule MediaServer.Movies do
 
     record
     |> changeset(attrs)
-    |> MediaServer.Repo.insert_or_update()
+    |> MediaServer.Repo.insert_or_update!()
   end
 end
