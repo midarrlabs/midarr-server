@@ -69,7 +69,6 @@ defmodule MediaServerWeb.Router do
 
     get "/images", ImagesController, :index
 
-    get "/playlist.m3u8", PlaylistController, :index
     get "/stream", StreamController, :index
 
     get "/subtitle", SubtitleController, :index

@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "hls.js": "^1.5.7",
     "topbar": "^1.0.1"
   },
   "devDependencies": {

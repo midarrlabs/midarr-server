@@ -1,14 +1,16 @@
 <video
   id="video"
-  phx-update="ignore"
   phx-hook="video"
-  src={@media_playlist}
   poster={@media_background}
-  autoplay
+  controlsList="nodownload"
   controls
-  controlslist="nodownload"
-  data-timestamp={@media_timestamp}
+  autoplay
 >
+  <source src={@media_stream} type={@mime_type} />
+
+  <%= if @media_has_subtitle do %>
+    <track src={@media_subtitle} kind="captions" label="Captions" srclang="en" />
+  <% end %>
 </video>
 
 <script>
@@ -52,9 +54,10 @@
         }
 
         function loadMedia(session) {
-          const mediaInfo = new chrome.cast.media.MediaInfo('<%= System.get_env("APP_URL", "") <> assigns[:media_playlist] %>', 'application/x-mpegURL');
+          const mediaInfo = new chrome.cast.media.MediaInfo('<%= System.get_env("APP_URL", "") <> assigns[:media_stream] %>', '<%= assigns[:mime_type] %>');
 
           mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
+          mediaInfo.metadata.images = [new chrome.cast.Image('<%= System.get_env("APP_URL", "") <> assigns[:media_poster] %>')];
           mediaInfo.metadata.title = '<%= assigns[:page_title] %>';
 
           const request = new chrome.cast.media.LoadRequest(mediaInfo);

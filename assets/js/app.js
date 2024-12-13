@@ -2,7 +2,6 @@ import "phoenix_html"
 import { Socket, Presence } from "phoenix"
 import { LiveSocket } from "phoenix_live_view"
 import topbar from "topbar"
-import Hls from "hls.js"
 
 let socket = new Socket("/socket", {})
 socket.connect()
@@ -92,13 +91,6 @@ let liveSocket = new LiveSocket("/live", Socket, {
         },
         video: {
             mounted() {
-                const hls = new Hls({
-                    startPosition: parseInt(this.el.getAttribute('data-timestamp'))
-                })
-
-                hls.loadSource(this.el.src)
-                hls.attachMedia(this.el)
-                
                 window.addEventListener("beforeunload", event => {
                     this.pushEvent("video_destroyed", {
                         current_time: Math.floor(this.el.currentTime),
