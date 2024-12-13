@@ -36,11 +36,6 @@ RUN \
         curl \
         make \
         g++ \
-        libva-intel-driver \
-        shaderc \
-        libdav1d \
-        spirv-tools \
-        ffmpeg \
         git \
     && \
     mix local.hex --force \
