@@ -70,9 +70,10 @@ config :oapi_tmdb,
 config :media_server, Oban,
   engine: Oban.Engines.Basic,
   queues: [default: 10],
-  repo: MediaServer.Repo
+  repo: MediaServer.Repo,
+  plugins: [{Oban.Plugins.Lifeline, rescue_after: :timer.minutes(5)}]
 
-  config :flop, repo: MediaServer.Repo
+config :flop, repo: MediaServer.Repo
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
