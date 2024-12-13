@@ -11,5 +11,4 @@
   <LaunchBrowser>True</LaunchBrowser>
   <Branch>main</Branch>
   <InstanceName>Sonarr</InstanceName>
-  <AuthenticationRequired>Enabled</AuthenticationRequired>
 </Config>
