@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "topbar": "^1.0.1"
-  },
-  "devDependencies": {
-    "@tailwindcss/line-clamp": "^0.4.2"
-  }
-}
