@@ -1,0 +1,28 @@
+volumes:
+  db_data:
+
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - ./:/app:rw,consistent
+    ports:
+      - 4000:4000
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+
+  db:
+    image: postgres:17
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: media_server_dev
