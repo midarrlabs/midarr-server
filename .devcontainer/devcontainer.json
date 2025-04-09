@@ -1,0 +1,22 @@
+{
+    "name": "Phoenix Dev Container",
+    "build": {
+        "dockerfile": "../Dockerfile"
+    },
+    "workspaceFolder": "/app",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash",
+                "elixirLS.dialyzerEnabled": true,
+                "elixirLS.enableElixirFormatter": true
+            },
+            "extensions": [
+                "ms-vscode.elixir-ls",
+                "esbenp.prettier-vscode"
+            ]
+        }
+    },
+    "forwardPorts": [4000],
+    "postCreateCommand": "mix deps.get && mix phx.server"
+}
