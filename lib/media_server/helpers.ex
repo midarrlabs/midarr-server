@@ -1,49 +1,23 @@
 defmodule MediaServer.Helpers do
-  def some_value({:ok, value}) do
-    value
+  defp extract_url(nil, _), do: ""
+  defp extract_url(value, key) do
+    case Map.fetch(value, key) do
+      {:ok, url} -> url
+      _ -> ""
+    end
   end
 
-  def some_value(:error) do
-    ""
+  defp find_image({:ok, images}, type) do
+    images
+    |> Enum.find(&(&1["coverType"] == type))
+    |> extract_url("remoteUrl")
   end
 
-  def another_test(nil, _url_type) do
-    ""
-  end
+  defp find_image(:error, _type), do: ""
 
-  def another_test(value, url_type) do
-    Map.fetch(value, url_type)
-    |> some_value()
-  end
-
-  def some_test({:ok, value}, "headshot") do
-    Enum.find(value, fn item -> item["coverType"] === "headshot" end)
-    |> another_test("remoteUrl")
-  end
-
-  def some_test({:ok, value}, type) do
-    Enum.find(value, fn item -> item["coverType"] === type end)
-    |> another_test("remoteUrl")
-  end
-
-  def some_test(:error, _type) do
-    ""
-  end
-
-  def get_poster(media) do
-    Map.fetch(media, "images")
-    |> some_test("poster")
-  end
-
-  def get_background(media) do
-    Map.fetch(media, "images")
-    |> some_test("fanart")
-  end
-
-  def get_headshot(media) do
-    Map.fetch(media, "images")
-    |> some_test("headshot")
-  end
+  def get_poster(media), do: Map.fetch(media, "images") |> find_image("poster")
+  def get_background(media), do: Map.fetch(media, "images") |> find_image("fanart")
+  def get_headshot(media), do: Map.fetch(media, "images") |> find_image("headshot")
 
   def get_image_file(url) do
     Regex.run(~r([^\/]+$), url)

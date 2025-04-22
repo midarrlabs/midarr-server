@@ -1,13 +1,8 @@
 defmodule MediaServerWeb.Repositories.Movies do
   def get(url) do
-    if String.valid?(System.get_env("RADARR_BASE_URL")) and
-         String.valid?(System.get_env("RADARR_API_KEY")) do
-      HTTPoison.get("#{System.get_env("RADARR_BASE_URL")}/api/v3/#{url}", %{
-        "X-Api-Key" => System.get_env("RADARR_API_KEY")
-      })
-    else
-      nil
-    end
+    HTTPoison.get("#{System.get_env("RADARR_BASE_URL")}/api/v3/#{url}", %{
+      "X-Api-Key" => System.get_env("RADARR_API_KEY")
+    })
   end
 
   def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
