@@ -16,7 +16,7 @@ defmodule MediaServerWeb.Repositories.Series do
   end
 
   def handle_response(_) do
-    nil
+    []
   end
 
   def get_all() do

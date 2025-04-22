@@ -80,7 +80,7 @@ defmodule MediaServerWeb.SeriesController do
                "title" => episode["title"],
                "overview" => episode["overview"],
                "screenshot" => ~p"/api/images?episode=#{episode["id"]}&type=screenshot",
-               "stream" => ~p"/api/playlist.m3u8?episode=#{episode["id"]}"
+               "stream" => ~p"/api/stream?episode=#{episode["id"]}"
              }
          end))
        )

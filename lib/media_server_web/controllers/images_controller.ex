@@ -79,7 +79,7 @@ defmodule MediaServerWeb.ImagesController do
 
   def index(conn, %{"episode" => id, "type" => "screenshot"}) do
     case MediaServerWeb.Repositories.Episodes.get_episode(id) do
-      nil ->
+      [] ->
         conn |> send_resp(404, "Not found")
 
       item ->
@@ -95,7 +95,7 @@ defmodule MediaServerWeb.ImagesController do
 
   def index(conn, %{"episode" => id, "type" => "poster"}) do
     case MediaServerWeb.Repositories.Episodes.get_episode(id) do
-      nil ->
+      [] ->
         conn |> send_resp(404, "Not found")
 
       item ->

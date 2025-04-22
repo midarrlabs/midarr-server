@@ -27,7 +27,7 @@ defmodule MediaServerWeb.MoviesController do
               "year" => x["year"],
               "poster" => ~p"/api/images?movie=#{x["id"]}&type=poster",
               "background" => ~p"/api/images?movie=#{x["id"]}&type=background",
-              "stream" => ~p"/api/playlist.m3u8?movie=#{x["id"]}"
+              "stream" => ~p"/api/stream?movie=#{x["id"]}"
             }
           end),
         "prev_page" =>
@@ -64,7 +64,7 @@ defmodule MediaServerWeb.MoviesController do
               "year" => x["year"],
               "poster" => ~p"/api/images?movie=#{x["id"]}&type=poster",
               "background" => ~p"/api/images?movie=#{x["id"]}&type=background",
-              "stream" => ~p"/api/playlist.m3u8?movie=#{x["id"]}"
+              "stream" => ~p"/api/stream?movie=#{x["id"]}"
             }
           end),
         "prev_page" =>
@@ -96,7 +96,7 @@ defmodule MediaServerWeb.MoviesController do
               "year" => x["year"],
               "poster" => ~p"/api/images?movie=#{x["id"]}&type=poster",
               "background" => ~p"/api/images?movie=#{x["id"]}&type=background",
-              "stream" => ~p"/api/playlist.m3u8?movie=#{x["id"]}"
+              "stream" => ~p"/api/stream?movie=#{x["id"]}"
             }
           end),
         "prev_page" =>
@@ -128,7 +128,7 @@ defmodule MediaServerWeb.MoviesController do
               "year" => x["year"],
               "poster" => ~p"/api/images?movie=#{x["id"]}&type=poster",
               "background" => ~p"/api/images?movie=#{x["id"]}&type=background",
-              "stream" => ~p"/api/playlist.m3u8?movie=#{x["id"]}"
+              "stream" => ~p"/api/stream?movie=#{x["id"]}"
             }
           end),
         "prev_page" =>
@@ -160,7 +160,7 @@ defmodule MediaServerWeb.MoviesController do
               "year" => x["year"],
               "poster" => ~p"/api/images?movie=#{x["id"]}&type=poster",
               "background" => ~p"/api/images?movie=#{x["id"]}&type=background",
-              "stream" => ~p"/api/playlist.m3u8?movie=#{x["id"]}"
+              "stream" => ~p"/api/stream?movie=#{x["id"]}"
             }
           end),
         "prev_page" =>
@@ -192,7 +192,7 @@ defmodule MediaServerWeb.MoviesController do
               "year" => x["year"],
               "poster" => ~p"/api/images?movie=#{x["id"]}&type=poster",
               "background" => ~p"/api/images?movie=#{x["id"]}&type=background",
-              "stream" => ~p"/api/playlist.m3u8?movie=#{x["id"]}"
+              "stream" => ~p"/api/stream?movie=#{x["id"]}"
             }
           end),
         "prev_page" =>
