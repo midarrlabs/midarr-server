@@ -20,5 +20,5 @@ defmodule MediaServerWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :media_server
+  use Gettext.Backend, otp_app: :media_server
 end
