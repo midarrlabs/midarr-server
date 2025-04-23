@@ -12,4 +12,8 @@ defmodule MediaServerWeb.SeedsTest do
   test "it has movie genres" do
     assert Enum.count(MediaServer.Repo.all(MediaServer.MovieGenres)) == 9
   end
+
+  test "it has people" do
+    assert Enum.count(MediaServer.Repo.all(MediaServer.People)) == 0
+  end
 end

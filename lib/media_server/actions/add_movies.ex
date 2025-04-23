@@ -2,18 +2,17 @@ defmodule MediaServer.AddMovies do
   use Oban.Worker, queue: :default, max_attempts: 3
 
   @impl true
-  @spec perform(%{:args => map(), optional(any()) => any()}) :: :ok
-  def perform(%Oban.Job{args: %{"items" => items}}) do
-    items
+  def perform(%Oban.Job{args: %{}}) do
+    MediaServerWeb.Repositories.Movies.get_all()
     |> Enum.each(fn item ->
       MediaServer.Movies.insert(%{
-        radarr_id: item["radarr_id"],
-        tmdb_id: item["tmdb_id"],
+        radarr_id: item["id"],
+        tmdb_id: item["tmdbId"],
         title: item["title"],
         overview: item["overview"],
         year: item["year"],
-        poster: item["poster"],
-        background: item["background"]
+        poster: MediaServer.Helpers.get_poster(item),
+        background: MediaServer.Helpers.get_background(item)
       })
     end)
 

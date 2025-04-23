@@ -44,18 +44,7 @@ genres = [
 
 Enum.each(genres, &MediaServer.Genres.insert/1)
 
-MediaServer.AddMovies.new(%{"items" => MediaServerWeb.Repositories.Movies.get_all()
-  |> Enum.map(fn item -> %{
-    radarr_id: item["id"],
-    tmdb_id: item["tmdbId"],
-    title: item["title"],
-    overview: item["overview"],
-    year: item["year"],
-    poster: MediaServer.Helpers.get_poster(item),
-    background: MediaServer.Helpers.get_background(item),
-  } end)
-})
-|> Oban.insert()
+MediaServer.AddMovies.new(%{}) |> Oban.insert()
 
 MediaServer.AddSeries.new(%{"items" => MediaServerWeb.Repositories.Series.get_all()
   |> Enum.map(fn item -> %{

@@ -2,14 +2,13 @@ defmodule MediaServer.AddPeople do
   use Oban.Worker, queue: :default, max_attempts: 3
 
   @impl true
-  @spec perform(%{:args => map(), optional(any()) => any()}) :: :ok
-  def perform(%Oban.Job{args: %{"items" => items}}) do
-    items
+  def perform(%Oban.Job{args: %{"id" => id}}) do
+    MediaServerWeb.Repositories.Movies.get_cast(id)
     |> Enum.each(fn item ->
       MediaServer.People.insert(%{
-        tmdb_id: item["tmdb_id"],
-        name: item["name"],
-        image: item["image"]
+        tmdb_id: item["personTmdbId"],
+        name: item["personName"],
+        image: MediaServer.Helpers.get_headshot(item)
       })
     end)
 

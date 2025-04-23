@@ -42,13 +42,7 @@ defmodule MediaServer.Movies do
 
         MediaServer.AddMovieGenres.new(%{"id" => record.id}) |> Oban.insert()
 
-        MediaServer.AddPeople.new(%{"items" => MediaServerWeb.Repositories.Movies.get_cast(record.radarr_id)
-          |> Enum.map(fn item ->  %{
-            tmdb_id: item["personTmdbId"],
-            name: item["personName"],
-            image: MediaServer.Helpers.get_headshot(item)}
-          end)}
-          )|> Oban.insert()
+        MediaServer.AddPeople.new(%{"id" => record.radarr_id}) |> Oban.insert()
 
         {:ok, record}
 
