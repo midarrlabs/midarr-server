@@ -33,6 +33,8 @@ defmodule MediaServer.Movies do
     case MediaServer.Repo.insert(changeset, on_conflict: :nothing, conflict_target: [:radarr_id]) do
       {:ok, record} ->
 
+        MediaServer.AddMovieGenres.new(%{"id" => record.id}) |> Oban.insert()
+
         MediaServer.AddPeople.new(%{"items" => MediaServerWeb.Repositories.Movies.get_cast(record.radarr_id)
           |> Enum.map(fn item ->  %{
             tmdb_id: item["personTmdbId"],
