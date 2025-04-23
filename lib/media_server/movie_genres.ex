@@ -5,6 +5,8 @@ defmodule MediaServer.MovieGenres do
   schema "movie_genres" do
     belongs_to :movie, MediaServer.Movies, foreign_key: :movies_id
     belongs_to :genre, MediaServer.Genres, foreign_key: :genres_id
+
+    timestamps()
   end
 
   def changeset(people, attrs) do
