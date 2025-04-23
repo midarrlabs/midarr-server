@@ -50,6 +50,7 @@ MediaServer.AddMovies.new(%{"items" => MediaServerWeb.Repositories.Movies.get_al
     tmdb_id: item["tmdbId"],
     title: item["title"],
     overview: item["overview"],
+    year: item["year"],
     poster: MediaServer.Helpers.get_poster(item),
     background: MediaServer.Helpers.get_background(item),
   } end)

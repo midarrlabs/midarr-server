@@ -11,6 +11,7 @@ defmodule MediaServer.AddMovies do
         tmdb_id: item["tmdb_id"],
         title: item["title"],
         overview: item["overview"],
+        year: item["year"],
         poster: item["poster"],
         background: item["background"]
       })

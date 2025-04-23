@@ -7,6 +7,7 @@ defmodule MediaServer.Repo.Migrations.CreateMoviesTable do
       add :tmdb_id, :integer
       add :title, :string
       add :overview, :text
+      add :year, :integer
       add :poster, :string
       add :background, :string
 

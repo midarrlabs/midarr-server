@@ -13,6 +13,7 @@ defmodule MediaServer.Movies do
     field :tmdb_id, :integer
     field :title, :string
     field :overview, :string
+    field :year, :integer
     field :poster, :string
     field :background, :string
 
@@ -23,7 +24,7 @@ defmodule MediaServer.Movies do
 
   def changeset(movies, attrs) do
     movies
-    |> cast(attrs, [:radarr_id, :tmdb_id, :title, :overview, :poster, :background])
+    |> cast(attrs, [:radarr_id, :tmdb_id, :title, :overview, :year, :poster, :background])
     |> validate_required([:radarr_id])
   end
 
