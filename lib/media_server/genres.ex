@@ -2,9 +2,17 @@ defmodule MediaServer.Genres do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {
+    Flop.Schema,
+    filterable: [:name],
+    sortable: [:id, :name]
+  }
+
   schema "genres" do
     field :tmdb_id, :integer
     field :name, :string
+
+    many_to_many :movies, MediaServer.Movies, join_through: "movie_genres"
 
     timestamps()
   end

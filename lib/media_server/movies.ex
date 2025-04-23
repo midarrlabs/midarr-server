@@ -3,6 +3,11 @@ defmodule MediaServer.Movies do
   import Ecto.Changeset
 
   @derive {
+    Jason.Encoder,
+    only: [:id, :title, :overview, :year, :poster, :background]
+  }
+
+  @derive {
     Flop.Schema,
     filterable: [:title],
     sortable: [:id, :title]
@@ -18,6 +23,7 @@ defmodule MediaServer.Movies do
     field :background, :string
 
     has_one :continue, MediaServer.MovieContinues, foreign_key: :movies_id
+    many_to_many :genres, MediaServer.Genres, join_through: "movie_genres"
 
     timestamps()
   end
