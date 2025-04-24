@@ -40,6 +40,8 @@ defmodule MediaServer.Series do
     case MediaServer.Repo.insert(changeset, on_conflict: :nothing, conflict_target: [:sonarr_id]) do
       {:ok, record} ->
 
+        MediaServer.AddSeasons.new(%{"id" => record.id, "sonarr_id" => record.sonarr_id}) |> Oban.insert()
+
         MediaServer.AddEpisodes.new(%{"id" => record.id, "sonarr_id" => record.sonarr_id}) |> Oban.insert()
 
         {:ok, record}

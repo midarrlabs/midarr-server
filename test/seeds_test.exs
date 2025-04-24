@@ -21,6 +21,10 @@ defmodule MediaServerWeb.SeedsTest do
     assert Enum.count(MediaServer.Repo.all(MediaServer.Series)) == 1
   end
 
+  test "it has seasons" do
+    assert Enum.count(MediaServer.Repo.all(MediaServer.Seasons)) == 1
+  end
+
   test "it has episodes" do
     assert Enum.count(MediaServer.Repo.all(MediaServer.Episodes)) == 6
   end
