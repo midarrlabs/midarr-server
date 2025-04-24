@@ -46,18 +46,7 @@ Enum.each(genres, &MediaServer.Genres.insert/1)
 
 MediaServer.AddMovies.new(%{}) |> Oban.insert()
 
-MediaServer.AddSeries.new(%{"items" => MediaServerWeb.Repositories.Series.get_all()
-  |> Enum.map(fn item -> %{
-    sonarr_id: item["id"],
-    tmdb_id: item["tmdbId"],
-    seasons: item["statistics"]["seasonCount"],
-    title: item["title"],
-    overview: item["overview"],
-    poster: MediaServer.Helpers.get_poster(item),
-    background: MediaServer.Helpers.get_background(item),
-  } end)
-})
-|> Oban.insert()
+MediaServer.AddSeries.new(%{}) |> Oban.insert()
 
 #
 # We recommend using the bang functions (`insert!`, `update!`
