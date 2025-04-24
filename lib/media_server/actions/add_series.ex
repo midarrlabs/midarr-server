@@ -11,6 +11,7 @@ defmodule MediaServer.AddSeries do
         seasons: item["statistics"]["seasonCount"],
         title: item["title"],
         overview: item["overview"],
+        year: item["year"],
         poster: MediaServer.Helpers.get_poster(item),
         background: MediaServer.Helpers.get_background(item)
       })

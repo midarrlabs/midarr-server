@@ -8,6 +8,7 @@ defmodule MediaServer.Repo.Migrations.CreateSeriesTable do
       add :seasons, :integer
       add :title, :string
       add :overview, :text
+      add :year, :integer
       add :poster, :string
       add :background, :string
 

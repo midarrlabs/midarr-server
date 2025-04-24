@@ -1,68 +1,29 @@
 defmodule MediaServerWeb.SeriesController do
   use MediaServerWeb, :controller
 
-  def index(conn, %{"page" => page}) do
-    series =
-      Scrivener.paginate(MediaServer.SeriesIndex.all(), %{
-        "page" => page,
-        "page_size" => "50"
-      })
+  def index(conn, params) do
+    {:ok, {series, meta}} = Flop.validate_and_run(MediaServer.Series, params)
 
     conn
-    |> put_resp_header("content-type", "application/json")
-    |> send_resp(
-      200,
-      Jason.encode!(%{
-        "total" => series.total_entries,
-        "items" =>
-          Enum.map(series.entries, fn x ->
-            %{
-              "id" => x["id"],
-              "title" => x["title"],
-              "overview" => x["overview"],
-              "year" => x["year"],
-              "poster" => ~p"/api/images?series=#{x["id"]}&type=poster",
-              "background" => ~p"/api/images?series=#{x["id"]}&type=background"
-            }
-          end),
-        "prev_page" =>
-          ~p"/api/series?page=#{MediaServerWeb.Helpers.get_pagination_previous_link(series.page_number)}",
-        "next_page" =>
-          ~p"/api/series?page=#{MediaServerWeb.Helpers.get_pagination_next_link(series.page_number)}"
+    |> json(%{
+        data: series,
+        meta: %{
+          total_pages: meta.total_pages,
+          total_count: meta.total_count,
+          has_next_page: meta.has_next_page?,
+          has_previous_page: meta.has_previous_page?,
+          previous_page: meta.previous_page,
+          next_page: meta.next_page,
+          current_page: meta.current_page,
+        }
       })
-    )
   end
 
-  def index(conn, _params) do
-    series =
-      Scrivener.paginate(MediaServer.SeriesIndex.all(), %{
-        "page" => "1",
-        "page_size" => "50"
-      })
+  def show(conn, %{"id" => id}) do
+    series = MediaServer.Repo.get(MediaServer.Series, id)
 
     conn
-    |> put_resp_header("content-type", "application/json")
-    |> send_resp(
-      200,
-      Jason.encode!(%{
-        "total" => series.total_entries,
-        "items" =>
-          Enum.map(series.entries, fn x ->
-            %{
-              "id" => x["id"],
-              "title" => x["title"],
-              "overview" => x["overview"],
-              "year" => x["year"],
-              "poster" => ~p"/api/images?series=#{x["id"]}&type=poster",
-              "background" => ~p"/api/images?series=#{x["id"]}&type=background"
-            }
-          end),
-        "prev_page" =>
-          ~p"/api/series?page=#{MediaServerWeb.Helpers.get_pagination_previous_link(series.page_number)}",
-        "next_page" =>
-          ~p"/api/series?page=#{MediaServerWeb.Helpers.get_pagination_next_link(series.page_number)}"
-      })
-    )
+    |> json(series)
   end
 
   def show(conn, %{"id" => id, "season" => season}) do
@@ -83,25 +44,6 @@ defmodule MediaServerWeb.SeriesController do
                "stream" => ~p"/api/stream?episode=#{episode["id"]}"
              }
          end))
-       )
-  end
-
-  def show(conn, %{"id" => id}) do
-    series = MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.find(id)
-
-    conn
-    |> put_resp_header("content-type", "application/json")
-    |> send_resp(
-         200,
-         Jason.encode!(%{
-           "id" => series["id"],
-           "title" => series["title"],
-           "overview" => series["overview"],
-           "year" => series["year"],
-           "seasonCount" => series["statistics"]["seasonCount"],
-           "poster" => ~p"/api/images?series=#{series["id"]}&type=poster",
-           "background" => ~p"/api/images?series=#{series["id"]}&type=background"
-         })
        )
   end
 end
