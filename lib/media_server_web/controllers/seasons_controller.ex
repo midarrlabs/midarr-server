@@ -3,10 +3,10 @@ defmodule MediaServerWeb.SeasonsController do
 
   import Ecto.Query
 
-  def index(conn, params = %{"id" => id}) do
+  def index(conn, params = %{"id" => series_id}) do
     {:ok, {seasons, meta}} =
       MediaServer.Seasons
-      |> where(id: ^id)
+      |> where(series_id: ^series_id)
       |> Flop.validate_and_run(params)
 
     conn
@@ -22,5 +22,16 @@ defmodule MediaServerWeb.SeasonsController do
         current_page: meta.current_page
       }
     })
+  end
+
+  def show(conn, %{"id" => series_id, "season" => season_id}) do
+    season =
+      MediaServer.Repo.one(
+        from s in MediaServer.Seasons,
+          where: s.series_id == ^series_id and s.number == ^season_id
+      )
+
+    conn
+    |> json(season)
   end
 end

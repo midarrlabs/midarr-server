@@ -25,25 +25,4 @@ defmodule MediaServerWeb.SeriesController do
     conn
     |> json(series)
   end
-
-  def show(conn, %{"id" => id, "season" => season}) do
-    series = MediaServer.SeriesIndex.all() |> MediaServer.SeriesIndex.find(id)
-
-    episodes = MediaServerWeb.Repositories.Episodes.get_all(series["id"], season)
-
-    conn
-    |> put_resp_header("content-type", "application/json")
-    |> send_resp(
-         200,
-         Jason.encode!(
-           Enum.map(episodes, fn episode ->
-             %{
-               "title" => episode["title"],
-               "overview" => episode["overview"],
-               "screenshot" => ~p"/api/images?episode=#{episode["id"]}&type=screenshot",
-               "stream" => ~p"/api/stream?episode=#{episode["id"]}"
-             }
-         end))
-       )
-  end
 end
