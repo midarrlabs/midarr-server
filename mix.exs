@@ -55,7 +55,6 @@ defmodule MediaServer.MixProject do
       {:httpoison, "~> 2.0"},
       {:excoveralls, "~> 0.10", only: :test, runtime: false},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
-      {:scrivener, "~> 2.0"},
       {:extitles, "~> 0.1.0"},
       {:oauth2, "~> 2.0"},
       {:oapi_tmdb, "~> 0.3.0"},
