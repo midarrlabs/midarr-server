@@ -6,13 +6,13 @@ defmodule MediaServer.AddMovies do
     MediaServerWeb.Repositories.Movies.get_all()
     |> Enum.each(fn item ->
       MediaServer.Movies.insert(%{
-        radarr_id: item["id"],
         tmdb_id: item["tmdbId"],
         title: item["title"],
         overview: item["overview"],
         year: item["year"],
         poster: MediaServer.Helpers.get_poster(item),
-        background: MediaServer.Helpers.get_background(item)
+        background: MediaServer.Helpers.get_background(item),
+        path: item["movieFile"]["path"],
       })
     end)
 

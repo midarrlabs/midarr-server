@@ -6,9 +6,9 @@ defmodule MediaServer.AddMovieGenres do
 
     movie = MediaServer.Repo.get_by(MediaServer.Movies, id: id)
 
-    genres = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), movie.radarr_id)["genres"]
+    [genres | _] = MediaServer.MoviesIndex.search(MediaServer.MoviesIndex.all(), movie.title)
 
-    Enum.each(genres, fn genre ->
+    Enum.each(genres["genres"], fn genre ->
       case MediaServer.Repo.get_by(MediaServer.Genres, name: genre) do
         %MediaServer.Genres{id: genre_id} ->
           MediaServer.MovieGenres.insert(%{

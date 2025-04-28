@@ -5,14 +5,13 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
   import Ecto.Query
 
   setup %{conn: conn} do
-    %{conn: conn |> log_in_user(MediaServer.AccountsFixtures.user_fixture())}
+    movie = MediaServer.Repo.get_by(MediaServer.Movies, id: 1)
+
+    %{conn: conn |> log_in_user(MediaServer.AccountsFixtures.user_fixture()), movie: movie}
   end
 
-  test "it should continue", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), "1")
-
-    {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
+  test "it should continue", %{conn: conn, movie: movie} do
+    {:ok, view, _disconnected_html} = live(conn, ~p"/watch?movie=#{movie.id}")
 
     render_hook(view, :video_destroyed, %{
       current_time: 89,
@@ -21,14 +20,13 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
     query =
       from m in MediaServer.Movies,
-        where: m.radarr_id == ^movie["id"]
+        where: m.id == ^movie.id
 
     result = MediaServer.Repo.one(query)
 
     assert MediaServer.MovieContinues.where(movies_id: result.id).current_time === 89
 
-    {:ok, view, _disconnected_html} =
-      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"], timestamp: 89))
+    {:ok, view, _disconnected_html} = live(conn, ~p"/watch?movie=#{movie.id}&timestamp=89")
 
     assert render(view) =~ "89"
 
@@ -39,7 +37,7 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
 
     query =
       from m in MediaServer.Movies,
-        where: m.radarr_id == ^movie["id"]
+        where: m.id == ^movie.id
 
     result = MediaServer.Repo.one(query)
 

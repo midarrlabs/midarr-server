@@ -3,12 +3,11 @@ defmodule MediaServerWeb.MoviesLiveTest do
 
   import Phoenix.LiveViewTest
 
-  alias MediaServer.AccountsFixtures
-
   setup %{conn: conn} do
-    user = AccountsFixtures.user_fixture()
+    user = MediaServer.AccountsFixtures.user_fixture()
+    movie = MediaServer.Repo.get_by(MediaServer.Movies, id: 1)
 
-    %{conn: conn |> log_in_user(user), user: user}
+    %{conn: conn |> log_in_user(user), user: user, movie: movie}
   end
 
   test "it should render index", %{conn: conn} do
@@ -28,17 +27,13 @@ defmodule MediaServerWeb.MoviesLiveTest do
     assert disconnected_html =~ "Caminandes: Llamigos"
   end
 
-  test "it should render show", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), "1")
-
-    {:ok, _view, _disconnected_html} = live(conn, Routes.movies_show_path(conn, :show, movie["id"]))
+  test "it should render show", %{conn: conn, movie: movie} do
+    {:ok, _view, _disconnected_html} = live(conn, ~p"/movies/#{movie.id}")
   end
 
-  test "it should watch", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.all() |> List.first()
+  test "it should watch", %{conn: conn, movie: movie} do
+    {:ok, view, _html} = live(conn, ~p"/movies/#{movie.id}")
 
-    {:ok, view, _html} = live(conn, Routes.movies_show_path(conn, :show, 1))
-
-    assert view |> element("#play-#{movie["id"]}") |> render_click()
+    assert view |> element("#play-#{movie.id}") |> render_click()
   end
 end

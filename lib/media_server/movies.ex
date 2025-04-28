@@ -4,7 +4,7 @@ defmodule MediaServer.Movies do
 
   @derive {
     Jason.Encoder,
-    only: [:id, :title, :overview, :year, :poster, :background]
+    only: [:id, :title, :overview, :year, :poster, :background, :path]
   }
 
   @derive {
@@ -14,13 +14,13 @@ defmodule MediaServer.Movies do
   }
 
   schema "movies" do
-    field :radarr_id, :integer
     field :tmdb_id, :integer
     field :title, :string
     field :overview, :string
     field :year, :integer
     field :poster, :string
     field :background, :string
+    field :path, :string
 
     has_one :continue, MediaServer.MovieContinues, foreign_key: :movies_id
     many_to_many :genres, MediaServer.Genres, join_through: "movie_genres"
@@ -30,19 +30,19 @@ defmodule MediaServer.Movies do
 
   def changeset(movies, attrs) do
     movies
-    |> cast(attrs, [:radarr_id, :tmdb_id, :title, :overview, :year, :poster, :background])
-    |> validate_required([:radarr_id])
+    |> cast(attrs, [:tmdb_id, :title, :overview, :year, :poster, :background, :path])
+    |> validate_required([:tmdb_id])
   end
 
   def insert(attrs) do
     changeset = changeset(%__MODULE__{}, attrs)
 
-    case MediaServer.Repo.insert(changeset, on_conflict: :nothing, conflict_target: [:radarr_id]) do
+    case MediaServer.Repo.insert(changeset, on_conflict: :nothing, conflict_target: [:tmdb_id]) do
       {:ok, record} ->
 
         MediaServer.AddMovieGenres.new(%{"id" => record.id}) |> Oban.insert()
 
-        MediaServer.AddPeople.new(%{"id" => record.radarr_id}) |> Oban.insert()
+        # MediaServer.AddPeople.new(%{"id" => record.id}) |> Oban.insert()
 
         {:ok, record}
 

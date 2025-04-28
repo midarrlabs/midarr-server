@@ -18,86 +18,50 @@ defmodule MediaServerWeb.WatchLive.Index do
 
   @impl true
   def handle_params(%{"movie" => id, "timestamp" => timestamp}, _url, socket) do
-    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
+    movie = MediaServer.Repo.get_by(MediaServer.Movies, id: id)
 
     {
       :noreply,
       socket
-      |> assign(:page_title, "#{movie["title"]}")
-      |> assign(:media_id, movie["id"])
+      |> assign(:page_title, "#{movie.title}")
+      |> assign(:media_id, movie.id)
       |> assign(:media_type, "movie")
       |> assign(
         :media_stream,
-        Routes.stream_path(socket, :index,
-          movie: movie["id"],
-          token: socket.assigns.current_user.api_token.token
-        ) <> "#t=#{timestamp}"
-      )
-      |> assign(
-        :media_subtitle,
-        Routes.subtitle_path(socket, :index,
-          movie: movie["id"],
-          token: socket.assigns.current_user.api_token.token
-        )
+        ~p"/api/stream?movie=#{movie.id}&token=#{socket.assigns.current_user.api_token.token}"<>"#t=#{timestamp}"
       )
       |> assign(
         :media_poster,
-        ~p"/api/images?movie=#{movie["id"]}&type=poster&token=#{socket.assigns.current_user.api_token.token}"
+        ~p"/api/images?url=#{movie.poster}&token=#{socket.assigns.current_user.api_token.token}"
       )
       |> assign(
         :media_background,
-        ~p"/api/images?movie=#{movie["id"]}&type=background&token=#{socket.assigns.current_user.api_token.token}"
+        ~p"/api/images?url=#{movie.background}&token=#{socket.assigns.current_user.api_token.token}"
       )
-      |> assign(
-        :media_has_subtitle,
-        MediaServer.Subtitles.has_subtitle(
-          movie["folderName"],
-          movie["movieFile"]["relativePath"]
-        )
-      )
-      |> assign(:mime_type, "video/mp4")
     }
   end
 
   def handle_params(%{"movie" => id}, _url, socket) do
-    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), id)
+    movie = MediaServer.Repo.get_by(MediaServer.Movies, id: id)
 
     {
       :noreply,
       socket
-      |> assign(:page_title, "#{movie["title"]}")
-      |> assign(:media_id, movie["id"])
+      |> assign(:page_title, "#{movie.title}")
+      |> assign(:media_id, movie.id)
       |> assign(:media_type, "movie")
       |> assign(
         :media_stream,
-        Routes.stream_path(socket, :index,
-          movie: movie["id"],
-          token: socket.assigns.current_user.api_token.token
-        )
-      )
-      |> assign(
-        :media_subtitle,
-        Routes.subtitle_path(socket, :index,
-          movie: movie["id"],
-          token: socket.assigns.current_user.api_token.token
-        )
+        ~p"/api/stream?movie=#{movie.id}&token=#{socket.assigns.current_user.api_token.token}"
       )
       |> assign(
         :media_poster,
-        ~p"/api/images?movie=#{movie["id"]}&type=poster&token=#{socket.assigns.current_user.api_token.token}"
+        ~p"/api/images?url=#{movie.poster}&token=#{socket.assigns.current_user.api_token.token}"
       )
       |> assign(
         :media_background,
-        ~p"/api/images?movie=#{movie["id"]}&type=background&token=#{socket.assigns.current_user.api_token.token}"
+        ~p"/api/images?url=#{movie.background}&token=#{socket.assigns.current_user.api_token.token}"
       )
-      |> assign(
-        :media_has_subtitle,
-        MediaServer.Subtitles.has_subtitle(
-          movie["folderName"],
-          movie["movieFile"]["relativePath"]
-        )
-      )
-      |> assign(:mime_type, "video/mp4")
     }
   end
 
@@ -190,7 +154,7 @@ defmodule MediaServerWeb.WatchLive.Index do
 
     query =
       from movie in MediaServer.Movies,
-        where: movie.radarr_id == ^movies_id
+        where: movie.id == ^movies_id
 
     result = MediaServer.Repo.one(query)
 
