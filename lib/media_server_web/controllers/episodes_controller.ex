@@ -25,11 +25,11 @@ defmodule MediaServerWeb.EpisodesController do
     })
   end
 
-  def show(conn, %{"id" => series_id, "season" => season, "episode" => episode_id}) do
+  def show(conn, %{"id" => series_id, "season" => season, "episode" => episode}) do
     episode =
       MediaServer.Repo.one(
         from e in MediaServer.Episodes,
-          where: e.series_id == ^series_id and e.season == ^season and e.id == ^episode_id
+          where: e.series_id == ^series_id and e.season == ^season and e.number == ^episode
       )
 
     conn
