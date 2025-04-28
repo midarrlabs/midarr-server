@@ -69,6 +69,7 @@ defmodule MediaServerWeb.Router do
     get "/series/:id/seasons", SeasonsController, :index
     get "/series/:id/seasons/:season", SeasonsController, :show
     get "/series/:id/seasons/:season/episodes", EpisodesController, :index
+    get "/series/:id/seasons/:season/episodes/:episode", EpisodesController, :show
 
     get "/images", ImagesController, :index
 
