@@ -1,21 +1,19 @@
 defmodule MediaServerWeb.Repositories.Episodes do
-  alias MediaServerWeb.Repositories.Series
-  alias MediaServer.Subtitles
 
   def get_all(series_id, season_number) do
-    Series.get("episode?seriesId=#{series_id}&seasonNumber=#{season_number}&includeImages=true")
+    MediaServerWeb.Repositories.Series.get("episode?seriesId=#{series_id}&seasonNumber=#{season_number}&includeImages=true")
   end
 
   def get_all(series_id) do
-    Series.get("episode?seriesId=#{series_id}&includeImages=true")
+    MediaServerWeb.Repositories.Series.get("episode?seriesId=#{series_id}&includeImages=true")
   end
 
   def get_episode(id) do
-    Series.get("episode/#{id}")
+    MediaServerWeb.Repositories.Series.get("episode/#{id}")
   end
 
   def get_episode_path(id) do
-    episode = Series.get("episode/#{id}")
+    episode = MediaServerWeb.Repositories.Series.get("episode/#{id}")
 
     episode["episodeFile"]["path"]
   end
@@ -36,15 +34,5 @@ defmodule MediaServerWeb.Repositories.Episodes do
   def get_poster(episode) do
     Enum.find(episode["series"]["images"], nil, fn x -> x["coverType"] === "poster" end)
     |> handle_image()
-  end
-
-  def get_subtitle_path_for(id) do
-    episode = get_episode(id)
-
-    Subtitles.get_subtitle(
-      Subtitles.get_parent_path(episode["episodeFile"]["path"]),
-      Subtitles.get_file_name(episode["episodeFile"]["relativePath"])
-    )
-    |> Subtitles.handle_subtitle(Subtitles.get_parent_path(episode["episodeFile"]["path"]))
   end
 end

@@ -166,16 +166,6 @@ environment:
 * AAC / MP3 audio
 * MP4 / MKV container
 
-### Subtitles
-
-A single **.srt** file in the root directory of the video is currently supported. With this setup a subtitle / caption option will be available in the player view.
-
-```
-library/video
-          └──video.srt
-          └──video.mp4
-```
-
 ## FAQ
 
 ### Why won't my media play?

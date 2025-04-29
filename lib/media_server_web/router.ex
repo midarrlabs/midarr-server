@@ -75,8 +75,6 @@ defmodule MediaServerWeb.Router do
 
     get "/stream", StreamController, :index
 
-    get "/subtitle", SubtitleController, :index
-
     get "/search", SearchController, :index
 
     post "/webhooks/:id", WebhooksController, :create

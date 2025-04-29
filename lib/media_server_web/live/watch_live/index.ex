@@ -82,13 +82,6 @@ defmodule MediaServerWeb.WatchLive.Index do
         ) <> "#t=#{timestamp}"
       )
       |> assign(
-        :media_subtitle,
-        Routes.subtitle_path(socket, :index,
-          episode: episode["id"],
-          token: socket.assigns.current_user.api_token.token
-        )
-      )
-      |> assign(
         :media_poster,
         ~p"/api/images?episode=#{episode["id"]}&type=poster&token=#{socket.assigns.current_user.api_token.token}"
       )
@@ -96,14 +89,6 @@ defmodule MediaServerWeb.WatchLive.Index do
         :media_background,
         ~p"/api/images?episode=#{episode["id"]}&type=screenshot&token=#{socket.assigns.current_user.api_token.token}"
       )
-      |> assign(
-        :media_has_subtitle,
-        MediaServer.Subtitles.has_subtitle(
-          MediaServer.Subtitles.get_parent_path(episode["episodeFile"]["path"]),
-          MediaServer.Subtitles.get_file_name(episode["episodeFile"]["relativePath"])
-        )
-      )
-      |> assign(:mime_type, "video/mp4")
     }
   end
 
@@ -124,13 +109,6 @@ defmodule MediaServerWeb.WatchLive.Index do
         )
       )
       |> assign(
-        :media_subtitle,
-        Routes.subtitle_path(socket, :index,
-          episode: episode["id"],
-          token: socket.assigns.current_user.api_token.token
-        )
-      )
-      |> assign(
         :media_poster,
         ~p"/api/images?episode=#{episode["id"]}&type=poster&token=#{socket.assigns.current_user.api_token.token}"
       )
@@ -138,14 +116,6 @@ defmodule MediaServerWeb.WatchLive.Index do
         :media_background,
         ~p"/api/images?episode=#{episode["id"]}&type=screenshot&token=#{socket.assigns.current_user.api_token.token}"
       )
-      |> assign(
-        :media_has_subtitle,
-        MediaServer.Subtitles.has_subtitle(
-          MediaServer.Subtitles.get_parent_path(episode["episodeFile"]["path"]),
-          MediaServer.Subtitles.get_file_name(episode["episodeFile"]["relativePath"])
-        )
-      )
-      |> assign(:mime_type, "video/mp4")
     }
   end
 
