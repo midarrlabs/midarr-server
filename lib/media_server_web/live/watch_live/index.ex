@@ -66,7 +66,7 @@ defmodule MediaServerWeb.WatchLive.Index do
   end
 
   def handle_params(%{"episode" => id, "timestamp" => timestamp}, _url, socket) do
-    episode = MediaServerWeb.Repositories.Episodes.get_episode(id)
+    episode = MediaServer.SeriesIndex.get_episode(id)
 
     {
       :noreply,
@@ -93,7 +93,7 @@ defmodule MediaServerWeb.WatchLive.Index do
   end
 
   def handle_params(%{"episode" => id}, _url, socket) do
-    episode = MediaServerWeb.Repositories.Episodes.get_episode(id)
+    episode = MediaServer.SeriesIndex.get_episode(id)
 
     {
       :noreply,

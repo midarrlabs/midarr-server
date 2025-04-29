@@ -11,7 +11,7 @@ defmodule MediaServerWeb.WatchEpisodeLiveTest do
   test "it should continue", %{conn: conn} do
     serie = MediaServer.SeriesIndex.all() |> List.first()
 
-    episode = MediaServerWeb.Repositories.Episodes.get_episode(serie["id"])
+    episode = MediaServer.SeriesIndex.get_episode(serie["id"])
 
     {:ok, view, _disconnected_html} =
       live(conn, Routes.watch_index_path(conn, :index, episode: episode["id"]))

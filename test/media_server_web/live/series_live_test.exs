@@ -3,11 +3,8 @@ defmodule MediaServerWeb.SeriesLiveTest do
 
   import Phoenix.LiveViewTest
 
-  alias MediaServer.AccountsFixtures
-  alias MediaServerWeb.Repositories.Episodes
-
   setup %{conn: conn} do
-    %{conn: conn |> log_in_user(AccountsFixtures.user_fixture())}
+    %{conn: conn |> log_in_user(MediaServer.AccountsFixtures.user_fixture())}
   end
 
   test "it should render index", %{conn: conn} do
@@ -75,7 +72,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
     {:ok, view, _disconnected_html} =
       live(conn, Routes.series_show_path(conn, :show, series["id"], season: 1))
 
-    send(view.pid, {:episodes, Episodes.get_all(series["id"], "1")})
+    send(view.pid, {:episodes, MediaServer.SeriesIndex.get_all_episodes(series["id"], "1")})
 
     assert render(view) =~ "The Man From Mars"
   end
@@ -83,7 +80,7 @@ defmodule MediaServerWeb.SeriesLiveTest do
   test "it should replace each episode with episode show response", %{conn: _conn} do
     series = MediaServer.SeriesIndex.all() |> List.first()
 
-    episodes = Episodes.get_all(series["id"], "1")
+    episodes = MediaServer.SeriesIndex.get_all_episodes(series["id"], "1")
 
     assert Map.get(Enum.at(episodes, 0), "episodeNumber") === 1
     assert Map.get(Enum.at(episodes, 1), "episodeNumber") === 2

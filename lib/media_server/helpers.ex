@@ -18,9 +18,14 @@ defmodule MediaServer.Helpers do
   def get_poster(media), do: Map.fetch(media, "images") |> find_image("poster")
   def get_background(media), do: Map.fetch(media, "images") |> find_image("fanart")
   def get_headshot(media), do: Map.fetch(media, "images") |> find_image("headshot")
+  def get_screenshot(media), do: Map.fetch(media, "images") |> find_image("screenshot")
 
   def get_image_file(url) do
     Regex.run(~r([^\/]+$), url)
     |> List.first()
+  end
+
+  def reduce_size_for_poster_url(url) do
+    String.replace(url, "original", "w342")
   end
 end

@@ -26,7 +26,7 @@ defmodule MediaServerWeb.StreamControllerTest do
   test "episode halts with random token", %{conn: conn} do
     series = MediaServer.SeriesIndex.all() |> List.first()
 
-    episode = MediaServerWeb.Repositories.Episodes.get_episode(series["id"])
+    episode = MediaServer.SeriesIndex.get_episode(series["id"])
 
     conn = get(conn, Routes.stream_path(conn, :index, episode: episode["id"]), token: "someToken")
 
@@ -37,7 +37,7 @@ defmodule MediaServerWeb.StreamControllerTest do
   test "episode halts without token", %{conn: conn} do
     series = MediaServer.SeriesIndex.all() |> List.first()
 
-    episode = MediaServerWeb.Repositories.Episodes.get_episode(series["id"])
+    episode = MediaServer.SeriesIndex.get_episode(series["id"])
 
     conn = get(conn, Routes.stream_path(conn, :index, episode: episode["id"]))
 

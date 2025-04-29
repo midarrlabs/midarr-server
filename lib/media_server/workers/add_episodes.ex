@@ -3,7 +3,7 @@ defmodule MediaServer.Workers.AddEpisodes do
 
   @impl true
   def perform(%Oban.Job{args: %{"id" => id, "sonarr_id" => sonarr_id}}) do
-    MediaServerWeb.Repositories.Episodes.get_all(sonarr_id)
+    MediaServer.SeriesIndex.get_all_episodes(sonarr_id)
     |> Enum.each(fn item ->
       MediaServer.Episodes.insert(%{
         series_id: id,
@@ -12,7 +12,7 @@ defmodule MediaServer.Workers.AddEpisodes do
         number: item["episodeNumber"],
         title: item["title"],
         overview: item["overview"],
-        screenshot: MediaServerWeb.Repositories.Episodes.get_screenshot(item)
+        screenshot: MediaServer.Helpers.get_screenshot(item)
       })
     end)
 

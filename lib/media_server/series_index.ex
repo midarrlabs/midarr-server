@@ -40,4 +40,22 @@ defmodule MediaServer.SeriesIndex do
   def get_all() do
     get("series?includeSeasonImages=true")
   end
+
+  def get_all_episodes(series_id, season_number) do
+    get("episode?seriesId=#{series_id}&seasonNumber=#{season_number}&includeImages=true")
+  end
+
+  def get_all_episodes(series_id) do
+    get("episode?seriesId=#{series_id}&includeImages=true")
+  end
+
+  def get_episode(id) do
+    get("episode/#{id}")
+  end
+
+  def get_episode_path(id) do
+    episode = get("episode/#{id}")
+
+    episode["episodeFile"]["path"]
+  end
 end
