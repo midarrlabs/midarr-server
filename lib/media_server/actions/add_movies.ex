@@ -3,7 +3,7 @@ defmodule MediaServer.AddMovies do
 
   @impl true
   def perform(%Oban.Job{args: %{}}) do
-    MediaServerWeb.Repositories.Movies.get_all()
+    MediaServer.MoviesIndex.all()
     |> Enum.each(fn item ->
       MediaServer.Movies.insert(%{
         tmdb_id: item["tmdbId"],

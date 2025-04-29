@@ -16,7 +16,6 @@ defmodule MediaServerWeb.Repositories.Movies do
   def get_all() do
     get("movie")
     |> handle_response()
-    |> Enum.sort_by(& &1["title"], :asc)
   end
 
   def get_cast(id) do

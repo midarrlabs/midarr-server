@@ -44,11 +44,8 @@ defmodule MediaServerWeb.WatchMovieLiveTest do
     assert MediaServer.MovieContinues.where(movies_id: result.id).current_time === 45
   end
 
-  test "it should not have navigation", %{conn: conn} do
-    movie = MediaServer.MoviesIndex.find(MediaServer.MoviesIndex.all(), "2")
-
-    {:ok, _view, disconnected_html} =
-      live(conn, Routes.watch_index_path(conn, :index, movie: movie["id"]))
+  test "it should not have navigation", %{conn: conn, movie: movie} do
+    {:ok, _view, disconnected_html} = live(conn, ~p"/watch?movie=#{movie.id}")
 
     refute disconnected_html =~ "mobile-menu"
   end

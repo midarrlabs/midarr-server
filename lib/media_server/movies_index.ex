@@ -15,64 +15,8 @@ defmodule MediaServer.MoviesIndex do
     Agent.get(__MODULE__, & &1)
   end
 
-  def for_db() do
-    Agent.get(__MODULE__, & &1)
-    |> Enum.map(fn x ->  %{"external_id" => x["id"]} end)
-  end
-
-  def latest(state) do
-    state
-    |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
-  end
-
-  def available(state) do
-    state
-    |> Enum.filter(fn item -> item["hasFile"] end)
-  end
-
-  def upcoming(state) do
-    state
-    |> Enum.filter(fn item -> item["monitored"] end)
-  end
-
-  def take(state, amount) do
-    state
-    |> Enum.take(amount)
-  end
-
-  def genres(state) do
-    state
-    |> Enum.flat_map(fn x -> x["genres"] end)
-    |> Enum.uniq()
-  end
-
-  def genre(state, genre) do
-    state
-    |> Enum.filter(fn item -> Enum.member?(item["genres"], genre) end)
-  end
-
-  def find(state, id) do
-    state
-    |> Enum.find(fn item ->
-      if !is_integer(id) do
-        item["id"] === String.to_integer(id)
-      else
-        item["id"] === id
-      end
-    end)
-  end
-
-  def related(state, id) do
-    genre = Enum.take(find(state, id)["genres"], 1) |> List.first()
-
-    state
-    |> Enum.filter(fn item -> genre in item["genres"] end)
-    |> Enum.take_random(6)
-    |> Enum.reject(fn x -> x["id"] === id end)
-  end
-
-  def search(state, query) do
-    Enum.filter(state, fn item ->
+  def search(query) do
+    Enum.filter(all(), fn item ->
       String.contains?(String.downcase(item["title"]), String.downcase(query))
     end)
   end
