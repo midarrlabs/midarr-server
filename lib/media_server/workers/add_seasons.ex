@@ -3,8 +3,9 @@ defmodule MediaServer.Workers.AddSeasons do
 
   @impl true
   def perform(%Oban.Job{args: %{"id" => id, "sonarr_id" => sonarr_id}}) do
-    MediaServer.SeriesIndex.find(MediaServer.SeriesIndex.all, sonarr_id)["seasons"]
-    |> Enum.each(fn item ->
+    [series | _] = MediaServer.SeriesIndex.search(sonarr_id)
+
+    Enum.each(series["seasons"], fn item ->
       MediaServer.Seasons.insert(%{
         series_id: id,
         number: item["seasonNumber"],
