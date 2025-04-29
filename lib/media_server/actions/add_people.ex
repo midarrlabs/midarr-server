@@ -3,7 +3,7 @@ defmodule MediaServer.AddPeople do
 
   @impl true
   def perform(%Oban.Job{args: %{"id" => id}}) do
-    MediaServerWeb.Repositories.Movies.get_cast(id)
+    MediaServer.MoviesIndex.get_cast(id)
     |> Enum.each(fn item ->
       MediaServer.People.insert(%{
         tmdb_id: item["personTmdbId"],
