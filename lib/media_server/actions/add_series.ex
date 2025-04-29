@@ -3,7 +3,7 @@ defmodule MediaServer.AddSeries do
 
   @impl true
   def perform(%Oban.Job{args: %{}}) do
-    MediaServerWeb.Repositories.Series.get_all()
+    MediaServer.SeriesIndex.get_all()
     |> Enum.each(fn item ->
       MediaServer.Series.insert(%{
         sonarr_id: item["id"],
