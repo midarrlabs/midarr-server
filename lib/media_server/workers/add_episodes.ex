@@ -1,4 +1,4 @@
-defmodule MediaServer.AddEpisodes do
+defmodule MediaServer.Workers.AddEpisodes do
   use Oban.Worker, queue: :default, max_attempts: 3
 
   @impl true

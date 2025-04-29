@@ -44,9 +44,9 @@ genres = [
 
 Enum.each(genres, &MediaServer.Genres.insert/1)
 
-MediaServer.AddMovies.new(%{}) |> Oban.insert()
+MediaServer.Workers.AddMovies.new(%{}) |> Oban.insert()
 
-MediaServer.AddSeries.new(%{}) |> Oban.insert()
+MediaServer.Workers.AddSeries.new(%{}) |> Oban.insert()
 
 #
 # We recommend using the bang functions (`insert!`, `update!`

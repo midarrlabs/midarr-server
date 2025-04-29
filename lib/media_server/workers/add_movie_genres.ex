@@ -1,4 +1,4 @@
-defmodule MediaServer.AddMovieGenres do
+defmodule MediaServer.Workers.AddMovieGenres do
   use Oban.Worker, queue: :default, max_attempts: 3
 
   @impl true

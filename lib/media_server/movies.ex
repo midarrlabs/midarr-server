@@ -40,9 +40,9 @@ defmodule MediaServer.Movies do
     case MediaServer.Repo.insert(changeset, on_conflict: :nothing, conflict_target: [:tmdb_id]) do
       {:ok, record} ->
 
-        MediaServer.AddMovieGenres.new(%{"id" => record.id}) |> Oban.insert()
+        MediaServer.Workers.AddMovieGenres.new(%{"id" => record.id}) |> Oban.insert()
 
-        # MediaServer.AddPeople.new(%{"id" => record.id}) |> Oban.insert()
+        # MediaServer.Workers.AddPeople.new(%{"id" => record.id}) |> Oban.insert()
 
         {:ok, record}
 

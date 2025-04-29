@@ -1,4 +1,4 @@
-defmodule MediaServer.AddPeople do
+defmodule MediaServer.Workers.AddPeople do
   use Oban.Worker, queue: :default, max_attempts: 3
 
   @impl true

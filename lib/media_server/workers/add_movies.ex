@@ -1,4 +1,4 @@
-defmodule MediaServer.AddMovies do
+defmodule MediaServer.Workers.AddMovies do
   use Oban.Worker, queue: :default, max_attempts: 3
 
   @impl true
