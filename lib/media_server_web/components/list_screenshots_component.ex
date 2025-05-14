@@ -11,7 +11,7 @@ defmodule MediaServerWeb.Components.ListScreenshotsComponent do
             <div class="flex gap-6 py-6">
               <div class="w-52 shrink-0">
                 <.link navigate={"/watch?episode=#{item.sonarr_id}"}>
-                  <img class="aspect-[3/2] rounded-lg shadow" src={"/api/images?url=#{Map.get(item, @image)}&type=proxy&token=#{@token}"} alt="" />
+                  <img class="aspect-[3/2] rounded-lg shadow" src={"/api/images?url=#{Map.get(item, @image)}&token=#{@token}"} alt="" />
                 </.link>
               </div>
               <div class="space-y-1.5">

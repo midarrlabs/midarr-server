@@ -14,6 +14,10 @@ defmodule MediaServer.HelpersTest do
       %{
         "coverType" => "headshot",
         "remoteUrl" => "https://some.remote.url/some-headshot"
+      },
+      %{
+        "coverType" => "screenshot",
+        "remoteUrl" => "https://some.remote.url/some-screenshot"
       }
     ]
   }
@@ -45,6 +49,19 @@ defmodule MediaServer.HelpersTest do
   }
 
   @some_media_without_headshot %{
+    "images" => [
+      %{
+        "coverType" => "poster",
+        "remoteUrl" => "https://some.remote.url/some-poster"
+      },
+      %{
+        "coverType" => "fanart",
+        "remoteUrl" => "https://some.remote.url/some-fanart"
+      }
+    ]
+  }
+
+  @some_media_without_screenshot %{
     "images" => [
       %{
         "coverType" => "poster",
@@ -90,5 +107,20 @@ defmodule MediaServer.HelpersTest do
   test "it should get image file" do
     assert MediaServer.Helpers.get_image_file("https://some.remote.url/some-image-file.jpg") ===
              "some-image-file.jpg"
+  end
+
+  test "it should get screenshot" do
+    assert MediaServer.Helpers.get_screenshot(@some_media) ===
+             "https://some.remote.url/some-screenshot"
+  end
+
+  test "it should get empty string without screenshot" do
+    assert MediaServer.Helpers.get_screenshot(@some_media_without_screenshot) === ""
+  end
+
+  test "it should reduce poster size" do
+    assert MediaServer.Helpers.reduce_size_for_poster_url(
+             "https://some.domain.url/t/p/original/somePosterIdentifier.jpg"
+           ) === "https://some.domain.url/t/p/w342/somePosterIdentifier.jpg"
   end
 end

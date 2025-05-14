@@ -6,11 +6,7 @@
   controls
   autoplay
 >
-  <source src={@media_stream} type={@mime_type} />
-
-  <%= if @media_has_subtitle do %>
-    <track src={@media_subtitle} kind="captions" label="Captions" srclang="en" />
-  <% end %>
+  <source src={@media_stream} type="video/mp4" />
 </video>
 
 <script>
