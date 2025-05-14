@@ -1,79 +1,46 @@
 defmodule MediaServer.MoviesIndex do
   use Agent
 
-  alias MediaServerWeb.Repositories.Movies
-
   def start_link(_opts) do
-    Agent.start_link(fn -> Movies.get_all() end, name: __MODULE__)
+    Agent.start_link(fn -> get_all() end, name: __MODULE__)
   end
 
   def reset() do
-    Agent.cast(__MODULE__, fn _state -> Movies.get_all() end)
+    Agent.cast(__MODULE__, fn _state -> get_all() end)
   end
 
   def all() do
     Agent.get(__MODULE__, & &1)
   end
 
-  def for_db() do
-    Agent.get(__MODULE__, & &1)
-    |> Enum.map(fn x ->  %{"external_id" => x["id"]} end)
-  end
-
-  def latest(state) do
-    state
-    |> Enum.sort_by(& &1["movieFile"]["dateAdded"], :desc)
-  end
-
-  def available(state) do
-    state
-    |> Enum.filter(fn item -> item["hasFile"] end)
-  end
-
-  def upcoming(state) do
-    state
-    |> Enum.filter(fn item -> item["monitored"] end)
-  end
-
-  def take(state, amount) do
-    state
-    |> Enum.take(amount)
-  end
-
-  def genres(state) do
-    state
-    |> Enum.flat_map(fn x -> x["genres"] end)
-    |> Enum.uniq()
-  end
-
-  def genre(state, genre) do
-    state
-    |> Enum.filter(fn item -> Enum.member?(item["genres"], genre) end)
-  end
-
-  def find(state, id) do
-    state
-    |> Enum.find(fn item ->
-      if !is_integer(id) do
-        item["id"] === String.to_integer(id)
-      else
-        item["id"] === id
-      end
-    end)
-  end
-
-  def related(state, id) do
-    genre = Enum.take(find(state, id)["genres"], 1) |> List.first()
-
-    state
-    |> Enum.filter(fn item -> genre in item["genres"] end)
-    |> Enum.take_random(6)
-    |> Enum.reject(fn x -> x["id"] === id end)
-  end
-
-  def search(state, query) do
-    Enum.filter(state, fn item ->
+  def search(query) do
+    Enum.filter(all(), fn item ->
       String.contains?(String.downcase(item["title"]), String.downcase(query))
     end)
+  end
+
+  def get(url) do
+    HTTPoison.get("#{System.get_env("RADARR_BASE_URL")}/api/v3/#{url}", %{
+      "X-Api-Key" => System.get_env("RADARR_API_KEY")
+    })
+  end
+
+  def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
+    Jason.decode!(body)
+  end
+
+  def handle_response(_) do
+    []
+  end
+
+  def get_all() do
+    get("movie")
+    |> handle_response()
+  end
+
+  def get_cast(id) do
+    get("credit?movieId=#{id}")
+    |> handle_response()
+    |> Stream.filter(fn item -> item["type"] === "cast" end)
   end
 end

@@ -1,8 +1,0 @@
-1
-00:01:00,400 --> 00:01:15,300
-This is an example of a subtitle for Caminandes Llama Drama.
-
-2
-00:01:16,400 --> 00:01:25,300
-This is an example of a subtitle
-with multiple lines.

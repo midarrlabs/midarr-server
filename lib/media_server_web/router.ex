@@ -62,15 +62,18 @@ defmodule MediaServerWeb.Router do
     pipe_through :api
 
     get "/movies", MoviesController, :index
+    get "/movies/:id", MoviesController, :show
 
     get "/series", SeriesController, :index
     get "/series/:id", SeriesController, :show
+    get "/series/:id/seasons", SeasonsController, :index
+    get "/series/:id/seasons/:season", SeasonsController, :show
+    get "/series/:id/seasons/:season/episodes", EpisodesController, :index
+    get "/series/:id/seasons/:season/episodes/:episode", EpisodesController, :show
 
     get "/images", ImagesController, :index
 
     get "/stream", StreamController, :index
-
-    get "/subtitle", SubtitleController, :index
 
     get "/search", SearchController, :index
 
