@@ -1,8 +1,6 @@
 defmodule MediaServerWeb.SeriesControllerTest do
   use MediaServerWeb.ConnCase
 
-  use Plug.Test
-
   setup do
     %{user: MediaServer.AccountsFixtures.user_fixture()}
   end
