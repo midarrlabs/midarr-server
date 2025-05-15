@@ -3,6 +3,11 @@ defmodule MediaServer.Episodes do
   import Ecto.Changeset
 
   @derive {
+    Jason.Encoder,
+    only: [:id, :series_id, :season, :number, :title, :overview, :screenshot]
+  }
+
+  @derive {
     Flop.Schema,
     filterable: [],
     sortable: [:number]

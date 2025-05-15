@@ -3,6 +3,11 @@ defmodule MediaServer.Series do
   import Ecto.Changeset
 
   @derive {
+    Jason.Encoder,
+    only: [:id, :seasons, :title, :overview, :year, :poster, :background]
+  }
+
+  @derive {
     Flop.Schema,
     filterable: [:title],
     sortable: [:id, :title]
@@ -14,6 +19,7 @@ defmodule MediaServer.Series do
     field :seasons, :integer
     field :title, :string
     field :overview, :string
+    field :year, :integer
     field :poster, :string
     field :background, :string
 
@@ -24,7 +30,7 @@ defmodule MediaServer.Series do
 
   def changeset(attrs) do
     %__MODULE__{}
-    |> cast(attrs, [:sonarr_id, :tmdb_id, :seasons, :title, :overview, :poster, :background])
+    |> cast(attrs, [:sonarr_id, :tmdb_id, :seasons, :title, :overview, :year, :poster, :background])
     |> validate_required([:sonarr_id])
   end
 
@@ -34,18 +40,9 @@ defmodule MediaServer.Series do
     case MediaServer.Repo.insert(changeset, on_conflict: :nothing, conflict_target: [:sonarr_id]) do
       {:ok, record} ->
 
-        MediaServer.AddEpisode.new(%{"items" => MediaServerWeb.Repositories.Episodes.get_all(record.sonarr_id)
-        |> Enum.map(fn item ->  %{
-            series_id: record.id,
-            sonarr_id: item["id"],
-            season: item["seasonNumber"],
-            number: item["episodeNumber"],
-            title: item["title"],
-            overview: item["overview"],
-            screenshot: MediaServerWeb.Repositories.Episodes.get_screenshot(item),
-          }
-        end)})
-        |> Oban.insert()
+        MediaServer.Workers.AddSeasons.new(%{"id" => record.id, "sonarr_id" => record.sonarr_id}) |> Oban.insert()
+
+        MediaServer.Workers.AddEpisodes.new(%{"id" => record.id, "sonarr_id" => record.sonarr_id}) |> Oban.insert()
 
         {:ok, record}
 

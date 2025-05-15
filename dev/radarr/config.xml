@@ -13,4 +13,5 @@
   <Branch>master</Branch>
   <SslCertPassword></SslCertPassword>
   <AuthenticationRequired>Enabled</AuthenticationRequired>
+  <InstanceName>Radarr</InstanceName>
 </Config>
