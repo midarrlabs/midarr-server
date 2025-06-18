@@ -74,7 +74,7 @@ services:
 
   radarr:
     container_name: radarr
-    image: linuxserver/radarr:version-5.2.6.8376
+    image: linuxserver/radarr:5.26.2
     ports:
       - 7878:7878
     volumes:
