@@ -28,9 +28,11 @@ RUN \
 RUN \
     apk add --no-cache --virtual=.build-deps \
         build-base \
+        openssl-dev \
     && \
     apk add --no-cache \
         ca-certificates \
+        openssl \
         inotify-tools \
         postgresql15-client \
         curl \
