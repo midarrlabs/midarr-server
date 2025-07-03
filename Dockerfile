@@ -7,7 +7,7 @@ RUN npm install
 
 #-------------------------
 
-FROM elixir:1.15-otp-24-alpine
+FROM elixir:1.15-otp-25-alpine
 
 ARG MIX_ENV="dev"
 ARG SECRET_KEY_BASE=""
@@ -28,9 +28,11 @@ RUN \
 RUN \
     apk add --no-cache --virtual=.build-deps \
         build-base \
+        openssl-dev \
     && \
     apk add --no-cache \
         ca-certificates \
+        openssl \
         inotify-tools \
         postgresql15-client \
         curl \
