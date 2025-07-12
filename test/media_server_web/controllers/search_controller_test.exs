@@ -1,12 +1,15 @@
 defmodule SearchControllerTest do
   use MediaServerWeb.ConnCase
 
-  setup do
-    %{user: MediaServer.AccountsFixtures.user_fixture()}
+  setup %{conn: conn} do
+    user = MediaServer.AccountsFixtures.user_fixture()
+    movie = MediaServer.Repo.get_by(MediaServer.Movies, id: 1)
+
+    %{conn: conn, user: user, movie: movie}
   end
 
-  test "it should have a movie", %{conn: conn, user: user} do
-    conn = get(conn, ~p"/api/search?query=cam&token=#{user.api_token.token}")
+  test "it should have a movie", %{conn: conn, user: user, movie: movie} do
+    conn = get(conn, ~p"/api/search?query=#{movie.title}&token=#{user.api_token.token}")
 
     [first | _] = json_response(conn, 200)["data"]["movies"]
 
