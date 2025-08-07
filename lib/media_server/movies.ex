@@ -42,7 +42,7 @@ defmodule MediaServer.Movies do
 
         MediaServer.Workers.AddMovieGenres.new(%{"id" => record.id}) |> Oban.insert()
 
-        # MediaServer.Workers.AddPeople.new(%{"id" => record.id}) |> Oban.insert()
+        MediaServer.Workers.AddPeople.new(%{"id" => record.id}) |> Oban.insert()
 
         {:ok, record}
 
