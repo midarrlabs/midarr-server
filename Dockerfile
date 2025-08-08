@@ -1,4 +1,4 @@
-FROM node:18-alpine as node
+FROM node:22-alpine as node
 
 WORKDIR /assets
 
