@@ -7,7 +7,7 @@ RUN npm install
 
 #-------------------------
 
-FROM elixir:1.15-otp-25-alpine
+FROM elixir:1.17-otp-26-alpine
 
 ARG MIX_ENV="dev"
 ARG SECRET_KEY_BASE=""
