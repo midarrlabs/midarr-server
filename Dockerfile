@@ -26,18 +26,14 @@ RUN \
     && apk update
 
 RUN \
-    apk add --no-cache --virtual=.build-deps \
-        build-base \
-        openssl-dev \
-    && \
     apk add --no-cache \
+        build-base \
+        cmake \
         ca-certificates \
         openssl \
         inotify-tools \
         postgresql15-client \
         curl \
-        make \
-        g++ \
         git \
     && \
     mix local.hex --force \
@@ -46,7 +42,6 @@ RUN \
     && mix deps.compile \
     && mix assets.deploy \
     && mix compile \
-    && apk del --purge .build-deps \
     && rm -rf /tmp/* \
     && chmod u+x /app/entry.sh
 
