@@ -44,7 +44,7 @@ defmodule MediaServerWeb.SearchLive.Index do
     {
       :noreply,
       socket
-      |> push_redirect(to: ~p"/search?query=#{query}")
+      |> push_navigate(to: ~p"/search?query=#{query}")
     }
   end
 

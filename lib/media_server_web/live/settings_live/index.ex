@@ -34,7 +34,7 @@ defmodule MediaServerWeb.SettingsLive.Index do
           :noreply,
           socket
           |> put_flash(:info, "Success")
-          |> push_redirect(to: Routes.settings_index_path(socket, :index))
+          |> push_navigate(to: Routes.settings_index_path(socket, :index))
         }
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -55,7 +55,7 @@ defmodule MediaServerWeb.SettingsLive.Index do
           :noreply,
           socket
           |> put_flash(:info, "Success")
-          |> push_redirect(to: Routes.settings_index_path(socket, :index))
+          |> push_navigate(to: Routes.settings_index_path(socket, :index))
         }
 
       {:error, %Ecto.Changeset{} = changeset} ->

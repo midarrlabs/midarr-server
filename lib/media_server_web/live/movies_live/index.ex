@@ -53,7 +53,7 @@ defmodule MediaServerWeb.MoviesLive.Index do
     {
       :noreply,
       socket
-      |> push_redirect(to: ~p"/movies?query=#{query}")
+      |> push_navigate(to: ~p"/movies?query=#{query}")
     }
   end
 end

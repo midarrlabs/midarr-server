@@ -53,7 +53,7 @@ defmodule MediaServerWeb.PeopleLive.Index do
     {
       :noreply,
       socket
-      |> push_redirect(to: ~p"/people?query=#{query}")
+      |> push_navigate(to: ~p"/people?query=#{query}")
     }
   end
 end
