@@ -7,7 +7,7 @@ RUN npm install
 
 #-------------------------
 
-FROM elixir:1.17-otp-26-alpine
+FROM elixir:1.18-otp-27-alpine
 
 ARG MIX_ENV="dev"
 ARG SECRET_KEY_BASE=""
@@ -21,8 +21,8 @@ COPY . ./
 COPY --from=node /assets/node_modules /app/assets/node_modules/
 
 RUN \
-    echo "https://dl-cdn.alpinelinux.org/alpine/v3.18/main" > /etc/apk/repositories \
-    && echo "https://dl-cdn.alpinelinux.org/alpine/v3.18/community" >> /etc/apk/repositories \
+    echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/main" > /etc/apk/repositories \
+    && echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community" >> /etc/apk/repositories \
     && apk update
 
 RUN \

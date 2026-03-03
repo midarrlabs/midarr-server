@@ -44,8 +44,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp: [ '26' ]
-        elixir: [ '1.17' ]
+        otp: [ '27' ]
+        elixir: [ '1.18' ]
 
     services:
       postgres-test:
@@ -63,8 +63,8 @@ jobs:
           - 5432:5432
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: FedericoCarboni/setup-ffmpeg@v2
+      - uses: actions/checkout@v4
+      - uses: FedericoCarboni/setup-ffmpeg@v3
 
       # Setup library
       - run: sudo cp -r ${GITHUB_WORKSPACE}/dev/library /library
