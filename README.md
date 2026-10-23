@@ -27,6 +27,10 @@
     </a>
 </p>
 
+<p align="center">
+    <a href="https://app.railyard.run/deploy?repo=https://github.com/midarrlabs/midarr-server"><img src="https://app.railyard.run/deploy/badge" alt="Deploy to Railyard"></a>
+</p>
+
 Free and open source (and always will be), **Midarr** aims to provide a tailored experience for **you** and **your**
 users:
 
